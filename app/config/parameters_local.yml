@@ -1,0 +1,7 @@
+# This file is auto-generated during the composer install
+parameters:
+    num_registros_pagina: 50        #numero de registros que se muestran por pagina en una paginación
+    direccion_imagenes: "../../../../../../../../img/" 
+    id_centro: 1
+    direccion_imagenes_centro: '%direccion_imagenes%%id_centro%/'
+    web_path: "%kernel.root_dir%/../web"

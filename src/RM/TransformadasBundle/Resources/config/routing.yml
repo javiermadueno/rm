@@ -1,0 +1,48 @@
+#Todas las rutas tiene el prefijo /data por delante, que viene heredado del fichero routing del app
+#tipoVar hace referencia al tipo de variable segun campo de bbdd.
+#idOpcionMenuIzq hace referencia al id de seleccion del menu de la izquierda de la pantalla para poder poner la opcion como seleccionada
+
+data_avanced_cv:
+  path: /avanced/lifecycle/
+  defaults: {_controller: RMTransformadasBundle:Default:obtenerRegistros, tipoVar 5, idOpcionMenuIzq 8}
+
+data_avanced_cv_editar:
+  path: /avanced/lifecycle/{id_vt}/
+  defaults: {_controller: RMTransformadasBundle:Ficha:fichaVariableTrans, tipoVar 5, idOpcionMenuIzq 8}
+
+data_advanced_nueva_cv:
+  path: /advanced/lifecycle/new_cv
+  defaults: {_controller: RMTransformadasBundle:Default:crearVarTransformada, tipoVar 5, idOpcionMenuIzq 8}
+ 
+data_avanced_ot:
+  path: /avanced/others/
+  defaults: {_controller: RMTransformadasBundle:Default:obtenerRegistros, tipoVar 6, idOpcionMenuIzq 9}
+  
+data_avanced_nueva_var_trans:
+  path: /avanced/trans/ot/new_var
+  defaults: {_controller: RMTransformadasBundle:Default:crearVarTransformada, tipoVar 6, idOpcionMenuIzq 9}
+  
+
+data_avanced_ot_editar:
+  path: /avanced/others/{id_vt}/
+  defaults: {_controller: RMTransformadasBundle:Ficha:fichaVariableTrans, tipoVar 6, idOpcionMenuIzq 9}
+    
+data_avanced_vt_nuevaFilaSegmento:
+  path: /avanced/vt/newSegment/{idNuevoSeg}/{id_vt}
+  defaults: {_controller: RMTransformadasBundle:Ficha:nuevoSegmentoVT}
+  methods: [POST] 
+ 
+data_avanced_vt_parteFilaSegmento:
+  path: /avanced/vt/newSegment/parte/{idSeg}/
+  defaults: {_controller: RMTransformadasBundle:Ficha:parteFilaTablaSegmentoVT}
+  methods: [POST]
+  
+data_avanced_vt_parteFilaGrupoCond:
+  path: /avanced/vt/newSegment/parte2/{idGrupo}/
+  defaults: {_controller: RMTransformadasBundle:Ficha:parteFilaTablaGrupoVT}
+  methods: [POST]
+  
+data_avanced_vt_editar_eliminarGuardarSegmentosAsoc:
+  path: /avanced/vt/eliminar_guardar_segmentos/
+  defaults: {_controller: RMTransformadasBundle:Ficha:EliminarGuardarSegmentosAsoc}
+  methods: [POST]   

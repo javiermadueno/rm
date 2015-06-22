@@ -1,0 +1,7 @@
+parameters:
+#    procesos.example.class: RM\ProcesosBundle\Example
+
+services:
+#    procesos.example:
+#        class: %procesos.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

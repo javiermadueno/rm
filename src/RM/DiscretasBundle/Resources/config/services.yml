@@ -1,0 +1,22 @@
+parameters:
+    variablesDiscretas.class: RM\DiscretasBundle\DependencyInjection\Discreta
+    configuracion.class: RM\DiscretasBundle\DependencyInjection\ConfiguracionService
+
+services:
+    variablesDiscretas:
+        class: %variablesDiscretas.class%
+        arguments: [@doctrine]
+    
+    configuracion:
+        class: %configuracion.class%
+        arguments: [@doctrine]
+
+    rm_discretas.personaliza_variable_discreta:
+        class: RM\DiscretasBundle\DependencyInjection\PersonalizaVariableDiscreta
+        arguments: [@doctrine]
+        
+    #Para borra despues pbdespues
+    twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags: [{ name: 'twig.extension' }]
+

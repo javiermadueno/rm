@@ -1,0 +1,7 @@
+parameters:
+    SegmentoService.class: RM\SegmentoBundle\DependencyInjection\SegmentoServicio
+
+services:
+    SegmentoService:
+        class: %SegmentoService.class%
+        arguments: [@doctrine]

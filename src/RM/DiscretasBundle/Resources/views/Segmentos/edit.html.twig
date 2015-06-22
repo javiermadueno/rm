@@ -1,0 +1,59 @@
+<h4 class="widgettitle">{{ "segmentos" |trans|title}}</h4>
+<div class="widgetcontent">
+    {{ form_start(formSegmentos) }}
+    <div id="content">
+        {% include '@RMDiscretas/Segmentos/body_form_segmentos.html.twig' with {'formSegmentos' : formSegmentos} %}
+    </div>
+    <div id="prototipo" class="hidden"
+         data-prototype="{{ ('<tr><td>' ~ form_widget(formSegmentos.segmentos.vars.prototype.nombre) ~ '</td><td>' ~ form_widget(formSegmentos.segmentos.vars.prototype.condicion) ~ '</td><td>' ~ form_widget(formSegmentos.segmentos.vars.prototype.pivote) ~ '</td><td><button type="button" class="btn btn-danger delrow">'~ 'boton.eliminar'|trans|title ~'</button></td></tr>')|e  }}"></div>
+    {{ form_rest(formSegmentos) }}
+    <table width="200" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr>
+            <td><button type="submit" class="btn btn-primary" id="guardar">{{ "boton.guardar" | trans }}</button></td>
+            <td><button class="btn btn-success" id="nuevo">{{ "boton.nuevo" |trans|title}}</button></td>
+        </tr>
+        </tbody>
+    </table>
+    {{ form_end(formSegmentos) }}
+</div>
+<script type="text/javascript">
+    index = {{ formSegmentos.segmentos|length }};
+    $(document).ready(function(){
+
+        $('#nuevo').on('click', function(event){
+            var e = event||window.event;
+            e.preventDefault();
+            var $tabla = $('#segmentos');
+            var $prot = $('#prototipo').data('prototype');
+            var newRow = $prot.replace(/__name__/g, ++index );
+            $tabla.append(newRow);
+        });
+
+        $(document).on('click', '.delrow', function(event){
+            event.preventDefault();
+            var form = $(this).closest("form");
+            this.closest('tr').remove();
+            form.trigger('submit');
+
+        });
+
+        $(document).on('click','.eliminar', function(event){
+            event.preventDefault();
+            var $row = $(this).closest('tr');
+            var form = $(this).closest("form");
+            console.log(form);
+            jQuery.alerts.dialogClass = 'alert-danger';
+            jConfirm('{{ 'mensaje.eliminar.segmento'|trans }}', '{{ 'atencion'|trans|title }}', function(confirm){
+                if(confirm) {
+                    $row.remove();
+                    form.trigger('submit');
+                }
+            });
+            jQuery.alerts.dialogClass = null; // reset to default
+
+        });
+
+    });
+
+</script>

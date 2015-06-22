@@ -1,0 +1,47 @@
+parameters:
+    marcaService.class: RM\ProductoBundle\DependencyInjection\MarcaServicio
+    ProductoService.class: RM\ProductoBundle\DependencyInjection\ProductoServicio
+    PromocionService.class: RM\ProductoBundle\DependencyInjection\PromocionServicio
+    NumPromocionesService.class: RM\ProductoBundle\DependencyInjection\NumPromocionesServicio
+    ProveedorService.class: RM\ProductoBundle\DependencyInjection\ProveedorServicio
+    TipoPromocionService.class: RM\ProductoBundle\DependencyInjection\TipoPromocionServicio
+    TwigExtensionService.class: RM\ProductoBundle\Twig\Extension\TwigExtension
+#    rm_producto.example.class: RM\ProductoBundle\Example
+
+services:
+    MarcaService:
+        class: %marcaService.class%
+        arguments: [@doctrine]
+        
+    ProductoService:
+        class: %ProductoService.class%
+        arguments: [@doctrine]
+        
+    PromocionService:
+        class: %PromocionService.class%
+        arguments: [@doctrine]
+     
+    NumPromocionesService:
+        class: %NumPromocionesService.class%
+        arguments: [@doctrine]
+
+    ProveedorService:
+        class: %ProveedorService.class%
+        arguments: [@doctrine]
+
+    TipoPromocionService:
+        class: %TipoPromocionService.class%
+        arguments: [@doctrine.orm.entity_manager]
+
+    promocion.voucher.generator:
+        class: RM\ProductoBundle\DependencyInjection\VoucherGenerator
+        arguments: [@doctrine]
+        
+    rm.twig_extension:
+        class: %TwigExtensionService.class%
+        tags:
+            - { name: twig.extension }
+        
+#    rm_producto.example:
+#        class: %rm_producto.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

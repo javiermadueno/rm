@@ -1,0 +1,295 @@
+<?php
+
+namespace RM\DiscretasBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * VidGrupoSegmento
+ *
+ * @ORM\Table(name="vid_grupo_segmento")
+ * @ORM\Entity(repositoryClass="RM\DiscretasBundle\Entity\VidGrupoSegmentoRepository")
+ */
+class VidGrupoSegmento implements VidCriterioInterface
+{
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_vid_grupo_segmento", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idVidGrupoSegmento;
+
+    /**
+     * @var \RM\DiscretasBundle\Entity\Vid
+     *
+     * @ORM\ManyToOne(targetEntity="RM\DiscretasBundle\Entity\Vid" ,cascade={"persist"} , fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_vid", referencedColumnName="id_vid")
+     * })
+     */
+    private $idVid;
+
+    /**
+     * @var \RM\ProductoBundle\Entity\Marca
+     *
+     * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Marca")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_marca", referencedColumnName="id_marca")
+     * })
+     */
+    private $idMarca;
+
+    /**
+     * @var \RM\DiscretasBundle\Entity\Categoria
+     *
+     * @ORM\ManyToOne(targetEntity="RM\CategoriaBundle\Entity\Categoria")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_categoria", referencedColumnName="id_categoria")
+     * })
+     */
+    private $idCategoria;
+
+    /**
+     * @var \RM\DiscretasBundle\Entity\Proveedor
+     *
+     * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Proveedor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_proveedor", referencedColumnName="id_proveedor")
+     * })
+     */
+    private $idProveedor;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="meses_n", type="integer", nullable=true)
+     */
+    private $mesesN;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="meses_m", type="integer", nullable=true)
+     */
+    private $mesesM;
+
+
+    /**
+     * @var smallint
+     *
+     * @ORM\Column(name="estado", type="smallint", nullable=true)
+     */
+    private $estado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="personalizado" , type="integer", nullable=true)
+     */
+    private $personalizado;
+
+    /**
+     * Get estado
+     *
+     * @return smallint
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param smallint $estado
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get VidGrupoSegmento
+     *
+     * @return integer
+     */
+    public function getIdVidGrupoSegmento()
+    {
+        return $this->idVidGrupoSegmento;
+    }
+
+    /**
+     * Get idVid
+     *
+     * @return \RM\DiscretasBundle\Entity\Vid
+     */
+    public function getIdVid()
+    {
+        return $this->idVid;
+    }
+
+    /**
+     * Set idVid
+     *
+     * @param \RM\DiscretasBundle\Entity\Vid $idVid
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setIdVid(\RM\DiscretasBundle\Entity\Vid $idVid = null)
+    {
+        $this->idVid = $idVid;
+
+        return $this;
+    }
+
+    /**
+     * Get idMarca
+     *
+     * @return \RM\ProductoBundle\Entity\Marca
+     */
+    public function getIdMarca()
+    {
+        return $this->idMarca;
+    }
+
+    /**
+     * Set idMarca
+     *
+     * @param \RM\ProductoBundle\Entity\Marca $idMarca
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setIdMarca(\RM\ProductoBundle\Entity\Marca $idMarca = null)
+    {
+        $this->idMarca = $idMarca;
+
+        return $this;
+    }
+
+    /**
+     * Get idCategoria
+     *
+     * @return \RM\CategoriaBundle\Entity\Categoria
+     */
+    public function getIdCategoria()
+    {
+        return $this->idCategoria;
+    }
+
+    /**
+     * Set idCategoria
+     *
+     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setIdCategoria(\RM\CategoriaBundle\Entity\Categoria $idCategoria = null)
+    {
+        $this->idCategoria = $idCategoria;
+
+        return $this;
+    }
+
+    /**
+     * Get idProveedor
+     *
+     * @return \RM\ProductoBundle\Entity\Proveedor
+     */
+    public function getIdProveedor()
+    {
+        return $this->idProveedor;
+    }
+
+    /**
+     * Set idProveedor
+     *
+     * @param \RM\ProductoBundle\Entity\Proveedor $idProveedor
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setIdProveedor(\RM\ProductoBundle\Entity\Proveedor $idProveedor = null)
+    {
+        $this->idProveedor = $idProveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get mesesN
+     *
+     * @return integer
+     */
+    public function getMesesN()
+    {
+        return $this->mesesN;
+    }
+
+    /**
+     * Set mesesN
+     *
+     * @param integer $mesesN
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setMesesN($mesesN)
+    {
+        $this->mesesN = $mesesN;
+
+        return $this;
+    }
+
+    /**
+     * Get mesesM
+     *
+     * @return integer
+     */
+    public function getMesesM()
+    {
+        return $this->mesesM;
+    }
+
+    /**
+     * Set mesesM
+     *
+     * @param integer $mesesM
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setMesesM($mesesM)
+    {
+        $this->mesesM = $mesesM;
+
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPersonalizado()
+    {
+        return $this->personalizado;
+    }
+
+    /**
+     *
+     * @param integer $personalizado
+     *
+     * @return VidGrupoSegmento
+     */
+    public function setPersonalizado($personalizado)
+    {
+        $this->personalizado = $personalizado;
+
+        return $this;
+    }
+
+
+}

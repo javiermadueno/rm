@@ -1,0 +1,49 @@
+<div class="bloque_contenido">
+    <div class="cabecera_contenido">
+        <span>{{ "Campañas" | trans }}</span>
+    </div>
+
+    <div class="linea_contenido">
+        <table>
+            <thead>
+            <tr>
+                <th>{{ "Instancia" | trans }}</th>
+                <th>{{ "Comunicación" | trans }}</th>
+                <th>{{ "Segmento" | trans }}</th>
+                <th>{{ "Fecha de promociones" | trans }}</th>
+                <th>{{ "Estado" | trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if objInstancias == null %}
+                <tr>
+                    <td colspan="30">
+                        {{ "Sin resultados" | trans }}
+                    </td>
+                </tr>
+            {% else %}
+                {% for objIns in objInstancias %}
+                    <tr>
+                        {% if closing == 1 %}
+                            <td>
+                                <a href="{{ path('campaign_closing_ficha', {'id_instancia': objIns.idInstancia, 'id_categoria': id_categoria}) }}"
+                                   style="cursor:pointer;">{{ objIns.idInstancia }}</a></td>
+                        {% else %}
+                            <td>
+                                <a href="{{ path('campaign_ficha', {'id_instancia': objIns.idInstancia, 'id_categoria': id_categoria}) }}"
+                                   style="cursor:pointer;">{{ objIns.idInstancia }}</a></td>
+                        {% endif %}
+                        <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
+                        <td>{{ objIns.idSegmentoComunicacion.idSegmento.nombre }}</td>
+                        <td>
+                            {% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}
+                        </td>
+                        <td>{{ objIns.estado }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+        <div class="navigation wrapper">
+        </div>
+    </div>
+</div>

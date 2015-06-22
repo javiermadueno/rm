@@ -1,0 +1,18 @@
+{% if valTipo > 3 %}
+    <select id="mes" name="mes" class="tam150">
+        <option value="1" {% if valMes == 1 %}selected{% endif %}>{{ "Enero" | trans }}</option>
+        <option value="2" {% if valMes == 2 %}selected{% endif %}>{{ "Febrero" | trans }}</option>
+        <option value="3" {% if valMes == 3 %}selected{% endif %}>{{ "Marzo" | trans }}</option>
+        <option value="4" {% if valMes == 4 %}selected{% endif %}>{{ "Abril" | trans }}</option>
+        <option value="5" {% if valMes == 5 %}selected{% endif %}>{{ "Mayo" | trans }}</option>
+        <option value="6" {% if valMes == 6 %}selected{% endif %}>{{ "Junio" | trans }}</option>
+        <option value="7" {% if valMes == 7 %}selected{% endif %}>{{ "Julio" | trans }}</option>
+        <option value="8" {% if valMes == 8 %}selected{% endif %}>{{ "Agosto" | trans }}</option>
+        <option value="9" {% if valMes == 9 %}selected{% endif %}>{{ "Septiembre" | trans }}</option>
+        <option value="10" {% if valMes == 10 %}selected{% endif %}>{{ "Octubre" | trans }}</option>
+        <option value="11" {% if valMes == 11 %}selected{% endif %}>{{ "Noviembre" | trans }}</option>
+        <option value="12" {% if valMes == 12 %}selected{% endif %}>{{ "Diciembre" | trans }}</option>
+    </select>
+{% else %}
+    -
+{% endif %}

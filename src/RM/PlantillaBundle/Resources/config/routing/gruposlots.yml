@@ -1,0 +1,44 @@
+rm_plantilla_gruposlots:
+    path:     /
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:index" }
+
+rm_plantilla_gruposlots_show:
+    path:     /{id}/show
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:show" }
+
+rm_plantilla_gruposlots_new:
+    path:     /new
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:create" }
+
+rm_plantilla_gruposlots_create:
+    path:     /create
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:create" }
+    requirements: { _method: post }
+
+rm_plantilla_gruposlots_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:edit" }
+
+rm_plantilla_gruposlots_update:
+    path:     /{id}/update
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:update" }
+    requirements: { _method: post|put }
+
+rm_plantilla_gruposlots_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlots:delete" }
+    requirements: { _method: post|delete }
+    prefix: /
+
+rm_plantilla_gruposlots_getform:
+    path: /get/form
+    defaults: {_controller: "RMPlantillaBundle:GrupoSlots:getForm" }
+
+rm_plantilla_gruposlots_geteditform:
+    path: /get/editform
+    defaults: {_controller: "RMPlantillaBundle:GrupoSlots:getEditForm" }
+
+rm_plantilla_gruposlots_borrar:
+    path: /borrar
+    defaults: {_controller: "RMPlantillaBundle:GrupoSlots:borrar" }
+

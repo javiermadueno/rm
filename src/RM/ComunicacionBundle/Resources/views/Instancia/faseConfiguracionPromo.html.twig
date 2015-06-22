@@ -1,0 +1,208 @@
+{% extends 'RMComunicacionBundle:Instancia:baseFasesInstancia.html.twig' %}
+
+
+{% block contenedorPrincipal %}
+    {{ include('::logMensajes.html.twig') }}
+
+    {{ parent() }}
+
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <span class="clearall"> </span>
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs buttons-icons">
+                    <li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="active"{% endif %}>
+                        <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Promociones por categoria" | trans }}</a>
+                    </li>
+                    <li id="menuTabFaseConf2" {% if opcionMenuTabFaseConf == 2 %}class="active"{% endif %}>
+                        <a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Criterios desempate" | trans }}</a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    {% block tabcontent %}
+                        <form name="form" id="form" method="post"
+                              action="{{ path("direct_monitor_controlador_fases_guardar", {'id_instancia': objInstancia.idInstancia}) }}">
+                            <input type="hidden" name="promociones" value="1">
+
+                            {% if objGrupoSlots | length == 0 %}
+                                <div class="alert alert-warning">
+                                    <h4>{{ "mensaje.error.no.gruposlot.configurado" | trans }}</h4>
+                                </div>
+                            {% elseif (objCategorias | length == 0) and (grupoCreatividades | length == 0) %}
+                                <div class="alert alert-warning">
+                                    <h4>{{ "mensaje.error.no.categoria.asociada" | trans }}</h4>
+                                </div>
+                            {% else %}
+                                {% for objGS in grupoPromociones %}
+
+                                    <h4 class="widgettitle"> {{ objGS.nombre }} ({{ "numero.slots" | trans|title }}
+                                        : {{ objGS.numSlots }})</h4>
+                                    <table class="table table-bordered responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ "categoria" | trans }}</th>
+                                            <th class="botonera_central">{{ "numero.promociones.segmentadas" | trans }}</th>
+                                            <th class="botonera_central">{{ "numero.promociones.genericas" | trans }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for objCat in objCategorias %}
+                                            {% if arrayPromoSeg[objGS.idGrupo][objCat.idCategoria] is defined and arrayPromoGen[objGS.idGrupo][objCat.idCategoria] is defined %}
+                                                <tr class="success">
+                                                    <td>{{ objCat.nombre }}</td>
+                                                    <td class="botonera_central">
+                                                        {% set valorAct = arrayPromoSeg[objGS.idGrupo][objCat.idCategoria] %}
+                                                        <input type="numb"
+                                                               name="seg_{{ objGS.idGrupo }}_{{ objCat.idCategoria }}"
+                                                               class="tam5 botonera_central soloNum"
+                                                               placeholder="0"
+                                                               min="0"
+                                                               value="{{ valorAct }}"/>
+                                                    </td>
+                                                    <td class="botonera_central">
+                                                        {% set valorAct = arrayPromoGen[objGS.idGrupo][objCat.idCategoria] %}
+                                                        <input type="number"
+                                                               name="gen_{{ objGS.idGrupo }}_{{ objCat.idCategoria }}"
+                                                               class="tam5 botonera_central soloNum"
+                                                               placeholder="0"
+                                                               value="{{ valorAct }}"/>
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>{{ objCat.nombre }}</td>
+                                                    <td class="botonera_central">
+                                                        <input type="number"
+                                                               name="seg_{{ objGS.idGrupo }}_{{ objCat.idCategoria }}"
+                                                               class="tam5 botonera_central soloNum" placeholder="0"
+                                                               min="0"
+                                                               value=""/>
+                                                    </td>
+                                                    <td class="botonera_central">
+                                                        <input type="number"
+                                                               name="gen_{{ objGS.idGrupo }}_{{ objCat.idCategoria }}"
+                                                               class="tam5 botonera_central soloNum"
+                                                               value=""/>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endfor %}
+
+                                {#Grupo de las promociones de Creatividad#}
+                                {% for objGS in grupoCreatividades %}
+                                    <h4 class="widgettitle"> {{ objGS.nombre }} ({{ "numero.slots" | trans }}
+                                        : {{ objGS.numSlots }}) </h4>
+                                    <table class="table table-bordered responsive">
+                                        {% if arrayPromoSegCreatividad[objGS.idGrupo] is defined and arrayPromoGenCreatividad[objGS.idGrupo] is defined %}
+                                            <tr class="success">
+                                                <td width="15%" align="left" class="">
+                                                    {{ "numero.creatividades.segmentadas" | trans }}
+                                                </td>
+                                                <td align="left" class="">
+                                                    {% set valorAct = arrayPromoSegCreatividad[objGS.idGrupo] %}
+                                                    <input type="number" name="segCre_{{ objGS.idGrupo }}"
+                                                           class="tam5 botonera_central soloNum" placeholder="0"
+                                                           min="0"
+                                                           value="{{ valorAct }}"/>
+                                                </td>
+                                            </tr>
+                                            <tr class="success">
+                                                <td align="left"
+                                                    class="">{{ "numero.creatividades.genericas" | trans }}</td>
+                                                <td align="left" class="">
+                                                    {% set valorAct = arrayPromoGenCreatividad[objGS.idGrupo] %}
+                                                    <input type="number" name="genCre_{{ objGS.idGrupo }}"
+                                                           class="tam5 botonera_central soloNum" placeholder="0"
+                                                           min="{{ objGS.numSlots }}"
+                                                           value="{{ valorAct }}"/>
+
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td width="15%" align="left" class="">
+                                                    {{ "numero.creatividades.segmentadas" | trans }}
+                                                </td>
+                                                <td align="left" class="">
+                                                    <input type="number" name="segCre_{{ objGS.idGrupo }}"
+                                                           class="tam5 botonera_central soloNum"
+                                                           min="0"
+                                                           placeholder={{ objGS.numSlots }} value=""/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left"
+                                                    class="">{{ "numero.creatividades.genericas" | trans }}</td>
+                                                <td align="left" class="">
+                                                    <input type="number" name="genCre_{{ objGS.idGrupo }}"
+                                                           class="tam5 botonera_central soloNum"
+                                                           min="{{ objGS.numSlots }}"
+                                                           placeholder={{ objGS.numSlots }} value=""/>
+
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>
+
+                                {% endfor %}
+                                <button type="submit"
+                                        class="btn btn-primary">{{ "boton.guardar" | trans|title }}</button>
+                            {% endif %}
+                        </form>
+
+                    {% endblock tabcontent %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        function botonGuardarConf() {
+            $("#form").submit();
+        }
+
+        $(document).ready(function () {
+            habilitarSoloNumeros();
+
+            jQuery(document).on('click', '#tramitar', function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+
+                var self = this;
+                var numpromociones = self.dataset.numpromociones;
+                var genericas = self.dataset.genericas;
+                var mensajes = [];
+
+                if (numpromociones === '1' && genericas === '1') {
+                    $('#formTramitar').submit();
+                    return;
+
+                }
+
+                if (typeof  numpromociones === 'undefined' || numpromociones === '') {
+                    mensajes.push('Hay grupos de slots sin promociones');
+                }
+
+                if (typeof genericas === 'undefined' || genericas === '') {
+                    mensajes.push('El número de promociones genéricas tiene que ser mayor o igual al número de slots');
+                }
+                jQuery.alerts.dialogClass = 'alert-danger';
+                jAlert(mensajes.join('</br>'), '{{ 'cabecera.cambio.fase.instancia' |trans }}');
+                jQuery.alerts.dialogClass = null;
+                return false;
+            });
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,51 @@
+<form ID="borrarGrupos" action="{{ path('gruposlotsmodelo_borrar', {'idPlantilla': plantilla }) }}" method="post">
+    <input type="hidden" id="elementosBorrar"/>
+    <h4 class="widgettitle">{{ "grupo.slots"|trans }}</h4>
+    <table class="table table-bordered responsive">
+        <thead>
+        <tr>
+            <th width="1%"><input type="checkbox" id="checkTodos"/></th>
+            <th>{{ "nombre" | trans|title }}</th>
+            <th>{{ "numero.slots" | trans|title }}</th>
+            <th>{{ "controles" |trans|title }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><input type="checkbox" name="eliminar[{{ entity.idGrupo }}]" class="selTodos"
+                           value="{{ entity.idGrupo }}"/></td>
+                <td>
+                    <a href="{{ path('gruposlotsmodelo_edit', { 'id': entity.idGrupo, 'idPlantilla': plantilla }) }}">{{ entity.nombre }}</a>
+                </td>
+                <td>{{ entity.numSlots }}</td>
+                <td>
+                    <a class="btn btn-success"
+                       href="{{ path('gruposlotsmodelo_edit', { 'id': entity.idGrupo, 'idPlantilla': plantilla }) }}">{{ "boton.editar"|trans|title }}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    {{ "sin.resultados" | trans }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td width="100">
+                <button class="btn btn-success"
+                        onclick="window.location.href='{{ path('gruposlotsmodelo_new', {'idPlantilla': plantilla}) }}'; return false;">{{ "boton.nuevo" | trans }}</button>
+            </td>
+            <td width="100">
+                <button class="btn btn-danger" id="btonBorrarGrupo">{{ "boton.eliminar" | trans }}</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+

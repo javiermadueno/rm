@@ -1,0 +1,35 @@
+{% extends '::insight/base_insight.html.twig' %}
+
+{% set idOpcionMenuIzq = 2 %}
+{% set idOpcionMenuSup = 4 %}
+
+{% import '@RMInsight/PorcentajeDiferencia.html.twig' as porcentaje %}
+{% block title %}
+    {{ "menu.insight.rendimiento" |trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.insight.rendimiento" |trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+  <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
+    <h1>{{ "menu.insight.rendimiento" |trans|title}}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+    {{ parent() }}
+    {% block comparativa %}
+
+        <h4 class="widgettitle">{{ "comparativa" |trans|title }}</h4>
+        <div class="mediamgr_head">
+            <div class="row-fluid">
+                <div class="span12">
+                    {% include '@RMInsight/tabla_comparativa_segmentos.html.twig' with {'datos': datos} %}
+                </div>
+            </div>
+        </div>
+
+    {% endblock comparativa %}
+{% endblock contenedorPrincipal %}

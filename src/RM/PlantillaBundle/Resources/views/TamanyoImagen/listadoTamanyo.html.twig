@@ -1,0 +1,37 @@
+<table class="table table-bordered responsive">
+    <colgroup>
+        <col class="con0" style="align: center; width:50">
+        <col class="con1" style="align: center; ">
+        <col class="con0" style="align: center; ">
+        <col class="con1" style="align: center; ">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+    <tr>
+        <th width="1%"><input type="checkbox" class="checkTodos" id="{{ tipoImg }}"/></th>
+        <th>{{ "nombre" | trans }}</th>
+        <th>{{ "imagen.ancho" | trans }}</th>
+        <th>{{ "imagen.alto" | trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if objTamImg == null %}
+        <tr>
+            <td colspan="5">
+                {{ "sin.resultados" | trans }}
+            </td>
+        </tr>
+    {% else %}
+        {% for objTI in objTamImg %}
+            <tr>
+                <td><input type="checkbox"
+                           {% if (objTI.idGrupo != null) %}disabled="true"{% else %} class="selTodos{{ tipoImg }}" value="{{ objTI.idTamanyo }}" {% endif %}/>
+                </td>
+                <td>{{ objTI.codigo }}</td>
+                <td>{{ objTI.ancho }}</td>
+                <td>{{ objTI.alto }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>

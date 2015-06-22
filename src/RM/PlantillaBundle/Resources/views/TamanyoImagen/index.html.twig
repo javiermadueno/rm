@@ -1,0 +1,105 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% block title %}
+{{ parent() }} - {{ "tamano.slots" | trans }}
+{% endblock %}
+
+{% block migas %}
+	{{ parent() }}
+    <li>{{ "tamano.slots" | trans }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+
+    {% for tipoImg in [0,3] %}
+        <form id="form{{ tipoImg }}" name="form{{ tipoImg }}">
+            <input type="hidden" name="elementosBorrar{{ tipoImg }}" id="elementosBorrar{{ tipoImg }}" value="">
+            <input type="hidden" name="tipo"  value="{{ tipoImg }}">
+            {% if tipoImg == 0 %}
+            <h4 class="widgettitle">{{ "tamano.slot.promocion"|trans }}</h4>
+                {% set tipoEntidad = 'Producto' %}
+            {% elseif tipoImg == 1 %}
+                <h4 class="widgettitle">{{ "tamano.slot.marca"|trans }}</h4>
+                {% set tipoEntidad = 'Marca' %}
+            {% else %}
+                <h4 class="widgettitle">{{ "tamano.slot.creatividad"|trans }}</h4>
+                {% set tipoEntidad = 'Creatividad' %}
+            {% endif %}
+            {% set objTamImg = tamanyosImagen[tipoImg] %}
+            <div id="tablaListado{{ tipoImg }}">
+                {% include 'RMPlantillaBundle:TamanyoImagen:listadoTamanyo.html.twig' %}
+            </div>
+
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <td width="100">
+                        <button class="btn btn-success" onClick="location.href='{{ path('direct_config_tamanyo_nuevo', {'tipoEntidad': tipoEntidad}) }}'; return false;">{{ "boton.nuevo" | trans }}</button>
+                    </td>
+                    <td width="100">
+                        <button class="btn btn-danger botonEliminar"  name="{{ tipoImg }}">{{ "boton.eliminar" | trans }}</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <br/><br/>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.checkTodos').live("change", function() {
+				if ($(this).is(':checked')) {
+					$('.selTodos' + $(this).attr('id')).prop("checked", true);
+
+		        } else {
+		        	$('.selTodos' + $(this).attr('id')).prop("checked", false);
+		        }
+			});
+
+			$('.botonEliminar').live("click", function(event) {
+				event.preventDefault(); //cancela el comportamiento por defecto
+				var existe = 0;
+				var iden = $(this).attr("name");
+				$(".selTodos" + iden + ":checked").each(function() {
+					existe = 1;
+					var cur_val = $('#elementosBorrar'+ iden).val();
+					if(cur_val)
+					  $('#elementosBorrar' + iden).val(cur_val + "," + this.value);
+					else
+					  $('#elementosBorrar' + iden).val(this.value);
+				});
+
+				if(existe == 0){
+					alert("Debe de elegir al menos un registro");
+				}
+				else{
+					if(confirm("¿Desea eliminar los registros seleccionados?")){
+						msg = $("#form" + iden).serialize();
+						{% set crearUrl = url('direct_config_tamanyo_delete') %}
+						var myUrl = '{{crearUrl}}';
+						$.ajax({  
+						  type: "POST",  
+						  url: myUrl,
+						  data: msg,  
+						  complete: function(objeto, exito){
+							if(exito=="success"){
+								$('#tablaListado' + iden).children().remove();
+								$('#tablaListado' + iden).append(objeto.responseText);
+				            }
+				          },
+						  error: function(objeto, quepaso, otroobj){		            
+				          }
+						}); 
+					}
+					else{
+						$('#elementosBorrar' + iden).val("");
+					}
+				}
+			});
+			
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+rm_comunicacion.segmento_comunicacion.new:
+  path: /new
+  defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:create }
+
+rm_comunicacion.segmento_comunicacion.index:
+  path: /
+  defaults: {_controller: RMComunicacionBundle:SegmentoComunicacion:index }

@@ -1,0 +1,68 @@
+{{ form_errors(formulario) }}
+	{{ form_errors(formulario.nombre) }}
+	{{ form_errors(formulario.fecInicio) }}
+	{{ form_errors(formulario.fecFin) }}
+	{{ form_errors(formulario.idCanal) }}
+<table>
+    <tbody>
+    <tr height="20">
+        <td colspan="4" class="sinborde"></td>
+    </tr>
+    <tr>
+        <td width="40%" class="sinborde textoDerecha">{{ form_label(formulario.nombre, 'Nombre') }}</td>
+        <td width="3%" class="sinborde">&nbsp;</td>
+        <td class="sinborde">
+            {{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}
+        </td>
+
+    </tr>
+    <tr>
+        <td class="sinborde textoDerecha">{{ form_label(formulario.fecInicio, 'Fecha de inicio') }}</td>
+        <td class="sinborde">&nbsp;</td>
+        <td class="sinborde">
+            {{ form_widget(formulario.fecInicio, { 'attr': { 'class': 'datepicker tam150' } }) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="sinborde textoDerecha">{{ form_label(formulario.fecFin, 'Fecha de fin') }}</td>
+        <td class="sinborde">&nbsp;</td>
+        <td class="sinborde">
+            {{ form_widget(formulario.fecFin, { 'attr': { 'class': 'datepicker tam150' } }) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="sinborde textoDerecha">{{ form_label(formulario.estado, 'Estado') }}</td>
+        <td class="sinborde">&nbsp;</td>
+        <td class="sinborde">
+            {{ form_widget(formulario.estado, { 'attr': { 'class': 'tam150' } }) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="sinborde textoDerecha">{{ form_label(formulario.idCanal, 'Canal') }}</td>
+        <td class="sinborde">&nbsp;</td>
+        <td class="sinborde">
+            {{ form_widget(formulario.idCanal, { 'attr': { 'class': 'tam150' } }) }}
+        </td>
+    </tr>
+    <tr height="30">
+        <td colspan="4" class="sinborde"></td>
+    </tr>
+    <tr>
+        <td colspan="4" class="sinborde botonera_central">
+            <button type="submit" class="tam4">{{ "Guardar" | trans }}</button>
+            {% if accion == "nuevo" %}
+                <button class="tam4"
+                        onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "Cancelar" | trans }}</button>
+            {% elseif accion == "editar" %}
+                <button class="tam4"
+                        onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "Cancelar" | trans }}</button>
+            {% endif %}
+        </td>
+    </tr>
+    <tr height="30">
+        <td colspan="4" class="sinborde"></td>
+    </tr>
+    {{ form_rest(formulario) }}
+    </tbody>
+</table>
+<div class="spacer"></div>

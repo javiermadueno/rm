@@ -1,0 +1,33 @@
+<h4 class="widgettitle">{{ "cabecera.criterios.busqueda" | trans|title }}</h4>
+<div class="mediamgr_left">
+    <div class="mediamgr_head">
+        <form id="form_busqueda" name="form_busqueda" method="post"
+              action="{{ path(app.request.attributes.get('_route')) }}">
+            <ul class="mediamgr_menu">
+                <li>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                            <td width="300">
+                                <p>
+                                    {{ form_label(formulario.nombre) }}
+                                    {{ form_widget(formulario.nombre, { 'attr': { 'class': 'input-xlarge', 'placeholder': 'Indique el nombre a buscar' } }) }}
+                                    {{ form_rest(formulario) }}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            {{ form_errors(formulario) }}
+                            {{ form_errors(formulario.nombre) }}
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li class="right newfilebtn">
+                    <button type="submit" class="btn btn-primary">{{ "boton.buscar" | trans }}</button>
+                </li>
+            </ul>
+        </form>
+        <span class="clearall"></span>
+    </div>
+</div>

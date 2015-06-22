@@ -1,0 +1,310 @@
+{# Buscador avanzado de segmentos. Parametros a pasar: identificadorSeg (identificador del id del campo padre para devolver identificadores) e idNombreSeg(identificador del campo padre para devolver el texto de los segmentos)#}
+{# Ejemplo desarrollado en fichaCreatividad.html.twig #}
+
+{% extends '::pantallaPopUp.html.twig' %}
+{% block title %}
+    {{"segmentador" | trans|title }}
+{%endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/rmsegmento/js/segmentador.js') }}"></script>
+    <script src="{{ asset('js/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('js/DataTables/extensions/Responsive/js/dataTables.responsive.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('js/DataTables/extensions/Responsive/css/dataTables.responsive.css') }}"/>
+{% endblock %}
+{% block header %}
+    <div class="container">
+        <div class="pageheader">
+            <div class="pagetitle">
+                <h1>{{ "segmentador" |trans|title}}</h1>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+{% block body %}
+<div class="maincontentinner">
+    <form id="form" name="form">
+        <input type="hidden" name="identificadorSeg" id="identificadorSeg" value="{{ identificadorSeg }}">
+        <input type="hidden" name="idNombreSeg" id="idNombreSeg" value="{{ idNombreSeg }}">
+
+        <input type="hidden" name="controlBorradoTexto" id="controlBorradoTexto" value="">
+        <input type="hidden" name="controlBorradoFiltro" id="controlBorradoFiltro" value="">
+        <h4 class="widgettitle">{{ "buscador" |trans|title}}</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <td rowspan="5" width="70%"><textarea style="width: 98%;height: 255px;border: 0px none;resize: none;" name="consolaSegmentos" id="consolaSegmentos" class="areaConsolaSegmentos" readonly></textarea> </td>
+                    <td width="10%"><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('(', event)" title="("> ( </button></td>
+                    <td width="10%"><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola(')', event)" title=")"> ) </button></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('Y', event)" title="Y"> Y </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('O', event)" title="O"> O </button></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('NOT', event);" title="Y"> NOT </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="ocultarCapaSegmentos(event)" title="Segmentos"> SEGMENTO </button></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="clearConsola(event);" title="CE"> CE </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="deleteConsola(event);" title="<--"> <-- </button></td>
+                </tr>
+
+                <tr>
+                    <td><button class="btn btn-warning btn-block" style="cursor: pointer" onclick="comprobarFiltro(event)">Comprobar Filtro</button></td>
+                    <td><button class="btn btn-success btn-block" style="cursor: pointer" onclick="submitFiltro(event)">Guardar Filtro</button></td>
+                </tr>
+
+            </table>
+            <div id="log" class="alert alert-danger alert-dismissable" style="display: none"></div>
+
+    </form>
+
+    <div id="capaSegmentos">
+        {{ include('RMSegmentoBundle:Default:Buscador/buscadorCapaSegmentosPopup.html.twig') }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var parseId;
+
+        $(document).ready(function(){
+           cargaDatosFiltro();
+
+        });
+
+        function cargaDatosFiltro()
+        {
+            var filtroCompleto = window.opener.$('#{{ identificadorSeg  }}').val();
+
+            if(filtroCompleto === '' || typeof filtroCompleto === 'undefinded') {
+                return;
+            }
+
+            filtroCompleto = JSON.parse(filtroCompleto);
+
+            var consola = document.getElementById('consolaSegmentos');
+            document.getElementById('controlBorradoTexto').value = filtroCompleto.controlBorradoTexto;
+            document.getElementById('controlBorradoFiltro').value = filtroCompleto.controlBorradoFiltro;
+            consola.value = filtroCompleto.nombre;
+            consola.dataset.filtroParse = filtroCompleto.parse;
+            consola.dataset.filtro = filtroCompleto.codigo;
+
+        }
+
+
+        function comprobarFiltro(event) {
+            var event = event || window.event;
+
+            if(typeof event !== 'undefined') {
+                event.preventDefault();
+            }
+
+            var evaluator, consola, code;
+            var log = $('#log');
+            var fecha_busqueda =  $('#fecha_busqueda').val();
+            fecha_busqueda = typeof fecha_busqueda === 'undefined' ? new Date() : new Date(fecha_busqueda);
+            if(typeof evaluator === 'undefined') {
+                evaluator = new Segmentador.Evaluator({
+                    Constant: {
+                        fecha: fecha_busqueda.toISOString()
+                    }
+                });
+            }
+
+            consola = document.getElementById('consolaSegmentos');
+            code = consola.dataset.filtro;
+
+            try {
+                consola.dataset.filtroParse = evaluator.evaluate(code);
+                log.addClass('alert-success');
+                log.removeClass('alert-danger');
+                log.html('<p><strong>Correcto: </strong> El Filtro es correcto </p>');
+                log.show('slow');
+                return true;
+            }
+            catch(e) {
+                log.addClass('alert-danger');
+                log.removeClass('alert-success');
+                log.html('<p><strong>Error: </strong> ' + e.message + '</p>');
+                log.show('slow');
+                consola.dataset.filtroParse = '';
+                return false;
+            }
+        }
+
+        function submitFiltro(event){
+
+            event.preventDefault();
+            var log = $('#log');
+
+            if(window === window.opener) {
+                log.html('<p><strong>Error: </strong> No se puede obtener la referencia a la ventana que abrió el segmentador.</p>');
+                log.addClass('alert-danger');
+                log.removeClass('alert-success');
+                log.show('slow');
+
+                return false;
+            }
+
+            if(!comprobarFiltro()){
+                return;
+            }
+
+            var consola = document.getElementById('consolaSegmentos');
+            var filtroParse = document.getElementById('consolaSegmentos').dataset.filtroParse;
+            var filtro = document.getElementById('consolaSegmentos').value;
+            var idInputFiltro =  document.getElementById('identificadorSeg').value;
+            var idInputFiltroParse = document.getElementById('idNombreSeg').value;
+            var code                = consola.dataset.filtro;
+
+            var filtroCompleto =
+            {
+                'nombre': filtro,
+                'codigo': code,
+                'controlBorradoTexto': document.getElementById('controlBorradoTexto').value,
+                'controlBorradoFiltro': document.getElementById('controlBorradoFiltro').value,
+                'parse': filtroParse
+
+            };
+
+            var respuesta = JSON.stringify(filtroCompleto);
+
+
+            window.opener.document.getElementById(idInputFiltro).value = respuesta;
+            window.opener.document.getElementById(idInputFiltroParse).value = filtro;
+            var lanzador = window.opener.$(window.opener.document.getElementById(idInputFiltro));
+            lanzador.trigger('change');
+            window.close();
+        }
+
+        function ocultarCapaSegmentos(event) {
+            event.preventDefault();
+
+            $('#capaSegmentos').toggleClass('hidden');
+        }
+
+        function addConsola(texto, event){
+            var target, id;
+            var textoConsola = $("#consolaSegmentos").val();
+            textoConsola += texto + " ";
+            var controlLongitudBorrado = $("#controlBorradoTexto").val();
+            controlLongitudBorrado += textoConsola.length + ";";
+            $("#controlBorradoTexto").val(controlLongitudBorrado);
+            $("#consolaSegmentos").val(textoConsola);
+            event.preventDefault();
+
+            target = event.target;
+            if(id = parseInt(event.target.dataset.id)) {
+                addFiltro(id, event);
+            }
+            else{
+                addFiltro(texto, event);
+            }
+
+            $('#consolaSegmentos').trigger('change');
+        }
+
+        function addFiltro(texto, event) {
+            var consola = document.getElementById('consolaSegmentos');
+            var controlBorrado = document.getElementById('controlBorradoFiltro');
+            var filtro = consola.dataset.filtro;
+
+            if(typeof filtro === 'undefined'){
+                filtro = '';
+            }
+
+            switch (texto){
+                case 'Y':
+                case 'AND':
+                    texto = '&';
+                    break;
+                case 'O':
+                case 'OR':
+                    texto = '|';
+                    break;
+                case 'NOT':
+                case 'NO':
+                    texto = '!';
+                    break;
+
+                default :
+            }
+
+            filtro += texto + " ";
+
+            controlBorrado.value += filtro.length + ';';
+            consola.dataset.filtro =  filtro;
+        }
+
+        function clearConsola(event){
+            $("#consolaSegmentos").val("");
+            $("#controlBorradoTexto").val("");
+            event.preventDefault();
+            clearFiltro();
+
+            $('#consolaSegmentos').trigger('change');
+        }
+
+        function clearFiltro() {
+            document.getElementById('consolaSegmentos').dataset.filtro = '';
+            document.getElementById('controlBorradoFiltro').value = '';
+        }
+
+        function deleteConsola(event){
+            var textoConsola = $("#consolaSegmentos").val();
+            var controlLongitudBorrado = $("#controlBorradoTexto").val();
+
+            if(controlLongitudBorrado.length > 0){
+                var arrayLongitudes = controlLongitudBorrado.split(";");
+                if(arrayLongitudes.length == 1){
+                    clearConsola(event);
+                }
+                else {
+                    var nuevaLongitudTexto = "";
+                    var longitudCortar = 0;
+                    for(var i = 0; i < arrayLongitudes.length - 2; i++){
+                        nuevaLongitudTexto += arrayLongitudes[i] + ";";
+                        longitudCortar = arrayLongitudes[i];
+                    }
+                    $("#controlBorradoTexto").val(nuevaLongitudTexto);
+                    textoConsola = textoConsola.substring(0,longitudCortar);
+                    $("#consolaSegmentos").val(textoConsola);
+                }
+            }
+            deleteFiltro(event);
+            $('#consolaSegmentos').trigger('change');
+            event.preventDefault();
+        }
+
+        function deleteFiltro(event) {
+            var consola = document.getElementById('consolaSegmentos');
+            var controlBorrado = document.getElementById('controlBorradoFiltro');
+            var filtro = consola.dataset.filtro;
+
+            if (controlBorrado.value.length > 0) {
+                var arrayLongitudes = controlBorrado.value.split(";");
+                if(arrayLongitudes.length == 1){
+                    clearFiltro(event);
+                }
+                else {
+                    var nuevaLongitudTexto = "";
+                    var longitudCortar = 0;
+                    for(var i = 0; i < arrayLongitudes.length - 2; i++){
+                        nuevaLongitudTexto += arrayLongitudes[i] + ";";
+                        longitudCortar = arrayLongitudes[i];
+                    }
+                    $("#controlBorradoFiltro").val(nuevaLongitudTexto);
+                    filtro = filtro.substring(0,longitudCortar);
+                    consola.dataset.filtro = filtro;
+                }
+            }
+            event.preventDefault();
+        }
+
+    </script>
+{% endblock %}

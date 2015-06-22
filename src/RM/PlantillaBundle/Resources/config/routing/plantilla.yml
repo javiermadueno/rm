@@ -1,0 +1,21 @@
+rm_plantilla_plantilla_index:
+    path:     /
+    defaults: { _controller: "RMPlantillaBundle:Plantilla:index" }
+
+rm_plantilla_plantilla_new:
+    path:     /new
+    defaults: { _controller: "RMPlantillaBundle:Plantilla:new" }
+
+rm_plantilla_plantilla_create:
+    path:     /create
+    defaults: { _controller: "RMPlantillaBundle:Plantilla:create" }
+    requirements: { _method: post }
+
+rm_plantilla_plantilla_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RMPlantillaBundle:Plantilla:edit" }
+
+rm_plantilla_plantilla_update:
+    path:     /{id}/update
+    defaults: { _controller: "RMPlantillaBundle:Plantilla:update" }
+    requirements: { _method: post|put }

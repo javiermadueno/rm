@@ -1,0 +1,11 @@
+rm_static_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: RMStaticBundle:Default:index }
+
+rm_static_default_plantillas:
+    path: /plantillas
+    defaults: {_controller: RMStaticBundle:Default:plantillas }
+
+rm_static_default_plantilla:
+    path: /plantilla/{idPlantilla}
+    defaults: { _controller: RMStaticBundle:Default:plantilla }

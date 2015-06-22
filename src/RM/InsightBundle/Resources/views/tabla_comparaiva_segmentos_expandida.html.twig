@@ -1,0 +1,129 @@
+<table class="table responsive table-bordered">
+    <colgroup>
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+
+    <tr>
+        <th colspan="3">{{ "segmentos" |trans|title}}</th>
+        <th colspan="3">{{ "numero.clientes" |trans|title}}</th>
+        <th colspan="3">{{ "media.ventas" |trans|title}}</th>
+        <th colspan="3">{{ "frecuencia.media" |trans|title}}</th>
+        <th colspan="3">{{ "ticket.medio" |trans|title}}</th>
+        <th colspan="3">{{ "recencia.media" |trans|title}}</th>
+        <th colspan="3">{{ "amplitud.media" |trans|title}}</th>
+    </tr>
+    <tr>
+        <th colspan="3"></th>
+        {% for i in 1..6 %}
+            <th>{{ fecha_mes1 }}</th>
+            <th>{{ fecha_mes2 }}</th>
+            <th>{{ "proyeccion" |trans|title}}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for nombre_segmento1, nombres_segmentos in datos %}
+        {% for nombre_segmento2, data in nombres_segmentos if data|length == 2 %}
+
+            <tr>
+                {% if loop.first %}
+                    <td rowspan="{{ nombres_segmentos|length }}">{{ nombre_segmento1 }}</td>
+                    <td rowspan="{{ nombres_segmentos|length }}">
+                        <a href="{{ path("rm_insight_cliente_activo_detalle") }}">
+                            <img style="float:center; display: inline-block;" class="info"
+                                 src="{{ asset('img/icono_info.png') }}"
+                                 alt="{{ 'Detalle' | trans }}" title="{{ 'Detalle' | trans }}"/>
+                        </a>
+                    </td>
+                {% endif %}
+                <td>{{ nombre_segmento2 }}</td>
+
+                <td>{{ data[mes1]['num_cli']|number_format(0, '.') }}</td>
+                <td>{{ data[mes2]['num_cli']|number_format(0, '.') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['num_cli'], data[mes2]['num_cli']) }}</td>
+
+                <td>{{ data[mes1]['compra_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ data[mes2]['compra_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['compra_med'], data[mes2]['compra_med']) }}</td>
+
+                <td>{{ data[mes1]['frec_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ data[mes2]['frec_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['frec_med'], data[mes2]['frec_med']) }}</td>
+
+                <td>{{ data[mes1]['tick_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ data[mes2]['tick_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['tick_med'], data[mes2]['tick_med']) }}</td>
+
+                <td>{{ data[mes1]['rec_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ data[mes2]['rec_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['rec_med'], data[mes2]['rec_med']) }}</td>
+
+                <td>{{ data[mes1]['a1_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ data[mes2]['a1_med']|number_format(2, '.', ',') }}</td>
+                <td>{{ porcentaje.diferencia(data[mes1]['a1_med'], data[mes2]['a1_med']) }}</td>
+            </tr>
+        {% else %}
+            {% for nombre_segmento2, data in nombres_segmentos %}
+                <tr>
+                    {% if loop.first %}
+                        <td rowspan="{{ nombres_segmentos|length }}">{{ nombre_segmento1 }}</td>
+                        <td rowspan="{{ nombres_segmentos|length }}">
+                            <a href="{{ path("rm_insight_cliente_activo_detalle") }}">
+                                <img style="float:center; display: inline-block;" class="info"
+                                     src="{{ asset('img/icono_info.png') }}"
+                                     alt="{{ 'Detalle' | trans }}" title="{{ 'Detalle' | trans }}"/>
+                            </a>
+                        </td>
+                    {% endif %}
+                    <td>{{ nombre_segmento2 }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{{ 0.00|porcentaje }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>

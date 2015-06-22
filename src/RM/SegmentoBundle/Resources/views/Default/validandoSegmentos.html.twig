@@ -1,0 +1,36 @@
+{% extends '::pantallaPopUp.html.twig' %}
+
+{% block title %}
+    {{ "Validando Segmentos" | trans }}
+{% endblock %}
+
+
+{% block body %}
+    <div id="modal">
+        <div id="" class="">
+            <ul class="spinner">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <div class="mensaje_modal">Validando segmentos
+                </br></br>
+                <div>Puede cerrar esta página</div>
+            </div>
+            <!--<div id="close" class="" onclick="hideModal()"></div>
+            <script type="text/javascript">
+                function muestraModal()
+                {
+                    $('#modal').show(300);
+                    return false;
+                }
+
+                function hideModal()
+                {
+                    $('#modal').hide(300);
+                }
+            </script>-->
+        </div>
+    </div>
+{% endblock %}

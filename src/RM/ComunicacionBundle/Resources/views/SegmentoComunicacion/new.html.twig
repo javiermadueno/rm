@@ -1,0 +1,29 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% set opcionMenuTabComunicacion = 1 %}
+{% set objComunicacion = segmento.idComunicacion %}
+{% set id_comunicacion = objComunicacion.idComunicacion %}
+{% set idComunicacion = id_comunicacion %}
+
+{% block title %}
+    {{ "segmento.comunicacion" | trans|title }}
+{% endblock %}
+
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ "segmento.comunicacion"|trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $(".datepicker").datepicker({dateFormat: "dd/mm/yy"});
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% block title %}
+    {{ "configuracion" | trans }} - {{ "tamano.imagenes" | trans|title }} - {{ "nuevo" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    {{ parent() }}
+    <li>{{ "tamano.imagenes"|trans }} <span class="separator"></span></li>
+    <li>{{ "nuevo"|trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+
+    <h4 class="widgettitle">{{ "nuevo" |trans|title }}</h4>
+    <form id="form" name="form" method="post" action="{{ path('direct_config_tamanyo_guardar') }}">
+        {{ form_errors(formulario) }}
+        {{ form_errors(formulario.codigo) }}
+        {{ form_errors(formulario.alto) }}
+        {{ form_errors(formulario.ancho) }}
+        <div class="mediamgr_head">
+            <table class="margin-center">
+                <tbody>
+                <tr height="20">
+                    <td colspan="4" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td width="40%"
+                        class="sinborde textoDerecha">{{ form_label(formulario.codigo, 'Nombre' | trans) }}</td>
+                    <td width="3%" class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        {{ form_widget(formulario.codigo, { 'attr': { 'class': 'tam150' } }) }}
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ form_label(formulario.ancho, 'Ancho' | trans) }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div class="input-append">
+                            {{ form_widget(formulario.ancho) }}
+                            <span class="add-on" style="height: 20px">px</span>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ form_label(formulario.alto, 'Alto' | trans) }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div class="input-append">
+                            {{ form_widget(formulario.alto) }}
+                            <span class="add-on" style="height: 20px">px</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ form_label(formulario.tipo, 'tipo' | trans|title) }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        {{ form_widget(formulario.tipo) }}
+                    </td>
+                </tr>
+                <tr height="30">
+                    <td colspan="4" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="sinborde botonera_central">
+                        <button type="submit" class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
+                        <button class="btn btn-danger"
+                                onClick="location.href='{{ path('direct_config_tamanyo') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+                    </td>
+                </tr>
+                <tr height="30">
+                    <td colspan="4" class="sinborde"></td>
+                </tr>
+                {{ form_rest(formulario) }}
+                </tbody>
+            </table>
+        </div>
+        <div class="spacer"></div>
+    </form>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            habilitarSoloNumerosConDecimales();
+        });
+    </script>
+{% endblock %}

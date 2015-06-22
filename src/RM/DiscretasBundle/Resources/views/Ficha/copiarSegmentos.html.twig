@@ -1,0 +1,70 @@
+{% extends '::pantallaPopUp.html.twig' %}
+
+{% block title %}
+    {{ "Copiar segmentos a variables" | trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="bloque_contenido">
+        <div class="cabecera_contenido">
+			<span>
+				{{ "Seleccione segmentos" | trans }}
+			</span>
+        </div>
+        <div class="linea_contenido">
+            <div class="linea_contenido_i">
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="1%"><input type="checkbox" id="checkTodos"/></th>
+                        <th>{{ "Segmento" | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for segmento in objSegmentos %}
+                        <tr>
+                            <td><input class="copySeg" type="checkbox" name="copiarSeg"
+                                       value="{{ segmento.getIdVidSegmento() }}"/></td>
+                            <td>
+                                {{ segmento.nombre }}
+
+                                {% if segmento.condicion == "1" %} &lt; {% elseif segmento.condicion == "2" %}&lt;={% endif %}
+
+                                {{ segmento.pivote }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="bloque_contenido">
+        <div class="cabecera_contenido">
+			<span>
+				{{ "Seleccione variables" | trans }}
+			</span>
+        </div>
+        <div class="linea_contenido">
+            <div class="linea_contenido_i">
+                <select multiple id="variblesSelect" name="variblesSelect">
+                    {% for variable in objVariables %}
+                        <option value="{{ variable.getIdVid() }}">{{ variable.getNombre() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="bloque_contenido">
+        <div class="linea_contenido">
+            <div class="linea_contenido_i botonera_central">
+                <button class="tam4" id="botonAceptar">{{ "Aceptar" | trans }}</button>
+                <button class="tam4" id="botonCancelar" onClick="window.close();">{{ "Cancelar" | trans }}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

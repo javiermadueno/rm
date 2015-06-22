@@ -1,0 +1,8 @@
+
+services:
+    rm.comunicacion.manager:
+        class: RM\ComunicacionBundle\DomainManager\ComunicacionManager
+        arguments:
+            - @doctrine
+            - @event_dispatcher
+            - @validator

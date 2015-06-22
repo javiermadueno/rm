@@ -1,0 +1,616 @@
+{% extends '::insight/base_insight.html.twig' %}
+{% block title %}
+
+    {{ "menu.insight.proveedores" |trans|title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+    <script src="http://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/mapdata/countries/es/es-all.js"></script>
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>
+    <li>{{ "menu.insight.proveedores" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "menu.insight.dashboard" |trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.insight.proveedores" |trans|title }}</h5>
+    <h1>{{ "menu.insight.dashboard" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <ul class="mediamgr_menu">
+            <li>
+                <label>{% trans %}Proveedor:&nbsp;&nbsp;{% endtrans %}</label>
+                {# 				<label>{% trans %}Campa&ntilde;as:&nbsp;{% endtrans %}</label>#}
+                <select id="proveedor" name="proveedor" class="tam6 izq actualizarTabla">
+                    <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                    <option value="1">{% trans %}Nutrexpa{% endtrans %}</option>
+                    <option value="2" selected>{% trans %}Procter & Gamble{% endtrans %}</option>
+                </select>
+            </li>
+            <li>&nbsp;&nbsp;</li>
+            <li>
+                <label>{% trans %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marca&nbsp;&nbsp;{% endtrans %}</label>
+                <select id="id_marca" name="id_marca" class="tam6 izq actualizarTabla">
+                    <option value="-1" selected>{% trans %}Todas{% endtrans %}</option>
+                    <option value="1">{% trans %}Chambourcy{% endtrans %}</option>
+                    <option value="2">{% trans %}El Pozo{% endtrans %}</option>
+                    <option value="3">{% trans %}Campofrio{% endtrans %}</option>
+                    <option value="4">{% trans %}Purina{% endtrans %}</option>
+                </select>
+            </li>
+            <li>&nbsp;&nbsp;</li>
+            <li>
+                <label>{% trans %}Fecha Inicio:&nbsp;&nbsp;{% endtrans %}</label>
+                <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+                    <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                    <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
+                    <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
+                    <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
+                    <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
+                    <option value="5">{% trans %}May-2014{% endtrans %}</option>
+                    <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
+                    <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
+                    <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
+                    <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
+                    <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
+                    <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
+                    <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+                </select>
+            </li>
+            <li>&nbsp;&nbsp;</li>
+            <li>
+                <label>{% trans %}Fecha Fin:&nbsp;&nbsp;{% endtrans %}</label>
+                <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+                    <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                    <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
+                    <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
+                    <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
+                    <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
+                    <option value="5">{% trans %}May-2014{% endtrans %}</option>
+                    <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
+                    <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
+                    <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
+                    <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
+                    <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
+                    <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
+                    <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <h4 class="widgettitle">{{ "desglose" |trans|title }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th style="text-align: center;">{% trans %}Promociones{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Clientes{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Redenci&oacute;n{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Ventas{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Coste Fijo{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Coste Variable{% endtrans %}</th>
+        </tr>
+        </thead>
+        {% for d in data %}
+            <tr>
+                <td style="text-align: center;" width="9%">
+                    {{ d[0] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[1] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[2] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[3] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[4] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[5] }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h4 class="widgettitle">{{ "otros.datos" |trans|title }}</h4>
+    <div class="widgetcontent">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td width="50%" class="graficoDerecha" align="center">
+                    <div id="graficoEdades" style="height: 300px; margin: 0 auto"></div>
+                </td>
+                <td width="50%" class="graficoIzquierda" align="center">
+                    <div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="graficoDerecha" align="center">
+                    <div id="tablaCCAA" style="margin: 0 auto">
+                        <table class="table table-bordered responsive">
+                            <colgroup>
+                                <col class="con0">
+                                <col class="con1">
+                                <col class="con0">
+                                <col class="con1">
+                                <col class="con0">
+                                <col class="con1">
+                            </colgroup>
+                            <thead align="center">
+                            <tr>
+                                <th colspan="3" style="text-align: center;">
+                                    {% trans %}Reactividad-Target por Comunidades{% endtrans %}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">{% trans %}Comunidad{% endtrans %}</th>
+                                <th style="text-align: center;">{% trans %}Reactividad{% endtrans %}</th>
+                                <th style="text-align: center;">{% trans %}Target{% endtrans %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for d2 in data2 %}
+                                <tr>
+                                    <td style="text-align: center; width: 9% ">
+                                        {{ d2[0] }}
+                                    </td>
+                                    <td style="text-align: center;" width="9%">
+                                        {{ d2[1] }}
+                                    </td>
+                                    <td style="text-align: center;" width="9%">
+                                        {{ d2[2] }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $(function () {
+        $('.date-picker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function (dateText, inst) {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
+        });
+    });
+
+    $(function () {
+
+        $('#graficoEdades').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Edades'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Clientes'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: '18-25',
+                data: [15, 18]
+            }, {
+                name: '25-40',
+                data: [28, 30]
+            }, {
+                name: '40-55',
+                data: [35, 25]
+            }, {
+                name: '55-65',
+                data: [18, 19]
+            }, {
+                name: '>65',
+                data: [4, 8]
+            }]
+        });
+
+        $('#graficoSexos').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Sexos'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Clientes'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Hombre',
+                data: [42, 39]
+            }, {
+                name: 'Mujer',
+                data: [58, 61]
+            }]
+        });
+    });
+
+    $(function () {
+
+        // Prepare demo data
+        var data = [
+            {
+                "hc-key": "es-pm",
+                "value": 0
+            },
+            {
+                "hc-key": "es-va",
+                "value": 1
+            },
+            {
+                "hc-key": "es-me",
+                "value": 2
+            },
+            {
+                "hc-key": "es-p",
+                "value": 3
+            },
+            {
+                "hc-key": "es-s",
+                "value": 4
+            },
+            {
+                "hc-key": "es-na",
+                "value": 5
+            },
+            {
+                "hc-key": "es-ce",
+                "value": 6
+            },
+            {
+                "hc-key": "es-cr",
+                "value": 7
+            },
+            {
+                "hc-key": "es-ba",
+                "value": 8
+            },
+            {
+                "hc-key": "es-cu",
+                "value": 9
+            },
+            {
+                "hc-key": "es-co",
+                "value": 10
+            },
+            {
+                "hc-key": "es-gr",
+                "value": 11
+            },
+            {
+                "hc-key": "es-mu",
+                "value": 12
+            },
+            {
+                "hc-key": "es-sa",
+                "value": 13
+            },
+            {
+                "hc-key": "es-vi",
+                "value": 14
+            },
+            {
+                "hc-key": "es-ss",
+                "value": 15
+            },
+            {
+                "hc-key": "es-le",
+                "value": 16
+            },
+            {
+                "hc-key": "es-za",
+                "value": 17
+            },
+            {
+                "hc-key": "es-m",
+                "value": 18
+            },
+            {
+                "hc-key": "es-ma",
+                "value": 19
+            },
+            {
+                "hc-key": "es-gu",
+                "value": 20
+            },
+            {
+                "hc-key": "es-sg",
+                "value": 21
+            },
+            {
+                "hc-key": "es-se",
+                "value": 22
+            },
+            {
+                "hc-key": "es-te",
+                "value": 23
+            },
+            {
+                "hc-key": "es-to",
+                "value": 24
+            },
+            {
+                "hc-key": "es-v",
+                "value": 25
+            },
+            {
+                "hc-key": "es-bu",
+                "value": 26
+            },
+            {
+                "hc-key": "es-bi",
+                "value": 27
+            },
+            {
+                "hc-key": "es-or",
+                "value": 28
+            },
+            {
+                "hc-key": "es-l",
+                "value": 29
+            },
+            {
+                "hc-key": "es-z",
+                "value": 30
+            },
+            {
+                "hc-key": "es-t",
+                "value": 31
+            },
+            {
+                "hc-key": "es-lo",
+                "value": 32
+            },
+            {
+                "hc-key": "es-gi",
+                "value": 33
+            },
+            {
+                "hc-key": "es-ab",
+                "value": 34
+            },
+            {
+                "hc-key": "es-a",
+                "value": 35
+            },
+            {
+                "hc-key": "es-av",
+                "value": 36
+            },
+            {
+                "hc-key": "es-cc",
+                "value": 37
+            },
+            {
+                "hc-key": "es-h",
+                "value": 38
+            },
+            {
+                "hc-key": "es-hu",
+                "value": 39
+            },
+            {
+                "hc-key": "es-c",
+                "value": 40
+            },
+            {
+                "hc-key": "es-po",
+                "value": 41
+            },
+            {
+                "hc-key": "es-al",
+                "value": 42
+            },
+            {
+                "hc-key": "es-b",
+                "value": 43
+            },
+            {
+                "hc-key": "es-ca",
+                "value": 44
+            },
+            {
+                "hc-key": "es-o",
+                "value": 45
+            },
+            {
+                "hc-key": "es-cs",
+                "value": 46
+            },
+            {
+                "hc-key": "es-j",
+                "value": 47
+            },
+            {
+                "hc-key": "es-so",
+                "value": 48
+            },
+            {
+                "hc-key": "es-lu",
+                "value": 49
+            },
+            {
+                "hc-key": "es-tf",
+                "value": 50
+            },
+            {
+                "hc-key": "es-gc",
+                "value": 51
+            },
+            {
+                "value": 52
+            }
+        ];
+
+        // Initiate the chart
+        $('#graficoMapa').highcharts('Map', {
+
+            title: {
+                text: 'Reactividad-Target por Provincias'
+            },
+
+            subtitle: {
+                text: 'Spain'
+            },
+
+            mapNavigation: {
+                enabled: true,
+                buttonOptions: {
+                    verticalAlign: 'bottom'
+                }
+            },
+
+            colorAxis: {
+                min: 0
+            },
+
+            series: [{
+                data: data,
+                mapData: Highcharts.maps['countries/es/es-all'],
+                joinBy: 'hc-key',
+                name: 'Porcentaje',
+                states: {
+                    hover: {
+                        color: '#BADA55'
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }, {
+                name: 'Separators',
+                type: 'mapline',
+                data: Highcharts.geojson(Highcharts.maps['countries/es/es-all'], 'mapline'),
+                color: 'silver',
+                showInLegend: false,
+                enableMouseTracking: false
+            }]
+        });
+    });
+    </script>
+{% endblock %}

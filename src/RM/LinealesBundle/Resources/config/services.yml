@@ -1,0 +1,13 @@
+services:
+    variablesLineales:
+        class: RM\LinealesBundle\DependencyInjection\Lineal
+        arguments: [@doctrine]
+
+    sociodemograficasService:
+        class: RM\LinealesBundle\DependencyInjection\Sociodemograficas
+        arguments: [@doctrine]
+        
+    #Para borra despues pbdespues
+    twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags: [{ name: 'twig.extension' }]

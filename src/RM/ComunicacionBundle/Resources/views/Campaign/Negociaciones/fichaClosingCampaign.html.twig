@@ -1,0 +1,322 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+{% set idOpcionMenuIzq = 2 %}
+
+{% block title %}
+    {{ "menu.campaign.cierre" |trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a><span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.cierre" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "campana" |trans|title }} <span class="separator"></span></li>
+    <li>#{{ "%07d" | format(objInstancia.idInstancia) }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "info" |trans|upper }}</h5>
+    <h1>{{ "menu.campaign.cierre" |trans|title }} #{{ "%07d" | format(objInstancia.idInstancia) }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+
+    <div class="row-fluid">
+        <div class="span1 offset11">
+            <a class="btn btn-primary" href="{{ path('campaign_campanyas') }}">{{ "boton.volver" |trans|title }}</a>
+        </div>
+    </div>
+
+    <h4 class="widgettitle">{{ "info" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <table>
+            <tr>
+                <td width="8%"><b>{{ "comunicacion" |trans|title }}</b></td>
+                <td width="25%">{{ objInstancia.idSegmentoComunicacion.idComunicacion.nombre }}</td>
+                <td width="8%"><b>{{ "segmento" |trans|title }}</b></td>
+                <td width="25%">{{ objInstancia.idSegmentoComunicacion.idSegmento.nombre }}</td>
+                <td width="10%"><b>{{ "fecha.promociones" |trans|title }}</b></td>
+                <td width="25%">{{ objInstancia.fecEjecucion | date('d/m/Y') }}</td>
+            </tr>
+        </table>
+    </div>
+
+<form id="form" name="form" method="POST" action="{{ path("campaign_campanyas_closing_save") }}">
+    {% if categoria %}
+        {% set nivelCategoria = categoria.idNivelCategoria.idNivelCategoria %}
+        {% set idCategoria = categoria.idCategoria %}
+    {% else %}
+        {% set nivelCategoria = 1 %}
+        {% set idCategoria = 0 %}
+    {% endif %}
+    <input type="hidden" name='id_instancia' value={{ objInstancia.idInstancia }}>
+    <input type="hidden" name='id_categoria' value={{ idCategoria }}>
+
+    <div class="row-fluid">
+        <div class="span1 offset11">
+            <button class="btn btn-primary pull-right" id="botonGuardar">{{ "boton.guardar" |trans|title }}</button>
+        </div>
+
+    </div>
+
+    {% if gruposSlots | length == 0 %}
+        <div class="alert alert-warning">
+            <h4>{{ "mensaje.error.no.promocion" | trans|title }}</h4>
+        </div>
+    {% else %}
+        {% for grupoSlot in gruposSlots %}
+            {% set idGrupo = grupoSlot.idGrupo %}
+            <h4 class="widgettitle">{{ "grupo.slots" |trans|title }}: {{ grupoSlot.nombre }}</h4>
+            <div class="mediamgr_head">
+
+            <h4 class="widgettitle">{{ "segmentadas" |trans|title }}</h4>
+
+            <table class="table table-bordered responsive">
+                <colgroup>
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">{{ "marca" | trans }}</th>
+                    <th style="text-align: center;">{{ "referencia" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "tipo.promocion" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "info" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "segmentos" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "poblacion" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "minimo" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "simulado" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "estado" | trans|title }}</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for idNumPro, promocion in promociones[idGrupo] %}
+                    {% for segmentada in promocion['segmentadas'] %}
+                        {% set minimo = segmentada.minimo | default(0) %}
+                        {% set simulado = segmentada.simulado | default(0) %}
+                        {% set aceptada = simulado >= minimo %}
+                        {% set idPromo = segmentada.idPromocion %}
+                        <tr>
+                            <input type="hidden" name="promociones[{{ idPromo }}][id_promocion]" value= {{ idPromo }}>
+                            <td style="text-align: center;">{#MARCA#}
+                                {{ segmentada.idProducto.idMarca.nombre }}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.idProducto.idMarca.nombre }}"
+                                       name="promociones[{{ idPromo }}][marca]"
+                                       class="invisibleInput"
+                                       readonly="readonly">#}
+                            </td>
+                            <td style="text-align: center;">{#REFERENCIA#}
+                                {{ segmentada.idProducto.nombre }}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.idProducto.nombre }}"
+                                       name="promociones[{{ idPromo }}][referencia]"
+                                       class="invisibleInput"
+                                       readonly="readonly">#}
+
+                            </td>
+                            <td style="text-align: center;">{#PROMOCION#}
+                                {#<input type="text" style="text-align: center;"
+
+                                       value="{{ segmentada.idTipoPromocion.nombre }}"
+                                       name="promociones[{{ idPromo }}][promocion]"
+                                       class="invisibleInput"
+                                       readonly="readonly">#}
+                                {{ segmentada.idTipoPromocion.nombre }}
+                            </td>
+                            <td style="text-align: center;">{#INFO#}
+                                <img class="info" onClick="verDatosPromocion({{ idPromo }});"
+                                     src="{{ asset('img/icono_info.png') }}"
+                                     alt="{{ 'Informacion' | trans }}"
+                                     title="{{ 'Informacion' | trans }}"
+                                     style="text-align: center;"/>
+                            </td>
+                            <td style="text-align: center;">{#SEGMENTOS#}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.nombreFiltro }}"
+                                       name="promociones[{{ idPromo }}][segmentos]"
+                                       class="invisibleInput"
+                                       readonly="readonly">
+                                <input type="hidden" value="{{ segmentada.filtro }}"
+                                        name="promociones[{{ idPromo }}][filtro]"/>#}
+                                {{ segmentada.nombreFiltro }}
+
+                            </td>
+                            <td>{#POBLACION#}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.poblacion }}"
+                                       name="promociones[{{ idPromo }}][problacion]"
+                                       class="invisibleInput input-mini"
+                                       readonly="readonly">#}
+                                {{ segmentada.poblacion|number_format(0,',','.') }}
+                            </td>
+                            <td>{#MINIMO#}
+
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.minimo }}"
+                                       name="promociones[{{ idPromo }}][minimo]"
+                                       class="invisibleInput input-mini"
+                                       readonly="readonly">#}
+                                {{ segmentada.minimo|number_format(0,',','.') }}
+                            </td>
+                            <td {% if aceptada %} class="atn" {% else %}class="atv"{% endif %}>{#SIMULADO#}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ segmentada.simulado }}"
+                                       name="promociones[{{ idPromo }}][simulado]"
+                                       class="invisibleInput input-mini"
+                                       readonly="readonly">#}
+                                {{ segmentada.simulado|number_format(0,',','.') }}
+                            </td>
+                            <td style="text-align: center;">{#STATUS#}
+
+                                {% if aceptada %}
+                                    <select style="width: auto"
+                                            name="promociones[{{ idPromo }}][estado]"
+                                            class="">
+                                        <option value="{{ constant('ACEPTADA', segmentada) }}"
+                                                selected> {{ "aceptada" | trans|title }}</option>
+                                    </select>
+                                {% else %}
+                                    {% set aceptadaDB = segmentada.aceptada | default(0) %}
+
+                                    <select style="width: auto"
+                                            name="promociones[{{ idPromo }}][estado]"
+                                            class="">
+                                        <option value="{{ constant('RECHAZADA', segmentada) }}" {% if aceptadaDB is  constant('RECHAZADA', segmentada) %} selected {% endif %}>
+                                            {{ "rechazada" | trans|title }}
+                                        </option>
+                                        <option value="{{ constant('ACEPTADA', segmentada) }}"{% if aceptadaDB is constant('ACEPTADA', segmentada) %} selected {% endif %}>
+                                            {{ "aceptada" | trans|title }}
+                                        </option>
+                                        <option value="{{ constant('PENDIENTE', segmentada) }}"{% if aceptadaDB is constant('PENDIENTE', segmentada) %} selected {% endif %}>
+                                            {{ "pendiente" |trans|title }}
+                                        </option>
+                                    </select>
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+
+            <br/>
+
+            <h4 class="widgettitle">{{ "genericas" |trans|title }}</h4>
+            <table class="table table-bordered responsive">
+                <colgroup>
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">{{ "marca" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "referencia" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "promocion" | trans|title }}</th>
+                    <th style="text-align: center;">{{ "info" | trans|title }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for idNumPro, promocion in promociones[idGrupo] %}
+                    {% for generica in promocion['genericas'] %}
+                        {% set idPromo = generica.idPromocion %}
+                        <tr>
+                            <td style="text-align: center;">{#MARCA#}
+
+                                {# <input type="text" style="text-align: center;"
+                                        value="{{ generica.idProducto.idMarca.nombre }}"
+                                        class="invisibleInput"
+                                        readonly="readonly">#}
+                                {{ generica.idProducto.idMarca.nombre }}
+                            </td>
+                            <td style="text-align: center;">{#REFERENCIA#}
+                                {# 											{{ arrayInfoPromoGen[idGrupo][ n][idPromo][3] }}#}
+                                {#<input type="text" style="text-align: center;"
+                                       value="{{ generica.idProducto.nombre }}"
+                                       class="invisibleInput"
+                                       readonly="readonly">#}
+                                {{ generica.idProducto.nombre }}
+                            </td>
+                            <td style="text-align: center;">{#PROMOCION#}
+                                {# 											{{ arrayInfoPromoGen[idGrupo][n][idPromo][4] }}#}
+                                {# <input type="text" style="text-align: center;"
+                                        value="{{ generica.idTipoPromocion.nombre }}"
+                                        class="invisibleInput"
+                                        readonly="readonly">#}
+                                {{ generica.idTipoPromocion.nombre }}
+                            </td>
+                            <td style="text-align: center;">{#INFO#}
+                                <img class="info" onClick="verDatosPromocion({{ idPromo }});"
+                                     src="{{ asset('img/icono_info.png') }}"
+                                     alt="{{ 'Informacion' | trans }}"
+                                     title="{{ 'Informacion' | trans }}"
+                                     style="text-align: center;"/>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+            </div>
+
+        {% endfor %}
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+
+        function verDatosPromocion(idPromo) {
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Promocion" %}
+            camino = "{{ path('campaign_info_promocion', {'id_promocion':'111'}) }}";
+            camino = camino.replace('111', idPromo);
+            var myUrl = camino;
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        $('#botonVolver').click(function (event) {
+            event.preventDefault(); //cancela el comportamiento por defecto
+            $('#form0').submit();
+        });
+
+        $(document).ready(function () {
+            $('.actualizarTabla').change(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                msg = $("#form").serialize();
+                {% set crearUrl = url('campaign_campanyas_actualizar') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

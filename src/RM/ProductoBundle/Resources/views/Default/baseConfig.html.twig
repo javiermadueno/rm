@@ -1,0 +1,49 @@
+{% extends '::direct/base_direct.html.twig' %}
+
+{% set idOpcionMenuIzq = 3 %}
+
+{% block title %}
+    {{ "menu.direct.configuracion"|trans|title }}
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.direct.nombre"|trans|upper }}</h5>
+    <h1>{{ "configuracion"|trans|title }}</h1>
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span>
+    </li>
+    <li>{{ "configuracion"|trans|title }} <span class="separator"></span></li>
+{% endblock %}
+
+
+{% block contenedorPrincipal %}
+
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <span class="clearall"></span>
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs buttons-icons">
+                    <li id="menuTabPro1" {% if opcionMenuTabConfig == 1 %}class="active"{% endif %}>
+                        <a href="{{ path('direct_config_listado_productos') }}">{{ "recursos.graficos" | trans |title }}</a>
+                    </li>
+                    <li id="menuTabPro2" {% if opcionMenuTabConfig == 2 %}class="active"{% endif %}>
+                        <a href="{{ path('rm_plantilla_plantilla_modelo_index') }}">{{ "plantillas" | trans }}</a>
+                    </li>
+                    <li id="menuTabPro3" {% if opcionMenuTabConfig == 3 %}class="active"{% endif %}>
+                        <a href="{{ path('direct_config_tamanyo') }}">{{ "tamano.slots" | trans }}</a>
+                    </li>
+                    <li id="menuTabPro4" {% if opcionMenuTabConfig == 4 %}class="active"{% endif %}>
+                        <a href="{{ path('direct_config_creatividad') }}">{{ "creatividades" | trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    {% block tabcontent %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

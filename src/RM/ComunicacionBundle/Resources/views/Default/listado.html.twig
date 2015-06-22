@@ -1,0 +1,255 @@
+{% extends '::direct/base_direct.html.twig' %}
+
+{% block title %}
+	{{ "menu.direct.gestion" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+	<li>{{ "menu.direct.gestion" | trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "gestion.de"|trans|upper }}</h5>
+    <h1>{{ "comunicaciones"|trans|title }}</h1>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+<form id="form" name="form" >
+	<input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
+    <h4 class="widgettitle">{{ "filtro.busqueda"|trans }}</h4>
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <ul class="mediamgr_menu">
+                <li>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td width="300">
+                                <label>{{ "canal" | trans|title }}</label>
+                                <select id="id_canal" name="id_canal" class="  actualizarComunicaciones">
+                                    <option value="-1">Todos</option>
+                                    {% for objCanal in objCanales %}
+                                        <option value="{{ objCanal.idCanal }}" {% if objCanal.getIdCanal() == id_canal %} selected {%  endif %}>{{ objCanal.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td width="300">
+                                <label>{{ "estado" | trans|title }}</label>
+                                <select id="estado" name="estado" class="actualizarComunicaciones">
+                                    <option value="-2">{{ "select.todas" | trans }}</option>
+                                    <option value="{{ constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') }}"
+                                            {% if estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+                                                selected
+                                            {%  endif %}>
+                                        {{ "comunicacion.estado.configuracion" | trans }}
+                                    </option>
+                                    <option value="{{ constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') }}"
+                                            {% if estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
+                                                selected
+                                            {%  endif %}>
+                                        {{ "comunicacion.estado.activo" | trans }}
+                                    </option>
+                                    <option value="{{ constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO') }}"
+                                            {% if estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO') %}
+                                                selected
+                                            {%  endif %}>
+                                        {{ "comunicacion.estado.pausado" | trans }}
+                                    </option>
+                                    <option value="{{ constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') }}"
+                                            {% if estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
+                                                selected
+                                            {%  endif %}>
+                                        {{ "comunicacion.estado.completada" | trans }}
+                                    </option>
+
+                                </select>
+                            </td>
+                        </tr>
+
+                    </table>
+                </li>
+                <li class="right newfilebtn">
+                    <button class="btn btn-danger" id="botonEliminarComunicacion">{{ "boton.eliminar" | trans }}</button>
+                    <button class="btn btn-success " onclick="location.href='{{ path('direct_manager_new') }}'; return false;">{{ "boton.nuevo" | trans }}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h4 class="widgettitle">{{ "comunicaciones"|trans }}</h4>
+		{{ include ('RMComunicacionBundle:Default:tablaListado.html.twig') }}
+
+    <div id="popup_container" class="bottom-left"></div>
+</form>
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#checkTodos').click(function(){
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
+
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
+
+			$('#botonEliminarComunicacion').click(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				var existe = 0;
+				$(".selTodos:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#elementosBorrar').val();
+					if(cur_val)
+					  $('#elementosBorrar').val(cur_val + "," + this.value);
+					else
+					  $('#elementosBorrar').val(this.value);
+				});
+
+				if(existe == 0){
+					alert("Debe de elegir al menos un registro");
+				}
+				else{
+					if(confirm("�Desea eliminar los registros seleccionados?")){
+						msg = $("#form").serialize();
+						{% set crearUrl = url('direct_manager_delete') %}
+						var myUrl = '{{crearUrl}}';
+						$.ajax({  
+						  type: "POST",  
+						  url: myUrl,
+						  data: msg,  
+						  complete: function(objeto, exito){
+							if(exito=="success"){
+								$('#tablaListado').children().remove();
+								$('#tablaListado').append(objeto.responseText);
+				            }
+				          },
+						  error: function(objeto, quepaso, otroobj){		            
+				          }
+						}); 
+					}
+					else{
+						 $('#elementosBorrar').val("");
+					}
+				}
+			});
+			
+
+			$('.actualizarComunicaciones').change(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_manager_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
+
+            if(jQuery('.reanudar').length > 0){
+                jQuery(document).on('click', '.reanudar', function(event){
+
+                    var e= event||window.event;
+                    e.preventDefault();
+
+                    var self = this;
+
+                    var idComunicacion = self.dataset.comunicacion;
+                    var fila = $(self).closest('tr')[0];
+
+                    jQuery.alerts.dialogClass = 'alert-success';
+                    jConfirm("{{ 'mensaje.reanudar.comunicacion'|trans }}", "{{ 'cabecera.reanudar.comunicacion'|trans|title }}", function(confirmacion){
+                        (function(confirmacion, idComunicacion, fila) {
+                            if (!confirmacion) {
+                                return;
+                            }
+                            var url = '{{ path('direct_manager_reanudar_comunicacion', {idComunicacion: 111}) }}';
+                            url = url.replace('111', idComunicacion);
+
+                            $.post(url, function(respuesta){
+                                var html = respuesta.fila;
+                                if(fila){
+                                    $(fila).html(html);
+                                }
+                                $.jGrowl(respuesta.mensaje, {
+                                    header: 'Correcto',
+                                    group: 'alert alert-success',
+                                    life: 50000
+                                });
+                            }).error(function(){
+                                $.jGrowl(respuesta, {
+                                    header: 'ERROR',
+                                    group: 'alert alert-danger'
+                                });
+                            });
+                            console.log('Se reanuda la comunicacion #' + idComunicacion);
+
+                        }(confirmacion, idComunicacion, fila));
+                    });
+                });
+            }
+
+            if(jQuery('.parar').length > 0){
+                jQuery(document).on('click', '.parar', function(event){
+                    var e= event||window.event;
+                    e.preventDefault();
+
+                    var self = this;
+
+                    var idComunicacion = self.dataset.comunicacion;
+                    var fila = $(self).closest('tr')[0];
+                    jQuery.alerts.dialogClass = 'alert-danger';
+                    jConfirm("{{ 'mensaje.parar.comunicacion'|trans }}", "{{ 'cabecera.parar.comunicacion'|trans }}", function(confirmacion){
+                        (function(confirmacion, idComunicacion, fila){
+                            if(!confirmacion){
+                                return;
+                            }
+                            var url = '{{ path('direct_manager_parar_comunicacion', {idComunicacion: 111}) }}';
+                            url = url.replace('111', idComunicacion);
+
+                            $.post(url , function(respuesta){
+                                var html = respuesta.fila;
+                                if(fila){
+                                    $(fila).html(html);
+                                }
+                                $.jGrowl(respuesta.mensaje, {
+                                    header: 'Correcto',
+                                    group: 'alert-success'
+                                });
+                            })
+                            .error(function(respuesta) {
+                                $.jGrowl(respuesta, {
+                                    header: 'ERROR',
+                                    group: 'alert-danger'
+                                });
+                            });
+
+                            console.log('Se para la comunicacion #' + idComunicacion);
+                        }(confirmacion, idComunicacion, fila))
+                    });
+                });
+            }
+
+
+
+			//$('#botonGuardarCat').click(function(event){
+			//	event.preventDefault(); //cancela el comportamiento por defecto
+			//	if(confirm("Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?"))
+			//	{
+			//		$('#form').submit();
+			//	}
+			//});
+		});
+
+	</script>
+{% endblock %}

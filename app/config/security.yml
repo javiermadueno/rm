@@ -1,0 +1,56 @@
+security:
+  firewalls:
+    restricted_area:
+      pattern:          ^/
+      anonymous:        ~
+      provider:         ldap
+      imag_ldap:        ~
+      logout:
+        path:           /logout
+        target:         /
+
+  providers:
+    ldap:
+      id: imag_ldap.security.user.provider
+
+  encoders:
+    IMAG\LdapBundle\User\LdapUser: plaintext
+
+  access_control:
+    - { path: ^/login,          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/,               roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/insightrue,     roles: ROLE_ADMIN_MANAGER }
+
+imag_ldap:
+  client:
+    host: 192.168.100.229
+    port: 389
+    version: 3 #Optional
+#    username: admin # Optional
+#    password: icca # Optional
+#    network_timeout: 10 # Optional
+#    referrals_enabled: true # Optional
+#    bind_username_before: true # Optional
+    skip_roles: false # Optional
+
+  user:
+    base_dn: ou=usuarios,dc=relationalmessages,dc=com
+#    filter: (&(foo=bar)(ObjectClass=Person)) #Optional#
+    #filter: (&(uid=user)(userPassword=pass))
+    #name_attribute: uid
+  role:
+    base_dn: ou=roles, dc=relationalmessages, dc=com
+#    filter: (ou=group) #Optional
+#    filter: ((member=$uid))
+    name_attribute: cn
+    user_attribute: member
+    user_id: dn #[ dn or username ]
+    
+  cliente:
+    base_dn: ou=clientes,dc=relationalmessages,dc=com
+    user_attribute: member
+    user_id: dn
+    name_attribute: cn
+    
+#  user_class: IMAG\LdapBundle\User\LdapUser  Optional
+        

@@ -1,0 +1,15 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+
+{% block title %}
+    {{ "Módulo" | trans }} Direct
+{% endblock %}
+
+{% block contenedorPrincipal %}
+    <div class="bloque_contenido">
+    <div class="cabecera_contenido">
+        <span>{{ "Módulo" | trans }} Campaign</span>
+    </div>
+    <div>
+        {{ mensaje }}
+    </div>
+{% endblock %}

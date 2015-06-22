@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <title>{% block title %}{% endblock %}</title>
+
+	    {% block stylesheets %}
+	    	<link href="{{ asset('css/estilosBase.css') }}" rel="stylesheet" />
+            <link rel="stylesheet" href="{{ asset('css/style.default.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('prettify/prettify.css') }}" type="text/css" />
+            {#<link rel="stylesheet" href="{{ asset('css/responsive-tables.css') }}"/>#}
+
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+           {# <script type="text/javascript" src="{{ asset('js/jquery-1.9.1.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.1.1.min.js')}}"></script>#}
+            <script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('prettify/prettify.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/modernizr.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.jgrowl.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.alerts.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.cookie.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/custom.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/elements.js')}}"></script>
+            {#<script type="text/javascript" src="{{ asset('js/responsive-tables.js') }}"></script>#}
+            <script type="text/javascript">
+
+                jQuery(document).ready(function(){
+                    prettyPrint();
+                });
+            </script>
+
+	    {% endblock %}
+
+	    {% block rss %}{% endblock %}
+	</head>
+	
+	<body id="{% block id '' %}">
+        <div class="mainwrapper">
+
+            <div class="header">
+                <div class="logo">
+                    <a href="categorias.html"><img src="{{ asset('images/logo.png') }}" alt="" width="360" /></a>
+                </div>
+                <div class="headerinner">
+                    <ul class="headmenu">
+                        <li class="odd">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="head-icon head-message"></span>
+                                <span class="headmenu-label">{{ 'menu.data.nombre' | trans }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">Data</li>
+                                <li><a href="{{ path('data_basic_nivelCategoria') }}">{{ "menu.data.categorias" |trans }}</a></li>
+                                <li><a href="{{ path("data_basic_variables") }}">{{ "menu.data.segmentos" |trans }}</a></li>
+                                <li><a href="{{ path('data_basic_configuracion') }}">{{ "menu.data.configuracion" |trans }}</a></li>
+                                <li><a href="{{ path('data_avanced_cv') }}">{{ "menu.data.ciclo_vida" |trans }}</a></li>
+                                <li><a href="{{ path('data_avanced_rfm') }}">RFM</a></li>
+                                <li><a href="{{ path('data_avanced_cp') }}">{{ "menu.data.compra_productos" |trans }}</a></li>
+                                <li><a href="{{ path('data_avanced_hc') }}">{{ "menu.data.habitos_compra" |trans }}</a></li>
+                                <li><a href="{{ path('data_avanced_sociodemografico') }}">{{ "menu.data.sociodemografico" |trans }}</a></li>
+                                <li><a href="{{ path('data_avanced_ot') }}">{{ "menu.data.otros" |trans }} </a></li>
+                                <li><a href="{{ path('data_avanced_categorias') }}">{{ "menu.data.categorias" |trans }}</a></li>
+                                <li><a href="{{ path("data_info_segmentos") }}">{{ "menu.data.segmentos" |trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="odd">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-target="#"><span class="head-icon head-users"></span>
+                                <span class="headmenu-label">Direct</span>
+                            </a>
+                            <ul class="dropdown-menu newusers">
+                                <li class="nav-header">Direct</li>
+                                <li><a href="{{ path("direct_monitor") }}">{{ "menu.direct.monitor" | trans }}</a></li>
+                                <li><a href="{{ path("direct_manager") }}">{{ "menu.direct.gestion"|trans }}</a></li>
+                                <li><a href="{{ path("direct_config_listado_productos") }}">{{ "menu.direct.configuracion" | trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="odd">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-target="#"><span class="head-icon head-bar"></span>
+                                <span class="headmenu-label">Campaign</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">Campaign</li>
+                                <li><a href="{{ path("campaign_campanyas") }}">{{ "menu.campaign.campanas"|trans }}</a></li>
+                                <li><a href="{{ path('campaign_closing_campanyas') }}">{{ "menu.campaign.cierre" |trans }}</a></li>
+                                <li><a href="{{ path('campaign_creatividades') }}">{{ "menu.campaign.creatividades" |trans }}</a></li>
+                                <li><a href="{{ path('campaign_seguimiento') }}">{{ "menu.campaign.seguimiento" | trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="odd">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="head-icon head-insight"></span>
+                                <span class="headmenu-label">Insight</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-header">{{ ""|trans }}</li>
+                                <li><a href="{{ path('rm_insight_homepage') }}">{{ "menu.insight.clientes"|trans }}</a></li>
+                                <li><a href="{{ path('rm_insight_performance') }}">{{ "menu.insight.rendimiento" |trans }}</a></li>
+                                <li><a href="{{ path('rm_insight_evolution') }}">{{ "menu.insight.evolucion" |trans }}</a></li>
+                                <li><a href="{{ path('rm_insight_categoria') }}">{{ "menu.insight.categorias" |trans }}</a></li>
+                                <li><a href="{{ path('rm_insight_campaign') }}"> {{ "menu.campaign.campanas" |trans }}</a></li>
+                                <li><a href="{{ path('rm_insight_proveedores') }}">{{ "menu.insight.proveedores"|trans }}</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="right">
+                            <div class="userloggedinfo">
+                                <img src="{{ asset('images/photos/thumb1.png') }}" title="{{ app.user.getCategorias() | join(',') | capitalize }}" alt="" />
+                                <div class="userinfo">
+                                    <h5>{{ app.user.username }} - <small>{{ app.user.getRoles()[0] | replace ({"ROLE_" : "", "_": " "}) | capitalize }}</small></h5>
+                                    <ul>
+                                        <li><a href="#">{{ 'menu.usuario.editar' | trans  }}</a></li>
+                                        <li><a href="#">{{ 'menu.usuario.ajustes' | trans  }}</a></li>
+                                        <li><a href="{{ path('logout') }}">{{ 'menu.usuario.cerrar' | trans  }}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul><!--headmenu-->
+                </div>
+            </div> <!-- header-->
+
+            <div class="leftpanel">
+                {% block leftpanel %}{% endblock %}
+            </div>
+
+            <div class="rightpanel">
+                <ul class="breadcrumbs">
+                    {% block migas %}{% endblock %}
+                </ul>
+
+
+                <div class="pageheader">
+
+
+                    <div class="pagetitle">
+                        {% block pagetitle %}
+                            <h5>Niveles de categorías a considerar</h5>
+                            <h1>Data</h1>
+                        {% endblock %}
+                    </div>
+                </div><!--pageheader-->
+
+                <div class="maincontent">
+                    <div class="maincontentinner">
+                        <div class="row-fluid">
+                            <div id="control_mensajes" class="span12">
+                                {% include '::logMensajes.html.twig' %}
+                            </div>
+                        </div>
+                        {% block body %}{% endblock %}
+                        <div class="footer">
+                            <div class="footer-left">
+                                {% block footer %}<span>@ 2015 Copyright Relational Messages Marketing Cloud</span>{% endblock %}
+                            </div>
+                        </div><!--footer-->
+
+                    </div><!--maincontentinner-->
+                </div><!--maincontent-->
+            </div> <!--rightpanel-->
+
+
+		{% block javascripts %}
+			<script type="text/javascript">
+				function getURLVar(urlStr,urlVarName) {
+					var urlHalves = urlStr.split('?');
+					var urlVarValue = '';
+					if(urlHalves[1]) {
+						var urlVars = urlHalves[1].split('&');
+						for(i=0; i<=(urlVars.length); i++){
+							if(urlVars[i]){
+								var urlVarPair = urlVars[i].split('=');
+								if (urlVarPair[0] && urlVarPair[0] == urlVarName) {
+	
+									urlVarValue = urlVarPair[1];
+									break;
+								}
+							}
+						}
+					}
+					return urlVarValue
+				}
+
+				function habilitarSoloNumerosConDecimales(){
+					$('.soloNum').keydown(function(e) {
+						if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9 && e.keyCode != 110 && e.keyCode != 190 && e.keyCode != 109 && e.keyCode != 173 )
+					          e.preventDefault();
+					});
+				}
+
+				function habilitarSoloNumeros(){
+					$('.soloNum').keydown(function(e) {
+						if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)&& e.keyCode != 8 && e.keyCode != 46)
+					          e.preventDefault();
+					});
+				}
+			</script>
+		{% endblock %}
+        </div>
+	</body>
+</html>

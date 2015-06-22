@@ -1,0 +1,7 @@
+parameters:
+    ClienteService.class: RM\ClienteBundle\DependencyInjection\ClienteServicio
+
+services:
+    ClienteService:
+        class: %ClienteService.class%
+        arguments: [@doctrine.orm.entity_manager]

@@ -1,0 +1,523 @@
+{% extends '::insight/base_insight.html.twig' %}
+{% block title %}
+
+    {{ "menu.insight.campanas" |trans|title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('rm_insight_homepage') }}"><span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>
+    <li>{{ "menu.insight.campanas" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "menu.insight.dashboard" |trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.insight.campanas" |trans|title }}</h5>
+    <h1>{{ "menu.insight.dashboard" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <ul class="mediamgr_menu">
+            <li>
+                <label>{{ "menu.insight.campanas" |trans|title }}</label>
+                <select id="fecha_from" name="fecha_from" class="tam6 izq actualizarTabla">
+                    <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                    <option value="1">{% trans %}Activos1{% endtrans %}</option>
+                    <option value="2" selected>{% trans %}Activos2{% endtrans %}</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <h4 class="widgettitle">{{ "desglose" |trans|title }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th style="text-align: center;">{% trans %}Campa&ntilde;as{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Instancia{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Fecha Inicio{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Fecha Fin{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Promoci&oacute;n{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Target{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}% Impactos{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Clientes{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}% Clientes{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Slots{% endtrans %}</th>
+            <th style="text-align: center;">{% trans %}Ventas{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for d in data %}
+            <tr>
+                <td style="text-align: center;" width="9%">
+                    {{ d[0] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[1] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[2] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[3] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[4] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[5] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[6] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[7] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[8] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[9] }}
+                </td>
+                <td style="text-align: center;" width="9%">
+                    {{ d[9] }}{% trans %}&euro;{% endtrans %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h4 class="widgettitle">{{ "otros.datos" |trans|title }}</h4>
+    <div class="widgetcontent">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td width="50%" class="graficoDerecha" align="center">
+                    <div id="graficoRecenciaAnual" style="height: 300px; margin: 0 auto"></div>
+                </td>
+                <td width="50%" class="graficoIzquierda" align="center">
+                    <div id="graficoReactividadTarget" style="height: 300px; margin: 0 auto" width="50%"></div
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" class="graficoDerecha" align="center">
+                    <div id="graficoEdades" style="height: 300px; margin: 0 auto"></div>
+                </td>
+                <td width="50%" class="graficoIzquierda" align="center">
+                    <div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" class="graficoDerecha" align="center">
+                    <div id="graficoFidelizacion" style="height: 300px; margin: 0 auto"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $(function () {
+        $('.date-picker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function (dateText, inst) {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
+        });
+    });
+
+
+    $(function () {
+
+        $('#graficoRecenciaAnual').highcharts({
+            title: {
+                text: 'Reactividad-Redencion-Ventas',
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
+            },
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value} %',
+                    style: {
+                        color: Highcharts.getOptions().colors[2]
+                    }
+                },
+                title: {
+                    text: '',
+                    style: {
+                        color: Highcharts.getOptions().colors[2]
+                    }
+                },
+                opposite: true
+
+            }, { // Secondary yAxis
+                gridLineWidth: 0,
+                title: {
+                    text: 'Ventas',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: '{value} Euros',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                }
+
+            }, { // Tertiary yAxis
+                gridLineWidth: 0,
+                title: {
+                    text: '',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                labels: {
+                    format: ' ',
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                valueSuffix: '%'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Ventas',
+                type: 'column',
+                yAxis: 1,
+                data: [125000, 100000, 95000, 150000, 167000, 156000],
+                tooltip: {
+                    valueSuffix: ' Euros'
+                }
+
+            }, {
+                name: 'Redencion',
+                type: 'spline',
+                yAxis: 2,
+                data: [1.75, 2.75, 2.50, 1.75, 1.95, 2.55],
+                marker: {
+                    enabled: false
+                },
+                dashStyle: 'shortdot',
+                tooltip: {
+                    valueSuffix: ' %'
+                }
+
+            }, {
+                name: 'Reactividad',
+                type: 'spline',
+                data: [3.15, 4.15, 4.50, 3.89, 4.20, 4.80],
+                tooltip: {
+                    valueSuffix: ' %'
+                }
+            }]
+        });
+
+        $('#graficoReactividadTarget').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Tipo de Cliente'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '%'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Oro',
+                data: [60, 5]
+            }, {
+                name: 'Plata',
+                data: [30, 20]
+            }, {
+                name: 'Bronce',
+                data: [10, 75]
+            }]
+        });
+
+        $('#graficoEdades').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Edades'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Clientes'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: '18-25',
+                data: [15, 18]
+            }, {
+                name: '25-40',
+                data: [28, 30]
+            }, {
+                name: '40-55',
+                data: [35, 25]
+            }, {
+                name: '55-65',
+                data: [18, 19]
+            }, {
+                name: '>65',
+                data: [4, 8]
+            }]
+        });
+
+        $('#graficoSexos').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Sexos'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Clientes'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Hombre',
+                data: [42, 39]
+            }, {
+                name: 'Mujer',
+                data: [58, 61]
+            }]
+        });
+
+        $('#graficoFidelizacion').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Reactividad-Target por Fidelizacion'
+            },
+            xAxis: {
+                categories: ['Reactividad', 'Target']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Clientes'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    'Total: ' + this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Ocasionales',
+                data: [16, 20]
+            }, {
+                name: 'Habituales',
+                data: [29, 33]
+            }, {
+                name: 'Frecuentes',
+                data: [35, 26]
+            }, {
+                name: 'Ocasionales',
+                data: [20, 21]
+            }]
+        });
+
+    });
+    </script>
+{% endblock %}

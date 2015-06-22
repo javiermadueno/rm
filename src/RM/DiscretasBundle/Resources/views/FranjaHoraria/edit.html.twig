@@ -1,0 +1,38 @@
+<h4 class="widgettitle">{{ "cabecera.configuracion.franjas.horarias" |trans|title }}</h4>
+<div class="widgetcontent">
+    {{ form_start(form) }}
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>{{ "franja.horaria" |trans|title }}</th>
+            <th>{{ "desde" |trans|title }}</th>
+            <th>{{ "hasta" |trans|title }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for franja in form.franjas %}
+            <tr>
+                <td> {{ franja.vars.value.franja }}</td>
+                <td> {{ form_widget(franja.valor_inicio) }}</td>
+                <td> {{ form_widget(franja.valor_fin) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ form_widget(form.submit, { 'attr' : {'class' : 'btn btn-primary' }}) }}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+</div>
+
+
+

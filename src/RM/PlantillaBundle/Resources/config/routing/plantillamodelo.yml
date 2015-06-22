@@ -1,0 +1,36 @@
+rm_plantilla_plantilla_modelo_index:
+    path:     /
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:index" }
+
+
+rm_plantilla_plantilla_modelo_new:
+    path:     /new
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:new" }
+
+rm_plantilla_plantilla_modelo_create:
+    path:     /create
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:create" }
+    requirements: { _method: post }
+
+rm_plantilla_plantilla_modelo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:edit" }
+
+rm_plantilla_plantilla_modelo_update:
+    path:     /{id}/update
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:update" }
+    requirements: { _method: post|put }
+
+rm_plantilla_plantilla_modelo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RMPlantillaBundle:PlantillaModelo:delete" }
+    requirements: { _method: post|delete }
+
+rm_plantilla_plantilla_modelo_delete_plantillas:
+    path: /delete/{ids}
+    defaults: { _controller: 'RMPlantillaBundle:PlantillaModelo:deletePlantillas' }
+    requirements: { _method: post }
+
+rm_plantilla_plantilla_modelo_updateindex:
+    path: /update
+    defaults: {_controller: 'RMPlantillaBundle:PlantillaModelo:updateIndex' }

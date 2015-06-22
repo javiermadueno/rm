@@ -1,0 +1,189 @@
+{% extends 'RMDiscretasBundle:Default:index.html.twig' %}
+
+{% set idOpcionMenuIzq = 6 %}
+
+{% block title %}
+    {{ objVariable.getNombre() }} - {{ "segmentos" | trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+{% endblock stylesheets %}
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ objVariable.getNombre() }} - {{ "segmentos" | trans }}</li>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    <div class="row-fluid">
+        <div class="span1 offset11">
+            {% set path =  path('data_avanced_hc') %}
+            <button class="btn btn-primary pull-right"
+                    onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
+        </div>
+    </div>
+    {% set personalizada = grupoVidSegmento.personalizado %}
+    {#
+    <form id="form1" name="form1" method="post" action="{{ path('data_avanced_cp_editar_cambiarClasificacion') }}">
+        <h4 class="widgettitle">{{ 'tipo.clasificacion'|trans }}</h4>
+        <input type="hidden" id="id_vid" name="id_vid" value="{{ objVariable.getIdVid() }}">
+
+        <div class="mediamg_left">
+            <div class="mediamgr_head">
+                <ul class="mediamgr_menu">
+                    <li class="center-all">
+                        <label for="variablePersonalizada">{{ "personalizado"|trans|capitalize }}</label>
+                        <input type="hidden" name="personalizado" value="0"/>
+                        <input id="variablePersonalizada" type="checkbox" name="personalizado"
+                               value="1" {% if personalizada %} checked="checked"{% endif %}/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+    #}
+
+
+    {{ form_start(form) }}
+    <h4 class="widgettitle">{{ "criterios" |trans|title|capitalize }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0" style="align: center; width: 50%">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+        </colgroup>
+        <thead>
+        <tr>
+            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N', objVariable) %}
+                <th>{{ "tiempo.referencia.n" |trans }}</th>
+            {% endif %}
+            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N_M', objVariable) %}
+                <th>{{ "tiempo.referencia.m" |trans }}</th>
+            {% endif %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% if personalizada and objVariable.solicitaTiempo == constant('SOLICITA_N', objVariable) %}
+            <tr>
+                <td>
+                    {{ form_label(form.mesesN) }}
+                    {{ form_widget(form.mesesN, { 'attr': { 'class': 'soloNum'} }) }}
+                </td>
+            </tr>
+        {% elseif objVariable.solicitaTiempo == constant('SOLICITA_N', objVariable) %}
+            <tr>
+                <td>
+                    {{ form_label(form.referenciaN) }}
+                    {{ form_widget(form.referenciaN, { 'attr': { 'readonly':'readonly'} }) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>
+                    {{ form_label(form.mesesN) }}
+                    {{ form_widget(form.mesesN, { 'attr': { 'readonly':'readonly'} }) }}
+                </td>
+                <td>
+                    {{ form_label(form.mesesM) }}
+                    {{ form_widget(form.mesesM, { 'attr': { 'readonly':'readonly'} }) }}
+                </td>
+            </tr>
+        {% endif %}
+        {% if not form.vars.valid %}
+            <tr>
+                <td colspan="4" align="center">
+                    {{ form_errors(form) }}
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    {% if personalizada %}
+        <table width="200" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+    <h4 class="widgettitle">{{ "segmentos" |trans|title }}</h4>
+    <div class="widgetcontent">
+        <table class="table table-bordered table-striped" style="width: 50%">
+            <thead>
+            <tr>
+                <th>{{ "nombre" |trans }}</th>
+                <th>{{ "segmento" |trans|title }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for segmento in segmentos %}
+                {% if loop.first %}
+                    <tr>
+                        <td rowspan="{{ segmentos|length }}" class="center-all">{{ objVariable.nombre }}</td>
+                        <td>{{ segmento.nombre|title }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ segmento.nombre|title }}</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="2" class="botonera_central">{{ "sin.resultados" | trans|title }} </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#variablePersonalizada').change(function () {
+
+                $('#form1').attr("action", "{{ path('data_avanced_cp_editar_actualizarPersonalizado') }} ");
+
+                if (this.checked) {
+                    var confirmarPersonalizada = confirm('{{"Se va a generar una configuracion personalizada para la variable. ¿Desea continuar?"   }}');
+                    if (confirmarPersonalizada) {
+                        $('#form1').submit();
+                    }
+                    else {
+                        this.checked = !this.checked;
+                    }
+                }
+                else {
+                    var mensaje = '{{ "Se va a eliminar la configuracion personalizada de la variable y se le asignara la configuracion global. Desea continuar? " }}';
+                    var confirmarNoPersonalizada = confirm(mensaje);
+                    if (confirmarNoPersonalizada) {
+                        $('#form1').submit();
+                    }
+                    else {
+                        this.checked = !this.checked;
+                    }
+                }
+
+            });
+        });
+    </script>
+{% endblock javascripts %}

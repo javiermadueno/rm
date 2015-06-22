@@ -1,0 +1,49 @@
+parameters:
+  estrucutra_segmentos_tabla_evolucion:
+    Estado_Nuevo:
+      Estado_Nuevo: []
+    Estado_Activo:
+      Fidelidad_Fidelizado: []
+      Fidelidad_Habitual: []
+      Fidelidad_Ocasional: []
+      Fidelidad_Compartido: []
+    Estado_Inactivo:
+      Estado_Inactivo: []
+
+services:
+    hihghcharts:
+      class: Ob\HighchartsBundle\Highcharts\Highchart
+
+    rm_insight.porcentaje_ventas:
+        class: RM\InsightBundle\Graphs\PorcentajeDeVentas
+
+    rm_insight.numero_contribuciones_vs_numero_miembros:
+        class: RM\InsightBundle\Graphs\ContibucionesMensualesVsClientes
+
+    rm_insight.evolucion_segmentos:
+       class: RM\InsightBundle\Graphs\EvolucionSegmentosGraph
+       arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+
+    rm_insight.clientes_nuevos_por_estado_y_segmento:
+      class: RM\InsightBundle\Graphs\ClientesNuevosPorEstadoYSegmentoGraphs
+      arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+
+    rm_insight.clientes_activos_por_estado_y_segmento:
+          class: RM\InsightBundle\Graphs\ClientesActivosPorEstadoySegmentoGraphs
+          arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+
+    rm_insight.tabla_rendimiento:
+      class: RM\InsightBundle\Tables\RendimientoTable
+      arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+
+
+    twig.extension.intl:
+            class: Twig_Extensions_Extension_Intl
+            tags:
+                - { name: twig.extension }
+
+    moneda.twig_extension:
+            class: RM\InsightBundle\Twig\Extension\MonedaExtension
+            public: false
+            tags:
+                - { name: twig.extension }

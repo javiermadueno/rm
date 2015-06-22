@@ -1,0 +1,91 @@
+{% extends '::pantallaPopUp.html.twig' %}
+
+
+
+{% block title %}
+    {{ "exportar.plantilla" | trans }}
+{% endblock %}
+{% block header %}
+    <div class="contanier">
+        <div class="pageheader">
+            <div class="pagetitle">
+                <h1>{{ "exportar.plantilla" |trans|title }}</h1>
+
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <div class="maincontentinner">
+        <form name="form" id="form">
+            <input type="hidden" name="id_comunicacion" value="{{ objComunicacion.getIdComunicacion() }}">
+            <input type="hidden" name="id_canal" value="{{ objComunicacion.getIdCanal().getIdCanal() }}">
+            <input type="hidden" name="accionEjecutar" value="exportar">
+
+            <h4 class="widgettitle">{{ "exportar.plantilla" |trans|title }}</h4>
+
+            <div class="mediamgr_head">
+                <table class="table responsive">
+                    <tbody>
+                    <tr height="20">
+                        <td colspan="3" class="sinborde"></td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="sinborde textoDerecha">{{ "nombre" | trans }}</td>
+                        <td width="3%" class="sinborde">&nbsp;</td>
+                        <td class="sinborde">
+                            <input type="text" name="nombre" class="tam150" value=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sinborde textoDerecha">{{ "descripcion" | trans }}</td>
+                        <td class="sinborde">&nbsp;</td>
+                        <td class="sinborde">
+                            <input type="text" name="descripcion" class="tam150" value=""/>
+                        </td>
+                    </tr>
+                    <tr height="30">
+                        <td colspan="3" class="sinborde"></td>
+                    </tr>
+                    <tr height="20">
+                        <td colspan="3" class="sinborde botonera_central">
+                            <button class="btn btn-success" id="accionPlantilla">{{ "boton.aceptar" | trans }}</button>
+                            <button class="btn btn-danger" id="botonCancelar"
+                                    onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#accionPlantilla').click(function (e) {
+                e.preventDefault();
+                msg = $("#form").serialize();
+                {% set crearUrl = url('direct_manager_edit_plantillas_acciones') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            window.opener.location.href = "{{ path('rm_comunicacion.comunicacion.editar_plantilla',{'idComunicacion': objComunicacion.getIdComunicacion()}) }}";
+                            window.close();
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

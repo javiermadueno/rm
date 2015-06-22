@@ -1,0 +1,35 @@
+rm_insight_true_homepage:
+    path:     /index
+    defaults: { _controller: InsightTrueBundle:Default:index, idOpcionMenuSup 4, idOpcionMenuIzq 1 }
+
+rm_insight_true_performance:
+    path:     /performance
+    defaults: { _controller: InsightTrueBundle:Default:performance, idOpcionMenuSup 4, idOpcionMenuIzq 2 }
+
+rm_insight_true_evolution:
+    path:     /evolution
+    defaults: { _controller: InsightTrueBundle:Default:evolution, idOpcionMenuSup 4, idOpcionMenuIzq 3 }
+    
+rm_insight_true_cliente_activo:
+    path:     /index/activo
+    defaults: { _controller: InsightTrueBundle:Default:clienteActivo, idOpcionMenuSup 4, idOpcionMenuIzq 1}
+
+rm_insight_true_cliente_activo_detalle:
+    path:     /index/activo/detalle
+    defaults: { _controller: InsightTrueBundle:Default:clienteActivoDetalle, idOpcionMenuSup 4, idOpcionMenuIzq 1}
+    
+rm_insight_true_cliente_new:
+    path:     /index/new
+    defaults: { _controller: InsightTrueBundle:Default:clienteNew, idOpcionMenuSup 4, idOpcionMenuIzq 1}
+    
+rm_insight_true_categoria:
+    path:     /categoria
+    defaults: { _controller: InsightTrueBundle:Default:categorias, idOpcionMenuSup 4, idOpcionMenuIzq 4}
+
+rm_insight_true_campaign:
+    path:     /campaign
+    defaults: { _controller: InsightTrueBundle:Default:campaign, idOpcionMenuSup 4, idOpcionMenuIzq 5}
+       
+rm_insight_true_proveedores:
+    path:     /proveedores
+    defaults: { _controller: InsightTrueBundle:Default:proveedores, idOpcionMenuSup 4, idOpcionMenuIzq 6}

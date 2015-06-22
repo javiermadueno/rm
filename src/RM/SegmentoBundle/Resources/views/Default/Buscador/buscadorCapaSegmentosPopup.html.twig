@@ -1,0 +1,134 @@
+<h4 class="widgettitle">{{ "segmentos" |trans|title}}</h4>
+<div class="mediamgr_head">
+    <form id="formSegmentos" class="form-inline" action="{{ path('direct_search_segmentos')}}" method="post">
+        <input type="hidden" id="fecha_busqueda" name="fecha_busqueda" value="{{ fecha_busqueda|date('Y-m-d') }}"/>
+
+        <label class="" for="tipoSegmento">{{ "tipo" | trans|title }}</label>
+        <select id="tipoSegmento" name="tipoSegmento" class="tam9 izq">
+            <option value="2">{{ "menu.data.compra_productos" |trans|title}}</option>
+            <option value="3">{{ "menu.data.habitos_compra" |trans|title}}</option>
+            <option value="4" selected> {{ "menu.data.sociodemografico" |trans|title}}</option>
+            <option value="5">{{ "menu.data.ciclo_vida" |trans|title}}</option>
+            <option value="6">{{ "menu.data.otros" |trans|title}}</option>
+        </select>
+        <label class="" for="variable">{{ "Variable" | trans }}</label>
+        <select id="variable" name="variable" style="width: 300px"></select>
+
+        <button class="btn btn-primary" name="botonBuscarSegmentos" id="botonBuscarSegmentos">{{ "boton.buscar" | trans }}</button>
+
+    </form>
+    <br/><br/>
+    <table id="tablaSegmentos"  class="table table-bordered">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>{{ "" | trans }}</th>
+            <th>{{ "segmento" | trans|title }}</th>
+            <th>{{ "categoria" | trans|title }}</th>
+            <th>{{ "marca" | trans|title }}</th>
+            <th>{{ "proveedor" | trans|title }}</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('#tipoSegmento').change(function(event){
+            var msg = $("#formSegmentos").serialize();
+            {% set crearUrl = url('direct_search_variables') %}
+            var myUrl = '{{crearUrl}}';
+            $.ajax({
+                type: "POST",
+                url: myUrl,
+                data: msg,
+                complete: function(objeto, exito){
+                    if(exito=="success"){
+                        var $select_variable = $('#variable');
+                        $select_variable.children().remove();
+
+                        var resultado = JSON.parse(objeto.responseText);
+
+                        $select_variable.append("<option value= -1>Seleccione</option>");
+                        for (var i=0; i<resultado.length; i++) {
+                            nombreVariable = resultado[i].nombre;
+                            idVariable = resultado[i].idVid || resultado[i].idVt || resultado[i].id;
+                            if(typeof idVariable === 'undefined') {
+                                idVariable = resultado[i].idVt;
+                            }
+                            $select_variable.append("<option value="+idVariable+">"+nombreVariable+"</option>");
+                        }
+
+                        $select_variable.focus();
+
+                    }
+                }
+            });
+        });
+
+        $('#botonBuscarSegmentos').click(function(event){
+            event.preventDefault();
+            tabla.ajax.reload();
+        });
+
+        var tabla = $('#tablaSegmentos').DataTable({
+            "pageLength": 4,
+            "responsive" : true,
+            "deferRender": true,
+            language: {
+                url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+            },
+            ajax: {
+                url: '{{ path('direct_search_segmentos') }}',
+                type: $('#formSegmentos').attr('method'),
+                data: function ( d ) {
+
+                    var data = $('#formSegmentos').serializeArray().reduce(function(obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+
+                    return $.extend({}, d, data);
+                },
+                dataSrc: function(json) {
+                    for ( var i=0, ien=json.length ; i<ien ; i++ ) {
+                        json[i]['link'] = '<button data-id=\''+ json[i].cClave +'\'class="btn btn-default" onclick=\'addConsola("'+ json[i].nombre +'", event);\'> <i class="icon-ok-sign"></i></button>';
+                    }
+
+                    return json;
+                }
+            },
+            columns: [
+                {data: 'link'},
+                {data: 'nombre'},
+                {
+                    data: 'categoria',
+                    "render": function ( data, type, full, meta ) {
+                        return data||'-';
+                    }
+                },
+                {
+                    data: 'marca',
+                    "render": function ( data, type, full, meta ) {
+                        return data||'-';
+                    }
+                },
+                {
+                    data: 'proveedor',
+                    "render": function ( data, type, full, meta ) {
+                        return data||'-';
+                    }
+                }
+            ]
+        });
+    });
+</script>

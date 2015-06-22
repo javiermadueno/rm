@@ -1,0 +1,36 @@
+gruposlotsmodelo:
+    path:     /
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:index" }
+
+gruposlotsmodelo_show:
+    path:     /{id}/show
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:show" }
+
+gruposlotsmodelo_new:
+    path:     /new
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:create" }
+
+gruposlotsmodelo_create:
+    path:     /create
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:create" }
+    requirements: { _method: post }
+
+gruposlotsmodelo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:edit" }
+
+gruposlotsmodelo_update:
+    path:     /{id}/update
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:edit" }
+    requirements: { _method: post|put }
+
+gruposlotsmodelo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:delete" }
+    requirements: { _method: post|delete }
+    prefix: /
+
+
+gruposlotsmodelo_borrar:
+    path: /borrar
+    defaults: { _controller: "RMPlantillaBundle:GrupoSlotsModelo:borrar" }

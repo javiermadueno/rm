@@ -1,0 +1,120 @@
+rm_app:
+    resource: "@RMAppBundle/Resources/config/routing.yml"
+    prefix:   /
+
+rm_mongo:
+    resource: "@RMMongoBundle/Controller/"
+    type:     annotation
+    prefix:   /mongo
+
+procesos:
+    resource: "@ProcesosBundle/Resources/config/routing.yml"
+    prefix:   /
+
+insight_true:
+    resource: "@InsightTrueBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/insightrue
+
+rm_insight:
+    resource: "@RMInsightBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/insight
+    defaults: 
+        idOpcionMenuSup: 4
+
+rm_static:
+    resource: "@RMStaticBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/
+
+rm_cliente:
+    resource: "@RMClienteBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/
+
+rm_comunicacion_campaign:
+    resource: "@RMComunicacionBundle/Resources/config/routing_campaign.yml"
+    prefix:    /{_locale}/campaign
+    defaults:
+        idOpcionMenuSup: 3
+
+rm_comunicacion:
+    resource: "@RMComunicacionBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/direct
+    defaults:
+        idOpcionMenuSup: 2
+
+rm_plantilla:
+    resource: "@RMPlantillaBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/direct
+    defaults:
+        idOpcionMenuSup: 2
+
+rm_plantilla_gruposlotsmodelo:
+    resource: "@RMPlantillaBundle/Resources/config/routing/gruposlotsmodelo.yml"
+    prefix:   /{_locale}/direct/config/templates/{idPlantilla}/gruposlots
+
+rm_plantilla_plantillamodelo:
+    resource: "@RMPlantillaBundle/Resources/config/routing/plantillamodelo.yml"
+    prefix:   /{_locale}/direct/config/templates
+
+RMPlantillaBundle_plantilla:
+    resource: "@RMPlantillaBundle/Resources/config/routing/plantilla.yml"
+    prefix:   /{_locale}/direct/manager/comunicacion/{idComunicacion}/plantilla
+
+RMPlantillaBundle_gruposlots:
+    resource: "@RMPlantillaBundle/Resources/config/routing/gruposlots.yml"
+    prefix:   /{_locale}/direct/manager/comunicacion/{idComunicacion}/plantilla/grupos
+        
+rm_producto:
+    resource: "@RMProductoBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/direct
+    defaults:
+        idOpcionMenuSup: 2
+        
+rm_segmento:
+    resource: "@RMSegmentoBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/data
+    defaults:
+        idOpcionMenuSup: 1
+
+rm_categoria:
+    resource: "@RMCategoriaBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/data
+    defaults:
+        idOpcionMenuSup: 1
+
+rm_variables_discretas:
+    resource: "@RMDiscretasBundle/Resources/config/routing.yml"
+    prefix:  /{_locale}/data
+    defaults:
+        idOpcionMenuSup: 1
+
+rm_variables_transformadas:
+    resource: "@RMTransformadasBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}/data
+    defaults:
+        idOpcionMenuSup: 1
+
+rm_variables_lineales:
+    resource: "@RMLinealesBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/data
+    defaults:
+        idOpcionMenuSup: 1
+    
+pagina_principal_homepage:
+    path: /
+    defaults: {_controller: FrameworkBundle:Redirect:redirect, _locale: es,  route: direct_homepage} #route: rm_variables_lineales_homepage
+    requirements:
+      _locale:  es|en
+
+imag_ldap:
+    resource: "@IMAGLdapBundle/Resources/config/routing.yml"  
+    
+login_path:
+    pattern:   /login
+    defaults:  { _controller: IMAGLdapBundle:Default:login }
+    
+logout_path:
+    pattern:  /logout
+    defaults: { _controller: RMStaticBundle:Default:logout}
+
+
+      

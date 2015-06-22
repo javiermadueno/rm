@@ -1,0 +1,211 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: parameters_local.yml }
+    - { resource: security.yml }
+    - { resource: "@RMClienteBundle/Resources/config/services.yml" }
+    - { resource: "@RMProductoBundle/Resources/config/services.yml" }
+    - { resource: "@RMPlantillaBundle/Resources/config/services.yml" }
+    - { resource: "@RMComunicacionBundle/Resources/config/services.yml" }
+    - { resource: "@RMCategoriaBundle/Resources/config/services.yml" }
+    - { resource: "@RMLinealesBundle/Resources/config/services.yml" }
+    - { resource: "@RMDiscretasBundle/Resources/config/services.yml" }
+    - { resource: "@RMMongoBundle/Resources/config/services.yml" }
+
+framework:
+    #esi: ~
+    translator: { fallback: es }
+    secret: "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+    http_method_override: true
+    serializer:
+      enabled: true
+
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        urlImgCentro: "%direccion_imagenes_centro%"
+        web_path:      %web_path%
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    #bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
+        #yui_css:
+        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host2%"
+                port:     "%database_port2%"
+                dbname:   "%database_name2%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            3:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8                
+
+            manati:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+
+            procesos:
+                driver:   "%database_procesos_driver%"
+                host:     "%database_procesos_host%"
+                port:     "%database_procesos_port%"
+                dbname:   "%database_procesos_name%"
+                user:     "%database_procesos_user%"
+                password: "%database_procesos_password%"
+                charset:  UTF8
+
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    RMCategoriaBundle: ~
+                    RMClienteBundle: ~
+                    RMComunicacionBundle: ~
+                    RMPlantillaBundle: ~
+                    RMProductoBundle: ~
+                    RMSegmentoBundle: ~
+                    RMStaticBundle: ~
+                    RMDiscretasBundle: ~
+                    RMIntDiscretasBundle: ~
+                    RMLinealesBundle: ~
+                    RMTransformadasBundle: ~
+                dql:
+                    string_functions:
+                        GROUP_CONCAT: RM\ComunicacionBundle\Doctrine\Mysql\GroupConcat
+            
+            3:
+                connection: 3
+                mappings:
+                    RMCategoriaBundle: ~
+                    RMClienteBundle: ~
+                    RMComunicacionBundle: ~
+                    RMPlantillaBundle: ~
+                    RMProductoBundle: ~
+                    RMSegmentoBundle: ~
+                    RMStaticBundle: ~
+                    RMDiscretasBundle: ~
+                    RMIntDiscretasBundle: ~
+                    RMLinealesBundle: ~
+                    RMTransformadasBundle: ~
+                dql:
+                    string_functions:
+                        GROUP_CONCAT: RM\ComunicacionBundle\Doctrine\Mysql\GroupConcat
+            manati:
+                connection: manati
+                mappings:
+                    RMCategoriaBundle: ~
+                    RMClienteBundle: ~
+                    RMComunicacionBundle: ~
+                    RMPlantillaBundle: ~
+                    RMProductoBundle: ~
+                    RMSegmentoBundle: ~
+                    RMStaticBundle: ~
+                    RMDiscretasBundle: ~
+                    RMIntDiscretasBundle: ~
+                    RMLinealesBundle: ~
+                    RMTransformadasBundle: ~
+
+            procesos:
+                connection: procesos
+                mappings:
+                    ProcesosBundle: ~
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  gmail
+    port:       465
+    encryption: ssl
+    auth_mode:  login
+    host:       smtp.gmail.com
+    username:   imsodelicioso@gmail.com
+    password:   deliciosoChorong0
+
+# knp_paginator Configuration    
+knp_paginator:
+    page_range: 5  # número de páginas que se muestran en el paginador
+
+    default_options:
+        # los siguientes tres par�metros permiten "traducir" el paginador
+        # puedes utilizar por ejemplo: 'pagina', 'ordenar' y 'direccion'
+        page_name:           page
+        sort_field_name:     sort
+        sort_direction_name: direction
+
+        # sólo incluir resultados diferentes (útil cuando haces consultas GROUP BY)
+        distinct: true
+
+    template:
+        # estas opciones configuran la plantilla utilizada para la paginaci�n
+        # y para los controles que premiten reordenar los resultados
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+        sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: mongodb://192.168.100.102:27017
+            options: {}
+    default_database: 3
+    document_managers:
+        default:
+            connection: default
+            mappings:
+              RMMongoBundle: ~
+
+rm_mongo:
+  default_connection: default
+  connections:
+    default:
+      host: 192.168.100.102
+      port: 27017
+      database: 3
+
+    3:
+      host: 192.168.100.102
+      port:
+      database: 3

@@ -1,0 +1,91 @@
+{% extends '::data/base_data.html.twig' %}
+
+{% block title %}
+    {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+        {{ "menu.data.ciclo_vida" | trans|title }}
+    {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
+        {{ "menu.data.otros" | trans|title }}
+    {% endif %}
+
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><span class="iconfa-home"></span></a><span
+                class="separator"></span></li>
+    {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+        <li>{{ "menu.data.modo_basico" |trans | title }} <span class="separator"></span></li>
+        <li>{{ "menu.data.ciclo_vida"|trans|title }}</li>
+    {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
+        <li>{{ "menu.data.modo_avanzado" |trans | title }} <span class="separator"></span></li>
+        <li>{{ "menu.data.otros"|trans|title }}</li>
+    {% endif %}
+{% endblock %}
+{% block pagetitle %}
+    {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+        <h5>{{ "variables"|trans|upper }}</h5>
+        <h1> {{ "menu.data.ciclo_vida" | trans|title }}</h1>
+    {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
+        <h5>{{ "variables"|trans|upper }}</h5>
+        <h1> {{ "menu.data.otros" | trans|title }}</h1>
+    {% endif %}
+{% endblock %}
+
+{% block contenedorPrincipal %}
+    {{ include ('RMLinealesBundle:Default:bloqueBusquedaFormulario.html.twig') }}
+
+    <h4 class="widgettitle">{{ "variables" | trans | upper }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0" style="align: center; width: 50%">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>{{ "variable" | trans }}</th>
+            <th>{{ "descripcion" | trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if variables | length == 0 %}
+            <tr>
+                <td colspan="4">
+                    {{ "sin.resultados" | trans }}
+                </td>
+            </tr>
+        {% else %}
+            {% for variable in variables %}
+                <tr>
+                    <td>
+                        {% if variable.tipo.id == 5 %}
+                            <a href="{{ path("data_avanced_cv_editar", { 'id_vt': variable.idVt }) }}"
+                               style="cursor:pointer;">{{ variable.nombre }}</a>
+                        {% else %}
+                            <a href="{{ path("data_avanced_ot_editar", { 'id_vt': variable.idVt }) }}"
+                               style="cursor:pointer;">{{ variable.nombre }}</a>
+                        {% endif %}
+
+                    </td>
+                    <td>{{ variable.descripcion }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+    {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+
+    {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
+        <form id="form0" name="form0" method="get" action="{{ path('data_avanced_nueva_var_trans') }}">
+            <table width="200" cellspacing="0" border="0">
+                <td>
+                    <button class="btn btn-primary">{{ "boton.nuevo" | trans }}</button>
+                </td>
+            </table>
+        </form>
+    {% endif %}
+
+    <!---->
+
+{% endblock %}

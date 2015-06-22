@@ -1,0 +1,652 @@
+{% extends '::insight/base_insight.html.twig' %}
+{% set idOpcionMenuIzq = 3 %}
+{% set idOpcionMenuSup = 4 %}
+
+
+
+{% block title %}
+{{ "nuevos" |trans|title}}
+{% endblock %}
+
+
+{% block migas %}
+	<li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "nuevos" |trans|title}}</li>
+{% endblock %}
+
+{% block pagetitle %}
+  <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
+    <h1>{{ "nuevos" |trans|title}}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+
+    {{ parent() }}
+
+    {% block comparativa %}
+    <h4 class="widgettitle">{{ "nuevos" |trans|title}}</h4>
+    <div class="mediamgr_head">
+        <div class="row-fluid">
+            <div class="span4"><div id="graficoSexos"></div></div>
+            <div class="span8"><div id="graficoBarrasEdad" ></div></div>
+        </div>
+        <table class="table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td width="25%" class="graficoIzquierda" align="center">
+                    <div id="graficoCategoria"></div>
+                </td>
+                <td width="25%" class="graficoDerecha" align="center">
+                    <div id="graficoCategoria2"></div>
+                </td>
+                <td colspan="2" class="graficoIzquierda" align="center">
+                    <div id="graficoBarrasFranjaHoraria" ></div>
+                </td>
+
+            </tr>
+            <tr>
+                <td width="25%" class="graficoIzquierda" align="center">
+                    <div id="graficoPOS"></div>
+                </td>
+                <td width="25%" class="graficoDerecha" align="center">
+                    <div id="graficoPOS2"></div>
+                </td>
+                <td colspan="2" class="graficoDerecha" align="center">
+                    <div id="graficoBarrasDia"></div>
+                </td>
+            </tr>
+            <tr>
+                <td width="25%" class="graficoIzquierda" align="center">&nbsp;</td>
+                <td width="25%" class="graficoDerecha" align="center">
+                    <div id="graficoGama"></div>
+                </td>
+                <td width="25%" class="graficoDerecha" align="center">
+                    <div id="graficoGama2"></div>
+                </td>
+                <td width="25%" class="graficoIzquierda" align="center">&nbsp;</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    {% endblock comparativa %}
+{% endblock %}
+
+
+{% block javascripts %}
+	<script type="text/javascript">
+
+	/*$(function () {
+
+        var graficoBarrasEdad;
+
+	    graficoBarrasEdad =  new Highcharts.Chart({
+	        chart: {
+                renderTo: 'graficoBarrasEdad',
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Clientes Nuevos por Edades'
+	        },
+	        subtitle: {
+	            text: ''
+	        },
+	        xAxis: {
+	            categories: [
+                    'niños',
+                    'adolescentes',
+                    'jovenes',
+                    'jovenes adultos',
+                    'adultos',
+                    'maduros',
+                    'jubilados'
+	            ]
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: "{{'clientes.nuevos'|trans|title}}"
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        series: [{
+	        	name: '{{ fechaInicial }}',
+	        	data: [23, 12, 20, 21, 24, 28,35]
+	        }, {
+	            name: '{{ fechaFinal }}',
+	            data: [16, 12, 22, 24, 26, 31,34]
+	        }]
+	    });
+
+        $('#botonBuscar').on('click', function(event){
+            var e = event||window.event;
+            e.preventDefault();
+            requestDataEdades();
+        });
+
+        var requestDataEdades = function(){
+            graficoBarrasEdad.showLoading('Cargando..');
+            var $selector_desde = $('#fechaDesde option:selected').val();
+            var $selector_hasta = $('#fechaHasta option:selected').val();
+
+            $.ajax({
+                url: '',
+                cache:false,
+                data: {'mes1': $selector_desde, 'mes2': $selector_hasta},
+                success: function(data) {
+                    graficoBarrasEdad.hideLoading();
+                    graficoBarrasEdad.xAxis[0].setCategories(data.categorias);
+                    graficoBarrasEdad.series[0].setData(data.series[$selector_desde], false);
+                    graficoBarrasEdad.series[1].setData(data.series[$selector_hasta], false);
+                    graficoBarrasEdad.redraw();
+                }
+            });
+        }
+	});	*/
+
+    /*
+	$(function () {
+	    $('#graficoBarrasFranjaHoraria').highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Clientes Nuevos por Franja Horaria'
+	        },
+	        subtitle: {
+	            text: ''
+	        },
+	        xAxis: {
+	            categories: [
+	         				'8:00-9:00',
+	        				'9:00-10:00',
+	        				'10:00-11:00',
+	        				'11:00-12:00',
+	        				'12:00-13:00',
+	        				'13:00-14:00',
+	        				'14:00-15:00',
+	        				'15:00-16:00',
+	        				'16:00-17:00',
+	        				'17:00-18:00',
+	        				'18:00-19:00',
+	        				'19:00-20:00',
+	            ]
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: {% trans %}'Clientes nuevos'{% endtrans %}
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        
+	        series: [{
+	        	name: '{{ fechaInicial }}',
+	        	data: [16, 12, 22, 24, 26, 31, 34, 48, 46, 42,35]
+	        }, {
+	            name: '{{ fechaFinal }}',
+	            data: [26, 12, 20, 21, 24, 28, 35, 50, 46, 38, 34]
+	        }]
+	    });
+	});
+	*/
+
+    /*
+	$(function () {
+	    $('#graficoBarrasDia').highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Clientes Nuevos por dias'
+	        },
+	        subtitle: {
+	            text: ''
+	        },
+	        xAxis: {
+	            categories: [
+	         				'Lunes-Jueves',
+	        				'Viernes',
+	        				'Fin de semana',
+	            ]
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: {% trans %}'Clientes nuevos'{% endtrans %}
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	                '<td style="padding:0"><b>{point.y:percentage.1f}%</b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+
+	        series: [{
+	        	name: '{{ fechaInicial }}',
+	        	data: [50, 22, 28,]
+	        }, {
+	            name: '{{ fechaFinal }}',
+	            data: [47, 24, 29]
+	        }]
+	    });
+	});	*/
+
+    //Categorias
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoCategoria').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Categorias - '~ fechaInicial }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Categorias',
+	                data: [
+	                    ['Alimentacion Seca',   45],
+	                    ['Consumibles',       26],
+	                    ['Frescos',    8],
+	                    ['No alimentacion',     64],
+	                    ['Refrigerados',   70],
+	                    ['Servicios',    72],
+	                    ['Socio-Cliente',    34],
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoCategoria2').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Categorias - '~ fechaFinal }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Categorias',
+	                data: [
+	                    ['Alimentacion Seca',   34],
+	                    ['Consumibles',       37],
+	                    ['Frescos',    15],
+	                    ['No alimentacion',     73],
+	                    ['Refrigerados',   45],
+	                    ['Servicios',    12],
+	                    ['Socio-Cliente',    25],
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+
+
+    //Punto de venta
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoPOS').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Tipo Punto de Venta - '~fechaInicial }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Tipo Punto de Venta',
+	                data: [
+	                    ['Retailing',   830],
+	                    ['Supermercado',       1950],
+	                    ['Otros',    420]
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoPOS2').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Tipo Punto de Venta - '~ fechaFinal }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Tipo Punto de Venta',
+	                data: [
+	                    ['Retailing',   725],
+	                    ['Supermercado',       2412],
+	                    ['Otros',    514],
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+	
+	
+    //Gama
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoGama').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Gama - '~ fechaInicial }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Gama',
+	                data: [
+	                    ['Premium',   23],
+	                    ['Estandar',       78],
+	                    ['Basico',    124],
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+
+	$(function () {
+
+	    $(document).ready(function () {
+
+	        // Build the chart
+	        $('#graficoGama2').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: '{{'Clientes nuevos por Gama - '~ fechaFinal }}',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Gama',
+	                data: [
+	                    ['Premium',   25],
+	                    ['Estandar',       73],
+	                    ['Basico',    142],
+	                ]
+	            }]
+	        });
+	    });
+
+	});
+	
+    //Sexo
+    {#
+	$(function () {
+
+        $(document).ready(function () {
+
+            var graficoSexos;
+            var graficoSexos2;
+
+            graficoSexos = new Highcharts.Chart({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    renderTo: 'graficoSexos'
+                },
+                title: {
+                    text: 'Clientes nuevos por Sexo - Dic-2014'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Clientes nuevos por Sexo2',
+                    data: [
+                        ['Mujer', 68],
+                        ['Hombre', 32]
+                    ]
+                }]
+            });
+
+
+            // Build the chart
+            graficoSexos2 = new Highcharts.Chart({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    renderTo: 'graficoSexos2'
+                },
+                title: {
+                    text: 'Clientes nuevos por Sexo - Dic-2014'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Clientes nuevos por Sexo2',
+                    data: [
+                        ['Mujer', 68],
+                        ['Hombre', 32]
+                    ]
+                }]
+            });
+
+            var setData = function(grafico, data) {
+                grafico.hideLoading();
+                grafico.series[0].setData(data);
+                grafico.redraw();
+            }
+
+            var requestDataSexo = function() {
+                graficoSexos.showLoading('{{ 'cargando'|trans|title }}...');
+                graficoSexos2.showLoading('{{ 'cargando'|trans|title }}...');
+                var $selector_desde = $('#fechaDesde option:selected').val();
+                var $selector_hasta = $('#fechaHasta option:selected').val();
+
+                $.ajax({
+                    url: '{{ path('rm_insight.default.clientes_nuevos_sexo') }}',
+                    cache: false,
+                    data:{'mes1' : $selector_desde, 'mes2': $selector_hasta},
+                    success: function(data) {
+                        setData(graficoSexos, data[$selector_desde]);
+                        setData(graficoSexos2, data[$selector_hasta]);
+
+                    }
+                });
+            }
+
+            $('#botonBuscar').on('click', function(event) {
+                var e = event||window.event;
+                e.preventDefault();
+
+                requestDataSexo();
+            });
+
+            requestDataSexo();
+        });
+    });
+        #}
+
+	</script>
+    <script>
+        $(document).ready(function(){
+            {{ chart(grafiaSexo1) }}
+            {{ chart(graficoEdades) }}
+            {{ chart(graficoHoras) }}
+            {{ chart(graficoDias) }}
+
+        });
+    </script>
+{% endblock %}

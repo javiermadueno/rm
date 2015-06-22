@@ -1,0 +1,100 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% block title %}
+	{{ parent() }} - {{ "creatividades" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+	{{ parent() }}
+    <li>{{ "creatividades" | trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+	
+	<form id="form" name="form">
+		<input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
+
+        <div class="mediamgr_left">
+            <div class="mediamgr_head">
+                <ul class="mediamgr_menu">
+                    <li>
+                        <label for="nombre">{{ "Nombre" | trans }}</label>
+                        <input type="text" name="nombre" id="nombre" class="tam4" value="{{ nombre }}" />
+                    </li>
+                    <li class="right newfilebtn">
+                        <button class="btn btn-primary actualizarTabla">{{ "boton.buscar" | trans }}</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-success" onclick="return nuevoRegistro();">{{ "boton.nuevo" | trans }}</button>
+                        <button id="updateTabla" style="display: none;"></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+	
+		<div id="tablaListado">{{ include('RMComunicacionBundle:Creatividad:listadoCreatividad.html.twig') }}</div>
+	</form>
+	
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+	
+		function nuevoRegistro() {
+			var largo = 550;
+			var altura = 550;
+			var top = (screen.height-altura)/2;
+			var izquierda = (screen.width-largo)/2;
+			{% set nombreVentana = "Crear Creatividad" %}
+			camino = "{{ path('direct_config_ficha_creatividad_crear')}}";
+			var myUrl = camino;
+			var nomVentana = '{{ nombreVentana }}';
+			window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+			return false;
+		}
+
+		$(document).ready(function(){
+			$('#checkTodos').live("change", function() {
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
+
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
+
+			$('.actualizarTabla').click(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				actualizarRegistros();
+			});
+
+			$('#updateTabla').click(function(event){
+				actualizarRegistros();
+				event.preventDefault();
+			});
+
+			$('.actTabla').change(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				actualizarRegistros();
+			});
+
+			function actualizarRegistros() {
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_config_listado_creatividad_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			}
+		});
+	</script>
+{% endblock %}

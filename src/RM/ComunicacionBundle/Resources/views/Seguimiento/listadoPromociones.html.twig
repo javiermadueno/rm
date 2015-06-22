@@ -1,0 +1,40 @@
+
+    <table id="promociones" class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <th>{{ "comunicacion" | trans }}</th>
+        <th>{{ "promocion" | trans }}</th>
+        <th>{{ "marca" | trans }}</th>
+        <th>{{ "producto"| trans  }}</th>
+        <th>{{ "fecha" | trans  }}</th>
+        <th>{{ "simulado" | trans  }}</th>
+        </thead>
+        <tbody>
+        {% for promocion in promociones %}
+            <tr>
+                <td>{{ promocion['nombreComunicacion'] }}</td>
+                <td>{{ promocion['tipoPromocion'] }}</td>
+                <td>{{ promocion['nombreMarca'] }}</td>
+                <td>{{ promocion['nombreProducto'] }}</td>
+                <td>{{ promocion['fecha'] | date("d/m/Y") }}</td>
+                <td>{{ promocion['simulado']  }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td class="botonera_central" colspan="6">
+                    {{ "sin.resultados" | trans }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="botonera_central">
+        {{ knp_pagination_render(promociones) }}
+    </div>

@@ -1,0 +1,66 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% set opcionMenuTabConfig = 2 %}
+
+{% block title %}
+    {{ "Configuración - Nueva Plantilla" | trans }}
+{% endblock %}
+
+{% block migas %}
+    {{ parent() }}
+    <li>{{ "nueva.plantilla" |trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+
+    {# <form name="form" id="form" method="post" action="{{ path('direct_config_plantillas_new_guardar') }}">
+        <h4 class="widgettitle">{{ "nueva.plantilla" |trans|title}}</h4>
+        <div class="mediamgr_head">
+            <table class="table margin-center">
+                <tbody >
+                <tr height="20"><td colspan="3" class="sinborde"></td></tr>
+                <tr><td colspan="3" class="sinborde textoApartado">{{ "datos" | trans | upper }}</td></tr>
+                <tr height="10"><td colspan="3" class="sinborde"></td></tr>
+                <tr>
+                    <td width="40%" class="sinborde textoDerecha">{{ "canal" | trans }}</td>
+                    <td width="3%" class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="id_canal" name="id_canal" class="tam150">
+                            {% for objCanal in objCanales %}
+                                <option value="{{ objCanal.idCanal }}">{{ objCanal.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "nombre" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="nombre" id="nombre" class="tam150" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "descripcion" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="descripcion" id="descripcion" class="tam150" value="" />
+                    </td>
+                </tr>
+                <tr height="30"><td colspan="3" class="sinborde"></td></tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde botonera_central">
+                        <button  class="btn btn-success" type="submit">{{ "boton.aceptar" | trans }}</button>
+                        <button  class="btn btn-danger" onClick="location.href='{{ path('direct_config_plantillas') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+                    </td>
+                </tr>
+                <tr height="20"><td colspan="3" class="sinborde"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </form>#}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

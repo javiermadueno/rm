@@ -1,0 +1,140 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - {{ "recursos.graficos" | trans }}
+{% endblock %}
+
+
+{% block migas %}
+    {{ parent() }}
+    <li>{{ "recursos.graficos"|trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+
+<form id="form" name="form">
+	<input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
+
+    <ul class="mediamgr_menu">
+        <li>
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td width="300">
+                        <label for="id_marca">{{ "marca" | trans }}</label>
+                        <select id="id_marca" name="id_marca" class="actTabla">
+                            <option value="-1" selected>{{ "select.todas" | trans }}</option>
+                            {% for objMarca in objMarcas %}
+                                <option value="{{ objMarca.idMarca }}"
+                                        {% if objMarca.idMarca == id_marca%}
+                                selected
+                                        {% endif %}>
+                                    {{ objMarca.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td width="300">
+                        <label for="id_categoria">{{ "categoria" | trans|title }}</label>
+                        <select id="id_categoria" name="id_categoria" class="actTabla">
+                            <option value="-1" selected>
+                                {{ "select.todas" | trans }}
+                            </option>
+                            {% for objCategoria in objCategorias %}
+                                <option value="{{ objCategoria.idCategoria }}"
+                                        {% if objCategoria.idCategoria == id_categoria%}
+                                selected
+                                        {% endif %}>
+                                    {{ objCategoria.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td width="300">
+                        <label for="codigo">{{ "codigo" | trans }}</label>
+                        <input type="search" name="codigo" id="codigo" />
+                    </td>
+
+                    <td width="300">
+                        <label for="nombre">{{ "nombre" |trans|title}}</label>
+                        <input type="search" name="nombre" id="nombre" />
+                    </td>
+                </tr>
+            </table>
+        </li>
+        <li class="right newfilebtn">
+            {# 			<button class="tam4 der" id="botonEliminarProductos">{{ "Eliminar" |trans }}</button>#}
+            {# 			<button class="tam4 der" onclick="crearProducto();">{{ "Nuevo" | trans}}</button>#}
+            <button class="btn btn-primary actualizarTabla">{{ "boton.buscar" | trans }}</button>
+        </li>
+    </ul>
+    <br/>
+	<div id="tablaListado">{{ include('RMProductoBundle:Default:listadoProductos.html.twig') }}</div>
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+
+	function crearProducto(){			
+
+			var largo = 550;
+			var altura = 550;
+			var top = (screen.height-altura)/2;
+			var izquierda = (screen.width-largo)/2;
+			{% set nombreVentana = "Crear Producto" %}
+			camino = "{{ path('direct_config_ficha_productos_crear')}}";
+			var myUrl = camino;
+			var nomVentana = '{{ nombreVentana }}';
+			window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+	}
+
+	
+		$(document).ready(function(){
+			$('#checkTodos').live("change", function() {
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
+
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
+
+			$('.actualizarTabla').click(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				actualizarRegistros();
+			});
+
+			$('#updateTabla').click(function(event){
+				actualizarRegistros();
+				event.preventDefault();
+			});
+
+			$('.actTabla').change(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				actualizarRegistros();
+			});
+
+			function actualizarRegistros() {
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_config_listado_productos_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			}
+		});
+	</script>
+{% endblock %}

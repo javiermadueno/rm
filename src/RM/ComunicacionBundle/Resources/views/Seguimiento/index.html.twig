@@ -1,0 +1,339 @@
+{% extends ':campaign:base_campaign.html.twig' %}
+
+{% set idOpcionMenuIzq = 4 %}
+
+{% block title %}
+    {{ "menu.campaign.seguimiento" | trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+    <script src="{{ asset('js/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('js/DataTables/extensions/Responsive/js/dataTables.responsive.js') }}"></script>
+    <link rel="stylesheet"
+          href="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('js/DataTables/extensions/Responsive/css/dataTables.responsive.css') }}"/>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5></h5>
+    <h1>{{ "menu.campaign.seguimiento" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.seguimiento" |trans|title }}</li>
+{% endblock migas %}
+
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+    <form action="{{ path('campaign_seguimiento') }}" method="post">
+        <div class="mediamgr_left">
+            <div class="mediamgr_head">
+                <ul class="mediamgr_menu">
+                    <li>
+                        <label for="filtro[desde]">Desde: </label>
+                        <input id="desde" type="datetime" name="filtro[desde]" class="tam4 izq datepicker"/>
+                    </li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <label for="filtro[hasta]">Hasta: </label>
+                        <input id="hasta" type="datetime" name="filtro[hasta]" class="tam4 izq datepicker"/>
+
+                    </li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <label for="filtro[categoria]">Categoria: </label>
+                        <select name="filtro[categoria]" id="select_categorias" class="izq">
+                            <option value="-1">Todas</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.idCategoria }}">
+                                    {{ categoria.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <label for="filtro[marca]">Marca: </label>
+                        <select name="filtro[marca]" id="select_marcas" class="izq">
+                            <option value="-1">Todas</option>
+                            {% for marca in marcas %}
+                                <option value="{{ marca.idMarca }}">
+                                    {{ marca.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                    <li>&nbsp;</li>
+                    <li>
+                        <label for="filtro[producto]">Producto: </label>
+                        <select id="select_productos" name="filtro[producto]">
+                            <option value="-1">Seleccione una marca</option>
+                        </select>
+                    </li>
+                    <li class="right">
+                        <button class="btn btn-primary" type="submit" name="action"
+                                value="buscar">{{ "boton.buscar" |trans|title }}</button>
+                        <button class="btn btn-warning" type="reset">{{ "boton.limpiar" |trans|title }}</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+
+    <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+    <div id="graficos" class="mediamgr_head">
+        {% include('@RMComunicacion/Seguimiento/graficosSeguimiento.html.twig') %}
+    </div>
+    <h4 class="widgettitle">{{ "promociones" |trans|title }}</h4>
+    <div id="listadoPromociones" class="mediamgr_head">
+        {# {% include('@RMComunicacion/Seguimiento/listadoPromociones.html.twig') %}#}
+        <table id="promociones" class="table table-bordered responsive">
+            <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>{{ "comunicacion"|trans }}</th>
+                <th>{{ "promocion"|trans }}</th>
+                <th>{{ "marca" |trans }}</th>
+                <th>{{ "producto"|trans }}</th>
+                <th>{{ "fecha"|trans }}</th>
+                <th>{{ "simulado"|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datepicker").datepicker({dateFormat: "dd/mm/yy"});
+
+            $('#select_marcas').change(actualizaSelectProductos);
+
+            $('form').on('submit', function (event) {
+                event.preventDefault();
+                tabla.ajax.reload();
+            });
+
+            var tabla = $('#promociones').DataTable({
+                "responsive": true,
+                "deferRender": true,
+                language: {
+                    url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                },
+                ajax: {
+                    url: '{{ path('campaign_seguimiento') }}',
+                    data: function (d) {
+
+                        var $categorias = $('#select_categorias');
+                        var $marcas = $('#select_marcas');
+                        var $productos = $('#select_productos');
+                        var $desde = $('#desde');
+                        var $hasta = $('#hasta');
+
+                        return $.extend({}, d, {
+                            "filtro[categoria]": $categorias.val(),
+                            "filtro[marca]": $marcas.val(),
+                            "filtro[producto]": $productos.val(),
+                            "filtro[desde]": $desde.val(),
+                            "filtro[hasta]": $hasta.val()
+                        });
+                    }
+                },
+                columns: [
+                    {data: 'nombreComunicacion'},
+                    {data: 'tipoPromocion'},
+                    {data: 'nombreMarca'},
+                    {data: 'nombreProducto'},
+                    {
+                        data: 'fecha',
+                        "render": function (data, type, full, meta) {
+                            return new Date(data.date).toISOString().slice(0, 10) || '-';
+                        }
+                    },
+                    {data: 'simulado'}
+                ]
+            });
+
+            tabla.on('draw.dt', function(){
+              actualizaGraficas(tabla.rows( {page:'current'} ).data())
+            });
+
+            $('#graficoBarras').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Simulados'
+                },
+
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Número de simulados'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'Simulados'
+                }]
+            });
+
+            $('#graficoTarta').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Promociones Aceptdas/Rechazadas'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true,
+                        size: 180
+                    }
+                },
+                series: [{
+                    type: 'pie'
+                }]
+            });
+
+            function actualizaGraficas(data) {
+                var aceptadas = 0;
+                var rechazadas = 0;
+                var serieBarras = [];
+                data.each(function(elem) {
+                    serieBarras.push([elem.nombreProducto, elem.simulado]);
+
+                    if(elem.aceptada == 2) {
+                        aceptadas++;
+                    } else if(elem.aceptada == 3) {
+                        rechazadas++;
+                    }
+                });
+
+                var seriePie = [
+                    {
+                        name: 'Aceptadas',
+                        y: aceptadas
+                    },
+                    {
+                        name: 'Rechazadas',
+                        y: rechazadas
+                    }
+                ];
+
+                var barras =  $('#graficoBarras').highcharts();
+                var pie = $('#graficoTarta').highcharts();
+                barras.series[0].setVisible(false);
+                barras.series[0].setData(serieBarras, true, true);
+                pie.series[0].setVisible(false);
+                pie.series[0].setData(seriePie, true, true);
+
+                pie.series[0].setVisible(true, true);
+                barras.series[0].setVisible(true, true);
+            }
+
+            function actualizaSelectProductos() {
+                var marcaSeleccionada = $('#select_marcas').val();
+
+                if (!marcaSeleccionada || marcaSeleccionada == '-1') {
+                    return;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: '{{ path('campaign_productos_marca') }}',
+                    data: {id_marca: marcaSeleccionada},
+                    complete: function (objeto) {
+                        var productos = JSON.parse(objeto.responseText);
+
+                        var select = document.getElementById('select_productos');
+                        if (!select) return;
+
+                        select.length = 0;
+                        var optionGeneral = document.createElement('option');
+                        optionGeneral.value = -1;
+                        optionGeneral.text = 'Todos';
+                        select.add(optionGeneral);
+
+                        [].forEach.call(productos, function (producto) {
+                            var option = document.createElement('option');
+                            option.value = producto.id;
+                            option.text = producto.nombre;
+
+                            select.add(option);
+                        });
+
+                        var id_producto = document.getElementById('id_producto').value;
+
+                        if (id_producto) {
+                            [].forEach.call(select.options, function (option) {
+                                if (option.value == id_producto) {
+                                    option.selected = true;
+                                }
+                            });
+                        }
+
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            }
+
+            {#
+            $("#listadoPromociones").on("click", ".pagination li a", function () {
+                $("#listadoPromociones").html('<div class="botonera_central"><img src="{{ asset('img/loader.gif') }}" width="40px" /></div>');
+                $.get($(this).attr("href"), function (data) {
+                    $('#listadoPromociones').html(data);
+                });
+                return false;
+            });
+                #}
+
+        });
+
+
+
+
+
+
+
+    </script>
+
+{% endblock %}

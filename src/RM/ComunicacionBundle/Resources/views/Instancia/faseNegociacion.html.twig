@@ -1,0 +1,233 @@
+{% extends 'RMComunicacionBundle:Instancia:baseFasesInstancia.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+{% endblock %}
+
+
+{% block contenedorPrincipal %}
+    {{ parent() }}
+    {% if objGrupoSlots | length == 0 %}
+        <div class="alert alert-danger alert-dismissable center-all">
+            <h4>{{ "mensaje.error.no.gruposlot.configurado" | trans|capitalize }}</h4>
+        </div>
+    {% elseif objCategorias | length == 0 %}
+        <div class="alert alert-danger alert-dismissable center-all">
+            <h4>{{ "mensaje.error.no.categoria.asociada" | trans|capitalize }}</h4>
+        </div>
+    {% else %}
+        <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+        <div class="mediamgr_head">
+            <script type="text/javascript">
+                {{ chart(grafico_tarta) }}
+                {{ chart(grafico_barra) }}
+            </script>
+
+            <table class="table" border="0">
+                <tbody>
+                <tr>
+                    <td width="50%" class="" align="center">
+                        <div id="graficoTarta" style="height: 300px; margin: 0 auto" width="50%"></div>
+                    </td>
+                    <td width="50%" class="" align="center">
+                        <div id="graficoBarras" style="height: 300px; margin: 0 auto"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row-fluid">
+            <div class="span1 offset11">
+                <button class="btn btn-primary" onclick="throwPopUp(); return false;"
+                        id="botonAvisos">{{ "boton.avisos" |trans|title }}</button>
+            </div>
+        </div>
+
+        <form id="form" name="form" method="POST">
+            <h4 class="widgettitle">{{ "tabla.resumen.promociones" |trans|title }}</h4>
+            <table class="table table-bordered responsive">
+                <colgroup>
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="center-all">{{ "categoria" | trans }}</th>
+                    {% for objGS in objGrupoSlots %}
+                        <th colspan="2" class="center-all">{{ objGS.nombre }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% set listCatNeeded = "" %}
+                {% for objCat in objCategorias %}
+                    <tr>
+                        <td rowspan="2" class="center-all">{{ objCat.nombre }}</td>
+                        {% for objGS in objGrupoSlots %}
+                            <td class="center-all">{{ "segmentadas" |trans|title }}</th>
+                            <td class="center-all">{{ "genericas" |trans|title }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for objGS in objGrupoSlots %}
+                            {% if arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1] is defined %}
+                                {% if  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]
+                                or  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2] %}
+
+                                    {% set idsCatNeeded = objCat.idCategoria~"," %}
+                                    {% set listCatNeeded = listCatNeeded~idsCatNeeded %}
+
+                                {% endif %}
+                                <!-- Segmentadas -->
+                                <td class="center-all">
+                                    {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] }}
+                                    / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]|default(0) }}
+                                </td>
+                                <!-- Genericas -->
+                                <td class="center-all">
+                                    {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] }}
+                                    / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2]|default(0) }}
+                                </td>
+
+                            {% else %}
+                                <td class="center-all">-</td>
+                                <td class="center-all">-</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+
+            <h4 class="widgettitle">{{ "tabla.resumen.creatividades" |trans|title }}</h4>
+            <table class="table table-bordered responsive">
+                <colgroup>
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>{{ "grupo.slots" | trans }}</th>
+                    <th colspan="2">{{ "creatividades" | trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for creatividad in objGrupoSlotsCreatividades %}
+                    <tr>
+                        <td class="center-all" rowspan="2">{{ creatividad.nombre }}</td>
+                        <td class="center-all">{{ "segmentadas" |trans|title }}</td>
+                        <td class="center-all">{{ "genericas" |trans|title }}</td>
+                    </tr>
+                    <tr>
+
+                        {% if arrayInfoPromoCreatividad[creatividad.idGrupo] is defined %}
+                            {% set numSegmentadas = arrayInfoPromoCreatividad[creatividad.idGrupo] [1]|default(0) %}
+                            {% set numGenericas = arrayInfoPromoCreatividad[creatividad.idGrupo] [2]|default(0) %}
+                            {% set num_pro_segmentadas = arrayInfoPromoCreatividad[creatividad.idGrupo] [3]|default(0) %}
+                            {% set num_pro_genericas = arrayInfoPromoCreatividad[creatividad.idGrupo] [4]|default(0) %}
+                            <td class="center-all">
+                                {{ num_pro_segmentadas }} / {{ numSegmentadas }}
+
+                            </td>
+                            <td class="center-all">
+                                {{ num_pro_genericas }} / {{ numGenericas }}
+                            </td>
+                        {% else %}
+                            <td class="center-all"> -</td>
+                            <td class="center-all"> -</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <input type="hidden" id='listCatNeeded' name='listCatNeeded' value={{ listCatNeeded }}>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        function throwPopUp() {
+
+            var listCatNeeded = document.getElementById('listCatNeeded').value;
+
+            listCatNeeded = listCatNeeded.replace(/,\s*$/, "");
+
+            var lista = listCatNeeded.split(",");
+
+            lista = JSON.stringify(lista);
+
+            var url = "{{ path('direct_monitor_fases_avisos', {listaCatNeeded: '-111'}) }}";
+
+            url = url.replace("-111", encodeURIComponent(lista));
+
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Avisos" %}
+
+            var nomVentana = '{{ nombreVentana }}';
+            popup = window.open(url, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+
+            return false;
+        }
+
+        function verAvisos(resultado, contador) {
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Avisos" %}
+            camino = "{{ path('direct_monitor_show_avisos', {'objUsers':'111','contador':'222'}) }}";
+            camino = camino.replace('111', objUsers);
+            camino = camino.replace('222', contador);
+            var myUrl = camino;
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        jQuery(document).ready(function () {
+            jQuery(document).on('click', '#tramitar', function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+                var self = this;
+
+                var disable = self.dataset.disabled;
+
+                if (disable === 'disabled') {
+                    jQuery.alerts.dialogClass = 'alert-danger';
+                    jAlert('{{"mensaje.error.cambio.fase.simulacion" |trans }}', '{{ "cabecera.cambio.fase.instancia"|trans|title }}');
+                    return;
+                }
+
+
+                jQuery.alerts.dialogClass = 'alert-danger';
+                jConfirm("{{ 'mensaje.tramitar.simulacion'|trans }}", "{{ 'cabecera.cambio.fase.instancia'|trans|title }}", function (confirmacion) {
+                    if (confirmacion) {
+                        $('#formTramitar').submit();
+                    }
+
+                    return false;
+                })
+
+            })
+        });
+    </script>
+
+
+{% endblock %}

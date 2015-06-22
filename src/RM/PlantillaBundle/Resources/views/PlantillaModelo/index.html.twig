@@ -1,0 +1,139 @@
+{% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
+
+{% set opcionMenuTabConfig = 2 %}
+
+
+{% block title %}
+    {{ parent() }} - {{ "plantillas" | trans | title }}
+{% endblock %}
+
+{% block migas %}
+    {{ parent() }}
+    <li>{{ "plantillas" | trans | title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+
+    <form id="form" name="form">
+        <input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
+        <ul class="mediamgr_menu">
+            <li>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label for="id_canal">{{ "canal" | trans|title }}</label>
+                            <select id="id_canal" name="id_canal" class=" actualizarPlantillas">
+                                <option value="-1">{{ "select.todas" | trans }}</option>
+                                {% for objCanal in objCanales %}
+                                    <option value="{{ objCanal.idCanal }}">{{ objCanal.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </li>
+            <li class="right newfilebtn">
+
+                &nbsp;&nbsp;
+
+            </li>
+        </ul>
+        <br/>
+
+        <div id="tablaListado">
+            {{ include ('RMPlantillaBundle:PlantillaModelo:listaPlantillas.html.twig') }}
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td width="100"><a class="btn btn-success"
+                                   href='{{ path('rm_plantilla_plantilla_modelo_new') }}'>{{ "boton.nuevo" | trans }}</a>
+                </td>
+                <td width="100">
+                    <button class="btn btn-danger" id="botonEliminarPlantilla">{{ "boton.eliminar" | trans }}</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#checkTodos').on("change", function () {
+                if ($("#checkTodos").is(':checked')) {
+                    $('.selTodos').prop("checked", true);
+
+                } else {
+                    $('.selTodos').prop("checked", false);
+                }
+            });
+
+            $('#botonEliminarPlantilla').click(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                var existe = 0;
+                $(".selTodos:checked").each(function () {
+                    existe = 1;
+                    var cur_val = $('#elementosBorrar').val();
+                    if (cur_val)
+                        $('#elementosBorrar').val(cur_val + "," + this.value);
+                    else
+                        $('#elementosBorrar').val(this.value);
+                });
+
+                if (existe == 0) {
+                    alert("Debe de elegir al menos un registro");
+                }
+                else {
+                    if (confirm("¿Desea eliminar los registros seleccionados?")) {
+                        msg = $("#form").serialize();
+                        {% set crearUrl = url('rm_plantilla_plantilla_modelo_delete_plantillas', {'ids': -111}) %}
+                        var myUrl = '{{crearUrl}}'.replace('-111', $('#elementosBorrar').val());
+                        $.ajax({
+                            type: "POST",
+                            url: myUrl,
+                            data: msg,
+                            complete: function (objeto, exito) {
+                                if (exito == "success") {
+                                    $('#tablaListado').children().remove();
+                                    $('#tablaListado').append(objeto.responseText);
+                                }
+                            },
+                            error: function (objeto, quepaso, otroobj) {
+                            }
+                        });
+                    }
+                    else {
+                        $('#elementosBorrar').val("");
+                    }
+                }
+            });
+
+            $('.actualizarPlantillas').change(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                msg = $("#form").serialize();
+                {% set crearUrl = url('rm_plantilla_plantilla_modelo_updateindex') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

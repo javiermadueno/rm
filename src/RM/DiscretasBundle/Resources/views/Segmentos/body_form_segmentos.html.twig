@@ -1,0 +1,32 @@
+<table id="segmentos" class="table table-bordered responsive">
+    <colgroup>
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>{{ "segmento" |trans|title}}</th>
+        <th>{{ "condicion" |trans|title}}</th>
+        <th>{{ "percentil" |trans|title}}</th>
+        <th>{{ "controles" |trans|title}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for segmento in formSegmentos.segmentos %}
+        <tr>
+            <td>{{ form_widget(segmento.nombre) }}</td>
+            <td>{{ form_widget(segmento.condicion) }}</td>
+            <td>{{ form_widget(segmento.pivote) }}</td>
+            <td><button type="button" class="btn btn-danger eliminar">{{ "boton.eliminar" |trans|title}}</button></td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4" class="center-all">{{ "sin.resultados" |trans|title}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

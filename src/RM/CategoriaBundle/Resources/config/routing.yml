@@ -1,0 +1,18 @@
+data_avanced_nivelCategoria:
+  path: /avanced/category/nivel/{nivel}/
+  defaults: {_controller: RMCategoriaBundle:Default:obtenerFichaNiveles, idOpcionMenuIzq 10}
+  
+data_avanced_categorias:
+  path: /avanced/category/
+  defaults: {_controller: FrameworkBundle:Redirect:redirect, route: data_avanced_nivelCategoria, nivel:1}
+  
+data_avanced_save_cat_asoc:
+  path: /avanced/category/save_categories_asoc/
+  defaults: {_controller: RMCategoriaBundle:Default:guardarCategoriasAvanzadas}
+  methods: [POST]
+  
+data_basic_nivelCategoria:
+  path: /basic/category/
+  defaults: { _controller: RMCategoriaBundle:NivelesCategoria:index }
+
+

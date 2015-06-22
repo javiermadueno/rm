@@ -1,0 +1,106 @@
+{% extends '::data/base_data.html.twig' %}
+
+{% block title %}
+    {{ "menu.data.categorias_avanzado" | trans }}
+{% endblock %}
+
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><i class="iconfa-home"></i></a> <span
+                class="separator"></span></li>
+    <li>{{ "menu.data.modo_avanzado" | trans | title }} <span class="separator"></span></li>
+    <li>{{ "menu.data.categorias_avanzado"| trans }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "cabecera.categorias" |trans |capitalize }}</h5>
+    <h1>{{ "menu.data.categorias_avanzado" |trans | title }}</h1>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+    <div class="mediamgr_left"></div>
+    <div class="tabbable">
+        <ul class="nav nav-tabs buttons-icons">
+            {% for objNivel in selectNiveles %}
+                <li id="{{ objNivel.IdNivelCategoria }}"
+                    {% if objNivel.idNivelCategoria == nivel %}class="active"{% endif %}>
+                    <a href="{{ path('data_avanced_nivelCategoria', {'nivel': objNivel.IdNivelCategoria }) }}">{{ objNivel.nombre |lower|trans|upper }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content">
+            {# 		BOTONES CEGADOS PARA EVITAR ERRORES#}
+            <form id="form" name="form" method="post" action="{{ path("data_avanced_save_cat_asoc") }}">
+                <table class="table table-bordered responsive">
+                    <colgroup>
+                        <col class="con0" style="align: center; width: 4%">
+                        <col class="con1">
+                        <col class="con0">
+                        <col class="con1">
+                        <col class="con0">
+                        <col class="con1">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkTodos"/></th>
+                        <th>{{ "categoria" | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if selectCategorias | length == 0 %}
+                        <tr>
+                            <td colspan="2">
+                                {{ "sin.resultados" | trans }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for objCat in selectCategorias %}
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="categorias[{{ objCat.IdCategoria }}]" value="0"/>
+                                    <input class="selTodos" type="checkbox" name="categorias[{{ objCat.IdCategoria }}]"
+                                           value="1" {% if objCat.asociado == 1 %} checked="true" {% endif %}/>
+                                </td>
+                                <td>
+                                    {{ objCat.nombre }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+                <table width="200" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary" id="botonGuardarCat">{{ "boton.guardar" | trans }}</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="nivel" value="{{ nivel }}">
+
+                <div class="botonera_central">
+                    {{ knp_pagination_render(selectCategorias) }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#checkTodos').click(function () {
+                if ($("#checkTodos").is(':checked')) {
+                    $('.selTodos').prop("checked", true);
+
+                } else {
+                    $('.selTodos').prop("checked", false);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+		

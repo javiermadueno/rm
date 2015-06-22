@@ -1,0 +1,77 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+
+{% block title %}
+    {{ "menu.campaign.creatividades" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.creatividades" |trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "listado" |trans|upper }}</h5>
+    <h1>{{ "creatividades" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+    <h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>{{ "instancia" | trans }}</th>
+            <th>{{ "comunicacion" | trans }}</th>
+            <th>{{ "segmento" | trans }}</th>
+            <th>{{ "fecha.promociones" | trans }}</th>
+            <th>{{ "estado" | trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if objInstancias == null %}
+            <tr>
+                <td colspan="30">
+                    {{ "sin.resultados" | trans }}
+                </td>
+            </tr>
+        {% else %}
+            {% for objIns in objInstancias %}
+                <tr>
+                    <td>
+                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}"
+                           style="cursor:pointer;">#{{ "%07d"|format( objIns.idInstancia) }}</a>
+                    </td>
+
+                    <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
+                    <td>{{ objIns.idSegmentoComunicacion.idSegmento.nombre }}</td>
+                    <td>
+                        {% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}
+                    </td>
+                    <td> {% if  objIns.getFase.codigo == 'cfg' %}
+                            {{ "fase.configuracion" | trans }}
+                        {% elseif objIns.getFase.codigo == 'ngc' %}
+                            {{ "fase.campaña" | trans }}
+                        {% elseif objIns.getFase.codigo == 'sim' %}
+                            {{ "fase.simulacion" | trans }}
+                        {% elseif objIns.getFase.codigo == 'cie' %}
+                            {{ "fase.cierre" | trans }}
+                        {% elseif objIns.getFase.codigo == 'gen' %}
+                            {{ "fase.generacion" | trans }}
+                        {% elseif objIns.getFase.codigo == 'cnf' %}
+                            {{ "fase.confirmacion" | trans }}
+                        {% elseif objIns.getFase.codigo == 'fin' %}
+                            {{ "fase.finalizada" | trans }}
+                        {% endif %}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+{% endblock %}

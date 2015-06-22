@@ -1,0 +1,7 @@
+parameters:
+#    rm_static.example.class: RM\StaticBundle\Example
+
+services:
+#    rm_static.example:
+#        class: %rm_static.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

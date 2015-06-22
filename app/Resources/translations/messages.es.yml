@@ -1,0 +1,436 @@
+mensaje:
+  error:
+    general: Se ha producido un error.
+    guardar: No se ha podido guardar.
+    actualizar: No se ha podido actualizar.
+    eliminar: No se ha podido eliminar el registro.
+    importar: Se ha producido un error en la importación.
+    exportar: Se ha producido un error en la exportación.
+    subida: Se ha producido un error en la subida del fichero.
+    no.segmentos: No hay segmentos a los que enviar la comunicación
+    no.gruposlots: Seleccione uno o varios grupos de slots
+    no.gruposlot.configurado: No hay ningun Grupo de Slots configurado
+    no.categoria.asociada: No hay ninguna Categoria asociada al centro
+    no.instancia: No se ha encontrado la instancia de comunicacion
+    cambio.fase: No se ha podido tramitar la instancia a la siguiente fase
+    cambio.fase.simulacion: No se ha podido tramitar la instancia a la fase de Simulación. Quedan promociones genéricas sin definir.
+    cambio.fase.generacion.pendientes: No se ha podido tramitar la instancia a la fase de Generación. Quedan promociones pendientes.
+    cambio.fase.generacion.rechazadas: Se generaran las comunicaciones personalizadas para cada cliente sin las promociones rechazadas.
+    limite.numslots: Ha sobrepasado el limite de Números de Slots permitido
+    faltan.segmentos: No se puede Activar la comunicación. No hay ningun segmento definido
+    categorias.numero.promociones.defininido: Las siguientes categorías no han alcanzado el número de promociones definido
+    parar.segmentocomunicacion: No ha podido detenerse la comunicación del segmento.
+    reanudar.segmentocomunicacion: No se ha podido reanudar la comunicación del segmento.
+    eliminar.segmentocomunicacion: No se ha podido eliminar el segmento.
+  ok:
+    eliminar: Se ha eliminado el registro correctamente.
+    editar: La operación se ha realizado con exito.
+    crear: Se ha creado un nuevo registro.
+    importar: La operación de importación se ha realizado con exito.
+    exportar: Se ha exportado correctamente.
+    guardar: El formulario se ha guardado correctamente.
+    mensajes.enviados: Los mensajes han sido enviados correctamente
+    comunicacion.parada: Se ha parado la comunicación
+    comunicacion.reanudada: Se ha reanudado la comunicación
+    segmentocomunicacion.eliminado: Se ha eliminado correctamente el segmento.
+    segmentocomunicacion.reanudado: Se ha reanudado correctamente la comunicación del segmento.
+    segmentocomunicacion.parado: Se ha parado la comunicación del segmento.
+    cambio.fase: Se ha tramitado la instancia a la siguiente fase.
+  reanudar:
+    comunicacion: Va a reanudar la comunicación ¿Desea continuar?
+    segmento: Va a reanudar la comunicación destinada al segmento. ¿Desea continuar?
+  parar:
+    comunicacion: Va a detener la comunicación ¿Desea continuar?
+    segmento: Va a detener la comunicación destinada al segmento. ¿Desea continuar?
+  eliminar:
+    segmento: Va a eliminar el segmento. ¿Desea continuar?
+  tramitar:
+    simulacion: ¿Seguro que desea pasar a la fase de simulación?
+
+mensaje.alerta.validar.segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
+mensaje.alerta.asociar.categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+
+menu:
+  data:
+    nombre: Data
+    modo_basico: Modo Básico
+    modo_avanzado: Modo Avanzado
+    categorias: Categorías
+    categorias_avanzado: Categorías Avanzado
+    segmentos: Segmentos
+    configuracion: Configuración
+    ciclo_vida: Ciclo de vida
+    compra_productos: Compra de productos
+    habitos_compra: Hábitos de compra
+    sociodemografico: Sociodemográficos
+    otros: Otras Transformadas
+    procesamiento: Procesamiento
+    informacion: Información
+
+  direct:
+    nombre: Direct
+    instancia_comunicaciones: Instancia de Comunicaciones
+    monitor: Monitor comunicación
+    gestion: Gestión comunicación
+    configuracion: Configuración
+
+  campaign:
+    nombre: Campaign
+    campanas: Campañas
+    cierre: Cierre Negociaciones
+    creatividades: Creatividades
+    seguimiento: Seguimiento
+
+  insight:
+    nombre: Insight
+    clientes: Clientes
+    categorias: Categorías
+    campanas: Campañas
+    dashboard: Dashboard
+    rendimiento: Rendimiento
+    evolucion: Evolución
+    proveedores: Proveedores
+
+
+  usuario:
+    editar: Editar perfil
+    ajustes: Ajustes
+    cerrar: Cerrar sesión
+
+boton:
+  guardar: Guardar
+  eliminar: Eliminar
+  nuevo: Nuevo
+  buscar: Buscar
+  cancelar: Cancelar
+  aceptar: Aceptar
+  volver: Volver
+  copiar: Copiar
+  parar: Parar
+  reanudar: Reanudar
+  descargar: Descargar
+  importar: Importar
+  exportar: Exportar
+  previsualizar.plantilla: Previsualizar Plantilla
+  previsualizar: Previsualizar
+  subir: Subir
+  listado: Listado
+  avisos: Avisos
+  limpiar: Limpiar
+  seleccione.filtro: Seleccione filtro
+  actualizar: Actualizar
+  editar: Editar
+  eliminar: Eliminar
+  eliminar.plantilla: Eliminar Plantilla
+
+cabecera:
+  niveles.categorias: Niveles de categorías a considerar para segmentar
+  categorias: Categorías a considerar para segmentar
+  criterios: Criterios de elegibilidad de un consumidor para variables intermedias Compra de Prod. y Hab. Compra
+  criterios.eligibilidad: criterios de eligibilidad
+  segmentos: Segmentos
+  parametros: Parámetros de configuración
+  configuracion:
+    gamas: Configuración de Gamas
+    parametros.generales: Configuración de Parámetros Generales
+    franjas.horarias: Configuración de Franjas Horarias
+  criterios.busqueda: Criterios de búsqueda
+  segmento.periodicidad: Segmentos y Periodicidad
+  acciones.plantilla: Acciones de Plantilla
+  informacion.variable.sociodemografica: Información Variable Sociodemográfica
+  reanudar:
+    comunicacion: Reanudar Comunicación
+    segmento: Reanudar segmento
+  parar:
+    comunicacion: Detener Comunicación
+    segmento: Detener segmento
+  eliminar:
+    segmento: Eliminar Segmento
+  cambio.fase.instancia: Cambio de Fase de Instancia Comunicación
+
+# Módulo DATA
+nivel: Nivel
+niveles: Niveles
+sin.resultados: Sin resultados
+area: Área
+seccion: Sección
+categoria: Categoría
+segmento: Segmento
+segmentos: Segmentos
+subsegmento: Subsegmento
+estacionalidad: estacionalidad
+tiempo.referencia: Tiempo de referencia
+condicion: Condición
+condiciones: Condiciones
+percentil: Percentil
+parametro: Parámetro
+descripcion: Descripción
+valor: Valor
+configuracion: Configuración
+parametros.generales: Parámetros Generales
+numero.dias.novedad: Número de Días Novedad
+amplitud: amplitud
+recencia: recencia
+frecuencia: frecuencia
+
+frecuencia.diaria: Diaria
+frecuencia.semanal: Semanal
+frecuencia.quincenal: Quincenal
+frecuencia.mensual: Mensual
+frecuencia.trimestral: Trimestral
+frecuencia.cuatrimestral: Cuatrimestral
+frecuencia.semestral: Semestral
+frecuencia.anual: Anual
+gama: gama
+gasto: gasto
+numero.dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
+dias: Días
+franja.horaria: Franja Horaria
+desde: Desde
+hasta: Hasta
+proveedor: Proveedor
+personalizado: Personalizado
+
+variables: Variables
+variable: Variable
+
+nueva:
+  variable: Nueva Variable
+  plantilla: Nueva Plantilla
+  comunicacion: Nueva Comunicación
+
+nuevo:
+  segmento: Nuevo Segmento
+  grupo.slots: Nuevo Grupo Slots
+  recurso: Nuevo recurso
+
+tiempo:
+  referencia.n: Tiempo de referencia N
+  referencia.m: Tiempo de referencia M
+
+marca: Marca
+validar.segmentos: Validar Segmentos
+
+# Modulo DIRECT
+gestion.de: Gestión de
+monitor.de: Monitor de
+comunicaciones: Comunicaciones
+comunicacion: Comunicación
+
+comunicacion.estado:
+  activo: Activa
+  pausado: Pausada
+  configuracion: En configuración
+  inactivo: Inactiva
+  completada: completada
+
+select:
+  todas: Todas
+  seleccione: Seleccione
+  seleccione.imagen: Seleccione Imagen
+  seleccione.tipo: Seleccione Tipo
+
+estado: Estado
+estado.comunicacion: Estado de la comunicación
+fecha.entre: Fecha entre
+y: y
+tipo: Tipo
+criterio: Criterio
+
+fecha:
+  inicial: Fecha Inicial
+  final: Fecha Final
+  creacion: Fecha Creación
+  ejecucion: Fecha Ejecución
+  proxima.ejecucion: Fecha Próxima Ejecución
+  promociones: Fecha de Promociones
+
+filtro.busqueda: Filtro de búsqueda
+instancias: Instancias
+instancia: Instancia
+
+fase:
+  configuracion: Configuración
+  campaña: Campañas
+  cierre: Cierre Negociación
+  simulacion: Simulación
+  generacion: Generación
+  finalizada: Finalizada
+  confirmacion: Confirmación
+  cancelada: Cancelada
+
+activo: Activo
+desactivado: Desactivado
+en.proceso: En proceso
+canal: Canal
+controles: Controles
+recursos.graficos: Recursos Gráficos
+creatividades: Creatividades
+creatividad: Creatividad
+
+plantilla: Plantilla
+plantillas: Plantillas
+codigo: Código
+codigo.promocion: Código Promoción
+productos: Productos
+producto: Producto
+imagen: Imagen
+imagen.alto: Alto
+imagen.ancho: Ancho
+nombre: Nombre
+editar: Editar
+listado: Listado
+datos: Datos
+promocion: Promoción
+subir.plantilla.maquetada: Subir plantilla maquetada
+grupo.slots: Grupo Slots
+
+numero:
+  slots: Número de Slots
+  promociones:
+    segmentadas: Número de promociones segmentadas
+    genericas: Número de promociones genéricas
+  creatividades:
+    segmentadas: Número de creatividades segmentadas
+    genericas: Número de creatividades genéricas
+
+slot: slot
+slots: slots
+volver.a: Volver a
+tramitar.a: Tramitar a
+pendiente: pendiente
+aceptada: aceptada
+rechazada: Rechazada
+previsualizar: previsualizar
+segmentadas: segmentadas
+genericas: genéricas
+
+segmento.comunicacion: Segmentos Comunicación
+
+
+editar:
+  recurso: Editar recurso
+tamano:
+  imagenes: Tamaño Imágenes
+  imagen:
+    marca: Tamaño Imagen Marca
+    producto: Tamaño Imagen Producto
+    imagen: Tamaño Imágen
+    creatividad: Tamaño Imagen Creatividad
+  slots: Tamaño de Slot
+  slot:
+     creatividad: Tamaño Slot Creatividad
+     promocion: Tamaño Slot Promocion
+     slot: Tamaño Slot
+
+tabla:
+  resumen: Tabla resumen
+  resumen.creatividades: Tabla resumen de Creatividades
+  resumen.promociones: Tabla resumen de Promociones
+
+opciones:
+  email: Opciones de Email
+  batch: Opciones de Batch
+
+horas: Horas
+hora: Horas
+minuto: minuto
+minutos: minutos
+segundo: segundo
+segundos: Segundos
+dia: Día
+dias: Días
+mes: Mes
+meses: Meses
+Anyo: Año
+anyos: Años
+diaria: Diaria
+semanal: Semanal
+mensual: Mensual
+quincenal: Quincenal
+trimestral: Trimestral
+semestral: Semestral
+cuatrimestral: Cuatrimestral
+anual: Anual
+
+
+# Modulo CAMPAIGN
+campana: Campaña
+campanas: Campañas
+poblacion: Población
+minimo: Mínimo
+tipo:
+  promocion: Tipo Promoción
+tipo.clasificacion: Tipo de clasificación
+referencia: Referencia
+info: Info
+
+informacion:
+  avanzada: Información Avanzada
+
+simulado: Simulado
+
+# popups
+
+precio:
+  actual: Precio Actual
+
+volumen: Volumen
+telefono: Teléfono
+responsable: Responsable
+email: Email
+
+importar.plantilla: Importar Plantilla
+exportar.plantilla: Exportar Plantilla
+ficha.de: Ficha de
+manager:
+  category: Category Manager
+  workflow: Workflow Manager
+
+enviar.mensaje: Enviar Mensaje
+
+imp:
+  fijo: Imp. Fijo
+  distribuidor: Imp. distribuidor
+  consumidor: Imp. consumidor
+
+fidelizacion: Fidelización
+previsualizacion.comunicaciones: Previsualización de Comunicaciones
+consumidor: Consumidor
+consumidores: Consumidores
+visualizar: Visualizar
+comparativa: Comparativa
+porcentaje.ventas: Porcentaje de Ventas
+otros.datos: Otros Datos
+numero.miembros: Número  de  Miembros
+frecuencia.contribuciones: Frecuencia   Contribuciones
+ticket.medio: Ticket   Medio
+amplitud.categorias: Amplitud   Categorias
+atencion: Atención
+
+ventas.totales: Ventas Totales
+ventas.miembros: Ventas de Miembros
+ventas.no.miembros: Ventas de No Miembros
+contribucion.miembros: Contribucion de Miembros
+contribuciones.mensuales.vs.miembros: Contribuciones mensuales VS miembros
+
+
+Validacion_Segmentos: Validación de segmentos
+Maximo_dias_novedad: Máximo días novedad
+nivel_gama_segmentar: Nivel de gama a segmentar
+num_meses_segmentar: Número de meses a segmentar
+nivel_category_manager: Nivel de Category Manager
+
+mostrar.imagen.creatividad: Mostrar Imagen de la creatividad
+mostrar.texto.creatividad: Mostrar texto de la creatividad
+
+#Modulo INSIGHT
+numero.clientes: Número Clientes
+media.ventas: Media Ventas
+frecuencia.media: Frecuencia Media
+recencia.media: Recencia Media
+amplitud.media: Amplitud Media
+
+
+
+

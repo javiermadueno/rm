@@ -1,0 +1,224 @@
+{% extends 'RMComunicacionBundle:Instancia:baseFasesInstancia.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('js/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.js') }}"></script>
+    <link rel="stylesheet"
+          href="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.css') }}"/>
+
+{% endblock stylesheets %}
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ "previsualizacion.comunicaciones" |trans|title }}</li>
+{% endblock migas %}
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "datos" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <table>
+            <tbody>
+            <tr>
+                <td class="sinborde" width="5%"><b>{{ "instancia" | trans }}:</b></td>
+                <td class="sinborde" width="30%">#{{ "%07d" | format(objInstancia.getIdInstancia) }}</td>
+                <td class="sinborde" width="5%"><b>{{ "comunicacion" | trans }}</b>:</td>
+                <td class="sinborde"
+                    width="35%">{{ objInstancia.getIdSegmentocomunicacion.getIdComunicacion.getNombre }}</td>
+                <td class="sinborde" width="10%">{{ "volver.a" | trans }}</td>
+                <td class="sinborde textoDerecha">
+                    <button class="btn btn-primary"
+                            onClick="window.location.href='{{ path('direct_monitor') }}'; return false;">{{ "boton.listado" | trans|title }}</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="sinborde"><b>{{ "segmento" | trans }}:</b></td>
+                <td class="sinborde">{{ objInstancia.getIdSegmentocomunicacion.getIdSegmento.getNombre }}</td>
+                <td class="sinborde"><b>{{ "estado" | trans }}:</b></td>
+                <td class="sinborde">
+                    {% if  objInstancia.getFase.codigo == 'cfg' %}
+                        {{ "fase.configuracion" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'ngc' %}
+                        {{ "fase.campaña" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'sim' %}
+                        {{ "fase.simulacion" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'cie' %}
+                        {{ "fase.cierre" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'gen' %}
+                        {{ "fase.generacion" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'cnf' %}
+                        {{ "fase.confirmacion" | trans }}
+                    {% elseif objInstancia.getFase.codigo == 'fin' %}
+                        {{ "fase.finalizada" | trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="widgettitle">{{ "previsualizacion.comunicaciones" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <form id="formFiltro" name="formFiltro" method="post" action="">
+            <input type="hidden" id="id_instancia" name="id_instancia" value="{{ objInstancia.getIdInstancia }}">
+            <input type="hidden" id="row" name="row" value=0>
+            <table class="table margin-center">
+                <tbody>
+                <tr>
+                    <td class="sinborde" style="width: 30%;">
+                        <button class="btn btn-primary pull-right" id="botonFiltrar" name="botonFiltrar"
+                                onclick="buscarSegmentos('filtro', 'txtFiltro'); return false;">
+                            {{ "boton.seleccione.filtro" | trans }}</button>
+
+                    </td>
+                    <td class="sinborde" style="width: 70%;">
+                        <textarea class="input-xxlarge" rows="4" placeholder="Agregue un filtro" cols="100"
+                                  disabled="disabled" readonly="readonly" id="txtFiltro" wrap="soft">
+                        </textarea>
+                        <input type="hidden" id="filtro" value=""/>
+                    </td>
+                    <td class="sinborde">{% trans %} &nbsp; {% endtrans %}</td>
+                </tr>
+                <tr>
+                    <td class="sinborde" colspan="2" style="text-align: center;">
+                        <button class="btn btn-primary" id="botonBuscarConsumidores"
+                                name="botonBuscarConsumidores"
+                                onclick="custom_datatable.buscarConsumidores()">{{ "boton.buscar" |trans }}</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        {% include ('RMSegmentoBundle:Default/Buscador:formPopUpBuscadorSegmentos.html.twig') %}
+    </div>
+
+
+    <div style="position: relative">
+        <div id="processing"
+             style="display: none; position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);z-index: 1000">
+            <div class="loader"></div>
+        </div>
+        <table id="tablaClientes" class="table table-bordered responsive">
+            <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>{{ "nombre" |trans|title }}</th>
+                <th>{{ "apellidos" |trans|title }}</th>
+                <th>{{ "previsualizar" |trans|title }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        function verComunicacion(id_cliente) {
+
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Previsualización" %}
+            //var nombreFinal = nombre+" "+apellido;
+            camino = "{{ path('direct_datos_promo_consumidores', {'id_instancia': objInstancia.idInstancia, 'id_cliente':'111'}) }}";
+            camino = camino.replace('111', id_cliente);
+            var myUrl = camino;
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        function addCondicionSegmentoPadre(elem) {
+            if (typeof elem === 'undefined') {
+                return false;
+            }
+
+            var filtro = JSON.parse(elem.value);
+            var filtroCompleto = '{"$and": [__CONDICION__,{"ls": {"$in":[{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}]}}]}';
+
+            filtroCompleto = filtroCompleto.replace('__CONDICION__', filtro.parse);
+            filtro.filtroCompleto = filtroCompleto;
+
+            elem.value = JSON.stringify(filtro);
+        }
+
+        $(document).ready(function () {
+            $('#filtro').on('change', function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+                addCondicionSegmentoPadre(e.target);
+            });
+        });
+
+    </script>
+    <script>
+        var custom_datatable = (function () {
+
+            $('#tablaClientes').on('processing.dt', function (e, settings, processing) {
+                $('#processing').css('display', processing ? 'block' : 'none');
+            });
+
+            var tabla = $('#tablaClientes').DataTable({
+                "deferRender": true,
+                language: {
+                    url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                },
+                columns: [
+                    {data: 'nombre'},
+                    {data: 'apellidos'},
+                    {
+                        data: 'idCliente',
+                        "render": function (data, type, full, meta) {
+
+                            return '<button onclick="verComunicacion(' + data + ');" class="btn btn-primary"><i class="iconfa-eye-open"></i>  {{ 'previsualizar'|trans|title }}</button>'
+
+                        }
+                    }
+                ],
+                ajax: {
+                    url: '{{ path('direct_getting_consumers', {id_instancia: objInstancia.idInstancia}) }}',
+                    type: 'POST',
+                    "data": function (d) {
+                        return $.extend({}, d, {
+                            "filtro": $('#filtro').val() ? JSON.parse($('#filtro').val()).filtroCompleto : $('#filtro').val()
+                        });
+                    }
+                }
+
+            });
+
+
+            var buscarConsumirdores = function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+                tabla.ajax.reload();
+            }
+
+            return {
+                tabla: tabla,
+                buscarConsumidores: buscarConsumirdores
+            };
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>            
+            <trans-unit id="1">
+                <source>Salir</source>
+                <target>Exit</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Modo Básico</source>
+                <target>Simple Mode</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Categorías</source>
+                <target>Categories</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Segmentos</source>
+                <target>Segments</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Modo Avanzado</source>
+                <target>Avanced Mode</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Compra de productos</source>
+                <target>Buy products</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Hábitos de compra</source>
+                <target>Buying habits</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Sociodemográficos</source>
+                <target>Sociodemographic</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Ciclo de vida</source>
+                <target>Lifecycle</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Otras transformadas</source>
+                <target>Others</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Información</source>
+                <target>Information</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Cálculo</source>
+                <target>Calculation</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Módulo</source>
+                <target>Module</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Búsqueda</source>
+                <target>Searching</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Nombre</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Buscar</source>
+                <target>Search</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Variable</source>
+                <target>Var</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Unidad de tiempo</source>
+                <target>unit of time</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Descripción</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Comentario</source>
+                <target>Comment</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Nuevo</source>
+                <target>New</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Categoría</source>
+                <target>Category</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Volver</source>
+                <target>Return</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Desviación</source>
+                <target>Deviation</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Meses</source>
+                <target>Months</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Guardar</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Nuevo</source>
+                <target>New</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Copiar</source>
+                <target>Copy</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Eliminar</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Segmento</source>
+                <target>Segment</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Condición</source>
+                <target>Condition</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Percentil</source>
+                <target>Percentile</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Aceptar</source>
+                <target>Accept</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Cancelar</source>
+                <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Seleccione segmentos</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Seleccione variables</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Copiar segmentos a variables</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Los segmentos de las variables seleecionadas serán sobreescritos</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Grupo de condiciones</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Variable intermedia</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Factor</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Condición</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Pivote</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Niveles</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>Procesamiento</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>Información</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Tipo</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>Marca</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>Validar segmentos</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Procesar segmentos</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>Activar el procesamiento de segmentos desde el transaccional</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>Criterios de elegibilidad de un consumidor para variables intermedias: Compra de Prod. y Hab. Compra</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Campañas</source>
+                <target>Campaigns</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

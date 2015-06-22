@@ -1,0 +1,86 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+
+{% block title %}
+    {{ "menu.campaign.campanas" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"> <span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>
+
+    {% if closing != 0 %}
+        <li>{{ "menu.campaign.cierre" |trans|title }}</li>
+    {% else %}
+        <li>{{ "menu.campaign.campanas" | trans|title }}</li>
+    {% endif %}
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "listado" |trans|upper }}</h5>
+    {% if closing != 0 %}
+        <h1>{{ "menu.campaign.cierre" |trans|title }}</h1>
+    {% else %}
+        <h1>{{ "campanas" |trans|title }}</h1>
+    {% endif %}
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+
+    <form id="form" name="form" action="{{ 'campaign_ficha' }}" method="post">
+        <input type="hidden" name="id_instancia" id="id_instancia">
+        <input type="hidden" name='id_categoria_fijo' value={{ id_categoria }}>
+        <input type="hidden" name='closing' value={{ closing }}>
+
+        {% if closing == 0 %}
+            <h4 class="widgettitle">{{ "filtro.busqueda" |trans }}</h4>
+            <div class="mediamgr_head">
+                <ul class="mediamgr_menu">
+                    <li>
+                        <label for="id_categoria">{{ "Categoría" | trans }}</label>
+                        <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+                            {% if objCategorias|length >1 %}
+                                <option value="0" selected>{{ "Todos" | trans }}</option>
+                            {% endif %}
+                            {% for objCategoria in objCategorias %}
+                                <option value="{{ objCategoria.idCategoria }}"
+                                        {% if objCategoria.idCategoria == id_categoria %}selected{% endif %}>{{ objCategoria.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
+        <div id="tablaListado">
+            {{ include ('RMComunicacionBundle:Campaign:Negociaciones/tablaListadoCampanyas.html.twig') }}
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.actualizarTabla').change(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                msg = $("#form").serialize();
+                {% set crearUrl = url('campaign_campanyas_actualizar') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

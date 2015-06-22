@@ -1,0 +1,52 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% set opcionMenuTabConfig =  2%}
+
+{% set objComunicacion = comunicacion %}
+{% set id_comunicacion = comunicacion.idComunicacion %}
+{% set opcionMenuTabComunicacion = 3 %}
+{% set idOpcionMenuIzq = 1 %}
+
+{% block tabcontent %}
+    <div id="formularioGrupoSlot">
+        {%  include '@RMPlantilla/GrupoSlots/formularioGrupoSlotPromocion.html.twig' with {'form': edit_form} %}
+    </div>
+
+    {{ form_start(delete_form) }}
+    <table cellpadding="0" cellspacing="0" border="0" class="pull-right">
+        <tbody>
+        <tr>
+            <td width=""> {{ form_widget(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }} </td>
+        </tr>
+        </tbody>
+    </table>
+    {{ form_end(delete_form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('change','#rm_plantillabundle_gruposlots_tipo', function(){
+                var $form = $(this).closest('form');
+                var $tipo = $(this);
+                var data_from = $form.serializeArray().reduce(function(obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                delete data_from['rm_plantillabundle_gruposlots[_token]'];
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data_from,
+                    success: function(html){
+                        $('#formularioGrupoSlot').replaceWith($(html).find('#formularioGrupoSlot'));
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock javascripts %}

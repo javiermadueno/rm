@@ -1,0 +1,164 @@
+{% extends ':campaign:base_campaign.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block contenedorPrincipal %}
+    <div class="bloque_contenido">
+        <div class="cabecera_contenido">
+            <span>{{ "Constructor de expresiones de Segmentos" | trans | upper }}</span>
+        </div>
+        <div class="bloque_contenido">
+
+            <form id="formFiltro" name="formFiltro" method="post" action="{{ path('campaign_buscar_segentos' ) }}">
+                <input type="hidden" id="row" name="row" value="{{ row }}">
+                <input type="hidden" id="id_instancia" name="id_instancia" value="{{ id_instancia }}">
+
+                <div id="header" name="header" style="background-color: windowframe;">
+                    <div class="fakeTableHeader" style="width: 20%;">{% trans %}Condición No{% endtrans %}</div>
+                    <div class="fakeTableHeader" style="width: 60%;">{% trans %}Segmento{% endtrans %}</div>
+                    <div class="fakeTableHeader" style="width: 10%;">{% trans %}Buscar{% endtrans %}</div>
+                    <div class="fakeTableHeader" style="width: 10%;">{% trans %}Selección{% endtrans %}</div>
+                </div>
+                {{ include ('RMComunicacionBundle:Instancia:expresionSegmentos.html.twig') }}
+            </form>
+        </div>
+        <div class="linea_contenido">
+            <table>
+                <tbody>
+                <tr>
+                    <td class="sinborde textoDerecha">
+                        <button id="buttonSendFilter" name="buttonSendFilter" class="tam4"
+                                onclick="sendFilter();">{{ "Aceptar" | trans }}</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        function addExpresion(row, buttonToDisable) {
+            event.preventDefault();
+
+            var and = document.getElementById('selectionAnd_' + row);
+            var or = document.getElementById('selectionOr_' + row);
+            var segmento = document.getElementById('segmento_' + row);
+
+            if ((and.checked || or.checked) && (segmento.value != null && segmento.value != '')) {
+                msg = row;
+                {% set crearUrl = url('direct_add_expresion') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: "idRow=" + row,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+
+                            console.log(buttonToDisable);
+                            console.log(buttonToDisable.name);
+                            console.log(buttonToDisable.id);
+                            $('#formFiltro').append(objeto.responseText);
+
+                            var button = $('#' + buttonToDisable.name)[0];
+                            button.disabled = true;
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            } else {
+
+                alert("Seleccione alguna de la condiciones para agregar mas expresiones");
+
+            }
+        }
+        ;
+
+        function buscarSegmento() {
+
+            $('#formFiltro').submit();
+
+        }
+
+        function disableButton(button, row) {
+
+            console.log(button);
+            console.log(row);
+            var but = document.getElementById(button);
+            if (but.disabled == true) {
+                but.disabled = false
+            }
+            else {
+                but.disabled = true
+            }
+        }
+
+        function deleteExpresion(row) {
+
+            //Cogemos el formulario y a partir de �l, el div a eliminar
+            var formulario = document.getElementById('formFiltro');
+            var divExpresion = document.getElementById('expresionRow_' + row);
+
+            //N�mero real de divs en el formulario
+            var numDivReal = formulario.childElementCount - 3;
+
+            //Parseamos
+            var parseRow = parseInt(row);
+            var nextRow = parseRow + 4;
+            var pastRow = parseRow - 1;
+
+            //Bot�n Anterior al eliminado para habilitar su boton
+            var botonAnterior = document.getElementById('plusButton_' + pastRow);
+
+            if (formulario.children[nextRow] === undefined) {
+
+                botonAnterior.disabled = false;
+
+            }
+            else {
+
+                botonAnterior.disabled = true;
+            }
+            //Borramos del formulario la expresi�n seleccionada
+            formulario.removeChild(divExpresion)
+        }
+
+        function sendFilter() {
+
+            event.preventDefault();
+
+            var formulario = $('#formFiltro');
+            var formSerialized = formulario.serialize();
+
+            msg = row;
+            {% set crearUrl = url('direct_getting_filter') %}
+            var myUrl = '{{crearUrl}}';
+            $.ajax({
+                type: "POST",
+                url: myUrl,
+                data: formSerialized,
+                complete: function (objeto, exito) {
+                    if (exito == "success") {
+
+                        var valor = objeto.responseText;
+                        var ruta = " {{ path('campaign_previsualizar_filtro', {'id_instancia':'111'})}}";
+                        ruta = ruta.replace('111', {{ id_instancia }});
+                        window.location = ruta;
+                    }
+                },
+                error: function (objeto, quepaso, otroobj) {
+                }
+            });
+        }
+        ;
+    </script>
+{% endblock %}

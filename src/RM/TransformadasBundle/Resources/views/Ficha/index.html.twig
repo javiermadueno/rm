@@ -1,0 +1,464 @@
+{% extends 'RMTransformadasBundle:Default:index.html.twig' %}
+
+{% block title %}
+{{ objVariable.getNombre() }} - {{ "segmentos" | trans|capitalize }}
+{% endblock %}
+
+
+{% block migas %}
+    {{ parent() }}
+    <li> <span class="separator"></span></li>
+    <li>{{ objVariable.getNombre() }}</li>
+{% endblock %}
+
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "Segmentos" | trans|capitalize }}</h4>
+    <form id="form" name="form" method="post" action="{{ path('data_avanced_vt_editar_eliminarGuardarSegmentosAsoc') }}">
+        <input type="hidden" id="id_vt" name="id_vt" value="{{ objVariable.getIdVt() }}">
+        <input type="hidden" id="accionEjecutar" name="accionEjecutar" value="">
+
+        <input type="hidden" id="listaSegmentosAEliminar" name="listaSegmentosAEliminar" value="">
+        <input type="hidden" id="listaGruposAEliminar" name="listaGruposAEliminar" value="">
+        <input type="hidden" id="listaIntervalosAEliminar" name="listaIntervalosAEliminar" value="">
+
+            <table id="tablaSegmentosVT" class="table table-bordered responsive">
+                <colgroup>
+                    <col class="con0" style="align: center;">
+                    <col class="con1 center-all">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                    <col class="con1">
+                    <col class="con0">
+                </colgroup>
+                <thead>
+                    <th width="4%"><input type="checkbox" id="checkTodosVT" /></th>
+                    <th width="40%">{{ "Segmento" | trans }}</th>
+                    <th width="4%"></th>
+                    <th width="40%">{{ "Variable intermedia" | trans }}</th>
+                    <th width="3%">{{ "Factor" | trans }}</th>
+                    <th width="3%">{{ "Condición" | trans }}</th>
+                    <th width="3%">{{ "Pivote" | trans }}</th>
+                </thead>
+                <tbody id="capaContenidoSegmentos">
+                {% if objSegmentos == NULL %}
+                    <input type="hidden" id="nuevosSegmentos" name="nuevosSegmentos" value="0">
+
+                    <tr id="filaBorrar">
+                        <td colspan="7">
+                            {{ "sin.resultados" | trans }}
+                        </td>
+                    </tr>
+                {% else %}
+                    {% set numSeg = 0 %}
+                    {% for objSegmento in objSegmentos %}
+                        <tr>
+                        <td class="center-all" id="primeraColumnaSeg_{{ objSegmento.IdVtSegmento }}" rowspan='{{ arrayRowspan["s_" ~ objSegmento.IdVtSegmento] }}'>
+                            {% if otrasTransformadas %}
+                                <input class="elimSeg" type="checkbox" name="eliminarSeg" value="{{objSegmento.IdVtSegmento}}"/>
+                            {% endif %}
+
+                        </td>
+                        <td class="center-all" id="segundaColumnaSeg_{{ objSegmento.IdVtSegmento }}" rowspan='{{ arrayRowspan["s_" ~ objSegmento.IdVtSegmento] }}'>
+                            {% if otrasTransformadas %}
+                            <input type="text" name="seg_{{objSegmento.IdVtSegmento}}" style="width: 80%" value="{{objSegmento.nombre}}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% else %}
+                                {{ objSegmento.nombre }}
+                                <input type="hidden" name="seg_{{objSegmento.IdVtSegmento}}" style="width: 80%" value="{{objSegmento.nombre}}" />
+                            {% endif %}
+                        </td>
+                        {% for objGrupo in objGrupos if objGrupo.idVtSegmento.idVtSegmento == objSegmento.idVtSegmento%}
+                            {% set contGrupos = 1 %}
+                            {% if contGrupos > 1%}
+                                <tr>
+                                {% set contGrupos = contGrupos + 1 %}
+                            {% endif %}
+                            <td class="center-all" id="columnaGrupo_{{ objGrupo.IdGrupo }}" rowspan='{{ arrayRowspan["g_" ~ objGrupo.IdGrupo] }}'>
+                                <input class="elimGr" type="checkbox" name="eliminarGrupo" value="{{ objGrupo.IdGrupo }}"/><br><br/>
+                                <input type="button" class="btn btn-default eleccion" id="{{objSegmento.IdVtSegmento}}" value="OR" title="{{ 'Añade un nuevo grupo' |trans|raw }}">
+
+                            </td>
+                            {% set numIntervalos = 0 %}
+                            {% for objIntervalo in objIntervalos if objIntervalo.idGrupo.idGrupo == objGrupo.idGrupo %}
+                                {% set numIntervalos = numIntervalos +1 %}
+                            {% endfor %}
+
+                            {% set contador = 0 %}
+                            {% for objIntervalo in objIntervalos if objIntervalo.idGrupo.idGrupo == objGrupo.idGrupo%}
+                                {% set contInter = 1 %}
+                                {% if contInter > 1 %}
+                                    <tr>
+                                    {% set contInter = contInter + 1 %}
+                                {% endif %}
+                                <td class="vertical-center">
+
+                                        <input class="elimVar" type="checkbox" name="eliminarVar" value="{{ objIntervalo.IdIntervalo }}"/>&nbsp;&nbsp;&nbsp;
+                                        <select style="width: auto" id="var_{{ objIntervalo.IdIntervalo }}" name="var_{{ objIntervalo.IdIntervalo }}">
+                                            {% for objetoVL in objVL %}
+                                                <option value="{{ objetoVL.getIdVil() }}" {% if  objIntervalo.idVil.idVil == objetoVL.getIdVil()%} selected {% endif %}>
+                                                    {{ objetoVL.getNombre() }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+
+
+
+                                    {% if contador == numIntervalos - 1 %}
+                                            <input type="button" class="btn btn-default eleccion2 pull-right" id="{{objSegmento.IdVtSegmento}}_{{ objGrupo.IdGrupo }}" value="AND" title="{{ 'Añade un nuevo intervalo' |trans|raw }}" >
+
+                                    {% endif %}
+                                    {% set contador = contador + 1 %}
+                                </td>
+                                <td class="vertical-center">
+                                    <input type="text" name="factor_{{ objIntervalo.IdIntervalo }}" class="input-small soloNum" value="{{ objIntervalo.factor }}" />
+                                </td>
+                                <td class="vertical-center">
+                                    <select name="cond_{{ objIntervalo.IdIntervalo }}" class="input-small">
+                                        <option value="1" {% if  objIntervalo.condicion == 1%} selected {% endif %}>&lt;</option>
+                                        <option value="2" {% if  objIntervalo.condicion == 2%} selected {% endif %}>&lt;=</option>
+                                        <option value="3" {% if  objIntervalo.condicion == 3%} selected {% endif %}>=</option>
+                                        <option value="4" {% if  objIntervalo.condicion == 4%} selected {% endif %}>&gt;</option>
+                                        <option value="5" {% if  objIntervalo.condicion == 5%} selected {% endif %}>&gt;=</option>
+                                    </select>
+                                </td>
+                                <td class="vertical-center">
+                                    <input type="text" name="pivote_{{ objIntervalo.IdIntervalo }}" class="input-small soloNum obligatorio" required value="{{ objIntervalo.pivote }}" />
+                                </td>
+                                </tr>
+
+                            {% endfor %}
+                        {% endfor %}
+                        {% set numSeg = numSeg + 1 %}
+                    {% endfor %}
+                    <input type="hidden" id="nuevosSegmentos" name="nuevosSegmentos" value="{{ numSeg }}">
+                {% endif %}
+                </tbody>
+            </table>
+    </form>
+    <div class="row-fluid">
+        <form id="form0" name="form0" method="get"
+                {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+                    action="{{ path('data_avanced_cv') }}"
+                {% else %}
+                    action="{{ path('data_avanced_ot') }}"
+                {% endif %}
+                >
+            <div class="span6">
+                <table width="300" cellspacing="0" border="0">
+                    <td> <button class="btn btn-primary " id="botonGuardarVT">{{ "boton.guardar" | trans }}</button></td>
+                    <td><button class="btn btn-danger " id="botonEliminarVT">{{ "boton.eliminar" | trans }}</button></td>
+                    {% if otrasTransformadas %}
+                        <td><button class="btn btn-success " id="btonNuevoSegVT">{{ "boton.nuevo" | trans }}</button></td>
+
+                    {% endif %}
+
+                </table>
+            </div>
+            <div class="span6"><button class="btn btn-primary pull-right" id="botonVolverVT">{{ "boton.volver" | trans }}</button></div>
+        </form>
+    </div>
+    <!---->
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			habilitarSoloNumerosConDecimales();
+			
+			function getTableState(t) {
+			    var matrix = [];
+			    var lookup = {};
+			    var trs = t.getElementsByTagName('TR');
+			    var c;
+			    for (var i=0; trs[i]; i++) {
+			      lookup[i] = [];
+			        for (var j=0; c = trs[i].cells[j]; j++) {
+			                var rowIndex = c.parentNode.rowIndex;
+			                var rowSpan = c.rowSpan || 1;
+			                var colSpan = c.colSpan || 1;
+			                var firstAvailCol;
+
+			                // initalized the matrix in this row if needed.
+			                if(typeof(matrix[rowIndex])=="undefined") { matrix[rowIndex] = []; }
+
+			                // Find first available column in the first row
+			                for (var k=0; k<matrix[rowIndex].length+1; k++) {
+			                        if (typeof(matrix[rowIndex][k])=="undefined") {
+			                                firstAvailCol = k;
+			                                break;
+			                        }
+			                }
+			                lookup[rowIndex][c.cellIndex] = firstAvailCol;
+			                for (var k=rowIndex; k<rowIndex+rowSpan; k++) {
+			                        if(typeof(matrix[k])=="undefined") { matrix[k] = []; }
+			                        var matrixrow = matrix[k];
+			                        for (var l=firstAvailCol; l<firstAvailCol+colSpan; l++) {
+			                                matrixrow[l] = {cell: c, rowIndex: rowIndex};
+			                        }
+			                }
+			        }
+			    }
+
+			    // lets build a little object that has some useful funcitons for this table state.
+			    return {
+			      cellMatrix: matrix,
+			      lookupTable: lookup,
+
+			      // returns the "Real" column number from a passed in cell
+			      getRealColFromElement: function (cell)
+			      {
+			        var row = cell.parentNode.rowIndex;
+			        var col = cell.cellIndex;
+			        return this.lookupTable[row][col];              
+			      },
+			      // returns the "point" to insert at for a square in the perceived row/column
+			      getPointForRowAndColumn: function (row,col)
+			      {
+			        var matrixRow = this.cellMatrix[row];
+			        var ret = 0;
+			        // lets look at the matrix again - this time any row that shouldn't be in this row doesn't count.
+			        for (var i=0; i<col; i++)
+			        {
+			          if (matrixRow[i].rowIndex == row) ret++;
+			        }
+			        return ret;
+			      }
+			    };
+			}
+
+
+            $(document).on("click", ".eleccion" ,function(e) {
+			      var targ = $(e.target);
+			      var c = targ.closest('td').get(0);
+			      if (!c) return;
+			      var state = getTableState($(this).closest('table')[0]);
+			      var rowSpanGrupo = c.rowSpan || 1;
+			      
+			      // insert a new row
+			      var idSeg = $(this).attr("id")
+			      
+			      var rowSpan = $('#primeraColumnaSeg_'+idSeg)[0].rowSpan||1;
+			      rowSpan++;
+			      
+			      //$('#primeraColumnaSeg_'+idSeg)[0].rowSpan = rowSpan;
+			      //$('#segundaColumnaSeg_'+idSeg)[0].rowSpan = rowSpan; 
+			      	
+				  objetoThis = $(this);
+				  var camino = "{{ path('data_avanced_vt_parteFilaSegmento', {'idSeg':'-111'}) }}";
+				 camino = camino.replace('-111', idSeg);
+			      var msg = "";	
+					$.ajax({  
+					  type: "POST",  
+					  url: camino,
+					  data: msg,  
+					  complete: function(objeto, exito){
+						if(exito=="success"){
+							var contenido = objeto.responseText.toString();
+
+							// get the "bottom row" number from our clicked cell:
+						    var rowNum = $(c).closest('tr').get(0).rowIndex + (rowSpanGrupo-1);
+						    var column = state.getRealColFromElement(c);
+						    // push all rowspans on the clicked td and anything to the left
+						    //for (;column>=0; column--) {
+						      //var cell = state.cellMatrix[rowNum][column].cell;
+						      //cell.rowSpan = (cell.rowSpan||0)+1; 
+						    //}
+						    
+							objetoThis.closest('table').find('tr').eq(rowNum).after(contenido);
+							$('#primeraColumnaSeg_'+idSeg)[0].rowSpan = rowSpan;
+						    $('#segundaColumnaSeg_'+idSeg)[0].rowSpan = rowSpan; 
+							habilitarSoloNumerosConDecimales();	               
+			            }
+			          },
+					  error: function(objeto, quepaso, otroobj){	
+			          }
+					});
+			   });
+
+            $(document).on("click", ".eleccion2", function(e) {
+			      var targ = $(e.target);
+			      var c = targ.closest('td').get(0);
+			      if (!c) return;
+			      var state = getTableState($(this).closest('table')[0]);
+			      var rowSpan = c.rowSpan || 1;
+			      var contExt = rowSpan + 1;
+			      // insert a new row
+			      var idSegGrComb = $(this).attr("id"); 	 //Es una combinaci�n del idSegmento_idGrupo
+				  var arrayIds = idSegGrComb.split("_");
+			      var idGrupo = arrayIds[1];
+			      var idSeg = arrayIds[0];
+
+			      var rowSpanSegmento = $('#primeraColumnaSeg_'+idSeg)[0].rowSpan || 1;
+			      var rowSpanGrupo= $('#columnaGrupo_'+idGrupo)[0].rowSpan || 1;
+
+			      rowSpanSegmento++;
+			      rowSpanGrupo++;
+			      
+				  objetoThis = $(this);
+				  var camino = "{{ path('data_avanced_vt_parteFilaGrupoCond', {'idGrupo':'-111'}) }}";
+				 camino = camino.replace('-111', idGrupo);
+			      var msg = "";	
+					$.ajax({  
+					  type: "POST",  
+					  url: camino,
+					  data: msg,  
+					  complete: function(objeto, exito){
+						if(exito=="success"){
+							var contenido = objeto.responseText;
+							  
+						      // get the "bottom row" number from our clicked cell:
+						      var rowNum = $(c).closest('tr').get(0).rowIndex + (rowSpan - 1);
+						      var column = state.getRealColFromElement(c);
+						      // push all rowspans on the clicked td and anything to the left
+						      //for (;column>=0; column--) {
+						        //var cell = state.cellMatrix[rowNum][column].cell;
+						        //cell.rowSpan = (cell.rowSpan||0)+1; 
+						      //}
+						      
+							objetoThis.closest('table').find('tr').eq(rowNum).after(contenido);
+							$('#primeraColumnaSeg_'+idSeg)[0].rowSpan = rowSpanSegmento;
+						    $('#segundaColumnaSeg_'+idSeg)[0].rowSpan = rowSpanSegmento;
+						    $('#columnaGrupo_'+idGrupo)[0].rowSpan = rowSpanGrupo;
+						    targ[0].parentNode.removeChild(targ[0]);
+							habilitarSoloNumerosConDecimales();	               
+			            }
+			          },
+					  error: function(objeto, quepaso, otroobj){	
+			          }
+					});
+			   });
+
+
+            $(document).on("click", "#btonNuevoSegVT", function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+
+				var contGr = Number($('#nuevosGrupos').val()) + 1;
+				$('#nuevosGrupos').val(contGr);
+
+				var cont = Number($('#nuevosSegmentos').val()) + 1;
+				$('#nuevosSegmentos').val(cont);
+				var camino = "{{ path('data_avanced_vt_nuevaFilaSegmento', {'idNuevoSeg':'-111', 'id_vt':'-222'}) }}";
+				camino = camino.replace('-111', cont);
+				camino = camino.replace('-222', {{ objVariable.getIdVt() }});
+				var msg = "";	
+				$.ajax({  
+				  type: "POST",  
+				  url: camino,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						if($('#filaBorrar')){
+							$("#filaBorrar").remove();
+						}
+						$('#capaContenidoSegmentos').append(objeto.responseText);
+						habilitarSoloNumerosConDecimales();	               
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
+
+			$(document).on('click', '#botonGuardarVT',function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				if(compruebaCamposObligatorios())
+				{
+					$('#accionEjecutar').val("guardar");
+					$('#form').submit();
+				}
+				else
+				{
+					alert("Hay campos obligatorios sin rellenar");
+				}
+			});
+
+
+			function compruebaCamposObligatorios()
+			{
+				var obligatoriosCorrectos = true;
+				$.each($(".obligatorio"), function(indice, elemento){
+					
+					if(this.value == '0' || this.value == '')
+					{
+						obligatoriosCorrectos = false;
+						this.style.borderColor = "red";
+					}
+					else
+					{
+						this.style.borderColor = null;
+					}
+					
+				});
+				
+				return obligatoriosCorrectos;
+			}
+
+			$('#checkTodosVT').on('click',function(){
+				if ($("#checkTodosVT").is(':checked')) {
+					$('.elimSeg').prop("checked", true);
+
+		        } else {
+		        	$('.elimSeg').prop("checked", false);
+		        }
+			});
+
+			$('#botonVolver').on('click',function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				$('#form2').submit();
+			});
+
+			$('#botonEliminarVT').on('click', function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				var existe = 0;
+				$(".elimSeg:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#listaSegmentosAEliminar').val();
+					if(cur_val)
+					  $('#listaSegmentosAEliminar').val(cur_val + "," + this.value);
+					else
+					  $('#listaSegmentosAEliminar').val(this.value);
+				});
+
+				$(".elimGr:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#listaGruposAEliminar').val();
+					if(cur_val)
+					  $('#listaGruposAEliminar').val(cur_val + "," + this.value);
+					else
+					  $('#listaGruposAEliminar').val(this.value);
+				});
+
+				$(".elimVar:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#listaIntervalosAEliminar').val();
+					if(cur_val)
+					  $('#listaIntervalosAEliminar').val(cur_val + "," + this.value);
+					else
+					  $('#listaIntervalosAEliminar').val(this.value);
+				});
+
+				if(existe == 0){
+					alert("Debe de elegir al menos un registro");
+				}
+				else{
+					if(confirm("¿Desea eliminar los registros seleccionados?")){
+						$('#accionEjecutar').val("eliminar");
+						$('#form').submit();
+					}
+					else{
+						 $('#listaIntervalosAEliminar').val("");
+						 $('#listaGruposAEliminar').val("");
+						 $('#listaSegmentosAEliminar').val("");
+					}
+				}
+			});
+
+			
+		});
+	</script>
+{% endblock %}

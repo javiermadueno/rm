@@ -1,0 +1,102 @@
+
+{% extends '@RMProducto/Default/baseConfig.html.twig' %}
+
+{% set opcionMenuTabConfig =  2%}
+
+{% set tipo = {1: 'Tipo Promocion', 2: 'Tipo Creatividad' } %}
+
+{% block tabcontent %}
+<h4 class="widgettitle">{{ "datos" |trans }}</h4>
+<div class="mediamgr_head">
+    <table class="margin-center">
+        <tbody>
+        <tr>
+            <td class="sinborde" width="20%">{{ "nombre" | trans }}: </td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ entity.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "tipo" |trans|title}}</td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ tipo[entity.tipo] }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "numero.slots" | trans }}: </td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ entity.numSlots }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "tamano.slots" |trans|title}}</td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ entity.idTamanyoImgProducto.codigo }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4 class="widgettitle">{{ "caracteristicas" |trans|title }}</h4>
+<table class="table table-bordered responsive">
+    <tbody>
+    {% if entity.mImgProducto is defined %}
+        <tr>
+            <td  width="1%">{{ entity.mImgProducto }}</td>
+            <td  colspan="2">{{ "Mostrar imagen producto" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mPrecio is defined %}
+        <tr>
+            <td >{{ entity.mPrecio }}</td>
+            <td colspan="2">{{ "Mostrar precio producto" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mVolumen is defined %}
+        <tr>
+            <td >{{ entity.mVolumen }}</td>
+            <td  colspan="2">{{ "Mostrar volumen" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mCondiciones is defined %}
+        <tr>
+            <td>{{  entity.mCondiciones }}</td>
+            <td colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mImgMarca is defined %}
+        <tr>
+            <td>{{ entity.mImgMarca }}</td>
+            <td>{{ "Mostrar imagen marca" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mTexto is defined %}
+        <tr>
+            <td>{{ entity.mTexto }}</td>
+            <td  colspan="2">{{ "Mostrar texto libre" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mVoucher is defined %}
+        <tr>
+            <td>{{ entity.mVoucher }}</td>
+            <td  colspan="2">{{ "Mostrar voucher" | trans }}</td>
+        </tr>
+    {% endif %}
+
+    {% if entity.mFidelizacion is defined %}
+        <tr>
+            <td>{{ entity.mFidelizacion }}</td>
+            <td  colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+    <a class="btn btn-warning" href="{{ path('rm_plantilla_plantilla_modelo_edit', {'id': plantilla}) }}">{{ "boton.volver" |trans|title}}</a>
+
+{% endblock %}
+
+

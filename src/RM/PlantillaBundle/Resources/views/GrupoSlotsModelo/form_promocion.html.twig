@@ -1,0 +1,89 @@
+
+<h4 class="widgettitle">{{ "datos" |trans }}</h4>
+<div class="mediamgr_head">
+    <table class="margin-center">
+        <tbody>
+        <tr>
+            <td class="sinborde" width="20%">{{ "nombre" | trans }}: </td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ form_widget(form.nombre) }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "tipo" |trans|title}}</td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ form_widget(form.tipo) }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "numero.slots" | trans }}: </td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ form_widget(form.numSlots) }}</td>
+        </tr>
+        <tr>
+            <td class="sinborde">{{ "tamano.slots" |trans|title}}</td>
+            <td class="sinborde">&nbsp;</td>
+            <td class="sinborde">{{ form_widget(form.idTamanyoImgProducto) }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4 class="widgettitle">{{ "caracteristicas" |trans|title }}</h4>
+<table class="table table-bordered responsive">
+    <tbody>
+    {% if form.mImgProducto is defined %}
+    <tr>
+        <td  width="1%">{{ form_widget(form.mImgProducto) }}</td>
+        <td  colspan="2">{{ "Mostrar imagen producto" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mPrecio is defined %}
+    <tr>
+        <td >{{ form_widget(form.mPrecio) }}</td>
+        <td colspan="2">{{ "Mostrar precio producto" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mVolumen is defined %}
+    <tr>
+        <td >{{ form_widget(form.mVolumen) }}</td>
+        <td  colspan="2">{{ "Mostrar volumen" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mCondiciones is defined %}
+    <tr>
+        <td>{{ form_widget(form.mCondiciones) }}</td>
+        <td colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mImgMarca is defined %}
+    <tr>
+        <td>{{ form_widget(form.mImgMarca) }}</td>
+        <td>{{ "Mostrar imagen marca" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mTexto is defined %}
+    <tr>
+        <td>{{ form_widget(form.mTexto) }}</td>
+        <td  colspan="2">{{ "Mostrar texto libre" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mVoucher is defined %}
+    <tr>
+        <td>{{ form_widget(form.mVoucher) }}</td>
+        <td  colspan="2">{{ "Mostrar voucher" | trans }}</td>
+    </tr>
+    {% endif %}
+
+    {% if form.mFidelizacion is defined %}
+    <tr>
+        <td>{{ form_widget(form.mFidelizacion) }}</td>
+        <td  colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>

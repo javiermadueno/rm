@@ -1,0 +1,276 @@
+mensaje:
+  error:
+    general: Se ha producido un error.
+    guardar: No se ha podido guardar.
+    actualizar: No se ha podido actualizar.
+    eliminar: No se ha podido eliminar el registro.
+    importar: Se ha producido un error en la importación.
+    exportar: Se ha producido un error en la exportación.
+    subida: Se ha producido un error en la subida del fichero.
+    no.segmentos: No hay segmentos a los que enviar la comunicación
+    no.gruposlots: Seleccione uno o varios grupos de slots
+    no.gruposlot.configurado: No hay ningun Grupo de Slots configurado
+    no.categoria.asociada: No hay ninguna Categoria asociada al centro
+  ok:
+    eliminar: Se ha eliminado el registro correctamente.
+    editar: La operación se ha realizado con exito.
+    crear: Se ha creado un nuevo registro.
+    importar: La operación de importación se ha realizado con exito.
+    exportar: Se ha exportado correctamente.
+    guardar: El formulario se ha guardado correctamente.
+
+menu:
+  data:
+    nombre: Data
+    modo_basico: Simple Mode
+    modo_avanzado: Advanced Mode
+    categorias: Categories
+    categorias_avanzado: Advanced Categories
+    segmentos: Segments
+    configuracion: Configuration
+    ciclo_vida: Lifecycle
+    compra_productos: Buying Products
+    habitos_compra: Buying Habits
+    sociodemografico: Sociodemographics
+    otros: Other Transforms
+    procesamiento: Prosecution
+    informacion: Information
+
+  direct:
+    nombre: Direct
+    instancia_comunicaciones:  Communications Instance
+    monitor: Communication Monitor
+    gestion: communication management
+    configuracion: Setting
+
+  campaign:
+    nombre: Campaign
+    campanas: Campaigns
+    cierre: Closing Campaigns
+    creatividades: Creativities
+    seguimiento: Tracing
+
+  insight:
+    nombre: Insight
+    clientes: Clients
+    categorias: Categories
+    campanas: Campaigns
+    dashboard: Dashboard
+    rendimiento: Performance
+    evolucion: Evolution
+    proveedores: Providers
+
+
+  usuario:
+    editar: Edit Profile
+    ajustes: Settings
+    cerrar: Logout
+
+boton:
+  guardar: Save
+  eliminar: Delete
+  nuevo: New
+  buscar: Search
+  cancelar: Cancel
+  aceptar: Accept
+  volver: Back
+  copiar: Copy
+  parar: Stop
+  reanudar: Resume
+  descargar: Download
+  importar: Import
+  exportar: Export
+  previsualizar.plantilla: Preview Template
+  previsualizar: Preview
+  subir: Upload
+  listado: List
+  avisos: Notifications
+  limpiar: Clean
+
+cabecera:
+  categorias: categories levels to consider
+  criterios: Criterios de elegibilidad de un consumidor para variables intermedias Compra de Prod. y Hab. Compra
+  criterios.eligibilidad: Eligibility criteria
+  segmentos: Segments
+  parametros: Settings Parameters
+  configuracion:
+    gamas: Setting Ranges
+    parametros.generales: Setting General Parameters
+    franjas.horarias: Setting Time Bands
+  criterios.busqueda: Search criteria
+  segmento.periodicidad: Segments and Frequency
+  acciones.plantilla: Template Actions
+
+# Módulo DATA
+nivel: Level
+niveles: Levels
+sin.resultados: No result
+area: Area
+seccion: Section
+categoria: Category
+segmento: Segment
+segmentos: Segments
+subsegmento: Subsegment
+estacionalidad: seasonality
+tiempo.referencia: Reference Time
+condicion: Condition
+percentil: Percentile
+parametro: Parameter
+descripcion: Description
+valor: Value
+configuracion: Setting
+parametros.generales: General Parameter
+numero.dias.novedad: Days number novelty
+amplitud: amplitude
+recencia: recency
+frecuencia: frequency
+gama: range
+gasto: expenditure
+numero.dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
+dias: Days
+franja.horaria: Time Band
+desde: From
+hasta: To
+
+variables: Variables
+variable: Variable
+nueva.variable: New Variable
+
+tiempo:
+  referencia.n: Reference time N
+  referencia.m: Reference time M
+
+marca: Brand
+validar.segmentos: Segment Validation
+
+# Modulo DIRECT
+gestion.de: Gestión de
+monitor.de: Monitor de
+comunicaciones: Comunicaciones
+comunicacion: Comunicación
+select.todas: Todas
+estado: Estado
+fecha.entre: Fecha entre
+y: y
+tipo: Tipo
+
+fecha:
+  inicial: Fecha Inicial
+  final: Fecha Final
+  creacion: Fecha Creación
+  ejecucion: Fecha Ejecución
+  promociones: Fecha de Promociones
+
+filtro.busqueda: Filtro de búsqueda
+instancias: Instancias
+instancia: Instancia
+
+fase:
+  configuracion: Configuración
+  campaña: Campañas
+  cierre: Cierre Negociación
+  simulacion: Simulación
+  generacion: Generación
+  finalizada: Finalizada
+  confirmacion: Confirmación
+  cancelada: Cancelada
+
+activo: Activo
+desactivado: Desactivado
+en.proceso: En proceso
+canal: Canal
+controles: Controles
+recursos.graficos: Recursos Gráficos
+creatividades: Creatividades
+creatividad: Creatividad
+
+plantilla: Plantilla
+plantillas: Plantillas
+codigo: Código
+productos: Productos
+producto: Producto
+imagen: Imagen
+imagen.alto: Alto
+imagen.ancho: Ancho
+nombre: Nombre
+editar: Editar
+listado: Listado
+datos: Datos
+promocion: Promoción
+subir.plantilla.maquetada: Subir plantilla maquetada
+grupo.slots: Grupo Slots
+
+numero:
+  slots: Número de Slots
+  promociones:
+    segmentadas: Número de promociones segmentadas
+    genericas: Número de promociones genéricas
+
+slot: slot
+slots: slots
+volver.a: Volver a
+tramitar.a: Tramitar a
+pendiente: pendiente
+aceptada: aceptada
+rechazada: Rechazada
+previsualizar: previsualizar
+segmentadas: segmentadas
+genericas: genéricas
+
+segmento.comunicacion: Segmentos Comunicación
+nuevo:
+  segmento: Nuevo Segmento
+  grupo.slots: Nuevo Grupo Slots
+
+tamano:
+  imagenes: Tamaño Imágenes
+  imagen:
+    marca: Tamaño Imagen Marca
+    producto: Tamaño Imagen Producto
+    imagen: Tamaño Imágen
+  slots: Tamaño de Slot
+  slot:
+     creatividad: Tamaño Slot Creatividad
+     promocion: Tamaño Slot Promocion
+     slot: Tamaño Slot
+
+tabla:
+  resumen: Tabla resumen
+  resumen.creatividades: Tabla resumen de Creatividades
+  resumen.promociones: Tabla resumen de Promociones
+
+opciones:
+  email: Opciones de Email
+  batch: Opciones de Batch
+
+horas: Horas
+hora: Horas
+minuto: minuto
+minutos: minutos
+segundo: segundo
+segundos: Segundos
+dia: Día
+dias: Días
+mes: Mes
+meses: Meses
+Anyo: Año
+anyos: Años
+diaria: Diaria
+semanal: Semanal
+mensual: Mensual
+quincenal: Quincenal
+trimestral: Trimestral
+semestral: Semestral
+cuatrimestral: Cuatrimestral
+anual: Anual
+nuevo: Nuevo
+
+# Modulo CAMPAIGN
+campana: Campaña
+campanas: Campañas
+poblacion: Población
+minimo: Mínimo
+tipo.promocion: Tipo Promoción
+referencia: Referencia
+info: Info
+simulado: Simulado

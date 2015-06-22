@@ -1,0 +1,17 @@
+services:
+  mongoservice:
+    class: RM\RMMongoBundle\DependencyInjection\MongoService
+    arguments: [@security.context, %rm_mongo%]
+    abstract: true
+
+  rm.mongo.calcula_poblacion:
+    class: RM\RMMongoBundle\DependencyInjection\CalculaPoblacionService
+    parent: "mongoservice"
+
+  rm.mongo.estadisticas_clientes:
+    class: RM\RMMongoBundle\DependencyInjection\EstadisticasClientes
+    parent: "mongoservice"
+
+  rmmongo_manager_instancia_cliente:
+    class: RM\RMMongoBundle\DependencyInjection\ManagerInstanciaComunicacionCliente
+    arguments: [@doctrine, @doctrine.odm.mongodb.document_manager]

@@ -1,0 +1,11 @@
+rm_mongo:
+  default_connection: default
+  connections:
+    default:
+      host: 192.168.100.92
+      port: 27017
+
+    icca:
+      host: 192.168.100.92
+      port:
+      database: 1

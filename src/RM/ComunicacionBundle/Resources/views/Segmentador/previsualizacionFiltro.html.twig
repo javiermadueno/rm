@@ -1,0 +1,124 @@
+{% extends ':campaign:base_campaign.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block contenedorPrincipal %}
+    <div class="bloque_contenido">
+        <button onClick="window.location.href='{{ path('campaign_ficha', { 'id_instancia': instancia, 'id_categoria':0}) }}'">
+            Volver
+        </button>
+    </div>
+    <div class="bloque_contenido">
+        <div class="cabecera_contenido">
+            <span>{{ "Previsualizacion de comunicaciones" | trans | upper }}</span>
+        </div>
+        <form id="formFiltro" name="formFiltro" method="post" action="{{ path('campaign_show_segmentador' ) }}">
+            <div class="linea_contenido">
+                <input type="hidden" id="id_instancia" name="id_instancia" value="{{ id_instancia }}">
+                <input type="hidden" id="row" name="row" value=0>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="sinborde" style="width: 30%;">
+                            <button class="tam5 der" id="botonFiltrar" name="botonFiltrar">
+                                {{ "Seleccione Filtro" | trans }}</button>
+                        </td>
+                        <td class="sinborde" style="width: 70%;">
+                            <textarea rows="4" cols="100" disabled="disabled" readonly="readonly" wrap="soft">
+                                {% if filtro and filtro != "" %}{{ filtro | trim }}{% else %}Agregue un filtro{% endif %}
+                            </textarea>
+                        </td>
+                        <td class="sinborde">{% trans %} &nbsp; {% endtrans %}</td>
+                    </tr>
+                    <tr>
+                        <td class="sinborde" colspan="2" style="text-align: center;">
+                            <button class="tam5" id="botonBuscarConsumidores"
+                                    name="botonBuscarConsumidores"
+                                    onclick=" buscarConsumidores();return false;">{{ "Buscar" |
+                                trans }}</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <div id="tablaListado">
+            <input type="hidden" id="id_instancia" name="id_instancia" value="{{ id_instancia }}">
+            {{ include ('RMComunicacionBundle:Instancia:tablaListadoConsumidores.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.actualizarTabla').change(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                msg = $("#form").serialize();
+                camino = "{{ path('direct_actualizar_tabla_consumidores', {'id_instancia':'111'}) }}";
+                camino = camino.replace('111', {{ id_instancia }});
+
+                var myUrl = camino;
+
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+
+            $('#botonFiltrar').click(function (event) {
+                event.preventDefault();
+                $('#formFiltro').submit();
+            });
+        });
+
+        function buscarConsumidores() {
+            event.preventDefault();
+
+            msg = "{{ filtro }}";
+            {% set crearUrl = url('direct_getting_consumers') %}
+            var myUrl = '{{crearUrl}}';
+            $.ajax({
+                type: "POST",
+                url: myUrl,
+                data: "filtro=" + "{{ filtro }}",
+                complete: function (objeto, exito) {
+                    if (exito == "success") {
+                        var resultado = JSON.parse(objeto.responseText);
+                        console.log(resultado);
+
+                        $('#tablaConsumidores').children().remove();
+
+                        //HEADER
+                        var header = "<thead><tr><th>Consumidor</th><th>Visualizar</th></tr></thead>"
+                        $('#tablaConsumidores').append(header);
+
+
+                        var result = [];
+                        for (i = 0; i < resultado.length; i++) {
+
+                            var nombreCompleto = resultado[i].nombre + ' ' + resultado[i].apellidos;
+
+                            var row = "<tr><td>" + nombreCompleto + "</td><td><img class='info' onClick='verComunicacion(" + resultado[i].idCliente + ");' src='{{ asset('img/icon-lupa.png') }}'alt=Previsualizacion title=Previsualizacion/></td></tr>"
+                            $('#tablaConsumidores').append(row);
+                        }
+                    }
+                },
+                error: function (objeto, quepaso, otroobj) {
+                }
+            });
+        }
+        ;
+    </script>
+{% endblock %}

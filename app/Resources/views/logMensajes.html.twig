@@ -1,0 +1,38 @@
+<div class="flash-mensaje" style="text-align: center;">
+        <script>
+            jQuery(document).ready(function(){
+                {% for flashMessage in app.session.flashbag.get('mensaje') %}
+                    {% if flashMessage == "eliminar_ok" %}
+                        {% set mensaje =  "Se ha eliminado el registro correctamente" | trans %}
+                    {% elseif flashMessage == 'eliminar_error' %}
+                        {% set mensaje =  "No se ha podido eliminar el registro" | trans %}
+                    {% elseif flashMessage == "editar_ok" %}
+                        {% set mensaje =  "La operación se ha realizado con éxito" | trans %}
+                    {% elseif flashMessage == "crear_ok" %}
+                        {% set mensaje =  "Se ha creado el nuevo registro" | trans %}
+                    {% elseif flashMessage == "error_general" %}
+                        {% set mensaje =  "Se ha producido un error" | trans %}
+                    {% elseif flashMessage == "importar_plantilla_ok" %}
+                        {% set mensaje =  "La operación de importar plantilla se ha realizado con éxito" | trans %}
+                    {% elseif flashMessage == "importar_plantilla_ko" %}
+                        {% set mensaje =  "Se ha producido un error en la importación" | trans %}
+                    {% elseif flashMessage == "exportar_plantilla_ok" %}
+                        {% set mensaje =  "La operación de exportar plantilla se ha realizado con éxito" | trans %}
+                    {% elseif flashMessage == "exportar_plantilla_ko" %}
+                        {% set mensaje =  "Se ha producido un error en la exportación" | trans %}
+                    {% elseif flashMessage == "subida_zip_plantilla_ko" %}
+                        {% set mensaje =  "Se ha producido un error en la subida del fichero. No contiene el fichero index.html" | trans %}
+                    {% else %}
+                        {% set mensaje =  flashMessage | trans %}
+                    {% endif %}
+                    jQuery.jGrowl('{{ mensaje }}',
+                            {
+                                header: 'Notificación',
+                                life: 3000
+                            }
+                    );
+                {% endfor %}
+            });
+        </script>
+
+</div>

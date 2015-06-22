@@ -1,0 +1,79 @@
+{% extends '::data/base_data.html.twig' %}
+
+{% block title %}
+    {{ "nueva.variable" | trans | title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>
+    <li>{{ "menu.data.modo_basico" | trans| title }}</li>
+    <li>{{ "nueva.variable" | trans | title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5></h5>
+    <h1>{{ "nueva.variable" | trans | title }}</h1>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <div class="linea_contenido_i">
+                <form id="form" name="form" method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+                    <table class="sinborde">
+                        <thead>
+                        <tr class="sinborde">
+                            <td colspan="2" class="sinborde">
+                                {{ form_errors(formulario.nombre) }}
+                                {{ form_errors(formulario.descripcion) }}
+                            </th>
+                        </tr>
+                        <tr class="sinborde">
+                            <td class="align_der sinborde" width="40%"></td>
+                            <td class="sinborde" width="60%"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="sinborde">
+                            <td class="align_der sinborde">{{ form_label(formulario.nombre) }}</td>
+                            <td class="sinborde">{{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}</td>
+                        </tr>
+                        <tr height="15">
+                            <td colspan="2" class="sinborde"></td>
+                        </tr>
+                        <tr class="sinborde">
+                            <td class="align_der sinborde">{{ form_label(formulario.descripcion) }}</td>
+                            <td class="sinborde">{{ form_widget(formulario.descripcion, { 'attr': { 'class': 'tam150' } }) }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td colspan="2" class="sinborde"></td>
+                        </tr>
+                        <tr class="sinborde">
+                            <td colspan="2" class="botonera_central sinborde">
+                                <button type="submit" class="btn btn-primary">{{ "boton.aceptar" | trans }}</button>
+                                <button type="button" onClick="cancelarNuevaVarTrans(); return false;"
+                                        class="btn btn-primary">{{ "boton.cancelar" | trans }}</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    {{ form_rest(formulario) }}
+
+                    <div class="spacer"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        function cancelarNuevaVarTrans() {
+            document.location = '{{ path("data_avanced_ot") }}';
+            return false;
+        }
+    </script>
+{% endblock %}

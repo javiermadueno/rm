@@ -1,0 +1,57 @@
+
+{% set es_editable = plantilla.esModelo ? false : true %}
+{% set generada = comunicacion.generada %}
+
+<form id="borrarGrupos" action="{{ path('rm_plantilla_gruposlots_borrar', {'idComunicacion': idComunicacion }) }}" method="post">
+<h4 class="widgettitle">{{ "grupo.slots"|trans }}</h4>
+<table class="table table-bordered responsive">
+    <thead>
+    <tr>
+        <th width="1%"><input type="checkbox" id="checkTodos" /></th>
+        <th>{{ "nombre" | trans|title }}</th>
+        <th>{{ "numero.slots" | trans|title }}</th>
+        <th>{{ "controles" |trans|title}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><input type="checkbox" name="eliminar[{{ entity.idGrupo }}]" class="selTodos" value="{{ entity.idGrupo }}"/></td>
+            <td>
+                {% if es_editable and not generada %}
+                    <a href="{{ path('rm_plantilla_gruposlots_edit', { 'id': entity.idGrupo, 'idComunicacion': idComunicacion }) }}">{{ entity.nombre }}</a>
+                {% else %}
+                    {{ entity.nombre}}
+                {% endif %}
+            </td>
+            <td>{{ entity.numSlots }}</td>
+            <td>
+                {% if es_editable and not generada %}
+                <a class="btn btn-success" href="{{ path('rm_plantilla_gruposlots_edit', { 'id': entity.idGrupo, 'idComunicacion': idComunicacion }) }}">{{ "boton.editar"|trans|title}}</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">
+                {{ "sin.resultados" | trans }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% if es_editable %}
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            {% if not generada %}
+            <td width="100"> <a class="btn btn-success" href="{{ path('rm_plantilla_gruposlots_new', {'idComunicacion': idComunicacion}) }}">{{ "boton.nuevo" | trans }}</a></td>
+            <td width="100"> <button class="btn btn-danger" id="btonBorrarGrupo">{{ "boton.eliminar" | trans }}</button></td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+    {% endif %}
+</form>
+
+

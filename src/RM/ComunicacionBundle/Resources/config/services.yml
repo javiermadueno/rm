@@ -1,0 +1,52 @@
+parameters:
+    CanalService.class: RM\ComunicacionBundle\DependencyInjection\CanalServicio
+    ComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\ComunicacionServicio
+    SegmentoComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\SegmentoComunicacionServicio
+    InstanciaComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\InstanciaComunicacionServicio
+    TipoPromocionService.class: RM\ProductoBundle\DependencyInjection\TipoPromocionServicio
+    CreatividadService.class: RM\ComunicacionBundle\DependencyInjection\CreatividadServicio
+    
+ #    rm_variables_transformada.example.class: RM\Variables\TransformadaBundle\Example
+
+
+services:
+    CanalService:
+        class: %CanalService.class%
+        arguments: [@doctrine]
+        
+    ComunicacionService:
+        class: %ComunicacionService.class%
+        arguments: [@doctrine]
+        
+    SegmentoComunicacionService:
+        class: %SegmentoComunicacionService.class%
+        arguments: [@doctrine]
+        
+    InstanciaComunicacionService:
+        class: %InstanciaComunicacionService.class%
+        arguments: [@doctrine]
+
+    CreatividadService:
+        class: %CreatividadService.class%
+        arguments: [@doctrine]
+
+    rm_comunicacion.crea_nueva_plantilla:
+        class: RM\ComunicacionBundle\EventListener\CreaNuevaPlantillaListener
+        arguments: [@doctrine]
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
+    rm_comunicacion.cambia_estado_segmento_comunicacion:
+      class: RM\ComunicacionBundle\DependencyInjection\CambiaEstadoSegmentoComunicacion
+      arguments: [@doctrine]
+
+
+    property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+    #Para borra despues pbdespues
+    twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags: [{ name: 'twig.extension' }]

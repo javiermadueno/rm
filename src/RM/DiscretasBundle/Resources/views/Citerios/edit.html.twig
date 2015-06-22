@@ -1,0 +1,39 @@
+<h4 class="widgettitle">{{ "cabecera.criterios" | trans }}</h4>
+{{ form_start(formulario) }}
+<div class="mediamgr_left">
+    <div class="mediamgr_head">
+        <ul class="mediamgr_menu">
+            <li>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr>
+                        <td width="300">
+                            <p>
+                                <label>{{ "tiempo.referencia" |trans|capitalize }}</label>
+                                {{ form_widget(formulario.referenciaN, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
+                            </p>
+                        </td>
+                        <td width="300">
+                            <p>
+                                <label>{{ "estacionalidad" |trans|capitalize }}:</label>
+                                {{ form_widget(formulario.mesesN, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
+                            </p>
+                        </td>
+                        <td>
+                            <label>&nbsp;</label>
+                            {{ form_widget(formulario.mesesM, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </li>
+            <li class="right newfilebtn">
+                <button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|capitalize }}</button>
+            </li>
+        </ul>
+        <span class="clearall"></span>
+    </div>
+</div>
+{{ form_rest(formulario) }}
+{{ form_end(formulario) }}

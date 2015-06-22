@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block leftpanel %}
+
+    <div class="leftmenu">
+        <ul class="nav nav-tabs nav-stacked">
+            <li class="nav-header">{{ "menu.campaign.nombre" |trans | upper }}</li>
+            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "1" %}active{%  endif %}" >
+                <a href="{{ path("campaign_campanyas") }}"><span class="iconfa-th-list"></span>{{ "menu.campaign.campanas"|trans }}</a>
+            </li>
+            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "2" %}active{%  endif %}">
+                <a href="{{ path('campaign_closing_campanyas') }}"><span class="iconfa-sitemap"></span> {{ "menu.campaign.cierre" |trans }}</a>
+            </li>
+            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "3" %}active{%  endif %}" >
+                <a href="{{ path('campaign_creatividades') }}"><span class="iconfa-sitemap"></span> {{ "menu.campaign.creatividades" |trans }}</a>
+            </li>
+            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "4" %}active{%  endif %}">
+                <a href="{{ path('campaign_seguimiento') }}"><span class="iconfa-cloud"></span>{{ "menu.campaign.seguimiento" | trans }}</a>
+            </li>
+        </ul>
+    </div><!--leftmenu-->
+
+{% endblock %}
+
+{% block body %}
+    {% block contenedorPrincipal %}{% endblock %}
+{% endblock %}
+

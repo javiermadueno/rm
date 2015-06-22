@@ -1,0 +1,61 @@
+{% extends '::data/base_data.html.twig' %}
+
+{% block title %}
+	{{ "menu.data.segmentos" | trans | title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><span class="iconfa-home"></span></a><span class="separator"></span></li>
+    <li>{{ "menu.data.modo_basico" |trans | title}} <span class="separator"></span> </li>
+    <li>{{ "menu.data.segmentos" |trans }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{"cabecera.criterios.eligibilidad" | trans |upper }}</h5>
+    <h1>{{ "menu.data.segmentos" | trans | title }}</h1>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+	{{ render(controller('RMDiscretasBundle:VariablesBasicas:criteriosEligibilidad')) }}
+
+    {{ render(controller('RMDiscretasBundle:VariablesBasicas:segmentos')) }}
+
+    {{ render(controller('RMDiscretasBundle:FranjaHoraria:edit')) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+            $('form').on('submit', function(e){
+                e.preventDefault();
+                var $this = $(this);
+                $.ajax({
+                    url    : $this.attr('action'),
+                    type   : $this.attr('method'),
+                    data   : $this.serialize(),
+                    success: function(response){
+                        if(typeof response.form !== 'undefined') {
+                            $this.find('#content').html(response.form);
+                        }
+
+                        jQuery.jGrowl(response.mensaje , {
+                            header: 'Notificación',
+                            life: 3000
+                            }
+                        );
+                    },
+                    error: function(response) {
+                        jQuery.jGrowl(response.mensaje , {
+                                    header: 'Notificación',
+                                    life: 3000
+                                }
+                        );
+                    }
+                });
+            });
+		});
+	</script>
+{% endblock %}

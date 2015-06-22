@@ -1,0 +1,33 @@
+
+    <h4 class="widgettitle">{{ "grupo.slots"|trans }}</h4>
+    <table class="table table-bordered responsive">
+        <thead>
+        <tr>
+            <th>{{ "nombre" | trans|title }}</th>
+            <th>{{ "numero.slots" | trans|title }}</th>
+            <th>{{ "controles" |trans|title }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>
+                    <a href="{{ path('gruposlotsmodelo_show', { 'id': entity.idGrupo, 'idPlantilla': plantilla }) }}">{{ entity.nombre }}</a>
+                </td>
+                <td>{{ entity.numSlots }}</td>
+                <td>
+                    <button class="btn btn-success" disabled>{{ "boton.editar" |trans|title}}</button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    {{ "sin.resultados" | trans }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+

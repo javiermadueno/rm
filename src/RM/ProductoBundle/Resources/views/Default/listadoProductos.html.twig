@@ -1,0 +1,99 @@
+<h4 class="widgettitle">{{ "productos"|trans }}</h4>
+<table class="table table-bordered responsive">
+    <colgroup>
+        <col class="con0" style="align: center; width: 4%">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+    <tr>
+        <th width="50">{{ "codigo" | trans }}</th>
+        <th>{{ "marca" | trans }}</th>
+        <th>{{ "producto" | trans }}</th>
+        <th width="100">{{ "imagen" | trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if objProductos == null %}
+        <tr>
+            <td colspan="30">
+                {{ "sin.resultados" | trans }}
+            </td>
+        </tr>
+    {% else %}
+        {% for objPr in objProductos %}
+            <tr>
+                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); ">{{ objPr.idProducto }}</a></td>
+                <td>{{ objPr.idMarca.nombre|default('') }}</td>
+                <td>{{ objPr.nombre|default('') }}</td>
+                <td>
+                    {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
+                    {% set existeImagen = 0 %}
+                    {% set imagenUrl = "" %}
+                    {% for cadFormato in extensionFormatoImages %}
+                        {% set imagen= web_path~"/"~app.user.getCliente()~'/imagenesProducto/'~objPr.idProducto~cadFormato %}
+                        {% if file_exists(imagen) %}
+                            {% set existeImagen = 1 %}
+                            {% set imagenUrl = app.user.getCliente()~'/imagenesProducto/'~objPr.idProducto~cadFormato %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if(existeImagen == 1) %}
+                        <img src="{{ asset(imagenUrl) }}?={{ random(500) }}" width="100px" height="100px"/>
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pagination-centered">
+            {{ simple_paginator_render(            'direct_config_listado_productos_paginador', null,
+            {
+            'routeParams' : {'id_categoria' : id_categoria, 'id_marca': id_marca, 'codigo': codigo|default(-1), 'nombre': nombre|url_encode|default(-1)},
+            'container_class' : '',
+            'first_disabled': 'disabled',
+            'currentClass': 'active',
+            'firstEnabledClass': '',
+            'firstDisableClass': 'disabled',
+            'firstPageText' : '<<Primera',
+            'previousPageText' : 'Anterior',
+            'previousEnabledClass' : '',
+            'previousDisabledClass' : 'disabled',
+            'nextPageText' : 'Siguiente',
+            'nextEnabledClass': '',
+            'nextDisabledClass': 'disabled',
+            'lastEnabledClass': '',
+            'lastDisabledClass' : 'disabled',
+                'lastPageText' : 'Última>>'
+            }
+            ) }}
+        </div>
+    </div>
+</div>
+
+
+{% block javascript %}
+    <script type="text/javascript">
+
+        function verDatosProducto(cod_sku) {
+            if (cod_sku > -1) {
+                var largo = 550;
+                var altura = 550;
+                var top = (screen.height - altura) / 2;
+                var izquierda = (screen.width - largo) / 2;
+                {% set nombreVentana = "Producto" %}
+                camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
+                camino = camino.replace('111', cod_sku);
+                var myUrl = camino;
+                var nomVentana = '{{ nombreVentana }}';
+                window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+            }
+        }
+    </script>
+{% endblock %}

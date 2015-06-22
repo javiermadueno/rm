@@ -1,0 +1,98 @@
+#Todas las rutas tiene el prefijo /data por delante, que viene heredado del fichero routing del app
+#tipoVar hace referencia al tipo de variable segun campo de bbdd.
+#idOpcionMenuIzq hace referencia al id de seleccion del menu de la izquierda de la pantalla para poder poner la opcion como seleccionada
+
+data_avanced_cp:
+  path: /avanced/buy_products/
+  defaults: {_controller: RMDiscretasBundle:Default:obtenerRegistros, tipoVar 2, idOpcionMenuIzq 5}
+  
+data_avanced_cp_editar:
+  path: /avanced/buy_products/{id_vid}/
+  defaults: {_controller: RMDiscretasBundle:Ficha:fichaVariableDiscreta, idOpcionMenuIzq 5, id_vid_grupo_segmento 0}
+  requirements:
+    id_vid: \d+
+    
+data_avanced_cp_editar_con_grupo:
+  path: /avanced/buy_products/{id_vid}/{id_vid_grupo_segmento}/
+  defaults: {_controller: RMDiscretasBundle:Ficha:fichaVariableDiscreta, idOpcionMenuIzq 5}
+  requirements:
+    id_vid: \d+
+    id_vid_grupo_segmento: \d+
+    
+data_avanced_cp_editar_listaSegmentosAsoc:
+  path: /avanced/buy_products/mostrar_segmentos/{idNuevoSeg}
+  defaults: {_controller: RMDiscretasBundle:Ficha:mostrarSegmentosAsoc}
+  methods: [POST]
+  
+data_avanced_cp_editar_eliminarGuardarSegmentosAsoc:
+  path: /avanced/buy_products/eliminar_segmentos/
+  defaults: {_controller: RMDiscretasBundle:Ficha:EliminarGuardarSegmentosAsoc}
+  methods: [POST]
+  
+data_avanced_cp_editar_cambiarClasificacion:
+  path: /avanced/buy_products/cambiar_clasificacion/
+  defaults: {_controller: RMDiscretasBundle:Ficha:devolverGrupoSegmento}
+  methods: [POST]
+  
+data_avanced_cp_editar_modificarGrupoSegmentos:
+  path: /avanced/buy_products/modificar_grupo_segmento/
+  defaults: {_controller: RMDiscretasBundle:Ficha:ModificarGrupoSegmento}
+  methods: [POST]
+
+data_avanced_cp_editar_actualizarPersonalizado:
+  path: /avanced/buy_products/actualizar_personalizado/
+  defaults: {_controller: RMDiscretasBundle:Ficha:actualizarPersonalizado}
+  methods: [POST]
+     
+data_avanced_hc:
+  path: /avanced/habits/
+  defaults: {_controller: RMDiscretasBundle:Default:obtenerRegistros, tipoVar 3, idOpcionMenuIzq 6}
+
+data_avanced_hc_editar:
+  path: /avanced/habits/{id_vid}/
+  defaults: {_controller: RMDiscretasBundle:HabitosCompra:edit}
+  requirements:
+    id_vid: \d+
+  
+data_avanced_hc_editar_con_grupo:
+  path: /avanced/habits/{id_vid}/{id_vid_grupo_segmento}/
+  defaults: {_controller: RMDiscretasBundle:Ficha:fichaVariableDiscreta, idOpcionMenuIzq 6}
+  requirements:
+    id_vid: \d+
+    id_vid_grupo_segmento: \d+
+
+copiar_segmentos_entre_variables_discretas:
+  path: /avanced/VID/{id_vid}/{id_vid_grupo_segmento}/
+  defaults: {_controller: RMDiscretasBundle:Ficha:showCopiarSegmentosAVariables}
+  requirements:
+    id_vid: \d+
+    id_vid_grupo_segmento: \d+ 
+    
+data_basic_variables:
+  path: /basic/vars/
+  defaults: {_controller: RMDiscretasBundle:VariablesBasicas:showConfiguracion, idOpcionMenuIzq 2}
+
+data_basic_configuracion:
+  path: /basic/configuracion
+  defaults: {_controller: RMDiscretasBundle:Default:showConfiguracion, idOpcionMenuIzq 3}
+  
+data_basic_save_configuration_data:
+  path: /basic/configuracion/save
+  defaults: {_controller: RMDiscretasBundle:Default:insertConfigurationData, idOpcionMenuIzq 3} 
+  methods: [POST]
+
+ajax_proveedores:
+  path: /ajax/proveedores/
+  defaults: {_controller: RMDiscretasBundle:Ficha:ajaxProveedores }
+
+rm_discretas_bundle.franja_horaria.edit:
+  path: /franja/horaria/edit
+  defaults: {_controller: RMDiscretasBundle:FranjaHoraria:edit }
+
+rm_discretas_bundle.variables_basicas.criterios:
+  path: /criterios/edit
+  defaults:  { _controller: RMDiscretasBundle:VariablesBasicas:criteriosEligibilidad }
+
+rm_discretas_bundle.variables_basicas.segmentos:
+  path: /segmentos/edit
+  defaults: {_controller: RMDiscretasBundle:VariablesBasicas:segmentos}

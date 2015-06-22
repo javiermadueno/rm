@@ -1,0 +1,37 @@
+direct_config_listado_productos:
+  path: /config/products/list/
+  defaults: {_controller: RMProductoBundle:Default:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1 }
+
+direct_config_listado_productos_paginador:
+  path: /config/products/list/{id_categoria}/{id_marca}/{codigo}/{nombre}/
+  defaults: {_controller: RMProductoBundle:Default:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1, codigo -1, nombre -1 }
+  requirements:
+    id_categoria: -?\d+
+    id_marca: -?\d+
+    
+direct_config_listado_productos_actualizar:
+  path: /config/products/list/update/
+  defaults: {_controller: RMProductoBundle:Default:actualizarProductos}
+  methods: [POST]
+  
+direct_config_ficha_productos:
+  path: /config/products/list/product/{cod_sku}/
+  defaults: {_controller: RMProductoBundle:Default:showFichaProducto}
+  requirements:
+    cod_sku: \d+
+
+direct_config_ficha_productos_crear:
+  path: /config/products/list/product/new/
+  defaults: {_controller: RMProductoBundle:Default:showFichaProductoCrear}
+  
+direct_config_ficha_producto_upload:
+  path: /config/products/list/product/upload/
+  defaults: {_controller: RMProductoBundle:Default:uploadImageProducto}
+  methods: [POST]
+
+producto_default_generate_unique_voucher:
+  path: /generate/voucher
+  defaults: { _controller: RMProductoBundle:Default:getUniqueVoucher}
+index:
+    path:     /index
+    defaults: { _controller: RMProductoBundle:Producto:index }

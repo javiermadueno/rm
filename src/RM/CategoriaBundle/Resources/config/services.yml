@@ -1,0 +1,13 @@
+parameters:
+    categoriaService.class: RM\CategoriaBundle\DependencyInjection\CategoriaServicio
+
+
+services:
+    categoriaService:
+        class: %categoriaService.class%
+        arguments: [@doctrine, @security.context]
+
+    rm_categoria.cambia_asocicion_categorias:
+        class: RM\CategoriaBundle\EventListener\CambiaAsociacionListener
+        tags:
+          - { name: doctrine.event_listener, event: postUpdate}

@@ -1,0 +1,248 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+{% set opcionMenuTabComunicacion = 1 %}
+
+{% block title %}
+    {{ "segmento.comunicacion" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ "editar"|trans }} <span class="separator"></span></li>
+    <li>{{ objSegmento.idSegmento.Nombre |title }}</li>
+{% endblock %}
+
+
+{% block tabcontent %}
+
+    {% set estadoConfiguracion =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+    {% set estadoActivo =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
+    {% set estadoPausado =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO') %}
+    {% set estadoCompletado =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
+
+    <form name="form" id="form" method="post" action="{{ path('direct_manager_edit_segmentos_editar_guardar') }}">
+        <input type="hidden" name="id_comunicacion" value="{{ id_comunicacion }}">
+        <input type="hidden" name="id_segmento" value="{{ id_segmento }}">
+
+        <h4 class="widgettitle">{{ "editar"|trans|title }} {{ "segmento.comunicacion" | trans|title }}
+            - {{ objSegmento.idSegmento.Nombre |title }} </h4>
+
+        <div class="mediamgr_head">
+            <table class="margin-center">
+                <tbody>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="sinborde textoApartado">{{ "datos" | trans | upper }}</td>
+                </tr>
+                <tr height="10">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td width="40%" class="sinborde textoDerecha">{{ "segmento" | trans }}</td>
+                    <td width="3%" class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="id_segmento" name="id_segmento" class="">
+                            <option value="{{ objSegmento.idSegmento.idSegmento }}"
+                                    selected>{{ objSegmento.idSegmento.nombre }}</option>
+                            {% for objSeg in objSegmentos %}
+                                <option value="{{ objSeg.idSegmento }}">{{ objSeg.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "fecha.inicial" | trans|title }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="fecIni" id="fecIni" class="datepicker"
+                               value="{{ objSegmento.getFecInicio() | date("d/m/Y") }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "fecha.final" | trans|title }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="fecFin" id="fecFin" class="datepicker "
+                               value="{{ objSegmento.getFecFin() | date("d/m/Y") }}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "estado" | trans|title }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="estado" name="estado" class="tam150">
+                            <option value="{{ estadoConfiguracion }}"
+                                    {% if objSegmento.getEstado() == estadoConfiguracion %}selected{% endif %}>{{ "comunicacion.estado.configuracion" | trans|title }}</option>
+                            <option value="{{ estadoActivo }}"
+                                    {% if objSegmento.getEstado() == estadoActivo %}selected{% endif %}>{{ "comunicacion.estado.activo" | trans|title }}</option>
+                            <option value="{{ estadoPausado }}"
+                                    {% if objSegmento.getEstado() == estadoPausado %}selected{% endif %}>{{ "comunicacion.estado.pausado" | trans|title }}</option>
+                            <option value="{{ estadoCompletado }}"
+                                    {% if objSegmento.getEstado() == estadoCompletado %}selected{% endif %}>{{ "comunicacion.estado.completada" | trans|title }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="sinborde textoApartado">{{ "frecuencia" | trans | upper }}</td>
+                </tr>
+                <tr height="10">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "tipo" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="tipo" name="tipo" class="tam150">
+                            <option value="1"
+                                    {% if objSegmento.getTipo() == 1 %}selected{% endif %}>{{ "diaria" | trans }}</option>
+                            <option value="2"
+                                    {% if objSegmento.getTipo() == 2 %}selected{% endif %}>{{ "semanal" | trans }}</option>
+                            <option value="3"
+                                    {% if objSegmento.getTipo() == 3 %}selected{% endif %}>{{ "quincenal" | trans }}</option>
+                            <option value="4"
+                                    {% if objSegmento.getTipo() == 4 %}selected{% endif %}>{{ "mensual" | trans }}</option>
+                            <option value="5"
+                                    {% if objSegmento.getTipo() == 5 %}selected{% endif %}>{{ "trimestral" | trans }}</option>
+                            <option value="6"
+                                    {% if objSegmento.getTipo() == 6 %}selected{% endif %}>{{ "cuatrimestral" | trans }}</option>
+                            <option value="7"
+                                    {% if objSegmento.getTipo() == 7 %}selected{% endif %}>{{ "anual" | trans }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "mes" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div id="capaMesFrecuencia">
+                            {% set vars = {'valTipo': objSegmento.getTipo(), 'valMes': objSegmento.getMes(), 'valDia': objSegmento.getDia()} %}
+                            {% include 'RMComunicacionBundle:Edicion:mesFrecuencia.html.twig' with vars %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "dia" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div id="capaDiaFrecuencia">
+                            {% set vars = {'valTipo': objSegmento.getTipo(), 'valMes': objSegmento.getMes(), 'valDia': objSegmento.getDia()} %}
+                            {% include 'RMComunicacionBundle:Edicion:diaFrecuencia.html.twig' with vars %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{{ "hora" | trans }}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="time" name="hora" id="hora" class="tam150"
+                               value="{{ objSegmento.getHoraProg() | date("H:i") }}"/>
+                    </td>
+                </tr>
+                <tr height="30">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde botonera_central">
+                        <button class="btn btn-primary"
+                                onClick="guardarSegComunicacion(); return false;">{{ "boton.aceptar" | trans }}</button>
+                        <button class="btn btn-danger"
+                                onClick="location.href='{{ path('direct_manager_edit_datos',{'idComunicacion':id_comunicacion}) }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+                    </td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function guardarSegComunicacion() {
+            var pasar = 1;
+            if ($('#fecIni').val().length == 0) {
+                $('#fecIni').after('     <span class="campoRequerido">{{ "El campo es requerido" | trans }}</span>');
+                pasar = 0;
+            }
+
+            if ($('#fecFin').val().length == 0) {
+                $('#fecFin').after('     <span class="campoRequerido">{{ "El campo es requerido" | trans }}</span>');
+                pasar = 0;
+            }
+
+            if (pasar) {
+                $('#form').submit();
+            }
+        }
+
+        $(document).ready(function () {
+            $(".datepicker").datepicker({dateFormat: "dd/mm/yy"});
+
+            $("#tipo").on("change", function (e) {
+                var valorTipo = $(this).val();
+                var camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_mes', {'valTipo':'-111', 'valMes':'-1', 'valDia':'-1'}) }}";
+                camino = camino.replace('-111', valorTipo);
+
+                var msg = "";
+                $.ajax({
+                    type: "POST",
+                    url: camino,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_dia', {'valTipo':'-111', 'valMes':'1', 'valDia':'-1'}) }}";
+                            camino = camino.replace('-111', valorTipo);
+                            $.ajax({
+                                type: "POST",
+                                url: camino,
+                                data: msg,
+                                complete: function (objeto2, exito) {
+                                    if (exito == "success") {
+                                        $('#capaMesFrecuencia').html(objeto.responseText);
+                                        $('#capaDiaFrecuencia').html(objeto2.responseText);
+                                    }
+                                },
+                                error: function (objeto, quepaso, otroobj) {
+                                }
+                            });
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+
+            $("#mes").on("change", function (e) {
+                var camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_dia', {'valTipo':'-111', 'valMes':'-222', 'valDia':'-1'}) }}";
+                camino = camino.replace('-111', $("#tipo").val());
+                camino = camino.replace('-222', $(this).val());
+
+                var msg = "";
+                $.ajax({
+                    type: "POST",
+                    url: camino,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#capaDiaFrecuencia').html(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            });
+
+        });
+    </script>
+{% endblock %}
+

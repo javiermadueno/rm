@@ -1,0 +1,23 @@
+services:
+  rm.manager:
+    class: RM\AppBundle\DependencyInjection\DoctrineManager
+    arguments:
+      - @doctrine
+      - @security.context
+
+  rm.mongo_manager:
+    class: RM\AppBundle\DependencyInjection\MongoManager
+    arguments:
+      - @doctrine_mongodb
+      - @security.context
+
+  rm.doctrine_configuration:
+    class: RM\AppBundle\Configuracion\DoctrineConfiguration
+    arguments: [ %kernel.root_dir% ]
+
+#  rm.doctrine_dynamic_connection:
+#    class: RM\AppBundle\EventListener\ChangeDoctrineConnectionListener
+#    arguments: [@service_container, @security.context, @doctrine.dbal.default_connection, %doctrine.connections% ]
+#    scope: request
+#    tags:
+#      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

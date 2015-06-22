@@ -1,0 +1,7 @@
+parameters:
+#    insight_true.example.class: RM\InsightTrueBundle\Example
+
+services:
+#    insight_true.example:
+#        class: %insight_true.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

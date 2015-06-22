@@ -1,0 +1,271 @@
+{% extends '::insight/base_insight.html.twig' %}
+{% set idOpcionMenuIzq = 1 %}
+{% set idOpcionMenuSup = 4 %}
+
+
+{% block title %}
+    {{ "menu.insight.clientes" |trans|title }}
+{% endblock %}
+
+
+
+{% block migas %}
+    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>
+    <li>{{ "menu.insight.dashboard" |trans|title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.insight.clientes" |trans|title }}</h5>
+    <h1>{{ "menu.insight.dashboard" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <form action="" method="post">
+            <ul class="mediamgr_menu">
+                <li>
+                    <label for="fechaDesde">{{ "compara" |trans|title }}: </label>
+                    <select name="fecha[desde]" id="fechaDesde">
+                        {% for mes in meses %}
+                            <option value="{{ mes['id'] }}" {{ mes1.id == mes['id'] ? 'selected' : '' }}>{{ mes['fecha']|date('M-Y') }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li>
+                    <label for="fechaHasta">{{ "con" |trans|title }}:</label>
+                    <select name="fecha[hasta]" id="fechaHasta">
+                        {% for mes in meses %}
+                            <option value="{{ mes['id'] }}" {{ mes2.id == mes['id'] ? 'selected' : '' }}>{{ mes['fecha']|date('M-Y') }}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+
+                <li class="right">
+                    <button type="submit" class="btn btn-primary"
+                            id="botonBuscar">{{ "boton.buscar" |trans|title }}</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    {% block comparativa %}
+
+
+        <h4 class="widgettitle">{{ "comparativa" |trans|title }}</h4>
+        <table class="table table-bordered responsive">
+            <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <thead>
+            <tr>
+                <th></th>
+                <th>{{ mes1.fecha|date('M-Y') }}</th>
+                <th>{{ mes2.fecha|date('M-Y') }}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ "ventas.totales" |trans|title }}</td>
+                <td>{{ mes1.ventasTotales|moneda }}</td>
+                <td>{{ mes2.ventasTotales|moneda }}</td>
+                <td>{{ porcentaje.diferencia(mes1.ventasTotales, mes2.ventasTotales) }}</td>
+            </tr>
+            <tr>
+                <td>{{ "ventas.miembros" |trans|title }}</td>
+                <td>{{ mes1.ventasCliente|moneda }}</td>
+                <td>{{ mes2.ventasCliente|moneda }}</td>
+                <td>{{ porcentaje.diferencia(mes1.ventasCliente, mes2.ventasCliente) }}</td>
+            </tr>
+            <tr>
+                <td>{{ "ventas.no.miembros" |trans|title }}</td>
+                <td>{{ mes1.ventasNoCliente|moneda }}</td>
+                <td>{{ mes2.ventasNoCliente|moneda }}</td>
+                <td>{{ porcentaje.diferencia(mes1.ventasNoCliente, mes2.ventasNoCliente) }}</td>
+            </tr>
+            <tr>
+                <td>{{ "contribucion.miembros" |trans|title }}</td>
+                <td>{{ mes1.contribucionClientes|porcentaje }}</td>
+                <td>{{ mes2.contribucionClientes|porcentaje }}</td>
+                <td>{{ porcentaje.diferencia(mes1.contribucionClientes, mes2.contribucionClientes) }}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <h4 class="widgettitle">{{ "porcentaje.ventas" |trans|title }}</h4>
+        <div class="widgetcontent">
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="porcentajeVentas1"></div>
+                </div>
+                <div class="span6">
+                    <div id="porcentajeVentas2"></div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="widgettitle">{{ "contribuciones.mensuales.vs.miembros" |trans|title }}</h4>
+        <div class="widgetcontent">
+            <div id="contribucionesClientesVsMiembros" style="height: 300px; margin: 0 auto"></div>
+        </div>
+
+        <script type="text/javascript">
+            {{ chart(porcentajeVentas1) }}
+            {{ chart(porcentajeVentas2) }}
+            {{ chart(contribucionesMensuales) }}
+        </script>
+
+        <h4 class="widgettitle">{{ "otros.datos" |trans|title }}</h4>
+        <div class="widgetcontent">
+            <div class="row-fluid">
+                <div class="span4">
+                    <div id="tablaNuevosMiembros">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px" class="center-all">{{ "mes" |trans|title }}</th>
+                                <th style="width: 213px" class="center-all">{{ "numero.miembros" |trans|title }}</th>
+                                <th class="center-all">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="center-all">{{ mes1.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes1.numeroClientes|number_format(0, ',', '.') }}</td>
+                                <td class="center-all"
+                                    rowspan="2">{{ porcentaje.diferencia(mes1.numeroClientes, mes2.numeroClientes) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="center-all">{{ mes2.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes2.numeroClientes|number_format(0, ',', '.') }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div id="tablaRecencia">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px" class="center-all">{{ "mes" |trans|title }}</th>
+                                <th style="width: 213px" class="center-all">{{ "recencia" |trans|title }}</th>
+                                <th class="center-all">%</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td class="center-all">{{ mes1.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes1.recenciaClientes }}</td>
+                                <td class="center-all"
+                                    rowspan="2">{{ porcentaje.diferencia(mes1.recenciaClientes, mes2.recenciaClientes) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="center-all">{{ mes2.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes2.recenciaClientes }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div id="tablaFrecuenciaMes">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px" class="center-all">{{ "mes" |trans|title }}</th>
+                                <th style="width: 213px"
+                                    class="center-all">{{ "frecuencia.contribuciones" |trans|title }}</th>
+                                <th class="center-all">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="center-all">{{ mes1.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes1.frecuenciaClientes }}</td>
+                                <td class="center-all"
+                                    rowspan="2">{{ porcentaje.diferencia(mes1.frecuenciaClientes, mes2.frecuenciaClientes) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="center-all">{{ mes2.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes2.frecuenciaClientes }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <div id="tablaTicketMedio">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px" class="center-all">{{ "mes" |trans|title }}</th>
+                                <th style="width: 213px" class="center-all">{{ "ticket.medio" |trans|title }}</th>
+                                <th class="center-all">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="center-all">{{ mes1.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes1.ticketClientes }}</td>
+                                <td class="center-all"
+                                    rowspan="2">{{ porcentaje.diferencia(mes1.ticketClientes, mes2.ticketClientes) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="center-all">{{ mes2.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ mes2.ticketClientes }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div id="tablaAmplitudCategorias">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px" class="center-all">{{ "mes" |trans|title }}</th>
+                                <th style="width: 213px"
+                                    class="center-all">{{ "amplitud.categorias" |trans|title }}</th>
+                                <th class="center-all">%</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                {% set amplitud1 = attribute(mes1, 'amplitudClientes'~nivelAmplitud)|default(0) %}
+                                {% set amplitud2 = attribute(mes2, 'amplitudClientes'~nivelAmplitud)|default(0) %}
+
+                                <td class="center-all">{{ mes1.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ amplitud1 }}</td>
+                                <td class="center-all"
+                                    rowspan="2">{{ porcentaje.diferencia(amplitud1, amplitud2) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="center-all">{{ mes2.fecha|date('M-Y') }}</td>
+                                <td class="center-all">{{ amplitud2 }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endblock comparativa %}
+
+{% endblock %}
+
+
+
+

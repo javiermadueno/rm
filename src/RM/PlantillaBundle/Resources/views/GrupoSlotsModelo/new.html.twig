@@ -1,0 +1,36 @@
+{% extends '@RMProducto/Default/baseConfig.html.twig' %}
+
+{% set opcionMenuTabConfig = 2 %}
+
+{% block tabcontent %}
+    <div id="formularioGrupoSlot">
+    {% include '@RMPlantilla/GrupoSlotsModelo/formularioGrupoSlotPromocion.html.twig' %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $(document).on('change','#rm_plantillabundle_gruposlots_tipo', function(){
+
+                var $form = $(this).closest('form');
+                var $tipo = $(this);
+                var data_from = $form.serializeArray().reduce(function(obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                delete data_from['rm_plantillabundle_gruposlots[_token]'];
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data_from,
+                    success: function(html){
+                        $('#formularioGrupoSlot').replaceWith($(html).find('#formularioGrupoSlot'));
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock javascripts %}

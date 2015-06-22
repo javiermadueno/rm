@@ -1,0 +1,260 @@
+direct_homepage:
+  path: /monitor/
+  defaults: {_controller: RMComunicacionBundle:Instancia:showInstancias, idOpcionMenuIzq 2 }
+  methods: [GET]
+  
+direct_manager:
+  path: /manager/
+  defaults: {_controller: RMComunicacionBundle:Default:showComunicaciones, idOpcionMenuIzq 1 }
+  methods: [GET]
+  
+direct_manager_actualizar:
+  path: /manager/
+  defaults: {_controller: RMComunicacionBundle:Default:actualizarListadoComunicaciones}
+  methods: [POST]
+  
+direct_manager_delete:
+  path: /manager/delete/
+  defaults: {_controller: RMComunicacionBundle:Default:deleteComunicaciones}
+  methods: [POST]
+  
+direct_manager_new:
+  path: /manager/new/
+  defaults: {_controller: RMComunicacionBundle:Default:nuevaComunicacion, idOpcionMenuIzq 1}
+
+direct_manager_parar_comunicacion:
+  path: /manager/comunicacion/{idComunicacion}/stop
+  defaults: {_controller: RMComunicacionBundle:Default:pararComunicacion}
+  methods: [POST]
+  requirements:
+    idComunicacion: \d+
+
+direct_manager_reanudar_comunicacion:
+  path: /manager/comunicacion/{idComunicacion}/restart
+  defaults: { _controller: RMComunicacionBundle:Default:reanudarComunicacion }
+  methods: [POST]
+  requirements:
+    idComunicacion: \d+
+  
+direct_manager_edit_datos:
+  path: /manager/comunicacion/{idComunicacion}/
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:edit}
+  requirements:
+    idComunicacion: \d+
+
+rm_comunicacion.comunicacion.editar_plantilla:
+  path: /manager/comunicacion/{idComunicacion}/plantilla
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:editPlantillaComunicacion}
+  requirements:
+      idComunicacion: \d+
+
+rm_comunicacion.comunicacion.crear_gruposlot:
+  path: /manager/comunicacion/{idComunicacion}/plantilla/gruposlot/create
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:crearGrupoSlots}
+    
+direct_manager_edit_segmentos:
+  path: /manager/edit/segments/{id_comunicacion}/
+  defaults: {_controller: RMComunicacionBundle:Edicion:showSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2 }
+  requirements:
+    id_comunicacion: \d+
+    
+direct_manager_edit_segmentos_delete:
+  path: /manager/edit/segments/delete/{id_segmento_comunicacion}/
+  defaults: {_controller: RMComunicacionBundle:Edicion:deleteSegmentosComunicacion}
+  methods: [POST]
+  
+direct_manager_edit_segmentos_control:
+  path: /manager/edit/segments/controller/
+  defaults: {_controller: RMComunicacionBundle:Edicion:controladorSegmentosComunicacion}
+  methods: [POST]
+  
+direct_manager_edit_segmentos_nuevo:
+  path: /manager/edit/segments/{id_comunicacion}/new/
+  defaults: {_controller: RMComunicacionBundle:Edicion:nuevoSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2}
+  
+direct_manager_edit_segmentos_nuevo_frecuencia_mes:
+  path: /manager/edit/segments/new/mes/{valTipo}/{valMes}/{valDia}/
+  defaults: {_controller: RMComunicacionBundle:Edicion:showNuevoMesFrecuencia}
+  
+direct_manager_edit_segmentos_nuevo_frecuencia_dia:
+  path: /manager/edit/segments/new/dia/{valTipo}/{valMes}/{valDia}/
+  defaults: {_controller: RMComunicacionBundle:Edicion:showNuevoDiaFrecuencia}
+  
+direct_manager_edit_segmentos_nuevo_guardar:
+  path: /manager/edit/segments/new/save/
+  defaults: {_controller: RMComunicacionBundle:Edicion:guardarNuevoSegmentosComunicacion}
+  methods: [POST]
+  
+direct_manager_edit_segmentos_editar:
+  path: /manager/edit/segments/{id_comunicacion}/update/{id_segmento}/
+  defaults: {_controller: RMComunicacionBundle:Edicion:edicionSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2}
+  requirements:
+    id_comunicacion: \d+
+    id_segmento: \d+
+    
+direct_manager_edit_segmentos_editar_guardar:
+  path: /manager/edit/segments/update/save/
+  defaults: {_controller: RMComunicacionBundle:Edicion:guardarEdicionSegmentosComunicacion}
+  methods: [POST]
+
+direct_monitor:
+  path: /monitor/
+  defaults: {_controller: RMComunicacionBundle:Instancia:showInstancias, idOpcionMenuIzq 2 }
+  methods: [GET]
+  
+direct_monitor_actualizar:
+  path: /monitor/
+  defaults: {_controller: RMComunicacionBundle:Instancia:actualizarListadoInstancias}
+  methods: [POST]
+  
+direct_monitor_controlador_fases:
+  path: /monitor/instance/{id_instancia}/
+  defaults: {_controller: RMComunicacionBundle:Instancia:controladorVistasFaseInstancias}
+  requirements:
+    id_instancia: \d+
+    
+direct_monitor_controlador_fases_guardar:
+  path: /monitor/instance/{id_instancia}/save/
+  defaults: {_controller: RMComunicacionBundle:Instancia:guardarVistasFaseInstancias}
+  methods: [POST]
+  requirements:
+    id_instancia: \d+
+
+direct_monitor_cambio_fase:
+  path: /monitor/instance/{id_instancia}/cambiofase
+  defaults: {_controller: RMComunicacionBundle:Instancia:cambioFase}
+  methods: [POST]
+  requirements:
+    id_instancia: \d+
+
+direct_monitor_fase_conf_criterios:
+  path: /monitor/instance/{id_instancia}/criterios
+  defaults: {_controller: RMComunicacionBundle:Instancia:controladorFaseConfCriterios}
+  methods: [GET]
+  requirements:
+    id_instancia: \d+
+    
+direct_monitor_fases_avisos:
+  path: /monitor/instance/avisos/{listaCatNeeded}
+  defaults: {_controller: RMComunicacionBundle:Instancia:fichaAvisos}
+  methods: [GET]
+  
+direct_monitor_enviar_avisos:
+  path: /monitor/instance/avisos/envioAvisos
+  defaults: {_controller: RMComunicacionBundle:Instancia:envioAvisos}
+  methods: [POST] 
+  
+direct_monitor_show_avisos:
+   path: /monitor/instance/avisos/show/{objUsers}/{contador}
+   defaults: {_controller: RMComunicacionBundle:Instancia:showFichaAviso}
+   methods: [POST]
+   requirements:
+    objUsers: \d+
+    contador: \d+
+    
+direct_monitor_finalizar:
+   path: /monitor/instance/finalizar/{id_instancia}
+   defaults: {_controller: RMComunicacionBundle:Instancia:finalizarInstancias}
+   methods: [POST]
+   requirements:
+    id_instancia: \d+
+    
+direct_monitor_preview:
+   path: monitor/instance/preview/{id_instancia}
+   defaults: {_controller: RMComunicacionBundle:Instancia:previewComunicaciones}
+   requirements:
+    id_instancia: \d+
+    
+direct_actualizar_tabla_consumidores:
+   path: monitor/instance/preview/actualizar/{id_instancia}
+   defaults: {_controller: RMComunicacionBundle:Instancia:actualizarTablaConsumidores}
+   methods: [POST]
+   requirements:
+    id_instancia: \d+ 
+
+direct_datos_promo_consumidores:
+   path: monitor/instance/preview/{id_instancia}/promo/{id_cliente}/
+   defaults: {_controller: RMComunicacionBundle:Instancia:showPreviewPromo}
+   methods: [GET]
+   requirements:
+    id_cliente: \d+  
+    
+direct_actualizar_combo_segmentos:
+   path: monitor/manager/edit/actualizar/{id_ciclo_vida}
+   defaults: {_controller: RMComunicacionBundle:Edicion:actualizarComboSegmentos}
+   methods: [POST]
+
+direct_search_variables:
+   path: monitor/manager/instance/search_variables
+   defaults: {_controller: RMComunicacionBundle:Instancia:searchVariables}
+   methods: [POST]   
+   
+direct_search_segmentos:
+   path: monitor/manager/instance/search_segmentos
+   defaults: {_controller: RMComunicacionBundle:Instancia:searchSegmentos}
+   methods: [POST]   
+
+direct_config_creatividad:
+  path: /config/creatividad/list/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4 }
+  
+direct_config_listado_creatividad_paginador:
+  path: /config/creatividad/list/{codigo}
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4, codigo null }
+  requirements:
+    codigo: \w+
+    
+direct_config_listado_creatividad_actualizar:
+  path: /config/creatividad/list/update/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:actualizarCreatividad}
+  methods: [POST]
+  
+direct_config_ficha_creatividad:
+  path: /config/creatividad/list/product/{id_creatividad}/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividad}
+  requirements:
+    id_creatividad: \d+
+
+direct_config_ficha_creatividad_crear:
+  path: /config/creatividad/list/creatividad/new/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividadCrear}
+  
+direct_config_ficha_creatividad_upload:
+  path: /config/creatividad/list/product/upload/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:uploadImageCreatividad}
+  methods: [POST]
+
+direct_buscador_creatividades_popup:
+  path: /creatividades/search/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:searchCreatividadesPopoup}
+
+direct_buscador_creatividades_popup_actualizar:
+  path: /creatividades/search/update/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:searchActualizarCreatividadesPopup}
+  methods: [POST]
+
+direct_getting_consumers:
+   path: monitor/manager/instance/{id_instancia}/getting_consumers
+   defaults: {_controller: RMComunicacionBundle:Instancia:gettingConsumers}
+   methods: [POST]
+
+rm_comunicacion.segmento_comunicacion.reanudar_segmento:
+   path: direct/manager/reanudar/segmentocomunicacion/{idSegmentoComunicacion}/
+   defaults: {_controller: RMComunicacionBundle:SegmentoComunicacion:reanudarSegmentoComunicacion}
+   methods: [POST]
+   requirements:
+      idSegmentoComunicacion: \d+
+
+rm_comunicacion.segmento_comunicacion.parar_segmento:
+   path: direct/manager/parar/segmentocomunicacion/{idSegmentoComunicacion}/
+   defaults: {_controller: RMComunicacionBundle:SegmentoComunicacion:pararSegmentoComunicacion}
+   methods: [POST]
+   requirements:
+      idSegmentoComunicacion: \d+
+
+rm_comunicacion.segmento_comunicacion.eliminar_segmento:
+   path: direct/manager/eliminar/segmentocomunicacion/{idSegmentoComunicacion}/
+   defaults: {_controller: RMComunicacionBundle:SegmentoComunicacion:eliminarSegmentoComunicacion}
+   methods: [POST]
+   requirements:
+      idSegmentoComunicacion: \d+

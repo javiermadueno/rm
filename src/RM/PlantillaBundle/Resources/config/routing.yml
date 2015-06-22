@@ -1,0 +1,111 @@
+direct_manager_edit_plantillas:
+  path: /manager/edit/templates/{id_comunicacion}/
+  defaults: {_controller: RMPlantillaBundle:Default:index, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
+  requirements:
+    id_comunicacion: \d+
+
+direct_manager_edit_plantillas_importar:
+  path: /manager/edit/templates/{id_canal}/{id_comunicacion}/import/
+  defaults: {_controller: RMPlantillaBundle:Default:importarPlantilla}
+  requirements:
+    id_canal: \d+
+    id_comunicacion: \d+
+    
+direct_manager_edit_plantillas_exportar:
+  path: /manager/edit/templates/{id_canal}/{id_comunicacion}/export/
+  defaults: {_controller: RMPlantillaBundle:Default:exportarPlantilla}
+  requirements:
+    id_canal: \d+
+    id_comunicacion: \d+
+    
+direct_manager_edit_plantillas_acciones:
+  path: /manager/edit/templates/action/export_import/
+  defaults: {_controller: RMPlantillaBundle:Default:accionExpImpPlantilla}
+  methods: [POST]
+  
+direct_manager_edit_plantillas_descargar:
+  path: /manager/edit/templates/{id_comunicacion}/action/download/
+  defaults: {_controller: RMPlantillaBundle:Default:descargarFicherosPlantilla}
+  requirements:
+    id_comunicacion: \d+
+    
+direct_manager_edit_plantillas_upload:
+  path: /manager/edit/templates/{id_comunicacion}/action/upload/
+  defaults: {_controller: RMPlantillaBundle:Default:uploadFicherosPlantilla}
+  methods: [POST]
+  requirements:
+    id_comunicacion: \d+
+
+direct_config_plantillas_editar_eliminar_grupo:
+  path: /config/templates/list/update/groups/delete/
+  defaults: {_controller: RMPlantillaBundle:Config:eliminarGruposPlantilla}
+  methods: [POST]
+  
+
+direct_config_plantillas_grupo_slots_guardar:
+  path: /config/templates/list/gs/save/
+  defaults: {_controller: RMPlantillaBundle:Config:guardarFichaGrupoSlot}
+  methods: [POST]
+  
+direct_config_tamanyo:
+  path: /config/size/config/
+  defaults: {_controller: RMPlantillaBundle:TamanyoImagen:index, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+  methods: [GET]
+  
+direct_config_tamanyo_delete:
+  path: /config/size/config/delete/
+  defaults: {_controller: RMPlantillaBundle:TamanyoImagen:deleteTamanyo}
+  methods: [POST]
+  
+direct_config_tamanyo_nuevo:
+  path: /config/size/config/new/{tipoEntidad}/
+  defaults: {_controller: RMPlantillaBundle:TamanyoImagen:nuevoTamanyo, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+  
+direct_config_tamanyo_guardar:
+  path: /config/size/config/save/
+  defaults: {_controller: RMPlantillaBundle:TamanyoImagen:guardarTamanyo}
+  methods: [POST]
+  
+direct_config_plantillas_listaGrupoSlots:
+  path: /config/templates/listaGrupoSlots/
+  defaults: {_controller: RMPlantillaBundle:Default:mostrarListaGrupoSlots}
+  methods: [POST]
+  
+direct_config_plantillas_eliminarGuardarGS:
+  path: /config/templates/listaGrupoSlots/eliminar/
+  defaults: {_controller: RMPlantillaBundle:Default:eliminarGuardarGS}
+  methods: [POST]
+  
+direct_show_gsm:
+  path: /config/templates/listaGrupoSlots/GSM
+  defaults: {_controller: RMPlantillaBundle:Default:showGSM, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
+  methods: [POST]
+  
+direct_manager_previsualizar_plantilla:
+  path: /config/templates/{id_comunicacion}/preview/
+  defaults: {_controller: RMPlantillaBundle:Default:previsualizarPlantilla, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
+  requirements:
+    id_comunicacion: \d+
+    
+direct_manager_editar_grupo_slots:
+  path: /manager/edit/grupoSlot/{id_comunicacion}/{id_plantilla}/{id_grupo}/
+  defaults: {_controller: RMPlantillaBundle:Config:editarGrupoSlots, $idOpcionMenuSup 2, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+  requirements:
+    id_plantilla: \d+
+    id_grupo: \d+
+    id_comunicacion: \d+
+
+direct_manager_crear_grupo_slots:
+   path: /manager/crear/grupoSlots/{id_comunicacion}/{id_plantilla}/
+   defaults: {_controller: RMPlantillaBundle:Config:crearGrupoSlots, $idOpcionMenuSup 2, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+   requirements:
+     id_plantilla: \d+
+     id_comunicacion: \d+
+
+direct_manager_eliminar_grupo_slots:
+    path: /manager/eliminar/grupoSlots
+    defaults: { _controller: RMPlantillaBundle:Config:eliminarGrupoSlots }
+    methods: [POST]
+  
+  
+  

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+	    <title>{% block title %}{% endblock %}</title>
+	    {% block stylesheets %}
+	    	<link href="{{ asset('css/estilosBase.css') }}" rel="stylesheet" />
+            <link rel="stylesheet" href="{{ asset('css/style.default.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('prettify/prettify.css') }}" type="text/css" />
+
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+            {# <script type="text/javascript" src="{{ asset('js/jquery-1.9.1.min.js')}}"></script>
+             <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.1.1.min.js')}}"></script>#}
+            <script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('prettify/prettify.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/modernizr.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.jgrowl.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.alerts.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.cookie.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/custom.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/elements.js')}}"></script>
+            <style type="text/css">
+                body{
+                    background: #FFFFFF!important;
+                }
+            </style>
+	    {% endblock %}
+	    {% block rss %}{% endblock %}
+	</head>
+	
+	<body id="{% block id '' %}">
+		<header>
+	        {% block header %}
+			{% endblock %}
+	        
+	        {% block navegacion %}
+	        {% endblock %}
+	    </header>
+		<div id="cuerpo" class="container">
+	        {% block body %}{% endblock %}
+	    </div>
+		<footer>
+		    {% block footer %}{% endblock %}    
+		</footer>
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>

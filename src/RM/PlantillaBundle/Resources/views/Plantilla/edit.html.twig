@@ -1,0 +1,231 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% set id_comunicacion = comunicacion.idComunicacion %}
+{% set objComunicacion = comunicacion %}
+{% set opcionMenuTabComunicacion = 3 %}
+{% set idOpcionMenuIzq =1 %}
+
+{% block title %}
+    {{ parent() }} - {{ "plantilla" | trans|title }}
+{% endblock %}
+
+{% block tabcontent %}
+    {% set es_editable = plantilla.editable %}
+    {% set generada = comunicacion.generada %}
+
+    {#<div class="row-fluid">
+        <div class="span1 offset11">
+            <button class="btn btn-primary" onclick="javascript:window.location.href='{{ path('rm_plantilla_plantilla_modelo_index') }}';">
+                {{ "boton.volver"|trans }}
+            </button>
+        </div>
+    </div>#}
+
+    <h4 class="widgettitle">{{ "cabecera.acciones.plantilla"|trans|title }}</h4>
+    <div class="mediamgr_head">
+        <table width="100%" style="margin-bottom: 30px;">
+            <tbody>
+            <tr>
+                <td class="pull-right" width="100">
+                    <button class="btn btn-primary  {{ es_editable ? 'enabled' : 'disabled' }}"
+                            onClick="importarPlantilla();">
+                        <i class="iconfa-arrow-down"></i>&nbsp;&nbsp;{{ "boton.importar" | trans }}
+                    </button>
+                </td>
+                <td class="pull-right" width="100">
+                    <button class="btn btn-primary" {{ plantilla.esModelo ? 'disabled' : 'enabled' }}
+                            onClick="exportarPlantilla();">
+                        <i class="iconfa-share"></i>&nbsp;&nbsp;{{ "boton.exportar" | trans }}
+                    </button>
+                </td>
+                <td class="pull-left" width="120">
+                    <button class="btn btn-primary"
+                        onClick="location.href='{{ path('direct_manager_edit_plantillas_descargar', {'id_comunicacion': id_comunicacion}) }}'; return false;">
+                        <i class="iconfa-download"></i>&nbsp;&nbsp;{{ "boton.descargar" | trans }}
+                    </button>
+                </td>
+                <td class="pull-left" width="200">
+                    <button class="btn btn-primary" onClick="previsualizarPlantilla()">
+                        <i class="iconfa-eye-open"></i>&nbsp;&nbsp;{{ "boton.previsualizar.plantilla" | trans }}
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <form name="form1" id="form1"
+              action="{{ path('direct_manager_edit_plantillas_upload', {'id_comunicacion': id_comunicacion}) }}"
+              method="post" enctype="multipart/form-data">
+            <label for="fichero">
+                {{ "subir.plantilla.maquetada" | trans|title }}
+            </label>
+            <input id="fichero" name="fichero" type="file">
+            <button class="btn btn-primary" type="submit"
+                    onClick="return subirPlantilla();">{{ "boton.subir" | trans }}</button>
+        </form>
+    </div>
+
+
+    {#{{ form_start(edit_form) }}
+    <h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
+    <div class="mediamgr_head">
+        <table class="table responsive" >
+            <tbody>
+            <tr>
+                <td class="sinborde">{{ form_label(edit_form.nombre, 'nombre' | trans) }}</td>
+                <td class="sinborde">
+                    {{ form_widget(edit_form.nombre, { 'attr': { 'class': 'tam150' } }) }}
+                </td>
+            </tr>
+            {#<tr>
+                <td class="sinborde">{{ form_label(edit_form.descripcion, 'descripcion' | trans) }}</td>
+                <td class="sinborde" colspan="3">
+                    {{ form_widget(edit_form.descripcion, { 'attr': { 'class': 'tam600' } }) }}
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td>
+                {{ form_widget(edit_form.submit , {'attr': {'class': 'btn btn-primary'}, 'label': 'boton.guardar'|trans|title }) }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    {{ form_rest(edit_form) }}
+    {{ form_errors(edit_form) }}
+    {{ form_end(edit_form) }} #}
+
+    {{ render(controller('RMPlantillaBundle:GrupoSlots:index', {
+        'idPlantilla': plantilla.idPlantilla,
+        'idComunicacion': comunicacion.idComunicacion
+    })) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+
+        function importarPlantilla() {
+            var largo = 550;
+            var altura = 450;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Importar Plantilla" %}
+            {% set crearUrl = url('direct_manager_edit_plantillas_importar', {'id_canal': objComunicacion.getIdCanal().getIdCanal(), 'id_comunicacion': id_comunicacion}) %}
+            var myUrl = '{{crearUrl}}';
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        function exportarPlantilla() {
+            var largo = 550;
+            var altura = 450;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Exportar Plantilla" %}
+            {% set crearUrl = url('direct_manager_edit_plantillas_exportar', {'id_canal': objComunicacion.getIdCanal().getIdCanal(), 'id_comunicacion': id_comunicacion}) %}
+            var myUrl = '{{crearUrl}}';
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        function previsualizarPlantilla() {
+
+            var largo = 550;
+            var altura = 450;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Previsualizar Plantilla" %}
+            {% set crearUrl = url('direct_manager_previsualizar_plantilla', {'id_comunicacion': id_comunicacion}) %}
+
+            var myUrl = '{{crearUrl}}';
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+
+
+            //window.open('http://www.meydisvalencia.es/perfumeria/', 'Plantilla',"width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+
+        function subirPlantilla() {
+            file = $('#fichero').val();
+            extArray = new Array(".html");
+            allowSubmit = false;
+
+            if (!file) {
+                alert("No ha seleccionado ningun fichero");
+                return false;
+            }
+            ;
+            while (file.indexOf("\\") != -1) file = file.slice(file.indexOf("\\") + 1);
+            ext = file.slice(file.indexOf(".")).toLowerCase();
+            for (var i = 0; i < extArray.length; i++) {
+                if (extArray[i] == ext) {
+                    allowSubmit = true;
+                    break;
+                }
+            }
+            if (allowSubmit) {
+                //Se comprueba el tamaña del fichero subido, una vez comprobado que es de extensión html
+                //1048576 = 1M
+                var tamMega = 1048576;
+                var tamFile = tamMega * 5; //5 Megas
+                var fic = document.getElementById('fichero');
+                if (fic.files != undefined) {
+                    if (fic.files[0].size > tamFile) {
+                        alert("El tamaño del fichero es demasiado grande.");
+                        return false;
+                    }
+                }
+                else {
+                    $('#form1').submit();
+                }
+            }
+            else {
+                alert("Usted sólo puede subir archivos con extensiones " + (extArray.join(" ")) + "\nPor favor seleccione un nuevo archivo");
+                return false;
+            }
+        }
+
+        $(document).ready(function () {
+            $('#btonBorrarGrupo').on("click", function (e) {
+                e.preventDefault(); //cancela el comportamiento por defecto
+                var existe = 0;
+                $(".selTodos:checked").each(function () {
+                    existe = 1;
+                    var cur_val = $('#elementosBorrar').val();
+                    if (cur_val)
+                        $('#elementosBorrar').val(cur_val + "," + this.value);
+                    else
+                        $('#elementosBorrar').val(this.value);
+                });
+
+                if (existe == 0) {
+                    alert("Debe de elegir al menos un registro");
+                }
+                else {
+                    if (confirm("¿Desea eliminar los registros seleccionados?")) {
+                        $("#borrarGrupos").submit();
+                    }
+                    else {
+                        $('#elementosBorrar').val("");
+                    }
+                }
+            });
+
+            $('#checkTodos').on("click", function () {
+                if ($("#checkTodos").is(':checked')) {
+                    $('.selTodos').prop("checked", true);
+
+                } else {
+                    $('.selTodos').prop("checked", false);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

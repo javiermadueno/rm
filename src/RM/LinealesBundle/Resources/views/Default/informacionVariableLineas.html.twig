@@ -1,0 +1,50 @@
+{% extends ':data:base_data.html.twig' %}
+
+{% block pagetitle %}
+    <h5>{{ "informacion" |trans|title }}</h5>
+    <h1>{{ "menu.data.sociodemografico" |trans|title }}</h1>
+{% endblock pagetitle %}
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span
+                class="separator"></span></li>ç
+    <li>{{ "menu.data.modo_avanzado" |trans|title }} <span class="separator"></span></li>
+    <li><a href="{{ path('data_avanced_sociodemografico') }}">{{ "menu.data.sociodemografico" |trans|title }}</a> <span
+                class="separator"></span></li>
+    <li>{{ vil.nombre |trans|title }}</li>
+
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "cabecera.informacion.variable.sociodemografica" |trans|title }}</h4>
+    <div class="widgetcontent">
+        <table class="table table-bordered table-striped" style="width: 30%; margin: 0 0 0 20px;">
+            <thead>
+            <tr>
+                <th class="botonera_central">{{ "nombre" |trans|title }}</th>
+                <th>{{ "valor" |trans|title }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dato in datos %}
+                {% if loop.first %}
+                    <tr>
+                        <td rowspan="{{ datos|length }}" class="center-all">{{ vil.nombre }}</td>
+                        <td>{{ dato.nombre|title }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ dato.nombre|title }}</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="2" class="botonera_central">{{ "sin.resultados" | trans|title }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

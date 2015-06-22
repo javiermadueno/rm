@@ -1,0 +1,447 @@
+{% extends '::insight/base_insight.html.twig' %}
+{% block title %}
+
+    {% trans %}Performance{% endtrans %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet"/>
+    <script src="{{ asset('js/datepicker/jquery-datepicker.js') }}"></script>
+    <script src="{{ asset('js/datepicker/jquery.ui.datepicker-es.js') }}"></script>
+    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/highcharts.js"></script>
+    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/modules/exporting.js"></script>
+{% endblock %}
+
+{% block migas %}
+    <p>
+        <span class="ml1">{% trans %}Insight>{% endtrans %}</span> > <span class="mlN">{% trans %}
+            Dashboard{% endtrans %}</span>
+    </p>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    <div class="bloque_mensajes">
+        <div id="control_mensajes" class="control_mensajes">
+            {% include '::logMensajes.html.twig' %}
+        </div>
+    </div>
+
+    <div class="bloque_contenido">
+
+    <div class="cabecera_contenido">
+        <span>{% trans %}Clientes{% endtrans %}</span>
+    </div>
+    <div class="bloque_contenido sinborde">
+        <div class="linea_contenido">
+            <label>{% trans %}Compara&nbsp;&nbsp;{% endtrans %}</label>
+            <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+                <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
+                <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
+                <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
+                <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
+                <option value="5">{% trans %}May-2014{% endtrans %}</option>
+                <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
+                <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
+                <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
+                <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
+                <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
+                <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
+                <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+            </select>
+            <label>{% trans %}&nbsp;&nbsp;con&nbsp;&nbsp;{% endtrans %}</label>
+            <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+                <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+                <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
+                <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
+                <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
+                <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
+                <option value="5">{% trans %}May-2014{% endtrans %}</option>
+                <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
+                <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
+                <option value="8">{% trans %}Ago-2014{% endtrans %}</option>
+                <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
+                <option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
+                <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
+                <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+            </select>
+        </div>
+    </div>
+    <div class="bloque_contenido sinborde">
+    <div id="tablaRendimiento" class="bloque_contenido sinborde">
+    <table>
+    <tbody>
+    <thead>
+    <tr>
+        <th style="text-align: center;" width="8%">{% trans %}&nbsp;{% endtrans %}</th>
+        <th style="text-align: center;" width="4%">{% trans %}&nbsp;{% endtrans %}</th>
+        <th style="text-align: center;" width="7%">{% trans %}Segmentos{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="12%">{% trans %}N&uacute;mero Clientes{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="12%">{% trans %}Media Ventas{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="12%">{% trans %}Frecuencia Media{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="12%">{% trans %}Ticket Medio{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="12%">{% trans %}Recencia Media{% endtrans %}</th>
+        <th colspan="2" style="text-align: center;" width="14%">{% trans %}Amplitud Media{% endtrans %}</th>
+    </tr>
+    </thead>
+    {% for count in rendimiento %}
+        <tr>
+            <td rowspan="2" width="7%">
+                <div style="vertical-align: middle;">
+                    {% if count[0] == "Nuevos" %}
+                        <span style="vertical-align: middle; display: inline-block;">
+												{{ count[0] }} 
+												</span>
+                    {% elseif count[0] == "Activos" %}
+                        <span style="vertical-align: middle; display: inline-block;">
+													{{ count[0] }}
+												</span>
+                    {% elseif count[0] == "Inactivos" %}
+                        {{ count[0] }}
+                    {% endif %}
+                </div>
+            </td>
+            <td rowspan="2" width="2%">
+                {% if count[0] == "Nuevos" %}
+                    <a href="{{ path("rm_insight_cliente_new") }}">
+                        <img style="float:center; display: inline-block;" class="info"
+                             src="{{ asset('img/icono_info.png') }}" alt="{{ 'Nuevos' | trans }}"
+                             title="{{ 'Nuevos' | trans }}"/>
+                    </a>
+                {% elseif count[0] == "Activos" %}
+                    <a href="{{ path("rm_insight_cliente_activo") }}">
+                        <img style="float:center; display: inline-block;" class="info"
+                             src="{{ asset('img/icono_info.png') }}" alt="{{ 'Activos' | trans }}"
+                             title="{{ 'Activos' | trans }}"/>
+                    </a>
+                {% elseif count[0] == "Inactivos" %}
+                    <a href="">
+                        <img style="float:center; display: inline-block;" class="info"
+                             src="{{ asset('img/icono_info.png') }}" alt="{{ 'Inactivos' | trans }}"
+                             title="{{ 'Inactivos' | trans }}"/>
+                    </a>
+                {% endif %}
+            </td>
+            <td rowspan="2" style="text-align: center;" width="7%">
+                {{ count[1] }}
+            </td>
+            <td style="text-align: center;" width="7%">
+                {{ count[2] }}
+            </td>
+            {% if count[4] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[4]|length == 3 %}
+                        {{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[4] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[4] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[4]|length == 3 %}
+                        {{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                 alt="{{ 'Proyeccion' | trans }}"
+                                                                                 title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[4] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[4] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+            <td style="text-align: center;" width="7%">
+                {{ count[5] }}
+            </td>
+            {% if count[7] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[7]|length == 3 %}
+                        {{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[7] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[7] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[7]|length == 3 %}
+                        {{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                 alt="{{ 'Proyeccion' | trans }}"
+                                                                                 title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[7] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[7] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+
+            <td style="text-align: center;" width="7%">
+                {{ count[8] }}
+            </td>
+            {% if count[10] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[10]|length == 3 %}
+                        {{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                   alt="{{ 'Proyeccion' | trans }}"
+                                                                                   title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[10] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[10] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[10]|length == 3 %}
+                        {{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[10] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[10] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+            <td style="text-align: center;" width="7%">
+                {{ count[11] }}
+            </td>
+            {% if count[13] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[13]|length == 3 %}
+                        {{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                   alt="{{ 'Proyeccion' | trans }}"
+                                                                                   title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[13] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[13] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[13]|length == 3 %}
+                        {{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[13] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[13] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+            <td style="text-align: center;" width="7%">
+                {{ count[14] }}
+            </td>
+            {% if count[16] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[16]|length == 3 %}
+                        {{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                   alt="{{ 'Proyeccion' | trans }}"
+                                                                                   title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[16] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[16] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[16]|length == 3 %}
+                        {{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[16] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[16] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+            <td style="text-align: center;" width="7%">
+                {{ count[17] }}
+            </td>
+            {% if count[19] > 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[19]|length == 3 %}
+                        {{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img  src="{{ asset('img/arrowup.png') }}"
+                                                                                   alt="{{ 'Proyeccion' | trans }}"
+                                                                                   title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[19] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% elseif count[19] < 0 %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {% if count[19]|length == 3 %}
+                        {{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}"
+                                                                                  alt="{{ 'Proyeccion' | trans }}"
+                                                                                  title="{{ 'Proyeccion' | trans }}" />
+                    {% else %}
+                        {{ count[19] }}{% trans %}%&nbsp;&nbsp;&nbsp;{% endtrans %}<img
+                        src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"
+                        title="{{ 'Proyeccion' | trans }}" />
+                    {% endif %}
+                </td>
+            {% else %}
+                <td rowspan="2" style="text-align: center;" width="7%">
+                    {{ count[19] }}{% trans %}%{% endtrans %}
+                </td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td style="text-align: center; background-color: graytext; border-bottom: thin; border-bottom-style: solid;"
+                width="7%">
+                {{ count[3] }}
+            </td>
+            <td style="text-align: center; background-color: graytext;" width="7%">
+                {{ count[6] }}
+            </td>
+            <td style="text-align: center; background-color: graytext;" width="7%">
+                {{ count[9] }}
+            </td>
+            <td style="text-align: center; background-color: graytext;" width="7%">
+                {{ count[12] }}
+            </td>
+            <td style="text-align: center; background-color: graytext;" width="7%">
+                {{ count[15] }}
+            </td>
+            <td style="text-align: center; background-color: graytext;" width="7%">
+                {{ count[18] }}
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            $('.date-picker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'MM yy',
+                onClose: function (dateText, inst) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).datepicker('setDate', new Date(year, month, 1));
+                }
+            });
+        });
+
+        $(function () {
+            $('#graficoBarras').highcharts({
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Contribuciones mensuales vs miembros'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: [{
+                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}%',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: '% miembros',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: 'Contribuciones',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '{value}\u20AC',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 120,
+                    verticalAlign: 'top',
+                    y: 100,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                series: [{
+                    name: 'Contribuciones',
+                    type: 'column',
+                    yAxis: 1,
+                    data: [8, 7, 3, 7, 12, 7, 10, 11, 5, 7, 9, 13],
+                    tooltip: {
+                        valueSuffix: '\u20AC'
+                    }
+
+                }, {
+                    name: 'Porcentaje',
+                    type: 'spline',
+                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                    tooltip: {
+                        valueSuffix: '%'
+                    }
+                }]
+            });
+        });
+    </script>
+{% endblock %}

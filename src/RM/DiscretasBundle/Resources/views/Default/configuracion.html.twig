@@ -1,0 +1,171 @@
+{% extends '::data/base_data.html.twig' %}
+
+{% block title %} 
+	{{ "configuracion" |trans | title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><span class="iconfa-home"></span></a><span class="separator"></span> </li>
+    <li>{{ "menu.data.modo_basico" | trans }} <span class="separator"></span>  </li>
+    <li>{{ "configuracion" | trans | title }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "parametros.generales" |trans | upper }}</h5>
+    <h1>{{"configuracion" |trans | title }}</h1>
+{% endblock %}
+
+
+{% block contenedorPrincipal %}
+
+<form id="form" name="form" method="post" action="{{ path("data_basic_save_configuration_data") }}">
+    <h4 class="widgettitle">{{ "cabecera.configuracion.parametros.generales" | trans }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0" style="align: left; width: 10%">
+            <col class="con1" style="align: left; width: 40%">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+
+            <th>{{ "parametro" |trans|title }}</th>
+            <th>{{ "descripcion" | trans|title }}</th>
+            <th>{{ "valor" | trans|title }}</th>
+
+        </thead>
+        <tbody>
+
+        {% for parametro in parametros %}
+            <tr>
+                <td style="text-align: center;">{{ parametro.nombre |lower|trans|title }}</td>
+                <td>{{ parametro.descripcion|default('') }}</td>
+                <td class="center-all">
+                    <div style="display: flex;flex-flow: row nowrap; align-items: flex-end;">
+                        <div style="">
+                            <label for="parametro_{{ parametro.id }}_minimo">{{ "minimo" |trans|title}}</label>
+                            <input disabled style="margin-bottom: 0px" class="span1 slider-minimo" type="number" id="parametro_{{ parametro.id }}_minimo" name="parametro[{{ parametro.id }}][minimo]" value="{{ parametro.minimo|default(0) }}" data-id="{{ parametro.id }}"/>
+                        </div>
+
+                        <div style="margin-left: 20px; width: 320px">
+                            <input type="hidden" step="any" min="0" id="parametro_{{ parametro.id }}_bajo" name="parametro[{{ parametro.id }}][maxBajo]" value="{{ max(parametro.maxBajo|default(0), parametro.minimo|default(0)) }}"/>
+                            <input type="hidden" step="any" min="0" id="parametro_{{ parametro.id }}_medio" name="parametro[{{ parametro.id }}][maxMedio]" value="{{ min(parametro.maxMedio|default(100), parametro.maximo|default(100)) }}"/>
+                            <div id="slider-{{ parametro.id }}" data-id="{{ parametro.id }}" data-max="{{ parametro.maximo|default(100)|round(0, 'ceil') }}" data-min="{{ parametro.minimo|default(0) }}" class="editSlider"></div>
+                        </div>
+                        <div style="margin-left: 20px">
+                            <label for="parametro_{{ parametro.id }}_maximo">{{ "maximo" |trans|title}}.</label>
+                            <input disabled style="margin-bottom: 0px" class="span1 slider-maximo" type="number" id="parametro_{{ parametro.id }}_maximo" name="parametro[{{ parametro.id }}][maximo]" value="{{ parametro.maximo|default(100)|round(0, 'ceil') }}" data-id="{{ parametro.id }}"/>
+                        </div>
+                        <div style="margin-left: 20px">
+                            <label for="parametro_{{ parametro.id }}_valor_medio">{{ "valor.medio" |trans|title}}</label>
+                            <input  disabled style="margin-bottom: 0px" class="span1 slider-maximo" type="number" value="{{ parametro.valorMedio|round(2, 'ceil') }}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        {% for configuracion in configuraciones %}
+            <tr>
+                <td>{{ configuracion.nombre|trans|title }}</td>
+                <td>{{ configuracion.descripcion }}</td>
+                <td class="center-all">
+                    <span class="inline"><label for="configuracion_{{ configuracion.id}}_valor">{{ "valor" |trans|title}}</label></span>
+                    <input type="number" {%  if configuracion.nombre in ['nivel_gama_segmentar', 'nivel_category_manager'] %} min="1" max="3" {% endif %}
+                           class="input-small" id="configuracion_{{ configuracion.id}}_valor" name="configuracion[{{ configuracion.id }}][valor]"
+                           value="{{ configuracion.valor }}"/>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <table width="200" cellspacing="0" border="0" >
+        <td><button type="submit" class="btn btn-primary" id="botonGuardar">{{ "boton.guardar" | trans }}</button></td>
+    </table>
+</form>
+
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jQRangeSlider/jQEditRangeSlider-min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('js/jQRangeSlider/css/iThing.css') }}" type="text/css" />
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    <script>
+        $('.editSlider').each(function(){
+            var max = parseInt(this.dataset.max);
+            var min = parseInt(this.dataset.min);
+            var paso = max - min < 10 ? (max - min) /10 : 1;
+
+            console.log(paso);
+
+            $(this).editRangeSlider({
+                arrows: false,
+                defaultValues: {
+                    min:  $('#parametro_'+this.dataset.id+'_bajo').val(),
+                    max:  $('#parametro_'+this.dataset.id+'_medio').val()
+                },
+                bounds: {
+                    max: max,
+                    min: min
+                },
+                step: paso,
+                formatter:function(val){
+                    var value = Math.round(val * 5) / 5,
+                            decimal = value - Math.round(val);
+                    return decimal == 0 ? value.toString() + ".0" : value.toString();
+                }
+             });
+        });
+
+        $('.slider-minimo').on('input', function(){
+            var id =  this.dataset.id;
+            var minimo = parseInt(this.value);
+            var $slider = $('#slider-'+id);
+            var bounds = $slider.rangeSlider('bounds');
+            $slider.editRangeSlider('option', 'bounds', {min: minimo, max: bounds.max});
+        });
+
+        $('.slider-maximo').on('input', function(){
+            var id =  this.dataset.id;
+            var maximo = parseInt(this.value);
+            var $slider = $('#slider-'+id);
+            var bounds = $slider.rangeSlider('bounds');
+            $slider.editRangeSlider('option', 'bounds', {min: bounds.min, max: maximo});
+        });
+
+        $('.slider-maximo, .slider-minimo').keypress(function(event){
+
+            if (event.keyCode == 10 || event.keyCode == 13)
+                event.preventDefault();
+
+        });
+
+
+        $('.editSlider').on('userValuesChanged', function(e,data){
+            var id = this.dataset.id;
+           cambiaValorInput(data, id);
+
+        });
+
+        $('.editSlider').on('valuesChanging', function(e,data){
+            var id = this.dataset.id;
+            cambiaValorInput(data, id);
+
+        });
+
+        $('.editSlider').on('valuesChanged', function(e,data){
+            var id = this.dataset.id;
+            cambiaValorInput(data, id);
+        });
+
+        function cambiaValorInput(data, id)
+        {
+            $('#parametro_'+id+'_bajo').val(data.values.min);
+            $('#parametro_'+id+'_medio').val(data.values.max);
+        }
+    </script>
+
+{% endblock javascripts %}

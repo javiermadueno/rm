@@ -1,0 +1,30 @@
+{% extends  '@RMStatic/staticbase.html.twig' %}
+
+{% block body %}
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for plantilla in plantillas %}
+            <tr>
+                <td>
+                    <a href="{{ path('rm_static_default_plantilla', {'idPlantilla': plantilla.idPlantilla}) }}">{{ plantilla.idPlantilla }}</a>
+                </td>
+                <td>{{ plantilla.nombre|default('') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}

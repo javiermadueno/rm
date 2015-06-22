@@ -1,0 +1,18 @@
+{% macro diferencia(valor1, valor2) %}
+    {% set valor1 = valor1|default(0) %}
+    {% set valor2 = valor2|default(0) %}
+
+    {% if valor1 == 0 and valor2 == 0 %}
+        {% set dif = 0 %}
+    {% else %}
+        {% set dif = valor1 == 0 ? (valor2 - valor1)/valor2 : (valor2 - valor1)/valor1 %}
+    {% endif %}
+
+    {{ "%.2f%%"|format(dif * 100) }}
+
+    {% if dif > 0 %}
+        <img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'mejora' | trans }}"/>
+    {% else %}
+        <img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'baja' | trans }}"/>
+    {% endif %}
+{% endmacro %}

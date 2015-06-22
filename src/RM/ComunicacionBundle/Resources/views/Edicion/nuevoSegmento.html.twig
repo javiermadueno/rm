@@ -1,0 +1,389 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% set opcionMenuTabComunicacion = 1 %}
+
+{% block title %}
+    {{ "segmento.comunicacion" | trans|title }}
+{% endblock %}
+
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ "segmento.comunicacion"|trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+    {% set estadoConfiguracion  =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+    {% set estadoActivo         =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
+    {% set estadoPausado        =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO') %}
+    {% set estadoCompletado     =  constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
+
+    <form name="form" id="form" method="post" action="{{ path('direct_manager_edit_segmentos_nuevo_guardar') }}">
+        <input type="hidden" name="id_comunicacion" value="{{ id_comunicacion }}">
+        <input type="hidden" id="fecIni_comunicacion" name="fecIni_comunicacion"
+               value="{{ objComunicacion.fecInicio | date("m/d/Y") }}">
+        <input type="hidden" id="fecFin_comunicacion" name="fecFin_comunicacion"
+               value="{{ objComunicacion.fecFin | date("m/d/Y") }}">
+        <h4 class="widgettitle">{{ "nuevo.segmento" |trans|title }}</h4>
+
+        <div class="mediamgr_head">
+            <table class="margin-center">
+                <tbody>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="sinborde textoApartado">{% trans %}DATOS{% endtrans %}</td>
+                </tr>
+                <tr height="10">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <td width="40%" class="sinborde textoDerecha">{% trans %}Variable Ciclo de Vida{% endtrans %}</td>
+                <td width="3%" class="sinborde">&nbsp;</td>
+                <td class="sinborde">
+                    <select id="id_ciclo_vida" name="id_ciclo_vida" class="tam150" required>
+                        <option value="-1">{% trans %}Seleccionar{% endtrans %}</option>
+                        {% for objT in objTransformadas %}
+                            <option value="{{ objT.idVt }}">{{ objT.nombre }}</option>
+                        {% endfor %}
+                    </select>
+
+                    &nbsp;&nbsp;&nbsp;<span id="errorCicloVida" class="campoRequerido"></span>
+                </td>
+                </tr>
+                <tr>
+                    <td width="40%" class="sinborde textoDerecha">{% trans %}Segmento{% endtrans %}</td>
+                    <td width="3%" class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="id_segmento" name="id_segmento" class="tam150" disabled="disabled" required>
+
+                        </select>
+
+                        &nbsp;&nbsp;&nbsp;<span id="errorSegmento" class="campoRequerido"></span>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Fecha de inicio{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="fecIni" id="fecIni" class="datepicker tam150" value=""
+                               placeholder="{{ objComunicacion.fecInicio|date('d/m/Y') }}"/>
+                        &nbsp;&nbsp;&nbsp;<span id="errorFechaIni" class="campoRequerido"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Fecha de fin{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="fecFin" id="fecFin" class="datepicker tam150" value=""
+                               placeholder="{{ objComunicacion.fecFin | date('d/m/Y') }}"/>
+                        &nbsp;&nbsp;&nbsp;<span id="errorFechaFin" class="campoRequerido"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Estado{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="estado" name="estado" class="tam150">
+                            <option value="{{ estadoConfiguracion }}">  {{ "comunicacion.estado.configuracion" | trans|title }}</option>
+                            <option value="{{ estadoActivo }}">         {{ "comunicacion.estado.activo" | trans|title }}</option>
+                            <option value="{{ estadoPausado }}">        {{ "comunicacion.estado.pausado" | trans|title }}</option>
+                            <option value="{{ estadoCompletado }}">     {{ "comunicacion.estado.completada" | trans|title }}</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="sinborde textoApartado">{% trans %}FRECUENCIA{% endtrans %}</td>
+                </tr>
+                <tr height="10">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Tipo{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <select id="tipo" name="tipo" class="tam150">
+                            <option value="1" selected>{% trans %}Diaria{% endtrans %}</option>
+                            <option value="2">{% trans %}Semanal{% endtrans %}</option>
+                            <option value="3">{% trans %}Quincenal{% endtrans %}</option>
+                            <option value="4">{% trans %}Mensual{% endtrans %}</option>
+                            <option value="5">{% trans %}Trimestral{% endtrans %}</option>
+                            <option value="6">{% trans %}Cuatrimestral{% endtrans %}</option>
+                            <option value="7">{% trans %}Anual{% endtrans %}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Mes{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div id="capaMesFrecuencia">
+                            {% set vars = {'valTipo': '-1', 'valMes': '-1', 'valDia': '-1'} %}
+                            {% include 'RMComunicacionBundle:Edicion:mesFrecuencia.html.twig' with vars %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}D&iacute;a{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <div id="capaDiaFrecuencia">
+                            {% set vars = {'valTipo': '-1', 'valMes': '-1', 'valDia': '-1'} %}
+                            {% include 'RMComunicacionBundle:Edicion:diaFrecuencia.html.twig' with vars %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sinborde textoDerecha">{% trans %}Hora{% endtrans %}</td>
+                    <td class="sinborde">&nbsp;</td>
+                    <td class="sinborde">
+                        <input type="text" name="hora" id="hora" class="tam150" value="22:00"
+                               pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" required/>
+                        &nbsp;&nbsp;&nbsp;<span id="errorHora" class="campoRequerido"></span>
+                    </td>
+                </tr>
+                <tr height="30">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde botonera_central">
+
+                        <button class="btn btn-primary"
+                                onClick="guardarSegComunicacion(); return false;">{{ "boton.guardar"|trans }}</button>
+
+                        <button class="btn btn-danger"
+                                onClick="location.href='{{ path('direct_manager_edit_datos',{'idComunicacion':id_comunicacion}) }}'; return false;">{{ "boton.cancelar"|trans }}</button>
+                    </td>
+                </tr>
+                <tr height="20">
+                    <td colspan="3" class="sinborde"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+    $("#id_ciclo_vida").on("change", function (e) {
+        var valorVt = $(this).val();
+        var combo = document.getElementById("id_segmento");
+        var camino = "{{ path('direct_actualizar_combo_segmentos', {'id_ciclo_vida':'-111'}) }}";
+        camino = camino.replace('-111', valorVt);
+
+        var msg = "";
+        $.ajax({
+            type: "POST",
+            url: camino,
+            complete: function (objeto, exito) {
+                if (exito == "success") {
+
+                    console.log(objeto);
+                    var segmentos = JSON.parse(objeto.responseText);
+                    console.log(segmentos);
+                    combo.options.length = 0;
+                    //adding  "Seleccione"
+                    var op = document.createElement("option");
+                    op.text = 'Seleccione'
+                    op.value = '-1'
+
+
+                    combo.appendChild(op);
+
+                    if (segmentos.length) {
+                        $("#id_segmento").prop("disabled", false);
+                    }
+                    else {
+                        $("#id_segmento").find("option").remove();
+                        $("#id_segmento").prop("disabled", true);
+                    }
+
+                    //console.log(options);
+                    for (i = 0; i < segmentos.length; i++) {
+
+                        //console.log(objeto);
+                        var op = document.createElement("option");
+                        op.text = segmentos[i]['nombre']
+                        op.value = segmentos[i]['idSegmento']
+
+                        combo.appendChild(op);
+                    }
+                }
+            },
+            error: function (objeto, quepaso, otroobj) {
+            }
+        });
+    });
+
+    function guardarSegComunicacion() {
+        var pasar = 1;
+
+        var selectedVariableCicloVida = document.getElementById('id_ciclo_vida').selectedOptions[0].value;
+        var selectedIdSegmento = document.getElementById('id_segmento').selectedOptions;
+
+        if (selectedVariableCicloVida == -1) {
+            pasar = 0;
+            $('#errorCicloVida').html("El campo es obligatorio");
+        }
+        else
+            $('#errorCicloVida').html("");
+
+        if (selectedIdSegmento[0] == undefined || selectedIdSegmento[0].value == -1) {
+            pasar = 0;
+            $('#errorSegmento').html("El campo es obligatorio");
+        }
+        else
+            $('#errorSegmento').html("");
+
+        var fechaInicioComunicacion = new Date(Date.parse($('#fecIni_comunicacion').val()));
+        var fechaFinComunicacion = new Date(Date.parse($('#fecFin_comunicacion').val()));
+
+        if ($('#fecIni').val().length == 0) {
+            $('#errorFechaIni').html("El campo es obligatorio");
+            pasar = 0;
+            return false;
+        }
+        else {
+            var fechaIni = $('#fecIni').val().split("/");
+            var fecIni = new Date(fechaIni[2], fechaIni[1] - 1, fechaIni[0]);
+            $('#errorFechaIni').html("");
+        }
+
+        if ($('#fecFin').val().length == 0) {
+            $('#errorFechaFin').html('El campo es obligatorio');
+            pasar = 0;
+            return false;
+        }
+        else {
+            var fechaFin = $('#fecFin').val().split("/");
+            var fecFin = new Date(fechaFin[2], fechaFin[1] - 1, fechaFin[0]);
+            $('#errorFechaFin').html('');
+        }
+
+        console.log(fecIni === fechaInicioComunicacion);
+        console.log('Fecha Inicio: ' + fecIni);
+        console.log('Fecha Inicio Comunicacion: ' + fechaInicioComunicacion);
+
+        if (fecIni < fechaInicioComunicacion || fecIni > fechaFinComunicacion) {
+            pasar = 0;
+            $('#errorFechaIni').html('La fecha tiene que estar en el rango de fechas de la comunicación. La fecha de inicio tiene que ser posterior al {{ objComunicacion.fecInicio|date('d/m/Y') }}');
+        }
+        else {
+            $('#errorFechaIni').html("");
+        }
+
+        if (fecFin < fechaInicioComunicacion || fecFin > fechaFinComunicacion) {
+            pasar = 0;
+            $('#errorFechaFin').html('La fecha tiene que estar en el rango de fechas de la comunicación. La fecha de fin tiene que ser anterior al {{ objComunicacion.fecFin|date('d/m/Y') }}');
+        }
+        else {
+            $('#errorFechaFin').html('');
+        }
+
+        if (pasar) {
+            if (fecFin < fecIni) {
+                pasar = 0;
+                $('#errorFechaFin').html('La fecha tiene que ser posterior a la fecha de inicio');
+            }
+            else {
+                $('#errorFechaFin').html('');
+            }
+        }
+
+        var regex = /([01]?[0-9]|2[0-3]):[0-5][0-9]/;
+        var hora = $('#hora').val();
+        if (!regex.test(hora)) {
+            pasar = 0;
+            $('#errorHora').html('Formato de hora incorrecto');
+        }
+        else {
+            $('#errorHora').html('');
+        }
+
+
+        if (pasar) {
+            $('#form').submit();
+        }
+    }
+
+
+    $(document).ready(function () {
+
+        $(".datepicker").datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: new Date(Date.parse('{{ objComunicacion.fecInicio | date("m/d/Y")  }}')),
+            maxDate: new Date(Date.parse('{{ objComunicacion.fecFin | date("m/d/Y") }}'))
+        });
+
+        $("#tipo").on("change", function (e) {
+            var valorTipo = $(this).val();
+            var camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_mes', {'valTipo':'-111', 'valMes':'-1', 'valDia':'-1'}) }}";
+            camino = camino.replace('-111', valorTipo);
+
+            var msg = "";
+            $.ajax({
+                type: "POST",
+                url: camino,
+                data: msg,
+                complete: function (objeto, exito) {
+                    if (exito == "success") {
+                        camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_dia', {'valTipo':'-111', 'valMes':'1', 'valDia':'-1'}) }}";
+                        camino = camino.replace('-111', valorTipo);
+                        $.ajax({
+                            type: "POST",
+                            url: camino,
+                            data: msg,
+                            complete: function (objeto2, exito) {
+                                if (exito == "success") {
+                                    $('#capaMesFrecuencia').html(objeto.responseText);
+                                    $('#capaDiaFrecuencia').html(objeto2.responseText);
+                                }
+                            },
+                            error: function (objeto, quepaso, otroobj) {
+                            }
+                        });
+                    }
+                },
+                error: function (objeto, quepaso, otroobj) {
+                }
+            });
+        });
+
+        $("#mes").on("change", function (e) {
+            var camino = "{{ path('direct_manager_edit_segmentos_nuevo_frecuencia_dia', {'valTipo':'-111', 'valMes':'-222', 'valDia':'-1'}) }}";
+            camino = camino.replace('-111', $("#tipo").val());
+            camino = camino.replace('-222', $(this).val());
+
+            var msg = "";
+            $.ajax({
+                type: "POST",
+                url: camino,
+                data: msg,
+                complete: function (objeto, exito) {
+                    if (exito == "success") {
+                        $('#capaDiaFrecuencia').html(objeto.responseText);
+                    }
+                },
+                error: function (objeto, quepaso, otroobj) {
+                }
+            });
+        });
+        //$('#form').parsley();
+    });
+
+
+    </script>
+    <script src="{{ asset('js/parsley.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+data_info_segmentos:
+  path: /process/segments/
+  defaults: {_controller: RMSegmentoBundle:Default:obtenerSegmentos, idOpcionMenuIzq 11}
+  methods: [GET]
+  
+data_info:
+  path: /process/
+  defaults: {_controller: FrameworkBundle:Redirect:redirect, route: data_info_segmentos}
+  
+data_info_segmentos_actualizar:
+  path: /process/segments/filtro
+  defaults: {_controller: RMSegmentoBundle:Default:actualizarListadoSegmentos}
+  methods: [GET]
+  
+data_info_show_validar_segmentos:
+  path: /process/segments/showValidateSegments
+  defaults: {_controller: RMSegmentoBundle:Default:showValidarSegmentos}
+  
+data_info_validar_segmentos:
+  path: /process/segments/validateSegments
+  defaults: {_controller: RMSegmentoBundle:Default:validarSegmentos}
+  methods: [POST]
+
+direct_buscador_segmentos_popup:
+  path: /segmentos/search/
+  defaults: {_controller: RMSegmentoBundle:Default:searchSegmentosPopoup}
+
+segmento_default_obetener_variables:
+  path: /buscar/variables/
+  defaults: {_controller: RMSegmentoBundle:Default:obtenerVariables}
+
+segmento_default_selectsclasificacion:
+  path: /get/selectclasificacion
+  defaults: { _controller: RMSegmentoBundle:Default:getSelectSegunClaificacionVariable}
+

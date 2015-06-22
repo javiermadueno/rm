@@ -1,0 +1,75 @@
+{# Buscador avanzado de creatividades. Parametros a pasar: id_id (identificador del id del campo padre para devolver el id de la creatividad) e id_nombre(identificador del campo padre para devolver el texto de la creatividad)#}
+{# Ejemplo desarrollado en fichaCreatividad.html.twig #}
+
+{% extends '::pantallaPopUp.html.twig' %}
+{% block title %}
+    {{ "buscar.creatividad" | trans }}
+{% endblock %}
+
+{% block body %}
+
+    <h4 class="widgettitle">{{ "buscador" |trans|title }}</h4>
+    <div class="mediamgr_head">
+        <form id="form" name="form">
+            <input type="hidden" name="id_id" id="id_id" value="{{ id_id }}">
+            <input type="hidden" name="id_nombre" id="id_nombre" value="{{ id_nombre }}">
+            <ul class="mediamgr_menu">
+                <li>
+                    <label>{{ "nombre" | trans }}</label>
+                    <input type="text" name="nombre" id="nombre" class="" value="{{ nombre }}"/>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li class="">
+                    <button class="btn btn-primary actualizarTabla">{{ "boton.buscar" | trans }}</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    <div id="tablaListado">
+        {{ include('RMComunicacionBundle:Creatividad:buscadorCreatividadPopupListado.html.twig') }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.actualizarTabla').click(function (event) {
+                event.preventDefault(); //cancela el comportamiento por defecto
+                actualizarRegistros();
+            });
+
+            function actualizarRegistros() {
+                msg = $("#form").serialize();
+                {% set crearUrl = url('direct_buscador_creatividades_popup_actualizar') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            }
+
+
+        });
+
+        function asocCreatividad(idCreatividad, nomCreatividad) {
+
+            var campoIdId = $("#id_id").val();
+            var campoIdCampo = $("#id_nombre").val();
+            window.opener.document.getElementById(campoIdId).value = idCreatividad;
+            window.opener.document.getElementById(campoIdCampo).value = nomCreatividad;
+            window.close();
+        }
+    </script>
+{% endblock %}

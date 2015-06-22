@@ -1,0 +1,34 @@
+
+<div id="modal" class="hidden">
+	<div id="wrapper" class="" style="width: 246px;">
+		<ul class="spinner">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div id="mensaje_modal" class="mensaje_modal">Simulando...</div>
+		<div id="close" class="" onclick="hideModal()"></div>
+		<script type="text/javascript">
+			function muestraModal(mensaje)
+			{
+                if(mensaje==undefined || mensaje ==null)
+                {
+                    $('#mensaje_modal').html('Se está simulando la comunicación y no estará accesible hasta que termine el proceso');
+                }
+                else
+                {
+                    $('#mensaje_modal').html(mensaje);
+                }
+				$('#modal').show(300);
+
+				return false;
+			}
+	
+			function hideModal()
+			{
+				$('#modal').hide(300);
+			}
+		</script>
+	</div>
+</div>

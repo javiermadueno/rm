@@ -1,0 +1,88 @@
+    <div class="mediamgr_head">
+	<table class="margin-center">
+		<tbody>
+			<tr height="20"><td colspan="4" class="sinborde"></td></tr>
+			<tr>
+				<td width="40%" class="sinborde textoDerecha">{{ form_label(formulario.nombre, 'Nombre') }}</td>
+				<td width="3%" class="sinborde">&nbsp;</td>
+				<td class="sinborde">
+					{{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.fecInicio, 'Fecha de inicio') }}</td>
+				<td class="sinborde">&nbsp;</td>
+				<td class="sinborde">
+					{{ form_widget(formulario.fecInicio, { 'attr': { 'class': 'datepicker tam150' } }) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.fecFin, 'Fecha de fin') }}</td>
+				<td class="sinborde">&nbsp;</td>
+				<td class="sinborde">
+					{{ form_widget(formulario.fecFin, { 'attr': { 'class': 'datepicker tam150' } }) }}
+				</td>
+			</tr>
+			<tr>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.estado, 'Estado de la comunicación') }}</td>
+				<td class="sinborde">&nbsp;</td>
+				<td class="sinborde">
+                    {% if cumpleRequisitos is defined and cumpleRequisitos == true %}
+                        {{ form_widget(formulario.estado, { 'attr': { 'class': 'tam150' } }) }}
+                    {% else %}
+                        {{ form_widget(formulario.estado, { 'attr': { 'class': 'tam150', 'disabled': 'disabled' } }) }}
+                    {% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.idCanal, 'Canal') }}</td>
+				<td class="sinborde">&nbsp;</td>
+				<td class="sinborde">
+					{{ form_widget(formulario.idCanal, { 'attr': { 'class': 'tam150' } }) }}
+				</td>
+			</tr>
+			<tr height="30"><td colspan="4" class="sinborde"></td></tr>
+			<tr>
+				<td colspan="4" class="sinborde botonera_central">
+					<button type="submit" class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
+					{% if accion == "nuevo" %}
+						<button  class="btn btn-danger" onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+					{% elseif accion == "editar" %}
+						<button  class="btn btn-danger" onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+					{% endif %}
+				</td>
+			</tr>
+			<tr >
+                <td colspan="3" class="sinborde botonera_central">
+                    {% for error in app.session.flashbag.get('formulario') %}
+                        <div class="alert alert-danger ">
+                            <strong>{{ "Error"|trans }}: </strong>{{ error |trans }}
+                        </div>
+                    {% endfor %}
+                    {% for mensaje in app.session.flashbag.get('formulario_ok') %}
+                        <div class="alert alert-success">
+                            <strong>{{ "Correcto"|trans }}: </strong>{{ mensaje|trans }}
+                        </div>
+                    {% endfor %}
+			    </td>
+            </tr>
+            {% if not formulario.vars.valid %}
+                <tr>
+                    <td colspan="3" class="sinborde">
+                        <div class="alert alert-dismissable alert-danger">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                            <h4>{{ "error" |trans|title}}:</h4>
+                            {{ form_errors(formulario) }}
+                        </div>
+                    </td>
+                </tr>
+
+            {% endif %}
+
+			{{ form_rest(formulario) }}
+		</tbody>
+	</table>
+
+    </div>
+	<div class="spacer"></div>

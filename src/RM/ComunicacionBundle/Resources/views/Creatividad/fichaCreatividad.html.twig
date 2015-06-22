@@ -1,0 +1,169 @@
+{% extends '::pantallaPopUp.html.twig' %} 
+{% block title %}
+    {% if creation == 'new' %}
+        {{ "nueva.creatividad" | trans }}
+    {% endif %}
+    {% if creation == 'old' %}
+        {{ "editar.creatividad" | trans }}
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    <div class="contanier">
+        <div class="pageheader">
+            <div class="pagetitle">
+                <h1>{{ "creatividad" |trans|title }}</h1>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <div class="maincontentinner">
+        <form id="form" name="form" method="post" enctype="multipart/form-data">
+            <h4 class="widgettitle">{{ "info" |trans|title }}</h4>
+
+            <div class="mediamgr_head">
+                <input type="hidden" id="creation" name="creation" value="{{ creation }}">
+                {% if selectedCreatividad %}
+                    <input type="hidden" id="id_creatividad" name="id_creatividad"
+                           value="{{ selectedCreatividad.idCreatividad }}">
+                {% else %}
+                    <input type="hidden" id="id_creatividad" name="id_creatividad" value="">
+                {% endif %}
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>{{ "nombre" | trans }}:</td>
+                        {% if creation == 'new' %}
+                            <td>
+                                <input type="text" name="nombre" value="" class="tam8">
+                            </td>
+                        {% endif %}
+                        {% if creation == 'old' %}
+                            <td>
+                                {{ selectedCreatividad.nombre }}
+                            </td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>{{ "descripcion" | trans }}:</td>
+                        {% if creation == 'new' %}
+                            <td>
+                                <input type="text" name="descripcion" value="" class="tam8">
+                            </td>
+                        {% endif %}
+                        {% if creation == 'old' %}
+                            <td>
+                                {{ selectedCreatividad.descripcion }}
+                            </td>
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <h4 class="widgettitle">{{ "imagen" |trans|title }}</h4>
+
+            <div class="mediamgr_head">
+                <table class="">
+                    <tbody>
+                    <tr>
+                        <td>{{ "select.seleccione.imagen" | trans }}:</td>
+                        <td>
+                            <input type="file" name="uploadFile" id="uploadFile" class="tam8">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                <tr>
+                    <td width="100">
+                        <button class="btn btn-success"
+                                onClick="return guardarCreatividadImagen(event);"> {{ "boton.aceptar" | trans }}</button>
+                    </td>
+                    <td width="100">
+                        <button class="btn btn-danger" id="botonCancelar"
+                                onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        function guardarCreatividadImagen(event) {
+            file = $('#uploadFile').val();
+            extArray = new Array(".jpeg", ".jpg", ".gif", ".tiff", ".bmp", ".png");
+            allowSubmit = false;
+
+            if (file) {
+                while (file.indexOf("\\") != -1) file = file.slice(file.indexOf("\\") + 1);
+                ext = file.slice(file.indexOf(".")).toLowerCase();
+                for (var i = 0; i < extArray.length; i++) {
+                    if (extArray[i] == ext) {
+                        allowSubmit = true;
+                        break;
+                    }
+                }
+
+                if (allowSubmit) {
+                    var tamMega = 1048576;
+                    var tamFile = tamMega * 5; //5 Megas
+                    var fic = document.getElementById('uploadFile');
+
+                    if (fic.files != undefined) {
+                        if (fic.files[0].size > tamFile) {
+                            alert("El tamaño de la imagen es demasiado grande.");
+                            return false;
+                        }
+                        else {
+                            var data = new FormData($('#form')[0]);
+                            {% set crearUrl = url('direct_config_ficha_creatividad_upload') %};
+                            var myUrl = '{{crearUrl}}';
+                            $.ajax({
+                                type: "POST",
+                                url: myUrl,
+                                data: data,
+                                contentType: 'multipart/form-data',
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                complete: function (objeto, exito) {
+                                    if (exito == "success") {
+                                        window.opener.document.getElementById("updateTabla").click();
+                                        window.close();
+                                        event.preventDefault();
+                                    }
+                                },
+                                error: function (objeto, quepaso, otroobj) {
+                                }
+                            });
+                            event.preventDefault();
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    alert("Usted sólo puede subir archivos con extensiones " + (extArray.join(" ")) + "\nPor favor seleccione un nuevo archivo");
+                    return false;
+                }
+            }
+            else {
+                window.close();
+            }
+        }
+
+    </script>
+{% endblock %}
