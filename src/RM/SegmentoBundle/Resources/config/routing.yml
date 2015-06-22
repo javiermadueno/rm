@@ -7,11 +7,7 @@ data_info:
   path: /process/
   defaults: {_controller: FrameworkBundle:Redirect:redirect, route: data_info_segmentos}
   
-data_info_segmentos_actualizar:
-  path: /process/segments/filtro
-  defaults: {_controller: RMSegmentoBundle:Default:actualizarListadoSegmentos}
-  methods: [GET]
-  
+
 data_info_show_validar_segmentos:
   path: /process/segments/showValidateSegments
   defaults: {_controller: RMSegmentoBundle:Default:showValidarSegmentos}

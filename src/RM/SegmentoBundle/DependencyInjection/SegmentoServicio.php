@@ -74,32 +74,6 @@ class SegmentoServicio
         return $registros;
     }
 
-    public function getSegmentosByIdVt($id_vt)
-    {
-
-        $repo      = $this->em->getRepository('RMSegmentoBundle:Segmento');
-        $registros = $repo->obtenerSegmentosByIdVt($id_vt);
-
-        return $registros;
-    }
-
-    public function getSegmentosByIdVid($id_vid)
-    {
-
-        $repo      = $this->em->getRepository('RMSegmentoBundle:Segmento');
-        $registros = $repo->obtenerSegmentosByIdVid($id_vid);
-
-        return $registros;
-    }
-
-    public function getSegmentosByIdVil($id_vil)
-    {
-
-        $repo      = $this->em->getRepository('RMSegmentoBundle:Segmento');
-        $registros = $repo->obtenerSegmentosByIdVil($id_vil);
-
-        return $registros;
-    }
 
     public function getSegmentosByIdVidSegmento($id_variable)
     {

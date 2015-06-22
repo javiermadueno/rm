@@ -96,3 +96,7 @@ rm_discretas_bundle.variables_basicas.criterios:
 rm_discretas_bundle.variables_basicas.segmentos:
   path: /segmentos/edit
   defaults: {_controller: RMDiscretasBundle:VariablesBasicas:segmentos}
+
+rm_discretas_bundle.variables_basicas.parametros_configuracion:
+  path: /configuracion/edit
+  defaults: { _controller: RMDiscretasBundle:VariablesBasicas:parametrosConfiguracion }

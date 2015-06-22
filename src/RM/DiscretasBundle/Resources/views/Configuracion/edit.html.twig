@@ -1,0 +1,15 @@
+<h4 class="widgettitle">{{ "configuracion.parametros.segmentos" |trans|title}}</h4>
+<div class="widgetcontent">
+    {{ form_start(form) }}
+    <div class="content">
+        {% include '@RMDiscretas/Configuracion/body_form_configuracion.html.twig' with {'form': form} %}
+    </div>
+    <table width="200" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr>
+            <td><button type="submit" class="btn btn-primary" id="guardar">{{ "boton.guardar" | trans }}</button></td>
+        </tr>
+        </tbody>
+    </table>
+    {{ form_end(form) }}
+</div>

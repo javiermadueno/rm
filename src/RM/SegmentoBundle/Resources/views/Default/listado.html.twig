@@ -1,19 +1,18 @@
 {% extends '::data/base_data.html.twig' %}
 
 {% block title %}
-    {{ "Segmentos" | trans }}
+	{{ "Segmentos" | trans }}
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span
-                class="separator"></span></li>
-    <li>{{ "menu.data.procesamiento" |trans|title }} <span class="separator"></span></li>
-    <li>{{ "menu.data.segmentos" |trans|title }}</li>
+	<li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.data.procesamiento" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "menu.data.segmentos" |trans|title}}</li>
 {% endblock %}
 
 {% block pagetitle %}
-    <h5>{{ "menu.data.procesamiento" |trans|title }}</h5>
-    <h1>{{ "segmentos" |trans|title }}</h1>
+  <h5>{{ "menu.data.procesamiento" |trans|title}}</h5>
+    <h1>{{ "segmentos" |trans|title}}</h1>
 {% endblock pagetitle %}
 
 {% block stylesheets %}
@@ -21,82 +20,77 @@
     <script src="{{ asset('js/DataTables/media/js/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.js') }}"></script>
     <script src="{{ asset('js/DataTables/extensions/Responsive/js/dataTables.responsive.js') }}"></script>
-    <link rel="stylesheet"
-          href="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('js/DataTables/Plugins/integration/bootstrap/2/dataTables.bootstrap.css') }}"/>
     <link rel="stylesheet" href="{{ asset('js/DataTables/extensions/Responsive/css/dataTables.responsive.css') }}"/>
 
 {% endblock stylesheets %}
 
 {% block contenedorPrincipal %}
-    <form id="form" name="form" method="get" action="{{ path('data_info_segmentos') }}">
-        <h4 class="widgettitle">{{ "cabecera.criterios.busqueda"|trans }}</h4>
-
-        <div class="mediamgr_left">
-            <div class="mediamgr_head">
-                <ul class="mediamgr_menu">
-                    <li>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td width="300">
-                                    <label>{{ "Tipo" | trans }}</label>
-                                    <select id="tipo" name="tipo" class="tam6 izq actualizarSegmentos">
-                                        <option value="-1">{{ "select.todas" | trans }}</option>
-                                        {% if objTipos is defined %}
-                                            {% for tipo in objTipos %}
-                                                <option value="{{ tipo.codigo }}"
-                                                        {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
-                                                    {{ tipo.nombre }}
-                                                </option>
-                                            {% endfor %}
-                                        {% endif %}
-                                    </select>
-                                </td>
-                                <td width="300">
-                                    <label for="variables">{{ "variables" |trans|title }}</label>
-                                    <select name="variables" id="variables">
-                                        <option value="-1">{{ "select.todas" |trans|title }}</option>
-                                    </select>
-                                </td>
-                                <td width="300" id="clasificacion">
-                                    <label>{{ "categoria" | trans }}</label>
-                                    <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarSegmentos">
-                                        <option value="-1" selected>{{ "select.todas" | trans }}</option>
-                                        {% for objCategoria in objCategorias %}
-                                            <option value="{{ objCategoria.idCategoria }}" {% if app.request.get('id_categoria') == objCategoria.idCategoria %} selected {% endif %}>
-                                                {{ objCategoria.nombre }}
+<form id="form" name="form" method="get" action="{{ path('data_info_segmentos') }}">
+    <h4 class="widgettitle">{{ "cabecera.criterios.busqueda"|trans }}</h4>
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <ul class="mediamgr_menu">
+                <li>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="300">
+                                <label for="tipo">{{ "tipo" | trans }}</label>
+                                <select id="tipo" name="tipo" class="tam6 izq actualizarSegmentos">
+                                    <option value="-1">{{ "select.todas" | trans }}</option>
+                                    {% if objTipos is defined %}
+                                        {% for tipo in objTipos %}
+                                            <option value="{{ tipo.codigo }}" {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
+                                                {{ tipo.nombre }}
                                             </option>
                                         {% endfor %}
-                                    </select>
-                                </td>
-                                <td valign="bottom" style="vertical-align: bottom!important;">
-                                    {# <label>{{ "Marca" | trans }}</label>
-                                     <select id="id_marca" name="id_marca" class="tam6 izq actualizarSegmentos">
-                                         <option value="-1" selected>{{ "select.todas" | trans }}</option>
-                                         {% for objMarca in objMarcas %}
-                                             <option value="{{ objMarca.idMarca }}" {% if app.request.get('id_marca') == objMarca.idMarca  %} selected {% endif %}>
-                                                 {{ objMarca.nombre }}
-                                             </option>
-                                         {% endfor %}
-                                     </select>
-                                     #}
+                                    {% endif %}
+                                </select>
+                            </td>
+                            <td width="300">
+                                <label for="variables">{{ "variables" |trans|title}}</label>
+                                <select name="variables" id="variables">
+                                    <option value="-1">{{ "select.todas" |trans|title}}</option>
+                                </select>
+                            </td>
+                            <td width="300" id="clasificacion">
+                                <label for="id_categoria">{{ "categoria" | trans }}</label>
+                                <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarSegmentos">
+                                    <option value="-1" selected>{{ "select.todas" | trans }}</option>
+                                    {% for objCategoria in objCategorias %}
+                                        <option value="{{ objCategoria.idCategoria }}" {% if app.request.get('id_categoria') == objCategoria.idCategoria  %} selected {% endif %}>
+                                            {{ objCategoria.nombre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td valign="bottom" style="vertical-align: bottom!important;">
+                               {# <label>{{ "Marca" | trans }}</label>
+                                <select id="id_marca" name="id_marca" class="tam6 izq actualizarSegmentos">
+                                    <option value="-1" selected>{{ "select.todas" | trans }}</option>
+                                    {% for objMarca in objMarcas %}
+                                        <option value="{{ objMarca.idMarca }}" {% if app.request.get('id_marca') == objMarca.idMarca  %} selected {% endif %}>
+                                            {{ objMarca.nombre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                #}
 
-                                    <button type="submit"
-                                            class="btn btn-primary">{{ "boton.buscar" |trans|title }}</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </li>
+                                <button type="submit" class="btn btn-primary">{{ "boton.buscar" |trans|title}}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
 
-                    <li class="right newfilebtn">
-                        <button class="btn btn-danger"
-                                onClick="verSegmentosParaValidar(); return false;">{{ "validar.segmentos" | trans|title }}</button>
-                    </li>
-                </ul>
-            </div>
-            <span class="clearall"></span>
+                <li class="right newfilebtn">
+                    <button class="btn btn-danger" onClick="verSegmentosParaValidar(); return false;">{{ "validar.segmentos" | trans|title }}</button>
+                </li>
+            </ul>
         </div>
-    </form>
-    <div id="tablaListado">
+        <span class="clearall"></span>
+    </div>
+</form>	
+	<div id="tablaListado">
         <h4 class="widgettitle">{{ "segmentos" | trans }}</h4>
         <table id="tablaSegmentos" class="table table-bordered responsive">
             <colgroup>
@@ -114,30 +108,32 @@
             <tbody>
             </tbody>
         </table>
-    </div>
+	</div>
+
 
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(document).ready(function () {
+	{{ parent() }}
+	<script type="text/javascript">
+		$(document).ready(function(){
 
             var tabla = $('#tablaSegmentos').DataTable({
-                "responsive": true,
+                "processing": true,
+                "responsive" : true,
                 "deferRender": true,
                 language: {
                     url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
                 },
                 ajax: {
                     url: '{{ path('data_info_segmentos') }}',
-                    data: function (d) {
+                    data: function ( d ) {
                         return $.extend({}, d, {
-                            "id_categoria": $('#id_categoria').length ? $('#id_categoria').val() : -1,
-                            "proveedor": $('#proveedor').length ? $('#proveedor').val() : -1,
-                            "variables": $('#variables').length ? $('#variables').val() : -1,
-                            "id_marca": $('#id_marca').length ? $('#id_marca').val() : -1,
-                            "tipo": $('#tipo').length ? $('#tipo').val() : -1
+                            "id_categoria"  : $('#id_categoria').length ? $('#id_categoria').val(): -1,
+                            "proveedor"     : $('#proveedor').length    ? $('#proveedor').val(): -1,
+                            "variables"     : $('#variables').length    ? $('#variables').val(): -1,
+                            "id_marca"      : $('#id_marca').length     ? $('#id_marca').val(): -1,
+                            "tipo"          : $('#tipo').length         ? $('#tipo').val(): -1
                         });
                     }
                 },
@@ -145,28 +141,28 @@
                     {data: 'nombre'},
                     {
                         data: 'categoria',
-                        "render": function (data, type, full, meta) {
-                            return data || '-';
+                        "render": function ( data, type, full, meta ) {
+                            return data||'-';
                         }
                     },
                     {
                         data: 'marca',
-                        "render": function (data, type, full, meta) {
-                            return data || '-';
+                        "render": function ( data, type, full, meta ) {
+                            return data||'-';
                         }
                     }
                 ]
             });
 
 
-            $('#tipo').on('change', function (event) {
+            $('#tipo').on('change', function(event){
                 event.preventDefault();
                 var tipo = this[this.selectedIndex].value;
                 $.get('{{ path('segmento_default_obetener_variables') }}', {'tipo': tipo})
-                        .success(function (data) {
+                        .success(function(data){
                             console.log(data);
 
-                            if (typeof data === 'undefined') {
+                            if(typeof data === 'undefined') {
                                 return;
                             }
 
@@ -175,11 +171,14 @@
 
                             $variables.append(new Option('{{ 'select.todas'|trans|title }}', -1));
 
-                            data.forEach(function (variable) {
+                            data.forEach(function(variable){
                                 $variables.append(new Option(variable.nombre, variable.id));
                             });
 
-                            $variables.removeAttr('class').addClass('pulse animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                            $variables
+                                    .removeAttr('class')
+                                    .addClass('fadeIn animated')
+                                    .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                 $variables.removeAttr('class');
                             });
 
@@ -188,40 +187,43 @@
 
             });
 
-            $('#variables').on('change', function (event) {
+            $('#variables').on('change', function(event){
                 event.preventDefault();
                 var tipo = $('#tipo').val();
-                var idVariable = $(this).val();
+                var idVariable  = $(this).val();
 
                 $.get('{{ path('segmento_default_selectsclasificacion') }}', {'tipo': tipo, id: idVariable})
-                        .success(function (data) {
+                        .success(function(data){
                             var $clasificacion = $('#clasificacion');
                             $clasificacion.html(data);
-                            $clasificacion.removeAttr('class').addClass('pulse animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                                $clasificacion.removeAttr('class');
+                            $clasificacion
+                                    .removeAttr('class')
+                                    .addClass('fadeIn animated')
+                                    .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                                        $clasificacion.removeAttr('class');
                             });
                         });
 
             });
 
-            $('#form').on('submit', function (event) {
+            $('#form').on('submit', function(event){
                 event.preventDefault();
                 tabla.ajax.reload();
             })
-        });
+		});
 
-
-        function verSegmentosParaValidar() {
-            var largo = 550;
-            var altura = 550;
-            var top = (screen.height - altura) / 2;
-            var izquierda = (screen.width - largo) / 2;
-            {% set nombreVentana = "Validación de Segmentos" %}
-            ruta = "{{ path('data_info_show_validar_segmentos') }}";
-            var myUrl = ruta;
-            var nomVentana = '{{ nombreVentana }}';
-            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-        }
-    </script>
-
+		
+		function verSegmentosParaValidar(){
+			var largo = 550;
+			var altura = 550;
+			var top = (screen.height-altura)/2;
+			var izquierda = (screen.width-largo)/2;
+			{% set nombreVentana = "Validación de Segmentos" %}
+			ruta = "{{ path('data_info_show_validar_segmentos') }}";
+			var myUrl = ruta;
+			var nomVentana = '{{ nombreVentana }}';
+			window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+		}
+	</script>
+	
 {% endblock %}

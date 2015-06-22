@@ -198,8 +198,8 @@
             $("#consolaSegmentos").val(textoConsola);
             event.preventDefault();
 
-            target = event.target;
-            if(id = parseInt(event.target.dataset.id)) {
+            target = event.currentTarget;
+            if(id = parseInt(target.dataset.id)) {
                 addFiltro(id, event);
             }
             else{

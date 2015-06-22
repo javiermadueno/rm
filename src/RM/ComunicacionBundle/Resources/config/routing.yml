@@ -48,16 +48,6 @@ rm_comunicacion.comunicacion.editar_plantilla:
   requirements:
       idComunicacion: \d+
 
-rm_comunicacion.comunicacion.crear_gruposlot:
-  path: /manager/comunicacion/{idComunicacion}/plantilla/gruposlot/create
-  defaults: {_controller: RMComunicacionBundle:Comunicacion:crearGrupoSlots}
-    
-direct_manager_edit_segmentos:
-  path: /manager/edit/segments/{id_comunicacion}/
-  defaults: {_controller: RMComunicacionBundle:Edicion:showSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2 }
-  requirements:
-    id_comunicacion: \d+
-    
 direct_manager_edit_segmentos_delete:
   path: /manager/edit/segments/delete/{id_segmento_comunicacion}/
   defaults: {_controller: RMComunicacionBundle:Edicion:deleteSegmentosComunicacion}
@@ -184,15 +174,6 @@ direct_actualizar_combo_segmentos:
    defaults: {_controller: RMComunicacionBundle:Edicion:actualizarComboSegmentos}
    methods: [POST]
 
-direct_search_variables:
-   path: monitor/manager/instance/search_variables
-   defaults: {_controller: RMComunicacionBundle:Instancia:searchVariables}
-   methods: [POST]   
-   
-direct_search_segmentos:
-   path: monitor/manager/instance/search_segmentos
-   defaults: {_controller: RMComunicacionBundle:Instancia:searchSegmentos}
-   methods: [POST]   
 
 direct_config_creatividad:
   path: /config/creatividad/list/

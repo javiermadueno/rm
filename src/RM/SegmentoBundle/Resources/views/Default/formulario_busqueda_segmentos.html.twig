@@ -1,0 +1,52 @@
+<form id="form" name="form" method="get" action="{{ path('data_info_segmentos') }}">
+    <h4 class="widgettitle">{{ "cabecera.criterios.busqueda"|trans }}</h4>
+
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <ul class="mediamgr_menu">
+                <li>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="300">
+                                <label for="tipo">{{ "tipo" | trans }}</label>
+                                <select id="tipo" name="tipo" class="tam6 izq actualizarSegmentos">
+                                    <option value="-1">{{ "select.todas" | trans }}</option>
+                                    {% if objTipos is defined %}
+                                        {% for tipo in objTipos %}
+                                            <option value="{{ tipo.codigo }}"
+                                                    {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
+                                                {{ tipo.nombre }}
+                                            </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </td>
+                            <td width="300">
+                                <label for="variables">{{ "variables" |trans|title }}</label>
+                                <select name="variables" id="variables">
+                                    <option value="-1">{{ "select.todas" |trans|title }}</option>
+                                </select>
+                            </td>
+                            <td width="300" id="clasificacion">
+                                <label for="id_categoria">{{ "categoria" | trans }}</label>
+                                <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarSegmentos">
+                                    <option value="-1" selected>{{ "select.todas" | trans }}</option>
+                                    {% for objCategoria in objCategorias %}
+                                        <option value="{{ objCategoria.idCategoria }}"
+                                                {% if app.request.get('id_categoria') == objCategoria.idCategoria %} selected {% endif %}>
+                                            {{ objCategoria.nombre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td valign="bottom" style="vertical-align: bottom!important;">
+                                <button type="submit" class="btn btn-primary">{{ "boton.buscar" |trans|title }}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </div>
+        <span class="clearall"></span>
+    </div>
+</form>

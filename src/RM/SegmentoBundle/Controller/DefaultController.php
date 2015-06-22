@@ -20,15 +20,15 @@ class DefaultController extends Controller
 
         $servicioSeg   = $this->get("SegmentoService");
         $servicioMarca = $this->get("marcaservice");
-        $servicioCat   = $this->get("categoriaService");
 
         $request = $this->get('request');
 
-        $id_categoria = $request->query->get('id_categoria', -1);
-        $id_proveedor = $request->query->get('proveedor', -1);
-        $id_variable  = $request->query->get('variables', -1);
-        $id_marca     = $request->query->get('id_marca', -1);
-        $tipo         = $request->query->get('tipo', -1);
+        $fecha_busqueda = $request->query->get('fecha_busqueda', null);
+        $id_categoria   = $request->query->get('id_categoria', -1);
+        $id_proveedor   = $request->query->get('proveedor', -1);
+        $id_variable    = $request->query->get('variables', -1);
+        $id_marca       = $request->query->get('id_marca', -1);
+        $tipo           = $request->query->get('tipo', -1);
 
         $tipoVariable = $em->getRepository('RMDiscretasBundle:Tipo')
             ->findOneBy(['codigo' => $tipo]);
@@ -36,7 +36,8 @@ class DefaultController extends Controller
 
         if ($this->get('request')->isXmlHttpRequest()) {
             $segmentos = $servicioSeg
-                ->getSegmentosFiltrados($tipoVariable, $id_categoria, $id_marca, $id_proveedor, $id_variable);
+                ->getSegmentosFiltrados($tipoVariable, $id_categoria, $id_marca, $id_proveedor, $id_variable,
+                    $fecha_busqueda);
 
             $data = [
                 'data'            => $segmentos,
@@ -157,16 +158,22 @@ class DefaultController extends Controller
 
     public function searchSegmentosPopoupAction()
     {
+        $em = $this->get('rm.manager')->getManager();
 
         $request = $this->container->get('request');
 
         $fecha_busqueda = $request->get('fecha_busqueda');
         $fecha_busqueda = new \DateTime($fecha_busqueda);
 
+        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
+        $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
+
         return $this->render('RMSegmentoBundle:Default\Buscador:buscadorSegmentosPopup.html.twig', [
             'identificadorSeg' => $request->get('identificadorSeg'),
             'idNombreSeg'      => $request->get('idNombreSeg'),
-            'fecha_busqueda'   => $fecha_busqueda
+            'fecha_busqueda'   => $fecha_busqueda,
+            'objCategorias'    => $objCategorias,
+            'objTipos'         => $objTipos
         ]);
 
 

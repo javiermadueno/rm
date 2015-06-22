@@ -1,0 +1,31 @@
+<table id="parametros" class="table table-bordered responsive">
+    <colgroup>
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>{{ "nombre" |trans|title}}</th>
+        <th>{{ "descripcion" |trans|title}}</th>
+        <th>{{ "valor" |trans|title}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for parametro in form.parametros %}
+        <tr>
+            <td>{{ parametro.vars.value.nombre|replace('_',' ')|title }}</td>
+            <td>{{ parametro.vars.value.descripcion }}</td>
+            <td>{{ form_widget(parametro.valor) }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">{{ "sin.resultados" |trans|title}}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

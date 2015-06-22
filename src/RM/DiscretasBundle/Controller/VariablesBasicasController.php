@@ -3,8 +3,10 @@
 namespace RM\DiscretasBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use RM\DiscretasBundle\Entity\Configuracion;
 use RM\DiscretasBundle\Entity\VidCriterioGlobal;
 use RM\DiscretasBundle\Entity\VidSegmentoGlobal;
+use RM\DiscretasBundle\Form\ConfiguracionCollectionType;
 use RM\DiscretasBundle\Form\VariablesBasicas\ModificarCriteriosNyMType;
 use RM\DiscretasBundle\Form\VidSegmentosGlobalesCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -129,6 +131,49 @@ class VariablesBasicasController extends Controller
 
 
     }
+
+    public function parametrosConfiguracionAction(Request $request)
+    {
+        $em = $this->get('rm.manager')->getManager();
+
+        $parametros = $em
+            ->getRepository('RMDiscretasBundle:Configuracion')
+            ->findParametrosConfiguracionByTipo(Configuracion::SEGMENTOS);
+
+        $form = $this->createForm(new ConfiguracionCollectionType(), ['parametros' => $parametros], [
+            'method' => 'POST',
+            'action' => $this->generateUrl('rm_discretas_bundle.variables_basicas.parametros_configuracion')
+        ]);
+
+
+        if(!$request->isXmlHttpRequest()) {
+            return $this->render('RMDiscretasBundle:Configuracion:edit.html.twig', ['form' => $form->createView()]);
+        }
+
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+             $em->flush();
+
+            return JsonResponse::create([
+                'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
+                'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+                    ['form' => $form->createView()]),
+                'error'   => 0
+            ], Response::HTTP_OK);
+        }
+
+        return JsonResponse::create([
+            'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
+            'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+                ['form' => $form->createView()]),
+            'error'   => 1
+        ], Response::HTTP_BAD_REQUEST);
+
+
+    }
+
+
 
 
 }
