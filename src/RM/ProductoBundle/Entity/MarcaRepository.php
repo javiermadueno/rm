@@ -114,8 +114,8 @@ class MarcaRepository extends EntityRepository
 
         $query = $em->createQuery($dql);
         $query->setParameter('categoria', implode(',', array_map(function ($o) {
-                        return $o->getIdCategoria();
-                    }, $idsCategoria)));
+            return $o->getIdCategoria();
+        }, $idsCategoria)));
 
         return $query->getResult();
 

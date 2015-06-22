@@ -21,9 +21,7 @@ class ConfiguracionCollectionType extends AbstractType
                 'type'         => new ConfiguracionType(),
                 'allow_add'    => false,
                 'allow_delete' => false,
-            ])
-        ;
-        ;
+            ]);;
     }
 
     public function getName()

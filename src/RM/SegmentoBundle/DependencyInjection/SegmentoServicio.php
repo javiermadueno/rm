@@ -32,13 +32,19 @@ class SegmentoServicio
 
     }
 
-    public function getSegmentosFiltrados($tipo, $id_categoria = -1, $id_marca = -1, $id_proveedor = -1, $id_variable = -1, $fecha = null)
-    {
+    public function getSegmentosFiltrados(
+        $tipo,
+        $id_categoria = -1,
+        $id_marca = -1,
+        $id_proveedor = -1,
+        $id_variable = -1,
+        $fecha = null
+    ) {
 
         $repo = $this->em->getRepository('RMSegmentoBundle:Segmento');
 
         $id_tipo = $tipo instanceof Tipo ? $tipo->getId() : -1;
-        $codigo  = $tipo instanceof Tipo ? $tipo->getCodigo() : -1;
+        $codigo = $tipo instanceof Tipo ? $tipo->getCodigo() : -1;
 
         switch ($codigo) {
             case Tipo::COMPRA_PRODUCTO:
@@ -68,7 +74,7 @@ class SegmentoServicio
     public function getSegmentosInstancia($idSegmento)
     {
 
-        $repo      = $this->em->getRepository('RMSegmentoBundle:Segmento');
+        $repo = $this->em->getRepository('RMSegmentoBundle:Segmento');
         $registros = $repo->obtenerSegmentosByInstancia($idSegmento);
 
         return $registros;
@@ -83,7 +89,7 @@ class SegmentoServicio
             return [];
         }
 
-        $repo  = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repo = $this->em->getRepository('RMDiscretasBundle:Vid');
         $grupo = $repo->obtenerUnicoGrupoSegmentoByVid($vid->getIdVid());
 
         if (!$grupo instanceof VidGrupoSegmento) {

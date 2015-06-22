@@ -19,14 +19,13 @@ class FranjasHorariasCollectionForm extends AbstractType
     {
         $builder
             ->add('franjas', 'collection', [
-                'allow_add' => false,
+                'allow_add'    => false,
                 'allow_delete' => false,
-                'type' => new FranjaHorariaType(),
+                'type'         => new FranjaHorariaType(),
             ])
             ->add('submit', 'submit', [
                 'label' => 'boton.guardar'
-            ])
-        ;
+            ]);
     }
 
     public function getName()

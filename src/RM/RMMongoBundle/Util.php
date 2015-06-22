@@ -46,10 +46,9 @@ class Util
     {
         //$fecha = new \DateTime('first day of this month');
 
-        if($fechaInicio) {
+        if ($fechaInicio) {
             $fecha = $fechaInicio;
-        }
-        else{
+        } else {
             $fecha = new \DateTime('first day of this month');
         }
 
@@ -59,7 +58,7 @@ class Util
         $meses = [];
 
         /** @var \Datetime $mes */
-        foreach($periodo as $mes) {
+        foreach ($periodo as $mes) {
             $meses[] = $mes->format('Y-m');
         }
 

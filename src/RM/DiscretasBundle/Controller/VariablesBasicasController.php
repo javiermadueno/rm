@@ -27,7 +27,7 @@ class VariablesBasicasController extends Controller
 
     public function criteriosEligibilidadAction(Request $request)
     {
-        $em       = $this->get('rm.manager')->getManager();
+        $em = $this->get('rm.manager')->getManager();
         $servicio = $this->get("variablesDiscretas");
 
         $objCriteriosPre = $servicio->getCriteriosGlobales();
@@ -68,7 +68,7 @@ class VariablesBasicasController extends Controller
 
     public function segmentosAction(Request $request)
     {
-        $em       = $this->get('rm.manager')->getManager();
+        $em = $this->get('rm.manager')->getManager();
         $servicio = $this->get("variablesDiscretas");
 
         $objSegmentosPre = $servicio->getSegmentosGlobales();
@@ -111,7 +111,7 @@ class VariablesBasicasController extends Controller
 
                 return JsonResponse::create([
                     'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                    'form' => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
+                    'form'    => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
                         ['formSegmentos' => $formSegmentos->createView()]),
                     'error'   => 0
                 ], Response::HTTP_OK);
@@ -119,7 +119,7 @@ class VariablesBasicasController extends Controller
 
             return JsonResponse::create([
                 'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-                'form' => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
+                'form'    => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
                     ['formSegmentos' => $formSegmentos->createView()]),
                 'error'   => 1
             ], Response::HTTP_BAD_REQUEST);
@@ -146,18 +146,18 @@ class VariablesBasicasController extends Controller
         ]);
 
 
-        if(!$request->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             return $this->render('RMDiscretasBundle:Configuracion:edit.html.twig', ['form' => $form->createView()]);
         }
 
         $form->handleRequest($request);
 
-        if($form->isValid()) {
-             $em->flush();
+        if ($form->isValid()) {
+            $em->flush();
 
             return JsonResponse::create([
                 'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+                'form'    => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
                     ['form' => $form->createView()]),
                 'error'   => 0
             ], Response::HTTP_OK);
@@ -165,15 +165,13 @@ class VariablesBasicasController extends Controller
 
         return JsonResponse::create([
             'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-            'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+            'form'    => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
                 ['form' => $form->createView()]),
             'error'   => 1
         ], Response::HTTP_BAD_REQUEST);
 
 
     }
-
-
 
 
 }

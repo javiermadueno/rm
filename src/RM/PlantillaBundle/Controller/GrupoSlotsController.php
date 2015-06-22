@@ -35,7 +35,7 @@ class GrupoSlotsController extends Controller
 
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
 
-        $plantilla   = $comunicacion->getPlantilla();
+        $plantilla = $comunicacion->getPlantilla();
         $idPlantilla = $plantilla->getIdPlantilla();
 
         $gruposSlots = $em->getRepository('RMPlantillaBundle:GrupoSlots')->findGruposSlotsByPlantilla($idPlantilla);
@@ -61,7 +61,7 @@ class GrupoSlotsController extends Controller
         $em = $this->getDoctrine()->getManager($_SESSION['connection']);
 
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
-        $plantilla    = $comunicacion->getPlantilla();
+        $plantilla = $comunicacion->getPlantilla();
 
         if (!$plantilla) {
             throw $this->createNotFoundException('No se ha encontrado la plantilla');
@@ -70,7 +70,7 @@ class GrupoSlotsController extends Controller
         $entity = new GrupoSlots();
 
         $formHandler = $this->get('rm.create_grupo_slot_form_handler');
-        $form        = $this->createCreateForm($entity, $idComunicacion);
+        $form = $this->createCreateForm($entity, $idComunicacion);
 
         if ($formHandler->handle($form, $request)) {
             $this->addFlash('mensaje', 'mensaje.ok.editar');
@@ -97,9 +97,9 @@ class GrupoSlotsController extends Controller
      */
     private function createCreateForm(GrupoSlots $entity, $idComunicacion)
     {
-        $em           = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
-        $plantilla    = $comunicacion->getPlantilla();
+        $plantilla = $comunicacion->getPlantilla();
 
         if (!$plantilla) {
             $this->addFlash('error', 'mensaje.error.no.plantilla');
@@ -112,7 +112,7 @@ class GrupoSlotsController extends Controller
         $entity->setIdPlantilla($plantilla);
 
         $formHandler = $this->get('rm.create_grupo_slot_form_handler');
-        $form        = $formHandler->createForm($entity, [
+        $form = $formHandler->createForm($entity, [
             'action' => $this->generateUrl('rm_plantilla_gruposlots_create', [
                 'idComunicacion' => $idComunicacion
             ]),
@@ -159,7 +159,7 @@ class GrupoSlotsController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('rm_plantilla_gruposlots_delete',
-                    ['id' => $id, 'idComunicacion' => $idComunicacion]))
+                ['id' => $id, 'idComunicacion' => $idComunicacion]))
             ->setMethod('DELETE')
             ->add('submit', 'submit', ['label' => 'Eliminar'])
             ->getForm();
@@ -176,7 +176,7 @@ class GrupoSlotsController extends Controller
     {
         $em = $this->getDoctrine()->getManager($_SESSION['connection']);
 
-        $entity       = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
+        $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
 
         $plantilla = $comunicacion->getPlantilla();
@@ -189,7 +189,7 @@ class GrupoSlotsController extends Controller
             throw $this->createNotFoundException('No se ha encontrado plantilla');
         }
 
-        $editForm   = $this->createEditForm($entity, $idComunicacion);
+        $editForm = $this->createEditForm($entity, $idComunicacion);
         $deleteForm = $this->createDeleteForm($id, $idComunicacion);
 
         return $this->render('RMPlantillaBundle:GrupoSlots:edit.html.twig', [
@@ -239,7 +239,7 @@ class GrupoSlotsController extends Controller
     {
         $em = $this->getDoctrine()->getManager($_SESSION['connection']);
 
-        $entity       = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
+        $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
 
         if (!$entity) {
@@ -247,7 +247,7 @@ class GrupoSlotsController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id, $idComunicacion);
-        $editForm   = $this->createEditForm($entity, $idComunicacion);
+        $editForm = $this->createEditForm($entity, $idComunicacion);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -280,7 +280,7 @@ class GrupoSlotsController extends Controller
         $em = $this->getDoctrine()->getManager($_SESSION['connection']);
 
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
-        $form         = $this->createDeleteForm($id, $idComunicacion);
+        $form = $this->createDeleteForm($id, $idComunicacion);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -307,13 +307,13 @@ class GrupoSlotsController extends Controller
      */
     public function borrarAction(Request $request, $idComunicacion)
     {
-        $em           = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
 
 
         $idsGruposAEliminar = $request->request->get('eliminar', []);
 
-        if(! $this->get('rm.grupo_slot_manager')->deleteByIds($idsGruposAEliminar)){
+        if (!$this->get('rm.grupo_slot_manager')->deleteByIds($idsGruposAEliminar)) {
             $this->addFlash('mensaje', 'mensaje.error.eliminar');
 
             return $this->redirectToRoute('rm_comunicacion.comunicacion.editar_plantilla', [

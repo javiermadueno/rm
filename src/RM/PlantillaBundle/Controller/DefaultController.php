@@ -266,7 +266,7 @@ class DefaultController extends Controller
             } else {
                 //$this->get('session')->getFlashBag()->add('mensaje','error_general');
                 throw new \Exception(sprintf('No se ha impotado la plantilla. Se han producido los siguientes errores: %s',
-                        implode('   ', $errores)));
+                    implode('   ', $errores)));
             }
 
             return $this->redirect($this->generateUrl('direct_manager_edit_plantillas', [

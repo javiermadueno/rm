@@ -53,10 +53,10 @@ class CategoriaServicio
      */
     public function __construct(ManagerRegistry $doctrine, SecurityContextInterface $security)
     {
-        $this->em                    = $doctrine->getManager($_SESSION['connection']);
-        $this->security              = $security;
-        $this->user                  = $security->getToken()->getUser();
-        $this->repo                  = $this->em->getRepository('RMCategoriaBundle:Categoria');
+        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->security = $security;
+        $this->user = $security->getToken()->getUser();
+        $this->repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $this->nivelCategoriaVisible = $this->getNivelCategoriasVisible();
 
         if ($security->isGranted('ROLE_WORKFLOW_MANAGER')) {
@@ -283,7 +283,7 @@ class CategoriaServicio
      */
     public function getNivelesCategoria()
     {
-        $repo      = $this->em->getRepository('RMCategoriaBundle:Categoria');
+        $repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $registros = $repo->obtenerNivelesCategoria();
 
         return $registros;

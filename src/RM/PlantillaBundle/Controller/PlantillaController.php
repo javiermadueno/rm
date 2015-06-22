@@ -97,7 +97,7 @@ class PlantillaController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('rm_plantilla_plantilla_edit',
-                    ['id' => $plantilla->getIdPlantilla()]));
+                ['id' => $plantilla->getIdPlantilla()]));
         }
 
         return $this->render('RMPlantillaBundle:Plantilla:new.html.twig', [

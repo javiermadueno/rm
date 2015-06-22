@@ -4,9 +4,10 @@ namespace RM\DiscretasBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class ConfiguracionRepository extends EntityRepository {
-	
-	public function getConfigurationParameters()
+class ConfiguracionRepository extends EntityRepository
+{
+
+    public function getConfigurationParameters()
     {
         $configuracion = $this->createQueryBuilder('c')
             ->where('c.tipo = :tipo')
@@ -14,8 +15,8 @@ class ConfiguracionRepository extends EntityRepository {
             ->getQuery()->getResult();
 
 
-		return $configuracion;
-	}
+        return $configuracion;
+    }
 
     public function findParametrosConfiguracionByTipo($tipo = Configuracion::GENERAL)
     {

@@ -2,12 +2,11 @@
 
 namespace RM\DiscretasBundle\DependencyInjection;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use RM\DiscretasBundle\Entity\Configuracion;
-use RM\DiscretasBundle\Entity\ParametroConfiguracion;
 use RM\DiscretasBundle\Entity\ConfiguracionRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use RM\DiscretasBundle\Entity\ParametroConfiguracion;
 
 
 class ConfiguracionService
@@ -17,32 +16,32 @@ class ConfiguracionService
      */
     private $em;
 
-	public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
-		$this->em = $doctrine->getManager($_SESSION['connection']);
-	}
-	
-	public function getConfigurationParameters()
+        $this->em = $doctrine->getManager($_SESSION['connection']);
+    }
+
+    public function getConfigurationParameters()
     {
-		$registros = $this->em->getRepository('RMDiscretasBundle:Configuracion')->getConfigurationParameters();
-		return $registros;
-	}
-	
-	
-	public function saveConfigurationParameters($parameters)
+        $registros = $this->em->getRepository('RMDiscretasBundle:Configuracion')->getConfigurationParameters();
+        return $registros;
+    }
+
+
+    public function saveConfigurationParameters($parameters)
     {
         /** @var ConfiguracionRepository $conguracionRepo */
-        $conguracionRepo = $this->em->getRepository('RMDiscretasBundle:Configuracion' );
+        $conguracionRepo = $this->em->getRepository('RMDiscretasBundle:Configuracion');
         foreach ($parameters as $id => $parameter) {
             $parametro = $conguracionRepo->find($id);
 
-            if(!$parametro instanceof Configuracion) {
+            if (!$parametro instanceof Configuracion) {
                 return false;
             }
 
             $valor = $parameter['valor'];
 
-            if($parametro->getNombre() == 'nivel_category_manager') {
+            if ($parametro->getNombre() == 'nivel_category_manager') {
                 $valor_max = $this->em->createQueryBuilder()
                     ->select('MAX(nivel.idNivelCategoria)')
                     ->from('RMCategoriaBundle:NivelCategoria', 'nivel')
@@ -52,7 +51,7 @@ class ConfiguracionService
 
             }
 
-            if(!is_numeric($valor)) {
+            if (!is_numeric($valor)) {
                 continue;
             }
 
@@ -62,7 +61,7 @@ class ConfiguracionService
 
         $this->em->flush();
         return true;
-	}
+    }
 
     public function findAllParametrosConfiguracion()
     {
@@ -72,22 +71,20 @@ class ConfiguracionService
 
     public function guardaParametrosConfiguracion($parametros = [])
     {
-        if(empty($parametros)) {
+        if (empty($parametros)) {
             return;
         }
 
-        foreach($parametros as $id => $parametro)
-        {
+        foreach ($parametros as $id => $parametro) {
             $parametroConfiguracion = $this->em->find('RMDiscretasBundle:ParametroConfiguracion', $id);
 
-            if(!$parametroConfiguracion instanceof ParametroConfiguracion) {
+            if (!$parametroConfiguracion instanceof ParametroConfiguracion) {
                 continue;
             }
 
             $parametroConfiguracion
                 ->setMaxBajo($parametro['maxBajo'])
-                ->setMaxMedio($parametro['maxMedio'])
-            ;
+                ->setMaxMedio($parametro['maxMedio']);
 
             $this->em->persist($parametroConfiguracion);
         }

@@ -2,9 +2,8 @@
 
 namespace RM\InsightBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ClientesController extends Controller
 {
@@ -27,9 +26,6 @@ class ClientesController extends Controller
 
         $resultado1 = $dm->getRepository('RMMongoBundle:ResultadoMensual')->find($mes1['id']);
         $resultado2 = $dm->getRepository('RMMongoBundle:ResultadoMensual')->find($mes2['id']);
-
-
-
 
 
     }

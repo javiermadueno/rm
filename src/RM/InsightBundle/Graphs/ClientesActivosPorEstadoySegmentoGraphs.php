@@ -11,7 +11,6 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
-use RM\RMMongoBundle\Util;
 
 
 /**

@@ -2,8 +2,8 @@
 
 namespace RM\PlantillaBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Entity\Canal;
 use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 
@@ -17,12 +17,6 @@ class Plantilla implements PlantillaInterface
 {
 
 
-    public function __construct()
-    {
-        $this->gruposSlots = new ArrayCollection();
-        $this->comunicaciones = new ArrayCollection();
-    }
-
     /**
      * @var integer
      *
@@ -31,14 +25,12 @@ class Plantilla implements PlantillaInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idPlantilla;
-
     /**
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
      */
     private $nombre;
-
     /**
      * @var Canal
      *
@@ -46,78 +38,59 @@ class Plantilla implements PlantillaInterface
      * @ORM\JoinColumn(name="id_canal", referencedColumnName="id_canal")
      */
     private $canal;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="lienzo_ancho", type="integer", nullable=true)
      */
     private $lienzoAncho;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="lienzo_alto", type="integer", nullable=true)
      */
     private $lienzoAlto;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
     private $estado;
-
-
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="RM\PlantillaBundle\Entity\GrupoSlots", mappedBy="idPlantilla")
      */
     private $gruposSlots;
-
     /**
      * @var string
      * @ORM\Column(name="descripcion", nullable=true)
      */
     private $descripcion;
-
     /**
      * @var bool
      * @ORM\Column(name="es_modelo", type="boolean", options={"default"=false})
      */
     private $esModelo;
-
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="RM\ComunicacionBundle\Entity\Comunicacion", mappedBy="plantilla")
      */
     private $comunicaciones;
-
     /**
      * @var bool
      */
     private $editable = null;
 
-
-
-
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Plantilla
-     */
-    public function setNombre($nombre)
+    public function __construct()
     {
-        $this->nombre = $nombre;
-    
-        return $this;
+        $this->gruposSlots = new ArrayCollection();
+        $this->comunicaciones = new ArrayCollection();
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -125,22 +98,23 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
-     * Set lienzoAncho
+     * Set nombre
      *
-     * @param integer $lienzoAncho
+     * @param string $nombre
+     *
      * @return Plantilla
      */
-    public function setLienzoAncho($lienzoAncho)
+    public function setNombre($nombre)
     {
-        $this->lienzoAncho = $lienzoAncho;
-    
+        $this->nombre = $nombre;
+
         return $this;
     }
 
     /**
      * Get lienzoAncho
      *
-     * @return integer 
+     * @return integer
      */
     public function getLienzoAncho()
     {
@@ -148,22 +122,23 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
-     * Set lienzoAlto
+     * Set lienzoAncho
      *
-     * @param integer $lienzoAlto
+     * @param integer $lienzoAncho
+     *
      * @return Plantilla
      */
-    public function setLienzoAlto($lienzoAlto)
+    public function setLienzoAncho($lienzoAncho)
     {
-        $this->lienzoAlto = $lienzoAlto;
-    
+        $this->lienzoAncho = $lienzoAncho;
+
         return $this;
     }
 
     /**
      * Get lienzoAlto
      *
-     * @return integer 
+     * @return integer
      */
     public function getLienzoAlto()
     {
@@ -171,15 +146,16 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
-     * Set estado
+     * Set lienzoAlto
      *
-     * @param int $estado
+     * @param integer $lienzoAlto
+     *
      * @return Plantilla
      */
-    public function setEstado($estado)
+    public function setLienzoAlto($lienzoAlto)
     {
-        $this->estado = $estado;
-    
+        $this->lienzoAlto = $lienzoAlto;
+
         return $this;
     }
 
@@ -194,9 +170,23 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
+     * Set estado
+     *
+     * @param int $estado
+     *
+     * @return Plantilla
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
      * Get idPlantilla
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdPlantilla()
     {
@@ -207,12 +197,13 @@ class Plantilla implements PlantillaInterface
      * Add gruposSlots
      *
      * @param \RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots
+     *
      * @return Plantilla
      */
     public function addGruposSlot(\RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots)
     {
         $this->gruposSlots[] = $gruposSlots;
-    
+
         return $this;
     }
 
@@ -229,32 +220,19 @@ class Plantilla implements PlantillaInterface
     /**
      * Get gruposSlots
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGruposSlots()
     {
-        return $this->gruposSlots->filter(function(GrupoSlots $grupo){
-                return $grupo->getEstado() > -1;
-            });
-    }
-
-    /**
-     * Set canal
-     *
-     * @param \RM\ComunicacionBundle\Entity\Canal $canal
-     * @return Plantilla
-     */
-    public function setCanal(\RM\ComunicacionBundle\Entity\Canal $canal = null)
-    {
-        $this->canal = $canal;
-    
-        return $this;
+        return $this->gruposSlots->filter(function (GrupoSlots $grupo) {
+            return $grupo->getEstado() > -1;
+        });
     }
 
     /**
      * Get canal
      *
-     * @return \RM\ComunicacionBundle\Entity\Canal 
+     * @return \RM\ComunicacionBundle\Entity\Canal
      */
     public function getCanal()
     {
@@ -262,22 +240,23 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
-     * Set descripcion
+     * Set canal
      *
-     * @param string $descripcion
+     * @param \RM\ComunicacionBundle\Entity\Canal $canal
+     *
      * @return Plantilla
      */
-    public function setDescripcion($descripcion)
+    public function setCanal(\RM\ComunicacionBundle\Entity\Canal $canal = null)
     {
-        $this->descripcion = $descripcion;
-    
+        $this->canal = $canal;
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -285,26 +264,41 @@ class Plantilla implements PlantillaInterface
     }
 
     /**
-     * Set esModelo
+     * Set descripcion
      *
-     * @param boolean $esModelo
+     * @param string $descripcion
+     *
      * @return Plantilla
      */
-    public function setEsModelo($esModelo)
+    public function setDescripcion($descripcion)
     {
-        $this->esModelo = $esModelo;
-    
+        $this->descripcion = $descripcion;
+
         return $this;
     }
 
     /**
      * Get esModelo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEsModelo()
     {
         return $this->esModelo;
+    }
+
+    /**
+     * Set esModelo
+     *
+     * @param boolean $esModelo
+     *
+     * @return Plantilla
+     */
+    public function setEsModelo($esModelo)
+    {
+        $this->esModelo = $esModelo;
+
+        return $this;
     }
 
     public function getComunicaciones()
@@ -314,13 +308,13 @@ class Plantilla implements PlantillaInterface
 
     public function getEditable()
     {
-        if(is_null($this->editable)) {
+        if (is_null($this->editable)) {
 
-            if($this->esModelo) {
+            if ($this->esModelo) {
                 $this->editable = $this->comunicaciones->isEmpty();
             } else {
 
-                $this->editable = !$this->comunicaciones->exists(function($key, $comunicacion){
+                $this->editable = !$this->comunicaciones->exists(function ($key, $comunicacion) {
                     /** @var $comunicacion \RM\ComunicacionBundle\Entity\Comunicacion */
                     return true === $comunicacion->getGenerada();
                 });

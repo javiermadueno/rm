@@ -8,8 +8,8 @@
 
 namespace RM\InsightBundle\Tables;
 
-use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
+use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
 use RM\RMMongoBundle\Util;
 
 class RendimientoTable
@@ -27,7 +27,7 @@ class RendimientoTable
      *
      * @return array
      */
-    public function tablaRendimiento($meses= [], $estructura_segmentos = [])
+    public function tablaRendimiento($meses = [], $estructura_segmentos = [])
     {
         $nombre_segmentos = Util::array_flatten($estructura_segmentos, []);
 
@@ -49,5 +49,4 @@ class RendimientoTable
     }
 
 
-
-} 
+}

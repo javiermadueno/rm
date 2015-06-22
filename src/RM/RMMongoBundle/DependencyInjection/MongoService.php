@@ -3,17 +3,16 @@
 namespace RM\RMMongoBundle\DependencyInjection;
 
 
-
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use IMAG\LdapBundle\User\LdapUser;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class MongoService
 {
     /**
      * @var SecurityContextInterface
      */
-    protected  $sc;
+    protected $sc;
 
     /**
      * @var \MongoClient
@@ -47,29 +46,22 @@ class MongoService
 
 
     /**
-     * @param   SecurityContextInterface  $security
-     * @param   array                     $config
+     * @param   SecurityContextInterface $security
+     * @param   array                    $config
      */
     public function __construct(SecurityContextInterface $security, array $config)
     {
         $this->sc = $security;
-        $this->config =  $config;
+        $this->config = $config;
         $this->user = $this->sc->getToken()->getUser();
         $this->getParameters();
         $this->connect();
     }
 
-    public function connect()
-    {
-        $this->mongo = new \MongoClient($this->parameters['host']);
-        $this->database = $this->mongo->selectDB($this->parameters['database']);
-    }
-
-
     public function getParameters()
     {
 
-        if(!$this->parameters){
+        if (!$this->parameters) {
             $this->parameters = [];
         }
 
@@ -82,7 +74,7 @@ class MongoService
 
         $cliente = strtolower($this->user->getCliente());
 
-        if(array_key_exists($cliente, $connections)){
+        if (array_key_exists($cliente, $connections)) {
             $this->parameters = $resolver->resolve($connections[$cliente]);
             return;
         }
@@ -90,6 +82,12 @@ class MongoService
         $default_connection = $config['default_connection'];
         $this->parameters = $connections[$default_connection];
 
+    }
+
+    public function connect()
+    {
+        $this->mongo = new \MongoClient($this->parameters['host']);
+        $this->database = $this->mongo->selectDB($this->parameters['database']);
     }
 
 }

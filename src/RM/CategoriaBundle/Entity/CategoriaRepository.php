@@ -4,7 +4,6 @@ namespace RM\CategoriaBundle\Entity;
 
 use Doctrine;
 use Doctrine\ORM\EntityRepository;
-use Proxies\__CG__\RM\PlantillaBundle\Entity\GrupoSlots;
 
 class CategoriaRepository extends EntityRepository
 {

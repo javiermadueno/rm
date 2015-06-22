@@ -24,9 +24,9 @@ class SegmentadorController extends Controller
 
     public function searchVariablesAction()
     {
-        $servicioTransformadas  = $this->get("variablestransformadas");
-        $servicioDiscretas      = $this->get("variablesdiscretas");
-        $servicioLineales       = $this->get("variableslineales");
+        $servicioTransformadas = $this->get("variablestransformadas");
+        $servicioDiscretas = $this->get("variablesdiscretas");
+        $servicioLineales = $this->get("variableslineales");
 
         $request = $this->container->get('request');
 
