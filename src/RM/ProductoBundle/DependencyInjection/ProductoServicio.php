@@ -1,20 +1,20 @@
 <?php
 
 namespace RM\ProductoBundle\DependencyInjection;
-
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 
 class ProductoServicio
 {
-    public function __construct(ManagerRegistry $doctrine)
+	public function __construct(DoctrineManager $doctrine)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $doctrine->getManager();
     }
 
 
-    public function getProductosByMarca($id_marca)
-    {
+    public function getProductosByMarca($id_marca){
         $repo = $this->em->getRepository('RMProductoBundle:Producto');
         return $repo->obtenerProductosByMarca($id_marca);
     }
@@ -26,4 +26,5 @@ class ProductoServicio
     }
 
 
+    
 }

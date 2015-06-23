@@ -3,40 +3,55 @@
 namespace RM\ComunicacionBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
+use RM\ComunicacionBundle\Entity\Estado;
 
 class ComunicacionServicio
 {
-    public function __construct(ManagerRegistry $doctrine)
-    {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
-    }
+	public function __construct(DoctrineManager $manager)
+	{
+		$this->em = $manager->getManager();
+	}
+	
+	public function getComunicaciones($id_canal = -1, $estado = -2){
+		$repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
+		$registros = $repo->obtenerComunicaciones($id_canal, $estado);
+		return $registros;
+	}
+	
+	public function getComunicacionById($id_comunicacion){
+		$repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
+		$registros = $repo->obtenerComunicacionById($id_comunicacion);
+		return $registros;
+	}
+	
+	public function deleteComunicaciones($id_comunicacion){
+		$repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
+		$registros = $repo->deleteComunicaciones($id_comunicacion);
+		$this->em->flush();
+		return 1;
+	}
 
-    public function getComunicaciones($id_canal = -1, $estado = -2)
+    /**
+     * @param Comunicacion $objComunicacion
+     * @return bool|Comunicacion
+     */
+	public function guardarComunicaciones(Comunicacion $objComunicacion)
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
-        $registros = $repo->obtenerComunicaciones($id_canal, $estado);
-        return $registros;
-    }
+		try {
+            $this->em->persist($objComunicacion);
+            $this->em->flush();
 
-    public function getComunicacionById($id_comunicacion)
-    {
-        $repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
-        $registros = $repo->obtenerComunicacionById($id_comunicacion);
-        return $registros;
-    }
+        } catch(\Exception $e) {
+            return false;
+        }
 
-    public function deleteComunicaciones($id_comunicacion)
-    {
-        $repo = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
-        $registros = $repo->deleteComunicaciones($id_comunicacion);
-        $this->em->flush();
-        return 1;
-    }
+        return $objComunicacion;
+	}
 
     /**
      * @param $id_comunicacion
-     *
      * @return bool|Comunicacion
      */
     public function pararComunicacion($id_comunicacion)
@@ -44,7 +59,8 @@ class ComunicacionServicio
         $comunicacion = $this->em->getRepository('RMComunicacionBundle:Comunicacion')
             ->find($id_comunicacion);
 
-        if (!$comunicacion instanceof Comunicacion) {
+        if(!$comunicacion instanceof Comunicacion)
+        {
             return false;
         }
 
@@ -54,26 +70,7 @@ class ComunicacionServicio
     }
 
     /**
-     * @param Comunicacion $objComunicacion
-     *
-     * @return bool|Comunicacion
-     */
-    public function guardarComunicaciones(Comunicacion $objComunicacion)
-    {
-        try {
-            $this->em->persist($objComunicacion);
-            $this->em->flush();
-
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return $objComunicacion;
-    }
-
-    /**
      * @param $id_comunicacion
-     *
      * @return bool|Comunicacion
      */
     public function reanudarComunicacion($id_comunicacion)
@@ -81,7 +78,7 @@ class ComunicacionServicio
         $comunicacion = $this->em->getRepository('RMComunicacionBundle:Comunicacion')
             ->find($id_comunicacion);
 
-        if (!$comunicacion instanceof Comunicacion) {
+        if(!$comunicacion instanceof Comunicacion) {
             return false;
         }
 
@@ -94,12 +91,11 @@ class ComunicacionServicio
 
     /**
      * @param Comunicacion $comunicacion
-     *
      * @return mixed
      */
     public function calculaFechaProximaEjecucion(Comunicacion $comunicacion)
     {
-        if (!$comunicacion) {
+        if(!$comunicacion) {
             return false;
         }
 
@@ -107,7 +103,7 @@ class ComunicacionServicio
         $fechaEjecucion = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion')
             ->findFechaProximaEjecucionByComunicacion($comunicacion);
 
-        if (is_null($fechaEjecucion)) {
+        if(is_null($fechaEjecucion)) {
             return null;
         }
 

@@ -2,62 +2,64 @@
 
 namespace RM\TransformadasBundle\Controller;
 
-use RM\TransformadasBundle\Entity\Vt;
-use RM\TransformadasBundle\Form\Data\NuevaVarTransType;
-use RM\TransformadasBundle\Form\Data\TransformadaBuscadorType;
+use RM\AppBundle\Controller\RMController;
+use RM\DiscretasBundle\Entity\Tipo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use RM\TransformadasBundle\Form\Data\TransformadaBuscadorType;
+use RM\TransformadasBundle\Form\Data\NuevaVarTransType;
+use RM\TransformadasBundle\Entity\Vt;
 
-class DefaultController extends Controller
+class DefaultController extends RMController
 {
     public function obtenerRegistrosAction($idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar)
     {
-        $servicio = $this->get("variablesTransformadas");
-
-        //Creaci�n del formulario mediante clase
-        $peticion = $this->getRequest();
-        $variableTransformada = new Vt();
-        $formulario = $this->createForm(new TransformadaBuscadorType(), $variableTransformada);
-
-        $formulario->handleRequest($peticion);
-        //*************************************
-
-        if ($formulario->isValid()) {
-            //Se ha hecho pulsado sobre el bot�n de buscar, es decir, tiene petici�
-            $selectVar = $servicio->getTransformadas($variableTransformada->getNombre(), $tipoVar);
-        } else {
-            $selectVar = $servicio->getTransformadas('', $tipoVar);
-        }
-
-        return $this->render('RMTransformadasBundle:Default:index.html.twig', [
-            'idOpcionMenuSup' => $idOpcionMenuSup,
-            'idOpcionMenuIzq' => $idOpcionMenuIzq,
-            'variables'       => $selectVar,
-            'formulario'      => $formulario->createView(),
-            'tipoVar'         => $tipoVar
-        ]);
-
+    	$servicio = $this->get("variablesTransformadas");
+    	 
+    	//Creaci�n del formulario mediante clase
+    	$peticion = $this->getRequest();
+    	$variableTransformada = new Vt();
+    	$formulario = $this->createForm(new TransformadaBuscadorType(), $variableTransformada);
+    	 
+    	$formulario->handleRequest($peticion);
+    	//*************************************
+    	 
+    	if ($formulario->isValid()) {
+    		//Se ha hecho pulsado sobre el bot�n de buscar, es decir, tiene petici�
+    		$selectVar = $servicio->getTransformadas($variableTransformada->getNombre(), $tipoVar);
+    	}
+    	else{
+    		$selectVar = $servicio->getTransformadas('', $tipoVar);
+    	}
+    	 
+    	return $this->render('RMTransformadasBundle:Default:index.html.twig', [
+    			'idOpcionMenuSup' => $idOpcionMenuSup,
+    			'idOpcionMenuIzq' => $idOpcionMenuIzq,
+    			'variables' => $selectVar,
+    			'formulario' => $formulario->createView(),
+                'tipoVar'=> $tipoVar
+    	]);
+    	 
     }
+    
+    public function crearVarTransformadaAction($idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar){
+    	$servicio = $this->get("variablesTransformadas");
+    	
+    	//ECHO 'ENTRO EN CREARVARTRANSFORMADA';
+    	//Creaci�n del formulario mediante clase
+    	$peticion = $this->getRequest();
+    	$objVT = new Vt();
+    	$formulario = $this->createForm(new NuevaVarTransType(), $objVT);
+    	
+    	$formulario->handleRequest($peticion);
+    	//*************************************
+    	
+    	if ($formulario->isValid()) {
+    		$objVT->setEstado(1);
 
-    public function crearVarTransformadaAction($idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar)
-    {
-        $servicio = $this->get("variablesTransformadas");
-
-        //ECHO 'ENTRO EN CREARVARTRANSFORMADA';
-        //Creaci�n del formulario mediante clase
-        $peticion = $this->getRequest();
-        $objVT = new Vt();
-        $formulario = $this->createForm(new NuevaVarTransType(), $objVT);
-
-        $formulario->handleRequest($peticion);
-        //*************************************
-
-        if ($formulario->isValid()) {
-            $objVT->setEstado(1);
-
-            $tipoVar = $this->get('doctrine')->getManager($_SESSION['connection'])->getRepository('RMDiscretasBundle:Tipo')
+            $tipoVar = $this->getManager()->getRepository('RMDiscretasBundle:Tipo')
                 ->find($tipoVar);
 
-            if ($tipoVar) {
+            if($tipoVar) {
                 $objVT->setTipo($tipoVar);
                 $objTmp = $servicio->guardarObjeto($objVT);
 
@@ -68,19 +70,18 @@ class DefaultController extends Controller
                 }
 
                 if ($tipoVar->getId() == Vt::TIPO_OTRAS_TRANSFORMADAS) {
-                    return $this->redirect($this->generateUrl('data_avanced_ot_editar',
-                            ['id_vt' => $objTmp->getIdVt()]));
+                    return $this->redirect($this->generateUrl('data_avanced_ot_editar', ['id_vt' => $objTmp->getIdVt()]));
                 } elseif ($tipoVar->getId() == Vt::TIPO_CICLO_VIDA) {
-                    return $this->redirect($this->generateUrl('data_avanced_cv_editar',
-                            ['id_vt' => $objTmp->getIdVt()]));
+                    return $this->redirect($this->generateUrl('data_avanced_cv_editar', ['id_vt'=> $objTmp->getIdVt()]));
                 }
             }
-        } else {
-            return $this->render('RMTransformadasBundle:Default:nuevaVar.html.twig', [
-                'idOpcionMenuSup' => $idOpcionMenuSup,
-                'idOpcionMenuIzq' => $idOpcionMenuIzq,
-                'formulario'      => $formulario->createView()
-            ]);
-        }
+    	}
+    	else{
+    		return $this->render('RMTransformadasBundle:Default:nuevaVar.html.twig', [
+    				'idOpcionMenuSup' => $idOpcionMenuSup,
+    				'idOpcionMenuIzq' => $idOpcionMenuIzq,
+    				'formulario' => $formulario->createView()
+    		]);
+    	}
     }
 }

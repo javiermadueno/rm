@@ -10,6 +10,7 @@ namespace RM\DiscretasBundle\DependencyInjection;
 
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Tipo;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\DiscretasBundle\Entity\VidCriterioGlobal;
@@ -38,9 +39,9 @@ class PersonalizaVariableDiscreta
      */
     private $criteriosGlobales;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $doctrine)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $doctrine->getManager();
         $this->repository = $this->em->getRepository('RMDiscretasBundle:Vid');
         $this->criteriosGlobales = $this->repository->obtenerCriteriosGlobales()[0];
     }

@@ -2,11 +2,11 @@
 
 namespace RM\ProductoBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\ProductoBundle\Entity\Producto;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class DefaultController extends Controller
+class DefaultController extends RMController
 {
     public function showProductosAction(
         $idOpcionMenuSup,
@@ -18,13 +18,13 @@ class DefaultController extends Controller
         $nombre = -1
     ) {
         $servicioMarca = $this->get("MarcaService");
-        $servicioCat = $this->get("categoriaservice");
-        $servicioTI = $this->get("TamanyoImagenService");
-        $servicioPR = $this->get("ProductoService");
+        $servicioCat   = $this->get("categoriaservice");
+        $servicioTI    = $this->get("TamanyoImagenService");
+        $servicioPR    = $this->get("ProductoService");
 
-        $selectMarcas = $servicioMarca->getMarcas();
+        $selectMarcas     = $servicioMarca->getMarcas();
         $selectCategorias = $servicioCat->getCatAsociadas();
-        $selectTamanyos = $servicioTI->getTIByTipo(0);
+        $selectTamanyos   = $servicioTI->getTIByTipo(0);
 
         asort($selectMarcas);
         asort($selectCategorias);
@@ -43,6 +43,7 @@ class DefaultController extends Controller
 
         $selectProductos = $paginator
             ->paginate($repo->findProductosByFiltro($id_categoria, $id_marca, $nombre, $codigo))->getResult();
+
 
 
         return $this->render('RMProductoBundle:Default:index.html.twig', [
@@ -65,7 +66,7 @@ class DefaultController extends Controller
     public function actualizarProductosAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request = $this->container->get('request');
+            $request    = $this->container->get('request');
             $servicioPR = $this->get("ProductoService");
             $servicioTI = $this->get("TamanyoImagenService");
 
@@ -79,13 +80,14 @@ class DefaultController extends Controller
             $nombre = $request->get('nombre');
             $nombre = str_replace('-', ' ', $nombre);
 
-            $repo = $this->get('doctrine')->getManager($_SESSION['connection'])->getRepository('RMProductoBundle:Producto');
+            $repo            = $this->getManager()->getRepository('RMProductoBundle:Producto');
             $selectProductos = $paginator->paginate(
                 $repo->findProductosByFiltro(
                     $request->get('id_categoria'),
                     $request->get('id_marca'),
                     $nombre,
                     $request->get('codigo')))->getResult();
+
 
 
             return $this->render('RMProductoBundle:Default:listadoProductos.html.twig', [
@@ -105,7 +107,7 @@ class DefaultController extends Controller
     public function showFichaProductoAction($cod_sku)
     {
 
-        $em = $this->get('doctrine')->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $producto = $em->find('RMProductoBundle:Producto', $cod_sku);
 
@@ -147,11 +149,11 @@ class DefaultController extends Controller
     public function uploadImageProductoAction()
     {
 
-        $request = $this->container->get('request');
-        $id_producto = $request->get('id_producto');
+        $request          = $this->container->get('request');
+        $id_producto      = $request->get('id_producto');
         $servicioProducto = $this->get("ProductoService");
 
-        $usuario = $this->get('security.context')->getToken()->getUser();
+        $usuario    = $this->get('security.context')->getToken()->getUser();
         $folderName = $usuario->getCliente();  //Identificacion del centro
         $myAssetUrl = $this->get('kernel')->getRootDir() . '/../web';
 
@@ -170,7 +172,7 @@ class DefaultController extends Controller
                     mkdir($carpetaPlantilla);
                 }
 
-                $arrayExt = explode(".", basename($_FILES ["uploadFile"] ["name"]));
+                $arrayExt  = explode(".", basename($_FILES ["uploadFile"] ["name"]));
                 $extension = $arrayExt[1];
 
                 $carpetaFicPlantilla = $carpetaPlantilla . "/" . $id_producto . "." . $extension;
@@ -195,4 +197,5 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('Se ha producido un error de envio de la informaciÃ³n');
         }
     }
+
 }

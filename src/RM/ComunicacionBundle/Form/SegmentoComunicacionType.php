@@ -22,7 +22,6 @@ class SegmentoComunicacionType extends AbstractType
         $comunicacionTransformer = new ComunicacionToNumberTransformer($options['em']);
         $datetimeTransformer = new DatetimeToStringTransformer('d/m/Y');
 
-        $connection = $_SESSION['connection'];
 
         $builder
             ->add($builder->create('fecInicio', 'text', [

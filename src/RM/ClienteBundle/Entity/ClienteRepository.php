@@ -8,16 +8,12 @@ class ClienteRepository extends EntityRepository
 {
     public function obtenerPlantillaById($id_plantilla)
     {
-
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "SELECT p
             FROM RMPlantillaBundle:Plantilla p
 			WHERE p.idPlantilla = :idplantilla
 			AND	  p.estado > -1";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idplantilla', $id_plantilla);
 
         $registros = $query->getResult();
@@ -25,33 +21,31 @@ class ClienteRepository extends EntityRepository
         return $registros;
     }
 
-    //TODO Los devuelve todos
     public function obtenerClientes()
     {
 
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
-        $dql = "SELECT c
-            FROM RMClienteBundle:Cliente c";
+        $dql = "
+            SELECT c
+            FROM RMClienteBundle:Cliente c
+            ";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
         return $registros;
     }
 
-    //TODO Los devuelve todos
     public function obtenerClienteById($id_cliente)
     {
 
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "SELECT c
             FROM RMClienteBundle:Cliente c
 			WHERE c.idCliente = :idcliente";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idcliente', $id_cliente);
 
         $registros = $query->getResult();
@@ -62,7 +56,6 @@ class ClienteRepository extends EntityRepository
     public function obtenerClienteBySegmento($id_segmento)
     {
 
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select c
 		from RMClienteBundle:Cliente c
@@ -71,7 +64,7 @@ class ClienteRepository extends EntityRepository
 		WHERE cs.idSegmento = :idSegmento";
 
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idSegmento', $id_segmento);
 
         $registros = $query->getResult();
@@ -91,6 +84,7 @@ class ClienteRepository extends EntityRepository
             ->orderBy('c.idCliente')
             ->setParameter('ids', $ids)
             ->getQuery()->getArrayResult();
+
         //->getResult();
 
         return $clientes;

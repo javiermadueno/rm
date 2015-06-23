@@ -10,6 +10,7 @@ namespace RM\ProductoBundle\DependencyInjection;
 
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 class VoucherGenerator
 {
@@ -18,9 +19,9 @@ class VoucherGenerator
      */
     private $em;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $doctrine)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $doctrine->getManager();
     }
 
     public function generateUniqueVoucher()

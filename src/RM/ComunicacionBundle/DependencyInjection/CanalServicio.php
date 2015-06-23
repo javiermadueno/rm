@@ -2,34 +2,37 @@
 
 namespace RM\ComunicacionBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 class CanalServicio
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
+
     private $em;
 
     /**
-     * @param ManagerRegistry $doctrine
+     * @param DoctrineManager $manager
+     *
+     * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $manager)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $manager->getManager();
     }
 
     public function getCanales()
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:Canal');
+        $repo      = $this->em->getRepository('RMComunicacionBundle:Canal');
         $registros = $repo->obtenerCanales();
+
         return $registros;
     }
 
     public function getCanalById($id_canal)
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:Canal');
+        $repo     = $this->em->getRepository('RMComunicacionBundle:Canal');
         $registro = $repo->obtenerCanalById($id_canal);
+
         return $registro;
     }
 

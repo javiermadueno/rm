@@ -9,8 +9,9 @@
 namespace RM\PlantillaBundle\EventListeners;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use RM\PlantillaBundle\Entity\Slot;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Event\GrupoSlotsEvent;
+use RM\PlantillaBundle\Entity\Slot;
 use RM\PlantillaBundle\Model\Interfaces\GrupoSlotsInterface;
 
 class CreaSlotsListener
@@ -21,15 +22,17 @@ class CreaSlotsListener
     private $em;
 
     /**
-     * @param ManagerRegistry $doctrine
+     * @param DoctrineManager $manager
+     *
+     * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $manager)
     {
-        if (!isset($_SESSION['connection'])) {
+        try {
+            $this->em = $manager->getManager();
+        }catch (\Exception $e) {
             return;
         }
-
-        $this->em = $doctrine->getManager($_SESSION['connection']);
     }
 
     /**
@@ -39,20 +42,21 @@ class CreaSlotsListener
     {
         $grupo = $event->getGrupoSlots();
 
-        if (!$grupo instanceof GrupoSlotsInterface) {
+        if(!$grupo instanceof GrupoSlotsInterface) {
             return;
         }
-        $numSlots = (int)$grupo->getNumSlots();
+        $numSlots = (int) $grupo->getNumSlots();
 
-        if ($numSlots <= 0) {
+        if($numSlots <= 0) {
             return;
         }
 
-        for ($i = 0; $i < $numSlots; $i++) {
+        for($i = 0; $i < $numSlots; $i++)
+        {
             $slot = new Slot();
 
             $slot->setIdGrupo($grupo)
-                ->setCodigo(uniqid($grupo->getIdGrupo() . '_'))
+                ->setCodigo(uniqid($grupo->getIdGrupo().'_'))
                 ->setEstado(1);
 
             $this->em->persist($slot);

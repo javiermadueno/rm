@@ -2,6 +2,7 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CampaignController extends Controller
+class CampaignController extends RMController
 {
 
     public function indexAction($idOpcionMenuSup, $idOpcionMenuIzq)
@@ -127,6 +128,7 @@ class CampaignController extends Controller
         }
     }
 
+
     public function fichaCampanyaAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_instancia, $id_categoria)
     {
         $servicioIC = $this->get("instanciacomunicacionservice");
@@ -141,7 +143,7 @@ class CampaignController extends Controller
              */
             $servicioMarca = $this->get("marcaservice");
 
-            $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+            $em = $this->getManager();
 
             $objInstancia = $objInstancias [0];
 
@@ -222,7 +224,7 @@ class CampaignController extends Controller
              * Refactorizacion del metodo para mostrar la ficha de un cierre de campaña
              */
 
-            $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+            $em = $this->getManager();
 
             $objInstancia = $objInstancias [0];
 
@@ -382,7 +384,7 @@ class CampaignController extends Controller
         $nombreFiltro = $request->get('nombreFiltro');
         $condicion    = $request->get('condicion');
 
-        $em   = $this->get('doctrine')->getManager($_SESSION['connection']);
+        $em   = $this->getManager();
         $repo = $em->getRepository('RMProductoBundle:Promocion');
 
         $promocion = $repo->find($idPromocion);

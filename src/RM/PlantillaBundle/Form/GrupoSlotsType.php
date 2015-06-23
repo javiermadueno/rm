@@ -38,7 +38,7 @@ class GrupoSlotsType extends AbstractType
             ->add('numSlots', 'integer', ['required' => true])
             ->add($builder->create('idPlantilla', 'hidden')->addModelTransformer($plantillaTransformer));
 
-        $modificaTamanyoImagen = function (FormInterface $form, $tipo) {
+        $modificaTamanyoImagen = function (FormInterface $form, $tipo) use ($em) {
 
             $tamanyo = GrupoSlots::PROMOCION == $tipo ?
                 TamanyoImagen::PRODUCTO :
@@ -50,7 +50,7 @@ class GrupoSlotsType extends AbstractType
 
             $form->add('idTamanyoImgProducto', 'entity', [
                 'class'         => 'RM\PlantillaBundle\Entity\TamanyoImagen',
-                'em'            => $_SESSION['connection'],
+                'em'            => $em,
                 'query_builder' => function (EntityRepository $er) use ($tamanyo) {
                     return $er->createQueryBuilder('t')
                         ->where('t.tipo = :tipo')

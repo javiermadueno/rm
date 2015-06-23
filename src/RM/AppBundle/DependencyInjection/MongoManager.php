@@ -10,9 +10,9 @@ namespace RM\AppBundle\DependencyInjection;
 
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use IMAG\LdapBundle\User\LdapUser;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use IMAG\LdapBundle\User\LdapUser;
 
 class MongoManager
 {
@@ -21,7 +21,7 @@ class MongoManager
      */
     private $dm;
 
-    public function __construct(ManagerRegistry $doctrine, SecurityContextInterface $security)
+    public function __construct(ManagerRegistry $doctrine,  TokenStorageInterface $security)
     {
         /** @var TokenInterface $token */
         $token = $security->getToken();
@@ -30,7 +30,7 @@ class MongoManager
         /** @var  $cliente */
         $this->cliente = $usuario->getCliente();
 
-        if (!isset($this->cliente)) {
+        if(!isset($this->cliente)) {
             throw new \Exception(
                 'No está definida la variable de conexión'
             );
@@ -45,11 +45,11 @@ class MongoManager
      */
     public function getManager()
     {
-        if (!$this->dm) {
+        if(!$this->dm) {
             throw new \Exception(sprintf(
-                'No se ha encontrado Entity Manager para el cliente %s',
-                $this->cliente
-            ));
+                    'No se ha encontrado Entity Manager para el cliente %s',
+                    $this->cliente
+                ));
         }
 
         return $this->dm;

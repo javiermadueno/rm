@@ -3,6 +3,7 @@
 namespace RM\ComunicacionBundle\Controller;
 
 use Ob\HighchartsBundle\Highcharts\Highchart;
+use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\Plantilla;
@@ -20,7 +21,7 @@ use Symfony\Component\Serializer\Serializer;
  *
  * @package RM\ComunicacionBundle\Controller
  */
-class InstanciaController extends Controller
+class InstanciaController extends RMController
 {
     /**
      * @param     $idOpcionMenuSup
@@ -44,7 +45,7 @@ class InstanciaController extends Controller
         $servicioCom = $this->get("ComunicacionService");
         $servicioSeg = $this->get("SegmentoService");
 
-        $em    = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em    = $this->getManager();
         $fases = $em->getRepository('RMComunicacionBundle:Fases')->findAll();
 
         $objInstancias     = $servicioIC->getInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $id_instancia);
@@ -110,7 +111,7 @@ class InstanciaController extends Controller
     public function controladorVistasFaseInstanciasAction($id_instancia)
     {
         $servicioIC = $this->get("InstanciaComunicacionService");
-        $em         = $this->get('doctrine')->getManager($_SESSION['connection']);
+        $em         = $this->getManager();
 
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
@@ -194,7 +195,7 @@ class InstanciaController extends Controller
                     return true;
                 };
 
-                $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+                $em = $this->getManager();
 
                 $totalGenericasPorgrupo = $em->getRepository('RMProductoBundle:NumPromociones')
                     ->findTotalGenericasPorGrupoByInstancia($objInstancia->getIdInstancia());
@@ -824,7 +825,7 @@ class InstanciaController extends Controller
                             )
                         );
                     } elseif ($request->get('desempate') == 1) {
-                        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+                        $em = $this->getManager();
 
                         $instanciasCriterios = $em->getRepository(
                             'RMProductoBundle:InstanciaCriterioDesempate'
@@ -896,7 +897,7 @@ class InstanciaController extends Controller
             $objGrupoSlots = $this->get('PlantillaService')->getGruposConNumeroSlots($objPlantilla->getIdPlantilla());
 
             //Recuperamos las instancias de criterios de desempate
-            $em                  = $this->getDoctrine()->getManager($_SESSION['connection']);
+            $em                  = $this->getManager();
             $instanciasCriterios = $em->getRepository('RMProductoBundle:InstanciaCriterioDesempate')->findBy(
                 [
                     'idInstancia' => $objInstancia

@@ -2,14 +2,14 @@
 
 namespace RM\ComunicacionBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 
 class SegmentoComunicacionServicio
 {
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $manager)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $manager->getManager();
     }
 
     public function getSegmentosComunicacion()

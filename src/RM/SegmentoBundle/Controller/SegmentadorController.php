@@ -9,10 +9,11 @@
 namespace RM\SegmentoBundle\Controller;
 
 
+use RM\AppBundle\Controller\RMController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class SegmentadorController extends Controller
+class SegmentadorController extends RMController
 {
     public function indexAction(Request $request)
     {
@@ -68,7 +69,7 @@ class SegmentadorController extends Controller
 
     public function searchSegmentosAction()
     {
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
         $servicioSeg = $this->get("SegmentoService");
         $request = $this->container->get('request');
 
@@ -118,4 +119,5 @@ class SegmentadorController extends Controller
 
         return $response;
     }
+
 } 

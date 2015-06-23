@@ -6,7 +6,7 @@ parameters:
 services:
     PlantillaService:
         class: RM\PlantillaBundle\DependencyInjection\PlantillaServicio
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     TamanyoImagenService:
         class: %TamanyoImagenService.class%
@@ -14,7 +14,7 @@ services:
 
     GrupoSlotService:
         class: RM\PlantillaBundle\DependencyInjection\GrupoSlotsServicio
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
 
     rm_plantilla.elimina_grupo_slots:
@@ -25,19 +25,19 @@ services:
 
     rm_plantilla.elimina_slots:
       class: RM\PlantillaBundle\EventListeners\EliminaSlotsListener
-      arguments: [@doctrine]
+      arguments: [@rm.manager]
       tags:
         - { name: kernel.event_listener, event: rm_plantilla.eliminar_grupo_slots, method: onGrupoSlotsEliminado}
 
     rm_plantilla.crea_slots:
       class: RM\PlantillaBundle\EventListeners\CreaSlotsListener
-      arguments: [@doctrine]
+      arguments: [@rm.manager]
       tags:
         - { name: kernel.event_listener, event: rm_plantilla.nuevo_grupo_slots, method: onNuevoGrupoSlot }
 
     rm_plantilla_genera_plantilla_comunicacion:
       class: RM\PlantillaBundle\DependencyInjection\GeneraPlantillaComunicacion
-      arguments: [@twig, %web_path%, @security.context]
+      arguments: [@twig, %web_path%, @security.token_storage]
 
     rm_plantilla.form.tamanyoImagen:
       class: RM\PlantillaBundle\Form\TamanyoImagen\TamanyoImagenType
@@ -49,9 +49,6 @@ services:
       tags:
         - { name: doctrine.event_listener, event: postUpdate}
 
-    rm_plantilla.importacion_exportacion_plantillas:
-      class: RM\PlantillaBundle\DependencyInjection\ImportacionExportacionPlantilla
-      arguments: [@doctrine, @event_dispatcher]
 
     rm_plantilla.email_parser:
       class: RM\PlantillaBundle\Parsers\EmailParser
@@ -59,12 +56,11 @@ services:
 
     rm.plantilla_manager:
       class: RM\PlantillaBundle\DomainManager\PlantillaManager
-      arguments: [@doctrine, @event_dispatcher]
+      arguments: [@rm.manager, @event_dispatcher]
 
     rm.grupo_slot_manager:
       class: RM\PlantillaBundle\DomainManager\GrupoSlotManager
-      arguments: [@doctrine, @event_dispatcher]
-
+      arguments: [@rm.manager, @event_dispatcher]
 
     rm_plantilla.create_plantilla_form_handler:
       class: RM\PlantillaBundle\Form\Handler\CreatePlantillaFormHandler

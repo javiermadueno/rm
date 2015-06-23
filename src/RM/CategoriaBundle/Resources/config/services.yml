@@ -5,7 +5,7 @@ parameters:
 services:
     categoriaService:
         class: %categoriaService.class%
-        arguments: [@doctrine, @security.context]
+        arguments: [@rm.manager, @security.token_storage, @security.authorization_checker]
 
     rm_categoria.cambia_asocicion_categorias:
         class: RM\CategoriaBundle\EventListener\CambiaAsociacionListener

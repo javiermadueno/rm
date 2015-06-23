@@ -12,33 +12,33 @@ parameters:
 services:
     CanalService:
         class: %CanalService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     ComunicacionService:
         class: %ComunicacionService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     SegmentoComunicacionService:
         class: %SegmentoComunicacionService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     InstanciaComunicacionService:
         class: %InstanciaComunicacionService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     CreatividadService:
         class: %CreatividadService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     rm_comunicacion.crea_nueva_plantilla:
         class: RM\ComunicacionBundle\EventListener\CreaNuevaPlantillaListener
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         tags:
             - { name: 'kernel.event_subscriber' }
 
     rm_comunicacion.cambia_estado_segmento_comunicacion:
       class: RM\ComunicacionBundle\DependencyInjection\CambiaEstadoSegmentoComunicacion
-      arguments: [@doctrine]
+      arguments: [@rm.manager]
 
 
     property_normalizer:

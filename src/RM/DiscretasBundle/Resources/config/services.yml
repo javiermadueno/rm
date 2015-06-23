@@ -5,15 +5,15 @@ parameters:
 services:
     variablesDiscretas:
         class: %variablesDiscretas.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
     
     configuracion:
         class: %configuracion.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     rm_discretas.personaliza_variable_discreta:
         class: RM\DiscretasBundle\DependencyInjection\PersonalizaVariableDiscreta
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     #Para borra despues pbdespues
     twig.extension.debug:

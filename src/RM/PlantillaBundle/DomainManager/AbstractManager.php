@@ -8,33 +8,36 @@
 
 namespace RM\PlantillaBundle\DomainManager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\ORM\EntityManager;
 
 
 class AbstractManager
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|EntityManager
      */
     protected $em;
 
     /**
      * @var EventDispatcherInterface
      */
-    protected $dispatcher;
+    protected  $dispatcher;
 
     /**
-     * @param ManagerRegistry          $doctrine
+     * @param DoctrineManager          $manager
      * @param EventDispatcherInterface $dispatcher
+     *
+     * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine, EventDispatcherInterface $dispatcher)
+    public function __construct(DoctrineManager $manager, EventDispatcherInterface $dispatcher)
     {
-        if (!isset($_SESSION['connection'])) {
+        try {
+            $this->em = $manager->getManager();
+        }catch (\Exception $e) {
             return;
         }
-
-        $this->em = $doctrine->getManager($_SESSION['connection']);
         $this->dispatcher = $dispatcher;
     }
 } 

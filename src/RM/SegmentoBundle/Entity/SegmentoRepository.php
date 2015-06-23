@@ -83,6 +83,25 @@ class SegmentoRepository extends EntityRepository
     }
 
     /**
+     * @param $id_vt
+     * @return array
+     */
+    public function obtenerSegmentosByIdVt($id_vt)
+    {
+        $dql = "select s
+			from RMSegmentoBundle:Segmento s
+			where s.estado = 1
+			AND s.idVt = :idvt";
+
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('idvt', $id_vt);
+
+        $registros = $query->getResult();
+
+        return $registros;
+    }
+
+    /**
      * @param $tipo
      * @param $id_categoria
      * @param $id_marca

@@ -2,30 +2,33 @@
 
 namespace RM\RMMongoBundle\Controller;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
+use RM\AppBundle\Controller\RMController;
 use RM\RMMongoBundle\Document\ClienteSegmento;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Zend\Json\Json;
 
-class DefaultController extends Controller
+class DefaultController extends RMController
 {
 
     /**
      * @Route("/poblacion", name="mongo_calcula_poblacion")
      */
-    public function calculaPoblacionAction()
-    {
+    public function calculaPoblacionAction(){
 
-        $request = $this->get('request');
-        $condicion = $request->get('condicion');
-        $fecha = $request->get('fecha_busqueda');
+        $request    = $this->get('request');
+        $condicion  = $request->get('condicion');
+        $fecha      = $request->get('fecha_busqueda');
 
-        try {
+        try{
             $service = $this->get('rm.mongo.calcula_poblacion');
             $poblacion = $service->calculaPoblacion($condicion, $fecha);
-        } catch (\Exception $e) {
+        } catch(\Exception $e) {
             return new Response($e->getMessage(), 500);
         }
 
@@ -39,27 +42,29 @@ class DefaultController extends Controller
      */
     public function indexAction($name)
     {
-        $em = $this->get('doctrine_mongodb')->getManager();
+         $em = $this->get('doctrine_mongodb')->getManager();
 
         $repo = $em->getRepository('RMMongoBundle:ClienteSegmento');
 
         $time1 = -microtime(true);
-        $clientes = $repo->findClientesEnSegmentos($in = [25, 26], $notIn = [10]);
+        $clientes = $repo->findClientesEnSegmentos($in = [25,26], $notIn = [10]);
 
         echo "Numero de clientes: ";
+        var_dump(count($clientes));
 
         $time1 += microtime(true);
-        echo "Tiempo: " . number_format($time1, 3) . "</br>";
+        echo "Tiempo: ". number_format($time1,3) ."</br>";
 
 
         $time2 = -microtime(true);
-        echo "==============" . "</br>";
-        echo "Segunda Consulta:" . "</br>";
-        echo "==============" . "</br>";
+        echo "==============" ."</br>";
+        echo "Segunda Consulta:"."</br>";
+        echo "=============="."</br>";
 
         echo "Numero de clientes: ";
+        var_dump($repo->findNumeroClientesEnSegmentos($in = [25,26], $notIn = [10]));
         $time2 += microtime(true);
-        echo "Tiempo: " . number_format($time2, 3) . "</br>";
+        echo "Tiempo: ". number_format($time2,3) ."</br>";
 
         return ['name' => $name];
     }
@@ -76,22 +81,23 @@ class DefaultController extends Controller
         $segmentos2 = [];
         $segmentos3 = [];
 
-        for ($i = 10; $i < 20; $i++) {
+        for($i = 10; $i < 20; $i++)
+        {
             $segmentos1[] = $i;
         }
 
-        $segmentos2 = array_map(function ($elem) {
-            return $elem + 5;
-        }, $segmentos1);
+        $segmentos2 = array_map(function($elem){
+                return $elem + 5;
+            }, $segmentos1);
 
-        $segmentos3 = array_map(function ($elem) {
-            return $elem + 8;
-        }, $segmentos1);
+        $segmentos3 = array_map(function($elem){
+                return $elem + 8;
+            }, $segmentos1);
 
-        for ($i = 1; $i < 30000; $i++) {
+        for($i = 1; $i<30000; $i++){
             $cliente = new ClienteSegmento();
-            $cliente->setSegmento(${'segmentos' . rand(1, 3)})
-                ->setCliente('C' . $i);
+            $cliente->setSegmento(${'segmentos' . rand(1,3)})
+                    ->setCliente('C'.$i);
 
             $em->persist($cliente);
         }
@@ -102,8 +108,7 @@ class DefaultController extends Controller
     /**
      * @Route(path="/mongo/", name="prueba_mongo")
      */
-    public function mongoAction()
-    {
+    public function mongoAction() {
         $mongo = new \MongoClient('mongodb://192.168.100.92');
 
         $db = $mongo->selectDB('1');
@@ -112,25 +117,23 @@ class DefaultController extends Controller
         $condicion_raw = '{"$and": [{"segmento": {"$in": [26]}},{"$or": [{"segmento": {"$in": [27]}},{"segmento": {"$in": [28]}}]}]}';
         $condicion = json_decode($condicion_raw);
 
-        function toArray($d)
-        {
+        function toArray ($d) {
             if (is_object($d)) {
                 $d = get_object_vars($d);
             }
 
             if (is_array($d)) {
                 return array_map(__FUNCTION__, $d);
-            } else {
+            }
+            else {
                 return $d;
             }
-        }
-
-        ;
+        };
 
         $condicion = toArray($condicion);
 
         $coleccion = 'cliente_segmento';
-        $cliente_segmento = $db->$coleccion;
+        $cliente_segmento =  $db->$coleccion;
 
         $time1 = -microtime(true);
         $cursor = $cliente_segmento->count($condicion);
@@ -148,7 +151,7 @@ class DefaultController extends Controller
 
         $pipeline_group = [
             '$group' => [
-                "_id"   => null,
+                "_id" => null,
                 "count" => ['$sum' => 1]
             ]
         ];
@@ -181,13 +184,13 @@ class DefaultController extends Controller
         $mongo->close(true);
 
         return $this->render('@RMMongo/Default/resultadoConsultas.html.twig', [
-            'resCount'        => $cursor,
-            'resAggregate'    => $res1['result'][0]['count'],
-            'resRaw'          => $res['retval']['_firstBatch'][0]['count'],
-            'tiempoCount'     => number_format($time1, 3),
-            'tiempoAggregate' => number_format($time2, 3),
-            'tiempoRaw'       => number_format($time3, 3)
-        ]);
+            'resCount' => $cursor,
+            'resAggregate' => $res1['result'][0]['count'],
+            'resRaw' => $res['retval']['_firstBatch'][0]['count'],
+            'tiempoCount' => number_format($time1,3),
+            'tiempoAggregate' => number_format($time2,3),
+            'tiempoRaw' => number_format($time3,3)
+            ]);
 
 
     }
@@ -203,9 +206,11 @@ class DefaultController extends Controller
             ->findBySlot(12);
 
 
+
+
         return $this->render('@RMMongo/blanco.html.twig', [
-            'variable' => $clientes
-        ]);
+                'variable' => $clientes
+            ]);
     }
 
     /**
@@ -214,10 +219,10 @@ class DefaultController extends Controller
      */
     public function rellenaPlantillaAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $plantilla = $em->find('RMPlantillaBundle:Plantilla', 1);
-        $cliente = $em->find('RMClienteBundle:Cliente', 1);
+        $cliente   = $em->find('RMClienteBundle:Cliente', 1);
 
         $this->get('rm_plantilla.email_parser')->parse($plantilla, $cliente);
     }
@@ -234,8 +239,8 @@ class DefaultController extends Controller
 
 
         return $this->render('@RMMongo/blanco.html.twig', [
-            'variable' => $clientes
-        ]);
+                'variable' => $clientes
+            ]);
     }
 
     /**
@@ -243,7 +248,7 @@ class DefaultController extends Controller
      */
     public function estadisticasAction()
     {
-        $mes = "2012-01";
+        $mes  = "2012-01";
         $mes2 = "2012-02";
 
         $nombre_segmentos = $this->container->getParameter('segmentos');
@@ -255,10 +260,11 @@ class DefaultController extends Controller
         $ids_segmentos = array_values($segmentos);
 
         $clientes = $this->get('rm.mongo.estadisticas_clientes')
-            ->findEstadisticasClientesByMesYSegmento($mes, $mes2, $ids_segmentos);
+            ->findEstadisticasClientesByMesYSegmento($mes, $mes2, $ids_segmentos );
 
         return $this->render('@RMMongo/blanco.html.twig', [
-            'variable' => $clientes
-        ]);
+                'variable' => $clientes
+            ]);
     }
+
 }

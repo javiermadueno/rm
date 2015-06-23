@@ -2,17 +2,13 @@
 
 namespace RM\TransformadasBundle\Entity;
 
-use Doctrine\MongoDB\Query\Query;
+
 use Doctrine\ORM\EntityRepository;
 
 class VtRepository extends EntityRepository
 {
     public function obtenerVariablesTransformadas($nombre = '', $tipoVar = 0)
     {
-
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "SELECT t, a
 			FROM RMTransformadasBundle:Vt t
 			JOIN t.tipo a
@@ -25,7 +21,7 @@ class VtRepository extends EntityRepository
         }
         $dql .= " ORDER BY t.nombre";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         if ($nombre != '') {
             $query->setParameter('nombre', '%' . $nombre . '%');
         }
@@ -40,25 +36,17 @@ class VtRepository extends EntityRepository
 
     public function obtenerVTbyId($id_vt)
     {
-
-        //ECHO 'ACCESO OBTENERVTBYID';
-
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "select t
 			from RMTransformadasBundle:Vt t
 			join t.tipo a
 			where t.estado = 1
 			AND t.idVt = :idvt";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idvt', $id_vt);
 
         $registros = $query->getResult();
 
-// 		ECHO 'RESULTADO OBTENCION';
-// 		var_dump($registros);
         return $registros;
 
     }
@@ -66,14 +54,12 @@ class VtRepository extends EntityRepository
     public function obtenerSegmentoVTbyId($id_vt_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select s
 			from RMTransformadasBundle:VtSegmento s
 			where s.idVtSegmento IN (" . $id_vt_segmento . ")";
 
-        $query = $em->createQuery($dql);
+        $query     = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
@@ -83,15 +69,12 @@ class VtRepository extends EntityRepository
     public function obtenerSegmentosVTbyIdVt($id_vt)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "select s
 			from RMTransformadasBundle:VtSegmento s
 			where s.estado = 1
 			AND s.idVt = :idVt";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idVt', $id_vt);
 
         $registros = $query->getResult();
@@ -103,8 +86,6 @@ class VtRepository extends EntityRepository
     public function obtenerGruposVTbyIdVt($id_vt)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select  g
 				from 	RMTransformadasBundle:VtSegmento s
@@ -113,7 +94,7 @@ class VtRepository extends EntityRepository
 				AND 	g.estado = 1
 				AND 	s.idVt = :idVt";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idVt', $id_vt);
 
         $registros = $query->getResult();
@@ -125,8 +106,6 @@ class VtRepository extends EntityRepository
     public function obtenerIntervalosVTbyIdVt($id_vt)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select  i
 				from 	RMTransformadasBundle:VtSegmento s
@@ -137,7 +116,7 @@ class VtRepository extends EntityRepository
 				AND 	i.estado = 1
 				AND 	s.idVt = :idVt";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idVt', $id_vt);
 
         $registros = $query->getResult();
@@ -149,14 +128,12 @@ class VtRepository extends EntityRepository
     public function obtenerGrupoVTbyId($id_grupo)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select g
 			from RMTransformadasBundle:VtGrupo g
 			where g.idGrupo IN (" . $id_grupo . ")";
 
-        $query = $em->createQuery($dql);
+        $query     = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
@@ -166,15 +143,13 @@ class VtRepository extends EntityRepository
     public function obtenerGruposVTbyIdSegmento($id_vt_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select g
 			from RMTransformadasBundle:VtGrupo g
 			where g.estado = 1
 			AND g.idVtSegmento IN (" . $id_vt_segmento . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -184,14 +159,13 @@ class VtRepository extends EntityRepository
 
     public function obtenerIntervaloVTbyId($id_intervalo)
     {
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
+
 
         $dql = "select i
 				from RMTransformadasBundle:VtIntervalo i
 				WHERE i.idIntervalo IN (" . $id_intervalo . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -202,15 +176,13 @@ class VtRepository extends EntityRepository
     public function obtenerIntervalosVTbyIdGrupo($id_grupo)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select i
 			from RMTransformadasBundle:VtIntervalo i
 			where i.estado = 1
 			AND i.idGrupo IN (" . $id_grupo . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -221,8 +193,6 @@ class VtRepository extends EntityRepository
     public function obtenerSegmentos($id_vt)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select s
 			from RMTransformadasBundle:VtSegmento s
@@ -234,7 +204,7 @@ class VtRepository extends EntityRepository
 			AND s.idVt = :idvt
 			GROUP BY s.idVtSegmento";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idvt', $id_vt);
 
         $registros = $query->getResult();
@@ -259,4 +229,5 @@ class VtRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getSingleResult();
     }
+
 }

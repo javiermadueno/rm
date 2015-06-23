@@ -4,4 +4,4 @@ parameters:
 services:
     ClienteService:
         class: %ClienteService.class%
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@rm.manager]

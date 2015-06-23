@@ -4,4 +4,8 @@ parameters:
 services:
     SegmentoService:
         class: %SegmentoService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
+
+    rm_segmentobundle.buscadorsegmentos:
+        class: RM\SegmentoBundle\DependencyInjection\BuscadorSegmentos
+        arguments: [ @SegmentoService, @MarcaService, @categoriaService, @rm.manager ]

@@ -12,40 +12,36 @@ namespace RM\AppBundle\DependencyInjection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use IMAG\LdapBundle\User\LdapUser;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class DoctrineManager
 {
     /**
-     * @var EntityManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|EntityManager
      */
     private $em;
 
     private $cliente;
 
     /**
-     * @param ManagerRegistry          $doctrine
-     * @param SecurityContextInterface $security
+     * @param ManagerRegistry       $doctrine
+     * @param TokenStorageInterface $security
      *
      * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine, SecurityContextInterface $security)
+    public function __construct(ManagerRegistry $doctrine, TokenStorageInterface $security)
     {
+        $this->security = $security;
+
         /** @var TokenInterface $token */
         $token = $security->getToken();
         /** @var LdapUser $usuario */
         $usuario = $token->getUser();
-        /** @var  $cliente */
-        $this->cliente = $usuario->getCliente();
 
-        if (!isset($this->cliente)) {
-            throw new \Exception(
-                'No está definida la variable de conexión'
-            );
-        }
+        $this->cliente = $usuario instanceof LdapUser ? $usuario->getCliente() : null;
 
-        $this->em = $doctrine->getManager($this->cliente);
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -54,6 +50,12 @@ class DoctrineManager
      */
     public function getManager()
     {
+        if (!isset($this->cliente)) {
+            return null;
+        }
+
+        $this->em = $this->doctrine->getManager($this->cliente);
+
         if (!$this->em) {
             throw new \Exception(sprintf(
                 'No se ha encontrado Entity Manager para el cliente %s',

@@ -10,9 +10,6 @@ class VidRepository extends EntityRepository
     public function obtenerVariablesDiscretas($nombre = '', $tipoVar = 0)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "select d
 			from RMDiscretasBundle:Vid d
 			where d.estado = 1";
@@ -26,7 +23,7 @@ class VidRepository extends EntityRepository
         $dql .= " ORDER BY d.nombre";
 
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         if ($nombre != '') {
             $query->setParameter('nombre', '%' . $nombre . '%');
         }
@@ -54,15 +51,13 @@ class VidRepository extends EntityRepository
     public function obtenerVDbyId($id_vid)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select d
 			from RMDiscretasBundle:Vid d
 			where d.estado = 1
 			AND d.idVid = :idvid";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idvid', $id_vid);
 
         $registros = $query->getResult();
@@ -94,8 +89,6 @@ class VidRepository extends EntityRepository
     public function obtenerGrupoSegmentoByVidGrupoSegmento($id_vid_grupo_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT gs
@@ -103,7 +96,7 @@ class VidRepository extends EntityRepository
             WHERE gs.estado = 1
 			AND gs.idVidGrupoSegmento = :id_vid_grupo_segmento";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_vid_grupo_segmento', $id_vid_grupo_segmento);
         $query->setMaxResults(1);
 
@@ -116,15 +109,13 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentosByIdGrupo($id_vid_grupo_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "SELECT s
             FROM RMDiscretasBundle:VidSegmento s
             WHERE s.estado > -1
 			      AND s.idVidGrupoSegmento = :id_grupo";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_grupo', $id_vid_grupo_segmento);
 
         $registros = $query->getResult();
@@ -135,8 +126,6 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentosByIdGrupoAndGlobal($id_vid_grupo_segmento, $id_vid_segmento_global)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT s
@@ -144,7 +133,7 @@ class VidRepository extends EntityRepository
             WHERE s.estado = 1
 			AND s.idVidGrupoSegmento IN (" . $id_vid_grupo_segmento . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -154,16 +143,13 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentoByIdSegmento($id_vid_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "
 				SELECT s
             FROM RMDiscretasBundle:VidSegmento s
             WHERE s.estado = 1
 			AND s.idVidSegmento = :id_segmento";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_segmento', $id_vid_segmento);
 
         $registros = $query->getResult();
@@ -174,15 +160,12 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentosParametros($id_vid_segmento_global = -1, $modificado_global = -1)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "
 				SELECT s
             FROM RMDiscretasBundle:VidSegmento s
             WHERE s.estado = 1";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -192,8 +175,6 @@ class VidRepository extends EntityRepository
     public function obtenerGSByCatAndVar($id_vid, $id_categoria)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT gs
@@ -202,7 +183,7 @@ class VidRepository extends EntityRepository
 				AND gs.idVid = :id_vid
 				AND gs.idCategoria = :id_categoria";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_vid', $id_vid);
         $query->setParameter('id_categoria', $id_categoria);
 
@@ -214,8 +195,6 @@ class VidRepository extends EntityRepository
     public function obtenerGSByMarcaAndVar($id_vid, $id_marca)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT gs
@@ -224,7 +203,7 @@ class VidRepository extends EntityRepository
 				AND gs.idVid = :id_vid
 				AND gs.idMarca = :id_marca";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_vid', $id_vid);
         $query->setParameter('id_marca', $id_marca);
 
@@ -236,8 +215,6 @@ class VidRepository extends EntityRepository
     public function obtenerGSByIdVarSinClasificacion($id_vid)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT gs
@@ -247,7 +224,7 @@ class VidRepository extends EntityRepository
 				AND gs.idMarca IS NULL
 				AND gs.idCategoria IS NULL";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_vid', $id_vid);
 
         $registro = $query->getResult();
@@ -258,8 +235,6 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentosGlobales($id_vid_segmento_global = -1)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT s
@@ -270,7 +245,7 @@ class VidRepository extends EntityRepository
             $dql .= " AND s.idVidSegmentoGlobal IN (" . $id_vid_segmento_global . ")";
         }
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -281,8 +256,6 @@ class VidRepository extends EntityRepository
     public function obtenerCriteriosGlobales()
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				SELECT c
@@ -299,15 +272,13 @@ class VidRepository extends EntityRepository
     public function eliminarSegmentosByIdSegmento($id_vid_segmento)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				UPDATE RMDiscretasBundle:VidSegmento s
             	SET s.estado = -1
 				WHERE s.idVidSegmento IN (" . $id_vid_segmento . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -317,15 +288,13 @@ class VidRepository extends EntityRepository
     public function eliminarSegmentoGlobalByIdSegmento($id_vid_segmento_global)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "
 				UPDATE RMDiscretasBundle:VidSegmentoGlobal s
             	SET s.estado = -1
 				WHERE s.idVidSegmentoGlobal IN (" . $id_vid_segmento_global . ")";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -335,13 +304,11 @@ class VidRepository extends EntityRepository
     public function eliminarSegmentosMedianteGlobales($id_vid_segmento_global = -1, $modificado_global = -1)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "SELECT s
             	FROM RMDiscretasBundle:VidSegmento s";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -364,7 +331,6 @@ class VidRepository extends EntityRepository
             $query
                 ->setParameter('id_grupo_segmento', $vidGrupo->getIdVidGrupoSegmento());
 
-            $sql = $query->getSQL();
 
             $query->execute();
         } catch (\Exception $e) {

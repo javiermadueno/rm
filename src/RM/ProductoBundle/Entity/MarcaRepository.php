@@ -9,13 +9,11 @@ class MarcaRepository extends EntityRepository
     public function obtenerMarcas()
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select m
 		from RMProductoBundle:Marca m";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -26,14 +24,12 @@ class MarcaRepository extends EntityRepository
     public function obtenerMarca($id_marca)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select m
 		from RMProductoBundle:Marca m
 		WHERE m.idMarca = :id_marca";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_marca', $id_marca);
         $registro = $query->getResult();
 
@@ -44,8 +40,6 @@ class MarcaRepository extends EntityRepository
     public function obtenerMarcasByCategoria($id_categoria)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "select m
 		from RMProductoBundle:Marca m, RMProductoBundle:Producto p
@@ -65,7 +59,7 @@ class MarcaRepository extends EntityRepository
 		GROUP BY m.nombre
 		ORDER BY m.nombre ASC";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_categoria', $id_categoria);
         $registro = $query->getResult();
 
@@ -74,7 +68,7 @@ class MarcaRepository extends EntityRepository
 
     public function obtenerMarcasByCategoriaYNivel($id_categoria, $nivel)
     {
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
+
 
         $dql = "select m
 		from RMProductoBundle:Marca m, RMProductoBundle:Producto p
@@ -84,7 +78,7 @@ class MarcaRepository extends EntityRepository
 		GROUP BY m.nombre
 		ORDER BY m.nombre ASC";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_categoria', $id_categoria);
         $registro = $query->getResult();
 
@@ -94,7 +88,7 @@ class MarcaRepository extends EntityRepository
 
     public function obtenerMarcasByIdsCategoria($idsCategoria = [])
     {
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
+
 
         $dql = "SELECT DISTINCT m
             FROM RMProductoBundle:Marca m
@@ -112,10 +106,10 @@ class MarcaRepository extends EntityRepository
             OR p.idCategoria11 IN (:categoria)
             ";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('categoria', implode(',', array_map(function ($o) {
-            return $o->getIdCategoria();
-        }, $idsCategoria)));
+                        return $o->getIdCategoria();
+                    }, $idsCategoria)));
 
         return $query->getResult();
 

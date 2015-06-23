@@ -192,7 +192,7 @@ class PromocionRepository extends EntityRepository
         \DateTime $fechaInicio = null,
         \DateTime $fechaFin = null
     ) {
-        $em = $this->getEntityManager($_SESSION['connection']);
+
 
         $dql = "SELECT DISTINCT  p.idPromocion as id,
               p.simulado as simulado,
@@ -245,7 +245,7 @@ class PromocionRepository extends EntityRepository
         $dql .= " GROUP BY p.idPromocion ORDER BY p.idPromocion";
 
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         return $query->getResult();
     }

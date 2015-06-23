@@ -10,7 +10,8 @@ namespace RM\RMMongoBundle\DependencyInjection;
 
 
 use RM\RMMongoBundle\Util;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 /**
  * Class EstadisticasClientes
@@ -21,10 +22,10 @@ class EstadisticasClientes extends MongoService
 {
 
     /**
-     * @param SecurityContextInterface $security
-     * @param array                    $config
+     * @param TokenStorageInterface $security
+     * @param array                 $config
      */
-    public function __construct(SecurityContextInterface $security, $config)
+    public function __construct(TokenStorageInterface $security, $config)
     {
         parent::__construct($security, $config);
         $this->collection = $this->database->selectCollection('res_cliente');

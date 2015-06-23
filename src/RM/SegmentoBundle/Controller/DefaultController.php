@@ -2,6 +2,7 @@
 
 namespace RM\SegmentoBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\DiscretasBundle\Entity\Tipo;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\ProcesosBundle\Entity\Proceso;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class DefaultController extends RMController
 {
 
     public function obtenerSegmentosAction($idOpcionMenuSup, $idOpcionMenuIzq)
@@ -190,7 +191,7 @@ class DefaultController extends Controller
     {
         $codigo_tipo = $request->query->get('tipo', -1);
 
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $tipo = $em->getRepository('RMDiscretasBundle:Tipo')->findOneBy([
             'codigo' => $codigo_tipo
@@ -247,7 +248,7 @@ class DefaultController extends Controller
             return Response::create('', 200);
         }
 
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $tipo = $em->getRepository('RMDiscretasBundle:Tipo')->findOneBy([
             'codigo' => $codigo_tipo
@@ -319,4 +320,5 @@ class DefaultController extends Controller
         }
 
     }
+
 }

@@ -10,8 +10,10 @@ namespace RM\PlantillaBundle\EventListeners;
 
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Event\GrupoSlotsEvent;
 use RM\PlantillaBundle\Model\Interfaces\GrupoSlotsInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EliminaSlotsListener
 {
@@ -20,20 +22,20 @@ class EliminaSlotsListener
      */
     private $em;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $manager)
     {
-        if (!isset($_SESSION['connection'])) {
+        try {
+            $this->em = $manager->getManager();
+        }catch (\Exception $e) {
             return;
         }
-
-        $this->em = $doctrine->getManager($_SESSION['connection']);
     }
 
     public function onGrupoSlotsEliminado(GrupoSlotsEvent $event)
     {
         $grupo = $event->getGrupoSlots();
 
-        if (!$grupo instanceof GrupoSlotsInterface) {
+        if(!$grupo instanceof GrupoSlotsInterface) {
             return;
         }
 

@@ -2,6 +2,7 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Event\ComunicacionEvent;
 use RM\ComunicacionBundle\Event\ComunicacionEvents;
@@ -11,8 +12,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class DefaultController extends RMController
 {
+
+
     public function indexAction($idOpcionMenuSup)
     {
         return $this->render('RMComunicacionBundle:Default:index.html.twig', [
@@ -94,7 +97,7 @@ class DefaultController extends Controller
 
         if ($formulario->isValid()) {
 
-            $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+            $em = $this->getManager();
 
             $objComunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
             $objComunicacion->setGenerada(false);
@@ -139,7 +142,7 @@ class DefaultController extends Controller
 
 
         $mensaje      = $translator->trans('mensaje.ok.comunicacion.parada');
-        $comunicacion = $this->get('doctrine')->getManager($_SESSION['connection'])
+        $comunicacion = $this->getManager()
             ->find('RMComunicacionBundle:Comunicacion', $idComunicacion);
 
         $html = $this->renderView('@RMComunicacion/Default/filaListadoComunicacion.html.twig',
@@ -174,7 +177,7 @@ class DefaultController extends Controller
 
         $mensaje = $translator->trans('mensaje.ok.comunicacion.reanudada');
 
-        $comunicacion = $this->get('doctrine')->getManager($_SESSION['connection'])
+        $comunicacion = $this->getManager()
             ->find('RMComunicacionBundle:Comunicacion', $idComunicacion);
 
         $html = $this->renderView('@RMComunicacion/Default/filaListadoComunicacion.html.twig',

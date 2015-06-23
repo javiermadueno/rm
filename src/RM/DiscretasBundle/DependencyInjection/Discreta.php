@@ -3,6 +3,7 @@
 namespace RM\DiscretasBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\DiscretasBundle\Entity\VidCriterioGlobal;
 use RM\DiscretasBundle\Entity\VidGrupoSegmento;
@@ -13,14 +14,15 @@ class Discreta
 {
     protected $mailer;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $doctrine)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $doctrine->getManager();
     }
 
     public function getDiscretas($nombre = '', $tipoVar = 0)
     {
         $registros = $this->em->getRepository('RMDiscretasBundle:Vid')->obtenerVariablesDiscretas($nombre, $tipoVar);
+
         return $registros;
     }
 
@@ -28,18 +30,15 @@ class Discreta
     public function getVDbyId($id_vid)
     {
         $registros = $this->em->getRepository('RMDiscretasBundle:Vid')->obtenerVDbyId($id_vid);
-        // $repository = $this->em->getRepository('RMDiscretasBundle:Vid');
-        // $product = $repository->find($id_vid);
 
         return $registros;
     }
 
     public function getGSbyIdGrupo($id_vid_grupo_segmento)
     {
-        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar  = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registro = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($id_vid_grupo_segmento);
-        // $repository = $this->em->getRepository('RMDiscretasBundle:Vid');
-        // $product = $repository->find($id_vid);
+
 
         return $registro;
     }
@@ -64,15 +63,15 @@ class Discreta
 
             if ($objVid->getClasificacion() == Vid::CLASIFICACION_CATEGORIA)            // Es una categoria
             {
-                $repoCat = $this->em->getRepository('RMCategoriaBundle:Categoria');
+                $repoCat       = $this->em->getRepository('RMCategoriaBundle:Categoria');
                 $objCategorias = $repoCat->obtenerCatAsoc();
-                $objCategoria = $objCategorias [0];
-                $registroGS = $this->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $personalizado = 0);
+                $objCategoria  = $objCategorias [0];
+                $registroGS    = $this->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $personalizado = 0);
             } elseif ($objVid->getClasificacion() == Vid::CLASIFICACION_MARCA)            // Es una marca
             {
-                $repoMarca = $this->em->getRepository('RMProductoBundle:Marca');
-                $objMarcas = $repoMarca->obtenerMarcas();
-                $objMarca = $objMarcas [0];
+                $repoMarca  = $this->em->getRepository('RMProductoBundle:Marca');
+                $objMarcas  = $repoMarca->obtenerMarcas();
+                $objMarca   = $objMarcas [0];
                 $registroGS = $this->crearObjGrupoSegmentoConMarca($objVid, $objMarca);
             } else            // Se crea uno por defecto sin nada
             {
@@ -159,7 +158,6 @@ class Discreta
         /*
          * Accion: Se crea un grupo de segmento sin clasificacion ninguna. Los demas campos se ponen vacios
          */
-        //$em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $objetoVID = new Vid();
         $objetoVID->setClasificacion($objVid->getClasificacion());
@@ -168,7 +166,6 @@ class Discreta
         $objetoVID->setNombre($objVid->getNombre());
         $objetoVID->setSolicitaTiempo($objVid->getSolicitaTiempo());
         $objetoVID->setTipo($objVid->getTipo());
-        //$this->em->persist ( $objVid );
 
 
         $registroGS = new VidGrupoSegmento ();
@@ -270,12 +267,13 @@ class Discreta
         $registrosSegmentos = $repoVar->eliminarSegmentosByIdSegmento($id_vid_segmento);
 
         $this->em->flush();
+
         return $registrosSegmentos;
     }
 
     public function guardarNuevosSegmentosAsocByPost(Request $request)
     {
-        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
         for ($i = 1; $i <= $request->get('contSegmentos'); $i++) {
@@ -297,7 +295,7 @@ class Discreta
 
     public function guardarNuevosSegmentosGlobalesDefectoAsocByPost(Request $request)
     {
-        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
         for ($i = 1; $i <= $request->get('numSegAct'); $i++) {
@@ -338,13 +336,8 @@ class Discreta
     public function guardarObjeto($objeto)
     {
 
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
-
-        // $this->em->persist($objeto);
-        // $this->em->flush();
-
-        $em->merge($objeto);
-        $em->flush();
+        $this->em->merge($objeto);
+        $this->em->flush();
 
         return $objeto;
     }

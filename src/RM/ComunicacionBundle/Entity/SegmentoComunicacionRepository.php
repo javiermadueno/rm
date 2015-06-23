@@ -94,12 +94,14 @@ class SegmentoComunicacionRepository extends EntityRepository
             WHERE sc.idComunicacion = :id_comunicacion
             AND sc.estado != :estado_completada
             AND sc.estado > -1
+            AND sc.proximaEjecucion > :now
         ";
 
         return $query = $this->_em
             ->createQuery($dql)
             ->setParameter('id_comunicacion', $comunicacion->getIdComunicacion())
             ->setParameter('estado_completada', Comunicacion::ESTADO_COMPLETADA)
+            ->setParameter('now', new \DateTime())
             ->getSingleScalarResult();
     }
 

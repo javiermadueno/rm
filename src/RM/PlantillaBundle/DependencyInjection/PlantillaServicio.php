@@ -3,17 +3,20 @@
 namespace RM\PlantillaBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Entity\Plantilla;
 
 
 class PlantillaServicio
 {
     /**
-     * @param ManagerRegistry $doctrine
+     * @param DoctrineManager $manager
+     *
+     * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(DoctrineManager $manager)
     {
-        $this->em = $em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $em = $manager->getManager();
     }
 
     /**

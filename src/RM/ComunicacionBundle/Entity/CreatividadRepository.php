@@ -3,7 +3,7 @@
 namespace RM\ComunicacionBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Proxies\__CG__\RM\PlantillaBundle\Entity\GrupoSlots;
+use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\Promocion;
 
 class CreatividadRepository extends EntityRepository
@@ -11,8 +11,6 @@ class CreatividadRepository extends EntityRepository
     public function obtenerCreatividadById($idCreatividad)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
 
         $dql = "SELECT c
 		FROM RMComunicacionBundle:Creatividad c
@@ -20,7 +18,7 @@ class CreatividadRepository extends EntityRepository
 		AND c.estado > -1";
 
 
-        $query = $em->createQuery($dql);
+        $query    = $this->_em->createQuery($dql);
         $registro = $query->getResult();
 
         return $registro;
@@ -37,9 +35,6 @@ class CreatividadRepository extends EntityRepository
     public function obtenerCreatividadByFiltroDQL($nombre)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
         $dql = "SELECT c
 		FROM RMComunicacionBundle:Creatividad c
 		WHERE c.estado > -1";
@@ -50,8 +45,7 @@ class CreatividadRepository extends EntityRepository
 
         $dql .= " ORDER BY c.nombre ASC";
 
-
-        $query = $em->createQuery($dql);
+        $query    = $this->_em->createQuery($dql);
         $registro = $query->getResult();
 
         return $registro;
@@ -60,10 +54,8 @@ class CreatividadRepository extends EntityRepository
     public function obtenerPromocionesCreatividad($idInstancia)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
-        $dql = "SELECT p
+        $dql = "
+            SELECT p
             FROM RMComunicacionBundle:InstanciaComunicacion ic
             JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
             JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo AND gs.estado > -1 AND gs.tipo = :tipo)
@@ -73,7 +65,7 @@ class CreatividadRepository extends EntityRepository
             ORDER BY ic.idInstancia
             ";
 
-        $query = $em->createQuery($dql)
+        $query = $this->_em->createQuery($dql)
             ->setParameter('tipo', GrupoSlots::CREATIVIDADES)
             ->setParameter('idInstancia', $idInstancia);
 
@@ -83,7 +75,6 @@ class CreatividadRepository extends EntityRepository
     public function obtenerGrupoSlotsNumPromocionesCreatividad($idInstancia)
     {
 
-        $em = $this->getEntityManager();
 
         $dql = "
              SELECT g.idGrupo, g.nombre, np.numSegmentadas, np.numGenericas,
@@ -100,13 +91,14 @@ class CreatividadRepository extends EntityRepository
              GROUP BY g.idGrupo
              ORDER BY g.nombre";
 
-        $query = $em->createQuery($dql)
+        $query = $this->_em->createQuery($dql)
             ->setParameters([
                 'idInstancia'   => $idInstancia,
                 'segmentada'    => Promocion::TIPO_SEGMENTADA,
                 'generica'      => Promocion::TIPO_GENERICA,
                 'creatividades' => GrupoSlots::CREATIVIDADES
             ]);
+
         return $query->getResult();
     }
 

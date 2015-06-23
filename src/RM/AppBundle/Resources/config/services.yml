@@ -3,13 +3,13 @@ services:
     class: RM\AppBundle\DependencyInjection\DoctrineManager
     arguments:
       - @doctrine
-      - @security.context
+      - @security.token_storage
 
   rm.mongo_manager:
     class: RM\AppBundle\DependencyInjection\MongoManager
     arguments:
       - @doctrine_mongodb
-      - @security.context
+      - @security.token_storage
 
   rm.doctrine_configuration:
     class: RM\AppBundle\Configuracion\DoctrineConfiguration

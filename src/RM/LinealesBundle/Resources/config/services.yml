@@ -1,11 +1,11 @@
 services:
     variablesLineales:
         class: RM\LinealesBundle\DependencyInjection\Lineal
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     sociodemograficasService:
         class: RM\LinealesBundle\DependencyInjection\Sociodemograficas
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     #Para borra despues pbdespues
     twig.extension.debug:

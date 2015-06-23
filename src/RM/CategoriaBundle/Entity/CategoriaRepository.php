@@ -10,14 +10,12 @@ class CategoriaRepository extends EntityRepository
     public function obtenerCategoria($id_categoria)
     {
 
-        //$em = $this->getEntityManager();
-        $em = $this->getEntityManager($_SESSION['connection']);
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
 			WHERE c.idCategoria = :id_categoria";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_categoria', $id_categoria);
         $registro = $query->getResult();
 
@@ -28,9 +26,6 @@ class CategoriaRepository extends EntityRepository
 
     public function obtenerCategorias($id_nivel = -1, $asociado = -1, $id_categoria = '')
     {
-
-        //$em = $this->getEntityManager();
-        $em = $this->getEntityManager($_SESSION['connection']);
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
@@ -47,7 +42,7 @@ class CategoriaRepository extends EntityRepository
         }
         $dql .= " ORDER BY c.nombre";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         if ($id_nivel > 0) {
             $query->setParameter('nivel', $id_nivel);
         }
@@ -64,15 +59,12 @@ class CategoriaRepository extends EntityRepository
     public function obtenerCatAsoc()
     {
 
-        //$em = $this->getEntityManager();
-        $em = $this->getEntityManager($_SESSION['connection']);
-
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
 			WHERE  c.estado > -1
 			AND c.asociado = 1";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
 
@@ -82,7 +74,7 @@ class CategoriaRepository extends EntityRepository
 
     public function obtenerCatByInstancia($id_instancia)
     {
-        $em = $this->getEntityManager($_SESSION['connection']);
+
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
@@ -94,7 +86,7 @@ class CategoriaRepository extends EntityRepository
 			GROUP BY c.idCategoria
 			ORDER BY c.nombre";
 
-        $query = $em
+        $query = $this->_em
             ->createQuery($dql)
             ->setParameter('id_instancia', $id_instancia);
 
@@ -106,7 +98,6 @@ class CategoriaRepository extends EntityRepository
     public function obtenerCatPermitidasByInstancia($id_instancia, $categorias = [])
     {
 
-        $em = $this->getEntityManager($_SESSION['connection']);
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
@@ -123,7 +114,7 @@ class CategoriaRepository extends EntityRepository
             return [];
         }
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query
             ->setParameter('categorias', $categorias)
             ->setParameter('id_instancia', $id_instancia);
@@ -137,13 +128,10 @@ class CategoriaRepository extends EntityRepository
     public function obtenerNivelesCategoria()
     {
 
-        //$em = $this->getEntityManager();
-        $em = $this->getEntityManager($_SESSION['connection']);
-
         $dql = "select n
 			from RMCategoriaBundle:NivelCategoria n";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
@@ -152,7 +140,6 @@ class CategoriaRepository extends EntityRepository
     public function obtenerCategoriasDeCampanya()
     {
 
-        $em = $this->getEntityManager($_SESSION['connection']);
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
@@ -163,7 +150,7 @@ class CategoriaRepository extends EntityRepository
 			GROUP BY c.idCategoria
 			ORDER BY c.nombre";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
@@ -171,7 +158,7 @@ class CategoriaRepository extends EntityRepository
 
     public function obtenerCategoriasPermitidasDeCampanya($categorias = [])
     {
-        $em = $this->getEntityManager($_SESSION['connection']);
+
 
         $dql = "select c
 			from RMCategoriaBundle:Categoria c
@@ -183,7 +170,7 @@ class CategoriaRepository extends EntityRepository
 			GROUP BY c.idCategoria
 			ORDER BY c.nombre";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('categorias', $categorias);
         $registros = $query->getResult();
 
@@ -192,7 +179,7 @@ class CategoriaRepository extends EntityRepository
 
     public function obtenerCategoriasDeCampanyaByNombre($nombreCategorias = [])
     {
-        $em = $this->getEntityManager($_SESSION['connection']);
+
 
         $dql = "select c
 					from RMCategoriaBundle:Categoria c
@@ -205,7 +192,7 @@ class CategoriaRepository extends EntityRepository
 
         $categorias = array_map('trim', $nombreCategorias);
 
-        $query = $em->createQuery($dql)
+        $query = $this->_em->createQuery($dql)
             ->setParameter('nombres', $categorias);
 
         $registros = $query->getResult();
@@ -215,7 +202,7 @@ class CategoriaRepository extends EntityRepository
 
     public function obtenerCategoriasPorNombre($nombreCategorias = [])
     {
-        $em = $this->getEntityManager($_SESSION['connection']);
+
 
         $dql = "select c
 					from RMCategoriaBundle:Categoria c
@@ -226,7 +213,7 @@ class CategoriaRepository extends EntityRepository
 
         $categorias = array_map('trim', $nombreCategorias);
 
-        $query = $em->createQuery($dql)
+        $query = $this->_em->createQuery($dql)
             ->setParameter('nombres', $categorias);
 
         $registros = $query->getResult();

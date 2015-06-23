@@ -2,13 +2,15 @@
 
 namespace RM\CategoriaBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\CategoriaBundle\Entity\Categoria;
 use RM\CategoriaBundle\Entity\CategoriaRepository;
 use RM\DiscretasBundle\Entity\Configuracion;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+
 
 
 class CategoriaServicio
@@ -23,7 +25,7 @@ class CategoriaServicio
 
     private $em;
     /**
-     * @var SecurityContextInterface
+     * @var TokenStorageInterface
      */
     private $security;
     /**
@@ -46,22 +48,23 @@ class CategoriaServicio
 
 
     /**
-     * @param ManagerRegistry          $doctrine
-     * @param SecurityContextInterface $security
+     * @param DoctrineManager               $manager
+     * @param TokenStorageInterface         $security
+     * @param AuthorizationCheckerInterface $authorizationChecker
      *
      * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine, SecurityContextInterface $security)
+    public function __construct(DoctrineManager $manager, TokenStorageInterface $security, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
-        $this->security = $security;
-        $this->user = $security->getToken()->getUser();
-        $this->repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
+        $this->em                    = $manager->getManager();
+        $this->security              = $security;
+        $this->user                  = $security->getToken()->getUser();
+        $this->repo                  = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $this->nivelCategoriaVisible = $this->getNivelCategoriasVisible();
 
-        if ($security->isGranted('ROLE_WORKFLOW_MANAGER')) {
+        if ($authorizationChecker->isGranted('ROLE_WORKFLOW_MANAGER')) {
             $this->rol = self::WORKFLOW;
-        } elseif ($security->isGranted('ROLE_CATEGORY_MANAGER')) {
+        } elseif ($authorizationChecker->isGranted('ROLE_CATEGORY_MANAGER')) {
             $this->rol = self::CATEGORY;
         } else {
             throw new AccessDeniedException("Acceso Denegado");
@@ -283,7 +286,7 @@ class CategoriaServicio
      */
     public function getNivelesCategoria()
     {
-        $repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
+        $repo      = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $registros = $repo->obtenerNivelesCategoria();
 
         return $registros;

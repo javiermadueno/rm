@@ -11,21 +11,21 @@ namespace RM\RMMongoBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\RMMongoBundle\Document\InstanciaComunicacionCliente;
 
 class ManagerInstanciaComunicacionCliente
 {
-    public function __construct(ManagerRegistry $doctrine, DocumentManager $mongo)
+    public function __construct(DoctrineManager $manager, DocumentManager $mongo)
     {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em    = $manager->getManager();
         $this->mongo = $mongo;
     }
 
     /**
      * @param $idSlot
      * @param $idCliente
-     *
      * @return Promocion
      * @throws \Exception
      */
@@ -33,20 +33,20 @@ class ManagerInstanciaComunicacionCliente
     {
         $instanciaComunicacionCliente = $this->mongo
             ->getRepository('RMMongoBundle:InstanciaComunicacionCliente')->findOneBy([
-                'id_slot'    => $idSlot,
-                'id_cliente' => $idCliente
+                'id_slot'      => $idSlot,
+                'id_cliente'   => $idCliente
             ]);
 
-        if (!$instanciaComunicacionCliente instanceof InstanciaComunicacionCliente) {
+        if(!$instanciaComunicacionCliente instanceof InstanciaComunicacionCliente) {
             throw new \Exception(
-                sprintf('El cliente %s no tiene asignada ninguna promoción para el slot %s', $idCliente, $idSlot)
+                sprintf('El cliente %s no tiene asignada ninguna promoción para el slot %s',$idCliente, $idSlot)
             );
         }
 
         $promocion = $this->em->getRepository('RMProductoBundle:Promocion')
             ->find($instanciaComunicacionCliente->getPromocion());
 
-        if (!$promocion instanceof Promocion) {
+        if(!$promocion instanceof Promocion){
             throw new \Exception(
                 sprintf("No existe la promoción %s", $instanciaComunicacionCliente->getPromocion())
             );
@@ -56,4 +56,5 @@ class ManagerInstanciaComunicacionCliente
     }
 
 
-}
+
+} 

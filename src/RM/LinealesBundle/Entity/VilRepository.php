@@ -5,63 +5,56 @@ namespace RM\LinealesBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use RM\DiscretasBundle\Entity\Tipo;
+use RM\LinealesBundle\Entity\Vil;
 
 class VilRepository extends EntityRepository
 {
-    public function obtenerVariablesLineales($nombre = '', $tipoVar = 0)
-    {
+	public function obtenerVariablesLineales($nombre = '', $tipoVar = 0) {
 
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
-        $dql = "select l
+		
+		$dql = "select l
 			from RMLinealesBundle:Vil l
 			where l.estado = 1";
-        if ($nombre != '') {
-            $dql .= " AND l.nombre LIKE :nombre";
-        }
-        if ($tipoVar > 0) {
-            $dql .= " AND l.tipo = :tipo";
-        }
-        $dql .= " ORDER BY l.nombre";
+		if($nombre != ''){
+			$dql .= " AND l.nombre LIKE :nombre";
+		}
+		if($tipoVar > 0){
+			$dql .= " AND l.tipo = :tipo";
+		}
+		$dql .= " ORDER BY l.nombre";
+	
+			
+		$query = $this->_em->createQuery($dql);
+		if($nombre != ''){
+			$query->setParameter('nombre', '%' . $nombre . '%');
+		}
+		if($tipoVar > 0){
+			$query->setParameter('tipo', $tipoVar);
+		}
 
+		
+		$variables = $query->getResult();
+		
+		return $variables;
+		
+	}
+	
+	public function obtenerVLbyId($id_vil) {
 
-        $query = $em->createQuery($dql);
-        if ($nombre != '') {
-            $query->setParameter('nombre', '%' . $nombre . '%');
-        }
-        if ($tipoVar > 0) {
-            $query->setParameter('tipo', $tipoVar);
-        }
-
-
-        //$this->get ( 'ladybug' )->log ($query);
-
-        $variables = $query->getResult();
-
-        return $variables;
-
-    }
-
-    public function obtenerVLbyId($id_vil)
-    {
-
-        //$em = $this->getEntityManager();
-        $em = $GLOBALS['kernel']->getContainer()->get('doctrine')->getManager($_SESSION['connection']);
-
-        $dql = "select l
+	
+		$dql = "select l
 			from RMLinealesBundle:Vil l
 			where l.estado = 1
 			AND l.idVil = :idVil";
-
-        $query = $em->createQuery($dql);
-        $query->setParameter('idVil', $id_vil);
-
-        $registros = $query->getResult();
-
-        return $registros;
-
-    }
+			
+		$query = $this->_em->createQuery($dql);
+		$query->setParameter('idVil', $id_vil);
+	
+		$registros = $query->getResult();
+	
+		return $registros;
+	
+	}
 
     public function obetenerVariablesLinealesNoSociodemograficas()
     {
@@ -70,7 +63,7 @@ class VilRepository extends EntityRepository
                 JOIN RMDiscretasBundle:Tipo tipo WITH (l.tipo = tipo.id AND tipo.codigo != :codigo_sd )
                 WHERE l.estado = 1";
 
-        $query = $this->getEntityManager($_SESSION['connection'])->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $query->setParameter('codigo_sd', Tipo::SOCIODEMOGRAFICO);
 
@@ -87,7 +80,7 @@ class VilRepository extends EntityRepository
         ";
 
         return $this->_em->createQuery($dql)
-            ->setParameter('tipo', $tipo->getId())
+            ->setParameter('tipo', $tipo->getId() )
             ->getResult();
     }
 

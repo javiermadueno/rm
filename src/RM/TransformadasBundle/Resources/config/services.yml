@@ -1,19 +1,14 @@
 parameters:
     variablesTransformadas.class: RM\TransformadasBundle\DependencyInjection\Transformada
-    
- #    rm_variables_transformada.example.class: RM\TransformadaBundle\Example
+
 
 
 services:
     variablesTransformadas:
         class: %variablesTransformadas.class%
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@rm.manager]
         
     #Para borra despues pbdespues
     twig.extension.debug:
         class: Twig_Extension_Debug
         tags: [{ name: 'twig.extension' }]
-
-#    rm_variables_lineales.example:
-#        class: %rm_variables_lineales.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

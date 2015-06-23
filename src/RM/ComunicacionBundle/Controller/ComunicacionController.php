@@ -28,7 +28,7 @@ class ComunicacionController extends Controller
 
     private function getManager()
     {
-        return $this->getDoctrine()->getManager($_SESSION['connection']);
+        return $this->get('rm.manager')->getManager();
     }
 
     /**

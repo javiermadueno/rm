@@ -3,6 +3,7 @@
 namespace RM\PlantillaBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use RM\AppBundle\Controller\RMController;
 use RM\PlantillaBundle\Entity\Plantilla;
 use RM\PlantillaBundle\Event\PlantillaEvent;
 use RM\PlantillaBundle\Event\PlantillaEvents;
@@ -10,7 +11,7 @@ use RM\PlantillaBundle\Form\PlantillaModeloType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class PlantillaModeloController extends Controller
+class PlantillaModeloController extends RMController
 {
 
     /**
@@ -32,13 +33,7 @@ class PlantillaModeloController extends Controller
         ]);
     }
 
-    /**
-     * @return EntityManager
-     */
-    private function getManager()
-    {
-        return $this->getDoctrine()->getManager($_SESSION['connection']);
-    }
+
 
     /**
      * @param Request $request

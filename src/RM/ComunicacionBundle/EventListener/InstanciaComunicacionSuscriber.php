@@ -4,26 +4,27 @@ namespace RM\ComunicacionBundle\EventListener;
 
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\DependencyInjection\InstanciaComunicacionServicio;
-use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\ComunicacionBundle\Event\InstanciaComunicacionEvent;
-use RM\ComunicacionBundle\Event\InstanciaComunicacionEvents;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use RM\ComunicacionBundle\Event\InstanciaComunicacionEvents;
+use RM\ComunicacionBundle\Entity\Fases;
 
 class InstanciaComunicacionSubscriber implements EventSubscriberInterface
 {
 
-    public function __construct(InstanciaComunicacionServicio $servicio, ManagerRegistry $doctrine)
+    public function __construct(InstanciaComunicacionServicio $servicio, DoctrineManager $doctrine)
     {
         $this->instanciaService = $servicio;
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+        $this->em = $doctrine->getManager();
     }
 
     public static function getSubscribedEvents()
     {
-        return [
+        return  [
             InstanciaComunicacionEvents::CAMBIO_FASE => ['onCambioFase']
         ];
     }
@@ -33,27 +34,26 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
         $instancia = $event->getInstancia();
         $codigoFase = $instancia->getFase()->getCodigo();
 
-        switch ($codigoFase) {
+        switch($codigoFase){
             case InstanciaComunicacion::FASE_CONFIGURACION:
                 $this->tramitarACampanya($instancia);
                 break;
             default:
-                throw new Exception(sprintf("Fase no validad para la instancia de comunicacion %s",
-                        $instancia->getIdInstancia()));
+                throw new Exception(sprintf("Fase no validad para la instancia de comunicacion %s", $instancia->getIdInstancia()));
         }
     }
 
     private function tramitarACampanya(InstanciaComunicacion $instancia)
     {
-        if (!$this->compruebaFaseConfiguracion($instancia)) {
+        if(!$this->compruebaFaseConfiguracion($instancia)) {
             return false;
         }
 
         $faseCampanya = $this->em->getRepository('RMComunicacionBundle:Fases')->findOneBy([
-            'codigo' => InstanciaComunicacion::FASE_NEGOCIACION
+                    'codigo' => InstanciaComunicacion::FASE_NEGOCIACION
         ]);
 
-        if (!$faseCampanya instanceof Fases) {
+        if(! $faseCampanya instanceof Fases){
             return false;
         }
 
@@ -68,7 +68,7 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
 
     public function compruebaFaseConfiguracion(InstanciaComunicacion $instancia)
     {
-        if ($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_CONFIGURACION) {
+        if($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_CONFIGURACION) {
             return false;
         }
 
@@ -78,8 +78,9 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
         $grupoSlots = $this->instanciaService
             ->findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($instancia->getIdInstancia());
 
-        foreach ($grupoSlots as $grupoSlot) {
-            if (!intval($grupoSlot['numPro'])) {
+        foreach($grupoSlots as $grupoSlot)
+        {
+            if(!intval($grupoSlot['numPro'])) {
                 return false;
             }
         }
@@ -89,11 +90,12 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
          */
         $numPromociones = $instancia->getNumPromociones();
 
-        foreach ($numPromociones as $numPromocion) {
+        foreach($numPromociones as $numPromocion)
+        {
             $grupoSlot = $numPromocion->getIdGrupo();
             $numSlot = $grupoSlot->getNumSlots();
 
-            if ($numPromocion->getNumGenericas() < $numSlot) {
+            if($numPromocion->getNumGenericas() < $numSlot) {
                 return false;
             }
         }

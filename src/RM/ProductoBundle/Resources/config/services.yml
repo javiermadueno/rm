@@ -11,31 +11,31 @@ parameters:
 services:
     MarcaService:
         class: %marcaService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     ProductoService:
         class: %ProductoService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     PromocionService:
         class: %PromocionService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
      
     NumPromocionesService:
         class: %NumPromocionesService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     ProveedorService:
         class: %ProveedorService.class%
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
 
     TipoPromocionService:
         class: %TipoPromocionService.class%
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@rm.manager]
 
     promocion.voucher.generator:
         class: RM\ProductoBundle\DependencyInjection\VoucherGenerator
-        arguments: [@doctrine]
+        arguments: [@rm.manager]
         
     rm.twig_extension:
         class: %TwigExtensionService.class%

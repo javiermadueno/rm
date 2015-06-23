@@ -32,12 +32,6 @@ campaign_ficha_promocion_guardar:
   defaults: {_controller: RMComunicacionBundle:Campaign:guardarFichaPromocion}
   methods: [POST]
 
-campaign_ficha_promocion_segmentos:
-  path: /list/promotion/{id_promocion}/segments/
-  defaults: {_controller: RMComunicacionBundle:Campaign:segmentosPromocion}
-  requirements:
-    id_promocion: \d+
-
 campaign_campanyas_save:
   path: /campaign_save/
   defaults: {_controller: RMComunicacionBundle:Campaign:saveCampaignSlots}
@@ -76,20 +70,6 @@ campaign_info_promocion:
   defaults: {_controller: RMComunicacionBundle:Campaign:infoPromocion}
   requirements:
     id_promocion: \d+
-
-campaign_show_segmentador:
-  path: /segmentador/
-  defaults: { _controller: RMComunicacionBundle:Segmentador:showSegmentadorAvanzado }
-
-campaign_buscar_segentos:
-  path: /segmentador/buscar/segmentos/
-  defaults: { _controller: RMComunicacionBundle:Segmentador:buscarSegmentos }
-
-campaign_previsualizar_filtro:
-  path: /segmentador/previsualizar/{id_instancia}/
-  defaults: { _controller: RMComunicacionBundle:Segmentador:previsualizarFiltro}
-  requirements:
-    id_instancia: \d+
 
 campaign_creatividades:
    path: /creatividades/list

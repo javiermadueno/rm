@@ -3,6 +3,7 @@
 namespace RM\PlantillaBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\GrupoSlotsRepository;
 
@@ -10,7 +11,7 @@ use RM\PlantillaBundle\Entity\GrupoSlotsRepository;
 class GrupoSlotsServicio
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager
      */
     private $em;
 
@@ -20,46 +21,45 @@ class GrupoSlotsServicio
     private $repo;
 
     /**
-     * @param ManagerRegistry $doctrine
+     * @param DoctrineManager $manager
+     *
+     * @throws \Exception
      */
-    public function __construct(ManagerRegistry $doctrine)
-    {
-        $this->em = $doctrine->getManager($_SESSION['connection']);
+	public function __construct(DoctrineManager $manager)
+	{
+		$this->em = $manager->getManager();
         $this->repo = $this->em->getRepository('RMPlantillaBundle:GrupoSlots');
-    }
+	}
 
     /**
      * @param $id_grupoSlots
-     *
      * @return mixed
      */
-    public function getGrupoSlotsById($id_grupoSlots)
+	public function getGrupoSlotsById($id_grupoSlots)
     {
-        $registros = $this->repo->obtenerGrupoSlotsById($id_grupoSlots);
-        return $registros;
-    }
+		$registros = $this->repo->obtenerGrupoSlotsById($id_grupoSlots);
+		return $registros;
+	}
 
     /**
      * @param $listaGSAEliminar
-     *
      * @return array
      */
-    public function eliminarGrupoSlotsByIds($listaGSAEliminar)
+	public function eliminarGrupoSlotsByIds($listaGSAEliminar)
     {
-        $registrosGS = [];
+	    $registrosGS = [];
 
-        foreach ($listaGSAEliminar as $GS) {
-
-            $registrosGS = $this->repo->eliminarGSById($GS);
-        }
-
-        $this->em->flush();
-        return $registrosGS;
-    }
+		foreach ($listaGSAEliminar as $GS){
+				
+			$registrosGS = $this->repo->eliminarGSById( $GS);
+		}
+	
+		$this->em->flush ();
+		return $registrosGS;
+	}
 
     /**
      * @param $id_instancia
-     *
      * @return mixed
      */
     public function getGrupoSlotsCreatividadConPromocion($id_instancia)
@@ -70,7 +70,6 @@ class GrupoSlotsServicio
 
     /**
      * @param $id_instancia
-     *
      * @return mixed
      */
     public function getGrupoSlotsCreatividadPromocionConNumeroSlots($id_instancia)

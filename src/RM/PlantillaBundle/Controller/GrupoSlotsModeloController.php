@@ -2,9 +2,9 @@
 
 namespace RM\PlantillaBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Form\GrupoSlotsType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * GrupoSlotsModelo controller.
  *
  */
-class GrupoSlotsModeloController extends Controller
+class GrupoSlotsModeloController extends RMController
 {
 
 
@@ -25,7 +25,7 @@ class GrupoSlotsModeloController extends Controller
      */
     public function indexAction($idPlantilla)
     {
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $entities = $em->getRepository('RMPlantillaBundle:GrupoSlots')
             ->findGruposSlotsByPlantilla($idPlantilla);
@@ -86,7 +86,7 @@ class GrupoSlotsModeloController extends Controller
      */
     private function createCreateForm(GrupoSlots $entity, $idPlantilla)
     {
-        $em        = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em        = $this->getManager();
         $plantilla = $em->getRepository('RMPlantillaBundle:Plantilla')->find($idPlantilla);
 
         if (!$plantilla) {
@@ -116,7 +116,7 @@ class GrupoSlotsModeloController extends Controller
      */
     public function showAction($id, $idPlantilla)
     {
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
 
@@ -163,7 +163,7 @@ class GrupoSlotsModeloController extends Controller
      */
     public function editAction(Request $request, $id, $idPlantilla)
     {
-        $em = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em = $this->getManager();
 
         $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
 
@@ -199,7 +199,7 @@ class GrupoSlotsModeloController extends Controller
      */
     private function createEditForm(GrupoSlots $entity)
     {
-        $em   = $this->getDoctrine()->getManager($_SESSION['connection']);
+        $em   = $this->getManager();
 
         $form = $this->createForm(new GrupoSlotsType(), $entity, [
             'action' => $this->generateUrl('gruposlotsmodelo_update', [
@@ -231,7 +231,7 @@ class GrupoSlotsModeloController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em     = $this->getDoctrine()->getManager($_SESSION['connection']);
+            $em     = $this->getManager();
             $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
 
             if (!$entity) {
