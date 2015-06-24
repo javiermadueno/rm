@@ -155,13 +155,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  gmail
+    transport:  %mailer_transport%
     port:       465
     encryption: ssl
     auth_mode:  login
-    host:       smtp.gmail.com
-    username:   imsodelicioso@gmail.com
-    password:   deliciosoChorong0
+    host:       %mailer_host%
+    username:   %mailer_user%
+    password:   %mailer_password%
 
 # knp_paginator Configuration    
 knp_paginator:

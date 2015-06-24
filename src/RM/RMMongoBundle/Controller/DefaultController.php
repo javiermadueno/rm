@@ -50,7 +50,6 @@ class DefaultController extends RMController
         $clientes = $repo->findClientesEnSegmentos($in = [25,26], $notIn = [10]);
 
         echo "Numero de clientes: ";
-        var_dump(count($clientes));
 
         $time1 += microtime(true);
         echo "Tiempo: ". number_format($time1,3) ."</br>";
@@ -62,7 +61,6 @@ class DefaultController extends RMController
         echo "=============="."</br>";
 
         echo "Numero de clientes: ";
-        var_dump($repo->findNumeroClientesEnSegmentos($in = [25,26], $notIn = [10]));
         $time2 += microtime(true);
         echo "Tiempo: ". number_format($time2,3) ."</br>";
 

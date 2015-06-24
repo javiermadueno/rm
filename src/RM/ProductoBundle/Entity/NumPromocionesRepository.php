@@ -11,7 +11,33 @@ class NumPromocionesRepository extends EntityRepository
 
     public function obtenerNumPromocionesByFiltros ($id_categoria, $id_grupo, $id_instancia)
     {
+        $qb = $this->createQueryBuilder('np')
+            ->join('np.idInstancia', 'ic')
+            ->join('np.idCategoria', 'c')
+            ->join('np.idGrupo', 'gs')
+            ->where('np.estado > -1')
+            ->andWhere('ic.estado > -1')
+            ->andWhere('gs.estado > -1')
+            ->orderBy('np.idNumPro', 'ASC');
 
+        if ($id_categoria > -1) {
+            $qb->andWhere('c.idCategoria = :categoria')
+                ->setParameter('categoria', $id_categoria);
+        }
+
+        if ($id_grupo > -1) {
+           $qb->andWhere('gs.idGrupo = :grupo')
+               ->setParameter('grupo', $id_grupo);
+        }
+
+        if ($id_instancia > -1) {
+            $qb->andWhere('ic.idInstancia = :instancia')
+                ->setParameter('instancia', $id_instancia);
+        }
+
+        return $qb->getQuery()->getResult();
+
+        /**
         $dql = "select np
 		from RMProductoBundle:NumPromociones np
 		JOIN RMComunicacionBundle:InstanciaComunicacion ic WITH (np.idInstancia = ic.idInstancia)
@@ -40,6 +66,7 @@ class NumPromocionesRepository extends EntityRepository
         $registro = $query->getResult();
 
         return $registro;
+         * */
 
     }
 
@@ -49,22 +76,34 @@ class NumPromocionesRepository extends EntityRepository
         $dql = "select np
 		from RMProductoBundle:NumPromociones np
 		JOIN RMComunicacionBundle:InstanciaComunicacion ic WITH (np.idInstancia = ic.idInstancia)
-		JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo AND gs.tipo = " . GrupoSlots::CREATIVIDADES . ")
+		JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo AND gs.tipo = :tipo_creatividades)
 		WHERE np.estado > -1
 		AND ic.estado > -1
 		AND gs.estado > -1";
 
         if ($id_grupo > -1) {
-            $dql .= " AND gs.idGrupo IN (" . $id_grupo . ")";
+            $dql .= " AND gs.idGrupo IN (:grupo)";
         }
 
         if ($id_instancia > -1) {
-            $dql .= " AND ic.idInstancia IN (" . $id_instancia . ")";
+            $dql .= " AND ic.idInstancia IN (:instancia)";
         }
 
         $dql .= " ORDER BY np.idNumPro ASC";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('tipo_creatividades', GrupoSlots::CREATIVIDADES)
+        ;
+
+        if ($id_grupo > -1) {
+            $query->setParameter('grupo', $id_grupo);
+        }
+
+        if ($id_instancia > -1) {
+           $query->setParameter('instancia', $id_instancia);
+        }
+
         $registro = $query->getResult();
 
         return $registro;
