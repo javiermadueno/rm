@@ -14,4 +14,4 @@ services:
 
   rmmongo_manager_instancia_cliente:
     class: RM\RMMongoBundle\DependencyInjection\ManagerInstanciaComunicacionCliente
-    arguments: [@rm.manager, @doctrine.odm.mongodb.document_manager]
+    arguments: [@rm.manager, @rm.mongo_manager]

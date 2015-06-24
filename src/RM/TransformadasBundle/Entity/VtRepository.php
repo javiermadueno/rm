@@ -57,9 +57,12 @@ class VtRepository extends EntityRepository
 
         $dql = "select s
 			from RMTransformadasBundle:VtSegmento s
-			where s.idVtSegmento IN (" . $id_vt_segmento . ")";
+			where s.idVtSegmento IN ( :id_vt_segmento )";
 
-        $query     = $this->_em->createQuery($dql);
+        $query     = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_vt_segmento', $id_vt_segmento)
+        ;
         $registros = $query->getResult();
 
         return $registros;
@@ -131,9 +134,12 @@ class VtRepository extends EntityRepository
 
         $dql = "select g
 			from RMTransformadasBundle:VtGrupo g
-			where g.idGrupo IN (" . $id_grupo . ")";
+			where g.idGrupo IN (:grupo)";
 
-        $query     = $this->_em->createQuery($dql);
+        $query     = $this->_em
+            ->createQuery($dql)
+            ->setParameter('grupo', $id_grupo)
+        ;
         $registros = $query->getResult();
 
         return $registros;
@@ -147,9 +153,12 @@ class VtRepository extends EntityRepository
         $dql = "select g
 			from RMTransformadasBundle:VtGrupo g
 			where g.estado = 1
-			AND g.idVtSegmento IN (" . $id_vt_segmento . ")";
+			AND g.idVtSegmento IN ( :id_vt_segmento )";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_vt_segmento', $id_vt_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -163,9 +172,12 @@ class VtRepository extends EntityRepository
 
         $dql = "select i
 				from RMTransformadasBundle:VtIntervalo i
-				WHERE i.idIntervalo IN (" . $id_intervalo . ")";
+				WHERE i.idIntervalo IN ( :intervalo )";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('intervalo', $id_intervalo)
+        ;
 
         $registros = $query->getResult();
 
@@ -180,9 +192,12 @@ class VtRepository extends EntityRepository
         $dql = "select i
 			from RMTransformadasBundle:VtIntervalo i
 			where i.estado = 1
-			AND i.idGrupo IN (" . $id_grupo . ")";
+			AND i.idGrupo IN ( :grupo )";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('grupo', $id_grupo)
+        ;
 
         $registros = $query->getResult();
 

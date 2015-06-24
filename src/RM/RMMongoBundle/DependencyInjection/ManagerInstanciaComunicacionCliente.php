@@ -12,15 +12,16 @@ namespace RM\RMMongoBundle\DependencyInjection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
+use RM\AppBundle\DependencyInjection\MongoManager;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\RMMongoBundle\Document\InstanciaComunicacionCliente;
 
 class ManagerInstanciaComunicacionCliente
 {
-    public function __construct(DoctrineManager $manager, DocumentManager $mongo)
+    public function __construct(DoctrineManager $manager, MongoManager $mongo)
     {
         $this->em    = $manager->getManager();
-        $this->mongo = $mongo;
+        $this->mongo = $mongo->getManager();
     }
 
     /**

@@ -14,11 +14,14 @@ class CreatividadRepository extends EntityRepository
 
         $dql = "SELECT c
 		FROM RMComunicacionBundle:Creatividad c
-		WHERE c.idCreatividad = " . $idCreatividad . "
+		WHERE c.idCreatividad = :id_creatividad
 		AND c.estado > -1";
 
 
-        $query    = $this->_em->createQuery($dql);
+        $query    = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_creatividad', $idCreatividad)
+        ;
         $registro = $query->getResult();
 
         return $registro;
@@ -35,18 +38,19 @@ class CreatividadRepository extends EntityRepository
     public function obtenerCreatividadByFiltroDQL($nombre)
     {
 
-        $dql = "SELECT c
-		FROM RMComunicacionBundle:Creatividad c
-		WHERE c.estado > -1";
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.estado > -1')
+            ->orderBy('c.nombre', 'ASC')
+        ;
 
-        if ($nombre != '') {
-            $dql .= " AND c.nombre like '%" . $nombre . "%'";
+        if (!empty($nombre)) {
+            $qb
+                ->andWhere('c.nombre like :nombre')
+                ->setParameter('nombre', sprintf("%%%s%%", $nombre))
+            ;
         }
 
-        $dql .= " ORDER BY c.nombre ASC";
-
-        $query    = $this->_em->createQuery($dql);
-        $registro = $query->getResult();
+       $registro = $qb->getQuery()->getResult();
 
         return $registro;
     }

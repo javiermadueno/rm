@@ -3,6 +3,6 @@ services:
     rm.comunicacion.manager:
         class: RM\ComunicacionBundle\DomainManager\ComunicacionManager
         arguments:
-            - @doctrine
+            - @rm.manager
             - @event_dispatcher
             - @validator

@@ -9,7 +9,7 @@ use RM\PlantillaBundle\Entity\GrupoSlots;
 class NumPromocionesRepository extends EntityRepository
 {
 
-    public function obtenerNumPromocionesByFiltros($id_categoria, $id_grupo, $id_instancia)
+    public function obtenerNumPromocionesByFiltros ($id_categoria, $id_grupo, $id_instancia)
     {
 
         $dql = "select np
@@ -43,7 +43,7 @@ class NumPromocionesRepository extends EntityRepository
 
     }
 
-    public function obtenerNumPromocionesCreatividadByFiltros($id_grupo, $id_instancia)
+    public function obtenerNumPromocionesCreatividadByFiltros ($id_grupo, $id_instancia)
     {
 
         $dql = "select np
@@ -71,7 +71,7 @@ class NumPromocionesRepository extends EntityRepository
 
     }
 
-    public function obtenerNumPromocionesCampanyaByFiltros($id_categoria, $id_instancia)
+    public function obtenerNumPromocionesCampanyaByFiltros ($id_categoria, $id_instancia)
     {
         $dql = "
             SELECT np
@@ -83,17 +83,24 @@ class NumPromocionesRepository extends EntityRepository
                AND ic.estado > -1
                AND gs.estado > -1
                AND cat.asociado = 1
-               AND ic.idInstancia IN (" . $id_instancia . ")
+               AND ic.idInstancia IN (:instancia)
         ";
 
         if ($id_categoria != null && $id_categoria > 0) {
-            $dql .= " AND c.idCategoria IN (" . $id_categoria . ") ";
+            $dql .= " AND c.idCategoria IN (:categoria) ";
         }
 
         $dql .= " ORDER BY gs.nombre";
 
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('instancia', $id_instancia);
+
+        if ($id_categoria != null && $id_categoria > 0) {
+            $query->setParameter('categoria', $id_categoria);
+        }
+
         $registro = $query->getResult();
 
         return $registro;
@@ -102,10 +109,9 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param int $id_instancia
-     *
      * @return array|null
      */
-    public function findNumPromocionesByInstancia($id_instancia = 0)
+    public function findNumPromocionesByInstancia ($id_instancia = 0)
     {
         if (!$id_instancia) {
             return null;
@@ -119,17 +125,16 @@ class NumPromocionesRepository extends EntityRepository
                 ->setParameter('idInstancia', $id_instancia)
                 ->setParameter('promocion', GrupoSlots::PROMOCION)
                 ->addOrderBy('n.idNumPro')
-                ->getQuery()->getResult(Query::HYDRATE_OBJECT)//->execute()
+                ->getQuery()->getResult(Query::HYDRATE_OBJECT)
             ;
     }
 
     /**
      * @param int $id_instancia
      * @param int $id_categoria
-     *
      * @return array|null
      */
-    public function findNumPromocionesByInstanciayCategoria($id_instancia = 0, $id_categoria = 0)
+    public function findNumPromocionesByInstanciayCategoria ($id_instancia = 0, $id_categoria = 0)
     {
         if (!$id_instancia || !$id_categoria) {
             return null;
@@ -150,10 +155,9 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param int $id_instancia
-     *
      * @return array|null
      */
-    public function findNumPromocionesCreatividadByInstancia($id_instancia = 0)
+    public function findNumPromocionesCreatividadByInstancia ($id_instancia = 0)
     {
         if (!$id_instancia) {
             return null;
@@ -172,13 +176,12 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param $id_instancia
-     *
      * @return array
      */
-    public function findTotalGenericasPorGrupoByInstancia($id_instancia)
+    public function findTotalGenericasPorGrupoByInstancia ($id_instancia)
     {
         if (!$id_instancia) {
-            return [];
+            return array ();
         }
 
         $dql = "

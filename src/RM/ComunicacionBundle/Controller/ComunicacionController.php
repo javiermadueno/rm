@@ -48,15 +48,10 @@ class ComunicacionController extends Controller
             ));
         }
 
-
-        // DATOS SEGMENTOS
         $servicioSegCom = $this->get("SegmentoComunicacionService");
-
-
         $objSegmentos = $servicioSegCom->getSegmentosComunicacionById($idComunicacion);
 
-        // END DATOS SEGMENTOS
-        $peticion = $this->getRequest();
+        $peticion = $this->get('request');
 
         $gruposSlot = $em->getRepository('RMPlantillaBundle:GrupoSlots')
             ->findGruposSlotsByComunicacion($idComunicacion);

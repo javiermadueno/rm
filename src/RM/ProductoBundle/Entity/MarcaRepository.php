@@ -74,7 +74,7 @@ class MarcaRepository extends EntityRepository
 		from RMProductoBundle:Marca m, RMProductoBundle:Producto p
 		WHERE p.activo > -1
 		AND p.idMarca = m.idMarca
-		AND p.idCategoria" . $nivel . " = :id_categoria
+		AND p.idCategoria{$nivel} = :id_categoria
 		GROUP BY m.nombre
 		ORDER BY m.nombre ASC";
 

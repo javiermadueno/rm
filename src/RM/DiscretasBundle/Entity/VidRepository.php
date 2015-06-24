@@ -131,9 +131,12 @@ class VidRepository extends EntityRepository
 				SELECT s
             FROM RMDiscretasBundle:VidSegmento s
             WHERE s.estado = 1
-			AND s.idVidGrupoSegmento IN (" . $id_vid_grupo_segmento . ")";
+			AND s.idVidGrupoSegmento IN (:vid_grupo_segmento)";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('vid_grupo_segmento', $id_vid_grupo_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -235,7 +238,19 @@ class VidRepository extends EntityRepository
     public function obtenerSegmentosGlobales($id_vid_segmento_global = -1)
     {
 
+        $qb = $this->_em->createQueryBuilder()
+            ->select('sc')
+            ->from('RMDiscretasBundle:VidSegmentoGlobal', 'sc')
+            ->where('sc.estado > -1');
 
+        if ($id_vid_segmento_global != -1) {
+           $qb->andWhere('sc.idVidSegmentoGlobal = :id_vid_segmento_global')
+               ->setParameter('id_vid_segmento_global', $id_vid_segmento_global);
+        }
+
+         $registros = $qb->getQuery()->getResult();
+
+        /**
         $dql = "
 				SELECT s
             FROM RMDiscretasBundle:VidSegmentoGlobal s
@@ -248,6 +263,7 @@ class VidRepository extends EntityRepository
         $query = $this->_em->createQuery($dql);
 
         $registros = $query->getResult();
+         * */
 
         return $registros;
 
@@ -276,9 +292,12 @@ class VidRepository extends EntityRepository
         $dql = "
 				UPDATE RMDiscretasBundle:VidSegmento s
             	SET s.estado = -1
-				WHERE s.idVidSegmento IN (" . $id_vid_segmento . ")";
+				WHERE s.idVidSegmento IN (:id_vid_segmento)";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_vid_segmento', $id_vid_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -292,9 +311,12 @@ class VidRepository extends EntityRepository
         $dql = "
 				UPDATE RMDiscretasBundle:VidSegmentoGlobal s
             	SET s.estado = -1
-				WHERE s.idVidSegmentoGlobal IN (" . $id_vid_segmento_global . ")";
+				WHERE s.idVidSegmentoGlobal IN (:id_vid_segmento_global)";
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_vid_segmento_global', $id_vid_segmento_global)
+        ;
 
         $registros = $query->getResult();
 

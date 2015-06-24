@@ -6,45 +6,52 @@ use Doctrine\ORM\EntityRepository;
 
 class TamanyoImagenRepository extends EntityRepository
 {
-    public function obtenerTIById($id_tamanyo)
-    {
+	public function obtenerTIById($id_tamanyo) {
 
-        $dql = "SELECT t
+		$dql = "SELECT t
             FROM RMPlantillaBundle:TamanyoImagen t
-			WHERE t.idTamanyo IN (" . $id_tamanyo . ")
+			WHERE t.idTamanyo IN (:id_tamanyo)
 			AND	  t.estado > -1";
+	
+		$query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('id_tamanyo', $id_tamanyo)
+        ;
 
-        $query = $this->_em->createQuery($dql);
-        $registros = $query->getResult();
-        return $registros;
-    }
+		$registros = $query->getResult();
+		return $registros;
+	}
+	
+	public function obtenerTIByTipo($tipo) {
+	
 
-    public function obtenerTIByTipo($tipo)
-    {
-
-
-        $dql = "SELECT t
+		$dql = "SELECT t
             FROM RMPlantillaBundle:TamanyoImagen t
-			WHERE t.tipo IN (" . $tipo . ")
+			WHERE t.tipo IN (:tipo)
 			AND	  t.estado > -1";
+	
+		$query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('tipo', $tipo)
+        ;
+		$registros = $query->getResult();
+		return $registros;
+	}
+	
+	public function obtenerTIConInfoAsocByTipo($tipo) {
 
-        $query = $this->_em->createQuery($dql);
-        $registros = $query->getResult();
-        return $registros;
-    }
-
-    public function obtenerTIConInfoAsocByTipo($tipo)
-    {
-
-        $dql = "SELECT t.idTamanyo, t.codigo, t.ancho, t.alto, gs.idGrupo As idGrupo
+		$dql = "SELECT t.idTamanyo, t.codigo, t.ancho, t.alto, gs.idGrupo As idGrupo
             FROM RMPlantillaBundle:TamanyoImagen t
 			LEFT JOIN RMPlantillaBundle:GrupoSlots AS gs WITH (t.idTamanyo = gs.idTamanyoImgProducto AND gs.estado > -1)
-			WHERE t.tipo IN (" . $tipo . ")
+			WHERE t.tipo IN (:tipo)
 			AND	  t.estado > -1
 			GROUP BY t.idTamanyo";
-
-        $query = $this->_em->createQuery($dql);
-        $registros = $query->getResult();
-        return $registros;
-    }
+	
+		$query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('tipo', $tipo)
+        ;
+		$registros = $query->getResult();
+		return $registros;
+	}
 }

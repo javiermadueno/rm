@@ -6,16 +6,8 @@ use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\Creatividad;
 use RM\ComunicacionBundle\Form\CreatividadType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\CssSelector\CssSelector;
-use DOMElement;
-use DOMNodeList;
-use DOMNode;
-use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\PlantillaBundle\Entity\Slot;
+
 
 class DefaultController extends RMController
 {
@@ -72,7 +64,7 @@ class DefaultController extends RMController
 
         $this->get('rm_plantilla.email_parser')
             ->setPlantilla($plantilla)
-            ->parse($plantilla);
+            ->parse($plantilla, $cliente);
 
         if(empty($error))
         {

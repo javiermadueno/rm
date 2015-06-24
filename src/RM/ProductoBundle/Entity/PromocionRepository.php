@@ -28,8 +28,6 @@ class PromocionRepository extends EntityRepository
     public function obtenerPromocionesCampanya($id_categoria, $id_instancia, $tipo)
     {
 
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
-
         $dql = "select p
 		from RMProductoBundle:Promocion p
 		JOIN RMProductoBundle:NumPromociones np with(np.idInstancia = :id_instancia and p.numPromocion = np.idNumPro)
@@ -43,7 +41,7 @@ class PromocionRepository extends EntityRepository
 
         $dql .= "ORDER BY np.idGrupo, p.idProducto ";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
 
         $query->setParameter('id_instancia', $id_instancia);
 
@@ -60,15 +58,12 @@ class PromocionRepository extends EntityRepository
     public function obtenerPromocionesByIdInstancia($id_instancia)
     {
 
-        // $em = $this->getEntityManager();
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
-
         $dql = "select p
 		from RMProductoBundle:Promocion p
 		WHERE p.estado > -1
 		AND   p.idInstancia = :id_instancia";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_instancia', $id_instancia);
         $registro = $query->getResult();
 
@@ -77,7 +72,6 @@ class PromocionRepository extends EntityRepository
 
     public function obtenerPromocionesCierreCampanya($id_categoria, $id_instancia)
     {
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
 
         $dql = "SELECT p
                 FROM RMProductoBunlde:Promocion p
@@ -86,7 +80,7 @@ class PromocionRepository extends EntityRepository
                 AND ic.idInstanciaComunicacion = :id_instancia
                 AND ic.fase = :fase";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_instancia', $id_instancia);
         $query->setParameter('fase', 7);
 
@@ -95,8 +89,6 @@ class PromocionRepository extends EntityRepository
 
     public function obtenerPromocionAsignadaSlot($id_slot, $id_plantilla)
     {
-        // $em = $this->getEntityManager();
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
 
         $dql = "select icc
 		from RMProductoBundle:Promocion p
@@ -112,7 +104,7 @@ class PromocionRepository extends EntityRepository
 		WHERE p.estado > -1
 		GROUP BY p.idPromocion";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('idslot', $id_slot);
         $query->setParameter('idplantilla', $id_plantilla);
         $registro = $query->getResult();
@@ -122,7 +114,6 @@ class PromocionRepository extends EntityRepository
 
     public function guardarPromocionesCampanya($promoToSaveData)
     {
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
 
         if ($promoToSaveData ['idPromo'] > 0) {
 
@@ -133,14 +124,14 @@ class PromocionRepository extends EntityRepository
             $promo = new Promocion();
         }
 
-        $promo->setIdProducto($em->getReference('RMProductoBundle:Producto', $promoToSaveData['producto']))
+        $promo->setIdProducto($this->_em->getReference('RMProductoBundle:Producto', $promoToSaveData['producto']))
             ->setTipo($promoToSaveData ['tipo'])
             ->setMinimo($promoToSaveData ['minimo'])
-            ->setIdTipoPromocion($em->getReference('RMProductoBundle:TipoPromocion', $promoToSaveData ['tipo']))
+            ->setIdTipoPromocion($this->_em->getReference('RMProductoBundle:TipoPromocion', $promoToSaveData ['tipo']))
             ->setEstado(1);
 
-        $em->persist($promo);
-        $em->flush();
+        $this->_em->persist($promo);
+        $this->_em->flush();
 
         return 1;
     }
@@ -150,14 +141,14 @@ class PromocionRepository extends EntityRepository
     public function obtenerPromocionById($id_promocion)
     {
 
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
+
 
         $dql = "select p
 		from RMProductoBundle:Promocion p
 		WHERE p.estado > -1
 		AND   p.idPromocion = :id_promocion";
 
-        $query = $em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $query->setParameter('id_promocion', $id_promocion);
         $registro = $query->getResult();
 
@@ -166,9 +157,7 @@ class PromocionRepository extends EntityRepository
 
     public function actualizarPromocionesCampanya($promoToUpdateData)
     {
-        // $em = $this->getEntityManager();
-        $em = $GLOBALS ['kernel']->getContainer()->get('doctrine')->getManager($_SESSION ['connection']);
-
+        $em = $this->_em;
         $repo = $em->getRepository('RMProductoBundle:Promocion');
 
         $promocion = $repo->find($promoToUpdateData ['id_promocion']);
@@ -193,6 +182,61 @@ class PromocionRepository extends EntityRepository
         \DateTime $fechaFin = null
     ) {
 
+        $qb = $this->_em->createQueryBuilder()
+            ->select('p.simulado as simulado',
+              'c.nombre as nombreComunicacion',
+              'pr.nombre as nombreProducto',
+              'm.nombre as nombreMarca',
+              'tp.nombre as tipoPromocion',
+              'ic.fecCreacion as fecha',
+              'p.aceptada as aceptada',
+              'cat.idCategoria as idCategoria',
+              'm.idMarca as idMarca')
+            ->from('RMProductoBundle:Promocion', 'p')
+            ->join('p.idTipoPromocion', 'tp')
+            ->join('p.idProducto', 'pr')
+            ->join('pr.idMarca', 'm')
+            ->join('p.numPromocion', 'np')
+            ->join('np.idCategoria', 'cat')
+            ->join('np.idInstancia', 'ic')
+            ->join('ic.idSegmentoComunicacion', 'sc')
+            ->join('sc.idComunicacion', 'c')
+            ->join('ic.fase', 'fase')
+            ->where('p.estado > -1')
+            ->andWhere('fase.codigo = :fase_confirmacion')
+            ->groupBy('p.idPromocion')
+            ->orderBy('p.idPromocion', 'ASC')
+            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
+        ;
+
+        if ($id_categoria > 0) {
+            $qb->andWhere('np.idCategoria = :categoria')
+                ->setParameter('categoria', $id_categoria);
+        }
+
+        if ($id_producto > 0) {
+            $qb->andWhere('pr.idProducto = :producto')
+                ->setParameter('producto', $id_producto);
+        }
+
+        if ($id_marca > 0) {
+            $qb->andWhere('m.idMarca = :marca')
+                ->setParameter('marca', $id_marca);
+        }
+
+        if ($fechaInicio) {
+            $qb->andWhere('ic.fecCreacion >= :fecha_inicio')
+                ->setParameter('fecha_inicio', $fechaInicio);
+        }
+
+        if ($fechaFin) {
+            $qb->andWhere('ic.fecCreacion <= :fecha_fin')
+                ->setParameter('fecha_fin', $fechaFin);
+        }
+
+        return $qb->getQuery()->getResult();
+
+        /**
 
         $dql = "SELECT DISTINCT  p.idPromocion as id,
               p.simulado as simulado,
@@ -216,14 +260,12 @@ class PromocionRepository extends EntityRepository
             JOIN  ic.fase as fase
             WHERE
               p.estado > -1
-              AND fase.codigo = '" . InstanciaComunicacion::FASE_CONFIRMACION . "'
+              AND fase.codigo = :fase_confirmacion
             ";
-        //Esto habrá que añadirlo mas adelante para que busque solo las promociones de las Instancias de comunicacion
-        //en fase generación
-        //JOIN  ic.fase as fase WITH (fase.codigo = '".InstanciaComunicacion::FASE_GENERACION."')
+
 
         if ($id_categoria > 0) {
-            $dql .= "AND np.idCategoria = " . $id_categoria;
+            $dql .= "AND np.idCategoria = :categoria " . $id_categoria;
         }
 
         if ($id_producto > 0) {
@@ -245,19 +287,13 @@ class PromocionRepository extends EntityRepository
         $dql .= " GROUP BY p.idPromocion ORDER BY p.idPromocion";
 
 
-        $query = $this->_em->createQuery($dql);
+        $query = $this->_em
+            ->createQuery($dql)
+            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
+        ;
 
         return $query->getResult();
+         * */
     }
 
-    public function findPromocionesAsignadasASlot($idSlot, $idPlantilla, $idInstancia)
-    {
-        $dql = "
-            SELECT p
-            FROM RMProductoBundle:Promocion p
-            JOIN p.idNumPro as np WITH (np.idInstancia = :id_instancia AND np.estado > -1)
-
-
-        ";
-    }
 }
