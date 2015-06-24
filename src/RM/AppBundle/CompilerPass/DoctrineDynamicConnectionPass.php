@@ -21,7 +21,7 @@ class DoctrineDynamicConnectionPass implements CompilerPassInterface
                 return;
             }
 
-            $cliente = $_SESSION['connection'];
+            $cliente = $container->get('security.token_storage')->getToken()->getUser()->getCliente();
 
             $connections = $container->getExtensionConfig('doctrine')[0];
 
