@@ -12,13 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TipoPromocion
 {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id_tipo_promocion", type="smallint", length=6)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 */
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_tipo_promocion", type="smallint", length=6)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private $idTipoPromocion;
 
     /**
@@ -55,38 +55,40 @@ class TipoPromocion
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return string
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
         return $this->nombre;
-    }    
-    
+    }
+
     /**
      * Set orden
      *
      * @param int $orden
+     *
      * @return TipoPromocion
      */
     public function setOrden($orden)
     {
-    	$this->orden = $orden;
-    
-    	return $this;
+        $this->orden = $orden;
+
+        return $this;
     }
-    
+
     /**
      * Get orden
      *
@@ -94,22 +96,23 @@ class TipoPromocion
      */
     public function getOrden()
     {
-    	return $this->orden;
+        return $this->orden;
     }
- 
+
     /**
      * Set codigo
      *
      * @param string $codigo
+     *
      * @return TipoPromocion
      */
     public function setCodigo($codigo)
     {
-    	$this->codigo = $codigo;
-    
-    	return $this;
+        $this->codigo = $codigo;
+
+        return $this;
     }
-    
+
     /**
      * Get codigo
      *
@@ -117,7 +120,7 @@ class TipoPromocion
      */
     public function getCodigo()
     {
-    	return $this->codigo;
+        return $this->codigo;
     }
 
 
@@ -125,19 +128,20 @@ class TipoPromocion
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return Promocion
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -147,7 +151,7 @@ class TipoPromocion
     /**
      * Get idTipoPromocion
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdTipoPromocion()
     {

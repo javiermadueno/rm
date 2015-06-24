@@ -29,7 +29,7 @@ class EliminaGruposSlotsListener
     {
         $plantilla = $event->getPlantilla();
 
-        if(!$plantilla instanceof PlantillaInterface){
+        if (!$plantilla instanceof PlantillaInterface) {
             return;
         }
 

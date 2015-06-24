@@ -40,19 +40,19 @@ class InstanciaController extends RMController
         $fase = -1,
         $id_instancia = -1
     ) {
-        $servicioIC  = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $servicioCom = $this->get("ComunicacionService");
         $servicioSeg = $this->get("SegmentoService");
 
-        $em    = $this->getManager();
+        $em = $this->getManager();
         $fases = $em->getRepository('RMComunicacionBundle:Fases')->findAll();
 
-        $objInstancias     = $servicioIC->getInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $id_instancia);
+        $objInstancias = $servicioIC->getInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $id_instancia);
         $objComunicaciones = $servicioCom->getComunicaciones();
 
         $objSegmentos = $servicioSeg->getSegmentoByIdComunicacion($id_comunicacion);
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($objInstancias, $this->getRequest()->query->get('page', 1), 100);
 
 
@@ -79,8 +79,8 @@ class InstanciaController extends RMController
     public function actualizarListadoInstanciasAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request       = $this->container->get('request');
-            $servicioIC    = $this->get("InstanciaComunicacionService");
+            $request = $this->container->get('request');
+            $servicioIC = $this->get("InstanciaComunicacionService");
             $objInstancias = $servicioIC->getInstanciasByFiltro(
                 $request->get('id_comunicacion'),
                 $request->get('id_segmento'),
@@ -88,7 +88,7 @@ class InstanciaController extends RMController
                 $request->get('id_instancia')
             );
 
-            $paginator  = $this->get('knp_paginator');
+            $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate($objInstancias, $request->get('page'), 100);
 
             return $this->render(
@@ -110,7 +110,7 @@ class InstanciaController extends RMController
     public function controladorVistasFaseInstanciasAction($id_instancia)
     {
         $servicioIC = $this->get("InstanciaComunicacionService");
-        $em         = $this->getManager();
+        $em = $this->getManager();
 
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
@@ -121,11 +121,11 @@ class InstanciaController extends RMController
             /** @var InstanciaComunicacion $objInstancia */
             $objInstancia = $objInstancias [0];
 
-            $servicioPl  = $this->get("PlantillaService");
+            $servicioPl = $this->get("PlantillaService");
             $servicioCat = $this->get("categoriaservice");
-            $servicioNP  = $this->get("NumPromocionesService");
+            $servicioNP = $this->get("NumPromocionesService");
 
-            $comunicacion    = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
+            $comunicacion = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
             $id_comunicacion = $comunicacion->getIdComunicacion();
 
             $objPlantilla = $comunicacion->getPlantilla();
@@ -154,18 +154,18 @@ class InstanciaController extends RMController
 
             if ($fase_instancia == InstanciaComunicacion::FASE_CONFIGURACION) {
 
-                $objPromociones            = $servicioNP->getNumPromocionesByFiltros(-1, -1, $id_instancia);
+                $objPromociones = $servicioNP->getNumPromocionesByFiltros(-1, -1, $id_instancia);
                 $objPromocionesCreatividad = $servicioNP->getNumPromocionesCreatividadByFiltros(-1, $id_instancia);
 
                 $objCategorias = $servicioCat->getCategoriasPorNivelVisible();
 
-                $arrayPromoSeg            = [];
-                $arrayPromoGen            = [];
+                $arrayPromoSeg = [];
+                $arrayPromoGen = [];
                 $arrayPromoSegCreatividad = [];
                 $arrayPromoGenCreatividad = [];
 
                 foreach ($objPromociones as $objPromo) {
-                    $idGrupo     = $objPromo->getIdGrupo()->getIdGrupo();
+                    $idGrupo = $objPromo->getIdGrupo()->getIdGrupo();
                     $idCategoria = $objPromo->getIdCategoria()->getIdCategoria();
 
                     $arrayPromoSeg [$idGrupo] [$idCategoria] = $objPromo->getNumSegmentadas();
@@ -203,7 +203,7 @@ class InstanciaController extends RMController
                 $compruebaGenericas = function () use ($totalGenericasPorgrupo) {
                     foreach ($totalGenericasPorgrupo as $total) {
                         $totalGenericas = $total['totalGenericas'];
-                        $totalSlots     = $total['totalSlots'];
+                        $totalSlots = $total['totalSlots'];
 
                         if ($totalGenericas < $totalSlots) {
                             return false;
@@ -214,7 +214,7 @@ class InstanciaController extends RMController
                 };
 
                 $faltanNumPromociones = $compruebanNumPromociones();
-                $faltanGenericas      = $compruebaGenericas();
+                $faltanGenericas = $compruebaGenericas();
 
                 return $this->render(
                     'RMComunicacionBundle:Instancia:faseConfiguracionPromo.html.twig',
@@ -240,14 +240,14 @@ class InstanciaController extends RMController
                 // ECHO 'ENTRO EN FASE 2';
                 $objResumenPromociones = $servicioIC->getResumenPromocionesByTipo($id_instancia);
 
-                $arrayInfoPromoTipos       = [];
+                $arrayInfoPromoTipos = [];
                 $arrayInfoPromoCreatividad = [];
-                $totalRealizadas           = 0;
-                $total                     = 0;
-                $grupoTmp                  = 0;
-                $arrayNombreGrupos         = [];
-                $arrayGrupos               = [];
-                $arrayValores              = []; // De 2 dimensiones, la 1Âª el id del grupo y al segunda puede ser: 1- Realizadas; 2- Totales
+                $totalRealizadas = 0;
+                $total = 0;
+                $grupoTmp = 0;
+                $arrayNombreGrupos = [];
+                $arrayGrupos = [];
+                $arrayValores = []; // De 2 dimensiones, la 1Âª el id del grupo y al segunda puede ser: 1- Realizadas; 2- Totales
 
                 foreach ($objResumenPromociones as $objInfo) {
 
@@ -273,7 +273,7 @@ class InstanciaController extends RMController
 
                         $arrayValores [$objInfo ['idGrupo']] [1] = $objInfo ['num_pro_seg'] + $objInfo ['num_pro_gen'];
                         $arrayValores [$objInfo ['idGrupo']] [2] = $objInfo ['numSegmentadas'] + $objInfo ['numGenericas'];
-                        $grupoTmp                                = $objInfo ['idGrupo'];
+                        $grupoTmp = $objInfo ['idGrupo'];
                     } else {
                         $arrayValores [$objInfo ['idGrupo']] [1] += $objInfo ['num_pro_seg'] + $objInfo ['num_pro_gen'];
                         $arrayValores [$objInfo ['idGrupo']] [2] += $objInfo ['numSegmentadas'] + $objInfo ['numGenericas'];
@@ -321,7 +321,7 @@ class InstanciaController extends RMController
 
                 // GrÃ¡fico columnas
                 $arrayValoresRealizadas = [];
-                $arrayValoresTotales    = [];
+                $arrayValoresTotales = [];
 
                 foreach ($arrayGrupos as $idGrupo) {
                     array_push($arrayValoresRealizadas, $arrayValores [$idGrupo] [1]);
@@ -383,22 +383,22 @@ class InstanciaController extends RMController
                 );
             } elseif ($fase_instancia == InstanciaComunicacion::FASE_CIERRE) {
 
-                $objResumenPromociones     = $servicioIC->getResumenPromocionesByEstado($id_instancia);
-                $arrayInfoPromoTipos       = [];
+                $objResumenPromociones = $servicioIC->getResumenPromocionesByEstado($id_instancia);
+                $arrayInfoPromoTipos = [];
                 $arrayInfoPromoCreatividad = [];
-                $arrayEstados              = [];
+                $arrayEstados = [];
                 $arrayEstadosCreatividades = [];
-                $arrayNombreGrupos         = [];
-                $arrayGrupos               = [];
+                $arrayNombreGrupos = [];
+                $arrayGrupos = [];
 
-                $total           = 0;
+                $total = 0;
                 $totalPendientes = 0;
-                $totalAceptadas  = 0;
+                $totalAceptadas = 0;
                 $totalRechazadas = 0;
-                $grupoTmp        = 0;
+                $grupoTmp = 0;
                 foreach ($objResumenPromociones as $objInfo) {
 
-                    $aceptadas  = intval($objInfo ['aceptadas']);
+                    $aceptadas = intval($objInfo ['aceptadas']);
                     $pendientes = intval($objInfo ['pendientes']);
                     $rechazadas = intval($objInfo ['rechazadas']);
 
@@ -423,9 +423,9 @@ class InstanciaController extends RMController
 
 
                     } elseif ($objInfo['tipoGrupo'] == GrupoSlots::CREATIVIDADES) {
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][1]          = $aceptadas;
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][2]          = $pendientes;
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][3]          = $rechazadas;
+                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][1] = $aceptadas;
+                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][2] = $pendientes;
+                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][3] = $rechazadas;
                         $arrayInfoPromoCreatividad[$objInfo['idGrupo']]['idNumPro'] = $objInfo['idNumPro'];
 
                         if ($pendientes > 0) {
@@ -502,7 +502,7 @@ class InstanciaController extends RMController
                 );
 
                 // GrÃ¡fico columnas
-                $arrayValoresAceptadas  = [];
+                $arrayValoresAceptadas = [];
                 $arrayValoresPendientes = [];
                 $arrayValoresRechazadas = [];
 
@@ -550,7 +550,7 @@ class InstanciaController extends RMController
 
                 $objGB->series($series);
 
-                $tramitar        = $servicioIC->compruebaFaseCierre($objInstancia);
+                $tramitar = $servicioIC->compruebaFaseCierre($objInstancia);
                 $tieneRechazadas = $servicioIC->compruebaPromocionesRechazadasEnFaseCierre($objInstancia);
 
                 return $this->render(
@@ -599,10 +599,10 @@ class InstanciaController extends RMController
                 // ECHO 'ENTRO EN FASE 7';
 
                 $formato = 'XML';
-                $server  = 'FTP';
-                $user    = 'jorge';
-                $pass    = '*****';
-                $url     = '192.168.100.1';
+                $server = 'FTP';
+                $user = 'jorge';
+                $pass = '*****';
+                $url = '192.168.100.1';
 
                 return $this->render(
                     'RMComunicacionBundle:Instancia:faseFinalizada.html.twig',
@@ -632,12 +632,12 @@ class InstanciaController extends RMController
 
         $servicioPr = $this->get("PromocionService");
 
-        $listaPrueba      = urldecode($listaCatNeeded);
+        $listaPrueba = urldecode($listaCatNeeded);
         $listIdCategorias = json_decode($listaPrueba);
 
 
         $servicioCat = $this->get("CategoriaService");
-        $servicioIC  = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
 
         if (!$listIdCategorias) {
             throw $this->createNotFoundException('No se han encontrado categorï¿½a para filtrar');
@@ -705,13 +705,13 @@ class InstanciaController extends RMController
             ]
         );
 
-        $encoders    = [
+        $encoders = [
             new JsonEncoder ()
         ];
         $normalizers = [
             new GetSetMethodNormalizer ()
         ];
-        $serializer  = new Serializer ($normalizers, $encoders);
+        $serializer = new Serializer ($normalizers, $encoders);
 
         $response = new Response ($serializer->serialize($data, 'json'));
         $response->headers->set('Content-Type', 'application/json');
@@ -724,9 +724,9 @@ class InstanciaController extends RMController
      */
     public function envioAvisosAction()
     {
-        $request      = $this->container->get('request');
-        $mailer       = $this->container->get('mailer');
-        $j            = $request->request->get('counter');
+        $request = $this->container->get('request');
+        $mailer = $this->container->get('mailer');
+        $j = $request->request->get('counter');
         $textoMensaje = $request->request->get('mensaje_mail');
 
         $arrayMails = [];
@@ -766,7 +766,7 @@ class InstanciaController extends RMController
 
         if ($request->isMethod('POST')) {
 
-            $servicioIC    = $this->get("InstanciaComunicacionService");
+            $servicioIC = $this->get("InstanciaComunicacionService");
             $objInstancias = $servicioIC->getInstanciaById($id_instancia);
 
             if (!$objInstancias) {
@@ -775,29 +775,29 @@ class InstanciaController extends RMController
                 /** @var InstanciaComunicacion $objInstancia */
                 $objInstancia = $objInstancias [0];
 
-                $servicioPl  = $this->get("PlantillaService");
+                $servicioPl = $this->get("PlantillaService");
                 $servicioCat = $this->get("categoriaservice");
-                $servicioNP  = $this->get("NumPromocionesService");
+                $servicioNP = $this->get("NumPromocionesService");
 
                 if ($objInstancia->getFase()->getCodigo() == InstanciaComunicacion::FASE_CONFIGURACION) {
 
-                    $comunicacion    = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
+                    $comunicacion = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
                     $id_comunicacion = $comunicacion->getIdComunicacion();
-                    $objPlantilla    = $comunicacion->getPlantilla();
+                    $objPlantilla = $comunicacion->getPlantilla();
 
 
                     $objGrupoSlots = $servicioPl->getGruposConNumeroSlots($objPlantilla->getIdPlantilla());
 
                     if ($request->get('promociones') == 1) {
 
-                        $gruposCreatividades       = array_filter(
+                        $gruposCreatividades = array_filter(
                             $objGrupoSlots,
                             function (array $grupo) {
                                 return $grupo['tipo'] == GrupoSlots::CREATIVIDADES;
                             }
                         );
-                        $objCategorias             = $servicioCat->getCategoriasPorNivelVisible();
-                        $objPromociones            = $servicioNP->getNumPromocionesByFiltros(-1, -1, $id_instancia);
+                        $objCategorias = $servicioCat->getCategoriasPorNivelVisible();
+                        $objPromociones = $servicioNP->getNumPromocionesByFiltros(-1, -1, $id_instancia);
                         $objPromocionesCreatividad = $servicioNP->getNumPromocionesCreatividadByFiltros(
                             -1,
                             $id_instancia
@@ -880,7 +880,7 @@ class InstanciaController extends RMController
     public function controladorFaseConfCriteriosAction($id_instancia)
     {
 
-        $servicioIC    = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
 
         if (!$objInstancias) {
@@ -889,14 +889,14 @@ class InstanciaController extends RMController
             /** @var InstanciaComunicacion $objInstancia */
             $objInstancia = $objInstancias[0];
 
-            $comunicacion    = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
+            $comunicacion = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
             $id_comunicacion = $comunicacion->getIdComunicacion();
 
-            $objPlantilla  = $comunicacion->getPlantilla();
+            $objPlantilla = $comunicacion->getPlantilla();
             $objGrupoSlots = $this->get('PlantillaService')->getGruposConNumeroSlots($objPlantilla->getIdPlantilla());
 
             //Recuperamos las instancias de criterios de desempate
-            $em                  = $this->getManager();
+            $em = $this->getManager();
             $instanciasCriterios = $em->getRepository('RMProductoBundle:InstanciaCriterioDesempate')->findBy(
                 [
                     'idInstancia' => $objInstancia
@@ -905,8 +905,8 @@ class InstanciaController extends RMController
 
             $arrayCriteriosNumSlots = [];
             foreach ($instanciasCriterios as $instancia) {
-                $id_grupo                                          = $instancia->getGrupo()->getIdGrupo();
-                $tipo_criterio                                     = $instancia->getCriterioDesempate()->getCodigo();
+                $id_grupo = $instancia->getGrupo()->getIdGrupo();
+                $tipo_criterio = $instancia->getCriterioDesempate()->getCodigo();
                 $arrayCriteriosNumSlots[$id_grupo][$tipo_criterio] = $instancia->getNumSlot();
             }
 
@@ -939,20 +939,20 @@ class InstanciaController extends RMController
     {
 
         // TODO Que haga la mecï¿½nica interna para insertar y enviar las notificaciones
-        $request           = $this->container->get('request');
+        $request = $this->container->get('request');
         $numComunicaciones = $request->get('numComunicaciones');
-        $formato           = $request->get('formato');
-        $otros             = $request->get('otros');
+        $formato = $request->get('formato');
+        $otros = $request->get('otros');
 
         $server = $request->get('server');
-        $user   = $request->get('user');
-        $pass   = $request->get('pass');
+        $user = $request->get('user');
+        $pass = $request->get('pass');
 
         $url = $request->get('url');
 
         $fecha = $request->get('fecha');
 
-        $servicioIC    = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
         if (!$objInstancias) {
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
@@ -983,7 +983,7 @@ class InstanciaController extends RMController
      */
     public function previewComunicacionesAction($id_instancia)
     {
-        $servicioIC  = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $servicioSeg = $this->get("SegmentoService");
 
         $em = $this->get('rm.manager')->getManager();
@@ -991,7 +991,7 @@ class InstanciaController extends RMController
         $objInstancia = $em->getRepository('RMComunicacionBundle:InstanciaComunicacion')->findById($id_instancia);
 
         $segmentoComunicacion = $objInstancia->getIdSegmentoComunicacion();
-        $id_segmento          = $segmentoComunicacion->getIdSegmento()->getIdSegmento();
+        $id_segmento = $segmentoComunicacion->getIdSegmento()->getIdSegmento();
 
         $segmentos = $servicioSeg->getSegmentosInstancia($id_segmento);
 
@@ -1014,8 +1014,8 @@ class InstanciaController extends RMController
      */
     public function actualizarTablaConsumidoresAction($id_instancia)
     {
-        $request     = $this->container->get('request');
-        $servicioIC  = $this->get("InstanciaComunicacionService");
+        $request = $this->container->get('request');
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $servicioCli = $this->get("ClienteService");
         $servicioSeg = $this->get("SegmentoService");
         $idCategoria = $request->get('id_categoria');
@@ -1029,10 +1029,10 @@ class InstanciaController extends RMController
         $objInstancia = $objInstancias [0];
 
         if ($id_segmento == -1) {
-            $segmentos       = null;
+            $segmentos = null;
             $objConsumidores = null;
         } else {
-            $segmentos       = $servicioSeg->getSegmentosInstancia($id_segmento);
+            $segmentos = $servicioSeg->getSegmentosInstancia($id_segmento);
             $objConsumidores = $servicioCli->getClientesBySegmento($id_segmento);
         }
 
@@ -1065,7 +1065,7 @@ class InstanciaController extends RMController
             ->findByClienteInstancia($id_cliente, $id_instancia);
 
         $instancia = $em->getRepository('RMComunicacionBundle:InstanciaComunicacion')->find($id_instancia);
-        $cliente   = $em->getRepository('RMClienteBundle:Cliente')->find($id_cliente);
+        $cliente = $em->getRepository('RMClienteBundle:Cliente')->find($id_cliente);
 
         $plantilla = $instancia->getIdSegmentoComunicacion()->getIdComunicacion()->getPlantilla();
 
@@ -1175,13 +1175,13 @@ class InstanciaController extends RMController
         $request = $this->get('request');
 
         //look for the referer route
-        $referer  = $request->headers->get('referer');
+        $referer = $request->headers->get('referer');
         $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
         $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
 
-        $matcher    = $this->get('router')->getMatcher();
+        $matcher = $this->get('router')->getMatcher();
         $parameters = $matcher->match($lastPath);
-        $route      = $parameters['_route'];
+        $route = $parameters['_route'];
 
         return $route;
     }

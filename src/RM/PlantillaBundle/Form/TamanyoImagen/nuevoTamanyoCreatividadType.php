@@ -17,20 +17,19 @@ class nuevoTamanyoCreatividadType extends nuevoTamanyoProductoType
 {
     public function build(FormBuilderInterface $builder, Options $options)
     {
-        $builder->add('codigo','text', ['required'=>true])
+        $builder->add('codigo', 'text', ['required' => true])
             ->add('ancho', 'number', ['required' => true])
             ->add('alto', 'number', ['required' => true])
-            ->add('estado', 'hidden', array(
-                    'data' => '1',
-                ))
-            ->add('tipo', 'choice', array(
-                    'choices' => array(
-                        TamanyoImagen::PRODUCTO => 'tamanyo.producto',
-                        TamanyoImagen::MARCA    => 'tamanyo.marca',
-                        TamanyoImagen::CREATIVIDAD => 'tamanyo.creatividad'
-                    )
-                ))
-        ;
+            ->add('estado', 'hidden', [
+                'data' => '1',
+            ])
+            ->add('tipo', 'choice', [
+                'choices' => [
+                    TamanyoImagen::PRODUCTO    => 'tamanyo.producto',
+                    TamanyoImagen::MARCA       => 'tamanyo.marca',
+                    TamanyoImagen::CREATIVIDAD => 'tamanyo.creatividad'
+                ]
+            ]);
     }
 
     public function getName()

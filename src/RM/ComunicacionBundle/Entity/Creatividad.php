@@ -12,35 +12,35 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Creatividad
 {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id_creatividad", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 */
-	private $idCreatividad;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_creatividad", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCreatividad;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
-	 */
-	private $nombre;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
-	 */
-	private $descripcion;
-	
-	/**
-	 * @var smallint
-	 *
-	 * @ORM\Column(name="estado", type="smallint", nullable=true)
-	 */
-	private $estado;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var smallint
+     *
+     * @ORM\Column(name="estado", type="smallint", nullable=true)
+     */
+    private $estado;
 
     private $tamanyoImagen;
 
@@ -54,85 +54,88 @@ class Creatividad
     {
         return $this->tamanyoImagen;
     }
-	
 
-	/**
-	 * Get idCreatividad
-	 *
-	 * @return integer
-	 */
 
-	public function getIdCreatividad()
-	{
-		return $this->idCreatividad;
-	}
+    /**
+     * Get idCreatividad
+     *
+     * @return integer
+     */
 
-	/**
-	 * Set nombre
-	 *
-	 * @param string $nombre
-	 * @return Creatividad
-	 */
-	public function setNombre($nombre)
-	{
-		$this->nombre = $nombre;
+    public function getIdCreatividad()
+    {
+        return $this->idCreatividad;
+    }
 
-		return $this;
-	}
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Creatividad
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
 
-	/**
-	 * Get nombre
-	 *
-	 * @return string
-	 */
-	public function getNombre()
-	{
-		return $this->nombre;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set descripcion
-	 *
-	 * @param string $descripcion
-	 * @return Creatividad
-	 */
-	public function setDescripcion($descripcion)
-	{
-		$this->descripcion = $descripcion;
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
 
-		return $this;
-	}
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     *
+     * @return Creatividad
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
 
-	/**
-	 * Get descripcion
-	 *
-	 * @return string
-	 */
-	public function getDescripcion()
-	{
-		return $this->descripcion;
-	}
-	
-	/**
-	 * Set estado
-	 *
-	 * @param smallint $estado
-	 * @return Creatividad
-	 */
-	public function setEstado($estado)
-	{
-		$this->estado = $estado;
-	
-		return $this;
-	}
-	
-	/**
-	 * Get estado
-	 *
-	 * @return smallint
-	 */
-	public function getEstado()
-	{
-		return $this->estado;
-	}
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param smallint $estado
+     *
+     * @return Creatividad
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return smallint
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
 }

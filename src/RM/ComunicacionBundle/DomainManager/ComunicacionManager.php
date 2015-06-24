@@ -41,8 +41,11 @@ class ComunicacionManager
      */
     private $validator;
 
-    public function __construct(DoctrineManager $doctrine, EventDispatcherInterface $dispatcher, ValidatorInterface $validator)
-    {
+    public function __construct(
+        DoctrineManager $doctrine,
+        EventDispatcherInterface $dispatcher,
+        ValidatorInterface $validator
+    ) {
         $this->em = $doctrine->getManager();
         $this->repository = $this->em->getRespository('RMComunicacionBundle:Comunicacion');
         $this->dispatcher = $dispatcher;
@@ -51,6 +54,7 @@ class ComunicacionManager
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function find($id)
@@ -62,6 +66,7 @@ class ComunicacionManager
 
     /**
      * @param Comunicacion $comunicacion
+     *
      * @throws \Exception
      */
     public function save(Comunicacion $comunicacion)
@@ -69,8 +74,8 @@ class ComunicacionManager
         $errors = $this->validator->validate($comunicacion);
         if (!0 === count($errors)) {
             throw new \Exception(sprintf(
-                    'La comunicación no es válida y no se ha podido guardar'
-                ));
+                'La comunicación no es válida y no se ha podido guardar'
+            ));
         }
         $this->em->persist($comunicacion);
         $this->em->flush();
@@ -89,5 +94,4 @@ class ComunicacionManager
     }
 
 
-
-} 
+}

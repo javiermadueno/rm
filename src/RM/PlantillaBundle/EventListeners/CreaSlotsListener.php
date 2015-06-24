@@ -29,7 +29,7 @@ class CreaSlotsListener
     {
         try {
             $this->em = $manager->getManager();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
     }
@@ -41,21 +41,20 @@ class CreaSlotsListener
     {
         $grupo = $event->getGrupoSlots();
 
-        if(!$grupo instanceof GrupoSlotsInterface) {
+        if (!$grupo instanceof GrupoSlotsInterface) {
             return;
         }
-        $numSlots = (int) $grupo->getNumSlots();
+        $numSlots = (int)$grupo->getNumSlots();
 
-        if($numSlots <= 0) {
+        if ($numSlots <= 0) {
             return;
         }
 
-        for($i = 0; $i < $numSlots; $i++)
-        {
+        for ($i = 0; $i < $numSlots; $i++) {
             $slot = new Slot();
 
             $slot->setIdGrupo($grupo)
-                ->setCodigo(uniqid($grupo->getIdGrupo().'_'))
+                ->setCodigo(uniqid($grupo->getIdGrupo() . '_'))
                 ->setEstado(1);
 
             $this->em->persist($slot);

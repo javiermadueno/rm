@@ -10,7 +10,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
  * @Mongo\Document(collection="instancia_comunicacion_cliente", repositoryClass="InstanciaComunicacionClienteRepository")
  * @Mongo\Index(keys={"_id.id_instancia", "_id.id_cliente", "_id.id_slot"})
  */
-
 class InstanciaComunicacionCliente implements \JsonSerializable
 {
     /**
@@ -56,9 +55,6 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     private $creatividad;
 
 
-
-
-
     /**
      * Get id
      *
@@ -73,6 +69,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set cliente
      *
      * @param int $cliente
+     *
      * @return self
      */
     public function setCliente($cliente)
@@ -95,6 +92,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set instancia
      *
      * @param int $instancia
+     *
      * @return self
      */
     public function setInstancia($instancia)
@@ -117,6 +115,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set promocion
      *
      * @param int $promocion
+     *
      * @return self
      */
     public function setPromocion($promocion)
@@ -139,6 +138,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set slot
      *
      * @param int $slot
+     *
      * @return self
      */
     public function setSlot($slot)
@@ -160,10 +160,10 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
+            'id'        => $this->id,
             'instancia' => $this->id_instancia,
-            'cliente' => $this->id_cliente,
-            'slot' => $this->id_slot,
+            'cliente'   => $this->id_cliente,
+            'slot'      => $this->id_slot,
         ];
     }
 
@@ -171,6 +171,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set idCliente
      *
      * @param int $idCliente
+     *
      * @return self
      */
     public function setIdCliente($idCliente)
@@ -193,6 +194,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set idInstancia
      *
      * @param int $idInstancia
+     *
      * @return self
      */
     public function setIdInstancia($idInstancia)
@@ -215,6 +217,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set idSlot
      *
      * @param int $idSlot
+     *
      * @return self
      */
     public function setIdSlot($idSlot)
@@ -237,6 +240,7 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set creatividad
      *
      * @param hash $creatividad
+     *
      * @return self
      */
     public function setCreatividad($creatividad)

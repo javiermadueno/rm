@@ -26,7 +26,7 @@ class CreatividadServicio
             $nombre = '';
         }
 
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Creatividad');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Creatividad');
         $registros = $repo->obtenerCreatividadByFiltro($nombre);
 
         return $registros;
@@ -34,7 +34,7 @@ class CreatividadServicio
 
     public function getCreatividadById($idCreatividad)
     {
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Creatividad');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Creatividad');
         $registros = $repo->obtenerCreatividadById($idCreatividad);
 
         return $registros;
@@ -42,7 +42,7 @@ class CreatividadServicio
 
     public function getCreatividadByFiltroDQL($nombre)
     {
-        $repo     = $this->em->getRepository('RMComunicacionBundle:Creatividad');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Creatividad');
         $consulta = $repo->obtenerCreatividadByFiltroDQL($nombre);
 
         return $consulta;
@@ -67,7 +67,7 @@ class CreatividadServicio
 
     public function getPromocionesCreatividad($idInstancia)
     {
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Creatividad');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Creatividad');
         $registros = $repo->obtenerPromocionesCreatividad($idInstancia);
 
         return $registros;
@@ -75,7 +75,7 @@ class CreatividadServicio
 
     public function getGrupoSlotsNumPromocionesCreatividad($idInstancia)
     {
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Creatividad');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Creatividad');
         $registros = $repo->obtenerGrupoSlotsNumPromocionesCreatividad($idInstancia);
 
         return $registros;
@@ -229,12 +229,12 @@ class CreatividadServicio
                         $arrayIds = explode(",", $grupoSlot['idsPromoCrSegmentadas']);
                         foreach ($arrayIds as $idPC) {
                             $nomVarDesc = sprintf("seg_desc_%s_%s", $idGrupoSlots, $idPC);
-                            $nomVarCre  = sprintf("seg_idcre_%s_%s", $idGrupoSlots, $idPC);
-                            $nomVarSeg  = sprintf("seg_idseg_%s_%s", $idGrupoSlots, $idPC);
+                            $nomVarCre = sprintf("seg_idcre_%s_%s", $idGrupoSlots, $idPC);
+                            $nomVarSeg = sprintf("seg_idseg_%s_%s", $idGrupoSlots, $idPC);
 
                             $varGenDesc = $request->get($nomVarDesc);
-                            $varGenCre  = $request->get($nomVarCre);
-                            $varGenSeg  = $request->get($nomVarSeg);
+                            $varGenCre = $request->get($nomVarCre);
+                            $varGenSeg = $request->get($nomVarSeg);
 
                             $objPromCre = $this->em->find('RMProductoBundle:Promocion', $idPC);
 
@@ -262,8 +262,8 @@ class CreatividadServicio
                         if (sizeof($objNumPro) > 0) {
                             for ($i = 1; $i <= $numSegmentadasNuevas; $i++) {
                                 $nomVarDesc = sprintf("new_seg_desc_%s_%s", $idGrupoSlots, $i);
-                                $nomVarCre  = sprintf("new_seg_idcre_%s_%s", $idGrupoSlots, $i);
-                                $nomVarSeg  = sprintf("new_seg_idseg_%s_%s", $idGrupoSlots, $i);
+                                $nomVarCre = sprintf("new_seg_idcre_%s_%s", $idGrupoSlots, $i);
+                                $nomVarSeg = sprintf("new_seg_idseg_%s_%s", $idGrupoSlots, $i);
 
                                 //Si no esta relleno la descripción, no se guardará
                                 $varGenDesc = $request->get($nomVarDesc);
@@ -308,10 +308,10 @@ class CreatividadServicio
                         $arrayIds = explode(",", $grupoSlot['idsPromoCrGenericas']);
                         foreach ($arrayIds as $idPC) {
                             $nomVarDesc = sprintf("gen_desc_%s_%s", $idGrupoSlots, $idPC);
-                            $nomVarCre  = sprintf("gen_idcre_%s_%s", $idGrupoSlots, $idPC);
+                            $nomVarCre = sprintf("gen_idcre_%s_%s", $idGrupoSlots, $idPC);
 
                             $varGenDesc = $request->get($nomVarDesc);
-                            $varGenCre  = $request->get($nomVarCre);
+                            $varGenCre = $request->get($nomVarCre);
 
                             $objPromCre = $this->em->getRepository('RMProductoBundle:Promocion')->find($idPC);
 
@@ -336,7 +336,7 @@ class CreatividadServicio
                         if (sizeof($objNumPro) > 0) {
                             for ($i = 1; $i <= $numGenericasNuevas; $i++) {
                                 $nomVarDesc = sprintf("new_gen_desc_%s_%s", $idGrupoSlots, $i);
-                                $nomVarCre  = sprintf("new_gen_idcre_%s_%s", $idGrupoSlots, $i);
+                                $nomVarCre = sprintf("new_gen_idcre_%s_%s", $idGrupoSlots, $i);
 
                                 //Si no esta relleno la descripción, no se guardará
                                 $varGenDesc = $request->get($nomVarDesc);
@@ -394,10 +394,10 @@ class CreatividadServicio
         $infoCreatividades = [];
         /** @var NumPromociones $numPro */
         foreach ($numPromociones as $numPro) {
-            $idGrupo     = $numPro->getIdGrupo()->getIdGrupo();
-            $idNumPro    = $numPro->getIdNumPro();
+            $idGrupo = $numPro->getIdGrupo()->getIdGrupo();
+            $idNumPro = $numPro->getIdNumPro();
             $segmentadas = $numPro->getPromocionesSegentadas()->toArray();
-            $genericas   = $numPro->getPromocionesGenericas()->toArray();
+            $genericas = $numPro->getPromocionesGenericas()->toArray();
 
             $infoCreatividades[$idGrupo][$idNumPro] = [
                 'numPromocion' => $numPro,

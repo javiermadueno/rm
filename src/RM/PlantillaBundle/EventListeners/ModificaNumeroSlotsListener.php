@@ -20,28 +20,28 @@ class ModificaNumeroSlotsListener
     {
         $grupoSlots = $event->getEntity();
 
-        if(!$grupoSlots instanceof GrupoSlotsInterface) {
+        if (!$grupoSlots instanceof GrupoSlotsInterface) {
             return;
         }
 
         $em = $event->getEntityManager();
 
-        $numSlotsPreUpdate  = $grupoSlots->getSlots()->count();
+        $numSlotsPreUpdate = $grupoSlots->getSlots()->count();
         $numSlotsPostUpdate = $grupoSlots->getNumSlots();
 
-        if($numSlotsPostUpdate == $numSlotsPreUpdate) {
+        if ($numSlotsPostUpdate == $numSlotsPreUpdate) {
             return;
         }
 
-        if($numSlotsPostUpdate > $numSlotsPreUpdate) {
+        if ($numSlotsPostUpdate > $numSlotsPreUpdate) {
             $numSlotsNuevos = $numSlotsPostUpdate - $numSlotsPreUpdate;
 
-            for($i=0; $i<$numSlotsNuevos; $i++) {
+            for ($i = 0; $i < $numSlotsNuevos; $i++) {
                 $slot = new Slot();
 
                 $slot->setEstado(1)
                     ->setIdGrupo($grupoSlots)
-                    ->setCodigo(uniqid($grupoSlots->getIdGrupo().'_'));
+                    ->setCodigo(uniqid($grupoSlots->getIdGrupo() . '_'));
 
                 $em->persist($slot);
             }
@@ -50,13 +50,13 @@ class ModificaNumeroSlotsListener
             return;
         }
 
-        if($numSlotsPostUpdate < $numSlotsPreUpdate) {
+        if ($numSlotsPostUpdate < $numSlotsPreUpdate) {
             $numSlotsABorrar = $numSlotsPreUpdate - $numSlotsPostUpdate;
             /** @var ArrayCollection $slots */
             $slots = $grupoSlots->getSlots();
 
             $slots->last();
-            while($numSlotsABorrar) {
+            while ($numSlotsABorrar) {
                 $slot = $slots->last();
                 $em->remove($slot);
                 $slots->removeElement($slot);

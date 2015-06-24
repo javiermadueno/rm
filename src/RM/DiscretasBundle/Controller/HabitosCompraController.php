@@ -14,8 +14,8 @@ class HabitosCompraController extends Controller
 
     public function editAction(Request $request, $id_vid)
     {
-        $em       = $this->get('rm.manager')->getManager();
-        $repo     = $em->getRepository('RMDiscretasBundle:Vid');
+        $em = $this->get('rm.manager')->getManager();
+        $repo = $em->getRepository('RMDiscretasBundle:Vid');
         $servicio = $this->get('variablesdiscretas');
 
         $variable = $repo->findById($id_vid);
@@ -25,8 +25,8 @@ class HabitosCompraController extends Controller
         }
 
         $vidGrupoSegmento = $servicio->getGSbyIdVid($variable);
-        $segmentos        = $servicio->getSegmentosByIdGrupo($vidGrupoSegmento->getIdVidGrupoSegmento());
-        $criterioGlobal   = $servicio->getCriteriosGlobales()[0];
+        $segmentos = $servicio->getSegmentosByIdGrupo($vidGrupoSegmento->getIdVidGrupoSegmento());
+        $criterioGlobal = $servicio->getCriteriosGlobales()[0];
 
         if ($vidGrupoSegmento->getPersonalizado() && $variable->getSolicitaTiempo() === Vid::SOLICITA_N) {
             $form = $this->createForm(new ModificarGrupoType(), $vidGrupoSegmento);

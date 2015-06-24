@@ -16,58 +16,62 @@ class InstanciaComunicacionClienteRepository extends DocumentRepository
      * @param $id_cliente
      * @param $id_instancia
      * @param $id_slot
+     *
      * @return array
      * @throws \Exception
      */
     public function findByClienteIntanciaSlot($id_cliente, $id_instancia, $id_slot)
     {
-        if(!$id_cliente || !$id_instancia || !$id_slot){
+        if (!$id_cliente || !$id_instancia || !$id_slot) {
             throw new \Exception(sprintf("Faltan argumentos"));
         }
 
-        return $this->findBy(array(
-                'id_instancia'  => $id_instancia,
-                'id_cliente'    => $id_cliente,
-                'id_slot'       => $id_slot
-            ));
+        return $this->findBy([
+            'id_instancia' => $id_instancia,
+            'id_cliente'   => $id_cliente,
+            'id_slot'      => $id_slot
+        ]);
     }
 
     /**
      * @param $id_slot
+     *
      * @return array
      * @throws \Exception
      */
     public function findBySlot($id_slot)
     {
-        if(!$id_slot) {
+        if (!$id_slot) {
             throw new \Exception("Argumento no valido");
         }
 
-        return $this->findBy(array(
-                'id_slot' => $id_slot
-            ));
+        return $this->findBy([
+            'id_slot' => $id_slot
+        ]);
     }
 
     /**
      * @param $id_cliente
      * @param $id_instancia
+     *
      * @return array
      * @throws \Exception
      */
     public function findByClienteInstancia($id_cliente, $id_instancia)
     {
-        if(!$id_instancia || !$id_cliente) {
+        if (!$id_instancia || !$id_cliente) {
             throw new \Exception("Argumento no valido");
         }
 
-        return $this->findBy(array(
-                'id_instancia' => $id_instancia,
-                'id_cliente'   => $id_cliente,
-            ));
+        return $this->findBy([
+            'id_instancia' => $id_instancia,
+            'id_cliente'   => $id_cliente,
+        ]);
     }
 
     /**
      * @param $id_instancia
+     *
      * @return array
      */
     public function findIdClienteByInstancia($id_instancia)

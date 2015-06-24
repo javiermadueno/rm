@@ -18,10 +18,9 @@ class CreatividadRepository extends EntityRepository
 		AND c.estado > -1";
 
 
-        $query    = $this->_em
+        $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('id_creatividad', $idCreatividad)
-        ;
+            ->setParameter('id_creatividad', $idCreatividad);
         $registro = $query->getResult();
 
         return $registro;
@@ -40,17 +39,15 @@ class CreatividadRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('c')
             ->where('c.estado > -1')
-            ->orderBy('c.nombre', 'ASC')
-        ;
+            ->orderBy('c.nombre', 'ASC');
 
         if (!empty($nombre)) {
             $qb
                 ->andWhere('c.nombre like :nombre')
-                ->setParameter('nombre', sprintf("%%%s%%", $nombre))
-            ;
+                ->setParameter('nombre', sprintf("%%%s%%", $nombre));
         }
 
-       $registro = $qb->getQuery()->getResult();
+        $registro = $qb->getQuery()->getResult();
 
         return $registro;
     }

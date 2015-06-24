@@ -3,7 +3,6 @@
 namespace RM\RMMongoBundle\DependencyInjection;
 
 
-
 use IMAG\LdapBundle\User\LdapUser;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -13,7 +12,7 @@ class MongoService
     /**
      * @var TokenStorageInterface
      */
-    protected  $sc;
+    protected $sc;
 
     /**
      * @var \MongoClient
@@ -53,7 +52,7 @@ class MongoService
     public function __construct(TokenStorageInterface $security, array $config)
     {
         $this->sc = $security;
-        $this->config =  $config;
+        $this->config = $config;
         $this->user = $this->sc->getToken()->getUser();
         $this->getParameters();
         $this->connect();
@@ -69,7 +68,7 @@ class MongoService
     public function getParameters()
     {
 
-        if(!$this->parameters){
+        if (!$this->parameters) {
             $this->parameters = [];
         }
 
@@ -82,7 +81,7 @@ class MongoService
 
         $cliente = strtolower($this->user->getCliente());
 
-        if(array_key_exists($cliente, $connections)){
+        if (array_key_exists($cliente, $connections)) {
             $this->parameters = $resolver->resolve($connections[$cliente]);
             return;
         }

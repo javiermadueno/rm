@@ -19,6 +19,7 @@ class GrupoSlotsToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param Object|GrupoSlotsInterface $entity
+     *
      * @return int
      */
     protected function getId($entity)
@@ -28,6 +29,7 @@ class GrupoSlotsToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param int $id
+     *
      * @return Object|GrupoSlotsInterface
      */
     protected function getEntity($id)

@@ -7,42 +7,45 @@ use Doctrine\ORM\Query;
 
 class GrupoSlotsRepository extends EntityRepository
 {
-	public function obtenerGrupoSlotsById($id_grupoSlots) {
-	
-		$em = $this->getEntityManager();
+    public function obtenerGrupoSlotsById($id_grupoSlots)
+    {
 
-		$dql = "SELECT p
+        $em = $this->getEntityManager();
+
+        $dql = "SELECT p
             FROM RMPlantillaBundle:GrupoSlots p
 			WHERE p.idGrupo = :idGrupo";
-	
-		$query = $em->createQuery($dql);
-		$query->setParameter('idGrupo', $id_grupoSlots);
-	
-		$registros = $query->getResult();
-	
-		return $registros;
-	}
-	
-	public function eliminarGSById($id_grupo_slots){
-	
-		$em = $this->getEntityManager();
 
-	
-		$dql = "
+        $query = $em->createQuery($dql);
+        $query->setParameter('idGrupo', $id_grupoSlots);
+
+        $registros = $query->getResult();
+
+        return $registros;
+    }
+
+    public function eliminarGSById($id_grupo_slots)
+    {
+
+        $em = $this->getEntityManager();
+
+
+        $dql = "
 				UPDATE RMPlantillaBundle:GrupoSlots gs
 				SET gs.estado = -1
 				WHERE gs.idGrupo IN (:idGrupoSlots)";
-	
-		$query = $em->createQuery($dql)
-                    ->setParameter('idGrupoSlots', $id_grupo_slots);
-	
-		$registros = $query->getResult();
-	
-		return $registros;
-	
-	}
 
-    public function obtenerGrupoSlotsCreatividadConPromocion($id_instancia){
+        $query = $em->createQuery($dql)
+            ->setParameter('idGrupoSlots', $id_grupo_slots);
+
+        $registros = $query->getResult();
+
+        return $registros;
+
+    }
+
+    public function obtenerGrupoSlotsCreatividadConPromocion($id_instancia)
+    {
 
         $em = $this->getEntityManager();
 
@@ -64,8 +67,8 @@ class GrupoSlotsRepository extends EntityRepository
     }
 
 
-
-    public function obtenerGrupoSlotsCreatividadPromocionConNumeroSlots($id_instancia) {
+    public function obtenerGrupoSlotsCreatividadPromocionConNumeroSlots($id_instancia)
+    {
 
         $em = $this->getEntityManager();
 
@@ -88,7 +91,7 @@ class GrupoSlotsRepository extends EntityRepository
 
     public function findGruposSlotsByComunicacion($id_comunicacion = 0)
     {
-        if(!$id_comunicacion) {
+        if (!$id_comunicacion) {
             return null;
         }
 
@@ -119,7 +122,7 @@ class GrupoSlotsRepository extends EntityRepository
 
     public function findGruposSlotsByPlantilla($idPlantilla)
     {
-        $dql =  "
+        $dql = "
             SELECT gs
             FROM RMPlantillaBundle:GrupoSlots gs
             WHERE gs.idPlantilla = :id_plantilla

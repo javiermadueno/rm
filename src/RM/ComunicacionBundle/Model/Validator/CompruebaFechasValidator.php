@@ -7,6 +7,7 @@
  */
 
 namespace RM\ComunicacionBundle\Model\Validator;
+
 use RM\ComunicacionBundle\Model\Interfaces\FechaInicioFinInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -16,15 +17,15 @@ class CompruebaFechasValidator extends ConstraintValidator
 {
     public function validate($entidad, Constraint $constraint)
     {
-        if(!$entidad instanceof FechaInicioFinInterface) {
+        if (!$entidad instanceof FechaInicioFinInterface) {
             return;
         }
 
         $fechaInicio = $entidad->getFecInicio();
         $fechaFin = $entidad->getFecFin();
 
-        if($fechaInicio > $fechaFin) {
-            $this->context->addViolationAt('fecFin', $constraint->message, array(), null);
+        if ($fechaInicio > $fechaFin) {
+            $this->context->addViolationAt('fecFin', $constraint->message, [], null);
         }
     }
 } 

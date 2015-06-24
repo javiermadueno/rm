@@ -22,7 +22,7 @@ class ResultadoClienteRepository extends DocumentRepository
         $meses = iterator_to_array($meses);
         $meses = array_reverse($meses);
 
-        $resultado = array();
+        $resultado = [];
 
         foreach ($meses as $mes) {
             if (is_null($mes)) {
@@ -31,7 +31,7 @@ class ResultadoClienteRepository extends DocumentRepository
 
             list($year, $month) = explode('-', $mes);
             $resultado[] = [
-                'id' => $mes,
+                'id'    => $mes,
                 'fecha' => new \DateTime(sprintf('01-%s-%s', $month, $year))
             ];
         }

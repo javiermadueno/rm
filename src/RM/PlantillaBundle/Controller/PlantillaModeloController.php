@@ -32,7 +32,6 @@ class PlantillaModeloController extends RMController
     }
 
 
-
     /**
      * @param Request $request
      *
@@ -61,7 +60,7 @@ class PlantillaModeloController extends RMController
     public function createAction(Request $request)
     {
         $plantilla = new Plantilla();
-        $form      = $this->createCreateForm($plantilla);
+        $form = $this->createCreateForm($plantilla);
 
         $form->handleRequest($request);
 
@@ -105,7 +104,7 @@ class PlantillaModeloController extends RMController
     public function newAction()
     {
         $plantilla = new Plantilla();
-        $form      = $this->createCreateForm($plantilla);
+        $form = $this->createCreateForm($plantilla);
 
         return $this->render('RMPlantillaBundle:PlantillaModelo:new.html.twig', [
             'entity' => $plantilla,
@@ -135,7 +134,7 @@ class PlantillaModeloController extends RMController
 
         $editable = empty($comunicaciones_generadas);
 
-        $editForm   = $this->createEditForm($plantilla);
+        $editForm = $this->createEditForm($plantilla);
         $deleteForm = $this->createDeleteForm($plantilla->getIdPlantilla());
 
         return $this->render('RMPlantillaBundle:PlantillaModelo:edit.html.twig', [
@@ -284,7 +283,7 @@ class PlantillaModeloController extends RMController
             return false;
         }
 
-        if(!$plantilla->getEditable()) {
+        if (!$plantilla->getEditable()) {
             $this->addFlash('mensaje', 'mensaje.error.eliminar');
             return false;
         }

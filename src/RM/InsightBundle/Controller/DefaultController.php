@@ -14,7 +14,7 @@ class DefaultController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
 
-        list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request, self::RES_MENSUAL);
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request, self::RES_MENSUAL);
 
         $resultado1 = $dm->getRepository('RMMongoBundle:ResultadoMensual')->findOneBy(['id' => $mes1]);
         $resultado2 = $dm->getRepository('RMMongoBundle:ResultadoMensual')->findOneBy(['id' => $mes2]);
@@ -62,7 +62,7 @@ class DefaultController extends Controller
 
     public function performanceAction(Request $request)
     {
-        list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request);
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
@@ -80,7 +80,7 @@ class DefaultController extends Controller
 
     public function evolutionAction(Request $request)
     {
-        list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request);
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
@@ -91,24 +91,24 @@ class DefaultController extends Controller
             ->getGraficoEvolucionSegmentos('grafico');
 
         return $this->render('RMInsightBundle:Clientes:evolucion.html.twig', [
-            'meses'      => $meses,
-            'mes1'       => $mes1,
-            'mes2'       => $mes2,
-            'datos'      => $resultado,
-            'grafica'    => $grafica
+            'meses'   => $meses,
+            'mes1'    => $mes1,
+            'mes2'    => $mes2,
+            'datos'   => $resultado,
+            'grafica' => $grafica
         ]);
     }
 
     public function clienteNewAction(Request $request)
     {
-        list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request);
 
         $servicio_graficas = $this->get('rm_insight.clientes_nuevos_por_estado_y_segmento');
 
-        $graficaSexo1           = $servicio_graficas->graficaPorSexo([$mes1, $mes2], 'graficoSexos');
-        $graficaEdades          = $servicio_graficas->graficoPorEdades([$mes1, $mes2], 'graficoBarrasEdad');
-        $graficaFranjaHoraria   = $servicio_graficas->graficoFranjaHoraria([$mes1, $mes2], 'graficoBarrasFranjaHoraria');
-        $graficaDias            = $servicio_graficas->graficoDia([$mes1, $mes2], 'graficoBarrasDia');
+        $graficaSexo1 = $servicio_graficas->graficaPorSexo([$mes1, $mes2], 'graficoSexos');
+        $graficaEdades = $servicio_graficas->graficoPorEdades([$mes1, $mes2], 'graficoBarrasEdad');
+        $graficaFranjaHoraria = $servicio_graficas->graficoFranjaHoraria([$mes1, $mes2], 'graficoBarrasFranjaHoraria');
+        $graficaDias = $servicio_graficas->graficoDia([$mes1, $mes2], 'graficoBarrasDia');
 
         return $this->render('RMInsightBundle:Default:clienteNew.html.twig', [
             'fechaInicial'  => 'Ago-2014',
@@ -126,7 +126,7 @@ class DefaultController extends Controller
     public function clienteActivoAction(Request $request)
     {
 
-        list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request);
 
         $servicio_graficas = $this->get('rm_insight.clientes_activos_por_estado_y_segmento');
 
@@ -809,7 +809,7 @@ class DefaultController extends Controller
         $mes1 = isset($meses[0]['id']) ? $meses[0]['id'] : null;
         $mes2 = isset($meses[1]['id']) ? $meses[1]['id'] : null;
 
-        if(null !== $fecha = $request->get('fecha')){
+        if (null !== $fecha = $request->get('fecha')) {
             $mes1 = $fecha['desde'];
             $mes2 = $fecha['hasta'];
         }
@@ -820,7 +820,7 @@ class DefaultController extends Controller
             $mes2 = $mes1;
         }
 
-        if($mes1 > $mes2) {
+        if ($mes1 > $mes2) {
             $aux = $mes1;
             $mes1 = $mes2;
             $mes2 = $aux;

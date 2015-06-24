@@ -24,73 +24,72 @@ class ContibucionesMensualesVsClientes
     {
         $this->chart = new Highchart();
 
-        $series = array();
+        $series = [];
 
         /** @var ResultadoMensual $mes */
         foreach ($meses as $mes) {
             $series['contribuciones'][] = is_null($mes->getContribucionClientes()) ? 0 : $mes->getContribucionClientes();
             $series['numeroClientes'][] = is_null($mes->getNumeroClientes()) ? 0 : $mes->getNumeroClientes();
-            $series['fechas'][]         = $mes->getFecha()->format('M-Y');
+            $series['fechas'][] = $mes->getFecha()->format('M-Y');
         }
 
-        
-        $data  = array(
 
-            array(
+        $data = [
+
+            [
                 'name'  => 'Numero de contribuciones',
                 'type'  => 'column',
                 'color' => '#4572A7',
                 'yAxis' => 1,
                 'data'  => $series['contribuciones']
 
-            ),
-            array(
+            ],
+            [
                 'name'  => 'Numero de miembros',
                 'type'  => 'spline',
                 'color' => '#AA4643',
                 'yAxis' => 0,
                 'data'  => $series['numeroClientes']
-            ),
-        );
+            ],
+        ];
 
-        $yData = array(
-            array(
-                'labels' => array(
-                    'style'     => array('color' => '#AA4643')
-                ),
-                'title' => array(
+        $yData = [
+            [
+                'labels' => [
+                    'style' => ['color' => '#AA4643']
+                ],
+                'title'  => [
                     'text'  => 'Numero de miembros',
-                    'style' => array('color' => '#AA4643')
-                ),
-            ),
-            array(
-                'labels' => array(
+                    'style' => ['color' => '#AA4643']
+                ],
+            ],
+            [
+                'labels'        => [
                     'formatter' => new Expr('function () { return this.value + " %" }'),
-                    'style'     => array('color' => '#4572A7')
-                ),
+                    'style'     => ['color' => '#4572A7']
+                ],
                 'gridLineWidth' => 0,
-                'title' => array(
+                'title'         => [
                     'text'  => 'Numero de contribuciones',
-                    'style' => array('color' => '#4572A7')
-                ),
-                'opposite' => true,
-            ),
-        );
+                    'style' => ['color' => '#4572A7']
+                ],
+                'opposite'      => true,
+            ],
+        ];
 
 
-        $this->chart->chart->renderTo ( 'contribucionesClientesVsMiembros' );
-        $this->chart->chart->type ( 'column' );
-        $this->chart->title->text ( 'Contribuciones mensuales vs miembros' );
-        $this->chart->xAxis->categories ( $series['fechas'] );
+        $this->chart->chart->renderTo('contribucionesClientesVsMiembros');
+        $this->chart->chart->type('column');
+        $this->chart->title->text('Contribuciones mensuales vs miembros');
+        $this->chart->xAxis->categories($series['fechas']);
         $this->chart->yAxis($yData);
-
 
 
         $this->chart->tooltip->shared = true;
 
-        $this->chart->legend->enabled ( false );
+        $this->chart->legend->enabled(false);
 
-        $this->chart->series ( $data );
+        $this->chart->series($data);
 
         return $this->chart;
     }

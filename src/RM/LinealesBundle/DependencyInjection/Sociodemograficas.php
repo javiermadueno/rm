@@ -17,7 +17,8 @@ class Sociodemograficas
     private $em;
 
 
-    public function __construct(DoctrineManager $doctrine) {
+    public function __construct(DoctrineManager $doctrine)
+    {
 
         $this->em = $doctrine->getManager();
 
@@ -29,7 +30,7 @@ class Sociodemograficas
      */
     public function  obtenerVariableSociodemograficas()
     {
-        $socioDemograficasLineales  = $this->buscaVariablesSociodemograficasLineales();
+        $socioDemograficasLineales = $this->buscaVariablesSociodemograficasLineales();
         $socioDemograficasDiscretas = $this->buscaVariablesSociodemograficasDiscretas();
 
         return array_merge($socioDemograficasLineales, $socioDemograficasDiscretas);
@@ -37,18 +38,19 @@ class Sociodemograficas
 
     /**
      * @param string $nombre
+     *
      * @return array
      */
     public function findVariablesSociodemograficasPorNombre($nombre = '')
     {
-        if(empty($nombre)) {
+        if (empty($nombre)) {
             return $this->obtenerVariableSociodemograficas();
         }
 
         $lineales = $this->findVariablesSociodemograficasLinealesByNombre($nombre);
         $discretas = $this->findVariablesSociodemograficasDiscretasByNombre($nombre);
 
-        return array_merge($lineales, $discretas );
+        return array_merge($lineales, $discretas);
     }
 
     /**
@@ -63,7 +65,7 @@ class Sociodemograficas
               LEFT JOIN RMDiscretasBundle:Tipo t WITH (v.tipo = t.id AND t.codigo = :codigoSociodemograficas)
         ";
         $query = $this->em->createQuery($dql_lineales)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
-        $lineales =  $query->getResult();
+        $lineales = $query->getResult();
 
         return $lineales;
     }
@@ -83,7 +85,8 @@ class Sociodemograficas
         ";
 
 
-        $query = $this->em->createQuery($dql_discretas)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
+        $query = $this->em->createQuery($dql_discretas)->setParameter('codigoSociodemograficas',
+            Tipo::SOCIODEMOGRAFICO);
         $discretas = $query->getResult();
 
         return $discretas;
@@ -91,6 +94,7 @@ class Sociodemograficas
 
     /**
      * @param $nombre
+     *
      * @return mixed
      */
     public function findVariablesSociodemograficasLinealesByNombre($nombre)
@@ -106,9 +110,9 @@ class Sociodemograficas
 
         $query = $this->em->createQuery($dql_lineales)
             ->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO)
-            ->setParameter('nombre', sprintf('%%%s%%',$nombre));
+            ->setParameter('nombre', sprintf('%%%s%%', $nombre));
 
-        $lineales =  $query->getResult();
+        $lineales = $query->getResult();
 
         return $lineales;
     }
@@ -127,7 +131,7 @@ class Sociodemograficas
 
         $query = $this->em->createQuery($dql_discretas)
             ->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO)
-            ->setParameter('nombre', sprintf('%%%s%%',$nombre));
+            ->setParameter('nombre', sprintf('%%%s%%', $nombre));
 
         $discretas = $query->getResult();
 
@@ -136,7 +140,7 @@ class Sociodemograficas
 
     public function findDatosVariableSocioDemograficaLineal(Vil $variable = null)
     {
-        if(! $variable instanceof Vil) {
+        if (!$variable instanceof Vil) {
             throw new InvalidArgumentException();
         }
 
@@ -151,11 +155,11 @@ class Sociodemograficas
 
     public function findDatosVariableSociodemograficaDiscreta(Vid $variable = null)
     {
-        if(!$variable instanceof Vid){
+        if (!$variable instanceof Vid) {
             throw new InvalidArgumentException();
         }
 
-         $grupoSegmento = $this->em->getRepository('RMDiscretasBundle:VidGrupoSegmento')->findOneBy(
+        $grupoSegmento = $this->em->getRepository('RMDiscretasBundle:VidGrupoSegmento')->findOneBy(
             [
                 'idVid' => $variable->getIdVid()
             ]

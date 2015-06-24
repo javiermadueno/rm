@@ -37,6 +37,7 @@ class CambiaEstadoSegmentoComunicacion
      * Marca el segmentoDComunicacion como PAUSADO
      *
      * @param $idSegmentoComunicacion
+     *
      * @return bool
      */
     public function pararSegmentoComunicacion($idSegmentoComunicacion)
@@ -44,7 +45,7 @@ class CambiaEstadoSegmentoComunicacion
         $segmentoComunicacion =
             $this->getSegmentoComunicacion($idSegmentoComunicacion);
 
-        if(!$segmentoComunicacion instanceof SegmentoComunicacion ) {
+        if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
             return false;
         }
 
@@ -59,16 +60,17 @@ class CambiaEstadoSegmentoComunicacion
      * Marca el segmento comunicacion como ACTIVO
      *
      * @param $idSegmentoComunicacion
+     *
      * @return bool
      */
     public function reanudarSegmentoComunicacion($idSegmentoComunicacion)
     {
-      $segmentoComunicacion =
-          $this->getSegmentoComunicacion($idSegmentoComunicacion);
+        $segmentoComunicacion =
+            $this->getSegmentoComunicacion($idSegmentoComunicacion);
 
-      if(!$segmentoComunicacion instanceof SegmentoComunicacion ) {
-          return false;
-      }
+        if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
+            return false;
+        }
 
         $segmentoComunicacion
             ->setEstado(Comunicacion::ESTADO_ACTIVO);
@@ -82,6 +84,7 @@ class CambiaEstadoSegmentoComunicacion
      * Elimina el segmentoComunicacion
      *
      * @param $idSegmentoComunicacion
+     *
      * @return bool
      */
     public function eliminarSegmentoComunicacion($idSegmentoComunicacion)
@@ -89,7 +92,7 @@ class CambiaEstadoSegmentoComunicacion
         $segmentoComunicacion =
             $this->getSegmentoComunicacion($idSegmentoComunicacion);
 
-        if(!$segmentoComunicacion instanceof SegmentoComunicacion ) {
+        if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
             return false;
         }
 
@@ -102,6 +105,7 @@ class CambiaEstadoSegmentoComunicacion
 
     /**
      * @param int $idSegmentoComunicacion
+     *
      * @return SegmentoComunicacion
      */
     private function getSegmentoComunicacion($idSegmentoComunicacion = 0)
@@ -113,14 +117,15 @@ class CambiaEstadoSegmentoComunicacion
 
     /**
      * @param SegmentoComunicacion $segmentoComunicacion
+     *
      * @return null|SegmentoComunicacion
      */
     private function guardarSegmentoComunicacion(SegmentoComunicacion $segmentoComunicacion)
     {
-        try{
+        try {
             $this->em->persist($segmentoComunicacion);
             $this->em->flush();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 

@@ -25,29 +25,32 @@ class CalculaPoblacionService extends MongoService
     /**
      * Calcula el número de clientes que existen en base de datos que cumplen la condición
      *
-     * @param   string           $condicion
-     * @param   string|null    $fecha
+     * @param   string      $condicion
+     * @param   string|null $fecha
+     *
      * @return  int
      */
-    public function calculaPoblacion ($condicion, $fecha)
+    public function calculaPoblacion($condicion, $fecha)
     {
 
-        if(!$condicion) {
+        if (!$condicion) {
             throw new InvalidParameterException();
         }
 
-        function toArray ($d) {
+        function toArray($d)
+        {
             if (is_object($d)) {
                 $d = get_object_vars($d);
             }
 
             if (is_array($d)) {
                 return array_map(__FUNCTION__, $d);
-            }
-            else {
+            } else {
                 return $d;
             }
-        };
+        }
+
+        ;
 
         $condicion = json_decode($condicion);
         $condicion = toArray($condicion);
@@ -68,7 +71,9 @@ class CalculaPoblacionService extends MongoService
 
         $final = [
             '$and' => [
-                $condicion , $condicion_fecha_inicio, $condicion_fecha_fin
+                $condicion,
+                $condicion_fecha_inicio,
+                $condicion_fecha_fin
             ]
         ];
 
@@ -78,14 +83,14 @@ class CalculaPoblacionService extends MongoService
 
         $pipeline_group = [
             '$group' => [
-                "_id" => null,
+                "_id"   => null,
                 "count" => ['$sum' => 1]
             ]
         ];
 
         $res = $this->collection->aggregate($pipeline_match, $pipeline_group);
 
-        $poblacion = empty($res['result']) ? 0: $res['result'][0]['count'];
+        $poblacion = empty($res['result']) ? 0 : $res['result'][0]['count'];
         return intval($poblacion);
 
     }

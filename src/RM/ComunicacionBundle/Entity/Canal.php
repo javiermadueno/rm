@@ -13,49 +13,50 @@ use Doctrine\ORM\Mapping as ORM;
 class Canal
 {
     /**
-	 * @var string
-	 *
-	 * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
-	 */
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
     private $nombre;
 
     /**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id_canal", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 */
+     * @var integer
+     *
+     * @ORM\Column(name="id_canal", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private $idCanal;
 
 
     /**
-	 * Set nombre
-	 *
-	 * @param string $nombre
-	 * @return Canal
-	 */
-	public function setNombre($nombre)
-	{
-		$this->nombre = $nombre;
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Canal
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get nombre
-	 *
-	 * @return string
-	 */
-	public function getNombre()
-	{
-		return $this->nombre;
-	}
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
 
     /**
      * Get idCanal
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdCanal()
     {

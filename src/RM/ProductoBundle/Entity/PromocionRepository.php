@@ -142,7 +142,6 @@ class PromocionRepository extends EntityRepository
     {
 
 
-
         $dql = "select p
 		from RMProductoBundle:Promocion p
 		WHERE p.estado > -1
@@ -184,14 +183,14 @@ class PromocionRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder()
             ->select('p.simulado as simulado',
-              'c.nombre as nombreComunicacion',
-              'pr.nombre as nombreProducto',
-              'm.nombre as nombreMarca',
-              'tp.nombre as tipoPromocion',
-              'ic.fecCreacion as fecha',
-              'p.aceptada as aceptada',
-              'cat.idCategoria as idCategoria',
-              'm.idMarca as idMarca')
+                'c.nombre as nombreComunicacion',
+                'pr.nombre as nombreProducto',
+                'm.nombre as nombreMarca',
+                'tp.nombre as tipoPromocion',
+                'ic.fecCreacion as fecha',
+                'p.aceptada as aceptada',
+                'cat.idCategoria as idCategoria',
+                'm.idMarca as idMarca')
             ->from('RMProductoBundle:Promocion', 'p')
             ->join('p.idTipoPromocion', 'tp')
             ->join('p.idProducto', 'pr')
@@ -206,8 +205,7 @@ class PromocionRepository extends EntityRepository
             ->andWhere('fase.codigo = :fase_confirmacion')
             ->groupBy('p.idPromocion')
             ->orderBy('p.idPromocion', 'ASC')
-            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
-        ;
+            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION);
 
         if ($id_categoria > 0) {
             $qb->andWhere('np.idCategoria = :categoria')
@@ -237,62 +235,62 @@ class PromocionRepository extends EntityRepository
         return $qb->getQuery()->getResult();
 
         /**
-
-        $dql = "SELECT DISTINCT  p.idPromocion as id,
-              p.simulado as simulado,
-              c.nombre as nombreComunicacion,
-              pr.nombre as nombreProducto,
-              m.nombre as nombreMarca,
-              tp.nombre as tipoPromocion,
-              ic.fecCreacion as fecha,
-              p.aceptada as aceptada,
-              cat.idCategoria as idCategoria,
-              m.idMarca as idMarca
-            FROM RMProductoBundle:Promocion p
-            JOIN p.idTipoPromocion tp
-            JOIN p.idProducto pr
-            JOIN pr.idMarca m
-            JOIN p.numPromocion np
-            join np.idCategoria cat
-            JOIN np.idInstancia ic
-            JOIN ic.idSegmentoComunicacion sc
-            JOIN sc.idComunicacion c
-            JOIN  ic.fase as fase
-            WHERE
-              p.estado > -1
-              AND fase.codigo = :fase_confirmacion
-            ";
-
-
-        if ($id_categoria > 0) {
-            $dql .= "AND np.idCategoria = :categoria " . $id_categoria;
-        }
-
-        if ($id_producto > 0) {
-            $dql .= "AND pr.idProducto = " . $id_producto;
-        }
-
-        if ($id_marca > 0) {
-            $dql .= "AND m.idMarca = " . $id_marca;
-        }
-
-        if ($fechaInicio) {
-            $dql .= "AND ic.fecCreacion >= '" . $fechaInicio->format("Y-m-d") . "'";
-        }
-
-        if ($fechaFin) {
-            $dql .= "AND ic.fecCreacion <= '" . $fechaFin->format("Y-m-d") . "'";
-        }
-
-        $dql .= " GROUP BY p.idPromocion ORDER BY p.idPromocion";
-
-
-        $query = $this->_em
-            ->createQuery($dql)
-            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
-        ;
-
-        return $query->getResult();
+         *
+         * $dql = "SELECT DISTINCT  p.idPromocion as id,
+         * p.simulado as simulado,
+         * c.nombre as nombreComunicacion,
+         * pr.nombre as nombreProducto,
+         * m.nombre as nombreMarca,
+         * tp.nombre as tipoPromocion,
+         * ic.fecCreacion as fecha,
+         * p.aceptada as aceptada,
+         * cat.idCategoria as idCategoria,
+         * m.idMarca as idMarca
+         * FROM RMProductoBundle:Promocion p
+         * JOIN p.idTipoPromocion tp
+         * JOIN p.idProducto pr
+         * JOIN pr.idMarca m
+         * JOIN p.numPromocion np
+         * join np.idCategoria cat
+         * JOIN np.idInstancia ic
+         * JOIN ic.idSegmentoComunicacion sc
+         * JOIN sc.idComunicacion c
+         * JOIN  ic.fase as fase
+         * WHERE
+         * p.estado > -1
+         * AND fase.codigo = :fase_confirmacion
+         * ";
+         *
+         *
+         * if ($id_categoria > 0) {
+         * $dql .= "AND np.idCategoria = :categoria " . $id_categoria;
+         * }
+         *
+         * if ($id_producto > 0) {
+         * $dql .= "AND pr.idProducto = " . $id_producto;
+         * }
+         *
+         * if ($id_marca > 0) {
+         * $dql .= "AND m.idMarca = " . $id_marca;
+         * }
+         *
+         * if ($fechaInicio) {
+         * $dql .= "AND ic.fecCreacion >= '" . $fechaInicio->format("Y-m-d") . "'";
+         * }
+         *
+         * if ($fechaFin) {
+         * $dql .= "AND ic.fecCreacion <= '" . $fechaFin->format("Y-m-d") . "'";
+         * }
+         *
+         * $dql .= " GROUP BY p.idPromocion ORDER BY p.idPromocion";
+         *
+         *
+         * $query = $this->_em
+         * ->createQuery($dql)
+         * ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
+         * ;
+         *
+         * return $query->getResult();
          * */
     }
 

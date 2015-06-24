@@ -21,7 +21,7 @@ class CanalServicio
 
     public function getCanales()
     {
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Canal');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Canal');
         $registros = $repo->obtenerCanales();
 
         return $registros;
@@ -29,7 +29,7 @@ class CanalServicio
 
     public function getCanalById($id_canal)
     {
-        $repo     = $this->em->getRepository('RMComunicacionBundle:Canal');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Canal');
         $registro = $repo->obtenerCanalById($id_canal);
 
         return $registro;

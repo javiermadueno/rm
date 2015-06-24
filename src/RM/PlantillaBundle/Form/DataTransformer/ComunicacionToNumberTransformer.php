@@ -14,12 +14,13 @@ use RM\ComunicacionBundle\Entity\Comunicacion;
 class ComunicacionToNumberTransformer extends EntityToNumberTransformer
 {
 
-    protected  $entityClass = 'RM\ComunicacionBundle\Entity\Comunicacion';
+    protected $entityClass = 'RM\ComunicacionBundle\Entity\Comunicacion';
 
-    protected  $entityRepository = 'RMComunicacionBundle:Comunicacion';
+    protected $entityRepository = 'RMComunicacionBundle:Comunicacion';
 
     /**
      * @param Object|Comunicacion $comunicacion
+     *
      * @return int
      */
     protected function getId($comunicacion)
@@ -29,6 +30,7 @@ class ComunicacionToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param int $id
+     *
      * @return Object|Comunicacion
      */
     protected function getEntity($id)

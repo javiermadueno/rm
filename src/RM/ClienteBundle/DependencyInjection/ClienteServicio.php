@@ -26,7 +26,7 @@ class ClienteServicio
      */
     public function getCanales()
     {
-        $repo      = $this->em->getRepository('RMComunicacionBundle:Canal');
+        $repo = $this->em->getRepository('RMComunicacionBundle:Canal');
         $registros = $repo->obtenerCanales();
 
         return $registros;
@@ -38,7 +38,7 @@ class ClienteServicio
     public function getClientes()
     {
 
-        $repo      = $this->em->getRepository('RMClienteBundle:Cliente');
+        $repo = $this->em->getRepository('RMClienteBundle:Cliente');
         $registros = $repo->obtenerClientes();
 
         return $registros;
@@ -52,7 +52,7 @@ class ClienteServicio
     public function getClienteById($id_cliente)
     {
 
-        $repo      = $this->em->getRepository('RMClienteBundle:Cliente');
+        $repo = $this->em->getRepository('RMClienteBundle:Cliente');
         $registros = $repo->obtenerClienteById($id_cliente);
 
         return $registros;
@@ -66,7 +66,7 @@ class ClienteServicio
     public function getClientesBySegmento($id_segmento)
     {
 
-        $repo      = $this->em->getRepository('RMClienteBundle:Cliente');
+        $repo = $this->em->getRepository('RMClienteBundle:Cliente');
         $registros = $repo->obtenerClienteBySegmento($id_segmento);
 
         return $registros;

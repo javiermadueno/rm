@@ -46,21 +46,21 @@ class CreaNuevaPlantillaListener implements EventSubscriberInterface
      * Crea una plantilla nueva para la comunicación
      *
      * @param ComunicacionEvent $event
+     *
      * @return bool
      */
     public function onNuevaComunicacion(ComunicacionEvent $event)
     {
         $comunicacion = $event->getComunicacion();
 
-        if(!$comunicacion instanceof Comunicacion) {
+        if (!$comunicacion instanceof Comunicacion) {
             return false;
         }
 
         $plantilla = new Plantilla();
         $plantilla
             ->setEstado(Estado::ACTIVO)
-            ->setCanal($comunicacion->getIdCanal())
-        ;
+            ->setCanal($comunicacion->getIdCanal());
 
         $this->em->persist($plantilla);
 

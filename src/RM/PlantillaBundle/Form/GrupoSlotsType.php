@@ -41,7 +41,7 @@ class GrupoSlotsType extends AbstractType
         $modificaTamanyoImagen = function (FormInterface $form, $tipo) use ($em) {
 
             $tamanyo = GrupoSlots::PROMOCION == $tipo ?
-                TamanyoImagen::PRODUCTO:
+                TamanyoImagen::PRODUCTO :
                 TamanyoImagen::CREATIVIDAD;
 
             $empty_value = TamanyoImagen::CREATIVIDAD === $tamanyo ?
@@ -85,7 +85,7 @@ class GrupoSlotsType extends AbstractType
                 ])
                 ->add('mTexto', 'checkbox', [
                     'required' => false,
-                    'label' => 'mostrar.texto.libre'
+                    'label'    => 'mostrar.texto.libre'
                 ])
                 ->add('mVoucher', 'checkbox', [
                     'required' => false
@@ -102,8 +102,7 @@ class GrupoSlotsType extends AbstractType
                 ->remove('mCondiciones')
                 ->remove('mImgMarca')
                 ->remove('mVoucher')
-                ->remove('mFidelizacion')
-            ;
+                ->remove('mFidelizacion');
             $form
                 ->add('mImgProducto', 'checkbox', [
                     'required' => false,
@@ -116,33 +115,35 @@ class GrupoSlotsType extends AbstractType
 
         };
 
-        $modificaCampos = function (FormInterface $form, $tipo) use ($camposPromocion, $camposCreatividad){
+        $modificaCampos = function (FormInterface $form, $tipo) use ($camposPromocion, $camposCreatividad) {
 
-           if(GrupoSlots::PROMOCION == $tipo) {
-               $camposPromocion($form);
-           }else{
-               $camposCreatividad($form);
-           }
+            if (GrupoSlots::PROMOCION == $tipo) {
+                $camposPromocion($form);
+            } else {
+                $camposCreatividad($form);
+            }
         };
 
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($modificaCampos, $modificaTamanyoImagen) {
-            $grupo = $event->getData();
-            $form  = $event->getForm();
+            ->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($modificaCampos, $modificaTamanyoImagen) {
+                $grupo = $event->getData();
+                $form = $event->getForm();
 
-            $modificaCampos($form, $grupo->getTipo());
-            $modificaTamanyoImagen($form, $grupo->getTipo());
+                $modificaCampos($form, $grupo->getTipo());
+                $modificaTamanyoImagen($form, $grupo->getTipo());
 
-        });
+            });
 
         $builder->get('tipo')
-            ->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) use ($modificaCampos, $modificaTamanyoImagen){
-            $tipo = $event->getForm()->getData();
-            $form  = $event->getForm()->getParent();
+            ->addEventListener(FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($modificaCampos, $modificaTamanyoImagen) {
+                $tipo = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
 
-            $modificaCampos($form, $tipo);
-            $modificaTamanyoImagen($form, $tipo);
-        });
+                $modificaCampos($form, $tipo);
+                $modificaTamanyoImagen($form, $tipo);
+            });
 
 
     }
@@ -153,7 +154,7 @@ class GrupoSlotsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'RM\PlantillaBundle\Entity\GrupoSlots',
+            'data_class'      => 'RM\PlantillaBundle\Entity\GrupoSlots',
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
         ])->setDefaults([

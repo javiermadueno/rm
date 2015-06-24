@@ -47,6 +47,7 @@ class ClienteSegmento
      * Set cliente
      *
      * @param string $cliente
+     *
      * @return self
      */
     public function setCliente($cliente)
@@ -69,6 +70,7 @@ class ClienteSegmento
      * Set segmento
      *
      * @param collection $segmento
+     *
      * @return self
      */
     public function setSegmento($segmento)

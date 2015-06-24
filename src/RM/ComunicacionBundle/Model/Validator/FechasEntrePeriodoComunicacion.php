@@ -25,7 +25,7 @@ class FechasEntrePeriodoComunicacion extends Constraint
     public $errorFechaInicio =
         'La fecha de Inicio tiene que ser porterior a la fecha de inicio de la comunicacion';
 
-    public  $errorFechaFin =
+    public $errorFechaFin =
         'La fecha de Fin tiene que ser anterior a la fecha de fin de la comunicación';
 
     public function getTargets()

@@ -25,32 +25,32 @@ class PorcentajeDeVentas
 
 
         $this->chart = new Highchart();
-        $this->chart->chart->renderTo ( $nombre );
+        $this->chart->chart->renderTo($nombre);
 
-        $this->chart->plotOptions->pie ( array (
-                'allowPointSelect' => true,
-                'cursor' => 'pointer',
-                'dataLabels' => array (
-                    'enabled' => false
-                ),
-                'showInLegend' => true
-            ) );
+        $this->chart->plotOptions->pie([
+            'allowPointSelect' => true,
+            'cursor'           => 'pointer',
+            'dataLabels'       => [
+                'enabled' => false
+            ],
+            'showInLegend'     => true
+        ]);
 
-        if(!$mes) {
+        if (!$mes) {
             return $this->chart;
         }
 
-        $this->chart->title->text ( sprintf('Ventas %s', $mes->getFecha()->format('F-Y')));
-        $this->chart->series ( array (
-                array (
+        $this->chart->title->text(sprintf('Ventas %s', $mes->getFecha()->format('F-Y')));
+        $this->chart->series([
+                [
                     'type' => 'pie',
                     'name' => 'Ventas',
-                    'data' => array (
-                        array ('Miembros',    $mes->getVentasCliente()  ? $mes->getVentasCliente()   : 0.00 ),
-                        array ('No miembros', $mes->getVentasNoCliente()? $mes->getVentasNoCliente() : 0.00 )
-                    )
-                )
-            )
+                    'data' => [
+                        ['Miembros', $mes->getVentasCliente() ? $mes->getVentasCliente() : 0.00],
+                        ['No miembros', $mes->getVentasNoCliente() ? $mes->getVentasNoCliente() : 0.00]
+                    ]
+                ]
+            ]
         );
 
         return $this->chart;

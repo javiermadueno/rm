@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends RMController
 {
-	public function indexAction($name)
+    public function indexAction($name)
     {
         $creatividad = new Creatividad();
 
         $form = $this->createForm(new CreatividadType(), $creatividad, [
-            ]);
+        ]);
 
         return $this->render('RMStaticBundle:Default:index.html.twig', [
-               'form' => $form->createView()
-            ]);
-	}
+            'form' => $form->createView()
+        ]);
+    }
 
     public function plantillasAction()
     {
@@ -30,13 +30,13 @@ class DefaultController extends RMController
         $comunicaciones = $em->getRepository('RMComunicacionBundle:Comunicacion')->findAll();
 
         $ids = array_map(
-            function(Comunicacion $comunicacion){
+            function (Comunicacion $comunicacion) {
                 return $comunicacion->getIdComunicacion();
             }, $comunicaciones);
 
         $plantillas = [];
 
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             $plantillas[] = $em->getRepository('RMPlantillaBundle:Plantilla')->obtenerPlantillaByIdComunicacion($id);
         }
 
@@ -52,30 +52,27 @@ class DefaultController extends RMController
         $webpath = $this->container->getParameter('web_path');
         $cliente = $this->getUser()->getCliente();
 
-        $rutaPlantilla = $webpath .'/'. $cliente.'/plantillas/'.$plantilla->getIdPlantilla().'.html';
+        $rutaPlantilla = $webpath . '/' . $cliente . '/plantillas/' . $plantilla->getIdPlantilla() . '.html';
 
-        if(!file_exists($rutaPlantilla)){
-           $this->get('rm_plantilla_genera_plantilla_comunicacion')
-               ->creaArchivoPlantilla($plantilla, $cliente);
+        if (!file_exists($rutaPlantilla)) {
+            $this->get('rm_plantilla_genera_plantilla_comunicacion')
+                ->creaArchivoPlantilla($plantilla, $cliente);
         }
 
-        $error  = $this->get('rm_plantilla_genera_plantilla_comunicacion')
+        $error = $this->get('rm_plantilla_genera_plantilla_comunicacion')
             ->compruebaPlantilla($plantilla);
 
         $this->get('rm_plantilla.email_parser')
             ->setPlantilla($plantilla)
             ->parse($plantilla, $cliente);
 
-        if(empty($error))
-        {
+        if (empty($error)) {
             return REsponse::create(file_get_contents($rutaPlantilla), 200);
         }
 
         return Response::create(implode('', $error), 200);
 
     }
-
-
 
 
 }

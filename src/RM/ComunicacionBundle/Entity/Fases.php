@@ -43,11 +43,10 @@ class Fases
     private $descripcion;
 
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -58,19 +57,20 @@ class Fases
      * Set codigo
      *
      * @param string $codigo
+     *
      * @return Fases
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-    
+
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -81,19 +81,20 @@ class Fases
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Fases
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -104,19 +105,20 @@ class Fases
      * Set descripcion
      *
      * @param string $descripcion
+     *
      * @return Fases
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {

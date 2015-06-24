@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Vid implements \JsonSerializable
 {
     const NO_SOLICITA_TIEMPO = 0;
-    const SOLICITA_N         = 1;
-    const SOLICITA_N_M       = 2;
+    const SOLICITA_N = 1;
+    const SOLICITA_N_M = 2;
 
-    const CLASIFICACION_CATEGORIA   = 1;
-    const CLASIFICACION_PROVEEDOR   = 2;
-    const CLASIFICACION_MARCA       = 3;
-    const CLASFICACION_SI_NO        = 4;
+    const CLASIFICACION_CATEGORIA = 1;
+    const CLASIFICACION_PROVEEDOR = 2;
+    const CLASIFICACION_MARCA = 3;
+    const CLASFICACION_SI_NO = 4;
 
     /**
      * @var string
@@ -55,7 +55,7 @@ class Vid implements \JsonSerializable
      *
      * @ORM\Column(name="solicita_tiempo", type="smallint", nullable=true)
      */
-    private $solicitaTiempo;    
+    private $solicitaTiempo;
 
     /**
      * @var smallint
@@ -74,24 +74,24 @@ class Vid implements \JsonSerializable
     private $idVid;
 
 
-
     /**
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Vid
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -102,19 +102,20 @@ class Vid implements \JsonSerializable
      * Set descripcion
      *
      * @param string $descripcion
+     *
      * @return Vid
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -125,12 +126,13 @@ class Vid implements \JsonSerializable
      * Set tipo
      *
      * @param Tipo $tipo
+     *
      * @return Vid
      */
     public function setTipo(Tipo $tipo)
     {
         $this->tipo = $tipo;
-    
+
         return $this;
     }
 
@@ -148,19 +150,20 @@ class Vid implements \JsonSerializable
      * Set clasificacion
      *
      * @param smallint $clasificacion
+     *
      * @return Vid
      */
     public function setClasificacion($clasificacion)
     {
         $this->clasificacion = $clasificacion;
-    
+
         return $this;
     }
 
     /**
      * Get clasificacion
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getClasificacion()
     {
@@ -171,19 +174,20 @@ class Vid implements \JsonSerializable
      * Set solicitaTiempo
      *
      * @param smallint $solicitaTiempo
+     *
      * @return Vid
      */
     public function setSolicitaTiempo($solicitaTiempo)
     {
         $this->solicitaTiempo = $solicitaTiempo;
-    
+
         return $this;
     }
 
     /**
      * Get solicitaTiempo
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getSolicitaTiempo()
     {
@@ -194,19 +198,20 @@ class Vid implements \JsonSerializable
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return Vid
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -216,7 +221,7 @@ class Vid implements \JsonSerializable
     /**
      * Get idVid
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdVid()
     {
@@ -226,12 +231,12 @@ class Vid implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'            => $this->idVid,
-            'nombre'        => $this->nombre,
-            'descripcion'   => $this->descripcion,
-            'clasificacion' => $this->clasificacion,
-            'estado'        => $this->estado,
-            'solicitaTiempo'=> $this->solicitaTiempo,
+            'id'             => $this->idVid,
+            'nombre'         => $this->nombre,
+            'descripcion'    => $this->descripcion,
+            'clasificacion'  => $this->clasificacion,
+            'estado'         => $this->estado,
+            'solicitaTiempo' => $this->solicitaTiempo,
         ];
     }
 

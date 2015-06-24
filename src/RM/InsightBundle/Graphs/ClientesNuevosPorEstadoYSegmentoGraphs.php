@@ -45,7 +45,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function __construct(EstadisticasClientes $repository, DoctrineManager $manager)
     {
         $this->repository = $repository;
-        $this->em         = $manager->getManager();
+        $this->em = $manager->getManager();
     }
 
 
@@ -58,7 +58,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficaPorSexo($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $sexo            = $this->getSegmentosSexo();
+        $sexo = $this->getSegmentosSexo();
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
@@ -114,7 +114,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoPorEdades($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $edades          = $this->getSegmentosEdades();
+        $edades = $this->getSegmentosEdades();
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
@@ -164,7 +164,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoFranjaHoraria($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $horas           = $this->getSegmentosFranjaHoraria();
+        $horas = $this->getSegmentosFranjaHoraria();
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
@@ -209,7 +209,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoDia($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $dias            = $this->getSegmentosDias();
+        $dias = $this->getSegmentosDias();
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(

@@ -56,21 +56,20 @@ class PersonalizaVariableDiscreta
     public function personalizaVariable(Vid $variable)
     {
 
-        if(!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
+        if (!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
             return false;
         }
 
         $vidGrupo->setPersonalizado(self::PERSONALIZADO);
 
-        if($variable->getSolicitaTiempo() == Vid::SOLICITA_N) {
+        if ($variable->getSolicitaTiempo() == Vid::SOLICITA_N) {
             $vidGrupo->setMesesN($this->criteriosGlobales->getReferenciaN());
-        }
-        else {
+        } else {
             $vidGrupo->setMesesM($this->criteriosGlobales->getMesesM());
             $vidGrupo->setMesesN($this->criteriosGlobales->getMesesN());
         }
 
-        if( Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo() ) {
+        if (Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
             $this->copiaSegmentosGlobalesA($vidGrupo);
         }
 
@@ -91,13 +90,13 @@ class PersonalizaVariableDiscreta
      */
     public function despersonalizarVariable(Vid $variable)
     {
-        if(!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
+        if (!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
             return false;
         }
 
         $vidGrupo->setPersonalizado(self::NO_PERSONALIZADO);
 
-        if(Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
+        if (Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
             $this->eliminaSegmentos($vidGrupo);
         }
 
@@ -109,6 +108,7 @@ class PersonalizaVariableDiscreta
 
     /**
      * @param $idVid
+     *
      * @return VidGrupoSegmento|null
      */
     public function getVidGrupoSegmento($idVid)
@@ -116,7 +116,7 @@ class PersonalizaVariableDiscreta
         $vidGrupo = $this->repository
             ->obtenerUnicoGrupoSegmentoByVid($idVid);
 
-        if(!$vidGrupo instanceof VidGrupoSegmento) {
+        if (!$vidGrupo instanceof VidGrupoSegmento) {
             return null;
         }
 
@@ -136,8 +136,7 @@ class PersonalizaVariableDiscreta
         /**
          * @var  VidSegmentoGlobal $segmento
          */
-        foreach($segmentosGlobales as $segmento)
-        {
+        foreach ($segmentosGlobales as $segmento) {
             $this->creaVidSegmentoAPartirde($segmento, $vidGrupoSegmento);
         }
     }
@@ -146,11 +145,11 @@ class PersonalizaVariableDiscreta
      * Crea un VidSegmento copiado de un SegmentoGlobal y se los asigna al VidGrupoSegmento
      *
      * @param VidSegmentoGlobal $vidSegmentoGlobal
-     * @param VidGrupoSegmento $vidGrupoSegmento
+     * @param VidGrupoSegmento  $vidGrupoSegmento
      */
     private function creaVidSegmentoAPartirde(VidSegmentoGlobal $vidSegmentoGlobal, VidGrupoSegmento $vidGrupoSegmento)
     {
-        if(is_null($vidGrupoSegmento) || is_null($vidGrupoSegmento)) {
+        if (is_null($vidGrupoSegmento) || is_null($vidGrupoSegmento)) {
             return;
         }
 
@@ -173,7 +172,7 @@ class PersonalizaVariableDiscreta
      */
     private function eliminaSegmentos(VidGrupoSegmento $vidGrupo)
     {
-       $this->repository->eliminarSegmentosDelGrupo($vidGrupo);
+        $this->repository->eliminarSegmentosDelGrupo($vidGrupo);
     }
 
 } 

@@ -9,7 +9,7 @@ use RM\PlantillaBundle\Entity\GrupoSlots;
 class NumPromocionesRepository extends EntityRepository
 {
 
-    public function obtenerNumPromocionesByFiltros ($id_categoria, $id_grupo, $id_instancia)
+    public function obtenerNumPromocionesByFiltros($id_categoria, $id_grupo, $id_instancia)
     {
         $qb = $this->createQueryBuilder('np')
             ->join('np.idInstancia', 'ic')
@@ -26,8 +26,8 @@ class NumPromocionesRepository extends EntityRepository
         }
 
         if ($id_grupo > -1) {
-           $qb->andWhere('gs.idGrupo = :grupo')
-               ->setParameter('grupo', $id_grupo);
+            $qb->andWhere('gs.idGrupo = :grupo')
+                ->setParameter('grupo', $id_grupo);
         }
 
         if ($id_instancia > -1) {
@@ -38,39 +38,39 @@ class NumPromocionesRepository extends EntityRepository
         return $qb->getQuery()->getResult();
 
         /**
-        $dql = "select np
-		from RMProductoBundle:NumPromociones np
-		JOIN RMComunicacionBundle:InstanciaComunicacion ic WITH (np.idInstancia = ic.idInstancia)
-		JOIN RMCategoriaBundle:Categoria c WITH (np.idCategoria = c.idCategoria)
-		JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo)
-		WHERE np.estado > -1
-		AND ic.estado > -1
-		AND gs.estado > -1
-		";
-
-        if ($id_categoria > -1) {
-            $dql .= " AND c.idCategoria IN (" . $id_categoria . ")";
-        }
-
-        if ($id_grupo > -1) {
-            $dql .= " AND gs.idGrupo IN (" . $id_grupo . ")";
-        }
-
-        if ($id_instancia > -1) {
-            $dql .= " AND ic.idInstancia IN (" . $id_instancia . ")";
-        }
-
-        $dql .= " ORDER BY np.idNumPro ASC";
-
-        $query = $this->_em->createQuery($dql);
-        $registro = $query->getResult();
-
-        return $registro;
+         * $dql = "select np
+         * from RMProductoBundle:NumPromociones np
+         * JOIN RMComunicacionBundle:InstanciaComunicacion ic WITH (np.idInstancia = ic.idInstancia)
+         * JOIN RMCategoriaBundle:Categoria c WITH (np.idCategoria = c.idCategoria)
+         * JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo)
+         * WHERE np.estado > -1
+         * AND ic.estado > -1
+         * AND gs.estado > -1
+         * ";
+         *
+         * if ($id_categoria > -1) {
+         * $dql .= " AND c.idCategoria IN (" . $id_categoria . ")";
+         * }
+         *
+         * if ($id_grupo > -1) {
+         * $dql .= " AND gs.idGrupo IN (" . $id_grupo . ")";
+         * }
+         *
+         * if ($id_instancia > -1) {
+         * $dql .= " AND ic.idInstancia IN (" . $id_instancia . ")";
+         * }
+         *
+         * $dql .= " ORDER BY np.idNumPro ASC";
+         *
+         * $query = $this->_em->createQuery($dql);
+         * $registro = $query->getResult();
+         *
+         * return $registro;
          * */
 
     }
 
-    public function obtenerNumPromocionesCreatividadByFiltros ($id_grupo, $id_instancia)
+    public function obtenerNumPromocionesCreatividadByFiltros($id_grupo, $id_instancia)
     {
 
         $dql = "select np
@@ -93,15 +93,14 @@ class NumPromocionesRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('tipo_creatividades', GrupoSlots::CREATIVIDADES)
-        ;
+            ->setParameter('tipo_creatividades', GrupoSlots::CREATIVIDADES);
 
         if ($id_grupo > -1) {
             $query->setParameter('grupo', $id_grupo);
         }
 
         if ($id_instancia > -1) {
-           $query->setParameter('instancia', $id_instancia);
+            $query->setParameter('instancia', $id_instancia);
         }
 
         $registro = $query->getResult();
@@ -110,7 +109,7 @@ class NumPromocionesRepository extends EntityRepository
 
     }
 
-    public function obtenerNumPromocionesCampanyaByFiltros ($id_categoria, $id_instancia)
+    public function obtenerNumPromocionesCampanyaByFiltros($id_categoria, $id_instancia)
     {
         $dql = "
             SELECT np
@@ -148,9 +147,10 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param int $id_instancia
+     *
      * @return array|null
      */
-    public function findNumPromocionesByInstancia ($id_instancia = 0)
+    public function findNumPromocionesByInstancia($id_instancia = 0)
     {
         if (!$id_instancia) {
             return null;
@@ -164,16 +164,16 @@ class NumPromocionesRepository extends EntityRepository
                 ->setParameter('idInstancia', $id_instancia)
                 ->setParameter('promocion', GrupoSlots::PROMOCION)
                 ->addOrderBy('n.idNumPro')
-                ->getQuery()->getResult(Query::HYDRATE_OBJECT)
-            ;
+                ->getQuery()->getResult(Query::HYDRATE_OBJECT);
     }
 
     /**
      * @param int $id_instancia
      * @param int $id_categoria
+     *
      * @return array|null
      */
-    public function findNumPromocionesByInstanciayCategoria ($id_instancia = 0, $id_categoria = 0)
+    public function findNumPromocionesByInstanciayCategoria($id_instancia = 0, $id_categoria = 0)
     {
         if (!$id_instancia || !$id_categoria) {
             return null;
@@ -194,9 +194,10 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param int $id_instancia
+     *
      * @return array|null
      */
-    public function findNumPromocionesCreatividadByInstancia ($id_instancia = 0)
+    public function findNumPromocionesCreatividadByInstancia($id_instancia = 0)
     {
         if (!$id_instancia) {
             return null;
@@ -215,12 +216,13 @@ class NumPromocionesRepository extends EntityRepository
 
     /**
      * @param $id_instancia
+     *
      * @return array
      */
-    public function findTotalGenericasPorGrupoByInstancia ($id_instancia)
+    public function findTotalGenericasPorGrupoByInstancia($id_instancia)
     {
         if (!$id_instancia) {
-            return array ();
+            return [];
         }
 
         $dql = "

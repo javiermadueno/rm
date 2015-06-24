@@ -28,7 +28,7 @@ class CampaignController extends RMController
 
     public function showCampanyasAction($idOpcionMenuSup, $idOpcionMenuIzq, $closing, $id_categoria = 0)
     {
-        $servicioIC  = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $servicioCat = $this->get("categoriaservice");
 
         if ($id_categoria == -1) {
@@ -56,7 +56,7 @@ class CampaignController extends RMController
     public function showClosingCampaignsAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_categoria = 0)
     {
         $servicioIntanciaComunicacion = $this->get('instanciacomunicacionservice');
-        $servicioCategorias           = $this->get('categoriaservice');
+        $servicioCategorias = $this->get('categoriaservice');
 
         if ($id_categoria == -1) {
             $objInstancias = null;
@@ -84,8 +84,8 @@ class CampaignController extends RMController
     public function actualizarListadoCampanyasAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request     = $this->container->get('request');
-            $servicioIC  = $this->get("InstanciaComunicacionService");
+            $request = $this->container->get('request');
+            $servicioIC = $this->get("InstanciaComunicacionService");
             $idCategoria = $request->get('id_categoria', 0);
             $servicioCat = $this->get("CategoriaService");
 
@@ -103,7 +103,7 @@ class CampaignController extends RMController
             );
         } else {
 
-            $request    = $this->container->get('request');
+            $request = $this->container->get('request');
             $servicioIC = $this->get("InstanciaComunicacionService");
 
             if ($request->get('id_categoria') == -1) {
@@ -112,7 +112,7 @@ class CampaignController extends RMController
                 $objInstancias = $servicioIC->getCampanyasbyFiltro($request->get('id_categoria'));
             }
 
-            $servicioCat   = $this->get("CategoriaService");
+            $servicioCat = $this->get("CategoriaService");
             $objCategorias = $servicioCat->getCategoriasDeCampanya();
 
 
@@ -172,14 +172,14 @@ class CampaignController extends RMController
                 }
 
                 $idNumPro = $numPromocion->getIdNumPro();
-                $idGrupo  = $numPromocion->getIdGrupo()->getIdGrupo();
+                $idGrupo = $numPromocion->getIdGrupo()->getIdGrupo();
 
                 $gruposSlot[] = $idGrupo;
 
                 $promociones[$idGrupo][$idNumPro]['numPromocion'] = $numPromocion;
-                $promociones[$idGrupo][$idNumPro]['segmentadas']  = $numPromocion->getPromocionesSegentadas()->toArray();
-                $promociones[$idGrupo][$idNumPro]['genericas']    = $numPromocion->getPromocionesGenericas()->toArray();
-                $promociones[$idGrupo][$idNumPro]['marcas']       = $servicioMarca->getMarcasByCategoria($idCategoria);
+                $promociones[$idGrupo][$idNumPro]['segmentadas'] = $numPromocion->getPromocionesSegentadas()->toArray();
+                $promociones[$idGrupo][$idNumPro]['genericas'] = $numPromocion->getPromocionesGenericas()->toArray();
+                $promociones[$idGrupo][$idNumPro]['marcas'] = $servicioMarca->getMarcasByCategoria($idCategoria);
             }
 
             if (!empty($gruposSlot)) {
@@ -191,7 +191,7 @@ class CampaignController extends RMController
             }
 
             $tipoPromocion = $em->getRepository('RMProductoBundle:TipoPromocion')->findAll();
-            $categoria     = $em->find('RMCategoriaBundle:Categoria', $id_categoria);
+            $categoria = $em->find('RMCategoriaBundle:Categoria', $id_categoria);
 
 
             return $this->render(
@@ -213,7 +213,7 @@ class CampaignController extends RMController
 
     public function fichaClosingCampanyaAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_instancia, $id_categoria)
     {
-        $servicioIC    = $this->get("InstanciaComunicacionService");
+        $servicioIC = $this->get("InstanciaComunicacionService");
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
         if (!$objInstancias) {
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
@@ -253,13 +253,13 @@ class CampaignController extends RMController
                 }
 
                 $idNumPro = $numPromocion->getIdNumPro();
-                $idGrupo  = $numPromocion->getIdGrupo()->getIdGrupo();
+                $idGrupo = $numPromocion->getIdGrupo()->getIdGrupo();
 
                 $gruposSlot[] = $idGrupo;
 
                 $promociones[$idGrupo][$idNumPro]['numPromocion'] = $numPromocion;
-                $promociones[$idGrupo][$idNumPro]['segmentadas']  = $numPromocion->getPromocionesSegentadas()->toArray();
-                $promociones[$idGrupo][$idNumPro]['genericas']    = $numPromocion->getPromocionesGenericas()->toArray();
+                $promociones[$idGrupo][$idNumPro]['segmentadas'] = $numPromocion->getPromocionesSegentadas()->toArray();
+                $promociones[$idGrupo][$idNumPro]['genericas'] = $numPromocion->getPromocionesGenericas()->toArray();
             }
 
             if (!empty($gruposSlot)) {
@@ -288,7 +288,7 @@ class CampaignController extends RMController
 
     public function fichaCampanyaActualizarAction(Request $request)
     {
-        $marca     = $request->request->get('idMarca');
+        $marca = $request->request->get('idMarca');
         $categoria = $request->request->get('idCategoria');
 
         $objProductos = $this->get('rm.manager')->getManager()->getRepository('RMProductoBundle:Producto')
@@ -326,7 +326,7 @@ class CampaignController extends RMController
 
     public function infoPromocionAction($id_promocion)
     {
-        $servicioPr     = $this->get("PromocionService");
+        $servicioPr = $this->get("PromocionService");
         $objPromociones = $servicioPr->getPromocionById($id_promocion);
         if (!$objPromociones) {
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
@@ -344,7 +344,7 @@ class CampaignController extends RMController
 
     public function guardarFichaPromocionAction(Request $request, $id)
     {
-        $em        = $this->get('rm.manager')->getManager();
+        $em = $this->get('rm.manager')->getManager();
         $promocion = $em->getRepository('RMProductoBundle:Promocion')->findBydId(($id));
 
         if (!$promocion instanceof Promocion) {
@@ -378,12 +378,12 @@ class CampaignController extends RMController
             return $this->createNotFoundException();
         }
 
-        $idPromocion  = $request->get('idPromocion');
-        $poblacion    = $request->get('poblacion');
+        $idPromocion = $request->get('idPromocion');
+        $poblacion = $request->get('poblacion');
         $nombreFiltro = $request->get('nombreFiltro');
-        $condicion    = $request->get('condicion');
+        $condicion = $request->get('condicion');
 
-        $em   = $this->getManager();
+        $em = $this->getManager();
         $repo = $em->getRepository('RMProductoBundle:Promocion');
 
         $promocion = $repo->find($idPromocion);
@@ -414,7 +414,7 @@ class CampaignController extends RMController
 
         $request = $this->container->get('request');
 
-        $promociones  = $request->get('promocion');
+        $promociones = $request->get('promocion');
         $id_instancia = $request->get('id_instancia');
         $id_categoria = $request->get('id_categoria');
 
@@ -487,7 +487,7 @@ class CampaignController extends RMController
         return $promociones;
     }
 
-    private  function isNullOrEmpty($variable)
+    private function isNullOrEmpty($variable)
     {
         return empty($variable) || $variable == '-1' || $variable == -1 ? true : false;
     }
@@ -495,11 +495,11 @@ class CampaignController extends RMController
     public function saveCampaignClosingSlotsAction()
     {
 
-        $request           = $this->container->get('request');
+        $request = $this->container->get('request');
         $servicioPromocion = $this->get("PromocionService");
-        $data              = $request->get('promociones');
-        $id_instancia      = $request->request->get('id_instancia');
-        $id_categoria      = $request->request->get('id_categoria');
+        $data = $request->get('promociones');
+        $id_instancia = $request->request->get('id_instancia');
+        $id_categoria = $request->request->get('id_categoria');
 
         if (empty ($data)) {
 

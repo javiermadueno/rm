@@ -139,7 +139,7 @@ class ResultadoMensual
 
     public function getFecha()
     {
-        if(!$this->fecha) {
+        if (!$this->fecha) {
             if (isset($this->id)) {
                 list($year, $month) = explode('-', $this->id);
                 $this->fecha = new \DateTime(sprintf('01-%s-%s', $month, $year));
@@ -153,6 +153,7 @@ class ResultadoMensual
      * Set ventasTotales
      *
      * @param float $ventasTotales
+     *
      * @return self
      */
     public function setVentasTotales($ventasTotales)
@@ -175,6 +176,7 @@ class ResultadoMensual
      * Set ventasCliente
      *
      * @param float $ventasCliente
+     *
      * @return self
      */
     public function setVentasCliente($ventasCliente)
@@ -197,6 +199,7 @@ class ResultadoMensual
      * Set ventasNoCliente
      *
      * @param float $ventasNoCliente
+     *
      * @return self
      */
     public function setVentasNoCliente($ventasNoCliente)
@@ -219,6 +222,7 @@ class ResultadoMensual
      * Set contribucionClientes
      *
      * @param float $contribucionClientes
+     *
      * @return self
      */
     public function setContribucionClientes($contribucionClientes)
@@ -241,6 +245,7 @@ class ResultadoMensual
      * Set numeroComprasCliente
      *
      * @param int $numeroComprasCliente
+     *
      * @return self
      */
     public function setNumeroComprasCliente($numeroComprasCliente)
@@ -263,6 +268,7 @@ class ResultadoMensual
      * Set numeroComprasNoCliente
      *
      * @param int $numeroComprasNoCliente
+     *
      * @return self
      */
     public function setNumeroComprasNoCliente($numeroComprasNoCliente)
@@ -285,6 +291,7 @@ class ResultadoMensual
      * Set numeroClientes
      *
      * @param int $numeroClientes
+     *
      * @return self
      */
     public function setNumeroClientes($numeroClientes)
@@ -307,6 +314,7 @@ class ResultadoMensual
      * Set numeroClientesQueCompran
      *
      * @param int $numeroClientesQueCompran
+     *
      * @return self
      */
     public function setNumeroClientesQueCompran($numeroClientesQueCompran)
@@ -329,6 +337,7 @@ class ResultadoMensual
      * Set recenciaClientes
      *
      * @param float $recenciaClientes
+     *
      * @return self
      */
     public function setRecenciaClientes($recenciaClientes)
@@ -351,6 +360,7 @@ class ResultadoMensual
      * Set frecuenciaClientes
      *
      * @param float $frecuenciaClientes
+     *
      * @return self
      */
     public function setFrecuenciaClientes($frecuenciaClientes)
@@ -373,6 +383,7 @@ class ResultadoMensual
      * Set ticketClientes
      *
      * @param float $ticketClientes
+     *
      * @return self
      */
     public function setTicketClientes($ticketClientes)
@@ -388,7 +399,7 @@ class ResultadoMensual
      */
     public function getTicketClientes()
     {
-        return round($this->ticketClientes,2);
+        return round($this->ticketClientes, 2);
     }
 
 
@@ -396,6 +407,7 @@ class ResultadoMensual
      * Set id
      *
      * @param custom_id $id
+     *
      * @return self
      */
     public function setId($id)
@@ -408,6 +420,7 @@ class ResultadoMensual
      * Set amplitudClientes1
      *
      * @param float $amplitudClientes1
+     *
      * @return self
      */
     public function setAmplitudClientes1($amplitudClientes1)
@@ -430,6 +443,7 @@ class ResultadoMensual
      * Set amplitudClientes2
      *
      * @param float $amplitudClientes2
+     *
      * @return self
      */
     public function setAmplitudClientes2($amplitudClientes2)
@@ -452,6 +466,7 @@ class ResultadoMensual
      * Set amplitudClientes3
      *
      * @param float $amplitudClientes3
+     *
      * @return self
      */
     public function setAmplitudClientes3($amplitudClientes3)
@@ -467,6 +482,6 @@ class ResultadoMensual
      */
     public function getAmplitudClientes3()
     {
-        return round($this->amplitudClientes3,2);
+        return round($this->amplitudClientes3, 2);
     }
 }

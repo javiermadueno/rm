@@ -24,41 +24,44 @@ class GrupoSlotsServicio
      *
      * @throws \Exception
      */
-	public function __construct(DoctrineManager $manager)
-	{
-		$this->em = $manager->getManager();
+    public function __construct(DoctrineManager $manager)
+    {
+        $this->em = $manager->getManager();
         $this->repo = $this->em->getRepository('RMPlantillaBundle:GrupoSlots');
-	}
+    }
 
     /**
      * @param $id_grupoSlots
+     *
      * @return mixed
      */
-	public function getGrupoSlotsById($id_grupoSlots)
+    public function getGrupoSlotsById($id_grupoSlots)
     {
-		$registros = $this->repo->obtenerGrupoSlotsById($id_grupoSlots);
-		return $registros;
-	}
+        $registros = $this->repo->obtenerGrupoSlotsById($id_grupoSlots);
+        return $registros;
+    }
 
     /**
      * @param $listaGSAEliminar
+     *
      * @return array
      */
-	public function eliminarGrupoSlotsByIds($listaGSAEliminar)
+    public function eliminarGrupoSlotsByIds($listaGSAEliminar)
     {
-	    $registrosGS = [];
+        $registrosGS = [];
 
-		foreach ($listaGSAEliminar as $GS){
-				
-			$registrosGS = $this->repo->eliminarGSById( $GS);
-		}
-	
-		$this->em->flush ();
-		return $registrosGS;
-	}
+        foreach ($listaGSAEliminar as $GS) {
+
+            $registrosGS = $this->repo->eliminarGSById($GS);
+        }
+
+        $this->em->flush();
+        return $registrosGS;
+    }
 
     /**
      * @param $id_instancia
+     *
      * @return mixed
      */
     public function getGrupoSlotsCreatividadConPromocion($id_instancia)
@@ -69,6 +72,7 @@ class GrupoSlotsServicio
 
     /**
      * @param $id_instancia
+     *
      * @return mixed
      */
     public function getGrupoSlotsCreatividadPromocionConNumeroSlots($id_instancia)

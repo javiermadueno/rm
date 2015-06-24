@@ -10,30 +10,28 @@ class PlantillaType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
 
         $builder
-            ->add('nombre', 'text', array(
-                    'required' => true
-                ))
-            ->add('submit', 'submit', array('label' => 'Guardar'));
-            ;
+            ->add('nombre', 'text', [
+                'required' => true
+            ])
+            ->add('submit', 'submit', ['label' => 'Guardar']);;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
-                ))
-        ;
+            ]);
     }
 
     /**

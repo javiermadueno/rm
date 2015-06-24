@@ -13,7 +13,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class ClienteSegmentoRepository extends DocumentRepository
 {
 
-    public function findClientesEnSegmentos($in = array(), $notIn = array())
+    public function findClientesEnSegmentos($in = [], $notIn = [])
     {
         return $this->createQueryBuilder('RMMongoBundle:ClienteSegmento')
             ->field('segmento')->in($in)
@@ -31,7 +31,7 @@ class ClienteSegmentoRepository extends DocumentRepository
             ->execute();
     }
 
-    public function findNumeroClientesEnSegmentos($in= array(), $notIn=array())
+    public function findNumeroClientesEnSegmentos($in = [], $notIn = [])
     {
         return $this->createQueryBuilder('RMMongoBundle:ClienteSegmento')
             ->field('segmento')->in($in)

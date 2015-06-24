@@ -644,7 +644,7 @@ class Promocion
     {
         if ($this->idProducto) {
 
-            $productos   = $this->idProducto->getIdMarca()->getProductos();
+            $productos = $this->idProducto->getIdMarca()->getProductos();
 
             switch ($nivel) {
                 case 1:
@@ -688,15 +688,15 @@ class Promocion
 
             $arrayProductosPorMarcaYCategoria = $productos->filter(
                 function (Producto $producto) use ($idCategoria) {
-                    $idCategoria1  = !is_null($producto->getIdCategoria()) ? $producto->getIdCategoria()->getIdCategoria() : 0;
-                    $idCategoria2  = !is_null($producto->getIdCategoria2()) ? $producto->getIdCategoria2()->getIdCategoria() : 0;
-                    $idCategoria3  = !is_null($producto->getIdCategoria3()) ? $producto->getIdCategoria3()->getIdCategoria() : 0;
-                    $idCategoria4  = !is_null($producto->getIdCategoria4()) ? $producto->getIdCategoria4()->getIdCategoria() : 0;
-                    $idCategoria5  = !is_null($producto->getIdCategoria5()) ? $producto->getIdCategoria5()->getIdCategoria() : 0;
-                    $idCategoria6  = !is_null($producto->getIdCategoria6()) ? $producto->getIdCategoria6()->getIdCategoria() : 0;
-                    $idCategoria7  = !is_null($producto->getIdCategoria7()) ? $producto->getIdCategoria7()->getIdCategoria() : 0;
-                    $idCategoria8  = !is_null($producto->getIdCategoria8()) ? $producto->getIdCategoria8()->getIdCategoria() : 0;
-                    $idCategoria9  = !is_null($producto->getIdCategoria9()) ? $producto->getIdCategoria9()->getIdCategoria() : 0;
+                    $idCategoria1 = !is_null($producto->getIdCategoria()) ? $producto->getIdCategoria()->getIdCategoria() : 0;
+                    $idCategoria2 = !is_null($producto->getIdCategoria2()) ? $producto->getIdCategoria2()->getIdCategoria() : 0;
+                    $idCategoria3 = !is_null($producto->getIdCategoria3()) ? $producto->getIdCategoria3()->getIdCategoria() : 0;
+                    $idCategoria4 = !is_null($producto->getIdCategoria4()) ? $producto->getIdCategoria4()->getIdCategoria() : 0;
+                    $idCategoria5 = !is_null($producto->getIdCategoria5()) ? $producto->getIdCategoria5()->getIdCategoria() : 0;
+                    $idCategoria6 = !is_null($producto->getIdCategoria6()) ? $producto->getIdCategoria6()->getIdCategoria() : 0;
+                    $idCategoria7 = !is_null($producto->getIdCategoria7()) ? $producto->getIdCategoria7()->getIdCategoria() : 0;
+                    $idCategoria8 = !is_null($producto->getIdCategoria8()) ? $producto->getIdCategoria8()->getIdCategoria() : 0;
+                    $idCategoria9 = !is_null($producto->getIdCategoria9()) ? $producto->getIdCategoria9()->getIdCategoria() : 0;
                     $idCategoria10 = !is_null($producto->getIdCategoria10()) ? $producto->getIdCategoria10()->getIdCategoria() : 0;
                     $idCategoria11 = !is_null($producto->getIdCategoria11()) ? $producto->getIdCategoria11()->getIdCategoria() : 0;
 

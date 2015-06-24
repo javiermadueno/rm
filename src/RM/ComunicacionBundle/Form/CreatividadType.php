@@ -10,28 +10,27 @@ class CreatividadType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('nombre', 'text')
             ->add('descripcion')
-            ->add('tamanyoImagen', 'tamanyoImagen' )
-            ->add('estado', 'hidden', array(
-                    'data' => 1
-                ))
-        ;
+            ->add('tamanyoImagen', 'tamanyoImagen')
+            ->add('estado', 'hidden', [
+                'data' => 1
+            ]);
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\ComunicacionBundle\Entity\Creatividad',
-        ));
+        ]);
     }
 
     /**

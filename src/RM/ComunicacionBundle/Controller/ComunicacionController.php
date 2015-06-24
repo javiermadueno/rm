@@ -23,7 +23,7 @@ class ComunicacionController extends Controller
         $em = $this->getManager();
 
         $comunicaciones = $em->getRepository('RMComunicacionBundle:Comunicacion')->findAll();
-        $canales        = $em->getRepository('RMComunicacionBundle:Canal')->findAll();
+        $canales = $em->getRepository('RMComunicacionBundle:Canal')->findAll();
     }
 
     private function getManager()

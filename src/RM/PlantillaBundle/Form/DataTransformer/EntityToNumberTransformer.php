@@ -19,18 +19,17 @@ abstract class EntityToNumberTransformer implements DataTransformerInterface
     /**
      * @var string Clase de la entidad
      */
-    protected  $entityClass;
+    protected $entityClass;
 
     /**
      * @var string Nombre del repositorio de la entidad
      */
-    protected  $entityRepository;
+    protected $entityRepository;
 
     /**
      * @var ObjectManager EntityManager
      */
     protected $em;
-
 
 
     public function __construct(ObjectManager $em)
@@ -39,24 +38,27 @@ abstract class EntityToNumberTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param   Object  $entity
+     * @param   Object $entity
+     *
      * @return  int
      */
     abstract protected function getId($entity);
 
     /**
-     * @param   int     $id
+     * @param   int $id
+     *
      * @return  Object
      */
     abstract protected function getEntity($id);
 
     /**
      * @param mixed $entity
+     *
      * @return mixed|void
      */
     public function transform($entity)
     {
-        if(null === $entity || !$entity instanceof $this->entityClass) {
+        if (null === $entity || !$entity instanceof $this->entityClass) {
             return '';
         }
 
@@ -73,10 +75,10 @@ abstract class EntityToNumberTransformer implements DataTransformerInterface
 
         if (null === $entity) {
             throw new TransformationFailedException(sprintf(
-                    'La entidad de la clase "%s" con id "%s" no existe.',
-                    $this->entityClass,
-                    $id
-                ));
+                'La entidad de la clase "%s" con id "%s" no existe.',
+                $this->entityClass,
+                $id
+            ));
         }
 
         return $entity;

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Vil
- * 
+ *
  * @ORM\Table(name="vil")
  * @ORM\Entity(repositoryClass="RM\LinealesBundle\Entity\VilRepository")
  */
@@ -72,24 +72,24 @@ class Vil implements \JsonSerializable
     private $idVil;
 
 
-
     /**
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Vil
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -100,19 +100,20 @@ class Vil implements \JsonSerializable
      * Set descripcion
      *
      * @param string $descripcion
+     *
      * @return Vil
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-    
+
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -123,19 +124,20 @@ class Vil implements \JsonSerializable
      * Set tipo
      *
      * @param smallint $tipo
+     *
      * @return Vil
      */
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
-    
+
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getTipo()
     {
@@ -146,19 +148,20 @@ class Vil implements \JsonSerializable
      * Set solicitaTiempo
      *
      * @param smallint $solicitaTiempo
+     *
      * @return Vil
      */
     public function setSolicitaTiempo($solicitaTiempo)
     {
         $this->solicitaTiempo = $solicitaTiempo;
-    
+
         return $this;
     }
 
     /**
      * Get solicitaTiempo
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getSolicitaTiempo()
     {
@@ -169,19 +172,20 @@ class Vil implements \JsonSerializable
      * Set mesesN
      *
      * @param integer $mesesN
+     *
      * @return Vil
      */
     public function setMesesN($mesesN)
     {
         $this->mesesN = $mesesN;
-    
+
         return $this;
     }
 
     /**
      * Get mesesN
      *
-     * @return integer 
+     * @return integer
      */
     public function getMesesN()
     {
@@ -192,19 +196,20 @@ class Vil implements \JsonSerializable
      * Set mesesM
      *
      * @param integer $mesesM
+     *
      * @return Vil
      */
     public function setMesesM($mesesM)
     {
         $this->mesesM = $mesesM;
-    
+
         return $this;
     }
 
     /**
      * Get mesesM
      *
-     * @return integer 
+     * @return integer
      */
     public function getMesesM()
     {
@@ -215,19 +220,20 @@ class Vil implements \JsonSerializable
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return Vil
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -237,7 +243,7 @@ class Vil implements \JsonSerializable
     /**
      * Get idVil
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdVil()
     {
@@ -247,12 +253,12 @@ class Vil implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->idVil,
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'mesesM' => $this->mesesM,
-            'mesesN' => $this->mesesN,
-            'estado' => $this->estado,
+            'id'             => $this->idVil,
+            'nombre'         => $this->nombre,
+            'descripcion'    => $this->descripcion,
+            'mesesM'         => $this->mesesM,
+            'mesesN'         => $this->mesesN,
+            'estado'         => $this->estado,
             'solicitaTiempo' => $this->solicitaTiempo,
         ];
     }

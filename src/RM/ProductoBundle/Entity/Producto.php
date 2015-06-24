@@ -11,7 +11,7 @@ use JsonSerializable;
  * @ORM\Table(name="producto")
  * @ORM\Entity(repositoryClass="RM\ProductoBundle\Entity\ProductoRepository")
  */
-class Producto implements  JsonSerializable
+class Producto implements JsonSerializable
 {
     /**
      * @var string
@@ -219,24 +219,24 @@ class Producto implements  JsonSerializable
     private $idProveedor;
 
 
-
     /**
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Producto
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -247,19 +247,20 @@ class Producto implements  JsonSerializable
      * Set codSku
      *
      * @param string $codSku
+     *
      * @return Producto
      */
     public function setCodSku($codSku)
     {
         $this->codSku = $codSku;
-    
+
         return $this;
     }
 
     /**
      * Get codSku
      *
-     * @return string 
+     * @return string
      */
     public function getCodSku()
     {
@@ -270,19 +271,20 @@ class Producto implements  JsonSerializable
      * Set fechaLanzamiento
      *
      * @param \Date $fechaLanzamiento
+     *
      * @return Producto
      */
     public function setFechaLanzamiento($fechaLanzamiento)
     {
         $this->fechaLanzamiento = $fechaLanzamiento;
-    
+
         return $this;
     }
 
     /**
      * Get fechaLanzamiento
      *
-     * @return \Date 
+     * @return \Date
      */
     public function getFechaLanzamiento()
     {
@@ -293,42 +295,44 @@ class Producto implements  JsonSerializable
      * Set precioVenta
      *
      * @param float $precioVenta
+     *
      * @return Producto
      */
     public function setPrecioVenta($precioVenta)
     {
         $this->precioVenta = $precioVenta;
-    
+
         return $this;
     }
 
     /**
      * Get precioVenta
      *
-     * @return float 
+     * @return float
      */
     public function getPrecioVenta()
     {
-        return (float) $this->precioVenta;
+        return (float)$this->precioVenta;
     }
 
     /**
      * Set precioEstandar
      *
      * @param float $precioEstandar
+     *
      * @return Producto
      */
     public function setPrecioEstandar($precioEstandar)
     {
         $this->precioEstandar = $precioEstandar;
-    
+
         return $this;
     }
 
     /**
      * Get precioEstandar
      *
-     * @return float 
+     * @return float
      */
     public function getPrecioEstandar()
     {
@@ -339,19 +343,20 @@ class Producto implements  JsonSerializable
      * Set precioUnitario
      *
      * @param float $precioUnitario
+     *
      * @return Producto
      */
     public function setPrecioUnitario($precioUnitario)
     {
         $this->precioUnitario = $precioUnitario;
-    
+
         return $this;
     }
 
     /**
      * Get precioUnitario
      *
-     * @return float 
+     * @return float
      */
     public function getPrecioUnitario()
     {
@@ -362,19 +367,20 @@ class Producto implements  JsonSerializable
      * Set volumen
      *
      * @param string $volumen
+     *
      * @return Producto
      */
     public function setVolumen($volumen)
     {
         $this->volumen = $volumen;
-    
+
         return $this;
     }
 
     /**
      * Get volumen
      *
-     * @return string 
+     * @return string
      */
     public function getVolumen()
     {
@@ -385,19 +391,20 @@ class Producto implements  JsonSerializable
      * Set activo
      *
      * @param smallint $activo
+     *
      * @return Producto
      */
     public function setActivo($activo)
     {
         $this->activo = $activo;
-    
+
         return $this;
     }
 
     /**
      * Get activo
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getActivo()
     {
@@ -405,11 +412,10 @@ class Producto implements  JsonSerializable
     }
 
 
-
     /**
      * Get idProducto
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdProducto()
     {
@@ -420,19 +426,20 @@ class Producto implements  JsonSerializable
      * Set idMarca
      *
      * @param \RM\ProductoBundle\Entity\Marca $idMarca
+     *
      * @return Producto
      */
     public function setIdMarca(\RM\ProductoBundle\Entity\Marca $idMarca = null)
     {
         $this->idMarca = $idMarca;
-    
+
         return $this;
     }
 
     /**
      * Get idMarca
      *
-     * @return \RM\ProductoBundle\Entity\Marca 
+     * @return \RM\ProductoBundle\Entity\Marca
      */
     public function getIdMarca()
     {
@@ -443,19 +450,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria
+     *
      * @return Producto
      */
     public function setIdCategoria(\RM\CategoriaBundle\Entity\Categoria $idCategoria = null)
     {
         $this->idCategoria = $idCategoria;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria()
     {
@@ -466,50 +474,53 @@ class Producto implements  JsonSerializable
      * Set idProveedor
      *
      * @param \RM\ProductoBundle\Entity\Proveedor $idProveedor
+     *
      * @return Producto
      */
     public function setIdProveedor(\RM\ProductoBundle\Entity\Proveedor $idProveedor = null)
     {
         $this->idProveedor = $idProveedor;
-    
+
         return $this;
     }
 
     /**
      * Get idProveedor
      *
-     * @return \RM\ProductoBundle\Entity\Proveedor 
+     * @return \RM\ProductoBundle\Entity\Proveedor
      */
     public function getIdProveedor()
     {
         return $this->idProveedor;
     }
 
-    public function jsonSerialize(){
+    public function jsonSerialize()
+    {
 
-        return array(
-            'id' => $this->idProducto,
+        return [
+            'id'     => $this->idProducto,
             'nombre' => $this->nombre
-        );
+        ];
     }
 
     /**
      * Set idCategoria3
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria3
+     *
      * @return Producto
      */
     public function setIdCategoria3(\RM\CategoriaBundle\Entity\Categoria $idCategoria3 = null)
     {
         $this->idCategoria3 = $idCategoria3;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria3
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria3()
     {
@@ -520,19 +531,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria4
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria4
+     *
      * @return Producto
      */
     public function setIdCategoria4(\RM\CategoriaBundle\Entity\Categoria $idCategoria4 = null)
     {
         $this->idCategoria4 = $idCategoria4;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria4
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria4()
     {
@@ -543,19 +555,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria5
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria5
+     *
      * @return Producto
      */
     public function setIdCategoria5(\RM\CategoriaBundle\Entity\Categoria $idCategoria5 = null)
     {
         $this->idCategoria5 = $idCategoria5;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria5
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria5()
     {
@@ -566,19 +579,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria6
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria6
+     *
      * @return Producto
      */
     public function setIdCategoria6(\RM\CategoriaBundle\Entity\Categoria $idCategoria6 = null)
     {
         $this->idCategoria6 = $idCategoria6;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria6
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria6()
     {
@@ -589,19 +603,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria7
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria7
+     *
      * @return Producto
      */
     public function setIdCategoria7(\RM\CategoriaBundle\Entity\Categoria $idCategoria7 = null)
     {
         $this->idCategoria7 = $idCategoria7;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria7
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria7()
     {
@@ -612,19 +627,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria8
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria8
+     *
      * @return Producto
      */
     public function setIdCategoria8(\RM\CategoriaBundle\Entity\Categoria $idCategoria8 = null)
     {
         $this->idCategoria8 = $idCategoria8;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria8
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria8()
     {
@@ -635,19 +651,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria9
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria9
+     *
      * @return Producto
      */
     public function setIdCategoria9(\RM\CategoriaBundle\Entity\Categoria $idCategoria9 = null)
     {
         $this->idCategoria9 = $idCategoria9;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria9
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria9()
     {
@@ -658,19 +675,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria10
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria10
+     *
      * @return Producto
      */
     public function setIdCategoria10(\RM\CategoriaBundle\Entity\Categoria $idCategoria10 = null)
     {
         $this->idCategoria10 = $idCategoria10;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria10
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria10()
     {
@@ -681,19 +699,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria11
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria11
+     *
      * @return Producto
      */
     public function setIdCategoria11(\RM\CategoriaBundle\Entity\Categoria $idCategoria11 = null)
     {
         $this->idCategoria11 = $idCategoria11;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria11
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria11()
     {
@@ -704,19 +723,20 @@ class Producto implements  JsonSerializable
      * Set idCategoria2
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria2
+     *
      * @return Producto
      */
     public function setIdCategoria2(\RM\CategoriaBundle\Entity\Categoria $idCategoria2 = null)
     {
         $this->idCategoria2 = $idCategoria2;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria2
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria2()
     {

@@ -18,17 +18,17 @@ class DefaultController extends RMController
 
         $em = $this->get('rm.manager')->getManager();
 
-        $servicioSeg   = $this->get("SegmentoService");
+        $servicioSeg = $this->get("SegmentoService");
         $servicioMarca = $this->get("marcaservice");
 
         $request = $this->get('request');
 
         $fecha_busqueda = $request->query->get('fecha_busqueda', null);
-        $id_categoria   = $request->query->get('id_categoria', -1);
-        $id_proveedor   = $request->query->get('proveedor', -1);
-        $id_variable    = $request->query->get('variables', -1);
-        $id_marca       = $request->query->get('id_marca', -1);
-        $tipo           = $request->query->get('tipo', -1);
+        $id_categoria = $request->query->get('id_categoria', -1);
+        $id_proveedor = $request->query->get('proveedor', -1);
+        $id_variable = $request->query->get('variables', -1);
+        $id_marca = $request->query->get('id_marca', -1);
+        $tipo = $request->query->get('tipo', -1);
 
         $tipoVariable = $em->getRepository('RMDiscretasBundle:Tipo')
             ->findOneBy(['codigo' => $tipo]);
@@ -48,8 +48,8 @@ class DefaultController extends RMController
             return JsonResponse::create($data, 200);
         }
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
-        $objMarcas     = $servicioMarca->getMarcas();
+        $objTipos = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
+        $objMarcas = $servicioMarca->getMarcas();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
         return $this->render('RMSegmentoBundle:Default:listado.html.twig', [
@@ -66,13 +66,13 @@ class DefaultController extends RMController
 
         $em = $this->getDoctrine()->getManager('procesos');
 
-        $repoTipo    = $em->getRepository("ProcesosBundle:TipoProceso");
+        $repoTipo = $em->getRepository("ProcesosBundle:TipoProceso");
         $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
 
 
         $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
 
-        $estadoCreado    = $repoEstados->findOneBy(['codigo' => 'cr']);
+        $estadoCreado = $repoEstados->findOneBy(['codigo' => 'cr']);
         $estadoEnProceso = $repoEstados->findOneBy(['codigo' => 'ep']);
 
         if (!$tipo0) {
@@ -87,7 +87,7 @@ class DefaultController extends RMController
             $this->createNotFoundException('No se ha encontrado el estado "En Proceso"');
         }
 
-        $repoProcesos    = $em->getRepository("ProcesosBundle:Proceso");
+        $repoProcesos = $em->getRepository("ProcesosBundle:Proceso");
         $procesoDeCentro = $repoProcesos->findBy([
             'idCentro'      => $this->get('security.token_storage')->getToken()->getUser()->getCliente(),
             'estadoProceso' => [$estadoCreado, $estadoEnProceso],
@@ -106,7 +106,7 @@ class DefaultController extends RMController
     {
         $em = $this->getDoctrine()->getManager('procesos');
 
-        $repoTipo    = $em->getRepository("ProcesosBundle:TipoProceso");
+        $repoTipo = $em->getRepository("ProcesosBundle:TipoProceso");
         $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
 
         $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
@@ -129,8 +129,7 @@ class DefaultController extends RMController
             ->setEstadoProceso($estadoCreado)
             ->setUidUsuario($usuario->getUsername())
             ->setTipoProceso($tipo0)
-            ->setIdCentro($usuario->getCliente())
-        ;
+            ->setIdCentro($usuario->getCliente());
 
         $em->persist($proceso);
         $em->flush();
@@ -147,7 +146,7 @@ class DefaultController extends RMController
         $fecha_busqueda = $request->get('fecha_busqueda');
         $fecha_busqueda = new \DateTime($fecha_busqueda);
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
+        $objTipos = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
         return $this->render('RMSegmentoBundle:Default\Buscador:buscadorSegmentosPopup.html.twig', [

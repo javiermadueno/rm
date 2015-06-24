@@ -21,7 +21,7 @@ class MongoManager
      */
     private $dm;
 
-    public function __construct(ManagerRegistry $doctrine,  TokenStorageInterface $security)
+    public function __construct(ManagerRegistry $doctrine, TokenStorageInterface $security)
     {
         /** @var TokenInterface $token */
         $token = $security->getToken();
@@ -30,7 +30,7 @@ class MongoManager
         /** @var  $cliente */
         $this->cliente = $usuario->getCliente();
 
-        if(!isset($this->cliente)) {
+        if (!isset($this->cliente)) {
             throw new \Exception(
                 'No está definida la variable de conexión'
             );
@@ -45,11 +45,11 @@ class MongoManager
      */
     public function getManager()
     {
-        if(!$this->dm) {
+        if (!$this->dm) {
             throw new \Exception(sprintf(
-                    'No se ha encontrado Entity Manager para el cliente %s',
-                    $this->cliente
-                ));
+                'No se ha encontrado Entity Manager para el cliente %s',
+                $this->cliente
+            ));
         }
 
         return $this->dm;

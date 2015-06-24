@@ -9,7 +9,6 @@
 namespace RM\PlantillaBundle\Form\Handler;
 
 
-
 use RM\PlantillaBundle\DomainManager\PlantillaManager;
 use RM\PlantillaBundle\Form\PlantillaType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -21,10 +20,10 @@ class EditPlantillaFormHandler
     /**
      * @var PlantillaManager
      */
-    private  $manager;
+    private $manager;
 
     /**
-     * @param PlantillaManager $manager
+     * @param PlantillaManager     $manager
      * @param FormFactoryInterface $formFactory
      */
     public function __construct(PlantillaManager $manager, FormFactoryInterface $formFactory)
@@ -35,7 +34,8 @@ class EditPlantillaFormHandler
 
     /**
      * @param FormInterface $form
-     * @param Request $request
+     * @param Request       $request
+     *
      * @return bool
      */
     public function handle(FormInterface $form, Request $request)
@@ -62,8 +62,8 @@ class EditPlantillaFormHandler
     {
         $plantilla = $this->manager->find($id);
 
-        $form = $this->formFactory->create(new PlantillaType(), $plantilla, array(
-                'method' => 'PUT'
-            ));
+        $form = $this->formFactory->create(new PlantillaType(), $plantilla, [
+            'method' => 'PUT'
+        ]);
     }
 } 

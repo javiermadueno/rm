@@ -54,7 +54,7 @@ class VilSegmento
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -65,19 +65,20 @@ class VilSegmento
      * Set idVil
      *
      * @param integer $idVil
+     *
      * @return VilSegmento
      */
     public function setIdVil($idVil)
     {
         $this->idVil = $idVil;
-    
+
         return $this;
     }
 
     /**
      * Get idVil
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdVil()
     {
@@ -88,19 +89,20 @@ class VilSegmento
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return VilSegmento
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -111,19 +113,20 @@ class VilSegmento
      * Set valor
      *
      * @param integer $valor
+     *
      * @return VilSegmento
      */
     public function setValor($valor)
     {
         $this->valor = $valor;
-    
+
         return $this;
     }
 
     /**
      * Get valor
      *
-     * @return integer 
+     * @return integer
      */
     public function getValor()
     {
@@ -134,19 +137,20 @@ class VilSegmento
      * Set estado
      *
      * @param integer $estado
+     *
      * @return VilSegmento
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return integer 
+     * @return integer
      */
     public function getEstado()
     {

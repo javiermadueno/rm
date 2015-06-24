@@ -49,7 +49,8 @@ class VtSegmento
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtGrupo", mappedBy="idVtSegmento", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtGrupo", mappedBy="idVtSegmento",
+     *                                                                      cascade={"persist", "remove"})
      */
     private $grupos;
 
@@ -58,19 +59,20 @@ class VtSegmento
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return VtSegmento
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -81,19 +83,20 @@ class VtSegmento
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return VtSegmento
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -103,7 +106,7 @@ class VtSegmento
     /**
      * Get idVtSegmento
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdVtSegmento()
     {
@@ -114,29 +117,31 @@ class VtSegmento
      * Set idVt
      *
      * @param \RM\TransformadasBundle\Entity\Vt $idVt
+     *
      * @return VtSegmento
      */
     public function setIdVt(\RM\TransformadasBundle\Entity\Vt $idVt = null)
     {
         $this->idVt = $idVt;
-    
+
         return $this;
     }
 
     /**
      * Get idVt
      *
-     * @return \RM\TransformadasBundle\Entity\Vt 
+     * @return \RM\TransformadasBundle\Entity\Vt
      */
     public function getIdVt()
     {
         return $this->idVt;
     }
-    
+
     public function __toString()
     {
-    	return (string)$this->idVtSegmento;
+        return (string)$this->idVtSegmento;
     }
+
     /**
      * Constructor
      */
@@ -144,17 +149,18 @@ class VtSegmento
     {
         $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add grupos
      *
      * @param \RM\TransformadasBundle\Entity\VtGrupo $grupos
+     *
      * @return VtSegmento
      */
     public function addGrupo(\RM\TransformadasBundle\Entity\VtGrupo $grupos)
     {
         $this->grupos[] = $grupos;
-    
+
         return $this;
     }
 
@@ -171,11 +177,11 @@ class VtSegmento
     /**
      * Get grupos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGrupos()
     {
-        return $this->grupos->filter(function(VtGrupo $grupo){
+        return $this->grupos->filter(function (VtGrupo $grupo) {
             return $grupo->getEstado() > -1;
         });
     }

@@ -12,9 +12,9 @@ namespace RM\ComunicacionBundle\Entity;
 class Estado
 {
 
-    const ELIMINADO     = -1;
-    const CONFIGURACION =  0;
-    const ACTIVO        =  1;
-    const PAUSADO       =  2;
-    const COMPLETADA    =  3;
+    const ELIMINADO = -1;
+    const CONFIGURACION = 0;
+    const ACTIVO = 1;
+    const PAUSADO = 2;
+    const COMPLETADA = 3;
 } 

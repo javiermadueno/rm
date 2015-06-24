@@ -35,7 +35,7 @@ class Discreta
 
     public function getGSbyIdGrupo($id_vid_grupo_segmento)
     {
-        $repoVar  = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registro = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($id_vid_grupo_segmento);
 
 
@@ -62,15 +62,15 @@ class Discreta
 
             if ($objVid->getClasificacion() == Vid::CLASIFICACION_CATEGORIA)            // Es una categoria
             {
-                $repoCat       = $this->em->getRepository('RMCategoriaBundle:Categoria');
+                $repoCat = $this->em->getRepository('RMCategoriaBundle:Categoria');
                 $objCategorias = $repoCat->obtenerCatAsoc();
-                $objCategoria  = $objCategorias [0];
-                $registroGS    = $this->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $personalizado = 0);
+                $objCategoria = $objCategorias [0];
+                $registroGS = $this->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $personalizado = 0);
             } elseif ($objVid->getClasificacion() == Vid::CLASIFICACION_MARCA)            // Es una marca
             {
-                $repoMarca  = $this->em->getRepository('RMProductoBundle:Marca');
-                $objMarcas  = $repoMarca->obtenerMarcas();
-                $objMarca   = $objMarcas [0];
+                $repoMarca = $this->em->getRepository('RMProductoBundle:Marca');
+                $objMarcas = $repoMarca->obtenerMarcas();
+                $objMarca = $objMarcas [0];
                 $registroGS = $this->crearObjGrupoSegmentoConMarca($objVid, $objMarca);
             } else            // Se crea uno por defecto sin nada
             {
@@ -272,7 +272,7 @@ class Discreta
 
     public function guardarNuevosSegmentosAsocByPost(Request $request)
     {
-        $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
         $contSegmentos = $request->get('contSegmentos');
@@ -295,11 +295,11 @@ class Discreta
 
     public function guardarNuevosSegmentosGlobalesDefectoAsocByPost(Request $request)
     {
-        $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $repoVar = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
         $numSegAct = $request->get('numSegAct');
-        for ($i = 1; $i <= $numSegAct ; $i++) {
+        for ($i = 1; $i <= $numSegAct; $i++) {
             if ($request->get('nomSeg' . $i) != "" && $request->get('perc' . $i) != "") {
                 $registroS = new VidSegmento ();
                 $registroS->setIdVidGrupoSegmento($registroGS [0]);

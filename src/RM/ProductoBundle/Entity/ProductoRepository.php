@@ -40,7 +40,7 @@ class ProductoRepository extends EntityRepository
         $dql .= " ORDER BY p.codSku ASC";
 
 
-        $query    = $this->_em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $registro = $query->getResult();
 
         return $registro;
@@ -148,8 +148,7 @@ class ProductoRepository extends EntityRepository
 
         $productos = $qb->orderBy('p.idProducto')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
 
 
         return $productos;

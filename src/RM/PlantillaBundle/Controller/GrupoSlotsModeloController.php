@@ -32,23 +32,22 @@ class GrupoSlotsModeloController extends RMController
 
         $editable = $this->get('request')->get('editable', true);
 
-        if($editable){
+        if ($editable) {
             return $this->render('RMPlantillaBundle:GrupoSlotsModelo:index.html.twig', [
                 'entities'  => $entities,
                 'plantilla' => $idPlantilla,
-                'editable' => $editable
+                'editable'  => $editable
 
             ]);
-        }else{
+        } else {
             return $this->render('RMPlantillaBundle:GrupoSlotsModelo:indexNoEditable.html.twig', [
-                'entities' => $entities,
+                'entities'  => $entities,
                 'plantilla' => $idPlantilla
             ]);
         }
 
 
     }
-
 
 
     /**
@@ -86,7 +85,7 @@ class GrupoSlotsModeloController extends RMController
      */
     private function createCreateForm(GrupoSlots $entity, $idPlantilla)
     {
-        $em        = $this->getManager();
+        $em = $this->getManager();
         $plantilla = $em->getRepository('RMPlantillaBundle:Plantilla')->find($idPlantilla);
 
         if (!$plantilla) {
@@ -98,7 +97,7 @@ class GrupoSlotsModeloController extends RMController
 
         $form = $this->get('rm.create_grupo_slot_form_handler')->createForm($entity, [
             'action' => $this->generateUrl('gruposlotsmodelo_create', [
-                    'idPlantilla' => $idPlantilla
+                'idPlantilla' => $idPlantilla
             ]),
             'method' => 'POST',
             'em'     => $em
@@ -129,7 +128,7 @@ class GrupoSlotsModeloController extends RMController
         return $this->render('RMPlantillaBundle:GrupoSlotsModelo:show.html.twig', [
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'plantilla' => $idPlantilla
+            'plantilla'   => $idPlantilla
         ]);
     }
 
@@ -171,7 +170,7 @@ class GrupoSlotsModeloController extends RMController
             throw $this->createNotFoundException('Unable to find GrupoSlotsModelo entity.');
         }
 
-        $editForm   = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id, $idPlantilla);
 
         $editForm->handleRequest($request);
@@ -199,7 +198,7 @@ class GrupoSlotsModeloController extends RMController
      */
     private function createEditForm(GrupoSlots $entity)
     {
-        $em   = $this->getManager();
+        $em = $this->getManager();
 
         $form = $this->createForm(new GrupoSlotsType(), $entity, [
             'action' => $this->generateUrl('gruposlotsmodelo_update', [
@@ -231,7 +230,7 @@ class GrupoSlotsModeloController extends RMController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em     = $this->getManager();
+            $em = $this->getManager();
             $entity = $em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
 
             if (!$entity) {
@@ -258,7 +257,7 @@ class GrupoSlotsModeloController extends RMController
     {
         $idsGruposAEliminar = $request->request->get('eliminar', []);
 
-        if(! $this->get('rm.grupo_slot_manager')->deleteByIds($idsGruposAEliminar)){
+        if (!$this->get('rm.grupo_slot_manager')->deleteByIds($idsGruposAEliminar)) {
             $this->addFlash('mensaje', 'mensaje.error.eliminar');
             return $this->redirectToRoute('rm_plantilla_plantilla_modelo_edit', ['id' => $idPlantilla]);
         }

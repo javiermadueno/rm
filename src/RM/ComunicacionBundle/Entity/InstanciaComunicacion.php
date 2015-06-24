@@ -77,10 +77,10 @@ class InstanciaComunicacion
      */
     private $idSegmentoComunicacion;
 
-  /**
-   * @var ArrayCollection
-   * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
-   */
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
+     */
     private $numPromociones;
 
     /**
@@ -90,24 +90,24 @@ class InstanciaComunicacion
     private $paso;
 
 
-
     /**
      * Set fecCreacion
      *
      * @param \Date $fecCreacion
+     *
      * @return InstanciaComunicacion
      */
     public function setFecCreacion($fecCreacion)
     {
         $this->fecCreacion = $fecCreacion;
-    
+
         return $this;
     }
 
     /**
      * Get fecCreacion
      *
-     * @return \Date 
+     * @return \Date
      */
     public function getFecCreacion()
     {
@@ -118,19 +118,20 @@ class InstanciaComunicacion
      * Set fecEjecucion
      *
      * @param \Date $fecEjecucion
+     *
      * @return InstanciaComunicacion
      */
     public function setFecEjecucion($fecEjecucion)
     {
         $this->fecEjecucion = $fecEjecucion;
-    
+
         return $this;
     }
 
     /**
      * Get fecEjecucion
      *
-     * @return \Date 
+     * @return \Date
      */
     public function getFecEjecucion()
     {
@@ -141,12 +142,13 @@ class InstanciaComunicacion
      * Set fase
      *
      * @param \RM\ComunicacionBundle\Entity\Fases $fase
+     *
      * @return InstanciaComunicacion
      */
     public function setFase($fase)
     {
         $this->fase = $fase;
-    
+
         return $this;
     }
 
@@ -164,19 +166,20 @@ class InstanciaComunicacion
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return InstanciaComunicacion
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -186,7 +189,7 @@ class InstanciaComunicacion
     /**
      * Get idInstancia
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdInstancia()
     {
@@ -197,12 +200,14 @@ class InstanciaComunicacion
      * Set idSegmentoComunicacion
      *
      * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion
+     *
      * @return InstanciaComunicacion
      */
-    public function setIdSegmentoComunicacion(\RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion = null)
-    {
+    public function setIdSegmentoComunicacion(
+        \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion = null
+    ) {
         $this->idSegmentoComunicacion = $idSegmentoComunicacion;
-    
+
         return $this;
     }
 
@@ -220,12 +225,13 @@ class InstanciaComunicacion
      * Add numPromociones
      *
      * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
+     *
      * @return InstanciaComunicacion
      */
     public function addNumPromocion(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
     {
         $this->numPromociones[] = $numPromociones;
-    
+
         return $this;
     }
 
@@ -242,13 +248,13 @@ class InstanciaComunicacion
     /**
      * Get numPromociones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getNumPromociones()
     {
-        return $this->numPromociones->filter(function(NumPromociones $numPro){
-                return $numPro->getEstado() > -1;
-            });
+        return $this->numPromociones->filter(function (NumPromociones $numPro) {
+            return $numPro->getEstado() > -1;
+        });
     }
 
 
@@ -256,19 +262,20 @@ class InstanciaComunicacion
      * Set paso
      *
      * @param integer $paso
+     *
      * @return InstanciaComunicacion
      */
     public function setPaso($paso)
     {
         $this->paso = $paso;
-    
+
         return $this;
     }
 
     /**
      * Get paso
      *
-     * @return integer 
+     * @return integer
      */
     public function getPaso()
     {
@@ -279,12 +286,13 @@ class InstanciaComunicacion
      * Add numPromociones
      *
      * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
+     *
      * @return InstanciaComunicacion
      */
     public function addNumPromocione(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
     {
         $this->numPromociones[] = $numPromociones;
-    
+
         return $this;
     }
 

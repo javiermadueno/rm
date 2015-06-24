@@ -28,6 +28,7 @@ class InstanciaComunicacionRepository extends EntityRepository
 
     /**
      * @param $id_instancia
+     *
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -54,34 +55,34 @@ class InstanciaComunicacionRepository extends EntityRepository
 		JOIN RMSegmentoBundle:Segmento s WITH (sc.idSegmento = s.idSegmento)
 		WHERE ic.estado > -1";
 
-        if($id_comunicacion != -1){
-            $dql .= " AND c.idComunicacion IN (". $id_comunicacion. ")";
+        if ($id_comunicacion != -1) {
+            $dql .= " AND c.idComunicacion IN (" . $id_comunicacion . ")";
         }
 
-        if($id_segmento != -1){
-            $dql .= " AND s.idSegmento IN (". $id_segmento. ")";
+        if ($id_segmento != -1) {
+            $dql .= " AND s.idSegmento IN (" . $id_segmento . ")";
         }
 
-        if($fase != -1){
-            $dql .= " AND ic.fase IN (". $fase. ")";
+        if ($fase != -1) {
+            $dql .= " AND ic.fase IN (" . $fase . ")";
         }
 
-        if($fecha_inicio != -1 && $fecha_inicio != '') {
+        if ($fecha_inicio != -1 && $fecha_inicio != '') {
 
             $fecha_init = new \DateTime($fecha_inicio);
             $fecha_inicial = $fecha_init->format('Y-m-d H:i:s');
 
-            if($fecha_fin != -1 && $fecha_fin != '' ){
+            if ($fecha_fin != -1 && $fecha_fin != '') {
                 $fecha_end = new \DateTime($fecha_fin);
                 $fecha_final = $fecha_end->format('Y-m-d H:i:s');
-                $dql .= " AND ic.fecEjecucion > '" .$fecha_inicial. "' AND ic.fecEjecucion < '" .$fecha_final."'";
+                $dql .= " AND ic.fecEjecucion > '" . $fecha_inicial . "' AND ic.fecEjecucion < '" . $fecha_final . "'";
             } else {
-                $dql .= " AND ic.fecEjecucion > '" .$fecha_inicial. "'";
+                $dql .= " AND ic.fecEjecucion > '" . $fecha_inicial . "'";
             }
-        } elseif ($fecha_fin != -1 && $fecha_fin != '' ){
+        } elseif ($fecha_fin != -1 && $fecha_fin != '') {
             $fecha_end = new \DateTime($fecha_fin);
             $fecha_final = $fecha_end->format('Y-m-d H:i:s');
-            $dql .= " AND ic.fecEjecucion < '" .$fecha_final. "'";
+            $dql .= " AND ic.fecEjecucion < '" . $fecha_final . "'";
         }
 
         $dql .= " ORDER BY ic.idInstancia ASC";
@@ -91,9 +92,11 @@ class InstanciaComunicacionRepository extends EntityRepository
         return $query;
     }
 
-    public function obtenerInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin) {
+    public function obtenerInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin)
+    {
 
-        return $this->obtenerInstanciasByFiltroDQL($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin)->getResult();
+        return $this->obtenerInstanciasByFiltroDQL($id_comunicacion, $id_segmento, $fase, $fecha_inicio,
+            $fecha_fin)->getResult();
     }
 
     public function obtenerResumenPromocionesByTipo($id_instancia)
@@ -151,12 +154,11 @@ class InstanciaComunicacionRepository extends EntityRepository
             ->setParameter('pendiente', Promocion::PENDIENTE)
             ->setParameter('rechazada', Promocion::RECHAZADA)
             ->setParameter('segmentada', Promocion::TIPO_SEGMENTADA)
-            ->setParameter('tipos', array(
-                    Promocion::ACEPTADA,
-                    Promocion::PENDIENTE,
-                    Promocion::RECHAZADA
-                ))
-        ;
+            ->setParameter('tipos', [
+                Promocion::ACEPTADA,
+                Promocion::PENDIENTE,
+                Promocion::RECHAZADA
+            ]);
 
         return $query->getResult();
     }
@@ -164,18 +166,17 @@ class InstanciaComunicacionRepository extends EntityRepository
     public function obtenerCampanyasByFiltro($id_categoria)
     {
         $qb = $this->createQueryBuilder('ic')
-            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH', 'ic.idInstancia = np.idInstancia AND np.estado > -1')
+            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH',
+                'ic.idInstancia = np.idInstancia AND np.estado > -1')
             ->join('RMComunicacionBundle:Fases', 'f', 'WITH', 'f.codigo = :codigo AND ic.fase = f')
             ->where('ic.estado > -1')
             ->groupBy('ic.idInstancia')
             ->orderBy('ic.idInstancia', 'ASC')
-            ->setParameter('codigo', InstanciaComunicacion::FASE_NEGOCIACION)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_NEGOCIACION);
 
-        if($id_categoria != null && $id_categoria > 0){
+        if ($id_categoria != null && $id_categoria > 0) {
             $qb->andWhere('np.idCategoria IN (:categoria)')
-                ->setParameter('categoria', $id_categoria)
-            ;
+                ->setParameter('categoria', $id_categoria);
         }
 
         return $qb->getQuery()->getResult();
@@ -196,52 +197,53 @@ class InstanciaComunicacionRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE);
         return $query->getResult();
     }
+
     public function obtenerClosingCampaignsByFiltro($id_categoria)
     {
 
         $qb = $this->createQueryBuilder('ic')
-            ->join('RMComunicacionBundle:SegmentoComunicacion', 'sc', 'WITH', 'ic.idSegmentoComunicacion = sc.idSegmentoComunicacion')
+            ->join('RMComunicacionBundle:SegmentoComunicacion', 'sc', 'WITH',
+                'ic.idSegmentoComunicacion = sc.idSegmentoComunicacion')
             ->join('RMComunicacionBundle:Comunicacion', 'c', 'WITH', 'sc.idComunicacion = c.idComunicacion')
             ->join('RMSegmentoBundle:Segmento', 's', 'WITH', 'sc.idSegmento = s.idSegmento')
-            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH', 'ic.idInstancia = np.idInstancia AND np.estado > -1')
+            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH',
+                'ic.idInstancia = np.idInstancia AND np.estado > -1')
             ->join('ic.fase', 'f')
             ->where('ic.estado > -1')
             ->andWhere('f.codigo = :codigo')
             ->groupBy('ic.idInstancia')
             ->orderBy('ic.idInstancia', 'ASC')
-            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE);
 
-        if($id_categoria != null && $id_categoria > 0){
-           $qb->andWhere('np.idCategoria = :categoria')
-               ->setParameter('categoria', $id_categoria);
+        if ($id_categoria != null && $id_categoria > 0) {
+            $qb->andWhere('np.idCategoria = :categoria')
+                ->setParameter('categoria', $id_categoria);
         }
 
         return $qb->getQuery()->getResult();
         /**
-        $dql = "SELECT ic
-		FROM RMComunicacionBundle:InstanciaComunicacion ic
-		JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (ic.idSegmentoComunicacion = sc.idSegmentoComunicacion)
-		JOIN RMComunicacionBundle:Comunicacion c WITH (sc.idComunicacion = c.idComunicacion)
-		JOIN RMSegmentoBundle:Segmento s WITH (sc.idSegmento = s.idSegmento)
-		JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
-		WHERE ic.estado > 0
-		AND  ic.fase = 3";
-
-        if($id_categoria != null && $id_categoria > 0){
-            $dql .= " AND np.idCategoria IN (". $id_categoria. ")";
-        }
-
-        $dql .= " GROUP BY ic.idInstancia
-				ORDER BY ic.idInstancia ASC";
-
-        $query = $this->_em->createQuery($dql);
-
-        return $query->getResult();**/
+         * $dql = "SELECT ic
+         * FROM RMComunicacionBundle:InstanciaComunicacion ic
+         * JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (ic.idSegmentoComunicacion = sc.idSegmentoComunicacion)
+         * JOIN RMComunicacionBundle:Comunicacion c WITH (sc.idComunicacion = c.idComunicacion)
+         * JOIN RMSegmentoBundle:Segmento s WITH (sc.idSegmento = s.idSegmento)
+         * JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
+         * WHERE ic.estado > 0
+         * AND  ic.fase = 3";
+         *
+         * if($id_categoria != null && $id_categoria > 0){
+         * $dql .= " AND np.idCategoria IN (". $id_categoria. ")";
+         * }
+         *
+         * $dql .= " GROUP BY ic.idInstancia
+         * ORDER BY ic.idInstancia ASC";
+         *
+         * $query = $this->_em->createQuery($dql);
+         *
+         * return $query->getResult();**/
     }
 
     public function obtenerInstanciasCreatividad()

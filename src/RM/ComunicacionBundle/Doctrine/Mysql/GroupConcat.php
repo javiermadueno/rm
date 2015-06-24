@@ -34,7 +34,7 @@ class GroupConcat extends FunctionNode
         }
 
         // first Path Expression is mandatory
-        $this->pathExp = array();
+        $this->pathExp = [];
         $this->pathExp[] = $parser->SingleValuedPathExpression();
 
         while ($lexer->isNextToken(Lexer::T_COMMA)) {
@@ -62,7 +62,7 @@ class GroupConcat extends FunctionNode
     {
         $result = 'GROUP_CONCAT(' . ($this->isDistinct ? 'DISTINCT ' : '');
 
-        $fields = array();
+        $fields = [];
         foreach ($this->pathExp as $pathExp) {
             $fields[] = $pathExp->dispatch($sqlWalker);
         }

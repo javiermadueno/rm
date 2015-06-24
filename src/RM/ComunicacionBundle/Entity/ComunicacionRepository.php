@@ -7,73 +7,72 @@ use Doctrine\ORM\Query;
 
 class ComunicacionRepository extends EntityRepository
 {
-	public function obtenerComunicaciones($id_canal, $estado)
+    public function obtenerComunicaciones($id_canal, $estado)
     {
-		$dql = "select c
+        $dql = "select c
 			from RMComunicacionBundle:Comunicacion c
 			WHERE 1=1";
-		
-		if($id_canal != -1){
-			$dql .= " AND c.idCanal = :id_canal";
-		}
-		
-		if($estado != -2){
-			$dql .= " AND c.estado = :estado";
-		}
-		else {
-			$dql .= " AND c.estado > -1";
-		}
 
-		$query = $this->_em->createQuery($dql);
-		if($id_canal != -1){
-			$query->setParameter('id_canal', $id_canal);
-		}
-		if($estado != -2){
-			$query->setParameter('estado', $estado);
-		}
-		$registros = $query->getResult();
-	
-		return $registros;
-	
-	}
-	
-	public function deleteComunicaciones($id_comunicacion) {
+        if ($id_canal != -1) {
+            $dql .= " AND c.idCanal = :id_canal";
+        }
 
-		$dql = "
+        if ($estado != -2) {
+            $dql .= " AND c.estado = :estado";
+        } else {
+            $dql .= " AND c.estado > -1";
+        }
+
+        $query = $this->_em->createQuery($dql);
+        if ($id_canal != -1) {
+            $query->setParameter('id_canal', $id_canal);
+        }
+        if ($estado != -2) {
+            $query->setParameter('estado', $estado);
+        }
+        $registros = $query->getResult();
+
+        return $registros;
+
+    }
+
+    public function deleteComunicaciones($id_comunicacion)
+    {
+
+        $dql = "
 				UPDATE RMComunicacionBundle:Comunicacion c
 				SET c.estado = -1
 				WHERE c.idComunicacion = :idComunicacion
 				";
-		
-		$query = $this->_em
+
+        $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('idComunicacion', $id_comunicacion)
-        ;
-		
-		$registros = $query->getResult();
-	
-		return $registros;
-	
-	}
-	
-	public function obtenerComunicacionById($id_comunicacion)
+            ->setParameter('idComunicacion', $id_comunicacion);
+
+        $registros = $query->getResult();
+
+        return $registros;
+
+    }
+
+    public function obtenerComunicacionById($id_comunicacion)
     {
 
-		$dql = "
+        $dql = "
             select c
             from RMComunicacionBundle:Comunicacion c
             WHERE c.idComunicacion = :idComunicacion
         ";
-	
-		$query = $this->_em
+
+        $query = $this->_em
             ->createQuery($dql)
             ->setParameter('idComunicacion', $id_comunicacion);
 
-		$registros = $query->getResult();
-	
-		return $registros;
-	
-	}
+        $registros = $query->getResult();
+
+        return $registros;
+
+    }
 
     public function findById($id)
     {
@@ -96,5 +95,5 @@ class ComunicacionRepository extends EntityRepository
             ->getQuery()->getResult();
     }
 
-	
+
 }

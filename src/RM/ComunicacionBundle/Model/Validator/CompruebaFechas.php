@@ -7,6 +7,7 @@
  */
 
 namespace RM\ComunicacionBundle\Model\Validator;
+
 use Symfony\Component\Validator\Constraint;
 
 /**

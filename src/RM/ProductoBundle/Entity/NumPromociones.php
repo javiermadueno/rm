@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 class NumPromociones
 {
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->promociones = new ArrayCollection();
     }
@@ -87,24 +88,24 @@ class NumPromociones
     private $promociones;
 
 
-
     /**
      * Set numSegmentadas
      *
      * @param integer $numSegmentadas
+     *
      * @return NumPromociones
      */
     public function setNumSegmentadas($numSegmentadas)
     {
         $this->numSegmentadas = $numSegmentadas;
-    
+
         return $this;
     }
 
     /**
      * Get numSegmentadas
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumSegmentadas()
     {
@@ -115,19 +116,20 @@ class NumPromociones
      * Set numGenericas
      *
      * @param integer $numGenericas
+     *
      * @return NumPromociones
      */
     public function setNumGenericas($numGenericas)
     {
         $this->numGenericas = $numGenericas;
-    
+
         return $this;
     }
 
     /**
      * Get numGenericas
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumGenericas()
     {
@@ -138,19 +140,20 @@ class NumPromociones
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return NumPromociones
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -160,7 +163,7 @@ class NumPromociones
     /**
      * Get idNumPro
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdNumPro()
     {
@@ -171,19 +174,20 @@ class NumPromociones
      * Set idInstancia
      *
      * @param \RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia
+     *
      * @return NumPromociones
      */
     public function setIdInstancia(\RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia = null)
     {
         $this->idInstancia = $idInstancia;
-    
+
         return $this;
     }
 
     /**
      * Get idInstancia
      *
-     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion 
+     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion
      */
     public function getIdInstancia()
     {
@@ -194,19 +198,20 @@ class NumPromociones
      * Set idGrupo
      *
      * @param \RM\PlantillaBundle\Entity\GrupoSlots $idGrupo
+     *
      * @return NumPromociones
      */
     public function setIdGrupo(\RM\PlantillaBundle\Entity\GrupoSlots $idGrupo = null)
     {
         $this->idGrupo = $idGrupo;
-    
+
         return $this;
     }
 
     /**
      * Get idGrupo
      *
-     * @return \RM\PlantillaBundle\Entity\GrupoSlots 
+     * @return \RM\PlantillaBundle\Entity\GrupoSlots
      */
     public function getIdGrupo()
     {
@@ -217,19 +222,20 @@ class NumPromociones
      * Set idCategoria
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria
+     *
      * @return NumPromociones
      */
     public function setIdCategoria(\RM\CategoriaBundle\Entity\Categoria $idCategoria = null)
     {
         $this->idCategoria = $idCategoria;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria()
     {
@@ -240,12 +246,13 @@ class NumPromociones
      * Add promociones
      *
      * @param \RM\ProductoBundle\Entity\Promocion $promociones
+     *
      * @return NumPromociones
      */
     public function addPromocion(\RM\ProductoBundle\Entity\Promocion $promociones)
     {
         $this->promociones[] = $promociones;
-    
+
         return $this;
     }
 
@@ -262,36 +269,38 @@ class NumPromociones
     /**
      * Get promociones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPromociones()
     {
-        return $this->promociones->filter(function (Promocion $promocion){
-                return $promocion->getEstado() > -1;
-            });
+        return $this->promociones->filter(function (Promocion $promocion) {
+            return $promocion->getEstado() > -1;
+        });
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPromocionesSegentadas(){
+    public function getPromocionesSegentadas()
+    {
 
-      return $this->promociones->filter(function(Promocion $promocion){
-        return $promocion->getTipo() == Promocion::TIPO_SEGMENTADA
-              & $promocion->getEstado() > -1;
-      });
-
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPromocionesGenericas(){
-
-      return $this->promociones->filter(function(Promocion $promocion){
-        return $promocion->getTipo() ==  Promocion::TIPO_GENERICA
+        return $this->promociones->filter(function (Promocion $promocion) {
+            return $promocion->getTipo() == Promocion::TIPO_SEGMENTADA
             & $promocion->getEstado() > -1;
-      });
+        });
+
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPromocionesGenericas()
+    {
+
+        return $this->promociones->filter(function (Promocion $promocion) {
+            return $promocion->getTipo() == Promocion::TIPO_GENERICA
+            & $promocion->getEstado() > -1;
+        });
 
     }
 }

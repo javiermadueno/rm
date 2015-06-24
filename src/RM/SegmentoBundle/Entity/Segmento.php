@@ -13,7 +13,7 @@ use RM\CategoriaBundle\Entity\Categoria;
  */
 class Segmento implements \JsonSerializable
 {
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
@@ -92,25 +92,25 @@ class Segmento implements \JsonSerializable
     private $idVidSegmento;
 
     /**
-	 * @var \RM\ProductoBundle\Entity\Marca
-	 *
-	 * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Marca")
-	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="id_marca", referencedColumnName="id_marca")
-	 * })
-	 */
+     * @var \RM\ProductoBundle\Entity\Marca
+     *
+     * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Marca")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_marca", referencedColumnName="id_marca")
+     * })
+     */
     private $idMarca;
 
     /**
-	 * @var Categoria
-	 *
-	 * @ORM\ManyToOne(targetEntity="RM\CategoriaBundle\Entity\Categoria")
-	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="id_categoria", referencedColumnName="id_categoria")
-	 * })
-	 */
+     * @var Categoria
+     *
+     * @ORM\ManyToOne(targetEntity="RM\CategoriaBundle\Entity\Categoria")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_categoria", referencedColumnName="id_categoria")
+     * })
+     */
     private $idCategoria;
-    
+
     /**
      * @var \RM\TransformadasBundle\Entity\VtGrupo
      *
@@ -120,7 +120,7 @@ class Segmento implements \JsonSerializable
      * })
      */
     private $idGrupo;
-    
+
     /**
      * @var \RM\TransformadasBundle\Entity\VtIntervalo
      *
@@ -130,7 +130,7 @@ class Segmento implements \JsonSerializable
      * })
      */
     private $idIntervalo;
-    
+
     /**
      * @var \RM\LinealesBundle\Entity\Vil
      *
@@ -140,7 +140,7 @@ class Segmento implements \JsonSerializable
      * })
      */
     private $idVil;
-    
+
     /**
      * @var \RM\DiscretasBundle\Entity\VidGrupoSegmento
      *
@@ -188,26 +188,27 @@ class Segmento implements \JsonSerializable
      */
     public function __toString()
     {
-    	return $this->getNombre();
+        return $this->getNombre();
     }
-    
+
     /**
      * Set nombre
      *
      * @param integer $nombre
+     *
      * @return Segmento
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return integer 
+     * @return integer
      */
     public function getNombre()
     {
@@ -219,19 +220,20 @@ class Segmento implements \JsonSerializable
      * Set query
      *
      * @param text $query
+     *
      * @return Segmento
      */
     public function setQuery($query)
     {
         $this->query = $query;
-    
+
         return $this;
     }
 
     /**
      * Get query
      *
-     * @return text 
+     * @return text
      */
     public function getQuery()
     {
@@ -242,19 +244,20 @@ class Segmento implements \JsonSerializable
      * Set estado
      *
      * @param smallint $estado
+     *
      * @return Segmento
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return smallint
      */
     public function getEstado()
     {
@@ -264,7 +267,7 @@ class Segmento implements \JsonSerializable
     /**
      * Get idSegmento
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdSegmento()
     {
@@ -275,19 +278,20 @@ class Segmento implements \JsonSerializable
      * Set idVid
      *
      * @param \RM\DiscretasBundle\Entity\Vid $idVid
+     *
      * @return Segmento
      */
     public function setIdVid(\RM\DiscretasBundle\Entity\Vid $idVid = null)
     {
         $this->idVid = $idVid;
-    
+
         return $this;
     }
 
     /**
      * Get idVid
      *
-     * @return \RM\DiscretasBundle\Entity\Vid 
+     * @return \RM\DiscretasBundle\Entity\Vid
      */
     public function getIdVid()
     {
@@ -298,19 +302,20 @@ class Segmento implements \JsonSerializable
      * Set idVt
      *
      * @param \RM\TransformadasBundle\Entity\Vt $idVt
+     *
      * @return Segmento
      */
     public function setIdVt(\RM\TransformadasBundle\Entity\Vt $idVt = null)
     {
         $this->idVt = $idVt;
-    
+
         return $this;
     }
 
     /**
      * Get idVt
      *
-     * @return \RM\TransformadasBundle\Entity\Vt 
+     * @return \RM\TransformadasBundle\Entity\Vt
      */
     public function getIdVt()
     {
@@ -321,19 +326,20 @@ class Segmento implements \JsonSerializable
      * Set idVtSegmento
      *
      * @param \RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento
+     *
      * @return Segmento
      */
     public function setIdVtSegmento(\RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento = null)
     {
         $this->idVtSegmento = $idVtSegmento;
-    
+
         return $this;
     }
 
     /**
      * Get idVtSegmento
      *
-     * @return \RM\TransformadasBundle\Entity\VtSegmento 
+     * @return \RM\TransformadasBundle\Entity\VtSegmento
      */
     public function getIdVtSegmento()
     {
@@ -344,19 +350,20 @@ class Segmento implements \JsonSerializable
      * Set idVidSegmento
      *
      * @param \RM\DiscretasBundle\Entity\VidSegmento $idVidSegmento
+     *
      * @return Segmento
      */
     public function setIdVidSegmento(\RM\DiscretasBundle\Entity\VidSegmento $idVidSegmento = null)
     {
         $this->idVidSegmento = $idVidSegmento;
-    
+
         return $this;
     }
 
     /**
      * Get idVidSegmento
      *
-     * @return \RM\DiscretasBundle\Entity\VidSegmento 
+     * @return \RM\DiscretasBundle\Entity\VidSegmento
      */
     public function getIdVidSegmento()
     {
@@ -367,19 +374,20 @@ class Segmento implements \JsonSerializable
      * Set idMarca
      *
      * @param \RM\ProductoBundle\Entity\Marca $idMarca
+     *
      * @return Segmento
      */
     public function setIdMarca(\RM\ProductoBundle\Entity\Marca $idMarca = null)
     {
         $this->idMarca = $idMarca;
-    
+
         return $this;
     }
 
     /**
      * Get idMarca
      *
-     * @return \RM\ProductoBundle\Entity\Marca 
+     * @return \RM\ProductoBundle\Entity\Marca
      */
     public function getIdMarca()
     {
@@ -390,19 +398,20 @@ class Segmento implements \JsonSerializable
      * Set idCategoria
      *
      * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria
+     *
      * @return Segmento
      */
     public function setIdCategoria(\RM\CategoriaBundle\Entity\Categoria $idCategoria = null)
     {
         $this->idCategoria = $idCategoria;
-    
+
         return $this;
     }
 
     /**
      * Get idCategoria
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return \RM\CategoriaBundle\Entity\Categoria
      */
     public function getIdCategoria()
     {
@@ -413,19 +422,20 @@ class Segmento implements \JsonSerializable
      * Set idGrupo
      *
      * @param \RM\TransformadasBundle\Entity\VtGrupo $idGrupo
+     *
      * @return Segmento
      */
     public function setIdGrupo(\RM\TransformadasBundle\Entity\VtGrupo $idGrupo = null)
     {
         $this->idGrupo = $idGrupo;
-    
+
         return $this;
     }
 
     /**
      * Get idGrupo
      *
-     * @return \RM\TransformadasBundle\Entity\VtGrupo 
+     * @return \RM\TransformadasBundle\Entity\VtGrupo
      */
     public function getIdGrupo()
     {
@@ -436,19 +446,20 @@ class Segmento implements \JsonSerializable
      * Set idIntervalo
      *
      * @param \RM\TransformadasBundle\Entity\VtIntervalo $idIntervalo
+     *
      * @return Segmento
      */
     public function setIdIntervalo(\RM\TransformadasBundle\Entity\VtIntervalo $idIntervalo = null)
     {
         $this->idIntervalo = $idIntervalo;
-    
+
         return $this;
     }
 
     /**
      * Get idIntervalo
      *
-     * @return \RM\TransformadasBundle\Entity\VtIntervalo 
+     * @return \RM\TransformadasBundle\Entity\VtIntervalo
      */
     public function getIdIntervalo()
     {
@@ -459,19 +470,20 @@ class Segmento implements \JsonSerializable
      * Set idVil
      *
      * @param \RM\LinealesBundle\Entity\Vil $idVil
+     *
      * @return Segmento
      */
     public function setIdVil(\RM\LinealesBundle\Entity\Vil $idVil = null)
     {
         $this->idVil = $idVil;
-    
+
         return $this;
     }
 
     /**
      * Get idVil
      *
-     * @return \RM\LinealesBundle\Entity\Vil 
+     * @return \RM\LinealesBundle\Entity\Vil
      */
     public function getIdVil()
     {
@@ -482,19 +494,20 @@ class Segmento implements \JsonSerializable
      * Set idVidGrupoSegmento
      *
      * @param \RM\DiscretasBundle\Entity\VidGrupoSegmento $idVidGrupoSegmento
+     *
      * @return Segmento
      */
     public function setIdVidGrupoSegmento(\RM\DiscretasBundle\Entity\VidGrupoSegmento $idVidGrupoSegmento = null)
     {
         $this->idVidGrupoSegmento = $idVidGrupoSegmento;
-    
+
         return $this;
     }
 
     /**
      * Get idVidGrupoSegmento
      *
-     * @return \RM\DiscretasBundle\Entity\VidGrupoSegmento 
+     * @return \RM\DiscretasBundle\Entity\VidGrupoSegmento
      */
     public function getIdVidGrupoSegmento()
     {
@@ -506,19 +519,20 @@ class Segmento implements \JsonSerializable
      * Set tipo
      *
      * @param \RM\DiscretasBundle\Entity\Tipo $tipo
+     *
      * @return Segmento
      */
     public function setTipo(\RM\DiscretasBundle\Entity\Tipo $tipo = null)
     {
         $this->tipo = $tipo;
-    
+
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return \RM\DiscretasBundle\Entity\Tipo 
+     * @return \RM\DiscretasBundle\Entity\Tipo
      */
     public function getTipo()
     {
@@ -529,19 +543,20 @@ class Segmento implements \JsonSerializable
      * Set esNuevo
      *
      * @param integer $esNuevo
+     *
      * @return Segmento
      */
     public function setEsNuevo($esNuevo)
     {
         $this->esNuevo = $esNuevo;
-    
+
         return $this;
     }
 
     /**
      * Get esNuevo
      *
-     * @return integer 
+     * @return integer
      */
     public function getEsNuevo()
     {
@@ -552,19 +567,20 @@ class Segmento implements \JsonSerializable
      * Set c_clave
      *
      * @param integer $cClave
+     *
      * @return Segmento
      */
     public function setCClave($cClave)
     {
         $this->c_clave = $cClave;
-    
+
         return $this;
     }
 
     /**
      * Get c_clave
      *
-     * @return integer 
+     * @return integer
      */
     public function getCClave()
     {
@@ -575,19 +591,20 @@ class Segmento implements \JsonSerializable
      * Set c_fecha_ini
      *
      * @param \DateTime $cFechaIni
+     *
      * @return Segmento
      */
     public function setCFechaIni($cFechaIni)
     {
         $this->c_fecha_ini = $cFechaIni;
-    
+
         return $this;
     }
 
     /**
      * Get c_fecha_ini
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCFechaIni()
     {
@@ -598,19 +615,20 @@ class Segmento implements \JsonSerializable
      * Set c_fecha_fin
      *
      * @param \DateTime $cFechaFin
+     *
      * @return Segmento
      */
     public function setCFechaFin($cFechaFin)
     {
         $this->c_fecha_fin = $cFechaFin;
-    
+
         return $this;
     }
 
     /**
      * Get c_fecha_fin
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCFechaFin()
     {
@@ -621,19 +639,20 @@ class Segmento implements \JsonSerializable
      * Set idProveedor
      *
      * @param \RM\ProductoBundle\Entity\Proveedor $idProveedor
+     *
      * @return Segmento
      */
     public function setIdProveedor(\RM\ProductoBundle\Entity\Proveedor $idProveedor = null)
     {
         $this->idProveedor = $idProveedor;
-    
+
         return $this;
     }
 
     /**
      * Get idProveedor
      *
-     * @return \RM\ProductoBundle\Entity\Proveedor 
+     * @return \RM\ProductoBundle\Entity\Proveedor
      */
     public function getIdProveedor()
     {
@@ -643,12 +662,12 @@ class Segmento implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->idSegmento,
-            'nombre' => $this->nombre,
-            'categoria' => is_null($this->idCategoria)? '' : $this->idCategoria->getNombre(),
-            'proveedor' => is_null($this->idProveedor)? '' : $this->idProveedor->getNombre(),
-            'marca'     => is_null($this->idMarca)    ? '' : $this->idMarca->getNombre(),
-            'cClave' => $this->c_clave,
+            'id'        => $this->idSegmento,
+            'nombre'    => $this->nombre,
+            'categoria' => is_null($this->idCategoria) ? '' : $this->idCategoria->getNombre(),
+            'proveedor' => is_null($this->idProveedor) ? '' : $this->idProveedor->getNombre(),
+            'marca'     => is_null($this->idMarca) ? '' : $this->idMarca->getNombre(),
+            'cClave'    => $this->c_clave,
             'cFechaIni' => is_null($this->c_fecha_ini) ? '' : $this->c_fecha_ini->format('Y-m-d'),
             'cFechaFin' => is_null($this->c_fecha_fin) ? '' : $this->c_fecha_fin->format('Y-m-d')
 

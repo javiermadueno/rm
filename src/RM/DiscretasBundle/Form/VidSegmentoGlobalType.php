@@ -8,27 +8,26 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class VidSegmentoGlobalType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', 'text', array(
-                    'required' => true,
-                ))
-            ->add('condicion', 'choice', array(
-                    'choices' => array(
-                        '1' => '<',
-                        '2' => '<='
-                    ),
-                    'required' => true
-                ))
-            ->add('pivote', 'integer', array(
-                    'required' => true
-                ))
-        ;
+            ->add('nombre', 'text', [
+                'required' => true,
+            ])
+            ->add('condicion', 'choice', [
+                'choices'  => [
+                    '1' => '<',
+                    '2' => '<='
+                ],
+                'required' => true
+            ])
+            ->add('pivote', 'integer', [
+                'required' => true
+            ]);
     }
 
     /**
@@ -36,9 +35,9 @@ class VidSegmentoGlobalType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\DiscretasBundle\Entity\VidSegmentoGlobal'
-        ));
+        ]);
     }
 
     /**
