@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
-
 class CategoriaServicio
 {
     const CATEGORY = 'ROLE_CATEGORY_MANAGER';

@@ -1,6 +1,6 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
-{% set opcionMenuTabConfig = 2 %}
+{% set opcionMenuTabConfig = 2  %}
 
 {% block title %}
     {{ "Configuración - Nueva Plantilla" | trans }}
@@ -8,7 +8,7 @@
 
 {% block migas %}
     {{ parent() }}
-    <li>{{ "nueva.plantilla" |trans|title }}</li>
+    <li>{{ "nueva.plantilla" |trans|title}}</li>
 {% endblock %}
 
 {% block tabcontent %}

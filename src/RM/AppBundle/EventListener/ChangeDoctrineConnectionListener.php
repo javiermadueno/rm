@@ -9,9 +9,9 @@ namespace RM\AppBundle\EventListener;
 
 use Doctrine\DBAL\Connection;
 use IMAG\LdapBundle\User\LdapUser;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 /**

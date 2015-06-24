@@ -9,7 +9,6 @@
 namespace RM\ComunicacionBundle\EventListener;
 
 
-use \Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\Estado;

@@ -26,7 +26,7 @@
     {% else %}
         {% for objPr in objProductos %}
             <tr>
-                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); ">{{ objPr.idProducto }}</a></td>
+                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); " >{{ objPr.idProducto }}</a></td>
                 <td>{{ objPr.idMarca.nombre|default('') }}</td>
                 <td>{{ objPr.nombre|default('') }}</td>
                 <td>
@@ -72,28 +72,30 @@
             'lastDisabledClass' : 'disabled',
                 'lastPageText' : 'Última>>'
             }
-            ) }}
+            )
+            }}
         </div>
     </div>
 </div>
 
 
 {% block javascript %}
-    <script type="text/javascript">
-
-        function verDatosProducto(cod_sku) {
-            if (cod_sku > -1) {
-                var largo = 550;
-                var altura = 550;
-                var top = (screen.height - altura) / 2;
-                var izquierda = (screen.width - largo) / 2;
-                {% set nombreVentana = "Producto" %}
-                camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
-                camino = camino.replace('111', cod_sku);
-                var myUrl = camino;
-                var nomVentana = '{{ nombreVentana }}';
-                window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-            }
-        }
-    </script>
+<script type="text/javascript">
+	
+		function verDatosProducto(cod_sku){			
+			if(cod_sku > -1)
+			{
+				var largo = 550;
+				var altura = 550;
+				var top = (screen.height-altura)/2;
+				var izquierda = (screen.width-largo)/2;
+				{% set nombreVentana = "Producto" %}
+				camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
+				camino = camino.replace('111', cod_sku);
+				var myUrl = camino;
+				var nomVentana = '{{ nombreVentana }}';
+				window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+			}
+		}
+	</script>
 {% endblock %}

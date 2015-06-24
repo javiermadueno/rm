@@ -22,8 +22,7 @@
     <div class="row-fluid">
         <div class="span1 offset11">
             {% set path =  path('data_avanced_hc') %}
-            <button class="btn btn-primary pull-right"
-                    onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
+            <button class="btn btn-primary pull-right" onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
         </div>
     </div>
     {% set personalizada = grupoVidSegmento.personalizado %}
@@ -38,8 +37,7 @@
                     <li class="center-all">
                         <label for="variablePersonalizada">{{ "personalizado"|trans|capitalize }}</label>
                         <input type="hidden" name="personalizado" value="0"/>
-                        <input id="variablePersonalizada" type="checkbox" name="personalizado"
-                               value="1" {% if personalizada %} checked="checked"{% endif %}/>
+                        <input id="variablePersonalizada" type="checkbox" name="personalizado" value="1" {% if personalizada %} checked="checked"{% endif %}/>
                     </li>
                 </ul>
             </div>
@@ -49,7 +47,7 @@
 
 
     {{ form_start(form) }}
-    <h4 class="widgettitle">{{ "criterios" |trans|title|capitalize }}</h4>
+    <h4 class="widgettitle">{{ "criterios" |trans|title|capitalize}}</h4>
     <table class="table table-bordered responsive">
         <colgroup>
             <col class="con0" style="align: center; width: 50%">
@@ -120,13 +118,13 @@
     {% endif %}
     {{ form_rest(form) }}
     {{ form_end(form) }}
-    <h4 class="widgettitle">{{ "segmentos" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "segmentos" |trans|title}}</h4>
     <div class="widgetcontent">
         <table class="table table-bordered table-striped" style="width: 50%">
             <thead>
             <tr>
                 <th>{{ "nombre" |trans }}</th>
-                <th>{{ "segmento" |trans|title }}</th>
+                <th>{{ "segmento" |trans|title}}</th>
             </tr>
             </thead>
             <tbody>
@@ -158,7 +156,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function(){
             $('#variablePersonalizada').change(function () {
 
                 $('#form1').attr("action", "{{ path('data_avanced_cp_editar_actualizarPersonalizado') }} ");

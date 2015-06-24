@@ -5,26 +5,25 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
-    </li>
-    <li>{{ "menu.campaign.creatividades" |trans|title }}</li>
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.campaign.creatividades" |trans|title}}</li>
 {% endblock %}
 
 {% block pagetitle %}
-    <h5>{{ "listado" |trans|upper }}</h5>
+  <h5>{{ "listado" |trans|upper }}</h5>
 {% endblock pagetitle %}
 
 {% block contenedorPrincipal %}
-    <h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
-    <table class="table table-bodered responsive">
-        <colgroup>
-            <col class="con0">
-            <col class="con1">
-            <col class="con0">
-            <col class="con1">
-            <col class="con0">
-            <col class="con1">
-        </colgroup>
+    <h4 class="widgettitle">{{ "creatividades" |trans|title}}</h4>
+     <table class="table table-bodered responsive">
+       <colgroup>
+             <col class="con0">
+             <col class="con1">
+             <col class="con0">
+             <col class="con1">
+             <col class="con0">
+             <col class="con1">
+         </colgroup>
         <thead>
         <tr>
             <th>{{ "instancia" | trans }}</th>
@@ -46,11 +45,10 @@
                 <tr>
                     {# if closing == 1 #}
                     <td>
-                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}"
-                           style="cursor:pointer;">#{{ "%07d"|format( objIns.idInstancia) }}</a>
-                    </td>
+                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}" style="cursor:pointer;">#{{"%07d"|format( objIns.idInstancia) }}</a>
+                       </td>
                     {# else #}
-                    {#  <td><a href="" style="cursor:pointer;">{{ objIns.idInstancia }}</a></td>#}
+                      {#  <td><a href="" style="cursor:pointer;">{{ objIns.idInstancia }}</a></td>#}
                     {# endif #}
                     <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
                     <td>{{ objIns.idSegmentoComunicacion.idSegmento.nombre }}</td>

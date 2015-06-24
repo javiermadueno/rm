@@ -12,7 +12,6 @@ use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Form\GrupoSlotsType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

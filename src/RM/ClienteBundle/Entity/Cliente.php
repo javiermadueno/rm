@@ -196,10 +196,25 @@ class Cliente
      */
     private $idCliente;
 
+
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Cliente
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -207,23 +222,22 @@ class Cliente
     }
 
     /**
-     * Set nombre
+     * Set apellidos
      *
-     * @param string $nombre
-     *
+     * @param string $apellidos
      * @return Cliente
      */
-    public function setNombre($nombre)
+    public function setApellidos($apellidos)
     {
-        $this->nombre = $nombre;
-
+        $this->apellidos = $apellidos;
+    
         return $this;
     }
 
     /**
      * Get apellidos
      *
-     * @return string
+     * @return string 
      */
     public function getApellidos()
     {
@@ -231,23 +245,22 @@ class Cliente
     }
 
     /**
-     * Set apellidos
+     * Set numeroId
      *
-     * @param string $apellidos
-     *
+     * @param integer $numeroId
      * @return Cliente
      */
-    public function setApellidos($apellidos)
+    public function setNumeroId($numeroId)
     {
-        $this->apellidos = $apellidos;
-
+        $this->numeroId = $numeroId;
+    
         return $this;
     }
 
     /**
      * Get numeroId
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumeroId()
     {
@@ -255,23 +268,22 @@ class Cliente
     }
 
     /**
-     * Set numeroId
+     * Set email
      *
-     * @param integer $numeroId
-     *
+     * @param string $email
      * @return Cliente
      */
-    public function setNumeroId($numeroId)
+    public function setEmail($email)
     {
-        $this->numeroId = $numeroId;
-
+        $this->email = $email;
+    
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -279,23 +291,22 @@ class Cliente
     }
 
     /**
-     * Set email
+     * Set telefono
      *
-     * @param string $email
-     *
+     * @param string $telefono
      * @return Cliente
      */
-    public function setEmail($email)
+    public function setTelefono($telefono)
     {
-        $this->email = $email;
-
+        $this->telefono = $telefono;
+    
         return $this;
     }
 
     /**
      * Get telefono
      *
-     * @return string
+     * @return string 
      */
     public function getTelefono()
     {
@@ -303,23 +314,22 @@ class Cliente
     }
 
     /**
-     * Set telefono
+     * Set direccion1
      *
-     * @param string $telefono
-     *
+     * @param string $direccion1
      * @return Cliente
      */
-    public function setTelefono($telefono)
+    public function setDireccion1($direccion1)
     {
-        $this->telefono = $telefono;
-
+        $this->direccion1 = $direccion1;
+    
         return $this;
     }
 
     /**
      * Get direccion1
      *
-     * @return string
+     * @return string 
      */
     public function getDireccion1()
     {
@@ -327,23 +337,22 @@ class Cliente
     }
 
     /**
-     * Set direccion1
+     * Set direccion2
      *
-     * @param string $direccion1
-     *
+     * @param string $direccion2
      * @return Cliente
      */
-    public function setDireccion1($direccion1)
+    public function setDireccion2($direccion2)
     {
-        $this->direccion1 = $direccion1;
-
+        $this->direccion2 = $direccion2;
+    
         return $this;
     }
 
     /**
      * Get direccion2
      *
-     * @return string
+     * @return string 
      */
     public function getDireccion2()
     {
@@ -351,23 +360,22 @@ class Cliente
     }
 
     /**
-     * Set direccion2
+     * Set cp
      *
-     * @param string $direccion2
-     *
+     * @param string $cp
      * @return Cliente
      */
-    public function setDireccion2($direccion2)
+    public function setCp($cp)
     {
-        $this->direccion2 = $direccion2;
-
+        $this->cp = $cp;
+    
         return $this;
     }
 
     /**
      * Get cp
      *
-     * @return string
+     * @return string 
      */
     public function getCp()
     {
@@ -375,23 +383,22 @@ class Cliente
     }
 
     /**
-     * Set cp
+     * Set pais
      *
-     * @param string $cp
-     *
+     * @param string $pais
      * @return Cliente
      */
-    public function setCp($cp)
+    public function setPais($pais)
     {
-        $this->cp = $cp;
-
+        $this->pais = $pais;
+    
         return $this;
     }
 
     /**
      * Get pais
      *
-     * @return string
+     * @return string 
      */
     public function getPais()
     {
@@ -399,23 +406,22 @@ class Cliente
     }
 
     /**
-     * Set pais
+     * Set estado
      *
-     * @param string $pais
-     *
+     * @param string $estado
      * @return Cliente
      */
-    public function setPais($pais)
+    public function setEstado($estado)
     {
-        $this->pais = $pais;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return string
+     * @return string 
      */
     public function getEstado()
     {
@@ -423,23 +429,22 @@ class Cliente
     }
 
     /**
-     * Set estado
+     * Set ciudad
      *
-     * @param string $estado
-     *
+     * @param string $ciudad
      * @return Cliente
      */
-    public function setEstado($estado)
+    public function setCiudad($ciudad)
     {
-        $this->estado = $estado;
-
+        $this->ciudad = $ciudad;
+    
         return $this;
     }
 
     /**
      * Get ciudad
      *
-     * @return string
+     * @return string 
      */
     public function getCiudad()
     {
@@ -447,23 +452,22 @@ class Cliente
     }
 
     /**
-     * Set ciudad
+     * Set fechaUnion
      *
-     * @param string $ciudad
-     *
+     * @param \DateTime $fechaUnion
      * @return Cliente
      */
-    public function setCiudad($ciudad)
+    public function setFechaUnion($fechaUnion)
     {
-        $this->ciudad = $ciudad;
-
+        $this->fechaUnion = $fechaUnion;
+    
         return $this;
     }
 
     /**
      * Get fechaUnion
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaUnion()
     {
@@ -471,23 +475,22 @@ class Cliente
     }
 
     /**
-     * Set fechaUnion
+     * Set tile
      *
-     * @param \DateTime $fechaUnion
-     *
+     * @param string $tile
      * @return Cliente
      */
-    public function setFechaUnion($fechaUnion)
+    public function setTile($tile)
     {
-        $this->fechaUnion = $fechaUnion;
-
+        $this->tile = $tile;
+    
         return $this;
     }
 
     /**
      * Get tile
      *
-     * @return string
+     * @return string 
      */
     public function getTile()
     {
@@ -495,23 +498,22 @@ class Cliente
     }
 
     /**
-     * Set tile
+     * Set fechaNacimiento
      *
-     * @param string $tile
-     *
+     * @param \DateTime $fechaNacimiento
      * @return Cliente
      */
-    public function setTile($tile)
+    public function setFechaNacimiento($fechaNacimiento)
     {
-        $this->tile = $tile;
-
+        $this->fechaNacimiento = $fechaNacimiento;
+    
         return $this;
     }
 
     /**
      * Get fechaNacimiento
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaNacimiento()
     {
@@ -519,23 +521,22 @@ class Cliente
     }
 
     /**
-     * Set fechaNacimiento
+     * Set idMiembroProg
      *
-     * @param \DateTime $fechaNacimiento
-     *
+     * @param integer $idMiembroProg
      * @return Cliente
      */
-    public function setFechaNacimiento($fechaNacimiento)
+    public function setIdMiembroProg($idMiembroProg)
     {
-        $this->fechaNacimiento = $fechaNacimiento;
-
+        $this->idMiembroProg = $idMiembroProg;
+    
         return $this;
     }
 
     /**
      * Get idMiembroProg
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdMiembroProg()
     {
@@ -543,23 +544,22 @@ class Cliente
     }
 
     /**
-     * Set idMiembroProg
+     * Set robbinson
      *
-     * @param integer $idMiembroProg
-     *
+     * @param string $robbinson
      * @return Cliente
      */
-    public function setIdMiembroProg($idMiembroProg)
+    public function setRobbinson($robbinson)
     {
-        $this->idMiembroProg = $idMiembroProg;
-
+        $this->robbinson = $robbinson;
+    
         return $this;
     }
 
     /**
      * Get robbinson
      *
-     * @return string
+     * @return string 
      */
     public function getRobbinson()
     {
@@ -567,23 +567,22 @@ class Cliente
     }
 
     /**
-     * Set robbinson
+     * Set optIn
      *
-     * @param string $robbinson
-     *
+     * @param string $optIn
      * @return Cliente
      */
-    public function setRobbinson($robbinson)
+    public function setOptIn($optIn)
     {
-        $this->robbinson = $robbinson;
-
+        $this->optIn = $optIn;
+    
         return $this;
     }
 
     /**
      * Get optIn
      *
-     * @return string
+     * @return string 
      */
     public function getOptIn()
     {
@@ -591,23 +590,22 @@ class Cliente
     }
 
     /**
-     * Set optIn
+     * Set genero
      *
-     * @param string $optIn
-     *
+     * @param smallint $genero
      * @return Cliente
      */
-    public function setOptIn($optIn)
+    public function setGenero($genero)
     {
-        $this->optIn = $optIn;
-
+        $this->genero = $genero;
+    
         return $this;
     }
 
     /**
      * Get genero
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getGenero()
     {
@@ -615,23 +613,22 @@ class Cliente
     }
 
     /**
-     * Set genero
+     * Set estadoMarital
      *
-     * @param smallint $genero
-     *
+     * @param smallint $estadoMarital
      * @return Cliente
      */
-    public function setGenero($genero)
+    public function setEstadoMarital($estadoMarital)
     {
-        $this->genero = $genero;
-
+        $this->estadoMarital = $estadoMarital;
+    
         return $this;
     }
 
     /**
      * Get estadoMarital
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstadoMarital()
     {
@@ -639,23 +636,22 @@ class Cliente
     }
 
     /**
-     * Set estadoMarital
+     * Set numHijos
      *
-     * @param smallint $estadoMarital
-     *
+     * @param smallint $numHijos
      * @return Cliente
      */
-    public function setEstadoMarital($estadoMarital)
+    public function setNumHijos($numHijos)
     {
-        $this->estadoMarital = $estadoMarital;
-
+        $this->numHijos = $numHijos;
+    
         return $this;
     }
 
     /**
      * Get numHijos
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getNumHijos()
     {
@@ -663,23 +659,22 @@ class Cliente
     }
 
     /**
-     * Set numHijos
+     * Set tipoVivienda
      *
-     * @param smallint $numHijos
-     *
+     * @param smallint $tipoVivienda
      * @return Cliente
      */
-    public function setNumHijos($numHijos)
+    public function setTipoVivienda($tipoVivienda)
     {
-        $this->numHijos = $numHijos;
-
+        $this->tipoVivienda = $tipoVivienda;
+    
         return $this;
     }
 
     /**
      * Get tipoVivienda
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getTipoVivienda()
     {
@@ -687,23 +682,22 @@ class Cliente
     }
 
     /**
-     * Set tipoVivienda
+     * Set personalizado1
      *
-     * @param smallint $tipoVivienda
-     *
+     * @param string $personalizado1
      * @return Cliente
      */
-    public function setTipoVivienda($tipoVivienda)
+    public function setPersonalizado1($personalizado1)
     {
-        $this->tipoVivienda = $tipoVivienda;
-
+        $this->personalizado1 = $personalizado1;
+    
         return $this;
     }
 
     /**
      * Get personalizado1
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado1()
     {
@@ -711,23 +705,22 @@ class Cliente
     }
 
     /**
-     * Set personalizado1
+     * Set personalizado2
      *
-     * @param string $personalizado1
-     *
+     * @param string $personalizado2
      * @return Cliente
      */
-    public function setPersonalizado1($personalizado1)
+    public function setPersonalizado2($personalizado2)
     {
-        $this->personalizado1 = $personalizado1;
-
+        $this->personalizado2 = $personalizado2;
+    
         return $this;
     }
 
     /**
      * Get personalizado2
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado2()
     {
@@ -735,23 +728,22 @@ class Cliente
     }
 
     /**
-     * Set personalizado2
+     * Set personalizado3
      *
-     * @param string $personalizado2
-     *
+     * @param string $personalizado3
      * @return Cliente
      */
-    public function setPersonalizado2($personalizado2)
+    public function setPersonalizado3($personalizado3)
     {
-        $this->personalizado2 = $personalizado2;
-
+        $this->personalizado3 = $personalizado3;
+    
         return $this;
     }
 
     /**
      * Get personalizado3
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado3()
     {
@@ -759,23 +751,22 @@ class Cliente
     }
 
     /**
-     * Set personalizado3
+     * Set personalizado4
      *
-     * @param string $personalizado3
-     *
+     * @param string $personalizado4
      * @return Cliente
      */
-    public function setPersonalizado3($personalizado3)
+    public function setPersonalizado4($personalizado4)
     {
-        $this->personalizado3 = $personalizado3;
-
+        $this->personalizado4 = $personalizado4;
+    
         return $this;
     }
 
     /**
      * Get personalizado4
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado4()
     {
@@ -783,23 +774,9 @@ class Cliente
     }
 
     /**
-     * Set personalizado4
-     *
-     * @param string $personalizado4
-     *
-     * @return Cliente
-     */
-    public function setPersonalizado4($personalizado4)
-    {
-        $this->personalizado4 = $personalizado4;
-
-        return $this;
-    }
-
-    /**
      * Get idCliente
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdCliente()
     {

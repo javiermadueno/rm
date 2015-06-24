@@ -9,7 +9,6 @@ interface VidCriterioInterface
      * Set mesesN
      *
      * @param integer $mesesN
-     *
      * @return VidCriterioInterface
      */
     public function setMesesN($mesesN);
@@ -17,7 +16,7 @@ interface VidCriterioInterface
     /**
      * Get mesesN
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesN();
 
@@ -25,7 +24,6 @@ interface VidCriterioInterface
      * Set mesesM
      *
      * @param integer $mesesM
-     *
      * @return VidCriterioInterface
      */
     public function setMesesM($mesesM);
@@ -33,9 +31,8 @@ interface VidCriterioInterface
     /**
      * Get mesesM
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesM();
 }
-
 ?>

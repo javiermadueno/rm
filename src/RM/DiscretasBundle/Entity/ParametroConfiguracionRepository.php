@@ -15,7 +15,7 @@ class ParametroConfiguracionRepository extends EntityRepository
 {
     public function findParametrosConfiguracionByNivelAmplitud($nivelAmplitud = 1)
     {
-        $parametros = $this->createQueryBuilder('p')
+        $parametros  = $this->createQueryBuilder('p')
             ->where('p.codigo NOT LIKE :codigo_amplitud')
             ->setParameter('codigo_amplitud', 'amp%')
             ->getQuery()->getResult();

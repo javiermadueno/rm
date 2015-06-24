@@ -2,194 +2,194 @@
 
 
 {% block contenedorPrincipal %}
-    {{ parent() }}
+	{{ parent() }}
 
-    <h4 class="widgettitle">{{ "info" | trans | title }}</h4>
+    <h4 class="widgettitle">{{ "info" | trans | title}}</h4>
     <div class="mediamgr_head">
-        <form name=previewForm id=previewForm
-              action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia}) }}"
-              method="post">
+        <form name=previewForm id=previewForm action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
             <input type="hidden" name='numComunicaciones' id='numComunicaciones' value={{ numComunicaciones }}>
             <input type="hidden" id="preview" name="preview" value="preview">
             <input type="hidden" id="idSegmento" name="idSegmento" value="preview">
             <table class="table">
                 <tbody>
-                <tr>
-                    <td class="sinborde"> Se han generado {{ numComunicaciones }} comunicaciones</td>
-                    <td class="sinborde pull-right">
-                        <button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sinborde">...</td>
-                </tr>
+                    <tr>
+                        <td class="sinborde"> Se han generado {{numComunicaciones }} comunicaciones</td>
+                        <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
+                    </tr>
+                    <tr>
+                        <td class="sinborde">...</td>
+                    </tr>
                 </tbody>
             </table>
         </form>
     </div>
 
 
-    <h4 class="widgettitle">{{ "opciones.email" | trans | title }}</h4></wi>
-    <div class="mediamgr_head">
-        <form name=form id=form
-              action="{{ path('direct_monitor_finalizar', {'id_instancia': objInstancia.getIdInstancia}) }}"
-              method="post">
-
-            <table class="table">
-                <tbody>
-                <tr>
-                    <td class="sinborde">
-                        <input type="radio" onclick="deshabilitarDatepicker();" name="email" value="0"
-                               checked>{{ "Envio inmediato (al tramitar a finalizado)" | trans }}</input>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sinborde">
-                        <input type="radio" onclick="habilitarDatepicker();" name="email"
-                               value="1">{{ "Envio programado para la fecha  " | trans }}</input>
-                        <input id="datepicker" type="text" required="required" name="fecha">
-
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
-    <h4 class="widgettitle">{{ "opciones.batch" | trans | title }}</h4>
-    <div class="mediamgr_head">
-        <table class="table">
-            <tbody>
-            <tr>
-                <td class="sinborde">
-                    <b>{{ "Formato:" | trans }}</b></input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" name="formato" value="XPD" checked>{{ "XPD" | trans }}</input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" name="formato" value="XML">{{ "XML" | trans }}</input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" name="formato" value="DAT">{{ "DAT" | trans }}</input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    {{ " " | trans }}
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <b>{{ "Otros:" | trans }}</b>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" onclick="habilitarDescarga();" name="otros" value="Descarga"
-                           checked>{{ "Descarga" | trans }}</input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" onclick="habilitarFTP();" name="otros" value="FTP">{{ "FTP" | trans }}</input>
-                </td>
-                <td class="sinborde">
-                    {{ "Server: " | trans }}<input type="text" name="server" id="server"></input>
-                </td>
-                <td class="sinborde">
-                    {{ "User: " | trans }}<input type="text" name="user" id="user"></input>
-                </td>
-                <td class="sinborde">
-                    {{ "Pass: " | trans }}<input type="text" name="pass" id="pass"></input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    <input type="radio" onclick="habilitarURL();" name="otros" value="POST">{{ "POST" | trans }}</input>
-                </td>
-                <td class="sinborde">
-                    {{ "URL: " | trans }}<input type="text" name="url" id="url" tam=150></input>
-                </td>
-            </tr>
-            <tr>
-                <td class="sinborde">
-                    {{ " " | trans }}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    </form>
+    <h4 class="widgettitle">{{ "opciones.email" | trans | title}}</h4></wi>
+		<div class="mediamgr_head">
+			<form name=form id=form action="{{ path('direct_monitor_finalizar', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
+			
+			<table class="table">
+				<tbody>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" onclick="deshabilitarDatepicker();" name="email" value="0" checked>{{ "Envio inmediato (al tramitar a finalizado)" | trans }}</input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" onclick="habilitarDatepicker();" name="email" value="1">{{ "Envio programado para la fecha  " | trans }}</input>
+							<input id="datepicker" type="text" required="required" name="fecha">
+							
+						</td>					
+					</tr>
+				</tbody>
+			</table>
+                </form>
+		</div>
+    <h4 class="widgettitle">{{ "opciones.batch" | trans | title}}</h4>
+		<div class="mediamgr_head">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td class="sinborde">
+							<b>{{ "Formato:" | trans }}</b></input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" name="formato" value="XPD" checked>{{ "XPD" | trans }}</input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" name="formato" value="XML">{{ "XML" | trans }}</input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" name="formato" value="DAT">{{ "DAT" | trans }}</input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							{{ " " | trans }}
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<b>{{ "Otros:" | trans }}</b>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" onclick="habilitarDescarga();"name="otros" value="Descarga" checked>{{ "Descarga" | trans }}</input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" onclick="habilitarFTP();"name="otros" value="FTP">{{ "FTP" | trans }}</input>
+						</td>
+						<td class="sinborde">
+							{{ "Server: " | trans }}<input type="text" name="server" id="server"></input>
+						</td>
+						<td class="sinborde">
+							{{ "User: " | trans }}<input type="text" name="user" id="user"></input>
+						</td>
+						<td class="sinborde">
+							{{ "Pass: " | trans }}<input type="text" name="pass" id="pass"></input>
+						</td>					
+					</tr>
+					<tr>
+						<td class="sinborde">
+							<input type="radio" onclick="habilitarURL();"name="otros" value="POST">{{ "POST" | trans }}</input>
+						</td>
+						<td class="sinborde">
+							{{ "URL: " | trans }}<input type="text" name="url" id="url" tam=150></input>
+						</td>						
+					</tr>
+					<tr>
+						<td class="sinborde">
+							{{ " " | trans }}
+						</td>					
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</form>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
+	{{ parent() }}
+	<script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#datepicker").datepicker({disabled: true});
-            $("datepicker").datepicker({dateFormat: "dd/mm/yy hh:mm"});
+		$(document).ready(function() {
+			$("#datepicker").datepicker( { disabled : true } );
+			$( "datepicker" ).datepicker({ dateFormat: "dd/mm/yy hh:mm" });
 
-            deshabilitarURL();
-            deshabilitarFTP();
-        });
+			deshabilitarURL();
+			deshabilitarFTP();
+		});
 
-        $(function () {
-            $("#datepicker").datepicker();
-        });
+		$(function() 
+		{
+			 $( "#datepicker" ).datepicker();
+		});
+		
+		function botonGuardarConf()
+		{
+			
+		}
 
-        function botonGuardarConf() {
+		function habilitarDatepicker()
+		{
+			$("#datepicker").datepicker("option", "disabled", false);
+		}
+		function deshabilitarDatepicker()
+		{
+			$("#datepicker").datepicker("option", "disabled", true);
+		}
+		function habilitarFTP()
+		{
+			var server = document.getElementById('server');
+			var user= document.getElementById('user');
+			var pass = document.getElementById('pass');
 
-        }
+			server.disabled = false;
+			user.disabled = false;
+			pass.disabled = false;
 
-        function habilitarDatepicker() {
-            $("#datepicker").datepicker("option", "disabled", false);
-        }
-        function deshabilitarDatepicker() {
-            $("#datepicker").datepicker("option", "disabled", true);
-        }
-        function habilitarFTP() {
-            var server = document.getElementById('server');
-            var user = document.getElementById('user');
-            var pass = document.getElementById('pass');
+			deshabilitarURL();
+		}
+		function deshabilitarFTP()
+		{
+			var server = document.getElementById('server');
+			var user= document.getElementById('user');
+			var pass = document.getElementById('pass');
 
-            server.disabled = false;
-            user.disabled = false;
-            pass.disabled = false;
+			server.disabled = true;
+			user.disabled = true;
+			pass.disabled = true;
+		}
+		function deshabilitarURL()
+		{
+			var url = document.getElementById('url');
 
-            deshabilitarURL();
-        }
-        function deshabilitarFTP() {
-            var server = document.getElementById('server');
-            var user = document.getElementById('user');
-            var pass = document.getElementById('pass');
+			url.disabled = true;
+		}
+		function habilitarURL()
+		{
+			var url = document.getElementById('url');
 
-            server.disabled = true;
-            user.disabled = true;
-            pass.disabled = true;
-        }
-        function deshabilitarURL() {
-            var url = document.getElementById('url');
+			url.disabled = false;
 
-            url.disabled = true;
-        }
-        function habilitarURL() {
-            var url = document.getElementById('url');
-
-            url.disabled = false;
-
-            deshabilitarFTP();
-        }
-        function habilitarDescarga() {
-            deshabilitarFTP();
-            deshabilitarURL();
-        }
-
-    </script>
+			deshabilitarFTP();
+		}
+		function habilitarDescarga()
+		{
+			deshabilitarFTP();
+			deshabilitarURL();
+		}
+		
+	</script>
 {% endblock %}

@@ -18,87 +18,107 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
 class ResultadoMensual
 {
 
+    public function __construct()
+    {
+        $this->getFecha();
+    }
+
     private $fecha;
+
     /**
      * El id es la fecha con el formato 'YYYY-mm'
      *
      * @Mongo\Id(strategy="NONE")
      */
     private $id;
+
     /**
      * Ventas totales en euros
      *
      * @Mongo\Field(name="ventasTot", type="float")
      */
     private $ventasTotales;
+
     /**
      * Ventas de miembros en euros
      *
      * @Mongo\Field(name="ventasCli", type="float")
      */
     private $ventasCliente;
+
     /**
      * Ventas de no miembros en euros
      *
      * @Mongo\Field(name="ventasNoCli", type="float")
      */
     private $ventasNoCliente;
+
     /**
      * Porcentaje de contribucion de los miembros
      *
      * @Mongo\Field(name="contribCli", type="float")
      */
     private $contribucionClientes;
+
     /**
      * Numero de compras de miembros
      *
      * @Mongo\Field(name="numComprasCli", type="int")
      */
     private $numeroComprasCliente;
+
     /**
      * Numero de compras de no miembros
      *
      * @Mongo\Field(name="numComprasNoCli", type="int")
      */
     private $numeroComprasNoCliente;
+
     /**
      * @Mongo\Field(name="numCli", type="int")
      */
     private $numeroClientes;
+
     /**
      * @Mongo\Field(name="numCliCompran", type="int")
      */
     private $numeroClientesQueCompran;
+
     /**
      * Media de dias sin comprar de miemrbos
      *
      * @Mongo\Field(name="recenciaCli", type="float")
      */
     private $recenciaClientes;
+
     /**
      * Media de frecuencia de miembros
      *
      * @Mongo\Field(name="frecCli", type="float")
      */
     private $frecuenciaClientes;
+
     /**
      * Media de euros por ticket de miembros
      *
      * @Mongo\Field(name="ticketCli", type="float")
      */
     private $ticketClientes;
+
     /**
      * Media de amplitud de medios
      *
      * @Mongo\Field(name="ampliCli1", type="float")
      */
     private $amplitudClientes1;
+
     /**
      * Media de amplitud de medios
      *
      * @Mongo\Field(name="ampliCli2", type="float")
      */
     private $amplitudClientes2;
+
     /**
      * Media de amplitud de medios
      *
@@ -106,22 +126,6 @@ class ResultadoMensual
      */
     private $amplitudClientes3;
 
-    public function __construct()
-    {
-        $this->getFecha();
-    }
-
-    public function getFecha()
-    {
-        if (!$this->fecha) {
-            if (isset($this->id)) {
-                list($year, $month) = explode('-', $this->id);
-                $this->fecha = new \DateTime(sprintf('01-%s-%s', $month, $year));
-            }
-        }
-
-        return $this->fecha;
-    }
 
     /**
      * Get id
@@ -133,16 +137,27 @@ class ResultadoMensual
         return $this->id;
     }
 
+    public function getFecha()
+    {
+        if(!$this->fecha) {
+            if (isset($this->id)) {
+                list($year, $month) = explode('-', $this->id);
+                $this->fecha = new \DateTime(sprintf('01-%s-%s', $month, $year));
+            }
+        }
+
+        return $this->fecha;
+    }
+
     /**
-     * Set id
+     * Set ventasTotales
      *
-     * @param custom_id $id
-     *
+     * @param float $ventasTotales
      * @return self
      */
-    public function setId($id)
+    public function setVentasTotales($ventasTotales)
     {
-        $this->id = $id;
+        $this->ventasTotales = $ventasTotales;
         return $this;
     }
 
@@ -157,15 +172,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set ventasTotales
+     * Set ventasCliente
      *
-     * @param float $ventasTotales
-     *
+     * @param float $ventasCliente
      * @return self
      */
-    public function setVentasTotales($ventasTotales)
+    public function setVentasCliente($ventasCliente)
     {
-        $this->ventasTotales = $ventasTotales;
+        $this->ventasCliente = $ventasCliente;
         return $this;
     }
 
@@ -180,15 +194,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set ventasCliente
+     * Set ventasNoCliente
      *
-     * @param float $ventasCliente
-     *
+     * @param float $ventasNoCliente
      * @return self
      */
-    public function setVentasCliente($ventasCliente)
+    public function setVentasNoCliente($ventasNoCliente)
     {
-        $this->ventasCliente = $ventasCliente;
+        $this->ventasNoCliente = $ventasNoCliente;
         return $this;
     }
 
@@ -203,15 +216,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set ventasNoCliente
+     * Set contribucionClientes
      *
-     * @param float $ventasNoCliente
-     *
+     * @param float $contribucionClientes
      * @return self
      */
-    public function setVentasNoCliente($ventasNoCliente)
+    public function setContribucionClientes($contribucionClientes)
     {
-        $this->ventasNoCliente = $ventasNoCliente;
+        $this->contribucionClientes = $contribucionClientes;
         return $this;
     }
 
@@ -226,15 +238,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set contribucionClientes
+     * Set numeroComprasCliente
      *
-     * @param float $contribucionClientes
-     *
+     * @param int $numeroComprasCliente
      * @return self
      */
-    public function setContribucionClientes($contribucionClientes)
+    public function setNumeroComprasCliente($numeroComprasCliente)
     {
-        $this->contribucionClientes = $contribucionClientes;
+        $this->numeroComprasCliente = $numeroComprasCliente;
         return $this;
     }
 
@@ -249,15 +260,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set numeroComprasCliente
+     * Set numeroComprasNoCliente
      *
-     * @param int $numeroComprasCliente
-     *
+     * @param int $numeroComprasNoCliente
      * @return self
      */
-    public function setNumeroComprasCliente($numeroComprasCliente)
+    public function setNumeroComprasNoCliente($numeroComprasNoCliente)
     {
-        $this->numeroComprasCliente = $numeroComprasCliente;
+        $this->numeroComprasNoCliente = $numeroComprasNoCliente;
         return $this;
     }
 
@@ -272,15 +282,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set numeroComprasNoCliente
+     * Set numeroClientes
      *
-     * @param int $numeroComprasNoCliente
-     *
+     * @param int $numeroClientes
      * @return self
      */
-    public function setNumeroComprasNoCliente($numeroComprasNoCliente)
+    public function setNumeroClientes($numeroClientes)
     {
-        $this->numeroComprasNoCliente = $numeroComprasNoCliente;
+        $this->numeroClientes = $numeroClientes;
         return $this;
     }
 
@@ -295,15 +304,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set numeroClientes
+     * Set numeroClientesQueCompran
      *
-     * @param int $numeroClientes
-     *
+     * @param int $numeroClientesQueCompran
      * @return self
      */
-    public function setNumeroClientes($numeroClientes)
+    public function setNumeroClientesQueCompran($numeroClientesQueCompran)
     {
-        $this->numeroClientes = $numeroClientes;
+        $this->numeroClientesQueCompran = $numeroClientesQueCompran;
         return $this;
     }
 
@@ -318,15 +326,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set numeroClientesQueCompran
+     * Set recenciaClientes
      *
-     * @param int $numeroClientesQueCompran
-     *
+     * @param float $recenciaClientes
      * @return self
      */
-    public function setNumeroClientesQueCompran($numeroClientesQueCompran)
+    public function setRecenciaClientes($recenciaClientes)
     {
-        $this->numeroClientesQueCompran = $numeroClientesQueCompran;
+        $this->recenciaClientes = $recenciaClientes;
         return $this;
     }
 
@@ -341,15 +348,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set recenciaClientes
+     * Set frecuenciaClientes
      *
-     * @param float $recenciaClientes
-     *
+     * @param float $frecuenciaClientes
      * @return self
      */
-    public function setRecenciaClientes($recenciaClientes)
+    public function setFrecuenciaClientes($frecuenciaClientes)
     {
-        $this->recenciaClientes = $recenciaClientes;
+        $this->frecuenciaClientes = $frecuenciaClientes;
         return $this;
     }
 
@@ -364,15 +370,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set frecuenciaClientes
+     * Set ticketClientes
      *
-     * @param float $frecuenciaClientes
-     *
+     * @param float $ticketClientes
      * @return self
      */
-    public function setFrecuenciaClientes($frecuenciaClientes)
+    public function setTicketClientes($ticketClientes)
     {
-        $this->frecuenciaClientes = $frecuenciaClientes;
+        $this->ticketClientes = $ticketClientes;
         return $this;
     }
 
@@ -383,19 +388,31 @@ class ResultadoMensual
      */
     public function getTicketClientes()
     {
-        return round($this->ticketClientes, 2);
+        return round($this->ticketClientes,2);
+    }
+
+
+    /**
+     * Set id
+     *
+     * @param custom_id $id
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
-     * Set ticketClientes
+     * Set amplitudClientes1
      *
-     * @param float $ticketClientes
-     *
+     * @param float $amplitudClientes1
      * @return self
      */
-    public function setTicketClientes($ticketClientes)
+    public function setAmplitudClientes1($amplitudClientes1)
     {
-        $this->ticketClientes = $ticketClientes;
+        $this->amplitudClientes1 = $amplitudClientes1;
         return $this;
     }
 
@@ -410,15 +427,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set amplitudClientes1
+     * Set amplitudClientes2
      *
-     * @param float $amplitudClientes1
-     *
+     * @param float $amplitudClientes2
      * @return self
      */
-    public function setAmplitudClientes1($amplitudClientes1)
+    public function setAmplitudClientes2($amplitudClientes2)
     {
-        $this->amplitudClientes1 = $amplitudClientes1;
+        $this->amplitudClientes2 = $amplitudClientes2;
         return $this;
     }
 
@@ -433,15 +449,14 @@ class ResultadoMensual
     }
 
     /**
-     * Set amplitudClientes2
+     * Set amplitudClientes3
      *
-     * @param float $amplitudClientes2
-     *
+     * @param float $amplitudClientes3
      * @return self
      */
-    public function setAmplitudClientes2($amplitudClientes2)
+    public function setAmplitudClientes3($amplitudClientes3)
     {
-        $this->amplitudClientes2 = $amplitudClientes2;
+        $this->amplitudClientes3 = $amplitudClientes3;
         return $this;
     }
 
@@ -452,19 +467,6 @@ class ResultadoMensual
      */
     public function getAmplitudClientes3()
     {
-        return round($this->amplitudClientes3, 2);
-    }
-
-    /**
-     * Set amplitudClientes3
-     *
-     * @param float $amplitudClientes3
-     *
-     * @return self
-     */
-    public function setAmplitudClientes3($amplitudClientes3)
-    {
-        $this->amplitudClientes3 = $amplitudClientes3;
-        return $this;
+        return round($this->amplitudClientes3,2);
     }
 }

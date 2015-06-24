@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/paginate.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/paginate.css') }}" rel="stylesheet" />
 {% endblock %}
 
 
@@ -11,8 +11,7 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span
-                class="separator"></span></li>
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
     <li>{{ "menu.data.modo_avanzado"|trans }} <span class="separator"></span></li>
     <li>{{ "menu.data.sociodemografico" |trans |title }}</li>
 {% endblock %}
@@ -26,7 +25,7 @@
 
     {{ include ('RMLinealesBundle:Default:bloqueBusquedaFormulario.html.twig') }}
 
-    <h4 class="widgettitle">{{ "variables" | trans | upper }}</h4>
+    <h4 class="widgettitle">{{ "variables" | trans | upper}}</h4>
     <table id="tablaSegmentosVT" class="table table-bordered responsive">
         <colgroup>
             <col class="con0" style="align: center; width: 50%">
@@ -55,7 +54,7 @@
             {% for variable in variables %}
                 <tr>
                     <td>
-                        <a href="{{ path('data_informacion_variable', {'idVariable': variable.id }) }}">
+                        <a href="{{ path('data_informacion_variable', {'idVariable': variable.id }) }}" >
                             {{ variable.nombre }}
                         </a>
                     </td>
@@ -72,11 +71,11 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function(){
             $("#page").val("1");
-            $(document).on("click", ".paginate ul li a", function (event) {
+            $(document).on("click",".paginate ul li a", function(event) {
                 event.preventDefault(); //cancela el comportamiento por defecto
-                $("#page").val(getURLVar($(this).attr("href"), "page"));
+                $("#page").val(getURLVar($(this).attr("href"),"page"));
                 $("#form").submit();
             });
         });

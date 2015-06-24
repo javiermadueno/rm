@@ -5,8 +5,8 @@ namespace RM\LinealesBundle\Controller;
 use RM\AppBundle\Controller\RMController;
 use RM\DiscretasBundle\Entity\Tipo;
 use RM\DiscretasBundle\Entity\Vid;
-use RM\LinealesBundle\Form\Data\LinealBuscadorType;
 use RM\LinealesBundle\Entity\Vil;
+use RM\LinealesBundle\Form\Data\LinealBuscadorType;
 
 class DefaultController extends RMController
 {

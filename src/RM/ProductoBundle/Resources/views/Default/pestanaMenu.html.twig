@@ -1,18 +1,18 @@
 <div class="bloque_contenido sinborde">
-    <div id="tabs">
+	<div id="tabs">
         <ul>
-            <li id="menuTabPro1" {% if opcionMenuTabConfig == 1 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_config_listado_productos') }}">{{ "Recursos Gráficos" | trans }}</a>
+			<li id="menuTabPro1" {% if opcionMenuTabConfig == 1 %}class="selected"{% endif %}>
+				<a href="{{ path('direct_config_listado_productos') }}">{{ "Recursos Gráficos" | trans }}</a>
             </li>
             <li id="menuTabPro2" {% if opcionMenuTabConfig == 2 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_config_plantillas') }}">{{ "Plantillas" | trans }}</a>
+				<a href="{{ path('direct_config_plantillas') }}">{{ "Plantillas" | trans }}</a>
             </li>
             <li id="menuTabPro3" {% if opcionMenuTabConfig == 3 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_config_tamanyo') }}">{{ "Tamaño Imagenes" | trans }}</a>
+				<a href="{{ path('direct_config_tamanyo') }}">{{ "Tamaño Imagenes" | trans }}</a>
             </li>
             <li id="menuTabPro4" {% if opcionMenuTabConfig == 4 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_config_creatividad') }}">{{ "Creatividades" | trans }}</a>
+				<a href="{{ path('direct_config_creatividad') }}">{{ "Creatividades" | trans }}</a>
             </li>
-        </ul>
+         </ul>
     </div>
 </div>

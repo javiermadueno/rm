@@ -3,11 +3,8 @@
 namespace RM\PlantillaBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
-use RM\PlantillaBundle\Form\TamanyoImagen\nuevoTamanyoCreatividadType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use RM\PlantillaBundle\Form\TamanyoImagen\nuevoTamanyoMarcaType;
-use RM\PlantillaBundle\Form\TamanyoImagen\nuevoTamanyoProductoType;
 use RM\PlantillaBundle\Entity\TamanyoImagen;
+use RM\PlantillaBundle\Form\TamanyoImagen\nuevoTamanyoProductoType;
 use Symfony\Component\HttpFoundation\Request;
 
 class TamanyoImagenController extends RMController

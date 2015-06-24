@@ -10,7 +10,6 @@ namespace RM\SegmentoBundle\Controller;
 
 
 use RM\AppBundle\Controller\RMController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class SegmentadorController extends RMController
@@ -25,9 +24,9 @@ class SegmentadorController extends RMController
 
     public function searchVariablesAction()
     {
-        $servicioTransformadas = $this->get("variablestransformadas");
-        $servicioDiscretas = $this->get("variablesdiscretas");
-        $servicioLineales = $this->get("variableslineales");
+        $servicioTransformadas  = $this->get("variablestransformadas");
+        $servicioDiscretas      = $this->get("variablesdiscretas");
+        $servicioLineales       = $this->get("variableslineales");
 
         $request = $this->container->get('request');
 

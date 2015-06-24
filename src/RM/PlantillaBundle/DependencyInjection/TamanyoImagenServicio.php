@@ -1,7 +1,6 @@
 <?php
 
 namespace RM\PlantillaBundle\DependencyInjection;
-use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 

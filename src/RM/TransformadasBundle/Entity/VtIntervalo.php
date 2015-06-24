@@ -41,7 +41,7 @@ class VtIntervalo
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idIntervalo;
-
+    
     /**
      * @var smallint
      *
@@ -69,10 +69,25 @@ class VtIntervalo
      */
     private $idGrupo;
 
+
+
+    /**
+     * Set condicion
+     *
+     * @param smallint $condicion
+     * @return VtIntervalo
+     */
+    public function setCondicion($condicion)
+    {
+        $this->condicion = $condicion;
+    
+        return $this;
+    }
+
     /**
      * Get condicion
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getCondicion()
     {
@@ -80,23 +95,22 @@ class VtIntervalo
     }
 
     /**
-     * Set condicion
+     * Set pivote
      *
-     * @param smallint $condicion
-     *
+     * @param float $pivote
      * @return VtIntervalo
      */
-    public function setCondicion($condicion)
+    public function setPivote($pivote)
     {
-        $this->condicion = $condicion;
-
+        $this->pivote = $pivote;
+    
         return $this;
     }
 
     /**
      * Get pivote
      *
-     * @return float
+     * @return float 
      */
     public function getPivote()
     {
@@ -104,23 +118,22 @@ class VtIntervalo
     }
 
     /**
-     * Set pivote
+     * Set factor
      *
-     * @param float $pivote
-     *
+     * @param float $factor
      * @return VtIntervalo
      */
-    public function setPivote($pivote)
+    public function setFactor($factor)
     {
-        $this->pivote = $pivote;
-
+        $this->factor = $factor;
+    
         return $this;
     }
 
     /**
      * Get factor
      *
-     * @return float
+     * @return float 
      */
     public function getFactor()
     {
@@ -128,29 +141,28 @@ class VtIntervalo
     }
 
     /**
-     * Set factor
-     *
-     * @param float $factor
-     *
-     * @return VtIntervalo
-     */
-    public function setFactor($factor)
-    {
-        $this->factor = $factor;
-
-        return $this;
-    }
-
-    /**
      * Get idIntervalo
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdIntervalo()
     {
         return $this->idIntervalo;
     }
-
+    
+    /**
+     * Set estado
+     *
+     * @param smallint $estado
+     * @return Vt
+     */
+    public function setEstado($estado)
+    {
+    	$this->estado = $estado;
+    
+    	return $this;
+    }
+    
     /**
      * Get estado
      *
@@ -158,27 +170,26 @@ class VtIntervalo
      */
     public function getEstado()
     {
-        return $this->estado;
+    	return $this->estado;
     }
 
     /**
-     * Set estado
+     * Set idVil
      *
-     * @param smallint $estado
-     *
-     * @return Vt
+     * @param \RM\LinealesBundle\Entity\Vil $idVil
+     * @return VtIntervalo
      */
-    public function setEstado($estado)
+    public function setIdVil(\RM\LinealesBundle\Entity\Vil $idVil = null)
     {
-        $this->estado = $estado;
-
+        $this->idVil = $idVil;
+    
         return $this;
     }
 
     /**
      * Get idVil
      *
-     * @return \RM\LinealesBundle\Entity\Vil
+     * @return \RM\LinealesBundle\Entity\Vil 
      */
     public function getIdVil()
     {
@@ -186,45 +197,30 @@ class VtIntervalo
     }
 
     /**
-     * Set idVil
+     * Set idGrupo
      *
-     * @param \RM\LinealesBundle\Entity\Vil $idVil
-     *
+     * @param \RM\TransformadasBundle\Entity\VtGrupo $idGrupo
      * @return VtIntervalo
      */
-    public function setIdVil(\RM\LinealesBundle\Entity\Vil $idVil = null)
+    public function setIdGrupo(\RM\TransformadasBundle\Entity\VtGrupo $idGrupo = null)
     {
-        $this->idVil = $idVil;
-
+        $this->idGrupo = $idGrupo;
+    
         return $this;
     }
 
     /**
      * Get idGrupo
      *
-     * @return \RM\TransformadasBundle\Entity\VtGrupo
+     * @return \RM\TransformadasBundle\Entity\VtGrupo 
      */
     public function getIdGrupo()
     {
         return $this->idGrupo;
     }
-
-    /**
-     * Set idGrupo
-     *
-     * @param \RM\TransformadasBundle\Entity\VtGrupo $idGrupo
-     *
-     * @return VtIntervalo
-     */
-    public function setIdGrupo(\RM\TransformadasBundle\Entity\VtGrupo $idGrupo = null)
-    {
-        $this->idGrupo = $idGrupo;
-
-        return $this;
-    }
-
+    
     public function __toString()
     {
-        return (string)$this->idIntervalo;
+    	return (string)$this->idIntervalo;
     }
 }

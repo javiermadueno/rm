@@ -3,15 +3,14 @@
 namespace RM\ComunicacionBundle\EventListener;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\DependencyInjection\InstanciaComunicacionServicio;
+use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\ComunicacionBundle\Event\InstanciaComunicacionEvent;
+use RM\ComunicacionBundle\Event\InstanciaComunicacionEvents;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use RM\ComunicacionBundle\Event\InstanciaComunicacionEvents;
-use RM\ComunicacionBundle\Entity\Fases;
 
 class InstanciaComunicacionSubscriber implements EventSubscriberInterface
 {

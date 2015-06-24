@@ -1,41 +1,26 @@
-'
-<tr>' +
-    '
-    <td class="vertical-center">
-        <input class="elimVar" type="checkbox" name="eliminarVar" value="{{ objIntervalo.getIdIntervalo() }}"/>&nbsp;&nbsp;&nbsp;
-        <select style="width: auto" class="" id="var_{{ objIntervalo.getIdIntervalo() }}"
-                name="var_{{ objIntervalo.getIdIntervalo() }}">
-            {% for objetoVL in objVL %}
-                <option value="{{ objetoVL.getIdVil() }}">{{ objetoVL.getNombre() }}</option>
-            {% endfor %}
-        </select>
-        <input type="button" class="btn btn-default eleccion2 pull-right"
-               id="{{ objGrupo.getIdVtSegmento().getIdVtSegmento() }}_{{ objGrupo.IdGrupo }}" value="AND"
-               title="{{ 'Añade un nuevo intervalo' |trans|raw }}">
-    </td>
-    ' +
-    '
-    <td class="vertical-center">
-        <input type="text" name="factor_{{ objIntervalo.getIdIntervalo() }}" class="input-small soloNum"
-               value="{{ objIntervalo.getFactor() }}"/>
-    </td>
-    ' +
-    '
-    <td class="vertical-center">
-        <select name="cond_{{ objIntervalo.getIdIntervalo() }}" class="input-small">
-            <option value="1">&lt;</option>
-            <option value="2">&lt;=</option>
-            <option value="3">=</option>
-            <option value="4">&gt;</option>
-            <option value="5">&gt;=</option>
-        </select>
-    </td>
-    ' +
-    '
-    <td class="vertical-center">
-        <input type="text" name="pivote_{{ objIntervalo.getIdIntervalo() }}" class=" input-small soloNum obligatorio"
-               value="{{ objIntervalo.getPivote() }}"/>
-    </td>
-    ' +
-    '
-</tr>'
+'<tr>' +
+	'<td class="vertical-center">
+		<input class="elimVar" type="checkbox" name="eliminarVar" value="{{ objIntervalo.getIdIntervalo() }}"/>&nbsp;&nbsp;&nbsp;
+		<select style="width: auto" class="" id="var_{{ objIntervalo.getIdIntervalo() }}" name="var_{{ objIntervalo.getIdIntervalo() }}">
+		{% for objetoVL in objVL %}
+			<option value="{{ objetoVL.getIdVil() }}">{{ objetoVL.getNombre() }}</option>
+		{% endfor %}
+		</select>
+		<input type="button" class="btn btn-default eleccion2 pull-right" id="{{objGrupo.getIdVtSegmento().getIdVtSegmento()}}_{{ objGrupo.IdGrupo }}" value="AND" title="{{ 'Añade un nuevo intervalo' |trans|raw }}">
+	</td>' +
+	'<td class="vertical-center">
+		<input type="text" name="factor_{{ objIntervalo.getIdIntervalo() }}" class="input-small soloNum" value="{{ objIntervalo.getFactor() }}" />
+	</td>' +
+	'<td class="vertical-center">
+		<select name="cond_{{ objIntervalo.getIdIntervalo() }}" class="input-small">
+			<option value="1">&lt;</option>
+			<option value="2">&lt;=</option>
+			<option value="3">=</option>
+			<option value="4">&gt;</option>
+			<option value="5">&gt;=</option>
+		</select>
+	</td>' +
+	'<td class="vertical-center">
+		<input type="text" name="pivote_{{ objIntervalo.getIdIntervalo() }}" class=" input-small soloNum obligatorio" value="{{ objIntervalo.getPivote() }}" />
+	</td>' +
+'</tr>'

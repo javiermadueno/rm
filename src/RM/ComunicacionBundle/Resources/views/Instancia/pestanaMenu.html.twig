@@ -1,16 +1,16 @@
 <div class="bloque_contenido sinborde">
-    <div id="tabs" align="left">
+	<div id="tabs" align="left">
         <ul>
-            <li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Promociones por categoria" | trans }}</a>
+			<li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="selected"{% endif %}>
+				<a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Promociones por categoria" | trans }}</a>
             </li>
             <li id="menuTabFaseConf2" {% if opcionMenuTabFaseConf == 2 %}class="selected"{% endif %}>
-                <a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Criterios desempate" | trans }}</a>
+				<a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Criterios desempate" | trans }}</a>
             </li>
-        </ul>
+         </ul>
     </div>
     <div align="right">
-        <button class="tam4 der" onClick="botonGuardarConf();">{{ "Guardar" | trans }}</button>
-        {# <button class="tam4 der" onClick="alert('Servicio temporalmente no disponible'); return false;">{{ "Guardar" | trans }}</button> #}
+    	<button class="tam4 der" onClick="botonGuardarConf();">{{ "Guardar" | trans }}</button>
+    	{# <button class="tam4 der" onClick="alert('Servicio temporalmente no disponible'); return false;">{{ "Guardar" | trans }}</button> #}
     </div>
 </div>

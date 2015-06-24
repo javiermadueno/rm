@@ -54,7 +54,7 @@ class VilSegmento
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -62,9 +62,22 @@ class VilSegmento
     }
 
     /**
+     * Set idVil
+     *
+     * @param integer $idVil
+     * @return VilSegmento
+     */
+    public function setIdVil($idVil)
+    {
+        $this->idVil = $idVil;
+    
+        return $this;
+    }
+
+    /**
      * Get idVil
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdVil()
     {
@@ -72,23 +85,22 @@ class VilSegmento
     }
 
     /**
-     * Set idVil
+     * Set nombre
      *
-     * @param integer $idVil
-     *
+     * @param string $nombre
      * @return VilSegmento
      */
-    public function setIdVil($idVil)
+    public function setNombre($nombre)
     {
-        $this->idVil = $idVil;
-
+        $this->nombre = $nombre;
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -96,23 +108,22 @@ class VilSegmento
     }
 
     /**
-     * Set nombre
+     * Set valor
      *
-     * @param string $nombre
-     *
+     * @param integer $valor
      * @return VilSegmento
      */
-    public function setNombre($nombre)
+    public function setValor($valor)
     {
-        $this->nombre = $nombre;
-
+        $this->valor = $valor;
+    
         return $this;
     }
 
     /**
      * Get valor
      *
-     * @return integer
+     * @return integer 
      */
     public function getValor()
     {
@@ -120,40 +131,25 @@ class VilSegmento
     }
 
     /**
-     * Set valor
+     * Set estado
      *
-     * @param integer $valor
-     *
+     * @param integer $estado
      * @return VilSegmento
      */
-    public function setValor($valor)
+    public function setEstado($estado)
     {
-        $this->valor = $valor;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return integer
+     * @return integer 
      */
     public function getEstado()
     {
         return $this->estado;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param integer $estado
-     *
-     * @return VilSegmento
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
     }
 }

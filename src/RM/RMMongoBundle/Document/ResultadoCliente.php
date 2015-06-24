@@ -84,6 +84,18 @@ class ResultadoCliente
     }
 
     /**
+     * Set fecha
+     *
+     * @param string $fecha
+     * @return self
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+        return $this;
+    }
+
+    /**
      * Get fecha
      *
      * @return string $fecha
@@ -94,15 +106,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set fecha
+     * Set cliente
      *
-     * @param string $fecha
-     *
+     * @param int $cliente
      * @return self
      */
-    public function setFecha($fecha)
+    public function setCliente($cliente)
     {
-        $this->fecha = $fecha;
+        $this->cliente = $cliente;
         return $this;
     }
 
@@ -117,15 +128,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set cliente
+     * Set contribucion
      *
-     * @param int $cliente
-     *
+     * @param float $contribucion
      * @return self
      */
-    public function setCliente($cliente)
+    public function setContribucion($contribucion)
     {
-        $this->cliente = $cliente;
+        $this->contribucion = $contribucion;
         return $this;
     }
 
@@ -140,15 +150,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set contribucion
+     * Set frecuencia
      *
-     * @param float $contribucion
-     *
+     * @param float $frecuencia
      * @return self
      */
-    public function setContribucion($contribucion)
+    public function setFrecuencia($frecuencia)
     {
-        $this->contribucion = $contribucion;
+        $this->frecuencia = $frecuencia;
         return $this;
     }
 
@@ -163,15 +172,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set frecuencia
+     * Set ticketMedio
      *
-     * @param float $frecuencia
-     *
+     * @param float $ticketMedio
      * @return self
      */
-    public function setFrecuencia($frecuencia)
+    public function setTicketMedio($ticketMedio)
     {
-        $this->frecuencia = $frecuencia;
+        $this->ticketMedio = $ticketMedio;
         return $this;
     }
 
@@ -186,15 +194,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set ticketMedio
+     * Set gama
      *
-     * @param float $ticketMedio
-     *
+     * @param float $gama
      * @return self
      */
-    public function setTicketMedio($ticketMedio)
+    public function setGama($gama)
     {
-        $this->ticketMedio = $ticketMedio;
+        $this->gama = $gama;
         return $this;
     }
 
@@ -209,15 +216,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set gama
+     * Set amplitu1
      *
-     * @param float $gama
-     *
+     * @param float $amplitu1
      * @return self
      */
-    public function setGama($gama)
+    public function setAmplitu1($amplitu1)
     {
-        $this->gama = $gama;
+        $this->amplitu1 = $amplitu1;
         return $this;
     }
 
@@ -232,15 +238,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set amplitu1
+     * Set amplitud2
      *
-     * @param float $amplitu1
-     *
+     * @param float $amplitud2
      * @return self
      */
-    public function setAmplitu1($amplitu1)
+    public function setAmplitud2($amplitud2)
     {
-        $this->amplitu1 = $amplitu1;
+        $this->amplitud2 = $amplitud2;
         return $this;
     }
 
@@ -255,15 +260,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set amplitud2
+     * Set amplitud3
      *
-     * @param float $amplitud2
-     *
+     * @param float $amplitud3
      * @return self
      */
-    public function setAmplitud2($amplitud2)
+    public function setAmplitud3($amplitud3)
     {
-        $this->amplitud2 = $amplitud2;
+        $this->amplitud3 = $amplitud3;
         return $this;
     }
 
@@ -278,15 +282,14 @@ class ResultadoCliente
     }
 
     /**
-     * Set amplitud3
+     * Set recencia
      *
-     * @param float $amplitud3
-     *
+     * @param float $recencia
      * @return self
      */
-    public function setAmplitud3($amplitud3)
+    public function setRecencia($recencia)
     {
-        $this->amplitud3 = $amplitud3;
+        $this->recencia = $recencia;
         return $this;
     }
 
@@ -298,18 +301,5 @@ class ResultadoCliente
     public function getRecencia()
     {
         return $this->recencia;
-    }
-
-    /**
-     * Set recencia
-     *
-     * @param float $recencia
-     *
-     * @return self
-     */
-    public function setRecencia($recencia)
-    {
-        $this->recencia = $recencia;
-        return $this;
     }
 }

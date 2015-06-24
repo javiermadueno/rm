@@ -2,15 +2,15 @@
 
 {% block contenedorPrincipal %}
 
-    <div class="bloque_contenido sinborde">
-        <h2>Pruebas de segmentador avanzado</h2>
-    </div>
+<div class="bloque_contenido sinborde">
+    <h2>Pruebas de segmentador avanzado</h2>
+</div>
     <div>
-        <div class="cabecera_contenido"><span>Prueba</span></div>
-        <div class="linea_contenido">
+    <div class="cabecera_contenido"><span>Prueba</span></div>
+    <div class="linea_contenido">
 
-        </div>
     </div>
+</div>
     <div class="bloque_contenido">
         <div class="cabecera_contenido">
             <span> {{ "Buscador" | trans }} </span>
@@ -25,49 +25,21 @@
             <div class="linea_contenido">
                 <table>
                     <tr>
-                        <td rowspan="4" width="80%"><textarea
-                                    style="width: 98%;height: 135px;border: 0px none;resize: none;"
-                                    name="consolaSegmentos" id="consolaSegmentos"
-                                    class="areaConsolaSegmentos"></textarea></td>
-                        <td width="10%">
-                            <button class="tam4" style="cursor: pointer" onclick="addConsola('(', event)" title="("> (
-                            </button>
-                        </td>
-                        <td width="10%">
-                            <button class="tam4" style="cursor: pointer" onclick="addConsola(')', event)" title=")"> )
-                            </button>
-                        </td>
+                        <td rowspan="4" width="80%"><textarea style="width: 98%;height: 135px;border: 0px none;resize: none;" name="consolaSegmentos" id="consolaSegmentos" class="areaConsolaSegmentos"></textarea> </td>
+                        <td width="10%"><button class="tam4" style="cursor: pointer" onclick="addConsola('(', event)" title="("> ( </button></td>
+                        <td width="10%"><button class="tam4" style="cursor: pointer" onclick="addConsola(')', event)" title=")"> ) </button></td>
                     </tr>
                     <tr>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="addConsola('Y', event)" title="Y"> Y
-                            </button>
-                        </td>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="addConsola('O', event)" title="O"> O
-                            </button>
-                        </td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="addConsola('Y', event)" title="Y"> Y </button></td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="addConsola('O', event)" title="O"> O </button></td>
                     </tr>
                     <tr>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="addConsola('NOT', event);" title="Y">
-                                NOT
-                            </button>
-                        </td>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="" title="O"> SEGMENTO</button>
-                        </td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="addConsola('NOT', event);" title="Y"> NOT </button></td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="" title="O"> SEGMENTO </button></td>
                     </tr>
                     <tr>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="clearConsola(event);" title="CE"> CE
-                            </button>
-                        </td>
-                        <td>
-                            <button class="tam4" style="cursor: pointer" onclick="deleteConsola(event);" title="<--">
-                                <--
-                            </button>
-                        </td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="clearConsola(event);" title="CE"> CE </button></td>
+                        <td><button class="tam4" style="cursor: pointer" onclick="deleteConsola(event);" title="<--"> <-- </button></td>
                     </tr>
                 </table>
             </div>
@@ -82,11 +54,11 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function(){
             filtro = [];
         });
 
-        function addConsola(texto, event) {
+        function addConsola(texto, event){
             var target, id;
             var textoConsola = $("#consolaSegmentos").val();
             textoConsola += texto + " ";
@@ -97,14 +69,14 @@
             event.preventDefault();
 
             target = event.target;
-            if (id = event.target.dataset.id) {
+            if(id = event.target.dataset.id) {
                 addFiltro(id, event);
             }
-            else {
+            else{
                 addFiltro(texto, event);
             }
 
-            if (['Y', 'O', 'NOT'].indexOf(texto) >= 0) {
+            if(['Y', 'O', 'NOT'].indexOf(texto) >= 0){
                 ultimaCondicion = texto;
                 console.log(ultimaCondicion);
             }
@@ -115,18 +87,18 @@
             var controlBorrado = document.getElementById('controlBorradoFiltro');
             var filtro = consola.dataset.filtro;
 
-            if (typeof filtro === 'undefined') {
+            if(typeof filtro === 'undefined'){
                 filtro = '';
             }
 
-            switch (texto) {
+            switch (texto){
                 case 'Y':
                 case 'AND':
-                    texto = '&';
+                    texto= '&';
                     break;
                 case 'O':
                 case 'OR':
-                    texto = '|';
+                    texto= '|';
                     break;
                 case 'NOT':
                 case 'NO':
@@ -139,10 +111,10 @@
             filtro += texto + " ";
 
             controlBorrado.value += filtro.length + ';';
-            consola.dataset.filtro = filtro;
+            consola.dataset.filtro =  filtro;
         }
 
-        function clearConsola(event) {
+        function clearConsola(event){
             $("#consolaSegmentos").val("");
             $("#controlBorradoTexto").val("");
             event.preventDefault();
@@ -154,24 +126,24 @@
             document.getElementById('controlBorradoFiltro').value = '';
         }
 
-        function deleteConsola(event) {
+        function deleteConsola(event){
             var textoConsola = $("#consolaSegmentos").val();
             var controlLongitudBorrado = $("#controlBorradoTexto").val();
 
-            if (controlLongitudBorrado.length > 0) {
+            if(controlLongitudBorrado.length > 0){
                 var arrayLongitudes = controlLongitudBorrado.split(";");
-                if (arrayLongitudes.length == 1) {
+                if(arrayLongitudes.length == 1){
                     clearConsola(event);
                 }
                 else {
                     var nuevaLongitudTexto = "";
                     var longitudCortar = 0;
-                    for (var i = 0; i < arrayLongitudes.length - 2; i++) {
+                    for(var i = 0; i < arrayLongitudes.length - 2; i++){
                         nuevaLongitudTexto += arrayLongitudes[i] + ";";
                         longitudCortar = arrayLongitudes[i];
                     }
                     $("#controlBorradoTexto").val(nuevaLongitudTexto);
-                    textoConsola = textoConsola.substring(0, longitudCortar);
+                    textoConsola = textoConsola.substring(0,longitudCortar);
                     $("#consolaSegmentos").val(textoConsola);
                 }
             }
@@ -186,18 +158,18 @@
 
             if (controlBorrado.value.length > 0) {
                 var arrayLongitudes = controlBorrado.value.split(";");
-                if (arrayLongitudes.length == 1) {
+                if(arrayLongitudes.length == 1){
                     clearFiltro(event);
                 }
                 else {
                     var nuevaLongitudTexto = "";
                     var longitudCortar = 0;
-                    for (var i = 0; i < arrayLongitudes.length - 2; i++) {
+                    for(var i = 0; i < arrayLongitudes.length - 2; i++){
                         nuevaLongitudTexto += arrayLongitudes[i] + ";";
                         longitudCortar = arrayLongitudes[i];
                     }
                     $("#controlBorradoFiltro").val(nuevaLongitudTexto);
-                    filtro = filtro.substring(0, longitudCortar);
+                    filtro = filtro.substring(0,longitudCortar);
                     consola.dataset.filtro = filtro;
                 }
             }

@@ -3,10 +3,8 @@
 namespace RM\ProductoBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ProductoBundle\Entity\NumPromocionesRepository;
-
 
 
 class NumPromocionesServicio

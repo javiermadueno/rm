@@ -8,9 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PromocionType extends AbstractType
 {
-    /**
+        /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,17 +21,18 @@ class PromocionType extends AbstractType
             ->add('impFijo', 'number')
             ->add('condiciones', 'text')
             ->add('fidelizacion', 'text')
-            ->add('codigo', 'text');
+            ->add('codigo', 'text')
+        ;
     }
-
+    
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\ProductoBundle\Entity\Promocion'
-        ]);
+        ));
     }
 
     /**

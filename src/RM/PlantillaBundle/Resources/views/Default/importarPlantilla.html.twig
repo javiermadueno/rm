@@ -3,13 +3,13 @@
 
 
 {% block title %}
-    {{ "importar.plantilla" | trans|title }}
+	{{ "importar.plantilla" | trans|title }}
 {% endblock %}
 {% block header %}
     <div class="contanier">
         <div class="pageheader">
             <div class="pagetitle">
-                <h1>{{ "importar.plantilla" |trans|title }}</h1>
+                <h1>{{ "importar.plantilla" |trans|title}}</h1>
 
             </div>
         </div>
@@ -18,29 +18,29 @@
 
 {% block body %}
     <div class="maincontentinner">
-        <form name="form" id="form">
-            <input type="hidden" name="id_comunicacion" value="{{ objComunicacion.getIdComunicacion() }}">
-            <input type="hidden" name="id_canal" value="{{ objComunicacion.getIdCanal().getIdCanal() }}">
-            <input type="hidden" name="accionEjecutar" value="importar">
+	<form name="form" id="form" >
+		<input type="hidden" name="id_comunicacion" value="{{ objComunicacion.getIdComunicacion() }}">
+		<input type="hidden" name="id_canal" value="{{ objComunicacion.getIdCanal().getIdCanal() }}">
+		<input type="hidden" name="accionEjecutar" value="importar">
 
-            <h4 class="widgettitle">{{ "plantillas" |trans|title }}</h4>
-            <table class="table table-bordered responsive">
-                <colgroup>
-                    <col class="con0">
-                    <col class="con1">
-                    <col class="con0">
-                    <col class="con1">
-                    <col class="con0">
-                    <col class="con1">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th width="1%">&nbsp;</th>
-                    <th>{{ "nombre" | trans }}</th>
-                    <th>{{ "descripcion" | trans }}</th>
-                </tr>
-                </thead>
-                <tbody>
+        <h4 class="widgettitle">{{ "plantillas" |trans|title}}</h4>
+        <table class="table table-bordered responsive">
+            <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <thead>
+            <tr>
+                <th width="1%">&nbsp;</th>
+                <th>{{ "nombre" | trans }}</th>
+                <th>{{ "descripcion" | trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
                 {% if objPlantillas == null %}
                     <tr>
                         <td colspan="3">
@@ -50,8 +50,7 @@
                 {% else %}
                     {% for plantilla in objPlantillas %}
                         <tr>
-                            <td><input type="radio" name="plantillaModelo" value="{{ plantilla.idPlantilla }}" checked/>
-                            </td>
+                            <td><input type="radio" name="plantillaModelo" value="{{ plantilla.idPlantilla }}" checked/></td>
                             <td>
                                 {{ plantilla.nombre }}
                             </td>
@@ -61,58 +60,58 @@
                         </tr>
                     {% endfor %}
                 {% endif %}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
-                <tbody>
-                <tr>
-                    <td width="100">
-                        {% if objPlantillas != null %}
-                            <button class="btn btn-success" id="accionPlantilla">{{ "boton.aceptar" | trans }}</button>
-                        {% endif %}
-                    </td>
-                    <td width="100">
-                        <button class="btn btn-danger" id="botonCancelar"
-                                onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
-                    </td>
+        <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td width="100">
+                    {% if objPlantillas != null %}
+                        <button class="btn btn-success" id="accionPlantilla">{{ "boton.aceptar" | trans }}</button>
+                    {% endif %}
+                </td>
+                <td width="100">
+                    <button class="btn btn-danger" id="botonCancelar" onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
+                </td>
 
-                </tr>
-                </tbody>
-            </table>
+            </tr>
+            </tbody>
+        </table>
 
-        </form>
+	</form>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#accionPlantilla').click(function (e) {
-                e.preventDefault();
-                if (confirm("{{ 'La acción que realizará asociará la nueva plantilla elegida, eliminando la actual. ¿Desea continuar?' | trans }}")) {
-                    msg = $("#form").serialize();
-                    {% set crearUrl = url('direct_manager_edit_plantillas_acciones') %}
-                    var myUrl = '{{crearUrl}}';
-                    $.ajax({
-                        type: "POST",
-                        url: myUrl,
-                        data: msg,
-                        complete: function (objeto, exito) {
-                            if (exito == "success") {
-                                window.opener.location.reload();
-                                window.close();
-
-                            }
-                        },
-                        error: function (objeto, quepaso, otroobj) {
-                            jQuery.jGrowl('Ha habido un error el importar la plantilla');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#accionPlantilla').click(function(e){
+				e.preventDefault();
+				if(confirm("{{ 'La acción que realizará asociará la nueva plantilla elegida, eliminando la actual. ¿Desea continuar?' | trans }}"))
+				{
+					msg = $("#form").serialize();
+					{% set crearUrl = url('direct_manager_edit_plantillas_acciones') %}
+					var myUrl = '{{crearUrl}}';
+					$.ajax({  
+					  type: "POST",  
+					  url: myUrl,
+					  data: msg,  
+					  complete: function(objeto, exito){
+						if(exito=="success"){
+							window.opener.location.reload();
+                            window.close();
+							
+				        }
+			          },
+					  error: function(objeto, quepaso, otroobj){
+                          jQuery.jGrowl('Ha habido un error el importar la plantilla');
+			          }
+					});
+				}
+			});
+		});
+	</script>
 {% endblock %}

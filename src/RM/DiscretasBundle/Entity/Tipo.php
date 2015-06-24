@@ -16,7 +16,7 @@ class Tipo
     const COMPRA_PRODUCTO = 'CP';
     const HABITOS_COMPRA = 'HC';
     const SOCIODEMOGRAFICO = 'SD';
-    const SOCIODEMOGRAFICO_LINEAL = '';
+    const SOCIODEMOGRAFICO_LINEAL='';
     const CICLO_VIDA = 'CV';
     const OTRAS_TRANSFORMADAS = 'OT';
 
@@ -61,7 +61,7 @@ class Tipo
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -69,9 +69,22 @@ class Tipo
     }
 
     /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Tipo
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -79,23 +92,22 @@ class Tipo
     }
 
     /**
-     * Set codigo
+     * Set nombre
      *
-     * @param string $codigo
-     *
+     * @param string $nombre
      * @return Tipo
      */
-    public function setCodigo($codigo)
+    public function setNombre($nombre)
     {
-        $this->codigo = $codigo;
-
+        $this->nombre = $nombre;
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -103,23 +115,22 @@ class Tipo
     }
 
     /**
-     * Set nombre
+     * Set orden
      *
-     * @param string $nombre
-     *
+     * @param integer $orden
      * @return Tipo
      */
-    public function setNombre($nombre)
+    public function setOrden($orden)
     {
-        $this->nombre = $nombre;
-
+        $this->orden = $orden;
+    
         return $this;
     }
 
     /**
      * Get orden
      *
-     * @return integer
+     * @return integer 
      */
     public function getOrden()
     {
@@ -127,40 +138,25 @@ class Tipo
     }
 
     /**
-     * Set orden
+     * Set estado
      *
-     * @param integer $orden
-     *
+     * @param integer $estado
      * @return Tipo
      */
-    public function setOrden($orden)
+    public function setEstado($estado)
     {
-        $this->orden = $orden;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return integer
+     * @return integer 
      */
     public function getEstado()
     {
         return $this->estado;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param integer $estado
-     *
-     * @return Tipo
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
     }
 }

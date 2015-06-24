@@ -8,29 +8,30 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class NivelCategoriaType extends AbstractType
 {
-    /**
+        /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', 'text', [
-                'required' => true,
-            ])
-            ->add('asociado', 'checkbox', [
-                'required' => false
-            ]);
+            ->add('nombre','text', array(
+                    'required' => true,
+                ))
+            ->add('asociado', 'checkbox', array(
+                    'required' => false
+                ))
+        ;
     }
-
+    
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\CategoriaBundle\Entity\NivelCategoria'
-        ]);
+        ));
     }
 
     /**

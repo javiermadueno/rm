@@ -19,26 +19,27 @@ class FranjaHorariaType extends AbstractType
     {
         $builder
             ->add('valor_inicio', 'time', [
-                'input'    => 'datetime',
-                'html5'    => true,
+                'input' => 'datetime',
+                'html5' => true,
                 'required' => true,
-                'widget'   => 'single_text'
+                'widget' =>'single_text'
             ])
             ->add('valor_fin', 'time', [
-                'input'    => 'datetime',
-                'html5'    => true,
+                'input' => 'datetime',
+                'html5' => true,
                 'required' => true,
-                'widget'   => 'single_text'
+                'widget' =>'single_text'
 
-            ]);
+            ])
+        ;
     }
 
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\DiscretasBundle\Entity\FranjaHoraria'
-        ]);
+        ));
     }
 
     public function getName()

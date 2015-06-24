@@ -1,12 +1,12 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
 {% block title %}
-    {{ "configuracion" | trans }} - {{ "tamano.imagenes" | trans|title }} - {{ "nuevo" | trans|title }}
+	{{ "configuracion" | trans }} - {{ "tamano.imagenes" | trans|title }} - {{ "nuevo" | trans|title }}
 {% endblock %}
 
 {% block migas %}
     {{ parent() }}
-    <li>{{ "tamano.imagenes"|trans }} <span class="separator"></span></li>
+	<li>{{ "tamano.imagenes"|trans }} <span class="separator"></span></li>
     <li>{{ "nuevo"|trans|title }}</li>
 {% endblock %}
 
@@ -19,14 +19,11 @@
         {{ form_errors(formulario.alto) }}
         {{ form_errors(formulario.ancho) }}
         <div class="mediamgr_head">
-            <table class="margin-center">
-                <tbody>
-                <tr height="20">
-                    <td colspan="4" class="sinborde"></td>
-                </tr>
+        <table class="margin-center" >
+            <tbody>
+                <tr height="20"><td colspan="4" class="sinborde"></td></tr>
                 <tr>
-                    <td width="40%"
-                        class="sinborde textoDerecha">{{ form_label(formulario.codigo, 'Nombre' | trans) }}</td>
+                    <td width="40%" class="sinborde textoDerecha">{{ form_label(formulario.codigo, 'Nombre' | trans) }}</td>
                     <td width="3%" class="sinborde">&nbsp;</td>
                     <td class="sinborde">
                         {{ form_widget(formulario.codigo, { 'attr': { 'class': 'tam150' } }) }}
@@ -61,34 +58,29 @@
                         {{ form_widget(formulario.tipo) }}
                     </td>
                 </tr>
-                <tr height="30">
-                    <td colspan="4" class="sinborde"></td>
-                </tr>
+                <tr height="30"><td colspan="4" class="sinborde"></td></tr>
                 <tr>
                     <td colspan="4" class="sinborde botonera_central">
                         <button type="submit" class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
-                        <button class="btn btn-danger"
-                                onClick="location.href='{{ path('direct_config_tamanyo') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+                        <button  class="btn btn-danger" onClick="location.href='{{ path('direct_config_tamanyo') }}'; return false;">{{ "boton.cancelar" | trans }}</button>
                     </td>
                 </tr>
-                <tr height="30">
-                    <td colspan="4" class="sinborde"></td>
-                </tr>
+                <tr height="30"><td colspan="4" class="sinborde"></td></tr>
                 {{ form_rest(formulario) }}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
         </div>
         <div class="spacer"></div>
     </form>
 
-
+	
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            habilitarSoloNumerosConDecimales();
-        });
-    </script>
+	{{ parent() }}
+	<script type="text/javascript">		
+		$(document).ready(function(){
+			habilitarSoloNumerosConDecimales();
+		});
+	</script>
 {% endblock %}

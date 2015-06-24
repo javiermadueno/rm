@@ -1,4 +1,4 @@
-<h4 class="widgettitle">{{ "consumidores" |trans|title }}</h4>
+<h4 class="widgettitle">{{ "consumidores" |trans|title}}</h4>
 <table class="table table-bordered responsive" id="tablaConsumidores" name="tablaConsumidores">
     <colgroup>
         <col class="con0">
@@ -9,28 +9,28 @@
         <col class="con1">
     </colgroup>
     <thead>
-    <tr>
-        <th>{{ "consumidor" | trans }}</th>
-        <th>{{ "visualizar" | trans }}</th>
-    </tr>
+        <tr>
+            <th>{{ "consumidor" | trans }}</th>
+            <th>{{ "visualizar" | trans }}</th>
+        </tr>
     </thead>
     <tbody>
-    {% for objCons in objConsumidores %}
-        <tr>
-            {% set nombreCompleto = objCons.nombre~' '~objCons.apellidos %}
+         {% for objCons in objConsumidores %}
+            <tr>
+            {% set nombreCompleto = objCons.nombre~' '~objCons.apellidos  %}
             {% set nombre = objCons.nombre %}
             {% set apellido = objCons.apellidos %}
             {% set test= 1 %}
-            <td>{{ nombreCompleto }}</td>
-            <td>
-                <img class="info"
-                     onClick="verComunicacion({{ objCons.idCliente }});"
-                     src="{{ asset('img/icon-lupa.png') }}"
-                     alt="{{ 'previsualizar' | trans }}"
-                        />
-            </td>
-        </tr>
-    {% endfor %}
+                <td>{{ nombreCompleto }}</td>
+                <td>
+                    <img class="info"
+                    onClick="verComunicacion({{ objCons.idCliente }});"
+                    src="{{ asset('img/icon-lupa.png') }}"
+                    alt="{{ 'previsualizar' | trans }}"
+                    />
+                </td>
+            </tr>
+        {% endfor %}
 </table>
 {{ knp_pagination_render(objConsumidores) }}
 

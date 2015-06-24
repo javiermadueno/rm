@@ -58,9 +58,10 @@ class EmailParser implements ParserInterface
     public function __construct(
         GeneraPlantillaComunicacion $plantillaGenerator,
         ManagerInstanciaComunicacionCliente $manager
-    ) {
-        $this->crawler = new Crawler();
-        $this->manager = $manager;
+        )
+    {
+        $this->crawler  = new Crawler();
+        $this->manager    = $manager;
         $this->plantillaGenerator = $plantillaGenerator;
 
         $this->document = new \DOMDocument();
@@ -69,8 +70,7 @@ class EmailParser implements ParserInterface
 
     /**
      * @param PlantillaInterface $plantilla
-     * @param Cliente            $cliente
-     *
+     * @param Cliente $cliente
      * @return mixed|void
      */
     public function parse(PlantillaInterface $plantilla, Cliente $cliente)
@@ -81,11 +81,11 @@ class EmailParser implements ParserInterface
         $this->setPlantilla($plantilla);
         $this->setCliente($cliente);
 
-        if (file_exists($this->getRutaPlantillaGenerada())) {
+        if(file_exists($this->getRutaPlantillaGenerada())){
             return $this;
         }
 
-        if (!file_exists($this->getRutaPlantilla())) {
+        if(!file_exists($this->getRutaPlantilla())) {
             $this->plantillaGenerator->creaArchivoPlantilla($this->plantilla);
         }
 
@@ -102,14 +102,151 @@ class EmailParser implements ParserInterface
     }
 
     /**
-     * @param PlantillaInterface $plantilla
-     *
-     * @return $this
+     * @throws \Exception
      */
-    public function setPlantilla(PlantillaInterface $plantilla)
+    private function fillPlantilla()
     {
-        $this->plantilla = $plantilla;
-        return $this;
+        $gruposSlots = $this->plantilla->getGruposSlots();
+
+        /** @var GrupoSlots $grupo */
+        foreach($gruposSlots as $grupo)
+        {
+            $slots = $grupo->getSlots();
+
+            /** @var Slot $slot */
+            foreach($slots as $slot)
+            {
+                $this->fillSlot($grupo, $slot);
+            }
+        }
+    }
+
+    /**
+     * @param GrupoSlotsInterface $grupo
+     * @param Slot $slot
+     * @throws \Exception
+     */
+    private function fillSlot(GrupoSlotsInterface $grupo, Slot $slot)
+    {
+        $promocion = $this->getPromocion($this->cliente->getIdCliente(), $slot->getIdSlot());
+
+        $tipo = $grupo->getTipo();
+        switch($tipo)
+        {
+            case GrupoSlots::PROMOCION:
+                $this->fillSlotPromocion($grupo, $slot, $promocion);
+                break;
+            case GrupoSlots::CREATIVIDADES:
+                $this->fillSlotCreatividad($grupo, $slot, $promocion);
+                break;
+            default:
+                throw new \Exception(sprintf(
+                        'No existen GruposSlots de tipo "%s"',
+                        $tipo
+                    ));
+        }
+    }
+
+    /**
+     * @param GrupoSlotsInterface $grupo
+     * @param Slot $slot
+     * @param Promocion $promocion
+     * @throws \Exception
+     */
+    private function fillSlotPromocion(GrupoSlotsInterface $grupo, Slot $slot, Promocion $promocion)
+    {
+        $id = $this->getId($grupo, $slot);
+
+        $element = $this->getElementById($id);
+
+        if($grupo->getMImgMarca()) {
+            $this->fillNodoImagenMarca($id, $promocion);
+        }
+
+        if($grupo->getMImgProducto()) {
+            $this->fillNodoImagenProducto($id, $promocion);
+        }
+
+        if($grupo->getMPrecio()) {
+            $this->fillNodoPrecio($id, $promocion);
+        }
+
+        if($grupo->getMTexto()) {
+            $this->fillNodoTexto($id, $promocion);
+        }
+
+        if($grupo->getMCondiciones()) {
+            $this->fillNodoCondiciones($id, $promocion);
+        }
+
+        if($grupo->getMFidelizacion()) {
+            $this->fillNodoFidelizacion($id, $promocion);
+        }
+
+        if($grupo->getMVoucher()) {
+           $this->fillNodoVoucher($id, $promocion);
+        }
+
+        if($grupo->getMVolumen()) {
+            $this->fillNodoVolumen($id, $promocion);
+        }
+
+    }
+
+    /**
+     * @param GrupoSlotsInterface $grupo
+     * @param Slot $slot
+     * @param Promocion $promocion
+     * @throws \Exception
+     */
+    private function fillSlotCreatividad(GrupoSlotsInterface $grupo, Slot $slot, Promocion $promocion)
+    {
+        $id = $this->getId($grupo, $slot);
+
+        $element = $this->getElementById($id);
+
+        if($grupo->getMImgProducto()) {
+            $this->fillNodoImagenProducto($id, $promocion);
+        }
+
+        if($grupo->getMTexto()) {
+            $this->fillNodoTexto($id, $promocion);
+        }
+    }
+
+    /**
+     * @param GrupoSlotsInterface $grupo
+     * @param Slot $slot
+     * @return string
+     */
+    private function getId(GrupoSlotsInterface $grupo, Slot $slot)
+    {
+        return sprintf("%s-%s", $grupo->getIdGrupo(), $slot->getIdSlot());
+    }
+
+    /**
+     * @param $id
+     * @return \DOMElement
+     * @throws \Exception
+     */
+    private function getElementById($id)
+    {
+        $element = $this->document->getElementById($id);
+        if(!$element) {
+            throw new \Exception(sprintf(
+                    'No se ha encontrado el elemento con id = "%s"', $id
+                ));
+        }
+
+        return $element;
+    }
+
+    /**
+     * @param \DOMDocument $document
+     */
+    private function setDOMDocument(\DOMDocument $document)
+    {
+        $this->document = $document;
     }
 
     /**
@@ -121,13 +258,29 @@ class EmailParser implements ParserInterface
     }
 
     /**
-     * @return string
+     * @param PlantillaInterface $plantilla
+     * @return $this
      */
-    public function getRutaPlantillaGenerada()
+    public function setPlantilla(PlantillaInterface $plantilla)
     {
-        return $this->plantillaGenerator
-            ->getRutaCarpetaComunicacionesGeneradas() . '/' . $this->cliente->getIdCliente() . '.html';
+        $this->plantilla = $plantilla;
+        return $this;
+    }
 
+    /**
+     * @return string
+     * @throws FileNotFoundException
+     */
+    public function getEstilosPlantilla()
+    {
+        if(!file_exists($this->getRutaPlantilla())) {
+            throw new FileNotFoundException("No se ha encontrado la plantilla maquetada");
+        }
+
+        $crawler = new Crawler(file_get_contents($this->getRutaPlantilla()));
+        $estilos = $crawler->filter('head>style');
+
+        return $estilos->html();
     }
 
     /**
@@ -140,154 +293,31 @@ class EmailParser implements ParserInterface
     }
 
     /**
-     * @throws \Exception
+     * @return string
      */
-    private function fillPlantilla()
+    public function getRutaPlantillaGenerada()
     {
-        $gruposSlots = $this->plantilla->getGruposSlots();
+        return $this->plantillaGenerator
+            ->getRutaCarpetaComunicacionesGeneradas().'/'.$this->cliente->getIdCliente().'.html';
 
-        /** @var GrupoSlots $grupo */
-        foreach ($gruposSlots as $grupo) {
-            $slots = $grupo->getSlots();
-
-            /** @var Slot $slot */
-            foreach ($slots as $slot) {
-                $this->fillSlot($grupo, $slot);
-            }
-        }
-    }
-
-    /**
-     * @param GrupoSlotsInterface $grupo
-     * @param Slot                $slot
-     *
-     * @throws \Exception
-     */
-    private function fillSlot(GrupoSlotsInterface $grupo, Slot $slot)
-    {
-        $promocion = $this->getPromocion($this->cliente->getIdCliente(), $slot->getIdSlot());
-
-        $tipo = $grupo->getTipo();
-        switch ($tipo) {
-            case GrupoSlots::PROMOCION:
-                $this->fillSlotPromocion($grupo, $slot, $promocion);
-                break;
-            case GrupoSlots::CREATIVIDADES:
-                $this->fillSlotCreatividad($grupo, $slot, $promocion);
-                break;
-            default:
-                throw new \Exception(sprintf(
-                    'No existen GruposSlots de tipo "%s"',
-                    $tipo
-                ));
-        }
     }
 
     /**
      * @param $cliente
      * @param $slot
-     *
      * @return \RM\ProductoBundle\Entity\Promocion
      * @throws \Exception
      */
     private function getPromocion($cliente, $slot)
     {
-        $promocion = $this->manager
+        $promocion =  $this->manager
             ->findPromocionBySlotyCliente($slot, $cliente);
 
         return $promocion;
     }
 
     /**
-     * @param GrupoSlotsInterface $grupo
-     * @param Slot                $slot
-     * @param Promocion           $promocion
-     *
-     * @throws \Exception
-     */
-    private function fillSlotPromocion(GrupoSlotsInterface $grupo, Slot $slot, Promocion $promocion)
-    {
-        $id = $this->getId($grupo, $slot);
-
-        $element = $this->getElementById($id);
-
-        if ($grupo->getMImgMarca()) {
-            $this->fillNodoImagenMarca($id, $promocion);
-        }
-
-        if ($grupo->getMImgProducto()) {
-            $this->fillNodoImagenProducto($id, $promocion);
-        }
-
-        if ($grupo->getMPrecio()) {
-            $this->fillNodoPrecio($id, $promocion);
-        }
-
-        if ($grupo->getMTexto()) {
-            $this->fillNodoTexto($id, $promocion);
-        }
-
-        if ($grupo->getMCondiciones()) {
-            $this->fillNodoCondiciones($id, $promocion);
-        }
-
-        if ($grupo->getMFidelizacion()) {
-            $this->fillNodoFidelizacion($id, $promocion);
-        }
-
-        if ($grupo->getMVoucher()) {
-            $this->fillNodoVoucher($id, $promocion);
-        }
-
-        if ($grupo->getMVolumen()) {
-            $this->fillNodoVolumen($id, $promocion);
-        }
-
-    }
-
-    /**
-     * @param GrupoSlotsInterface $grupo
-     * @param Slot                $slot
-     *
-     * @return string
-     */
-    private function getId(GrupoSlotsInterface $grupo, Slot $slot)
-    {
-        return sprintf("%s-%s", $grupo->getIdGrupo(), $slot->getIdSlot());
-    }
-
-    /**
      * @param $id
-     *
-     * @return \DOMElement
-     * @throws \Exception
-     */
-    private function getElementById($id)
-    {
-        $element = $this->document->getElementById($id);
-        if (!$element) {
-            throw new \Exception(sprintf(
-                'No se ha encontrado el elemento con id = "%s"', $id
-            ));
-        }
-
-        return $element;
-    }
-
-    /**
-     * @param           $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoImagenMarca($id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-imagenMarca", $id));
-
-        $marca = $promocion->getIdProducto()->getIdMarca()->getIdMarca();
-        $nodo->setAttribute('src', 'prueba');
-    }
-
-    /**
-     * @param           $id
      * @param Promocion $promocion
      */
     private function fillNodoImagenProducto($id, Promocion $promocion)
@@ -296,7 +326,7 @@ class EmailParser implements ParserInterface
 
         $producto = $promocion->getIdProducto();
 
-        if (!$producto) {
+        if(!$producto) {
             $creatividad = $promocion->getCreatividad();
             $imagen->setAttribute('src', $this->getRutaCreatividad($creatividad));
             return;
@@ -307,38 +337,38 @@ class EmailParser implements ParserInterface
 
     }
 
-    private function getRutaCreatividad(Creatividad $creatividad)
+    private function getRutaImagen(Producto $producto)
     {
         $finder = new Finder();
 
-        $finder->in(__DIR__ . '/../../../../web/3/imagenesCreatividad')->files();
+        $finder->in(__DIR__.'/../../../../web/3/imagenesProducto')->files();
 
-        $file = $finder->name(sprintf('%s.*', $creatividad->getIdCreatividad()));
+        $file = $finder->name(sprintf('%s.*', $producto->getIdProducto()));
 
-        foreach ($file as $fil) {
-            return '/RM2/web/3/imagenesCreatividad/' . $fil->getRelativePathName();
+        foreach($file as $fil) {
+            return '/RM2/web/3/imagenesProducto/'.$fil->getRelativePathName();
         }
 
         return '';
     }
 
-    private function getRutaImagen(Producto $producto)
+    private function getRutaCreatividad(Creatividad $creatividad)
     {
         $finder = new Finder();
 
-        $finder->in(__DIR__ . '/../../../../web/3/imagenesProducto')->files();
+        $finder->in(__DIR__.'/../../../../web/3/imagenesCreatividad')->files();
 
-        $file = $finder->name(sprintf('%s.*', $producto->getIdProducto()));
+        $file = $finder->name(sprintf('%s.*', $creatividad->getIdCreatividad()));
 
-        foreach ($file as $fil) {
-            return '/RM2/web/3/imagenesProducto/' . $fil->getRelativePathName();
+        foreach($file as $fil) {
+            return '/RM2/web/3/imagenesCreatividad/'.$fil->getRelativePathName();
         }
 
         return '';
     }
 
     /**
-     * @param           $id
+     * @param $id
      * @param Promocion $promocion
      */
     private function fillNodoPrecio($id, Promocion $promocion)
@@ -346,60 +376,11 @@ class EmailParser implements ParserInterface
         $nodo = $this->getElementById(sprintf("%s-precio", $id));
 
         $precio = $promocion->getIdProducto()->getPrecioVenta();
-        $nodo->nodeValue = sprintf("%.2F ", $precio) . ' ' . htmlentities('&euro;', ENT_HTML5, 'UTF-8');
+        $nodo->nodeValue = sprintf("%.2F ", $precio).' '.htmlentities('&euro;',ENT_HTML5, 'UTF-8');
     }
 
     /**
-     * @param           $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoTexto($id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-texto", $id));
-        $texto = (string)$promocion->getDescripcion();
-
-        $nodo->nodeValue = $texto;
-
-    }
-
-    /**
-     * @param           $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoCondiciones($id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-condiciones", $id));
-        $condiciones = (string)$promocion->getCondiciones();
-
-        $nodo->nodeValue = $condiciones;
-    }
-
-    /**
-     * @param           $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoFidelizacion($id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-fidelizacion", $id));
-
-        $fidelizacion = $promocion->getFidelizacion();
-        $nodo->nodeValue = $fidelizacion;
-    }
-
-    /**
-     * @param           $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoVoucher($id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-voucher", $id));
-
-        $voucher = (string)$promocion->getVoucher();
-        $nodo->nodeValue = $voucher;
-    }
-
-    /**
-     * @param           $id
+     * @param $id
      * @param Promocion $promocion
      */
     private function fillNodoVolumen($id, Promocion $promocion)
@@ -411,49 +392,64 @@ class EmailParser implements ParserInterface
     }
 
     /**
-     * @param GrupoSlotsInterface $grupo
-     * @param Slot                $slot
-     * @param Promocion           $promocion
-     *
-     * @throws \Exception
+     * @param $id
+     * @param Promocion $promocion
      */
-    private function fillSlotCreatividad(GrupoSlotsInterface $grupo, Slot $slot, Promocion $promocion)
+    private function fillNodoVoucher($id, Promocion $promocion)
     {
-        $id = $this->getId($grupo, $slot);
+        $nodo = $this->getElementById(sprintf("%s-voucher", $id));
 
-        $element = $this->getElementById($id);
-
-        if ($grupo->getMImgProducto()) {
-            $this->fillNodoImagenProducto($id, $promocion);
-        }
-
-        if ($grupo->getMTexto()) {
-            $this->fillNodoTexto($id, $promocion);
-        }
+        $voucher = (string) $promocion->getVoucher();
+        $nodo->nodeValue = $voucher;
     }
 
     /**
-     * @return string
-     * @throws FileNotFoundException
+     * @param $id
+     * @param Promocion $promocion
      */
-    public function getEstilosPlantilla()
+    private function fillNodoImagenMarca( $id, Promocion $promocion)
     {
-        if (!file_exists($this->getRutaPlantilla())) {
-            throw new FileNotFoundException("No se ha encontrado la plantilla maquetada");
-        }
+        $nodo = $this->getElementById(sprintf("%s-imagenMarca", $id));
 
-        $crawler = new Crawler(file_get_contents($this->getRutaPlantilla()));
-        $estilos = $crawler->filter('head>style');
-
-        return $estilos->html();
+        $marca = $promocion->getIdProducto()->getIdMarca()->getIdMarca();
+        $nodo->setAttribute('src', 'prueba');
     }
 
     /**
-     * @param \DOMDocument $document
+     * @param $id
+     * @param Promocion $promocion
      */
-    private function setDOMDocument(\DOMDocument $document)
+    private function fillNodoCondiciones($id, Promocion $promocion)
     {
-        $this->document = $document;
+        $nodo = $this->getElementById(sprintf("%s-condiciones", $id));
+        $condiciones = (string) $promocion->getCondiciones();
+
+        $nodo->nodeValue = $condiciones;
+    }
+
+    /**
+     * @param $id
+     * @param Promocion $promocion
+     */
+    private function fillNodoFidelizacion($id, Promocion $promocion)
+    {
+        $nodo =  $this->getElementById(sprintf("%s-fidelizacion", $id));
+
+        $fidelizacion = $promocion->getFidelizacion();
+        $nodo->nodeValue = $fidelizacion;
+    }
+
+    /**
+     * @param $id
+     * @param Promocion $promocion
+     */
+    private function fillNodoTexto( $id, Promocion $promocion)
+    {
+        $nodo = $this->getElementById(sprintf("%s-texto", $id));
+        $texto = (string) $promocion->getDescripcion();
+
+        $nodo->nodeValue = $texto;
+
     }
 
 

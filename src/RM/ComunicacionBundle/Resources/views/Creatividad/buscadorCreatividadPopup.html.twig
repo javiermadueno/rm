@@ -2,13 +2,13 @@
 {# Ejemplo desarrollado en fichaCreatividad.html.twig #}
 
 {% extends '::pantallaPopUp.html.twig' %}
-{% block title %}
-    {{ "buscar.creatividad" | trans }}
-{% endblock %}
+{% block title %} 
+	{{"buscar.creatividad" | trans }}
+{%endblock %} 
 
 {% block body %}
 
-    <h4 class="widgettitle">{{ "buscador" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "buscador" |trans|title}}</h4>
     <div class="mediamgr_head">
         <form id="form" name="form">
             <input type="hidden" name="id_id" id="id_id" value="{{ id_id }}">
@@ -16,7 +16,7 @@
             <ul class="mediamgr_menu">
                 <li>
                     <label>{{ "nombre" | trans }}</label>
-                    <input type="text" name="nombre" id="nombre" class="" value="{{ nombre }}"/>
+                    <input type="text" name="nombre" id="nombre" class="" value="{{ nombre }}" />
                 </li>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
                 <li class="">
@@ -34,9 +34,9 @@
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function(){
 
-            $('.actualizarTabla').click(function (event) {
+            $('.actualizarTabla').click(function(event){
                 event.preventDefault(); //cancela el comportamiento por defecto
                 actualizarRegistros();
             });
@@ -49,13 +49,13 @@
                     type: "POST",
                     url: myUrl,
                     data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
+                    complete: function(objeto, exito){
+                        if(exito=="success"){
                             $('#tablaListado').children().remove();
                             $('#tablaListado').append(objeto.responseText);
                         }
                     },
-                    error: function (objeto, quepaso, otroobj) {
+                    error: function(objeto, quepaso, otroobj){
                     }
                 });
             }
@@ -63,7 +63,7 @@
 
         });
 
-        function asocCreatividad(idCreatividad, nomCreatividad) {
+        function asocCreatividad(idCreatividad, nomCreatividad){
 
             var campoIdId = $("#id_id").val();
             var campoIdCampo = $("#id_nombre").val();

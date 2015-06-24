@@ -39,7 +39,7 @@ class TipoProceso
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -47,9 +47,22 @@ class TipoProceso
     }
 
     /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return TipoProceso
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -57,45 +70,30 @@ class TipoProceso
     }
 
     /**
-     * Set codigo
+     * Set nombre
      *
-     * @param string $codigo
-     *
+     * @param string $nombre
      * @return TipoProceso
      */
-    public function setCodigo($codigo)
+    public function setNombre($nombre)
     {
-        $this->codigo = $codigo;
-
+        $this->nombre = $nombre;
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
         return $this->nombre;
     }
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return TipoProceso
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
     public function __toString()
     {
-        return $this->id . '';
+        return $this->id.'';
     }
 }

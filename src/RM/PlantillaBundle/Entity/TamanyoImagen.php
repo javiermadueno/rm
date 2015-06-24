@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TamanyoImagen
 {
-    const MARCA = 1;
-    const PRODUCTO = 0;
-    const CREATIVIDAD = 3;
+    const MARCA         = 1;
+    const PRODUCTO      = 0;
+    const CREATIVIDAD   = 3;
 
     /**
      * @var string
@@ -29,17 +29,17 @@ class TamanyoImagen
      * @ORM\Column(name="tipo", type="smallint", nullable=true)
      */
     private $tipo;
-
+    
     /**
      * @var float
      *
      * @ORM\Column(name="ancho", type="float", nullable=true)
      */
     private $ancho;
-
+    
     /**
      * @var float
-     *
+     * 
      * @ORM\Column(name="alto", type="float", nullable=true)
      */
     private $alto;
@@ -60,10 +60,25 @@ class TamanyoImagen
      */
     private $idTamanyo;
 
+
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return TamanyoImagen
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
     /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -71,43 +86,41 @@ class TamanyoImagen
     }
 
     /**
-     * Set codigo
+     * Set tipo
      *
-     * @param string $codigo
-     *
+     * @param smallint $tipo
      * @return TamanyoImagen
      */
-    public function setCodigo($codigo)
+    public function setTipo($tipo)
     {
-        $this->codigo = $codigo;
-
+        $this->tipo = $tipo;
+    
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getTipo()
     {
         return $this->tipo;
     }
-
+    
     /**
-     * Set tipo
+     * Set ancho
      *
-     * @param smallint $tipo
-     *
+     * @param float $ancho
      * @return TamanyoImagen
      */
-    public function setTipo($tipo)
+    public function setAncho($ancho)
     {
-        $this->tipo = $tipo;
-
-        return $this;
+    	$this->ancho = $ancho;
+    
+    	return $this;
     }
-
+    
     /**
      * Get ancho
      *
@@ -115,23 +128,22 @@ class TamanyoImagen
      */
     public function getAncho()
     {
-        return $this->ancho;
+    	return $this->ancho;
     }
-
+    
     /**
-     * Set ancho
+     * Set alto
      *
-     * @param float $ancho
-     *
+     * @param float $alto
      * @return TamanyoImagen
      */
-    public function setAncho($ancho)
+    public function setAlto($alto)
     {
-        $this->ancho = $ancho;
-
-        return $this;
+    	$this->alto = $alto;
+    
+    	return $this;
     }
-
+    
     /**
      * Get alto
      *
@@ -139,27 +151,26 @@ class TamanyoImagen
      */
     public function getAlto()
     {
-        return $this->alto;
+    	return $this->alto;
     }
 
     /**
-     * Set alto
+     * Set estado
      *
-     * @param float $alto
-     *
+     * @param smallint $estado
      * @return TamanyoImagen
      */
-    public function setAlto($alto)
+    public function setEstado($estado)
     {
-        $this->alto = $alto;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -167,23 +178,9 @@ class TamanyoImagen
     }
 
     /**
-     * Set estado
-     *
-     * @param smallint $estado
-     *
-     * @return TamanyoImagen
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
      * Get idTamanyo
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdTamanyo()
     {

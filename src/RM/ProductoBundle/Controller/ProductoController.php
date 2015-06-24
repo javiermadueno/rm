@@ -8,9 +8,8 @@ class ProductoController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('RMProductoBundle:Producto:index.html.twig', [
-            // ...
-        ]);
-    }
+        return $this->render('RMProductoBundle:Producto:index.html.twig', array(
+                // ...
+            ));    }
 
 }

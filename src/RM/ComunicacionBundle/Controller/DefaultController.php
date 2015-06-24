@@ -7,7 +7,6 @@ use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Event\ComunicacionEvent;
 use RM\ComunicacionBundle\Event\ComunicacionEvents;
 use RM\ComunicacionBundle\Form\Gestion\nuevaComunicacionType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

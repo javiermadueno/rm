@@ -4,10 +4,9 @@ namespace RM\TransformadasBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
 use RM\DiscretasBundle\Entity\Tipo;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use RM\TransformadasBundle\Form\Data\TransformadaBuscadorType;
-use RM\TransformadasBundle\Form\Data\NuevaVarTransType;
 use RM\TransformadasBundle\Entity\Vt;
+use RM\TransformadasBundle\Form\Data\NuevaVarTransType;
+use RM\TransformadasBundle\Form\Data\TransformadaBuscadorType;
 
 class DefaultController extends RMController
 {

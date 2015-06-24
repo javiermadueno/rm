@@ -2,10 +2,8 @@
 
 namespace RM\CategoriaBundle\Controller;
 
-use RM\CategoriaBundle\Entity\NivelCategoria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Monolog\Logger;
 
 class DefaultController extends Controller
 {

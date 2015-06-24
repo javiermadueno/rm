@@ -7,7 +7,6 @@
  */
 
 namespace RM\PlantillaBundle\Form\DataTransformer;
-
 use RM\PlantillaBundle\Entity\Plantilla;
 
 
@@ -20,7 +19,6 @@ class PlantillaToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param Object|Plantilla $entity
-     *
      * @return int
      */
     protected function getId($entity)
@@ -30,7 +28,6 @@ class PlantillaToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param int $id
-     *
      * @return Object|Plantilla
      */
     protected function getEntity($id)

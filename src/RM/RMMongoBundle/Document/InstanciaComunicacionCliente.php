@@ -10,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
  * @Mongo\Document(collection="instancia_comunicacion_cliente", repositoryClass="InstanciaComunicacionClienteRepository")
  * @Mongo\Index(keys={"_id.id_instancia", "_id.id_cliente", "_id.id_slot"})
  */
+
 class InstanciaComunicacionCliente implements \JsonSerializable
 {
     /**
@@ -55,6 +56,9 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     private $creatividad;
 
 
+
+
+
     /**
      * Get id
      *
@@ -69,7 +73,6 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set cliente
      *
      * @param int $cliente
-     *
      * @return self
      */
     public function setCliente($cliente)
@@ -92,7 +95,6 @@ class InstanciaComunicacionCliente implements \JsonSerializable
      * Set instancia
      *
      * @param int $instancia
-     *
      * @return self
      */
     public function setInstancia($instancia)
@@ -112,6 +114,18 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     }
 
     /**
+     * Set promocion
+     *
+     * @param int $promocion
+     * @return self
+     */
+    public function setPromocion($promocion)
+    {
+        $this->promocion = $promocion;
+        return $this;
+    }
+
+    /**
      * Get promocion
      *
      * @return int $promocion
@@ -122,23 +136,9 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     }
 
     /**
-     * Set promocion
-     *
-     * @param int $promocion
-     *
-     * @return self
-     */
-    public function setPromocion($promocion)
-    {
-        $this->promocion = $promocion;
-        return $this;
-    }
-
-    /**
      * Set slot
      *
      * @param int $slot
-     *
      * @return self
      */
     public function setSlot($slot)
@@ -160,11 +160,23 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'        => $this->id,
+            'id' => $this->id,
             'instancia' => $this->id_instancia,
-            'cliente'   => $this->id_cliente,
-            'slot'      => $this->id_slot,
+            'cliente' => $this->id_cliente,
+            'slot' => $this->id_slot,
         ];
+    }
+
+    /**
+     * Set idCliente
+     *
+     * @param int $idCliente
+     * @return self
+     */
+    public function setIdCliente($idCliente)
+    {
+        $this->id_cliente = $idCliente;
+        return $this;
     }
 
     /**
@@ -178,15 +190,14 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     }
 
     /**
-     * Set idCliente
+     * Set idInstancia
      *
-     * @param int $idCliente
-     *
+     * @param int $idInstancia
      * @return self
      */
-    public function setIdCliente($idCliente)
+    public function setIdInstancia($idInstancia)
     {
-        $this->id_cliente = $idCliente;
+        $this->id_instancia = $idInstancia;
         return $this;
     }
 
@@ -201,15 +212,14 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     }
 
     /**
-     * Set idInstancia
+     * Set idSlot
      *
-     * @param int $idInstancia
-     *
+     * @param int $idSlot
      * @return self
      */
-    public function setIdInstancia($idInstancia)
+    public function setIdSlot($idSlot)
     {
-        $this->id_instancia = $idInstancia;
+        $this->id_slot = $idSlot;
         return $this;
     }
 
@@ -224,15 +234,14 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     }
 
     /**
-     * Set idSlot
+     * Set creatividad
      *
-     * @param int $idSlot
-     *
+     * @param hash $creatividad
      * @return self
      */
-    public function setIdSlot($idSlot)
+    public function setCreatividad($creatividad)
     {
-        $this->id_slot = $idSlot;
+        $this->creatividad = $creatividad;
         return $this;
     }
 
@@ -244,18 +253,5 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     public function getCreatividad()
     {
         return $this->creatividad;
-    }
-
-    /**
-     * Set creatividad
-     *
-     * @param hash $creatividad
-     *
-     * @return self
-     */
-    public function setCreatividad($creatividad)
-    {
-        $this->creatividad = $creatividad;
-        return $this;
     }
 }

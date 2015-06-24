@@ -9,11 +9,9 @@
 namespace RM\PlantillaBundle\EventListeners;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Event\GrupoSlotsEvent;
 use RM\PlantillaBundle\Model\Interfaces\GrupoSlotsInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EliminaSlotsListener
 {

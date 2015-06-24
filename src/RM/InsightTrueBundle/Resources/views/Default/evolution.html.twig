@@ -1,417 +1,371 @@
 {% extends '::insight/base_insight.html.twig' %}
 {% block title %}
 
-    {% trans %}Evoluci&oacute;n{% endtrans %}
+ {% trans %}Evoluci&oacute;n{% endtrans %}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet"/>
-    <script src="{{ asset('js/datepicker/jquery-datepicker.js') }}"></script>
-    <script src="{{ asset('js/datepicker/jquery.ui.datepicker-es.js') }}"></script>
-    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/highcharts.js"></script>
-    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/modules/exporting.js"></script>
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datepicker/jquery-datepicker.js') }}" ></script>
+	<script src="{{ asset('js/datepicker/jquery.ui.datepicker-es.js') }}"></script>
+	<script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/highcharts.js"></script>
+	<script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/modules/exporting.js"></script>
 {% endblock %}
 
 {% block migas %}
-    <p>
-        <span class="ml1">{% trans %}Insight>{% endtrans %}</span> > <span class="mlN">{% trans %}
-            Dashboard{% endtrans %}</span>
-    </p>
+	<p> 
+		<span class="ml1">{% trans %}Insight>{% endtrans %}</span> > <span class="mlN">{% trans %}Dashboard{% endtrans %}</span>
+	</p>
 {% endblock %}
 
 {% block contenedorPrincipal %}
-
+	
 
     <div class="bloque_contenido">
+						
+		<div class="cabecera_contenido">
+			<span>{% trans %}Clientes{% endtrans %}</span> 
+		</div>
+		<div class="bloque_contenido sinborde">
+			<div class="linea_contenido">
+				<label>{% trans %}Compara&nbsp;&nbsp;{% endtrans %}</label>
+				<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+					<option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+					<option value="5" >{% trans %}May-2014{% endtrans %}</option>
+					<option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+					<option value="7" >{% trans %}Jul-2014{% endtrans %}</option>					
+					<option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
+					<option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
+					<option value="10" >{% trans %}Oct-2014{% endtrans %}</option>
+					<option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+					<option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
+				</select>
+				<label>{% trans %}&nbsp;&nbsp;con&nbsp;&nbsp;{% endtrans %}</label>
+				<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+					<option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+					<option value="5" >{% trans %}May-2014{% endtrans %}</option>
+					<option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+					<option value="7" >{% trans %}Jul-2014{% endtrans %}</option>					
+					<option value="8" >{% trans %}Ago-2014{% endtrans %}</option>
+					<option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
+					<option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
+					<option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+					<option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
+				</select>
+			</div>
+		<div class="bloque_contenido">
+			<div class="cabecera_contenido">
+				<span>{{ "Datos" | trans | upper}}</span> 
+			</div>
+			<div class="linea_contenido">
+				<table>
+					<tbody>
+						<tr>
+							<td class="sinborde" width="15%">{% trans %}N&uacute;mero de clientes:&nbsp{% endtrans %}</td>
+							<td class="sinborde" width="30%">{% trans %}154.000{% endtrans %}</td>
+							<td class="sinborde" width="15%">{% trans %}Ventas:&nbsp{% endtrans %}</td>
+							<td class="sinborde" width="35%">{% trans %}1.254.059{% endtrans %}</td>
+						</tr>
+						<tr>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>	
+			<div class="bloque_contenido sinborde">
+				<script type="text/javascript">
 
-    <div class="cabecera_contenido">
-        <span>{% trans %}Clientes{% endtrans %}</span>
-    </div>
-    <div class="bloque_contenido sinborde">
-    <div class="linea_contenido">
-        <label>{% trans %}Compara&nbsp;&nbsp;{% endtrans %}</label>
-        <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-            <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
-            <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-            <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-            <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-            <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-            <option value="5">{% trans %}May-2014{% endtrans %}</option>
-            <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-            <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
-            <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
-            <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
-            <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
-            <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-            <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
-        </select>
-        <label>{% trans %}&nbsp;&nbsp;con&nbsp;&nbsp;{% endtrans %}</label>
-        <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-            <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
-            <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-            <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-            <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-            <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-            <option value="5">{% trans %}May-2014{% endtrans %}</option>
-            <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-            <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
-            <option value="8">{% trans %}Ago-2014{% endtrans %}</option>
-            <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
-            <option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
-            <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-            <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
-        </select>
-    </div>
-    <div class="bloque_contenido">
-        <div class="cabecera_contenido">
-            <span>{{ "Datos" | trans | upper }}</span>
-        </div>
-        <div class="linea_contenido">
-            <table>
-                <tbody>
-                <tr>
-                    <td class="sinborde" width="15%">{% trans %}N&uacute;mero de clientes:&nbsp{% endtrans %}</td>
-                    <td class="sinborde" width="30%">{% trans %}154.000{% endtrans %}</td>
-                    <td class="sinborde" width="15%">{% trans %}Ventas:&nbsp{% endtrans %}</td>
-                    <td class="sinborde" width="35%">{% trans %}1.254.059{% endtrans %}</td>
-                </tr>
-                <tr>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="bloque_contenido sinborde">
-        <script type="text/javascript">
-
-        </script>
-
-        <table class="tablaSinBordes">
-            <tbody>
-            <tr>
-                <td width="50%" class="graficoIzquierda" align="center">
-                    <div id="graficoTarta" style="height: 400px; margin: 0 auto" width="50%"
-                         class="bloque_contenido sinborde">
-                        <div id="tablaRendimiento" class="bloque_contenido sinborde">
-                            <table>
-                                <tbody>
-                                <thead>
-                                <tr>
-                                    <th style="text-align: center;" width="8%">{% trans %}&nbsp;{% endtrans %}</th>
-                                    <th style="text-align: center;" width="4%">{% trans %}&nbsp;{% endtrans %}</th>
-                                    <th style="text-align: center;" width="7%">{% trans %}Segmentos{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}N&uacute;mero
-                                        Clientes{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Media
-                                        Ventas{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Frecuencia
-                                        Media{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Ticket
-                                        Medio{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Recencia
-                                        Media{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="14%">{% trans %}Amplitud
-                                        Media{% endtrans %}</th>
-                                </tr>
-                                </thead>
-                                {% for count in rendimiento %}
-                                    <tr>
-                                        <td rowspan="2" width="7%">
-                                            <div style="vertical-align: middle;">
-                                                {% if count[0] == "Nuevos" %}
-                                                    <span style="vertical-align: middle; display: inline-block;">
+				</script>				
+				
+				<table class="tablaSinBordes">
+					<tbody>
+						<tr>
+							<td width="50%" class="graficoIzquierda" align="center">
+								<div id="graficoTarta" style="height: 400px; margin: 0 auto" width="50%" class="bloque_contenido sinborde">
+				<div id="tablaRendimiento" class="bloque_contenido sinborde">
+					<table>
+						<tbody>	
+							<thead>
+								<tr>
+									<th style="text-align: center;" width="8%">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;" width="4%">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;" width="7%">{% trans %}Segmentos{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="12%">{% trans %}N&uacute;mero Clientes{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="12%">{% trans %}Media Ventas{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="12%">{% trans %}Frecuencia Media{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="12%">{% trans %}Ticket Medio{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="12%">{% trans %}Recencia Media{% endtrans %}</th>
+									<th colspan="2" style="text-align: center;" width="14%">{% trans %}Amplitud Media{% endtrans %}</th>
+								</tr>
+							</thead>
+							{% for count in rendimiento %}
+								<tr>
+									<td rowspan="2" width="7%">
+										<div style="vertical-align: middle;">
+											{% if count[0] == "Nuevos"%}
+												<span style="vertical-align: middle; display: inline-block;">
 												{{ count[0] }} 
-												</span>
-                                                {% elseif count[0] == "Activos" %}
-                                                    <span style="vertical-align: middle; display: inline-block;">
+												</span>											
+											{% elseif count[0] == "Activos"%}	
+												<span style="vertical-align: middle; display: inline-block;">
 													{{ count[0] }}
 												</span>
-                                                {% elseif count[0] == "Inactivos" %}
-                                                    {{ count[0] }}
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td rowspan="2" width="2%">
-                                            {% if count[0] == "Nuevos" %}
-                                                <a href="{{ path("rm_insight_cliente_new") }}">
-                                                    <img style="float:center; display: inline-block;" class="info"
-                                                         src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Nuevos' | trans }}" title="{{ 'Nuevos' | trans }}"/>
-                                                </a>
-                                            {% elseif count[0] == "Activos" %}
-                                                <a href="{{ path("rm_insight_cliente_activo") }}">
-                                                    <img style="float:center; display: inline-block;" class="info"
-                                                         src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Activos' | trans }}" title="{{ 'Activos' | trans }}"/>
-                                                </a>
-                                            {% elseif count[0] == "Inactivos" %}
-                                                <a href="">
-                                                    <img style="float:center; display: inline-block;" class="info"
-                                                         src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Inactivos' | trans }}"
-                                                         title="{{ 'Inactivos' | trans }}"/>
-                                                </a>
-                                            {% endif %}
-                                        </td>
-                                        <td rowspan="2" style="text-align: center;" width="7%">
-                                            {{ count[1] }}
-                                        </td>
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[2] }}
-                                        </td>
-                                        {% if count[4] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[4] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[4] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[5] }}
-                                        </td>
-                                        {% if count[7] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[7] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[7] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[8] }}
-                                        </td>
-                                        {% if count[10] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[10] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[10] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[11] }}
-                                        </td>
-                                        {% if count[13] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[13] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[13] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[14] }}
-                                        </td>
-                                        {% if count[16] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[16] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[16] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                        <td style="text-align: center;" width="7%">
-                                            {{ count[17] }}
-                                        </td>
-                                        {% if count[19] > 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
-                                            </td>
-                                        {% elseif count[19] < 0 %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
-                                                        src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
-                                            </td>
-                                        {% else %}
-                                            <td rowspan="2" style="text-align: center;" width="7%">
-                                                {{ count[19] }}{% trans %}%{% endtrans %}
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; background-color: graytext; border-bottom: thin; border-bottom-style: solid;"
-                                            width="7%">
-                                            {{ count[3] }}
-                                        </td>
-                                        <td style="text-align: center; background-color: graytext;" width="7%">
-                                            {{ count[6] }}
-                                        </td>
-                                        <td style="text-align: center; background-color: graytext;" width="7%">
-                                            {{ count[9] }}
-                                        </td>
-                                        <td style="text-align: center; background-color: graytext;" width="7%">
-                                            {{ count[12] }}
-                                        </td>
-                                        <td style="text-align: center; background-color: graytext;" width="7%">
-                                            {{ count[15] }}
-                                        </td>
-                                        <td style="text-align: center; background-color: graytext;" width="7%">
-                                            {{ count[18] }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                <tr>
-                                    <td>&nbsp;</td>
-                                </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
-    </td>
-    <td width="50%" class="graficoDerecha" align="center">
-        <div id="graficoBarras" style="height: 300px; margin: 0 auto"></div>
-    </td>
-    </tr>
-    <tr>
-        <td>
-            {% trans %}&nbsp;{% endtrans %}
-        </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-
-    </div>
-    </div>
+											{% elseif count[0] == "Inactivos"%}	
+												{{ count[0] }}										
+											{% endif %}
+										</div>	
+									</td>
+									<td rowspan="2" width="2%">
+										{% if count[0] == "Nuevos"%}
+										<a href="{{ path("rm_insight_cliente_new") }}">
+											<img style="float:center; display: inline-block;" class="info"	src="{{ asset('img/icono_info.png') }}"	alt="{{ 'Nuevos' | trans }}" title="{{ 'Nuevos' | trans }}" />
+										</a>										
+										{% elseif count[0] == "Activos"%}
+										<a href="{{ path("rm_insight_cliente_activo") }}">
+											<img style="float:center; display: inline-block;" class="info"	src="{{ asset('img/icono_info.png') }}"	alt="{{ 'Activos' | trans }}" title="{{ 'Activos' | trans }}" />
+										</a>	
+										{% elseif count[0] == "Inactivos"%}	
+										<a href="">
+											<img style="float:center; display: inline-block;" class="info"	src="{{ asset('img/icono_info.png') }}"	alt="{{ 'Inactivos' | trans }}" title="{{ 'Inactivos' | trans }}" />
+										</a>									
+										{% endif %}
+									</td>
+									<td rowspan="2" style="text-align: center;" width="7%">
+										{{ count[1] }}
+									</td>
+									<td style="text-align: center;" width="7%">
+										{{ count[2] }}
+									</td>
+									{% if count[4] > 0 %}
+										<td rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[4] < 0 %}
+										<td rowspan="2" style="text-align: center;" width="7%">
+											{{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td rowspan="2" style="text-align: center;" width="7%">
+											{{ count[4] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="7%">
+									 	{{ count[5] }}
+									</td>
+									{% if count[7] > 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[7] < 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[7] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="7%">
+										{{ count[8] }}
+									</td>
+									{% if count[10] > 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[10] < 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[10] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="7%">
+									 	{{ count[11] }}
+									</td>
+									{% if count[13] > 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[13] < 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[13] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="7%">
+									 	{{ count[14] }}
+									</td>
+									{% if count[16] > 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[16] < 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[16] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="7%">
+									 	{{ count[17] }}
+									</td>
+									{% if count[19] > 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											<img  src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />{{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+										</td>
+									{% elseif count[19] < 0 %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td  rowspan="2" style="text-align: center;" width="7%">
+											{{ count[19] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+								</tr>
+								<tr>
+									<td style="text-align: center; background-color: graytext; border-bottom: thin; border-bottom-style: solid;" width="7%">
+									 	{{ count[3] }}
+									</td>
+									<td style="text-align: center; background-color: graytext;" width="7%">
+									 	{{ count[6] }}
+									</td>
+									<td style="text-align: center; background-color: graytext;" width="7%">
+									 	{{ count[9] }}
+									</td>
+									<td style="text-align: center; background-color: graytext;" width="7%">
+									 	{{ count[12] }}
+									</td>
+									<td style="text-align: center; background-color: graytext;" width="7%">
+									 	{{ count[15] }}
+									</td>
+									<td style="text-align: center; background-color: graytext;" width="7%">
+									 	{{ count[18] }}
+									</td>
+								</tr>
+							{% endfor %}
+								<tr>
+									<td>&nbsp;</td>
+								</tr>
+						</tbody>
+					</table>
+				</div>
+																</div>
+							</td>
+							<td width="50%" class="graficoDerecha" align="center">
+								<div id="graficoBarras" style="height: 300px; margin: 0 auto"></div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{% trans %}&nbsp;{% endtrans %}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+	</div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            $('.date-picker').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                dateFormat: 'MM yy',
-                onClose: function (dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1));
-                }
-            });
-        });
+	{{ parent() }}
+	<script type="text/javascript">
+	$(function() {
+		$('.date-picker').datepicker( {
+		    changeMonth: true,
+		    changeYear: true,
+		    showButtonPanel: true,
+		    dateFormat: 'MM yy',
+		    onClose: function(dateText, inst) { 
+		        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		        $(this).datepicker('setDate', new Date(year, month, 1));
+		    }
+		});
+		});
 
-        $(function () {
-            $('#graficoBarras').highcharts({
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Evolucion Segmentos'
-                },
-                xAxis: {
-                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May']
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: ''
-                    },
-                    stackLabels: {
-                        enabled: false,
-                        style: {
-                            fontWeight: 'bold',
-                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                        }
-                    }
-                },
-                legend: {
-                    align: 'right',
-                    x: -150,
-                    verticalAlign: 'top',
-                    y: 20,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-                    borderColor: '#CCC',
-                    borderWidth: 1,
-                    shadow: false
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>' + this.x + '</b><br/>' +
-                        this.series.name + ': ' + this.y + '<br/>' +
-                        'Total: ' + this.point.stackTotal;
-                    }
-                },
-                plotOptions: {
-                    column: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                            style: {
-                                textShadow: '0 0 3px black, 0 0 3px black'
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Inactivo',
-                    data: [5, 3, 4, 7, 2]
-                }, {
-                    name: 'Activo',
-                    data: [2, 2, 3, 2, 1]
-                }, {
-                    name: 'Nuevo',
-                    data: [3, 4, 4, 2, 5]
-                }]
-            });
-        });
-    </script>
+	$(function () {
+	    $('#graficoBarras').highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Evolucion Segmentos'
+	        },
+	        xAxis: {
+	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May']
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: ''
+	            },
+	            stackLabels: {
+	                enabled: false,
+	                style: {
+	                    fontWeight: 'bold',
+	                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+	                }
+	            }
+	        },
+	        legend: {
+	            align: 'right',
+	            x: -150,
+	            verticalAlign: 'top',
+	            y: 20,
+	            floating: true,
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	            borderColor: '#CCC',
+	            borderWidth: 1,
+	            shadow: false
+	        },
+	        tooltip: {
+	            formatter: function () {
+	                return '<b>' + this.x + '</b><br/>' +
+	                    this.series.name + ': ' + this.y + '<br/>' +
+	                    'Total: ' + this.point.stackTotal;
+	            }
+	        },
+	        plotOptions: {
+	            column: {
+	                stacking: 'normal',
+	                dataLabels: {
+	                    enabled: true,
+	                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+	                    style: {
+	                        textShadow: '0 0 3px black, 0 0 3px black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            name: 'Inactivo',
+	            data: [5, 3, 4, 7, 2]
+	        }, {
+	            name: 'Activo',
+	            data: [2, 2, 3, 2, 1]
+	        }, {
+	            name: 'Nuevo',
+	            data: [3, 4, 4, 2, 5]
+	        }]
+	    });
+	});
+	</script>
 {% endblock %}

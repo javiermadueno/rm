@@ -7,14 +7,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DiscretaBuscadorType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('nombre');
-    }
+	public function buildForm(FormBuilderInterface $builder, array $options)
+	{
+		$builder->add('nombre');
+	}
 
-    public function getName()
-    {
-        return '';
-    }
+	public function getName()
+	{
+		return '';
+	}
 }
 

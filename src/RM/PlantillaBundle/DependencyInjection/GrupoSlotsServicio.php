@@ -2,7 +2,6 @@
 
 namespace RM\PlantillaBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\GrupoSlotsRepository;

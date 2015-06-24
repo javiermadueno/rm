@@ -4,9 +4,9 @@ namespace RM\RMMongoBundle\DependencyInjection;
 
 
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use IMAG\LdapBundle\User\LdapUser;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class MongoService
 {

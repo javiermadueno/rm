@@ -15,7 +15,6 @@ class VidGrupoSegmentoRepository extends EntityRepository
 {
     /**
      * @param $idVid
-     *
      * @return VidGrupoSegmento|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

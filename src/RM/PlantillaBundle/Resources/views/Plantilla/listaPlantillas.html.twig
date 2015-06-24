@@ -1,4 +1,4 @@
-<h4 class="widgettitle">{{ "plantillas"|trans }}</h4>
+<h4 class="widgettitle">{{ "plantillas"|trans}}</h4>
 <table class="table table-bordered responsive">
     <colgroup>
         <col class="con0" style="align: center; width: 4%">
@@ -10,7 +10,7 @@
     </colgroup>
     <thead>
     <tr>
-        <th><input type="checkbox" id="checkTodos"/></th>
+        <th ><input type="checkbox" id="checkTodos" /></th>
         <th>{{ "nombre" | trans }}</th>
         <th>{{ "descripcion" | trans }}</th>
     </tr>
@@ -20,8 +20,7 @@
         <tr>
             <td><input class="selTodos" type="checkbox" value="{{ objPl.idPlantilla }}"/></td>
             <td>
-                <a href="{{ path('rm_plantilla_plantilla_modelo_edit', {'id': objPl.idPlantilla}) }}"
-                   style="cursor:pointer;">{{ objPl.nombre }}</a>
+                <a href="{{ path('rm_plantilla_plantilla_modelo_edit', {'id': objPl.idPlantilla}) }}" style="cursor:pointer;">{{ objPl.nombre }}</a>
             </td>
             <td>{{ objPl.descripcion }}</td>
         </tr>

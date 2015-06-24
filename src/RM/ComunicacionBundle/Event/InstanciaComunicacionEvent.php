@@ -6,8 +6,7 @@ namespace RM\ComunicacionBundle\Event;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use Symfony\Component\EventDispatcher\Event;
 
-class InstanciaComunicacionEvent extends Event
-{
+class InstanciaComunicacionEvent extends Event {
 
     private $instancia;
 

@@ -12,7 +12,7 @@ class NumPromocionesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,40 +22,41 @@ class NumPromocionesType extends AbstractType
         $instanciaTransformer = new InstanciaTransformer($em);
 
         $builder
-            ->add('numSegmentadas', 'number', [
-                'required' => true
-            ])
-            ->add('numGenericas', 'number', [
-                'required' => true
-            ])
-            ->add('estado', 'hidden', ['data' => 1])
+            ->add('numSegmentadas', 'number', array(
+                    'required' => true
+                ))
+            ->add('numGenericas', 'number', array(
+                    'required' => true
+                ))
+            ->add('estado', 'hidden', array('data' => 1))
             ->add($builder->create('idInstancia', 'hidden')->addModelTransformer($instanciaTransformer))
             ->add($builder->create('idGrupo', 'hidden')->addModelTransformer($grupoTransformer))
-            ->add('idCategoria', 'entity', [
-                'class'       => 'RM\CategoriaBundle\Entity\Categoria',
-                'em'          => $_SESSION['connection'],
-                'choices'     => $categorias,
-                'property'    => 'nombre',
-                'empty_value' => '- Categoria -',
-                'empty_data'  => null,
-                'required'    => true
-            ]);
+            ->add('idCategoria', 'entity', array(
+                    'class' => 'RM\CategoriaBundle\Entity\Categoria',
+                    'em' => $_SESSION['connection'],
+                    'choices' => $categorias,
+                    'property' => 'nombre',
+                    'empty_value' => '- Categoria -',
+                    'empty_data' => null,
+                    'required' => true
+                ))
+        ;
     }
-
+    
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\ProductoBundle\Entity\NumPromociones',
-            'categorias' => []
-        ]);
+            'categorias' => array()
+        ));
 
-        $resolver->setRequired([
-            'categorias',
-            'em'
-        ]);
+        $resolver->setRequired(array(
+                'categorias',
+                'em'
+            ));
     }
 
     /**

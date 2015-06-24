@@ -9,8 +9,6 @@
 namespace RM\RMMongoBundle\DependencyInjection;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\AppBundle\DependencyInjection\MongoManager;
 use RM\ProductoBundle\Entity\Promocion;

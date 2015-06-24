@@ -10,9 +10,9 @@ namespace RM\AppBundle\DependencyInjection;
 
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
+use IMAG\LdapBundle\User\LdapUser;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use IMAG\LdapBundle\User\LdapUser;
 
 class MongoManager
 {

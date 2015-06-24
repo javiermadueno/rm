@@ -24,16 +24,13 @@
     {% for segmento in objSegmentos %}
         <tr>
             <td>
-                {% if personalizado is defined and personalizado == 1 and segGlobalDefecto is defined and segGlobalDefecto == 0 %}
-                    <input class="elimSeg" type="checkbox"
-                           name="eliminarSeg" {% if personalizado == 0 %} disabled {% endif %}
-                           value="{{ segmento.getIdVidSegmento() }}"/>
+                {% if personalizado is defined and personalizado == 1 and segGlobalDefecto is defined and segGlobalDefecto == 0%}
+                    <input class="elimSeg" type="checkbox" name="eliminarSeg" {% if personalizado == 0 %} disabled {% endif %} value="{{ segmento.getIdVidSegmento() }}"/>
                 {% endif %}
             </td>
             <td>
                 {% if personalizado is defined and personalizado == 1 %}
-                <input type="text" name="nomSeg{{ segmento.getIdVidSegmento() }}" class="tamT"
-                       value="{{ segmento.nombre }}"/></td>
+                <input type="text" name="nomSeg{{ segmento.getIdVidSegmento() }}" class="tamT" value="{{ segmento.nombre }}" /></td>
             {% else %}
                 {{ segmento.nombre }}
             {% endif %}
@@ -53,8 +50,7 @@
             </td>
             <td>
                 {% if personalizado is defined and personalizado == 1 %}
-                <input type="number" name="perc{{ segmento.getIdVidSegmento() }}" class="tam3 soloNum"
-                       value="{{ segmento.pivote }}"/></td>
+                <input type="number" name="perc{{ segmento.getIdVidSegmento() }}" class="tam3 soloNum" value="{{ segmento.pivote }}" /></td>
             {% else %}
                 {{ segmento.pivote }}
             {% endif %}
@@ -72,26 +68,18 @@
 <table width="300" cellspacing="0" cellpadding="0" border="0">
     <tbody>
     <tr>
-        {% if personalizado == 1 %}
-            <td>
-                <button class="btn btn-success" id="btonNuevoSeg">{{ "boton.nuevo" | trans }}</button>
-            </td>
+        {% if personalizado == 1  %}
+            <td><button class="btn btn-success" id="btonNuevoSeg">{{ "boton.nuevo" | trans }}</button></td>
             {% if objSegmentos != NULL %}
-                <td>
-                    <button class="btn btn-warning izq" id="btonCopiarSeg">{{ "boton.copiar" | trans }}</button>
-                </td>
+                <td><button class="btn btn-warning izq" id="btonCopiarSeg">{{ "boton.copiar" | trans }}</button></td>
             {% endif %}
-            <td>
-                <button class="btn btn-danger" id="botonEliminar">{{ "boton.eliminar" | trans }}</button>
-            </td>
-            <td>
-                <button class="btn btn-primary" id="botonGuardar">{{ "boton.guardar" | trans }}</button>
-            </td>
+            <td><button class="btn btn-danger" id="botonEliminar">{{ "boton.eliminar" | trans }}</button></td>
+            <td><button class="btn btn-primary" id="botonGuardar">{{ "boton.guardar" | trans }}</button></td>
         {% endif %}
     </tr>
     </tbody>
 </table>
 
-<input type="hidden" id="numSegAct" name="numSegAct" value="{{ numSegAct }}">
-<input type="hidden" id="idsSegAct" name="idsSegAct" value="{{ idsSegAct }}">
-<input type="hidden" id="segGlobalDefecto" name="segGlobalDefecto" value="{{ segGlobalDefecto }}">
+	<input type="hidden" id="numSegAct" name="numSegAct" value="{{ numSegAct }}">
+	<input type="hidden" id="idsSegAct" name="idsSegAct" value="{{ idsSegAct }}">
+	<input type="hidden" id="segGlobalDefecto" name="segGlobalDefecto" value="{{ segGlobalDefecto }}">

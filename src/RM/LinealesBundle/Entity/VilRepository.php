@@ -5,7 +5,6 @@ namespace RM\LinealesBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use RM\DiscretasBundle\Entity\Tipo;
-use RM\LinealesBundle\Entity\Vil;
 
 class VilRepository extends EntityRepository
 {

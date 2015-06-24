@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+  {{ parent() }}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 {% endblock stylesheets %}
 
@@ -26,28 +26,27 @@
             {% else %}
                 {% set path =  path('data_avanced_hc') %}
             {% endif %}
-            <button class="btn btn-primary pull-right"
-                    onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
+            <button class="btn btn-primary pull-right" onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
         </div>
     </div>
 
 
     {% set personalizado = objGrupo.getPersonalizado %}
     <form id="form1" name="form1" method="post" action="{{ path('data_avanced_cp_editar_cambiarClasificacion') }}">
-        <h4 class="widgettitle">
-            {% if objVariable.getClasificacion() == 1 %} {# Por categoria
+    <h4 class="widgettitle">
+        {% if objVariable.getClasificacion() == 1 %} {# Por categoria
 				#} <input type="hidden" id="tipoClasificacion" name="tipoClasificacion"
                           value="1"> {{ "categoria" | trans }}
-            {% elseif objVariable.getClasificacion() == 2 %} {# Por proveedor #}
-                <input type="hidden" id="tipoClasificacion" name="tipoClasificacion"
-                       value="2"> {{ "proveedor" | trans }}
-            {% elseif objVariable.getClasificacion() == 3 %} {# Por marca #}
-                <input type="hidden" id="tipoClasificacion" name="tipoClasificacion"
-                       value="3"> {{ "marca" | trans }}
-            {% else %}
-                {{ "tipo.clasificacion" | trans }}
-            {% endif %}
-        </h4>
+        {% elseif objVariable.getClasificacion() == 2 %} {# Por proveedor #}
+            <input type="hidden" id="tipoClasificacion" name="tipoClasificacion"
+                   value="2"> {{ "proveedor" | trans }}
+        {% elseif objVariable.getClasificacion() == 3 %} {# Por marca #}
+            <input type="hidden" id="tipoClasificacion" name="tipoClasificacion"
+                   value="3"> {{ "marca" | trans }}
+        {% else %}
+            {{ "tipo.clasificacion" | trans }}
+        {% endif %}
+    </h4>
 
         <input type="hidden" id="id_vid" name="id_vid" value="{{ objVariable.getIdVid() }}">
 
@@ -56,48 +55,47 @@
                 <ul class="mediamgr_menu">
                     {% if objClasificacion != NULL %}
 
-                        <li>
-                            {% if objVariable.getClasificacion() in [1,3] %}
-                                <select id="idClasificacion"
-                                        name="idClasificacion" class="">
-                                    {% if objVariable.getClasificacion() == 1 %}
-                                        {% for clasificacion in objClasificacion %}
-                                            <option value="{{ clasificacion.idCategoria }}"
-                                                    {% if objGrupo.getIdCategoria().getIdCategoria() == clasificacion.idCategoria %}
-                                            selected
-                                                    {% endif %}>
-                                                {{ clasificacion.nombre }}
-                                            </option>
-                                        {% endfor %}
-                                    {% elseif objVariable.getClasificacion() == 3 %}
-                                        {% if objGrupo.idMarca|default(null) is null %}
-                                            <option value="-1" selected>{{ "select.seleccione" |trans|title }}</option>
-                                        {% endif %}
-                                        {% for clasificacion in objClasificacion %}
-                                            <option value="{{ clasificacion.idMarca }}"
-                                                    {% if objGrupo|default(null) is not null and objGrupo.idMarca|default(null) is not null %}
-                                                {% if objGrupo.idMarca.idMarca == clasificacion.idMarca %}
-                                                    selected
-                                                {% endif %}
-                                                    {% endif %}>
-
-                                                {{ clasificacion.nombre }}
-                                            </option>
-                                        {% endfor %}
+                       <li>
+                           {% if objVariable.getClasificacion() in [1,3] %}
+                            <select id="idClasificacion"
+                                    name="idClasificacion" class="">
+                                {% if objVariable.getClasificacion() == 1 %}
+                                    {% for clasificacion in objClasificacion %}
+                                        <option value="{{ clasificacion.idCategoria }}"
+                                            {% if objGrupo.getIdCategoria().getIdCategoria() == clasificacion.idCategoria %}
+                                                selected
+                                            {% endif %}>
+                                            {{ clasificacion.nombre }}
+                                        </option>
+                                    {% endfor %}
+                                {% elseif objVariable.getClasificacion() == 3 %}
+                                    {% if objGrupo.idMarca|default(null) is null %}
+                                        <option value="-1" selected>{{ "select.seleccione" |trans|title}}</option>
                                     {% endif %}
+                                    {% for clasificacion in objClasificacion %}
+                                        <option value="{{ clasificacion.idMarca }}"
+                                                {% if objGrupo|default(null) is not null and objGrupo.idMarca|default(null) is not null %}
+                                            {% if objGrupo.idMarca.idMarca == clasificacion.idMarca   %}
+                                                selected
+                                            {% endif %}
+                                                {% endif %}>
 
-                                </select>
-                            {% elseif objVariable.getClasificacion() == 2 %}
-                                {% if objGrupo.idProveedor is not null %}
-                                    {% set nombreProveedor = objGrupo.idProveedor.nombre %}
-                                {% else %}
-                                    {% set nombreProveedor = '' %}
+                                            {{ clasificacion.nombre }}
+                                        </option>
+                                    {% endfor %}
                                 {% endif %}
-                                <label for="proveedores">{{ "menu.insight.proveedores" |trans|title }}</label>
-                                <input type="text" id="proveedores" value="{{ nombreProveedor }}"/>
-                                <input type="hidden" id="idClasificacion" name="idClasificacion"
-                                       value="{{ objGrupo.idProveedor|default(null)? '': objGrupo.idProveedor.idProveedor|default('') }}"/>
-                            {% endif %}
+
+                            </select>
+                           {% elseif objVariable.getClasificacion() == 2 %}
+                               {% if objGrupo.idProveedor is not null %}
+                                   {% set nombreProveedor = objGrupo.idProveedor.nombre %}
+                               {% else %}
+                                   {% set nombreProveedor = '' %}
+                               {% endif %}
+                               <label for="proveedores">{{ "menu.insight.proveedores" |trans|title}}</label>
+                               <input type="text" id="proveedores" value="{{ nombreProveedor }}"/>
+                               <input type="hidden" id="idClasificacion" name="idClasificacion" value="{{ objGrupo.idProveedor|default(null)? '': objGrupo.idProveedor.idProveedor|default('') }}"/>
+                           {% endif %}
                         </li>
                         <li>&nbsp;&nbsp;&nbsp;</li>
                     {% endif %}
@@ -108,7 +106,7 @@
                                 {% if personalizado == 1 %}
                                     checked="checked"
                                 {% endif %}
-                                />
+                        />
                     </li>
                 </ul>
             </div>
@@ -118,12 +116,12 @@
 
     {% if objVariable.getSolicitaTiempo != 0 %}
         <form method="post"
-                {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "5" %}
-                    action="{{ path('data_avanced_cp_editar_con_grupo', { 'id_vid': objVariable.getIdVid(), 'id_vid_grupo_segmento': objGrupo.getIdVidGrupoSegmento() }) }}"
-                {% else %}
-                    action="{{ path('data_avanced_hc_editar_con_grupo', { 'id_vid': objVariable.getIdVid(), 'id_vid_grupo_segmento': objGrupo.getIdVidGrupoSegmento() }) }}"
-                {% endif %}
-                >
+            {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "5" %}
+                action="{{ path('data_avanced_cp_editar_con_grupo', { 'id_vid': objVariable.getIdVid(), 'id_vid_grupo_segmento': objGrupo.getIdVidGrupoSegmento() }) }}"
+            {% else %}
+                action="{{ path('data_avanced_hc_editar_con_grupo', { 'id_vid': objVariable.getIdVid(), 'id_vid_grupo_segmento': objGrupo.getIdVidGrupoSegmento() }) }}"
+            {% endif %}
+        >
             <h4 class="widgettitle">{{ "criterios" | trans|capitalize }}</h4>
             {% if personalizado == 1 %}
                 <table class="table table-bordered responsive">
@@ -137,60 +135,58 @@
                         <col class="con0">
                     </colgroup>
                     <thead>
-                    <tr>
-                        {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N', objVariable) %}
-                            <th>{{ "tiempo.referencia.n" |trans }}</th>
-                        {% endif %}
-                        {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N_M', objVariable) %}
-                            <th>{{ "tiempo.referencia.m" |trans }}</th>
-                        {% endif %}
+                        <tr>
+                            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N', objVariable) %}
+                                <th>{{ "tiempo.referencia.n" |trans }}</th>
+                            {% endif %}
+                            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N_M', objVariable) %}
+                                <th>{{ "tiempo.referencia.m" |trans }}</th>
+                            {% endif %}
 
-                    </tr>
+                        </tr>
                     </thead>
 
                     <tbody>
-                    <tr>
-                        {% if objVariable.getSolicitaTiempo() == constant('SOLICITA_N', objVariable) %}
-                            <td>
-                                {{ form_label(formGrupo.mesesN) }}
-                                {{ form_widget(formGrupo.mesesN, { 'attr': { 'class': 'soloNum'} }) }}
-                            </td>
+                        <tr>
+                            {% if objVariable.getSolicitaTiempo() == constant('SOLICITA_N', objVariable) %}
+                                <td>
+                                    {{ form_label(formGrupo.mesesN) }}
+                                    {{ form_widget(formGrupo.mesesN, { 'attr': { 'class': 'soloNum'} }) }}
+                                </td>
 
-                        {% elseif objVariable.getSolicitaTiempo() == constant('SOLICITA_N_M', objVariable) %}
-                            <td>
-                                {{ form_label(formGrupo.mesesN) }}
-                                {{ form_widget(formGrupo.mesesN, { 'attr': { 'class': 'soloNum'} }) }}
-                            </td>
-                            <td>
-                                {{ form_label(formGrupo.mesesM) }}
-                                {{ form_widget(formGrupo.mesesM, { 'attr': { 'class': 'soloNum'} }) }}
-                            </td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <td colspan="4" align="center">
-                            {{ form_errors(formGrupo) }}
-                            {#
-                            {% if objVariable.getSolicitaTiempo() >= 1 %}
-                                {{ form_errors(formGrupo.mesesN) }}
+                            {% elseif objVariable.getSolicitaTiempo() == constant('SOLICITA_N_M', objVariable) %}
+                                <td>
+                                    {{ form_label(formGrupo.mesesN) }}
+                                    {{ form_widget(formGrupo.mesesN, { 'attr': { 'class': 'soloNum'} }) }}
+                                </td>
+                                <td>
+                                    {{ form_label(formGrupo.mesesM) }}
+                                    {{ form_widget(formGrupo.mesesM, { 'attr': { 'class': 'soloNum'} }) }}
+                                </td>
                             {% endif %}
-                            {% if objVariable.getSolicitaTiempo() >= 2 %}
-                                {{ form_errors(formGrupo.mesesM) }}
-                            {% endif %}
-                            #}
-                        </td>
-                    </tr>
+                        </tr>
+                        <tr>
+                            <td colspan="4" align="center">
+                                {{ form_errors(formGrupo) }}
+                                {#
+                                {% if objVariable.getSolicitaTiempo() >= 1 %}
+                                    {{ form_errors(formGrupo.mesesN) }}
+                                {% endif %}
+                                {% if objVariable.getSolicitaTiempo() >= 2 %}
+                                    {{ form_errors(formGrupo.mesesM) }}
+                                {% endif %}
+                                #}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 {{ form_rest(formGrupo) }}
                 <table width="200" cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                    <tr>
-                        <td>
-                            <button type="submit" {% if personalizado == 0 %} disabled {% endif %}
-                                    class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><button type="submit" {% if personalizado == 0 %} disabled {% endif %}
+                                        class="btn btn-primary">{{ "boton.guardar" | trans }}</button></td>
+                        </tr>
                     </tbody>
                 </table>
             {% else %}
@@ -205,14 +201,14 @@
                         <col class="con0">
                     </colgroup>
                     <thead>
-                    <tr>
-                        {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N', objVariable) %}
-                            <th>{{ "tiempo.referencia.n" |trans }}</th>
-                        {% endif %}
-                        {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N_M', objVariable) %}
-                            <th>{{ "tiempo.referencia.m" |trans }}</th>
-                        {% endif %}
-                    </tr>
+                        <tr>
+                            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N', objVariable) %}
+                                <th>{{ "tiempo.referencia.n" |trans }}</th>
+                            {% endif %}
+                            {% if objVariable.getSolicitaTiempo() >= constant('SOLICITA_N_M', objVariable) %}
+                                <th>{{ "tiempo.referencia.m" |trans }}</th>
+                            {% endif %}
+                        </tr>
                     </thead>
                     <tbody>
                     <tr>
@@ -240,22 +236,20 @@
         </form>
     {% endif %}
 
-    {# FORM CEGADO PARA EVITAR ERRORES#}
-    <form id="form2" name="form2" method="post"
-          action="{{ path('data_avanced_cp_editar_eliminarGuardarSegmentosAsoc') }}">
+     {# FORM CEGADO PARA EVITAR ERRORES#}
+    <form id="form2" name="form2" method="post" action="{{ path('data_avanced_cp_editar_eliminarGuardarSegmentosAsoc') }}">
 
         <input type="hidden" id="contSegmentos" name="contSegmentos" value="0">
         <input type="hidden" id="id_vid" name="id_vid" value="{{ objVariable.getIdVid() }}">
-        <input type="hidden" id="id_vid_grupo_segmento" name="id_vid_grupo_segmento"
-               value="{{ objGrupo.getIdVidGrupoSegmento() }}">
+        <input type="hidden" id="id_vid_grupo_segmento" name="id_vid_grupo_segmento" value="{{ objGrupo.getIdVidGrupoSegmento() }}">
 
-        {#{% if objVariable.getClasificacion() == 1 %}
-             <input type="hidden" id="idClasificacion" name="idClasificacion" value="{{ objGrupo.getIdCategoria().getIdCategoria() }}">
-         {% elseif objVariable.getClasificacion() == 2 %}
-             <input type="hidden" id="idClasificacion" name="idClasificacion" value="{{ objGrupo.getIdMarca().getIdMarca() }}">
-         {% else %}
-             <input type="hidden" id="idClasificacion" name="idClasificacion" value="-1">
-         {% endif %}#}
+       {#{% if objVariable.getClasificacion() == 1 %}
+            <input type="hidden" id="idClasificacion" name="idClasificacion" value="{{ objGrupo.getIdCategoria().getIdCategoria() }}">
+        {% elseif objVariable.getClasificacion() == 2 %}
+            <input type="hidden" id="idClasificacion" name="idClasificacion" value="{{ objGrupo.getIdMarca().getIdMarca() }}">
+        {% else %}
+            <input type="hidden" id="idClasificacion" name="idClasificacion" value="-1">
+        {% endif %}#}
         <input type="hidden" id="accionEjecutar" name="accionEjecutar" value="">
         <input type="hidden" id="listaSegmentosAEliminar" name="listaSegmentosAEliminar" value="">
 
@@ -389,19 +383,20 @@
     </script>
 
     <script>
-        $(function () {
+        $(function() {
 
-            $("#proveedores").autocomplete({
+            $( "#proveedores" ).autocomplete({
                 source: "{{ path('ajax_proveedores') }}",
                 minLength: 2,
-                select: function (event, ui) {
+                select: function( event, ui ) {
                     console.log(ui.item);
 
-                    if (typeof  ui.item.id === 'undefined') {
+                    if(typeof  ui.item.id === 'undefined'){
                         return;
                     }
 
-                    if (typeof ui.item.label === 'undefined') {
+                    if(typeof ui.item.label === 'undefined')
+                    {
                         return;
                     }
 

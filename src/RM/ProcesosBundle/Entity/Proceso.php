@@ -77,11 +77,22 @@ class Proceso
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param $tipoProceso
+     * @return $this
+     */
+    public function setTipoProceso($tipoProceso)
+    {
+        $this->tipoProceso = $tipoProceso;
+
+        return $this;
     }
 
     /**
@@ -95,23 +106,22 @@ class Proceso
     }
 
     /**
-     * Set tipoProceso
+     * Set fechaCreacion
      *
-     * @param TipoProceso
-     *
-     * @return \RM\ProcesosBundle\Entity\TipoProceso
+     * @param \DateTime $fechaCreacion
+     * @return Proceso
      */
-    public function setTipoProceso($tipoProceso)
+    public function setFechaCreacion($fechaCreacion)
     {
-        $this->tipoProceso = $tipoProceso;
-
+        $this->fechaCreacion = $fechaCreacion;
+    
         return $this;
     }
 
     /**
      * Get fechaCreacion
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaCreacion()
     {
@@ -119,23 +129,22 @@ class Proceso
     }
 
     /**
-     * Set fechaCreacion
+     * Set fechaInicio
      *
-     * @param \DateTime $fechaCreacion
-     *
+     * @param \DateTime $fechaInicio
      * @return Proceso
      */
-    public function setFechaCreacion($fechaCreacion)
+    public function setFechaInicio($fechaInicio)
     {
-        $this->fechaCreacion = $fechaCreacion;
-
+        $this->fechaInicio = $fechaInicio;
+    
         return $this;
     }
 
     /**
      * Get fechaInicio
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaInicio()
     {
@@ -143,23 +152,22 @@ class Proceso
     }
 
     /**
-     * Set fechaInicio
+     * Set fechaFin
      *
-     * @param \DateTime $fechaInicio
-     *
+     * @param \DateTime $fechaFin
      * @return Proceso
      */
-    public function setFechaInicio($fechaInicio)
+    public function setFechaFin($fechaFin)
     {
-        $this->fechaInicio = $fechaInicio;
-
+        $this->fechaFin = $fechaFin;
+    
         return $this;
     }
 
     /**
      * Get fechaFin
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaFin()
     {
@@ -167,23 +175,22 @@ class Proceso
     }
 
     /**
-     * Set fechaFin
+     * Set idCentro
      *
-     * @param \DateTime $fechaFin
-     *
+     * @param string $idCentro
      * @return Proceso
      */
-    public function setFechaFin($fechaFin)
+    public function setIdCentro($idCentro)
     {
-        $this->fechaFin = $fechaFin;
-
+        $this->idCentro = $idCentro;
+    
         return $this;
     }
 
     /**
      * Get idCentro
      *
-     * @return string
+     * @return string 
      */
     public function getIdCentro()
     {
@@ -191,23 +198,22 @@ class Proceso
     }
 
     /**
-     * Set idCentro
+     * Set uidUsuario
      *
-     * @param string $idCentro
-     *
+     * @param string $uidUsuario
      * @return Proceso
      */
-    public function setIdCentro($idCentro)
+    public function setUidUsuario($uidUsuario)
     {
-        $this->idCentro = $idCentro;
-
+        $this->uidUsuario = $uidUsuario;
+    
         return $this;
     }
 
     /**
      * Get uidUsuario
      *
-     * @return string
+     * @return string 
      */
     public function getUidUsuario()
     {
@@ -215,16 +221,15 @@ class Proceso
     }
 
     /**
-     * Set uidUsuario
+     * Set estadoProceso
      *
-     * @param string $uidUsuario
-     *
+     * @param \RM\ProcesosBundle\Entity\TipoProceso
      * @return Proceso
      */
-    public function setUidUsuario($uidUsuario)
+    public function setEstadoProceso($estadoProceso)
     {
-        $this->uidUsuario = $uidUsuario;
-
+        $this->estadoProceso = $estadoProceso;
+    
         return $this;
     }
 
@@ -236,19 +241,5 @@ class Proceso
     public function getEstadoProceso()
     {
         return $this->estadoProceso;
-    }
-
-    /**
-     * Set estadoProceso
-     *
-     * @param \RM\ProcesosBundle\Entity\TipoProceso
-     *
-     * @return Proceso
-     */
-    public function setEstadoProceso($estadoProceso)
-    {
-        $this->estadoProceso = $estadoProceso;
-
-        return $this;
     }
 }

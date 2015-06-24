@@ -1,8 +1,6 @@
 <?php
 
 namespace RM\ProductoBundle\DependencyInjection;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 

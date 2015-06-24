@@ -10,15 +10,14 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('data_basic_nivelCategoria') }}"><span class="iconfa-home"></span></a><span
-                class="separator"></span></li>
-    {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
-        <li>{{ "menu.data.modo_basico" |trans | title }} <span class="separator"></span></li>
-        <li>{{ "menu.data.ciclo_vida"|trans|title }}</li>
-    {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
-        <li>{{ "menu.data.modo_avanzado" |trans | title }} <span class="separator"></span></li>
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><span class="iconfa-home"></span></a><span class="separator"></span></li>
+	{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
+        <li>{{ "menu.data.modo_basico" |trans | title}} <span class="separator"></span> </li>
+		<li>{{ "menu.data.ciclo_vida"|trans|title }}</li>
+	{% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
+        <li>{{ "menu.data.modo_avanzado" |trans | title}} <span class="separator"></span> </li>
         <li>{{ "menu.data.otros"|trans|title }}</li>
-    {% endif %}
+	{% endif %}
 {% endblock %}
 {% block pagetitle %}
     {% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "8" %}
@@ -31,9 +30,9 @@
 {% endblock %}
 
 {% block contenedorPrincipal %}
-    {{ include ('RMLinealesBundle:Default:bloqueBusquedaFormulario.html.twig') }}
+	{{ include ('RMLinealesBundle:Default:bloqueBusquedaFormulario.html.twig') }}
 
-    <h4 class="widgettitle">{{ "variables" | trans | upper }}</h4>
+    <h4 class="widgettitle">{{ "variables" | trans | upper}}</h4>
     <table class="table table-bordered responsive">
         <colgroup>
             <col class="con0" style="align: center; width: 50%">
@@ -60,12 +59,10 @@
             {% for variable in variables %}
                 <tr>
                     <td>
-                        {% if variable.tipo.id == 5 %}
-                            <a href="{{ path("data_avanced_cv_editar", { 'id_vt': variable.idVt }) }}"
-                               style="cursor:pointer;">{{ variable.nombre }}</a>
+                        {% if variable.tipo.id == 5%}
+                            <a href="{{ path("data_avanced_cv_editar", { 'id_vt': variable.idVt })}}" style="cursor:pointer;">{{ variable.nombre }}</a>
                         {% else %}
-                            <a href="{{ path("data_avanced_ot_editar", { 'id_vt': variable.idVt }) }}"
-                               style="cursor:pointer;">{{ variable.nombre }}</a>
+                            <a href="{{ path("data_avanced_ot_editar", { 'id_vt': variable.idVt })}}" style="cursor:pointer;">{{ variable.nombre }}</a>
                         {% endif %}
 
                     </td>
@@ -79,9 +76,7 @@
     {% elseif idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}
         <form id="form0" name="form0" method="get" action="{{ path('data_avanced_nueva_var_trans') }}">
             <table width="200" cellspacing="0" border="0">
-                <td>
-                    <button class="btn btn-primary">{{ "boton.nuevo" | trans }}</button>
-                </td>
+                <td><button class="btn btn-primary">{{ "boton.nuevo" | trans }}</button></td>
             </table>
         </form>
     {% endif %}

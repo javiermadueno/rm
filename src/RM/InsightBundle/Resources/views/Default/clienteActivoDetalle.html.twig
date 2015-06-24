@@ -1,29 +1,28 @@
 {% extends '@RMInsight/Default/index.html.twig' %}
 {% block title %}
 
-    {{ "activos" |trans|title }} - {{ "detalle" |trans|title }}
+    {{ "activos" |trans|title}} - {{ "detalle" |trans|title}}
 {% endblock %}
 
 
 
 {% block migas %}
-    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span
-                class="separator"></span></li>
-    <li>{{ "menu.insight.clientes" |trans|title }} <span class="separator"></span></li>
-    <li>{{ "activos" |trans|title }} <span class="separator"></span></li>
-    <li>{{ "detalle" |trans|title }}</li>
+    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.insight.clientes" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "activos" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "detalle" |trans|title}}</li>
 {% endblock %}
 
 {% block pagetitle %}
-    <h5>{{ "menu.insight.clientes" |trans|title }}</h5>
-    <h1>{{ "activos" |trans|title }}</h1>
+    <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
+    <h1>{{ "activos" |trans|title}}</h1>
 {% endblock pagetitle %}
 
 {% block comparativa %}
 
-    <h4 class="widgettitle">{{ "amplitud" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "amplitud" |trans|title}}</h4>
     <table class="table table-bordered responsive">
-        <colgroup>
+      <colgroup>
             <col class="con0">
             <col class="con1">
             <col class="con0">
@@ -58,7 +57,7 @@
     </table>
 
 
-    <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "graficos" |trans|title}}</h4>
     <div class="widgetcontent">
         <table class="table">
             <tbody>
@@ -76,118 +75,118 @@
 
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            $('.date-picker').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                dateFormat: 'MM yy',
-                onClose: function (dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1));
-                }
-            });
-        });
+	{{ parent() }}
+	<script type="text/javascript">
+	$(function() {
+		$('.date-picker').datepicker( {
+		    changeMonth: true,
+		    changeYear: true,
+		    showButtonPanel: true,
+		    dateFormat: 'MM yy',
+		    onClose: function(dateText, inst) { 
+		        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		        $(this).datepicker('setDate', new Date(year, month, 1));
+		    }
+		});
+		});
 
-        $(function () {
-            $('#graficoBarras').highcharts({
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Evolucion Frescos'
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: [
-                        'Agosto',
-                        'Septiembre',
-                        'Octubre',
-                    ]
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Gasto'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: 'Gasto',
-                    data: [23, 15.5, 17.4],
-                    color: '#FF8000'
-                }]
-            });
-        });
+	$(function () {
+	    $('#graficoBarras').highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Evolucion Frescos'
+	        },
+	        subtitle: {
+	            text: ''
+	        },
+	        xAxis: {
+	            categories: [
+	                'Agosto',
+	                'Septiembre',
+	                'Octubre',
+	            ]
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: 'Gasto'
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        series: [{
+	            name: 'Gasto',
+	            data: [23, 15.5, 17.4],
+            	color: '#FF8000'
+	        }]
+	    });
+	});
 
-        $(function () {
+	$(function () {
 
-            $(document).ready(function () {
+	    $(document).ready(function () {
 
-                // Build the chart
-                $('#graficoCategoria').highcharts({
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'Categorias ',
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true
-                            },
-                            showInLegend: true
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Clientes nuevos por Categorias',
-                        data: [
-                            ['Alimentacion Seca', 45],
-                            ['Consumibles', 26],
-                            {
-                                name: 'Frescos',
-                                y: 8,
-                                sliced: true,
-                                selected: true,
-                                color: '#FF8000'
-                            },
-                            ['No alimentacion', 64],
-                            ['Refrigerados', 70],
-                            ['Servicios', 72],
-                            ['Socio-Cliente', 34],
-                        ]
-                    }]
-                });
-            });
+	        // Build the chart
+	        $('#graficoCategoria').highcharts({
+	            chart: {
+	                plotBackgroundColor: null,
+	                plotBorderWidth: null,
+	                plotShadow: false
+	            },
+	            title: {
+	                text: 'Categorias ',
+	            },
+	            tooltip: {
+	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	            },
+	            plotOptions: {
+	                pie: {
+	                    allowPointSelect: true,
+	                    cursor: 'pointer',
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    showInLegend: true
+	                }
+	            },                	            
+	            series: [{
+	                type: 'pie',
+	                name: 'Clientes nuevos por Categorias',
+	                data: [
+	                    ['Alimentacion Seca',   45],
+	                    ['Consumibles',       26],
+	                    {
+	                        name: 'Frescos',
+	                        y: 8,
+	                        sliced: true,
+	                        selected: true,
+	                        color: '#FF8000'
+	                    },
+	                    ['No alimentacion',     64],
+	                    ['Refrigerados',   70],
+	                    ['Servicios',    72],
+	                    ['Socio-Cliente',    34],
+	                ]
+	            }]
+	        });
+	    });
 
-        });
-
-    </script>
+	});
+	
+	</script>
 {% endblock %}

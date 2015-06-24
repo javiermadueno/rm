@@ -7,16 +7,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class NuevaVarTransType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('nombre');
-        $builder->add('descripcion');
+	public function buildForm(FormBuilderInterface $builder, array $options)
+	{
+		$builder->add('nombre');
+		$builder->add('descripcion');
+		
+	}
 
-    }
-
-    public function getName()
-    {
-        return '';
-    }
+	public function getName()
+	{
+		return '';
+	}
 }
 

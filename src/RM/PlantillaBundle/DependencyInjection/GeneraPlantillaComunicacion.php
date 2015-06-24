@@ -8,14 +8,13 @@
 
 namespace RM\PlantillaBundle\DependencyInjection;
 
+use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\Plantilla;
+use RM\PlantillaBundle\Entity\Slot;
 use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig_Environment as Twig;
-use Symfony\Component\DomCrawler\Crawler;
-use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\PlantillaBundle\Entity\Slot;
-
 
 
 class GeneraPlantillaComunicacion

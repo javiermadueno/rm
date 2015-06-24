@@ -24,18 +24,26 @@ class InstanciaComunicacion
     const FASE_CANCELADA = 'can';
     const PASO_1 = 1;
     const PASO_2 = 2;
+
+    public function __construct()
+    {
+        $this->numPromociones = new ArrayCollection();
+    }
+
     /**
      * @var \Date
      *
      * @ORM\Column(name="fec_creacion", type="datetime", nullable=true)
      */
     private $fecCreacion;
+
     /**
      * @var \Date
      *
      * @ORM\Column(name="fec_ejecucion", type="datetime", nullable=true)
      */
     private $fecEjecucion;
+
     /**
      * @var \RM\ComunicacionBundle\Entity\Fases
      *
@@ -43,12 +51,14 @@ class InstanciaComunicacion
      * @ORM\JoinColumn(name="fase", referencedColumnName="id_fase")
      */
     private $fase;
+
     /**
      * @var smallint
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
     private $estado;
+
     /**
      * @var integer
      *
@@ -57,6 +67,7 @@ class InstanciaComunicacion
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idInstancia;
+
     /**
      * @var \RM\ComunicacionBundle\Entity\SegmentoComunicacion
      *
@@ -65,26 +76,38 @@ class InstanciaComunicacion
      *
      */
     private $idSegmentoComunicacion;
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
-     */
+
+  /**
+   * @var ArrayCollection
+   * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
+   */
     private $numPromociones;
+
     /**
      * @var integer
      * @ORM\Column(name="paso", type="integer", nullable=false)
      */
     private $paso;
 
-    public function __construct()
+
+
+    /**
+     * Set fecCreacion
+     *
+     * @param \Date $fecCreacion
+     * @return InstanciaComunicacion
+     */
+    public function setFecCreacion($fecCreacion)
     {
-        $this->numPromociones = new ArrayCollection();
+        $this->fecCreacion = $fecCreacion;
+    
+        return $this;
     }
 
     /**
      * Get fecCreacion
      *
-     * @return \Date
+     * @return \Date 
      */
     public function getFecCreacion()
     {
@@ -92,23 +115,22 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set fecCreacion
+     * Set fecEjecucion
      *
-     * @param \Date $fecCreacion
-     *
+     * @param \Date $fecEjecucion
      * @return InstanciaComunicacion
      */
-    public function setFecCreacion($fecCreacion)
+    public function setFecEjecucion($fecEjecucion)
     {
-        $this->fecCreacion = $fecCreacion;
-
+        $this->fecEjecucion = $fecEjecucion;
+    
         return $this;
     }
 
     /**
      * Get fecEjecucion
      *
-     * @return \Date
+     * @return \Date 
      */
     public function getFecEjecucion()
     {
@@ -116,16 +138,15 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set fecEjecucion
+     * Set fase
      *
-     * @param \Date $fecEjecucion
-     *
+     * @param \RM\ComunicacionBundle\Entity\Fases $fase
      * @return InstanciaComunicacion
      */
-    public function setFecEjecucion($fecEjecucion)
+    public function setFase($fase)
     {
-        $this->fecEjecucion = $fecEjecucion;
-
+        $this->fase = $fase;
+    
         return $this;
     }
 
@@ -140,23 +161,22 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set fase
+     * Set estado
      *
-     * @param \RM\ComunicacionBundle\Entity\Fases $fase
-     *
+     * @param smallint $estado
      * @return InstanciaComunicacion
      */
-    public function setFase($fase)
+    public function setEstado($estado)
     {
-        $this->fase = $fase;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -164,27 +184,26 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set estado
-     *
-     * @param smallint $estado
-     *
-     * @return InstanciaComunicacion
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
      * Get idInstancia
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdInstancia()
     {
         return $this->idInstancia;
+    }
+
+    /**
+     * Set idSegmentoComunicacion
+     *
+     * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion
+     * @return InstanciaComunicacion
+     */
+    public function setIdSegmentoComunicacion(\RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion = null)
+    {
+        $this->idSegmentoComunicacion = $idSegmentoComunicacion;
+    
+        return $this;
     }
 
     /**
@@ -198,31 +217,15 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set idSegmentoComunicacion
-     *
-     * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion
-     *
-     * @return InstanciaComunicacion
-     */
-    public function setIdSegmentoComunicacion(
-        \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion = null
-    ) {
-        $this->idSegmentoComunicacion = $idSegmentoComunicacion;
-
-        return $this;
-    }
-
-    /**
      * Add numPromociones
      *
      * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
-     *
      * @return InstanciaComunicacion
      */
     public function addNumPromocion(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
     {
         $this->numPromociones[] = $numPromociones;
-
+    
         return $this;
     }
 
@@ -239,19 +242,33 @@ class InstanciaComunicacion
     /**
      * Get numPromociones
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getNumPromociones()
     {
-        return $this->numPromociones->filter(function (NumPromociones $numPro) {
-            return $numPro->getEstado() > -1;
-        });
+        return $this->numPromociones->filter(function(NumPromociones $numPro){
+                return $numPro->getEstado() > -1;
+            });
+    }
+
+
+    /**
+     * Set paso
+     *
+     * @param integer $paso
+     * @return InstanciaComunicacion
+     */
+    public function setPaso($paso)
+    {
+        $this->paso = $paso;
+    
+        return $this;
     }
 
     /**
      * Get paso
      *
-     * @return integer
+     * @return integer 
      */
     public function getPaso()
     {
@@ -259,30 +276,15 @@ class InstanciaComunicacion
     }
 
     /**
-     * Set paso
-     *
-     * @param integer $paso
-     *
-     * @return InstanciaComunicacion
-     */
-    public function setPaso($paso)
-    {
-        $this->paso = $paso;
-
-        return $this;
-    }
-
-    /**
      * Add numPromociones
      *
      * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
-     *
      * @return InstanciaComunicacion
      */
     public function addNumPromocione(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
     {
         $this->numPromociones[] = $numPromociones;
-
+    
         return $this;
     }
 

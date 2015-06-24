@@ -20,21 +20,21 @@ class TamanyoImagenType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
-            'class'         => 'RM\PlantillaBundle\Entity\TamanyoImagen',
-            'em'            => $_SESSION['connection'],
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('t')
+        $resolver->setDefaults(array(
+                'class'         => 'RM\PlantillaBundle\Entity\TamanyoImagen',
+                'em'            => $_SESSION['connection'],
+                'query_builder' => function(EntityRepository $er){
+                    return $er->createQueryBuilder('t')
                     ->where('t.tipo = :tipo')
                     ->andWhere('t.estado > -1')
                     ->setParameter('tipo', TamanyoImagen::PRODUCTO);
-            },
-            'property'      => 'codigo',
-            'empty_value'   => 'Tamaño de Imagen',
-            'empty_data'    => null,
-            'required'      => false,
-            'label'         => 'Tamaño de Imagen'
-        ]);
+                },
+                'property'      => 'codigo',
+                'empty_value'   => 'Tamaño de Imagen',
+                'empty_data'    => null,
+                'required'      => false,
+                'label'         => 'Tamaño de Imagen'
+        ));
     }
 
 

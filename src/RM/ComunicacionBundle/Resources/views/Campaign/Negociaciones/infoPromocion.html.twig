@@ -1,19 +1,18 @@
 {% extends '::pantallaPopUp.html.twig' %}
 
 {% block title %}
-    {{ "promocion" | trans|title }} - {{ "informacion.avanzada" | trans|title }}
+	{{ "promocion" | trans|title }} - {{ "informacion.avanzada" | trans|title }}
 {% endblock %}
 
 {% block header %}
-    <div class="container">
-        <div class="pageheader">
-            <div class="pagetitle">
-                <h5>{{ "informacion.avanzada" |trans|title }}</h5>
-
-                <h1>{{ "promocion" |trans|title }}</h1>
-            </div>
-        </div>
-    </div>
+  <div class="container">
+      <div class="pageheader">
+          <div class="pagetitle">
+              <h5>{{ "informacion.avanzada" |trans|title}}</h5>
+              <h1>{{ "promocion" |trans|title}}</h1>
+          </div>
+      </div>
+  </div>
 {% endblock header %}
 
 
@@ -21,94 +20,91 @@
     <div class="maincontentinner">
 
 
-        <h4 class="widgettitle">{{ "info" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "info" |trans|title}}</h4>
 
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <td>{{ "precio.actual" | trans }}:</td>
-                <td>{{ objPromocion.idProducto.precioVenta }} €</td>
-            </tr>
-            <tr>
-                <td>{{ "volumen" | trans }}:</td>
-                <td>{{ objPromocion.idProducto.Volumen }} g</td>
-            </tr>
-            <tr>
-                <td>{{ "descripcion" | trans }}:</td>
-                <td>{{ objPromocion.descripcion }}</td>
-            </tr>
-            <tr>
-                <td>{{ "imp.fijo" | trans }}:</td>
-                <td>{{ objPromocion.impFijo }}</td>
-            </tr>
-            <tr>
-                <td>{{ "imp.distribuidor" | trans }}:</td>
-                <td>{{ objPromocion.impDistribuidor }}</td>
-            </tr>
-            <tr>
-                <td>{{ "condiciones" | trans }}:</td>
-                <td>{{ objPromocion.condiciones }}</td>
-            </tr>
-            <tr>
-                <td>{{ "fidelizacion" | trans }}:</td>
-                <td>{{ objPromocion.fidelizacion }}</td>
-            </tr>
-            <tr>
-                <td>{{ "codigo.promocion" | trans }}:</td>
-                <td>{{ objPromocion.codigo }}</td>
-            </tr>
-            </tbody>
-        </table>
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>{{ "precio.actual" | trans }}:</td>
+            <td>{{ objPromocion.idProducto.precioVenta }} €</td>
+        </tr>
+        <tr>
+            <td>{{ "volumen" | trans }}:</td>
+            <td>{{ objPromocion.idProducto.Volumen }} g</td>
+        </tr>
+        <tr>
+            <td>{{ "descripcion" | trans }}:</td>
+            <td>{{ objPromocion.descripcion}}</td>
+        </tr>
+        <tr>
+            <td>{{ "imp.fijo" | trans }}:</td>
+            <td>{{ objPromocion.impFijo}}</td>
+        </tr>
+        <tr>
+            <td>{{ "imp.distribuidor" | trans }}:</td>
+            <td>{{ objPromocion.impDistribuidor}}</td>
+        </tr>
+        <tr>
+            <td>{{ "condiciones" | trans }}:</td>
+            <td>{{ objPromocion.condiciones}}</td>
+        </tr>
+        <tr>
+            <td>{{ "fidelizacion" | trans }}:</td>
+            <td>{{ objPromocion.fidelizacion}}</td>
+        </tr>
+        <tr>
+            <td>{{ "codigo.promocion" | trans }}:</td>
+            <td>{{ objPromocion.codigo}}</td>
+        </tr>
+        </tbody>
+    </table>
 
-        <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-            <tr>
-                <td width="100">
-                    <button class="btn btn-danger" id="botonCancelar"
-                            onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td width="100"><button class="btn btn-danger" id="botonCancelar" onClick="window.close();">{{ "boton.cancelar" | trans }}</button> </td>
+        </tr>
+        </tbody>
+    </table>
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        function habilitarSoloNumerosConDecimales() {
-            $('.soloNum').keydown(function (e) {
-                if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9 && e.keyCode != 110 && e.keyCode != 190 && e.keyCode != 109 && e.keyCode != 173)
-                    e.preventDefault();
-            });
-        }
+	<script type="text/javascript">		
+		function habilitarSoloNumerosConDecimales(){
+			$('.soloNum').keydown(function(e) {
+				if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9 && e.keyCode != 110 && e.keyCode != 190 && e.keyCode != 109 && e.keyCode != 173 )
+			          e.preventDefault();
+			});
+		}
 
-        $(document).ready(function () {
-            habilitarSoloNumerosConDecimales();
+		$(document).ready(function(){
+			habilitarSoloNumerosConDecimales();
 
-            $('#botonAceptar').click(function (e) {
-                e.preventDefault();
-                msg = $("#form").serialize();
-                {% set crearUrl = url('campaign_ficha_promocion_guardar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
-                            window.opener.$('#control_mensajes').remove();
-                            window.opener.$('#control_mensajes').append(objeto.responseText);
-                            window.close();
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
+			$('#botonAceptar').click(function(e){
+				e.preventDefault();
+				msg = $("#form").serialize();
+				{% set crearUrl = url('campaign_ficha_promocion_guardar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						window.opener.$('#control_mensajes').remove();
+						window.opener.$('#control_mensajes').append(objeto.responseText);
+						window.close();
+			        }
+		          },
+				  error: function(objeto, quepaso, otroobj){
+		          }
+				});
+			});
 
-
-        });
-
-    </script>
+			
+		});
+		
+	</script>
 {% endblock %}

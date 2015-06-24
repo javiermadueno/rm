@@ -1,47 +1,48 @@
-<h4 class="widgettitle">{{ "segmentos" | trans }}</h4>
-<table id="tablaSegmentos" class="table table-bordered responsive">
-    <colgroup>
-        <col class="con0" style="align: center; width: 33%">
-        <col class="con1" style="align: center; width: 33%">
-        <col class="con0" style="align: center; width: 33%">
-        <col class="con1">
-        <col class="con0">
-        <col class="con1">
-        <col class="con0">
-    </colgroup>
-    <thead>
-    <tr>
-        <th>{{ "segmento" | trans }}</th>
-        <th>{{ "categoria" | trans }}</th>
-        <th>{{ "marca" | trans }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if objSegmentos | length == 0 %}
 
-    {% else %}
-        {% for objSegmento in objSegmentos %}
-            <tr>
-                <td>{{ objSegmento.nombre }}</td>
-                <td>
-                    {% if objSegmento.idCategoria %}
-                        {{ objSegmento.idCategoria.nombre }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td>
-                    {% if objSegmento.idMarca %}
-                        {{ objSegmento.idMarca.nombre }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    {% endif %}
-</table>
-<div class="center-all">
-    {# {{ knp_pagination_render(objSegmentos) }} #}
-</div>
+    <h4 class="widgettitle">{{ "segmentos" | trans }}</h4>
+		<table id="tablaSegmentos" class="table table-bordered responsive">
+            <colgroup>
+                <col class="con0" style="align: center; width: 33%">
+                <col class="con1" style="align: center; width: 33%">
+                <col class="con0" style="align: center; width: 33%">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+            </colgroup>
+			<thead>
+			<tr>
+				<th>{{ "segmento" | trans }}</th>
+				<th>{{ "categoria" | trans }}</th>
+				<th>{{ "marca" | trans }}</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% if objSegmentos | length == 0 %}
+
+			{% else %}
+				{% for objSegmento in objSegmentos %}
+					<tr>
+						<td>{{ objSegmento.nombre }}</td>
+						<td>
+							{% if objSegmento.idCategoria %}
+								{{ objSegmento.idCategoria.nombre }}
+							{% else %}
+								-
+							{% endif %}
+						</td>
+						<td>
+							{% if objSegmento.idMarca %}
+								{{ objSegmento.idMarca.nombre }}
+							{% else %}
+								-
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %} 
+			{% endif %}
+		</table>
+		<div class="center-all">
+            {# {{ knp_pagination_render(objSegmentos) }} #}
+		</div>
 				

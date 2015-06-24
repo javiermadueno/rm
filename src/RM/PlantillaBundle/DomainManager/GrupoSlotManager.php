@@ -21,15 +21,15 @@ class GrupoSlotManager extends AbstractManager
         $this->em->getRepository('RMPlantillaBundle:GrupoSlots')->find($id);
     }
 
-    public function update(GrupoSlots $grupo)
-    {
-        $this->save($grupo);
-    }
-
     public function save(GrupoSlots $grupo)
     {
         $this->em->persist($grupo);
         $this->em->flush();
+    }
+
+    public function update(GrupoSlots $grupo)
+    {
+        $this->save($grupo);
     }
 
     public function delete(GrupoSlots $grupo)

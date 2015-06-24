@@ -9,13 +9,13 @@
 namespace RM\PlantillaBundle\Form\Handler;
 
 
-use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\DomainManager\GrupoSlotManager;
+use RM\PlantillaBundle\Entity\GrupoSlots;
+use RM\PlantillaBundle\Form\GrupoSlotsCreatividadType;
+use RM\PlantillaBundle\Form\GrupoSlotsType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use RM\PlantillaBundle\Form\GrupoSlotsType;
-use RM\PlantillaBundle\Form\GrupoSlotsCreatividadType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateGrupoSlotFormHandler

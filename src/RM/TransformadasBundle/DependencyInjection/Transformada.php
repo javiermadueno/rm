@@ -1,14 +1,12 @@
 <?php
 
 namespace RM\TransformadasBundle\DependencyInjection;
-use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
-use Symfony\Component\HttpFoundation\Request;
 use RM\TransformadasBundle\Entity\Vt;
-use RM\TransformadasBundle\Entity\VtSegmento;
 use RM\TransformadasBundle\Entity\VtGrupo;
 use RM\TransformadasBundle\Entity\VtIntervalo;
-
+use RM\TransformadasBundle\Entity\VtSegmento;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class Transformada

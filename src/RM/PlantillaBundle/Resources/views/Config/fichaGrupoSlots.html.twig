@@ -1,11 +1,11 @@
 {% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
 
 {% block title %}
-    {{ "grupo.slots" | trans|title }}
+	{{ "grupo.slots" | trans|title }}
 {% endblock %}
 
 {% block migas %}
-    {{ parent() }}
+	{{ parent() }}
     <li><span class="separator"></span></li>
     <li>{{ "grupo.slots"|trans|title }} <span class="separator"></span></li>
     {% if objGrupoSlots is defined %}
@@ -18,177 +18,157 @@
 {% block tabcontent %}
 
 	{% if objGrupoSlots is defined %}
-<form method="post" name="form1" id="form1"
-      action="{{ path('direct_manager_editar_grupo_slots', {'id_plantilla': id_plantilla, 'id_grupo': objGrupoSlots.idGrupo, 'id_comunicacion': id_comunicacion }) }}">
-    {% else %}
-    <form method="post" name="form1" id="form1"
-          action="{{ path('direct_manager_crear_grupo_slots', {'id_plantilla': id_plantilla, 'id_comunicacion': id_comunicacion }) }}">
-        {% endif %}
-
-        <h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
-
-        <div class="mediamgr_head">
-            <table class="margin-center">
-                <tbody>
-                <tr>
-                    <td class="sinborde text-right" style="width: 40%">{{ "nombre" | trans }} :</td>
-                    <td class="sinborde" style="width: 3%">&nbsp;</td>
-                    <td class="sinborde">
-                        <input type="text" name="nombre" id="nombre" class="tam150"
-                               {% if objGrupoSlots is defined %}value="{{ objGrupoSlots.getNombre }}"{% endif %} />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sinborde text-right">{{ "numero.slots" | trans }}</td>
-                    <td class="sinborde">&nbsp;</td>
-                    <td class="sinborde">
-                        <input type="number" name="numSlots" id="numSlots" class="tam150 soloNum"
-                               {% if objGrupoSlots is defined %}value="{{ objGrupoSlots.getNumSlots }}"{% endif %} />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sinborde text-right">{{ "tipo" | trans }}</td>
-                    <td class="sinborde">&nbsp;</td>
-                    <td class="sinborde">
-                        <select name="tipoGrupoSlots" id="tipoGrupoSlots">
-                            <option value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.tipo == 1 %} selected {% endif %}{% endif %}>
-                                Promoción
-                            </option>
-                            <option value="2" {% if objGrupoSlots is defined %}{% if objGrupoSlots.tipo == 2 %} selected {% endif %}{% endif %}>
-                                Creatividad
-                            </option>
-                        </select>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div id="caracteristicas">
-            <h4 class="widgettitle">{{ "caracteristicas"|trans|title }}</h4>
-
-            <table class="table table-bordered responsive">
-                <thead>
-                <tr>
-                    <th><input type="checkbox" class="checkTodos" id="checkTodos"/></th>
-                    <th>{{ "propiedad"|trans }}</th>
-                    <th>{{ "valor"|trans }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="" width="2%">
-                        <input name="imagenProducto" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined and objGrupoSlots.getMImgProducto == 1 %}checked{% endif %}/>
-                    </td>
-                    <td class="" width="20%">{{ "Mostrar imagen producto" | trans }}</td>
-                    <td class="">
-                        <select name="tamanyoImgProducto" class="tam4">
-                            {% if objTamImgPro is defined %}
-                                {% for objTIP in objTamImgPro %}
-                                    <option value="{{ objTIP.idTamanyo }}" {% if objGrupoSlots is defined and objGrupoSlots.idTamanyoImgProducto !=null %} {% if objTIP.idTamanyo == objGrupoSlots.idTamanyoImgProducto.idTamanyo %} selected {% endif %}{% endif %}>{{ objTIP.codigo }}</option>
-                                {% endfor %}
-                            {% endif %}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="precioProducto" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMPrecio == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar precio producto" | trans }}</td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="volumen" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMVolumen == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar volumen" | trans }}</td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="condicionesPromocion" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMCondiciones == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="imagenMarca" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMImgMarca == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="">{{ "Mostrar imagen marca" | trans }}</td>
-                    <td class="">
-                        <select name="tamanyoImgMarca" class="tam4">
-                            {% if objTamImgMar is defined %}
-                                {% for objTIM in objTamImgMar %}
-                                    <option value="{{ objTIM.idTamanyo }}" {% if objGrupoSlots is defined and objGrupoSlots.getIdTamanyoImgMarca != null %} {% if objTIM.idTamanyo == objGrupoSlots.getIdTamanyoImgMarca.getIdTamanyo %} selected {% endif %}{% endif %}>{{ objTIM.codigo }}</option>
-                                {% endfor %}
-                            {% endif %}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="textoLibre" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMTexto == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar texto libre" | trans }}</td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="voucher" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMVoucher == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar voucher" | trans }}</td>
-                </tr>
-                <tr>
-                    <td class="">
-                        <input class="selTodos" name="fidelizacion" type="checkbox" value="1"
-                               {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMFidelizacion == 1 %}checked{% endif %}{% endif %}/>
-                    </td>
-                    <td class="" colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <table width="200" border="0" cellpadding="0" cellspacing="0">
-            <tbody>
+		<form method="post" name="form1" id="form1" action="{{ path('direct_manager_editar_grupo_slots', {'id_plantilla': id_plantilla, 'id_grupo': objGrupoSlots.idGrupo, 'id_comunicacion': id_comunicacion }) }}">
+	{% else %}
+		<form method="post" name="form1" id="form1" action="{{ path('direct_manager_crear_grupo_slots', {'id_plantilla': id_plantilla, 'id_comunicacion': id_comunicacion }) }}">
+	{% endif %}
+	
+	<h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
+    <div class="mediamgr_head">
+    <table class="margin-center">
+        <tbody>
             <tr>
-                <td>
-                    <button type="submit" class="btn btn-primary">{{ "boton.guardar"|trans }}</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger"
-                            onClick="location.href='{{ path('direct_manager_edit_plantillas',{'id_plantilla':id_plantilla, 'id_comunicacion':id_comunicacion}) }}'; return false;">{{ "boton.cancelar" | trans }}</button>
+                <td class="sinborde text-right" style="width: 40%" >{{ "nombre" | trans }} :</td>
+                <td class="sinborde" style="width: 3%">&nbsp;</td>
+                <td class="sinborde">
+                    <input type="text" name="nombre" id="nombre" class="tam150" {% if objGrupoSlots is defined %}value="{{ objGrupoSlots.getNombre }}"{% endif %} />
                 </td>
             </tr>
-            </tbody>
-        </table>
+            <tr>
+                <td class="sinborde text-right">{{ "numero.slots" | trans }}</td>
+                <td class="sinborde">&nbsp;</td>
+                <td class="sinborde">
+                    <input type="number" name="numSlots" id="numSlots" class="tam150 soloNum" {% if objGrupoSlots is defined %}value="{{ objGrupoSlots.getNumSlots }}"{% endif %} />
+                </td>
+            </tr>
+            <tr>
+                <td class="sinborde text-right">{{ "tipo" | trans}}</td>
+                <td class="sinborde">&nbsp;</td>
+                <td class="sinborde">
+                    <select name="tipoGrupoSlots" id="tipoGrupoSlots">
+                        <option value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.tipo == 1 %} selected {% endif %}{% endif %}>Promoción</option>
+                        <option value="2" {% if objGrupoSlots is defined %}{% if objGrupoSlots.tipo == 2 %} selected {% endif %}{% endif %}>Creatividad</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
 
+	<div id="caracteristicas">
+	<h4 class="widgettitle">{{ "caracteristicas"|trans|title }}</h4>
 
-    </form>
+		<table class="table table-bordered responsive">
+            <thead>
+            <tr>
+                <th><input type="checkbox" class="checkTodos" id="checkTodos"/></th>
+                <th>{{ "propiedad"|trans }}</th>
+                <th>{{ "valor"|trans }}</th>
+            </tr>
+            </thead>
+			<tbody>
+				<tr>
+					<td class="" width="2%">
+						<input  name="imagenProducto" type="checkbox" value="1"  {% if objGrupoSlots is defined and objGrupoSlots.getMImgProducto == 1 %}checked{% endif %}/>
+					</td>
+					<td class="" width="20%">{{ "Mostrar imagen producto" | trans }}</td>
+					<td class="">
+						<select name="tamanyoImgProducto" class="tam4">
+								{% if objTamImgPro is defined %}
+									{% for objTIP in objTamImgPro %}
+	 									<option value="{{ objTIP.idTamanyo }}" {% if objGrupoSlots is defined and objGrupoSlots.idTamanyoImgProducto !=null %} {% if objTIP.idTamanyo == objGrupoSlots.idTamanyoImgProducto.idTamanyo %} selected {%  endif %}{%  endif %}>{{ objTIP.codigo }}</option>
+									{% endfor %}
+								{% endif %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="precioProducto" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMPrecio == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar precio producto" | trans }}</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="volumen" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMVolumen == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar volumen" | trans }}</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="condicionesPromocion" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMCondiciones == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="imagenMarca" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMImgMarca == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="">{{ "Mostrar imagen marca" | trans }}</td>
+					<td class="">
+						<select name="tamanyoImgMarca" class="tam4">
+							{% if objTamImgMar is defined %}
+								{% for objTIM in objTamImgMar %}
+	 								<option value="{{ objTIM.idTamanyo }}" {% if objGrupoSlots is defined and objGrupoSlots.getIdTamanyoImgMarca != null %} {% if objTIM.idTamanyo == objGrupoSlots.getIdTamanyoImgMarca.getIdTamanyo %} selected {%  endif %}{%  endif %}>{{ objTIM.codigo }}</option>
+	 							{% endfor %}
+ 							{% endif %}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="textoLibre" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMTexto == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar texto libre" | trans }}</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="voucher" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMVoucher == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar voucher" | trans }}</td>
+				</tr>
+				<tr>
+					<td class="">
+						<input class="selTodos" name="fidelizacion" type="checkbox" value="1" {% if objGrupoSlots is defined %}{% if objGrupoSlots.getMFidelizacion == 1 %}checked{% endif %}{% endif %}/>
+					</td>
+					<td class="" colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+    <table width="200" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td><button type="submit" class="btn btn-primary">{{ "boton.guardar"|trans }}</button></td>
+            <td><button  class="btn btn-danger" onClick="location.href='{{ path('direct_manager_edit_plantillas',{'id_plantilla':id_plantilla, 'id_comunicacion':id_comunicacion}) }}'; return false;">{{ "boton.cancelar" | trans }}</button></td>
+        </tr>
+        </tbody>
+    </table>
 
+		
+	</form>
+	
+	
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$('document').ready(function(){
+			muestraPanelCaracteristicas();
+			
+			$('#tipoGrupoSlots').change(muestraPanelCaracteristicas);
+		});
 
-    {% endblock %}
-    {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $('document').ready(function () {
-            muestraPanelCaracteristicas();
-
-            $('#tipoGrupoSlots').change(muestraPanelCaracteristicas);
-        });
-
-        function muestraPanelCaracteristicas() {
-            var valorSeleccionado = $('#tipoGrupoSlots option:selected').val();
-            if (valorSeleccionado === '2') {
-                $('#caracteristicas').hide();
-            }
-            else if (valorSeleccionado === '1') {
-                $('#caracteristicas').show();
-            }
-        }
-    </script>
+		function muestraPanelCaracteristicas(){
+			var valorSeleccionado = $('#tipoGrupoSlots option:selected').val();
+			if(valorSeleccionado === '2')
+			{
+				$('#caracteristicas').hide();
+			}
+			else if(valorSeleccionado ==='1')
+			{
+				$('#caracteristicas').show();
+			}
+		}
+	</script>
 {% endblock %}

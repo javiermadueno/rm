@@ -1,6 +1,6 @@
 {% extends '::insight/base_insight.html.twig' %}
 {% block title %}
-    {{ "menu.insight.clientes" |trans|title }}
+    {{ "menu.insight.clientes" |trans|title}}
 {% endblock %}
 
 {% block stylesheets %}
@@ -11,470 +11,443 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span
-                class="separator"></span></li>
-    <li>{{ "menu.insight.dashboard" |trans|title }}</li>
+	<li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.insight.dashboard" |trans|title}}</li>
 {% endblock %}
 
 {% block pagetitle %}
-    <h5>{{ "menu.insight.clientes" |trans|title }}</h5>
-    <h1>{{ "menu.insight.dashboard" |trans|title }}</h1>
+    <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
+    <h1>{{ "menu.insight.dashboard" |trans|title}}</h1>
 {% endblock pagetitle %}
 
 {% block contenedorPrincipal %}
-    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title}}</h4>
     <div class="mediamgr_head">
         <ul class="mediamgr_menu">
             <li>
-                <label for="fechaDesde">{{ "compara" |trans|title }}: </label>
+                <label for="fechaDesde">{{ "compara" |trans|title}}: </label>
                 <select name="fecha[desde]" id="fechaDesde">
-                    <option value="-1">{{ "select.seleccione" |trans|title }}</option>
-                    <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-                    <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-                    <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-                    <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-                    <option value="5">{% trans %}May-2014{% endtrans %}</option>
-                    <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-                    <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
+                    <option value="-1">{{ "select.seleccione" |trans|title}}</option>
+                    <option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+                    <option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+                    <option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+                    <option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+                    <option value="5" >{% trans %}May-2014{% endtrans %}</option>
+                    <option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+                    <option value="7" >{% trans %}Jul-2014{% endtrans %}</option>
                     <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
-                    <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
-                    <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
-                    <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-                    <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+                    <option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
+                    <option value="10" >{% trans %}Oct-2014{% endtrans %}</option>
+                    <option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+                    <option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
                 </select>
             </li>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
             <li>
-                <label for="fechaHasta">{{ "con" |trans|title }}:</label>
+                <label for="fechaHasta">{{ "con" |trans|title}}:</label>
                 <select name="fecha[hasta]" id="fechaHasta">
-                    <option value="-1">{{ "select.seleccione" |trans|title }}</option>
-                    <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-                    <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-                    <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-                    <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-                    <option value="5">{% trans %}May-2014{% endtrans %}</option>
-                    <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-                    <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
-                    <option value="8">{% trans %}Ago-2014{% endtrans %}</option>
-                    <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
+                    <option value="-1">{{ "select.seleccione" |trans|title}}</option>
+                    <option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+                    <option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+                    <option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+                    <option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+                    <option value="5" >{% trans %}May-2014{% endtrans %}</option>
+                    <option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+                    <option value="7" >{% trans %}Jul-2014{% endtrans %}</option>
+                    <option value="8" >{% trans %}Ago-2014{% endtrans %}</option>
+                    <option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
                     <option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
-                    <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-                    <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
+                    <option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+                    <option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
                 </select>
             </li>
 
             <li class="right">
-                <button class="btn btn-primary" id="botonBuscar">{{ "boton.buscar" |trans|title }}</button>
+                <button class="btn btn-primary" id="botonBuscar">{{ "boton.buscar" |trans|title}}</button>
             </li>
         </ul>
     </div>
     {% block comparativa %}
 
 
-        <h4 class="widgettitle">{{ "comparativa" |trans|title }}</h4>
-        <table class="table table-bordered responsive">
-            <colgroup>
-                <col class="con0">
-                <col class="con1">
-                <col class="con0">
-                <col class="con1">
-                <col class="con0">
-                <col class="con1">
-            </colgroup>
-            <thead>
+    <h4 class="widgettitle">{{ "comparativa" |trans|title}}</h4>
+    <table class="table table-bordered responsive">
+      <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+          <tr>
+              <th></th>
+              <th>{{ fecha1 }}</th>
+              <th>{{ fecha2 }}</th>
+              <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for d in data %}
             <tr>
-                <th></th>
-                <th>{{ fecha1 }}</th>
-                <th>{{ fecha2 }}</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for d in data %}
-                <tr>
-                    <td style="text-align: center;" width="25%">
+                <td style="text-align: center;" width="25%">
 
-                        {{ d[0] }}
-                    </td>
-                    <td style="text-align: center;" width="25%">
-                        {% if  d[1] ends with '%' %}
-                            {{ d[1] }}
-                        {% else %}
-                            {{ d[1] }}{% trans %}&euro;{% endtrans %}
-                        {% endif %}
-                    </td>
-                    <td style="text-align: center;" width="25%">
-                        {% if  d[2] ends with '%' %}
-                            {{ d[2] }}
-                        {% else %}
-                            {{ d[2] }}{% trans %}&euro;{% endtrans %}
-                        {% endif %}
-                    </td>
-                    {% if d[3] > 0 %}
-                        <td style="text-align: center;" width="8%">
-                            {{ d[3] }}{% trans %}%&nbsp;{% endtrans %}<img style="float:right;"
-                                                                           src="{{ asset('img/arrowup.png') }}"
-                                                                           alt="{{ 'Mejora' | trans }}"
-                                                                           title="{{ 'Mejora' | trans }}"/>
-                        </td>
-                    {% elseif d[3] < 0 %}
-                        <td style="text-align: center;" width="8%">
-                            {{ d[3] }}{% trans %}%&nbsp;{% endtrans %}<img style="float:right;"
-                                                                           src="{{ asset('img/arrowdown.png') }}"
-                                                                           alt="{{ 'Mejora' | trans }}"
-                                                                           title="{{ 'Mejora' | trans }}"/>
-                        </td>
+                    {{ d[0] }}
+                </td>
+                <td style="text-align: center;" width="25%">
+                    {% if  d[1] ends with '%' %}
+                        {{ d[1] }}
                     {% else %}
-                        <td style="text-align: center;" width="8%">
-                            {{ d[3] }}{% trans %}%{% endtrans %}
-                        </td>
+                        {{ d[1] }}{% trans %}&euro;{% endtrans %}
                     {% endif %}
-                </tr>
-            {% endfor %}
+                </td>
+                <td style="text-align: center;" width="25%">
+                    {% if  d[2] ends with '%' %}
+                        {{ d[2] }}
+                    {% else %}
+                        {{ d[2] }}{% trans %}&euro;{% endtrans %}
+                    {% endif %}
+                </td>
+                {% if d[3] > 0 %}
+                    <td style="text-align: center;" width="8%">
+                        {{ d[3] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+                    </td>
+                {% elseif d[3] < 0 %}
+                    <td style="text-align: center;" width="8%">
+                        {{ d[3] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+                    </td>
+                {% else %}
+                    <td style="text-align: center;" width="8%">
+                        {{ d[3] }}{% trans %}%{% endtrans %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h4 class="widgettitle">{{ "porcentaje.ventas" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <div id="graficoTarta" style="height: 300px; margin: 0 auto"></div>
+    </div>
+
+    <script type="text/javascript">
+        {{ chart(grafico_tarta) }}
+        {{ chart(grafico_barra) }}
+    </script>
+
+    <h4 class="widgettitle">{{ "Contribuciones mensuales VS miembros" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <div id="graficoBarras" style="height: 300px; margin: 0 auto"></div>
+    </div>
+
+    <h4 class="widgettitle">{{ "otros.datos" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td width="20%" >
+                    <div id="tablaNuevosMiembros" style="height: 150px; margin: 0 auto">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ "mes" |trans|title}}</th>
+                                <th style="text-align: center;">{{ "numero.miembos" |trans|title}}</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                            </thead>
+                            {% for fecha, count in countMiembros %}
+                            <tr>
+                                <td style="text-align: center;" width="45%">
+                                    {{ fecha }}
+                                </td>
+                                <td style="text-align: center;" width="30%">
+                                    {{ count }}
+                                </td>
+                                {% if loop.first %}
+                                    <td rowspan="2" class="center-all">
+                                        {% if diferenciales['difMiembros'] > 0 %}
+
+                                            {{diferenciales['difMiembros'] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+                                        {% elseif diferenciales['difMiembros'] < 0 %}
+                                                {{ diferenciales['difMiembros'] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                        {% else %}
+
+                                                {{diferenciales['difMiembros'] }}{% trans %}%{% endtrans %}
+
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td width="20%" >
+                    <div id="tablaRecencia" style="height: 150px; margin: 0 auto">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ "mes" |trans|title}}</th>
+                                <th style="text-align: center;">{{ "recencia" |trans|title}}</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                            </thead>
+                            {% for fecha, count in recenciaDias %}
+                            <tr>
+                                <td style="text-align: center;" width="45%">
+                                    {{ fecha }}
+                                </td>
+                                {# 										#}
+                                <td style="text-align: center;" width="30%">
+                                    {{ count }}
+                                </td>
+
+                                {% if loop.first %}
+                                    <td rowspan="2" class="center-all">
+                                    {% if diferenciales['difRecencia'] > 0 %}
+
+                                            {{diferenciales['difRecencia'] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% elseif diferenciales['difRecencia'] < 0 %}
+
+                                            {{ diferenciales['difRecencia'] }}{% trans %}%&nbsp;{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% else %}
+
+                                            {{diferenciales['difRecencia'] }}{% trans %}%{% endtrans %}
+
+                                    {% endif %}
+                                        </td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td  width="20%">
+                    <div id="tablaFrecuenciaMes" style="height: 150px; margin: 0 auto">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ "mes" |trans|title}}</th>
+                                <th style="text-align: center;">{{ "frecuencia.contribuciones" |trans|title}}</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                            </thead>
+                            {% for fecha, count in frecuenciaMes %}
+                            <tr>
+                                <td style="text-align: center;" width="45%">
+                                    {{ fecha }}
+                                </td>
+                                {# 										#}
+                                <td style="text-align: center;" width="30%">
+                                    {{ count }}
+                                </td>
+
+                                {% if loop.first %}
+                                    <td rowspan="2" class="center-all">
+                                    {% if diferenciales['difFrecuencia'] > 0 %}
+
+                                            {{diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% elseif diferenciales['difFrecuencia'] < 0 %}
+
+                                            {{ diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% else %}
+
+                                            {{diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}
+
+                                    {% endif %}
+                                    </td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td width="20%">
+                    <div id="tablaTicketMedio" style="height: 150px; margin: 0 auto">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ "mes" |trans|title}}</th>
+                                <th style="text-align: center;">{{ "ticket.medio" |trans|title}}</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                            </thead>
+                            {% for fecha, count in ticketMedio %}
+                            <tr>
+                                <td style="text-align: center;" width="45%">
+                                    {{ fecha }}
+                                </td>
+                                {# 										#}
+                                <td style="text-align: center;" width="30%">
+                                    {{ count }}
+                                </td>
+                                {% if loop.first %}
+                                    <td rowspan="2" class="center-all">
+                                    {% if diferenciales['difTicket'] > 0 %}
+
+                                            {{diferenciales['difTicket'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% elseif diferenciales['difTicket'] < 0 %}
+
+                                            {{ diferenciales['difTicket'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% else %}
+
+                                            {{diferenciales['difTicket'] }}{% trans %}%{% endtrans %}
+
+                                    {% endif %}
+                                    </td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td width="20%">
+                    <div id="tablaAmplitudCategorias" style="height: 150px; margin: 0 auto">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ "mes" |trans|title}}</th>
+                                <th style="text-align: center;">{{ "amplitud.categorias" |trans|title}}</th>
+                                <th style="text-align: center;">%</th>
+                            </tr>
+                            </thead>
+                            {% for fecha, count in amplitudCategorias %}
+                            <tr>
+                                <td style="text-align: center;" width="45%">
+                                    {{ fecha }}
+                                </td>
+                                {# 										#}
+                                <td style="text-align: center;" width="30%">
+                                    {{ count }}
+                                </td>
+                                {% if loop.first %}
+                                    <td rowspan="2" class="center-all">
+                                    {% if diferenciales['difAmplitud'] > 0 %}
+
+                                            {{diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+                                    {% elseif diferenciales['difAmplitud'] < 0 %}
+
+                                            {{ diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}<img	style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
+
+                                    {% else %}
+
+                                            {{diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}
+
+                                    {% endif %}
+                                    </td>
+                                {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
             </tbody>
         </table>
-
-        <h4 class="widgettitle">{{ "porcentaje.ventas" |trans|title }}</h4>
-        <div class="widgetcontent">
-            <div id="graficoTarta" style="height: 300px; margin: 0 auto"></div>
-        </div>
-
-        <script type="text/javascript">
-            {{ chart(grafico_tarta) }}
-            {{ chart(grafico_barra) }}
-        </script>
-
-        <h4 class="widgettitle">{{ "Contribuciones mensuales VS miembros" |trans|title }}</h4>
-        <div class="widgetcontent">
-            <div id="graficoBarras" style="height: 300px; margin: 0 auto"></div>
-        </div>
-
-        <h4 class="widgettitle">{{ "otros.datos" |trans|title }}</h4>
-        <div class="widgetcontent">
-        <table class="table">
-        <tbody>
-        <tr>
-        <td width="20%">
-            <div id="tablaNuevosMiembros" style="height: 150px; margin: 0 auto">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">{{ "mes" |trans|title }}</th>
-                        <th style="text-align: center;">{{ "numero.miembos" |trans|title }}</th>
-                        <th style="text-align: center;">%</th>
-                    </tr>
-                    </thead>
-                    {% for fecha, count in countMiembros %}
-                    <tr>
-                        <td style="text-align: center;" width="45%">
-                            {{ fecha }}
-                        </td>
-                        <td style="text-align: center;" width="30%">
-                            {{ count }}
-                        </td>
-                        {% if loop.first %}
-                            <td rowspan="2" class="center-all">
-                                {% if diferenciales['difMiembros'] > 0 %}
-
-                                    {{ diferenciales['difMiembros'] }}{% trans %}%&nbsp;{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowup.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-                                {% elseif diferenciales['difMiembros'] < 0 %}
-                                    {{ diferenciales['difMiembros'] }}{% trans %}%&nbsp;{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowdown.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% else %}
-
-                                    {{ diferenciales['difMiembros'] }}{% trans %}%{% endtrans %}
-
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </td>
-        <td width="20%">
-            <div id="tablaRecencia" style="height: 150px; margin: 0 auto">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">{{ "mes" |trans|title }}</th>
-                        <th style="text-align: center;">{{ "recencia" |trans|title }}</th>
-                        <th style="text-align: center;">%</th>
-                    </tr>
-                    </thead>
-                    {% for fecha, count in recenciaDias %}
-                    <tr>
-                        <td style="text-align: center;" width="45%">
-                            {{ fecha }}
-                        </td>
-                        {# 										#}
-                        <td style="text-align: center;" width="30%">
-                            {{ count }}
-                        </td>
-
-                        {% if loop.first %}
-                            <td rowspan="2" class="center-all">
-                                {% if diferenciales['difRecencia'] > 0 %}
-
-                                    {{ diferenciales['difRecencia'] }}{% trans %}%&nbsp;{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowup.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% elseif diferenciales['difRecencia'] < 0 %}
-
-                                    {{ diferenciales['difRecencia'] }}{% trans %}%&nbsp;{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowdown.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% else %}
-
-                                    {{ diferenciales['difRecencia'] }}{% trans %}%{% endtrans %}
-
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </td>
-        <td width="20%">
-            <div id="tablaFrecuenciaMes" style="height: 150px; margin: 0 auto">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">{{ "mes" |trans|title }}</th>
-                        <th style="text-align: center;">{{ "frecuencia.contribuciones" |trans|title }}</th>
-                        <th style="text-align: center;">%</th>
-                    </tr>
-                    </thead>
-                    {% for fecha, count in frecuenciaMes %}
-                    <tr>
-                        <td style="text-align: center;" width="45%">
-                            {{ fecha }}
-                        </td>
-                        {# 										#}
-                        <td style="text-align: center;" width="30%">
-                            {{ count }}
-                        </td>
-
-                        {% if loop.first %}
-                            <td rowspan="2" class="center-all">
-                                {% if diferenciales['difFrecuencia'] > 0 %}
-
-                                    {{ diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowup.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% elseif diferenciales['difFrecuencia'] < 0 %}
-
-                                    {{ diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowdown.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% else %}
-
-                                    {{ diferenciales['difFrecuencia'] }}{% trans %}%{% endtrans %}
-
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </td>
-        <td width="20%">
-            <div id="tablaTicketMedio" style="height: 150px; margin: 0 auto">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">{{ "mes" |trans|title }}</th>
-                        <th style="text-align: center;">{{ "ticket.medio" |trans|title }}</th>
-                        <th style="text-align: center;">%</th>
-                    </tr>
-                    </thead>
-                    {% for fecha, count in ticketMedio %}
-                    <tr>
-                        <td style="text-align: center;" width="45%">
-                            {{ fecha }}
-                        </td>
-                        {# 										#}
-                        <td style="text-align: center;" width="30%">
-                            {{ count }}
-                        </td>
-                        {% if loop.first %}
-                            <td rowspan="2" class="center-all">
-                                {% if diferenciales['difTicket'] > 0 %}
-
-                                    {{ diferenciales['difTicket'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowup.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% elseif diferenciales['difTicket'] < 0 %}
-
-                                    {{ diferenciales['difTicket'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowdown.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% else %}
-
-                                    {{ diferenciales['difTicket'] }}{% trans %}%{% endtrans %}
-
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </td>
-        <td width="20%">
-            <div id="tablaAmplitudCategorias" style="height: 150px; margin: 0 auto">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">{{ "mes" |trans|title }}</th>
-                        <th style="text-align: center;">{{ "amplitud.categorias" |trans|title }}</th>
-                        <th style="text-align: center;">%</th>
-                    </tr>
-                    </thead>
-                    {% for fecha, count in amplitudCategorias %}
-                    <tr>
-                        <td style="text-align: center;" width="45%">
-                            {{ fecha }}
-                        </td>
-                        {# 										#}
-                        <td style="text-align: center;" width="30%">
-                            {{ count }}
-                        </td>
-                        {% if loop.first %}
-                            <td rowspan="2" class="center-all">
-                                {% if diferenciales['difAmplitud'] > 0 %}
-
-                                    {{ diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowup.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-                                {% elseif diferenciales['difAmplitud'] < 0 %}
-
-                                    {{ diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}<img
-                                    style="float:right;" src="{{ asset('img/arrowdown.png') }}"
-                                    alt="{{ 'Mejora' | trans }}"title="{{ 'Mejora' | trans }}" />
-
-                                {% else %}
-
-                                    {{ diferenciales['difAmplitud'] }}{% trans %}%{% endtrans %}
-
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                        {% endfor %}
-                    </tr>
-                </table>
-            </div>
-        </td>
-        </tr>
-
-        </tbody>
-        </table>
-        </div>
+    </div>
     {% endblock comparativa %}
 
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            $('.date-picker').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                dateFormat: 'MM yy',
-                onClose: function (dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1));
-                }
-            });
-        });
+	{{ parent() }}
+	<script type="text/javascript">
+	$(function() {
+		$('.date-picker').datepicker( {
+		    changeMonth: true,
+		    changeYear: true,
+		    showButtonPanel: true,
+		    dateFormat: 'MM yy',
+		    onClose: function(dateText, inst) { 
+		        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		        $(this).datepicker('setDate', new Date(year, month, 1));
+		    }
+		});
+		});
 
-        $(function () {
-            $('#graficoBarras').highcharts({
-                chart: {
-                    zoomType: 'xy'
-                },
-                title: {
-                    text: 'Contribuciones mensuales Vs. Miembros'
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: [{
-                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-                }],
-                yAxis: [{ // Primary yAxis
-                    labels: {
-                        format: '{value}',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
-                        }
-                    },
-                    title: {
-                        text: 'Numero de miembros',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
-                        }
-                    }
-                }, { // Secondary yAxis
-                    title: {
-                        text: '% Contribuciones',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    labels: {
-                        format: '{value}%',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    opposite: true
-                }],
-                tooltip: {
-                    shared: true
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    x: 120,
-                    verticalAlign: 'top',
-                    y: 100,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-                },
-                series: [{
-                    name: '% Contribuciones',
-                    type: 'column',
-                    yAxis: 1,
-                    data: [8, 7, 3, 7, 12, 7, 10, 11, 5, 7, 9, 13],
-                    tooltip: {
-                        valueSuffix: '%'
-                    }
+	$(function () {
+	    $('#graficoBarras').highcharts({
+	        chart: {
+	            zoomType: 'xy'
+	        },
+	        title: {
+	            text: 'Contribuciones mensuales Vs. Miembros'
+	        },
+	        subtitle: {
+	            text: ''
+	        },
+	        xAxis: [{
+	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+	                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+	        }],
+	        yAxis: [{ // Primary yAxis
+	            labels: {
+	                format: '{value}',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            },
+	            title: {
+	                text: 'Numero de miembros',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            }
+	        }, { // Secondary yAxis
+	            title: {
+	                text: '% Contribuciones',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
+	            },
+	            labels: {
+	                format: '{value}%',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
+	            },
+	            opposite: true
+	        }],
+	        tooltip: {
+	            shared: true
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'left',
+	            x: 120,
+	            verticalAlign: 'top',
+	            y: 100,
+	            floating: true,
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+	        },
+	        series: [{
+	            name: '% Contribuciones',
+	            type: 'column',
+	            yAxis: 1,
+	            data: [8,7,3,7, 12, 7, 10, 11,5,7,9,13],
+	            tooltip: {
+	                valueSuffix: '%'
+	            }
 
-                }, {
-                    name: 'Miembros',
-                    type: 'spline',
-                    data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-                    tooltip: {
-                        valueSuffix: ''
-                    }
-                }]
-            });
-        });
-    </script>
+	        }, {
+	            name: 'Miembros',
+	            type: 'spline',
+	            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+	            tooltip: {
+	                valueSuffix: ''
+	            }
+	        }]
+	    });
+	});
+	</script>
 {% endblock %}

@@ -8,6 +8,6 @@ class DefaultController extends Controller
 {
     public function indexAction($name)
     {
-        return $this->render('LdapBundle:Default:index.html.twig', ['name' => $name]);
+        return $this->render('LdapBundle:Default:index.html.twig', array('name' => $name));
     }
 }

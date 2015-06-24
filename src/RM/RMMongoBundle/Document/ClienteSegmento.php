@@ -44,6 +44,18 @@ class ClienteSegmento
     }
 
     /**
+     * Set cliente
+     *
+     * @param string $cliente
+     * @return self
+     */
+    public function setCliente($cliente)
+    {
+        $this->cliente = $cliente;
+        return $this;
+    }
+
+    /**
      * Get cliente
      *
      * @return string $cliente
@@ -54,15 +66,14 @@ class ClienteSegmento
     }
 
     /**
-     * Set cliente
+     * Set segmento
      *
-     * @param string $cliente
-     *
+     * @param collection $segmento
      * @return self
      */
-    public function setCliente($cliente)
+    public function setSegmento($segmento)
     {
-        $this->cliente = $cliente;
+        $this->segmento = $segmento;
         return $this;
     }
 
@@ -74,18 +85,5 @@ class ClienteSegmento
     public function getSegmento()
     {
         return $this->segmento;
-    }
-
-    /**
-     * Set segmento
-     *
-     * @param collection $segmento
-     *
-     * @return self
-     */
-    public function setSegmento($segmento)
-    {
-        $this->segmento = $segmento;
-        return $this;
     }
 }

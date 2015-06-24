@@ -2,8 +2,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
-    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
+   <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
+   <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
 {% endblock %}
 
 
@@ -18,7 +18,7 @@
             <h4>{{ "mensaje.error.no.categoria.asociada" | trans|capitalize }}</h4>
         </div>
     {% else %}
-        <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+        <h4 class="widgettitle">{{ "graficos" |trans|title}}</h4>
         <div class="mediamgr_head">
             <script type="text/javascript">
                 {{ chart(grafico_tarta) }}
@@ -40,13 +40,12 @@
         </div>
         <div class="row-fluid">
             <div class="span1 offset11">
-                <button class="btn btn-primary" onclick="throwPopUp(); return false;"
-                        id="botonAvisos">{{ "boton.avisos" |trans|title }}</button>
+                <button class="btn btn-primary" onclick="throwPopUp(); return false;" id="botonAvisos">{{ "boton.avisos" |trans|title}}</button>
             </div>
         </div>
 
         <form id="form" name="form" method="POST">
-            <h4 class="widgettitle">{{ "tabla.resumen.promociones" |trans|title }}</h4>
+            <h4 class="widgettitle">{{ "tabla.resumen.promociones" |trans|title}}</h4>
             <table class="table table-bordered responsive">
                 <colgroup>
                     <col class="con0">
@@ -70,35 +69,33 @@
                     <tr>
                         <td rowspan="2" class="center-all">{{ objCat.nombre }}</td>
                         {% for objGS in objGrupoSlots %}
-                            <td class="center-all">{{ "segmentadas" |trans|title }}</th>
-                            <td class="center-all">{{ "genericas" |trans|title }}</th>
+                        <td class="center-all">{{ "segmentadas" |trans|title}}</th>
+                        <td class="center-all">{{ "genericas" |trans|title}}</th>
                         {% endfor %}
                     </tr>
                     <tr>
                         {% for objGS in objGrupoSlots %}
-                            {% if arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1] is defined %}
-                                {% if  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]
-                                or  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2] %}
+                        {% if arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1] is defined %}
+                            {% if  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]
+                            or  arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] < arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2] %}
 
-                                    {% set idsCatNeeded = objCat.idCategoria~"," %}
-                                    {% set listCatNeeded = listCatNeeded~idsCatNeeded %}
+                                {% set idsCatNeeded = objCat.idCategoria~"," %}
+                                {% set listCatNeeded = listCatNeeded~idsCatNeeded %}
 
-                                {% endif %}
-                                <!-- Segmentadas -->
-                                <td class="center-all">
-                                    {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] }}
-                                    / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]|default(0) }}
-                                </td>
-                                <!-- Genericas -->
-                                <td class="center-all">
-                                    {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] }}
-                                    / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2]|default(0) }}
-                                </td>
-
-                            {% else %}
-                                <td class="center-all">-</td>
-                                <td class="center-all">-</td>
                             {% endif %}
+                            <!-- Segmentadas -->
+                            <td class="center-all">
+                                {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][3] }} / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][1]|default(0) }}
+                            </td>
+                            <!-- Genericas -->
+                            <td class="center-all">
+                                {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][4] }} / {{ arrayInfoPromoTipos[objGS.idGrupo][objCat.idCategoria][2]|default(0) }}
+                            </td>
+
+                        {% else %}
+                            <td class="center-all">-</td>
+                            <td class="center-all">-</td>
+                        {% endif %}
                         {% endfor %}
                     </tr>
 
@@ -107,9 +104,9 @@
             </table>
             <br/>
 
-            <h4 class="widgettitle">{{ "tabla.resumen.creatividades" |trans|title }}</h4>
+            <h4 class="widgettitle">{{ "tabla.resumen.creatividades" |trans|title}}</h4>
             <table class="table table-bordered responsive">
-                <colgroup>
+              <colgroup>
                     <col class="con0">
                     <col class="con1">
                     <col class="con0">
@@ -120,15 +117,15 @@
                 <thead>
                 <tr>
                     <th>{{ "grupo.slots" | trans }}</th>
-                    <th colspan="2">{{ "creatividades" | trans }}</th>
+                    <th colspan="2">{{ "creatividades" | trans  }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for creatividad in objGrupoSlotsCreatividades %}
                     <tr>
                         <td class="center-all" rowspan="2">{{ creatividad.nombre }}</td>
-                        <td class="center-all">{{ "segmentadas" |trans|title }}</td>
-                        <td class="center-all">{{ "genericas" |trans|title }}</td>
+                        <td class="center-all">{{ "segmentadas" |trans|title}}</td>
+                        <td class="center-all">{{ "genericas" |trans|title}}</td>
                     </tr>
                     <tr>
 
@@ -145,8 +142,8 @@
                                 {{ num_pro_genericas }} / {{ numGenericas }}
                             </td>
                         {% else %}
-                            <td class="center-all"> -</td>
-                            <td class="center-all"> -</td>
+                            <td class="center-all"> - </td>
+                            <td class="center-all"> - </td>
                         {% endif %}
                     </tr>
                 {% endfor %}
@@ -201,15 +198,16 @@
             window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
         }
 
-        jQuery(document).ready(function () {
-            jQuery(document).on('click', '#tramitar', function (event) {
+        jQuery(document).ready(function(){
+            jQuery(document).on('click', '#tramitar', function(event){
                 var e = event || window.event;
                 e.preventDefault();
-                var self = this;
+                 var self = this;
 
                 var disable = self.dataset.disabled;
 
-                if (disable === 'disabled') {
+                if(disable === 'disabled')
+                {
                     jQuery.alerts.dialogClass = 'alert-danger';
                     jAlert('{{"mensaje.error.cambio.fase.simulacion" |trans }}', '{{ "cabecera.cambio.fase.instancia"|trans|title }}');
                     return;
@@ -217,8 +215,8 @@
 
 
                 jQuery.alerts.dialogClass = 'alert-danger';
-                jConfirm("{{ 'mensaje.tramitar.simulacion'|trans }}", "{{ 'cabecera.cambio.fase.instancia'|trans|title }}", function (confirmacion) {
-                    if (confirmacion) {
+                jConfirm("{{ 'mensaje.tramitar.simulacion'|trans }}", "{{ 'cabecera.cambio.fase.instancia'|trans|title }}", function(confirmacion){
+                    if(confirmacion) {
                         $('#formTramitar').submit();
                     }
 

@@ -8,9 +8,9 @@
 
 namespace RM\PlantillaBundle\DomainManager;
 
+use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\ORM\EntityManager;
 
 
 class AbstractManager

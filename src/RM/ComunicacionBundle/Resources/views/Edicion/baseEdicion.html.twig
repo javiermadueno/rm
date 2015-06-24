@@ -11,10 +11,8 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span>
-    </li>
-    <li><a href="{{ path('direct_manager') }}">{{ "menu.direct.gestion"|trans|title }}</a> <span
-                class="separator"></span></li>
+    <li><a href="{{ path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li><a href="{{ path('direct_manager') }}">{{ "menu.direct.gestion"|trans|title }}</a> <span class="separator"></span></li>
     <li>{{ "editar"|trans|title }} <span class="separator"></span></li>
     <li>{{ objComunicacion.nombre |title }}</li>
 {% endblock %}
@@ -23,15 +21,13 @@
 
     <div class="row-fluid">
         <div class="span1 offset11">
-            <button class="btn btn-primary pull-right"
-                    onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "listado" | trans|title }}</button>
+            <button  class="btn btn-primary pull-right" onClick="location.href='{{ path('direct_manager') }}'; return false;">{{ "listado" | trans|title }}</button>
         </div>
     </div>
     <br/>
     <div class="mediamgr_left">
         <div class="mediamgr_head">
             <span class="clearall"></span>
-
             <div class="tabbable">
                 <ul class="nav nav-tabs buttons-icons">
                     {% if opcionMenuTabComunicacion is defined %}

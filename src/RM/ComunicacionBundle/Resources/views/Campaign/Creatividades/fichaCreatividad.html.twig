@@ -1,32 +1,29 @@
 {% extends '::campaign/base_campaign.html.twig' %}
 
 {% block title %}
-    {{ "creatividades" |trans|title }}
+    {{ "creatividades" |trans|title}}
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('campaign_campanyas') }}"> <span class="iconfa-home"></span></a> <span
-                class="separator"></span></li>
-    <li>{{ "creatividades" |trans|title }} <span class="separator"></span></li>
+   <li><a href="{{ path('campaign_campanyas') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "creatividades" |trans|title}} <span class="separator"></span></li>
     <li>#{{ "%07d"|format(objInstancia.idInstancia) }}</li>
 {% endblock %}
 {% block pagetitle %}
     <h5>{{ "creatividad" |trans|upper }}</h5>
-    <h1>{{ "instancia" |trans|title }} #{{ "%07d"|format(objInstancia.idInstancia) }}</h1>
+    <h1>{{ "instancia" |trans|title}} #{{ "%07d"|format(objInstancia.idInstancia) }}</h1>
 {% endblock pagetitle %}
 
 
 {% block contenedorPrincipal %}
-    <h4 class="widgettitle">{{ "informacion" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "informacion" |trans|title}}</h4>
     <div class="mediamgr_head">
         <table class="table sinborde">
             <tr>
-                <td> {{ "info" | trans }}: <i>{{ objInstancia.idSegmentoComunicacion.idComunicacion.nombre }}</i></td>
-                <td> {{ "segmento" | trans }}: <i>{{ objInstancia.idSegmentoComunicacion.idSegmento.nombre }}</i></td>
-                <td> {{ "fecha.promociones" | trans }}: <i>{{ objInstancia.fecEjecucion|date('d/m/Y') }}</i></td>
-                <td class="pull-right"><a class="btn btn-primary"
-                                          href="{{ path('campaign_creatividades') }}">{{ "boton.listado" |trans|title }}</a>
-                </td>
+                <td> {{"info" | trans }}: <i>{{ objInstancia.idSegmentoComunicacion.idComunicacion.nombre }}</i></td>
+                <td> {{"segmento" | trans }}: <i>{{objInstancia.idSegmentoComunicacion.idSegmento.nombre }}</i></td>
+                <td> {{"fecha.promociones" | trans }}: <i>{{objInstancia.fecEjecucion|date('d/m/Y')}}</i></td>
+                <td class="pull-right"><a class="btn btn-primary" href="{{ path('campaign_creatividades') }}">{{ "boton.listado" |trans|title}}</a></td>
             </tr>
         </table>
     </div>
@@ -43,41 +40,36 @@
 
             {% for objGS in objGrupoSlots %}
 
-                <h4 class="widgettitle">{{ "grupo.slots" |trans|title }}: {{ objGS.nombre }}
-                    ({{ "numero.slots" | trans|title }}: {{ arrayGrupoConNumSlots[objGS.idGrupo] }})</h4>
+                <h4 class="widgettitle">{{ "grupo.slots" |trans|title}}: {{ objGS.nombre }} ({{ "numero.slots" | trans|title }}: {{ arrayGrupoConNumSlots[objGS.idGrupo] }})</h4>
                 <div class="mediamgr_head">
-                    {% if arrayInfoGSPromo[objGS.idGrupo]['numSegmentadas'] > 0 %}
-                        <h4 class="widgettitle">{{ "segmentadas" |trans|title }}</h4>
-                        <table class="table table-bordered responsive">
-                            <colgroup>
-                                <col class="con0">
-                                <col class="con1">
-                                <col class="con0">
-                                <col class="con1">
-                                <col class="con0">
-                                <col class="con1">
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th width="25%">{{ "descripcion" | trans }}</th>
-                                <th width="25%">{{ "creatividad" | trans }}</th>
-                                <th width="25%">{{ "segmentos" | trans }}</th>
-                                <th width="15%">{{ "poblacion" | trans }}</th>
-                                <th width="15%">{{ "simulado" | trans }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                {% if arrayInfoGSPromo[objGS.idGrupo]['numSegmentadas'] > 0 %}
+                    <h4 class="widgettitle">{{ "segmentadas" |trans|title}}</h4>
+                    <table class="table table-bordered responsive">
+                        <colgroup>
+                            <col class="con0">
+                            <col class="con1">
+                            <col class="con0">
+                            <col class="con1">
+                            <col class="con0">
+                            <col class="con1">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th width="25%">{{ "descripcion" | trans }}</th>
+                            <th width="25%">{{ "creatividad" | trans }}</th>
+                            <th width="25%">{{ "segmentos" | trans }}</th>
+                            <th width="15%">{{ "poblacion" | trans }}</th>
+                            <th width="15%">{{ "simulado" | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                             {% if arrayInfoGSPromo[objGS.idGrupo]['promCreatividadSegmentadas'] > 0 %}
                                 {% set creatividadesCreadas = arrayInfoGSPromo[objGS.idGrupo]['promCreatividadSegmentadas'] %}
                                 {% set arrayIdsCreatividad = arrayInfoGSPromo[objGS.idGrupo]['idsPromoCrSegmentadas']|split(',') %}
                                 {% for i in 1..creatividadesCreadas %}
                                     {% set indice = i - 1 %}
                                     <tr>
-                                        <td><input type="text"
-                                                   name="seg_desc_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   style="width:98%;"
-                                                   value="{{ arrayPromoCreatividades[arrayIdsCreatividad[indice]].descripcion }}"/>
-                                        </td>
+                                        <td><input type="text" name="seg_desc_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" style="width:98%;" value="{{ arrayPromoCreatividades[arrayIdsCreatividad[indice]].descripcion }}" /></td>
                                         <td>
                                             {% set nombreCre = "" %}
                                             {% set idCre = "" %}
@@ -85,179 +77,120 @@
                                                 {% set nombreCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.nombre %}
                                                 {% set idCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.idCreatividad %}
                                             {% endif %}
-                                            <input type="text" readonly="readonly"
-                                                   name="seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   id="seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   class="tam300" value="{{ nombreCre }}"/>
-                                            <input type="hidden"
-                                                   name="seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   id="seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   value="{{ idCre }}">
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarCreatividad('seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
+                                            <input type="text" readonly="readonly"  name="seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" id="seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" class="tam300" value="{{ nombreCre }}" />
+                                            <input type="hidden" name="seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" id="seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" value="{{ idCre }}">
+                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarCreatividad('seg_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','seg_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
                                         </td>
                                         <td>
-                                            <input type="text" readonly="readonly"
-                                                   name="seg_seg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   class="tam300" value=""/>
-                                            <input type="hidden"
-                                                   name="seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   id="seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   value=""/>
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarSegmentos('seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','seg_seg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
+                                            <input type="text" readonly="readonly"  name="seg_seg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" class="tam300" value="" />
+                                            <input type="hidden" name="seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" id="seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" value="" />
+                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarSegmentos('seg_idseg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','seg_seg_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
                                         </td>
-                                        <td><input id="poblacion_{{ arrayIdsCreatividad[indice] }}" type="number"
-                                                   name="creatividad[{{ objGS.idGrupo }}][{{ arrayIdsCreatividad[indice] }}][poblacion]"
-                                                   readonly/></td>
-                                        <td><input type="number"
-                                                   name="creatividad[{{ objGS.idGrupo }}][{{ arrayIdsCreatividad[indice] }}][simulado]"/>
-                                        </td>
+                                        <td><input id="poblacion_{{ arrayIdsCreatividad[indice] }}" type="number" name="creatividad[{{ objGS.idGrupo }}][{{ arrayIdsCreatividad[indice] }}][poblacion]" readonly/></td>
+                                        <td><input type="number" name="creatividad[{{objGS.idGrupo }}][{{ arrayIdsCreatividad[indice] }}][simulado]"/></td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
-                            {% set contadorNuevas =  arrayInfoGSPromo[objGS.idGrupo]['numSegmentadas'] - arrayInfoGSPromo[objGS.idGrupo]['promCreatividadSegmentadas'] %}
+                            {% set contadorNuevas =  arrayInfoGSPromo[objGS.idGrupo]['numSegmentadas'] - arrayInfoGSPromo[objGS.idGrupo]['promCreatividadSegmentadas']%}
                             {% if contadorNuevas > 0 %}
                                 {% for i in 1..contadorNuevas %}
                                     <tr>
-                                        <td><input type="text" name="new_seg_desc_{{ objGS.idGrupo }}_{{ i }}"
-                                                   style="width:98%;" value=""/></td>
+                                        <td><input type="text" name="new_seg_desc_{{ objGS.idGrupo }}_{{ i }}" style="width:98%;" value="" /></td>
                                         <td>
-                                            <input type="text" readonly="readonly"
-                                                   name="new_seg_cre_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_seg_cre_{{ objGS.idGrupo }}_{{ i }}" class="tam300"
-                                                   value=""/>
-                                            <input type="hidden" name="new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}" value="">
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarCreatividad('new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}','new_seg_cre_{{ objGS.idGrupo }}_{{ i }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
+                                            <input type="text" readonly="readonly"  name="new_seg_cre_{{ objGS.idGrupo }}_{{ i }}" id="new_seg_cre_{{ objGS.idGrupo }}_{{ i }}" class="tam300" value="" />
+                                            <input type="hidden" name="new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}" id="new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}" value="">
+                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarCreatividad('new_seg_idcre_{{ objGS.idGrupo }}_{{ i }}','new_seg_cre_{{ objGS.idGrupo }}_{{ i }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
                                         </td>
                                         <td>
-                                            <input type="text" readonly="readonly"
-                                                   name="new_seg_seg_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_seg_seg_{{ objGS.idGrupo }}_{{ i }}" class="tam300"
-                                                   value=""/>
-                                            <input type="hidden" name="new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}" value=""/>
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarSegmentos('new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}','new_seg_seg_{{ objGS.idGrupo }}_{{ i }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
+                                            <input type="text" readonly="readonly"  name="new_seg_seg_{{ objGS.idGrupo }}_{{ i }}" id="new_seg_seg_{{ objGS.idGrupo }}_{{ i }}" class="tam300" value="" />
+                                            <input type="hidden" name="new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}" id="new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}"  value="" />
+                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarSegmentos('new_seg_idseg_{{ objGS.idGrupo }}_{{ i }}','new_seg_seg_{{ objGS.idGrupo }}_{{ i }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
                                         </td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
 
-                    {% endif %}
+                {% endif %}
 
-                    {% if arrayInfoGSPromo[objGS.idGrupo]['numGenericas'] > 0 %}
-                        <h4 class="widgettitle">{{ "genericas" |trans|title }}</h4>
-                        <table class="table table-bordered responsive">
-                            <colgroup>
-                                <col class="con0">
-                                <col class="con1">
-                                <col class="con0">
-                                <col class="con1">
-                                <col class="con0">
-                                <col class="con1">
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th width="40%">{{ "descripcion" | trans }}</th>
-                                <th width="40%">{{ "creatividad" | trans }}</th>
-                                <th width="20%">{{ "simulado" | trans }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% if arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas'] > 0 %}
-                                {% set creatividadesCreadas = arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas'] %}
-                                {% set arrayIdsCreatividad = arrayInfoGSPromo[objGS.idGrupo]['idsPromoCrGenericas']|split(',') %}
-                                {% for i in 1..creatividadesCreadas %}
-                                    {% set indice = i - 1 %}
-                                    <tr>
-                                        <td><input type="text"
-                                                   name="gen_desc_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   value="{{ arrayPromoCreatividades[arrayIdsCreatividad[indice]].descripcion }}"/>
-                                        </td>
-                                        <td>
-                                            {% set nombreCre = "" %}
-                                            {% set idCre = "" %}
-                                            {% if  arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad %}
-                                                {% set nombreCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.nombre %}
-                                                {% set idCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.idCreatividad %}
-                                            {% endif %}
-                                            <input type="text" readonly="readonly"
-                                                   name="gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   id="gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   value="{{ nombreCre }}"/>
-                                            <input type="hidden"
-                                                   name="gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   id="gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"
-                                                   value="{{ idCre }}">
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarCreatividad('gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                            {% set contadorNuevas =  arrayInfoGSPromo[objGS.idGrupo]['numGenericas'] - arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas'] %}
-                            {% if contadorNuevas > 0 %}
-                                {% for i in 1..contadorNuevas %}
-                                    <tr>
-                                        <td><input type="text" name="new_gen_desc_{{ objGS.idGrupo }}_{{ i }}"
-                                                   style="width:98%;" value=""/></td>
-                                        <td>
-                                            <input type="text" readonly="readonly"
-                                                   name="new_gen_cre_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_gen_cre_{{ objGS.idGrupo }}_{{ i }}" class="tam300"
-                                                   value=""/>
-                                            <input type="hidden" name="new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}"
-                                                   id="new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}" value="">
-                                            <img class="info" width="16px" height="16px" style="cursor: pointer;"
-                                                 onClick="buscarCreatividad('new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}','new_gen_cre_{{ objGS.idGrupo }}_{{ i }}');"
-                                                 src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"
-                                                 title="{{ 'Buscar' | trans }}"/>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                            </tbody>
-                        </table>
+                {% if arrayInfoGSPromo[objGS.idGrupo]['numGenericas'] > 0 %}
+                    <h4 class="widgettitle">{{ "genericas" |trans|title}}</h4>
+                    <table class="table table-bordered responsive">
+                        <colgroup>
+                            <col class="con0">
+                            <col class="con1">
+                            <col class="con0">
+                            <col class="con1">
+                            <col class="con0">
+                            <col class="con1">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th width="40%">{{ "descripcion" | trans }}</th>
+                            <th width="40%">{{ "creatividad" | trans }}</th>
+                            <th width="20%">{{ "simulado" | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas'] > 0 %}
+                            {% set creatividadesCreadas = arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas'] %}
+                            {% set arrayIdsCreatividad = arrayInfoGSPromo[objGS.idGrupo]['idsPromoCrGenericas']|split(',') %}
+                            {% for i in 1..creatividadesCreadas %}
+                                {% set indice = i - 1 %}
+                                <tr>
+                                    <td><input type="text" name="gen_desc_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}"  value="{{ arrayPromoCreatividades[arrayIdsCreatividad[indice]].descripcion }}" /></td>
+                                    <td>
+                                        {% set nombreCre = "" %}
+                                        {% set idCre = "" %}
+                                        {% if  arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad %}
+                                            {% set nombreCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.nombre %}
+                                            {% set idCre = arrayPromoCreatividades[arrayIdsCreatividad[indice]].creatividad.idCreatividad %}
+                                        {% endif %}
+                                        <input type="text" readonly="readonly"  name="gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" id="gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" value="{{ nombreCre }}" />
+                                        <input type="hidden" name="gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" id="gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}" value="{{ idCre }}">
+                                        <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarCreatividad('gen_idcre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}','gen_cre_{{ objGS.idGrupo }}_{{ arrayIdsCreatividad[indice] }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        {% set contadorNuevas =  arrayInfoGSPromo[objGS.idGrupo]['numGenericas'] - arrayInfoGSPromo[objGS.idGrupo]['promCreatividadGenericas']%}
+                        {% if contadorNuevas > 0 %}
+                            {% for i in 1..contadorNuevas %}
+                                <tr>
+                                    <td><input type="text" name="new_gen_desc_{{ objGS.idGrupo }}_{{ i }}" style="width:98%;" value="" /></td>
+                                    <td>
+                                        <input type="text" readonly="readonly"  name="new_gen_cre_{{ objGS.idGrupo }}_{{ i }}" id="new_gen_cre_{{ objGS.idGrupo }}_{{ i }}" class="tam300" value="" />
+                                        <input type="hidden" name="new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}" id="new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}" value="">
+                                        <img class="info" width="16px" height="16px" style="cursor: pointer;"   onClick="buscarCreatividad('new_gen_idcre_{{ objGS.idGrupo }}_{{ i }}','new_gen_cre_{{ objGS.idGrupo }}_{{ i }}');" src="{{ asset('img/icono_lupa.png') }}" alt="{{ 'Buscar' | trans }}"  title="{{ 'Buscar' | trans }}" />
+                                    </td>
+                                     <td>&nbsp;</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
 
-                    {% endif %}
+                {% endif %}
                 </div>
             {% endfor %}
         {% endif %}
         {% if objGrupoSlots | length != 0 %}
-            <table cellpadding="0" cellspacing="0" border="0">
-                <tbody>
-                <tr>
-                    <td width="100">
-                        <button class="btn btn-success" id="botonGuardar">{{ "boton.guardar" | trans|title }}</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td width="100"> <button class="btn btn-success" id="botonGuardar">{{ "boton.guardar" | trans|title }}</button></td>
+            </tr>
+            </tbody>
+        </table>
         {% endif %}
     </form>
 
     {#Formulario para pasar mediante post los parametros de las variables al popup de creatividades#}
-    <form id="formPopupCreatividad" name="formPopupCreatividad" method="POST"
-          action="{{ path("direct_buscador_creatividades_popup") }}" onsubmit="submitPopupCreatividad(this)">
+    <form id="formPopupCreatividad" name="formPopupCreatividad" method="POST" action="{{ path("direct_buscador_creatividades_popup") }}" onsubmit="submitPopupCreatividad(this)">
         <input type="hidden" name="id_id" id="id_id" value="">
         <input type="hidden" name="id_nombre" id="id_nombre" value="">
     </form>
@@ -267,25 +200,25 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        function buscarCreatividad(identificador, idNombre) {
-            document.getElementById("id_id").value = identificador;
-            document.getElementById("id_nombre").value = idNombre;
-            $('#formPopupCreatividad').submit();
-        }
+    function buscarCreatividad (identificador, idNombre){
+        document.getElementById("id_id").value = identificador;
+        document.getElementById("id_nombre").value = idNombre;
+        $('#formPopupCreatividad').submit();
+    }
 
-        function submitPopupCreatividad(form) {
-            var largo = 1050;
-            var altura = 850;
-            var top = (screen.height - altura) / 2;
-            var izquierda = (screen.width - largo) / 2;
-            {% set nombreVentana = "creatividades"|trans|title %}
-            var nomVentana = '{{ nombreVentana }}';
-            window.open('', nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-            form.target = nomVentana;
-        }
+    function submitPopupCreatividad(form){
+        var largo = 1050;
+        var altura = 850;
+        var top = (screen.height - altura) / 2;
+        var izquierda = (screen.width - largo) / 2;
+        {% set nombreVentana = "creatividades"|trans|title %}
+        var nomVentana = '{{ nombreVentana }}';
+        window.open('', nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        form.target = nomVentana;
+    }
 
-    </script>
+</script>
 
 {% endblock %}

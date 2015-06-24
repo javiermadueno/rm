@@ -9,7 +9,6 @@
 namespace RM\ComunicacionBundle\DependencyInjection;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;

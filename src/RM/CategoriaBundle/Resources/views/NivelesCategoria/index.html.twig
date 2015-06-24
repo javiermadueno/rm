@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('data_basic_nivelCategoria') }}"><i class="iconfa-home"></i></a> <span
-                class="separator"></span></li>
+    <li><a href="{{ path('data_basic_nivelCategoria') }}"><i class="iconfa-home"></i></a> <span class="separator"></span></li>
     <li>{{ "menu.data.modo_basico" | trans | title }} <span class="separator"></span></li>
     <li>{{ "menu.data.categorias"| trans }}</li>
 {% endblock %}
@@ -20,41 +19,40 @@
 
 {% block contenedorPrincipal %}
 
-    {{ form_start(form, {'attr' : {'id': 'formNiveles' }}) }}
-    <h4 class="widgettitle">{{ "niveles"|trans|capitalize }}</h4>
-    <table class="table table-bordered responsive"
-           data-prototype="{{ ('<tr><td>' ~ form_widget(form.niveles.vars.prototype.asociado) ~ '</td><td>' ~ form_widget(form.niveles.vars.prototype.nombre) ~ '</td></tr>')|e }}">
-        <colgroup>
-            <col class="con0" style="text-align: center !important; width: 4%">
-            <col class="con1">
-        </colgroup>
-        <thead>
-        <tr>
-            <th><input type="checkbox" id="checkTodos"/></th>
-            <th>{{ "nivel" | trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for nivel in  form.niveles %}
+    {{ form_start(form, {'attr' : {'id': 'formNiveles'}}) }}
+        <h4 class="widgettitle">{{ "niveles"|trans|capitalize }}</h4>
+        <table class="table table-bordered responsive" data-prototype="{{ ('<tr><td>' ~ form_widget(form.niveles.vars.prototype.asociado) ~ '</td><td>' ~ form_widget(form.niveles.vars.prototype.nombre) ~ '</td></tr>')|e  }}">
+            <colgroup>
+                <col class="con0" style="text-align: center !important; width: 4%">
+                <col class="con1">
+            </colgroup>
+            <thead>
             <tr>
-                <td>{{ form_widget(nivel.asociado, {'attr':{'class' : 'selTodos' }}) }}</td>
-                <td>{{ form_widget(nivel.nombre) }}</td>
+                <th><input type="checkbox" id="checkTodos" /></th>
+                <th>{{ "nivel" | trans }}</th>
             </tr>
-        {% else %}
-            <tr colspan="2">{{ 'sin.resultados'|trans|title }}</tr>
-        {% endfor %}
+            </thead>
+            <tbody>
+            {% for nivel in  form.niveles %}
+                <tr>
+                    <td>{{ form_widget(nivel.asociado, {'attr':{'class' : 'selTodos'}}) }}</td>
+                    <td>{{ form_widget(nivel.nombre) }}</td>
+                </tr>
+            {% else %}
+                <tr colspan="2">{{ 'sin.resultados'|trans|title }}</tr>
+            {% endfor %}
 
-        </tbody>
-    </table>
-    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
+            </tbody>
+        </table>
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
     {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#checkTodos').click(function () {
+        $(document).ready(function(){
+            $('#checkTodos').click(function(){
                 if ($("#checkTodos").is(':checked')) {
                     $('.selTodos').prop("checked", true);
 
@@ -63,9 +61,9 @@
                 }
             });
 
-            $('#formNiveles').on('submit', function (event) {
+            $('#formNiveles').on('submit', function(event){
                 var e = event || window.event;
-                if (confirm("{{ 'mensaje.alerta.asociar.categorias'|trans }}")) {
+                if(confirm("{{ 'mensaje.alerta.asociar.categorias'|trans }}")) {
                     return;
                 }
 

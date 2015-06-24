@@ -19,7 +19,6 @@ class PlantillaModeloToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param Object|PlantillaModelo $entity
-     *
      * @return int
      */
     protected function getId($entity)
@@ -29,7 +28,6 @@ class PlantillaModeloToNumberTransformer extends EntityToNumberTransformer
 
     /**
      * @param int $id
-     *
      * @return Object|PlantillaModelo
      */
     protected function getEntity($id)

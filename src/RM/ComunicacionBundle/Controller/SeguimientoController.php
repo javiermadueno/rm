@@ -2,7 +2,6 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
-use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\ProductoBundle\Entity\Promocion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;

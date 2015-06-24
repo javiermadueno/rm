@@ -1,28 +1,29 @@
-{% if variable.clasificacion == constant('CLASIFICACION_CATEGORIA', variable) %}
 
-    <label for="id_categoria">{{ "categoria" | trans }}</label>
-    <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarSegmentos">
-        <option value="-1" selected>{{ "select.todas" | trans }}</option>
-        {% for objCategoria in objCategorias %}
-            <option value="{{ objCategoria.idCategoria }}" {% if app.request.get('id_categoria') == objCategoria.idCategoria %} selected {% endif %}>
-                {{ objCategoria.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+{% if variable.clasificacion == constant('CLASIFICACION_CATEGORIA', variable)  %}
+
+<label for="id_categoria">{{ "categoria" | trans }}</label>
+<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarSegmentos">
+    <option value="-1" selected>{{ "select.todas" | trans }}</option>
+    {% for objCategoria in objCategorias %}
+        <option value="{{ objCategoria.idCategoria }}" {% if app.request.get('id_categoria') == objCategoria.idCategoria  %} selected {% endif %}>
+            {{ objCategoria.nombre }}
+        </option>
+    {% endfor %}
+</select>
 {% elseif variable.clasificacion == constant('CLASIFICACION_MARCA', variable) %}
     <label for="id_marca">{{ "Marca" | trans }}</label>
     <select id="id_marca" name="id_marca" class="tam6 izq actualizarSegmentos">
         <option value="-1" selected>{{ "select.todas" | trans }}</option>
         {% for objMarca in objMarcas %}
-            <option value="{{ objMarca.idMarca }}" {% if app.request.get('id_marca') == objMarca.idMarca %} selected {% endif %}>
+            <option value="{{ objMarca.idMarca }}" {% if app.request.get('id_marca') == objMarca.idMarca  %} selected {% endif %}>
                 {{ objMarca.nombre }}
             </option>
         {% endfor %}
     </select>
-{% elseif variable.clasificacion == constant('CLASIFICACION_PROVEEDOR', variable) %}
-    <label for="proveedor">{{ "proveedor" |trans|title }}</label>
+{% elseif variable.clasificacion == constant('CLASIFICACION_PROVEEDOR', variable)  %}
+    <label for="proveedor">{{ "proveedor" |trans|title}}</label>
     <select name="proveedor" id="proveedor">
-        <option value="-1">{{ "select.todas" |trans|title }}</option>
+        <option value="-1">{{ "select.todas" |trans|title}}</option>
         {% for proveedor in proveedores %}
             <option value="{{ proveedor.idProveedor }}">{{ proveedor.nombre }}</option>
         {% endfor %}

@@ -2,7 +2,7 @@
 
 {% block body %}
     <table class="table table-bordered responsive">
-        <colgroup>
+      <colgroup>
             <col class="con0">
             <col class="con1">
             <col class="con0">
@@ -11,20 +11,18 @@
             <col class="con1">
         </colgroup>
         <thead>
-        <tr>
+          <tr>
             <th>ID</th>
-            <th>Nombre</th>
-        </tr>
+              <th>Nombre</th>
+          </tr>
         </thead>
         <tbody>
-        {% for plantilla in plantillas %}
+          {% for plantilla in plantillas %}
             <tr>
-                <td>
-                    <a href="{{ path('rm_static_default_plantilla', {'idPlantilla': plantilla.idPlantilla}) }}">{{ plantilla.idPlantilla }}</a>
-                </td>
+                <td><a href="{{ path('rm_static_default_plantilla', {'idPlantilla': plantilla.idPlantilla}) }}">{{ plantilla.idPlantilla }}</a></td>
                 <td>{{ plantilla.nombre|default('') }}</td>
-            </tr>
-        {% endfor %}
+            </tr>    
+          {% endfor %}
         </tbody>
     </table>
 {% endblock body %}

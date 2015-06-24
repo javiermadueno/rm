@@ -1,18 +1,17 @@
 {#Formulario para pasar mediante post los parametros de las variables al popup de segmentos#}
-<form id="formPopupSegmentos" name="formPopupSegmentos" method="POST"
-      action="{{ path("direct_buscador_segmentos_popup") }}" onsubmit="submitPopupSegmentos(this)">
+<form id="formPopupSegmentos" name="formPopupSegmentos" method="POST" action="{{ path("direct_buscador_segmentos_popup") }}" onsubmit="submitPopupSegmentos(this)">
     <input type="hidden" name="identificadorSeg" id="identificadorSeg" value="">
     <input type="hidden" name="idNombreSeg" id="idNombreSeg" value="">
 </form>
 
 <script>
-    function buscarSegmentos(identificador, idNombre) {
+    function buscarSegmentos (identificador, idNombre){
         document.getElementById("identificadorSeg").value = identificador;
         document.getElementById("idNombreSeg").value = idNombre;
         $('#formPopupSegmentos').submit();
     }
 
-    function submitPopupSegmentos(form) {
+    function submitPopupSegmentos(form){
         var largo = 1150;
         var altura = 950;
         var top = (screen.height - altura) / 2;

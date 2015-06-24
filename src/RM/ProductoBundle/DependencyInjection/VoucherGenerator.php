@@ -9,7 +9,6 @@
 namespace RM\ProductoBundle\DependencyInjection;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 class VoucherGenerator
@@ -30,8 +29,8 @@ class VoucherGenerator
 
         do {
             $hash = sha1(microtime(true));
-            $voucher = strtoupper(substr($hash, mt_rand(0, 33), 8));
-        } while ($this->isUsed($voucher));
+            $voucher = strtoupper(substr($hash, mt_rand(0,33), 8));
+        } while($this->isUsed($voucher));
 
         return $voucher;
     }

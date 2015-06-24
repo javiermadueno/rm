@@ -14,8 +14,7 @@
         <div class="pageheader">
             <div class="pagetitle">
                 <h5>{{ "ficha.de" | trans }} </h5>
-
-                <h1>{{ "Producto" |trans|title }}</h1>
+                <h1>{{ "Producto" |trans|title}}</h1>
 
             </div>
         </div>
@@ -25,93 +24,92 @@
 
 {% block body %}
     <div class="maincontentinner">
-        <form id="form" name="form" method="post" enctype="multipart/form-data">
-            <h4 class="widgettitle">{{ "info" |trans|title }}</h4>
-            {% if selectedProduct %}
-                <input type="hidden" id="id_producto" name="id_producto" value="{{ selectedProduct.codSku }}">
-            {% else %}
-                <input type="hidden" id="id_producto" name="id_producto" value="">
-            {% endif %}
-            <table class="table">
-                <tbody>
-                <tr>
-                    {% if creation == 'new' %}
-                        <td>{{ "codigo" | trans }}:</td>
-                        <td>
-                            <input type="text" name="codigo" value="" class="tam8">
-                        </td>
-                    {% endif %}
-                    {% if creation == 'old' %}
-                        <td>{{ "codigo" | trans }}:</td>
-                        <td>
-                            {{ selectedProduct.codSku }}
-                        </td>
-                    {% endif %}
-                </tr>
-                <tr>
-                    <td>{{ "marca" | trans }}:</td>
-                    {% if creation == 'new' %}
-                        <td>
-                            <select id='marca' name='marca' class="tam6 izq">
-                                <option value="-1">{{ "select.seleccione" | trans }}</option>
-                                {% for objMarca in objMarcas %}
-                                    <option value="{{ objMarca.idMarca }}"> {{ objMarca.nombre }}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    {% endif %}
-                    {% if creation == 'old' %}
-                        <td>
-                            {{ objMarca.nombre }}
-                        </td>
-                    {% endif %}
-                </tr>
+    <form id="form" name="form" method="post" enctype="multipart/form-data">
+        <h4 class="widgettitle">{{ "info" |trans|title }}</h4>
+        {% if selectedProduct %}
+            <input type="hidden" id="id_producto" name="id_producto" value="{{ selectedProduct.codSku }}">
+        {% else %}
+            <input type="hidden" id="id_producto" name="id_producto" value="">
+        {% endif %}
+        <table class="table">
+            <tbody>
+            <tr>
                 {% if creation == 'new' %}
-                    <tr>
-                        <td>{{ "nombre" | trans }}:</td>
-                        <td><input type="text" name="nombre"
-                                   value="" class="tam8"></td>
-                    </tr>
+                    <td>{{ "codigo" | trans }}:</td>
+                    <td>
+                        <input type="text" name="codigo" value="" class="tam8">
+                    </td>
                 {% endif %}
                 {% if creation == 'old' %}
-                    <tr>
-                        <td>{{ "nombre" | trans }}:</td>
-                        <td>
-                            {{ selectedProduct.nombre }}
-                        </td>
-                    </tr>
-                {% endif %}
-                </tbody>
-            </table>
-
-
-            <h4 class="widgettitle">{{ "imagen" |trans|title }}</h4>
-            <table class="table">
-                <tbody>
-                <tr>
-                    <td>{{ "select.seleccione.imagen" | trans }}:</td>
+                    <td>{{ "codigo" | trans }}:</td>
                     <td>
-                        <input type="file" name="uploadFile" id="uploadFile" class="tam8">
+                        {{ selectedProduct.codSku }}
                     </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
-                <tbody>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>{{ "marca" | trans }}:</td>
+                {% if creation == 'new' %}
+                    <td>
+                        <select id='marca' name='marca' class="tam6 izq">
+                            <option value="-1">{{ "select.seleccione" | trans }}</option>
+                            {% for objMarca in objMarcas %}
+                                <option value="{{ objMarca.idMarca }}"> {{ objMarca.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% endif %}
+                {% if creation == 'old' %}
+                    <td>
+                        {{ objMarca.nombre }}
+                    </td>
+                {% endif %}
+            </tr>
+            {% if creation == 'new' %}
                 <tr>
-                    <td width="100">
-                        <button class="btn btn-success"
-                                onClick="return guardarProductoImagen(event);"> {{ "boton.aceptar" | trans }}</button>
-                    </td>
-                    <td width="100">
-                        <button class="btn btn-danger" id="botonCancelar"
-                                onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
+                    <td>{{ "nombre" | trans }}:</td>
+                    <td><input type="text" name="nombre"
+                               value="" class="tam8"></td>
+                </tr>
+            {% endif %}
+            {% if creation == 'old' %}
+                <tr>
+                    <td>{{ "nombre" | trans }}:</td>
+                    <td>
+                        {{ selectedProduct.nombre }}
                     </td>
                 </tr>
-                </tbody>
-            </table>
-        </form>
+            {% endif %}
+            </tbody>
+        </table>
+
+
+        <h4 class="widgettitle">{{ "imagen" |trans|title }}</h4>
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>{{ "select.seleccione.imagen" | trans }}:</td>
+                <td>
+                    <input type="file" name="uploadFile" id="uploadFile" class="tam8">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td width="100">
+                    <button class="btn btn-success"
+                            onClick="return guardarProductoImagen(event);"> {{ "boton.aceptar" | trans }}</button>
+                </td>
+                <td width="100">
+                    <button class="btn btn-danger" id="botonCancelar" onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
     </div>
 
 {% endblock %}

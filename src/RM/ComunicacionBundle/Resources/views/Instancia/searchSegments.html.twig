@@ -1,144 +1,143 @@
 {% extends '::direct/base_direct.html.twig' %}
 
 {% block title %}
-    {{ "Gestor de comunicaciones" | trans }}
+	{{ "Gestor de comunicaciones" | trans }}
 {% endblock %}
 
 {% block migas %}
-    <p>
-        <span class="ml1">{{ "Gestor de comunicaciones" | trans }}</span>
-    </p>
+	<p> 
+		<span class="ml1">{{ "Gestor de comunicaciones" | trans }}</span>
+	</p>
 {% endblock %}
 
 {% block contenedorPrincipal %}
 
-    <form id="form" name="form" action="{{ path('direct_search_segmentos') }}" method="post">
-        <div class="bloque_contenido sinborde">
-            <div class="linea_contenido">
-                <label>{{ "Tipo" | trans }}</label>
-                <select id="tipoSegmento" name="tipoSegmento" class="tam9 izq">
-                    <option value="-1" selected>Seleccione</option>
-                    <option value="2">Compra de Productos</option>
-                    <option value="3">Habitos de Compra</option>
-                    <option value="4">Sociodemograficos</option>
-                    <option value="5">Ciclo de Vida</option>
-                    <option value="6">Otras Transformadas</option>
-                </select>
-                <label>{{ "Variable" | trans }}</label>
-                <select id="variable" name="variable" style="width: 300px">
-                </select>
-                <button class="tam4 der" name="botonBuscarSegmentos"
-                        id="botonBuscarSegmentos">{{ "Buscar" | trans }}</button>
-            </div>
-        </div>
-    </form>
-    {{ include ('RMComunicacionBundle:Instancia:listadoSegmentos.html.twig') }}
+<form id="form" name="form" action="{{ path('direct_search_segmentos')}}" method="post">
+	<div class="bloque_contenido sinborde">
+		<div class="linea_contenido">
+			<label>{{ "Tipo" | trans }}</label>
+			<select id="tipoSegmento" name="tipoSegmento" class="tam9 izq">
+				<option value="-1" selected>Seleccione</option>	
+				<option value="2">Compra de Productos</option>
+				<option value="3">Habitos de Compra</option>
+				<option value="4">Sociodemograficos</option>
+				<option value="5">Ciclo de Vida</option>
+				<option value="6">Otras Transformadas</option>
+			</select>
+			<label>{{ "Variable" | trans }}</label>
+			<select id="variable" name="variable" style="width: 300px">
+			</select>
+			<button class="tam4 der" name="botonBuscarSegmentos" id="botonBuscarSegmentos">{{ "Buscar" | trans }}</button>
+		</div>
+	</div>
+</form>
+ {{ include ('RMComunicacionBundle:Instancia:listadoSegmentos.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#tipoSegmento').change(function (event) {
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#tipoSegmento').change(function(event){
 
-                msg = $("#form").serialize();
-                {% set crearUrl = url('direct_search_variables') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_search_variables') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
 
-                            $('#variable').children().remove();
+						$('#variable').children().remove();
 
-                            var resultado = JSON.parse(objeto.responseText);
+						var resultado = JSON.parse(objeto.responseText);
 
-                            $('#variable').append("<option value= -1>Seleccione</option>");
+						$('#variable').append("<option value= -1>Seleccione</option>");
+						
+						for (var i=0; i<resultado.length; i++) {
 
-                            for (var i = 0; i < resultado.length; i++) {
+							nombreVariable = resultado[i].nombre;
+							idVariable = resultado[i].idVid;
+							$('#variable').append("<option value="+idVariable+">"+nombreVariable+"</option>");
+							}
+						
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
 
-                                nombreVariable = resultado[i].nombre;
-                                idVariable = resultado[i].idVid;
-                                $('#variable').append("<option value=" + idVariable + ">" + nombreVariable + "</option>");
-                            }
+			$('#botonBuscarSegmentos').click(function(event){
+				event.preventDefault();
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_search_segmentos') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
 
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
+						var table = document.getElementById("tablaSegmentos");
 
-            $('#botonBuscarSegmentos').click(function (event) {
-                event.preventDefault();
-                msg = $("#form").serialize();
-                {% set crearUrl = url('direct_search_segmentos') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
+						//Limpio la tabla completa
+						while(table.rows.length > 1) {
+							  table.deleteRow(1);
+							}
 
-                            var table = document.getElementById("tablaSegmentos");
+						var resultado = JSON.parse(objeto.responseText);
 
-                            //Limpio la tabla completa
-                            while (table.rows.length > 1) {
-                                table.deleteRow(1);
-                            }
+						
+						for (var i=0; i<resultado.length; i++) {
 
-                            var resultado = JSON.parse(objeto.responseText);
+							// Create an empty <tr> element and add it to the 1st position of the table:
+							var row = table.insertRow(i+1);
 
+							
+							// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+							var cell0 = row.insertCell(0);
+							var cell1 = row.insertCell(1);
+							var cell2 = row.insertCell(2);
+							var cell3 = row.insertCell(3);
+							var cell4 = row.insertCell(4);
 
-                            for (var i = 0; i < resultado.length; i++) {
+                            var indice = parseInt(i+1);
+							var button = '<button class=tam1 izq onclick=getSegmento('+ indice +') name=botonSelect_'+ indice +' id=botonSelect_'+ indice +' ><</button>';
+							
+							// Add some text to the new cells:
+							cell0.innerHTML = button;
+							cell1.innerHTML = resultado[i].nombre;
+							cell2.innerHTML = (resultado[i].idCategoria != undefined && resultado[i].idCategoria != null) ? resultado[i].idCategoria.nombre : '';
+							cell3.innerHTML = (resultado[i].idMarca != undefined && resultado[i].idMarca != null) ? resultado[i].idMarca.nombre : '';
+							cell4.innerHTML = (resultado[i].idProveedor != undefined && resultado[i].idProveedor != null) ? resultado[i].idProveedor.nombre : '';
 
-                                // Create an empty <tr> element and add it to the 1st position of the table:
-                                var row = table.insertRow(i + 1);
+						}
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
+		});
 
+		function getSegmento(buttonRow){			
 
-                                // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-                                var cell0 = row.insertCell(0);
-                                var cell1 = row.insertCell(1);
-                                var cell2 = row.insertCell(2);
-                                var cell3 = row.insertCell(3);
-                                var cell4 = row.insertCell(4);
+			var table = document.getElementById('tablaSegmentos');
+			var celdas = table.rows.item(buttonRow).cells;
+			var segmento = celdas.item(1).innerHTML;
 
-                                var indice = parseInt(i + 1);
-                                var button = '<button class=tam1 izq onclick=getSegmento(' + indice + ') name=botonSelect_' + indice + ' id=botonSelect_' + indice + ' ><</button>';
+			var hidden = document.getElementById('selectedSegment');
+			hidden.value = segmento;
+			
+			returnSegmento();		
+		}
 
-                                // Add some text to the new cells:
-                                cell0.innerHTML = button;
-                                cell1.innerHTML = resultado[i].nombre;
-                                cell2.innerHTML = (resultado[i].idCategoria != undefined && resultado[i].idCategoria != null) ? resultado[i].idCategoria.nombre : '';
-                                cell3.innerHTML = (resultado[i].idMarca != undefined && resultado[i].idMarca != null) ? resultado[i].idMarca.nombre : '';
-                                cell4.innerHTML = (resultado[i].idProveedor != undefined && resultado[i].idProveedor != null) ? resultado[i].idProveedor.nombre : '';
+		function returnSegmento(){			
 
-                            }
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
-        });
-
-        function getSegmento(buttonRow) {
-
-            var table = document.getElementById('tablaSegmentos');
-            var celdas = table.rows.item(buttonRow).cells;
-            var segmento = celdas.item(1).innerHTML;
-
-            var hidden = document.getElementById('selectedSegment');
-            hidden.value = segmento;
-
-            returnSegmento();
-        }
-
-        function returnSegmento() {
-
-            $('#formSegment').submit();
-        }
-    </script>
+			$('#formSegment').submit();
+		}
+	</script>
 {% endblock %}

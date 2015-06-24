@@ -2,7 +2,6 @@
 
 namespace RM\DiscretasBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\DiscretasBundle\Entity\VidCriterioGlobal;
@@ -276,7 +275,8 @@ class Discreta
         $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
-        for ($i = 1; $i <= $request->get('contSegmentos'); $i++) {
+        $contSegmentos = $request->get('contSegmentos');
+        for ($i = 1; $i <= $contSegmentos; $i++) {
             if ($request->get('nuevoSegNombre' . $i) != "" && $request->get('nuevoSegPerc' . $i) != "") {
                 $registroS = new VidSegmento ();
                 $registroS->setIdVidGrupoSegmento($registroGS [0]);
@@ -298,7 +298,8 @@ class Discreta
         $repoVar    = $this->em->getRepository('RMDiscretasBundle:Vid');
         $registroGS = $repoVar->obtenerGrupoSegmentoByVidGrupoSegmento($request->get('id_vid_grupo_segmento'));
 
-        for ($i = 1; $i <= $request->get('numSegAct'); $i++) {
+        $numSegAct = $request->get('numSegAct');
+        for ($i = 1; $i <= $numSegAct ; $i++) {
             if ($request->get('nomSeg' . $i) != "" && $request->get('perc' . $i) != "") {
                 $registroS = new VidSegmento ();
                 $registroS->setIdVidGrupoSegmento($registroGS [0]);

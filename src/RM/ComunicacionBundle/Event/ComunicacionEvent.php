@@ -18,7 +18,7 @@ class ComunicacionEvent extends Event
 
     public function __construct(Comunicacion $comunicacion)
     {
-        $this->comunicacion = $comunicacion;
+        $this->comunicacion =  $comunicacion;
     }
 
     public function getComunicacion()

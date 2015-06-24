@@ -4,10 +4,7 @@ namespace RM\ComunicacionBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 
 
 class CreatividadController extends RMController

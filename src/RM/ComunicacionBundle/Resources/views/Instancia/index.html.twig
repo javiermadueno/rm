@@ -1,13 +1,12 @@
 {% extends '::direct/base_direct.html.twig' %}
 
 {% block title %}
-    {{ "menu.direct.monitor" | trans |title }}
+	{{ "menu.direct.monitor" | trans |title }}
 {% endblock %}
 
 
 {% block migas %}
-    <li><a href="{{ path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span>
-    </li>
+    <li><a href="{{ path('direct_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
     <li>{{ "menu.direct.monitor" |trans|title }}</li>
 {% endblock %}
 
@@ -19,10 +18,9 @@
 
 {% block contenedorPrincipal %}
 
-    <form id="form" name="form">
-        <input type="hidden" name="page" id="page" value="1">
+	<form id="form" name="form" >
+		<input type="hidden" name="page" id="page" value="1">
         <h4 class="widgettitle">{{ "filtro.busqueda"|trans|capitalize }}</h4>
-
         <div class="mediamgr_left">
             <div class="mediamgr_head">
                 <ul class="mediamgr_menu">
@@ -35,7 +33,7 @@
                                         <option value="-1" selected>{{ "select.todas"|trans }}</option>
                                         {% for objComunicacion in objComunicaciones %}
                                             <option value="{{ objComunicacion.idComunicacion }}"
-                                                    {% if objComunicacion.idComunicacion == id_comunicacion %}
+                                                    {% if objComunicacion.idComunicacion == id_comunicacion%}
                                             selected
                                                     {% endif %}>
                                                 {{ objComunicacion.nombre }}
@@ -49,8 +47,7 @@
                                     <select id="id_segmento" name="id_segmento" class=" ">
                                         <option value="-1" selected>{{ "select.todas" | trans }}</option>
                                         {% for objSeg in objSegmentos %}
-                                            <option value="{{ objSeg.idSegmento }}"
-                                                    {% if objSeg.idSegmento == id_segmento %}selected{% endif %}>{{ objSeg.nombre }}</option>
+                                            <option value="{{ objSeg.idSegmento }}" {% if objSeg.idSegmento == id_segmento%}selected{% endif %}>{{ objSeg.nombre }}</option>
                                         {% endfor %}
                                     </select>
                                 </td>
@@ -58,11 +55,10 @@
                                 <td width="300">
                                     <label>{{ "estado" |trans|title }}</label>
                                     <select id="fase" name="fase" class=" ">
-                                        <option value="-1" {% if -1 == fase %}selected{% endif %}>Todas</option>
+                                        <option value="-1"{% if -1 == fase%}selected{% endif %}>Todas</option>
                                         {% if fases is defined and fases != null %}
                                             {% for objFase in fases %}
-                                                <option value="{{ objFase.id }}"
-                                                        {% if objFase.id == fase %}selected{% endif %}>{{ objFase.id~' - '~objFase.nombre }}</option>
+                                                <option value="{{ objFase.id }}" {% if objFase.id == fase%}selected{% endif %}>{{ objFase.id~' - '~objFase.nombre }}</option>
                                             {% endfor %}
                                         {% endif %}
                                     </select>
@@ -71,11 +67,9 @@
                                 <td>
                                     <p>
                                         <label>{{ "fecha.entre"|trans|capitalize }}&nbsp;:</label>
-                                        <input type="text" name="fecha_inicio" id="fecha_inicio" class="datepicker "
-                                               value="" placeholder="{{ "fecha.inicial"|trans }}"/>
+                                        <input type="text" name="fecha_inicio" id="fecha_inicio" class="datepicker " value="" placeholder="{{ "fecha.inicial"|trans }}"/>
                                         &nbsp;{{ "y" | trans }}&nbsp;
-                                        <input type="text" name="fecha_fin" id="fecha_fin" class="datepicker " value=""
-                                               placeholder="{{ "fecha.final"|trans }}"/>
+                                        <input type="text" name="fecha_fin" id="fecha_fin" class="datepicker " value="" placeholder="{{ "fecha.final"|trans }}" />
                                     </p>
                                 </td>
                             </tr>
@@ -87,105 +81,107 @@
                 </ul>
             </div>
         </div>
+		
+		<div id="tablaListado">
+			{{ include ('RMComunicacionBundle:Instancia:listadoInstancias.html.twig') }}
+		</div>
+	</form>
 
-        <div id="tablaListado">
-            {{ include ('RMComunicacionBundle:Instancia:listadoInstancias.html.twig') }}
-        </div>
-    </form>
-
-
+	
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        function getURLVar(urlStr, urlVarName) {
-            var urlHalves = urlStr.split('?');
-            var urlVarValue = '';
-            if (urlHalves[1]) {
-                var urlVars = urlHalves[1].split('&');
-                for (i = 0; i <= (urlVars.length); i++) {
-                    if (urlVars[i]) {
-                        var urlVarPair = urlVars[i].split('=');
-                        if (urlVarPair[0] && urlVarPair[0] == urlVarName) {
+	<script type="text/javascript">
+		function getURLVar(urlStr,urlVarName) {
+		    var urlHalves = urlStr.split('?');
+		    var urlVarValue = '';
+		    if(urlHalves[1]) {
+		        var urlVars = urlHalves[1].split('&');
+		        for(i=0; i<=(urlVars.length); i++){
+		            if(urlVars[i]){
+		                var urlVarPair = urlVars[i].split('=');
+		                if (urlVarPair[0] && urlVarPair[0] == urlVarName) {
+	
+		                    urlVarValue = urlVarPair[1];
+		                    break;
+		                }
+		            }
+		        }
+		    }
+		    return urlVarValue
+		}
 
-                            urlVarValue = urlVarPair[1];
-                            break;
-                        }
-                    }
-                }
-            }
-            return urlVarValue
-        }
+		$(document).ready(function(){
+			$('#checkTodos').on("change", function() {
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
 
-        $(document).ready(function () {
-            $('#checkTodos').on("change", function () {
-                if ($("#checkTodos").is(':checked')) {
-                    $('.selTodos').prop("checked", true);
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
 
-                } else {
-                    $('.selTodos').prop("checked", false);
-                }
-            });
+			
+			$('.actualizarTabla').click(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_monitor_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
 
+			$('.paginate ul li a').on("click", function(event) {
+				event.preventDefault(); //cancela el comportamiento por defecto
+				$("#page").val(getURLVar($(this).attr("href"),"page"));
 
-            $('.actualizarTabla').click(function (event) {
-                event.preventDefault(); //cancela el comportamiento por defecto
-                msg = $("#form").serialize();
-                {% set crearUrl = url('direct_monitor_actualizar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
-                            $('#tablaListado').children().remove();
-                            $('#tablaListado').append(objeto.responseText);
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_monitor_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$("#page").val("1");
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				});
+				
+				
+				
+			});
 
-            $('.paginate ul li a').on("click", function (event) {
-                event.preventDefault(); //cancela el comportamiento por defecto
-                $("#page").val(getURLVar($(this).attr("href"), "page"));
+			$(document).ready(function(){
+				
+				$( ".datepicker" ).datepicker({ dateFormat: "mm/dd/yy" });
+			});
+		
 
-                msg = $("#form").serialize();
-                {% set crearUrl = url('direct_monitor_actualizar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
-                            $("#page").val("1");
-                            $('#tablaListado').children().remove();
-                            $('#tablaListado').append(objeto.responseText);
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-
-
-            });
-
-            $(document).ready(function () {
-
-                $(".datepicker").datepicker({dateFormat: "mm/dd/yy"});
-            });
-
-
-            $("#comments").on("click", ".pagination span a", function () {
-                $("#comments").html("Cagando comentarios...");
-                $.get($(this).attr("href"), function (data) {
-                    $('#comments').html(data);
-                });
-                return false;
-            });
-        });
-    </script>
+			
+			$("#comments").on("click",".pagination span a", function(){
+			    $("#comments").html("Cagando comentarios...");
+			    $.get($(this).attr("href"), function(data) {
+			        $('#comments').html(data);
+			    });
+			    return false;
+			});
+		});
+	</script>
 {% endblock %}

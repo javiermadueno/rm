@@ -2,8 +2,6 @@
 
 namespace RM\ProductoBundle\DependencyInjection;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ProductoBundle\Entity\Promocion;
 use Symfony\Component\Config\Definition\Exception\Exception;

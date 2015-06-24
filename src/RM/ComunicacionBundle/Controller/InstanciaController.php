@@ -7,7 +7,6 @@ use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\Plantilla;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -1171,7 +1170,7 @@ class InstanciaController extends RMController
     /**
      * @return mixed
      */
-    public function getRefererRoute()
+    private function getRefererRoute()
     {
         $request = $this->get('request');
 

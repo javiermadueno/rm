@@ -5,18 +5,17 @@
 {% endblock %}
 
 {% block migas %}
-    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
-    </li>
-    <li>{{ "menu.campaign.creatividades" |trans|title }}</li>
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.campaign.creatividades" |trans|title}}</li>
 {% endblock %}
 
 {% block pagetitle %}
     <h5>{{ "listado" |trans|upper }}</h5>
-    <h1>{{ "creatividades" |trans|title }}</h1>
+    <h1>{{ "creatividades" |trans|title}}</h1>
 {% endblock pagetitle %}
 
 {% block contenedorPrincipal %}
-    <h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "creatividades" |trans|title}}</h4>
     <table class="table table-bordered responsive">
         <colgroup>
             <col class="con0">
@@ -46,8 +45,7 @@
             {% for objIns in objInstancias %}
                 <tr>
                     <td>
-                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}"
-                           style="cursor:pointer;">#{{ "%07d"|format( objIns.idInstancia) }}</a>
+                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}" style="cursor:pointer;">#{{"%07d"|format( objIns.idInstancia) }}</a>
                     </td>
 
                     <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>

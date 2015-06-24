@@ -1,7 +1,6 @@
 <?php
 
 namespace RM\LinealesBundle\DependencyInjection;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 
 

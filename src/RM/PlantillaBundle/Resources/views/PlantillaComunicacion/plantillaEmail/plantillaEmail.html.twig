@@ -5,163 +5,106 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <style type="text/css">
         /* CLIENT-SPECIFIC STYLES */
-        #outlook a {
-            padding: 0;
-        }
-
-        /* Force Outlook to provide a "view in browser" message */
-        .ReadMsgBody {
-            width: 100%;
-        }
-
-        .ExternalClass {
-            width: 100%;
-        }
-
-        /* Force Hotmail to display emails at full width */
-        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-            line-height: 100%;
-        }
-
-        /* Force Hotmail to display normal line spacing */
-        body, table, td, a {
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-
-        /* Prevent WebKit and Windows mobile changing default text sizes */
-        table, td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-        }
-
-        /* Remove spacing between tables in Outlook 2007 and up */
-        img {
-            -ms-interpolation-mode: bicubic;
-        }
-
-        /* Allow smoother rendering of resized image in Internet Explorer */
+        #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+        .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+        body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+        table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+        img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
 
         /* RESET STYLES */
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        img {
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-        }
-
-        table {
-            border-collapse: collapse !important;
-        }
-
-        body {
-            height: 100% !important;
-            margin: 0;
-            padding: 0;
-            width: 100% !important;
-        }
+        body{margin:0; padding:0;}
+        img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+        table{border-collapse:collapse !important;}
+        body{height:100% !important; margin:0; padding:0; width:100% !important;}
 
         /* iOS BLUE LINKS */
-        .appleBody a {
-            color: #68440a;
-            text-decoration: none;
-        }
-
-        .appleFooter a {
-            color: #999999;
-            text-decoration: none;
-        }
+        .appleBody a {color:#68440a; text-decoration: none;}
+        .appleFooter a {color:#999999; text-decoration: none;}
 
         /* MOBILE STYLES */
         @media screen and (max-width: 525px) {
 
             /* ALLOWS FOR FLUID TABLES */
-            table[class="wrapper"] {
-                width: 100% !important;
+            table[class="wrapper"]{
+                width:100% !important;
             }
 
             /* ADJUSTS LAYOUT OF LOGO IMAGE */
-            td[class="logo"] {
+            td[class="logo"]{
                 text-align: left;
                 padding: 20px 0 20px 0 !important;
             }
 
-            td[class="logo"] img {
-                margin: 0 auto !important;
+            td[class="logo"] img{
+                margin:0 auto!important;
             }
 
             /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
-            td[class="mobile-hide"] {
-                display: none;
-            }
+            td[class="mobile-hide"]{
+                display:none;}
 
-            img[class="mobile-hide"] {
+            img[class="mobile-hide"]{
                 display: none !important;
             }
 
-            img[class="img-max"] {
+            img[class="img-max"]{
                 max-width: 100% !important;
                 width: 100% !important;
-                height: auto !important;
+                height:auto !important;
             }
 
             /* FULL-WIDTH TABLES */
-            table[class="responsive-table"] {
-                width: 100% !important;
+            table[class="responsive-table"]{
+                width:100%!important;
             }
 
             /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
-            td[class="padding"] {
+            td[class="padding"]{
                 padding: 10px 5% 15px 5% !important;
             }
 
-            td[class="padding-copy"] {
+            td[class="padding-copy"]{
                 padding: 10px 5% 10px 5% !important;
                 text-align: center;
             }
 
-            td[class="padding-meta"] {
+            td[class="padding-meta"]{
                 padding: 30px 5% 0px 5% !important;
                 text-align: center;
             }
 
-            td[class="no-pad"] {
+            td[class="no-pad"]{
                 padding: 0 0 20px 0 !important;
             }
 
-            td[class="no-padding"] {
+            td[class="no-padding"]{
                 padding: 0 !important;
             }
 
-            td[class="section-padding"] {
+            td[class="section-padding"]{
                 padding: 50px 15px 50px 15px !important;
             }
 
-            td[class="section-padding-bottom-image"] {
+            td[class="section-padding-bottom-image"]{
                 padding: 50px 15px 0 15px !important;
             }
 
             /* ADJUST BUTTONS ON MOBILE */
-            td[class="mobile-wrapper"] {
+            td[class="mobile-wrapper"]{
                 padding: 10px 5% 15px 5% !important;
             }
 
-            table[class="mobile-button-container"] {
-                margin: 0 auto;
-                width: 100% !important;
+            table[class="mobile-button-container"]{
+                margin:0 auto;
+                width:100% !important;
             }
 
-            a[class="mobile-button"] {
-                width: 80% !important;
+            a[class="mobile-button"]{
+                width:80% !important;
                 padding: 15px !important;
                 border: 0 !important;
                 font-size: 16px !important;
@@ -182,8 +125,7 @@
         <td bgcolor="#0866c6">
             <!-- HIDDEN PREHEADER TEXT -->
             <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-                Entice the open with some amazing preheader text. Use a little mystery and get those subscribers to read
-                through...
+                Entice the open with some amazing preheader text. Use a little mystery and get those subscribers to read through...
             </div>
             <div align="center" style="padding: 0px 15px 0px 15px;">
                 <table border="0" cellpadding="0" cellspacing="0" width="500" class="wrapper">
@@ -194,20 +136,13 @@
                                 <tr>
                                     <td bgcolor="#0866c6" width="100" align="left">
                                         <a href="#" target="_blank">
-                                            <img alt="Logo"
-                                                 src="{{ app.request.getSchemeAndHttpHost()~asset('images/logo.png', null, true) }}"
-                                                 width="300" height="60"
-                                                 style="display: block; font-family: Helvetica, Arial, sans-serif; color: #ffffff; font-size: 16px;"
-                                                 border="0">
+                                            <img alt="Logo" src="{{app.request.getSchemeAndHttpHost()~asset('images/logo.png', null, true) }}" width="300" height="60" style="display: block; font-family: Helvetica, Arial, sans-serif; color: #ffffff; font-size: 16px;" border="0">
                                         </a>
                                     </td>
                                     <td bgcolor="#0866c6" width="400" align="right" class="mobile-hide">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td align="right"
-                                                    style="padding: 0 0 5px 0; font-size: 14px; font-family: Arial, sans-serif; color: #666666; text-decoration: none;">
-                                                    <span style="color: #666666; text-decoration: none;">A little text up top can be nice.<br>Maybe a link to tweet?</span>
-                                                </td>
+                                                <td align="right" style="padding: 0 0 5px 0; font-size: 14px; font-family: Arial, sans-serif; color: #666666; text-decoration: none;"><span style="color: #666666; text-decoration: none;">A little text up top can be nice.<br>Maybe a link to tweet?</span></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -228,30 +163,24 @@
         <!-- Grupo tipo Creatividad -->
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;"
-                    class="section-padding">
+                <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;" class="section-padding">
                     <table width="500" border="0" cellspacing="0" cellpadding="0" class="responsive-table">
                         <tr>
                             <td>
                                 <!-- TITLE SECTION AND COPY -->
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
-                                        <td align="center"
-                                            style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;"
-                                            class="padding-copy">{{ grupoSlots.nombre }}</td>
+                                        <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;" class="padding-copy">{{ grupoSlots.nombre }}</td>
                                     </tr>
                                     <tr>
-                                        <td align="center"
-                                            style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;"
-                                            class="padding-copy">Texto creatividad
-                                        </td>
+                                        <td align="center" style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Texto creatividad</td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
                         {% set slots = grupoSlots.slots %}
                         {% for slot in slots %}
-                            {% set id = grupoSlots.idGrupo~'-'~slot.idSlot %}
+                            {% set id = grupoSlots.idGrupo~'-'~slot.idSlot  %}
                             <tr id="{{ id }}">
                                 <td>
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -259,12 +188,7 @@
                                             <tr>
                                                 <td align="center" class="padding-copy">
                                                     <a href="#" target="_blank">
-                                                        <img id="{{ id~'-imagenProducto' }}" src=""
-                                                             width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(100) }}"
-                                                             height="{{ grupoSlots.idTamanyoImgProducto.alto|default(100) }}"
-                                                             border="0" alt="Insert alt text here"
-                                                             style="display: block; color: #666666;  font-family: Helvetica, arial, sans-serif; font-size: 16px;"
-                                                             class="img-max imagenProducto">
+                                                        <img id="{{ id~'-imagenProducto' }}" src="" width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(100) }}" height="{{ grupoSlots.idTamanyoImgProducto.alto|default(100) }}" border="0" alt="Insert alt text here" style="display: block; color: #666666;  font-family: Helvetica, arial, sans-serif; font-size: 16px;" class="img-max imagenProducto">
                                                     </a>
                                                 </td>
                                             </tr>
@@ -275,12 +199,8 @@
                                                     <!-- COPY -->
                                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                         <tr>
-                                                            <td align="center"
-                                                                style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;"
-                                                                class="padding-copy">
-                                                                <div id="{{ id~'-texto' }}" class="texto">Texto
-                                                                    cretividad
-                                                                </div>
+                                                            <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
+                                                                <div id="{{ id~'-texto' }}"class="texto">Texto cretividad</div>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -298,161 +218,120 @@
         </table>
     {% else %}
         <!-- Grupo tipo Promocion -->
-        <table id="{{ grupoSlots.idGrupo }}" border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;"
-                    class="section-padding">
-                    <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
-                        <tr>
-                            <td>
-                                <!-- TITLE SECTION AND COPY -->
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td align="center"
-                                            style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;"
-                                            class="padding-copy">{{ grupoSlots.nombre }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="center"
-                                            style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;"
-                                            class="padding-copy">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                            elit.
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        {% set slots = grupoSlots.slots %}
-                        {% for slot in slots %}
-                            {% set id = grupoSlots.idGrupo~'-'~slot.idSlot %}
-                            <tr>
-                                <td>
-                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                                        <tr>
-                                            <td valign="top" style="padding: 0;" class="mobile-wrapper">
+    <table id="{{ grupoSlots.idGrupo }}" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;" class="section-padding">
+                <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                    <tr>
+                        <td>
+                            <!-- TITLE SECTION AND COPY -->
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;" class="padding-copy">{{ grupoSlots.nombre }}</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    {% set slots = grupoSlots.slots %}
+                    {% for slot in slots %}
+                        {% set id = grupoSlots.idGrupo~'-'~slot.idSlot  %}
+                    <tr>
+                        <td>
+                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td valign="top" style="padding: 0;" class="mobile-wrapper">
 
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                       align="left" class="responsive-table">
-                                                    <tr>
-                                                        <td style="padding: 20px 0 40px 0;">
-                                                            <table id="{{ id }}" cellpadding="0" cellspacing="0"
-                                                                   border="0" width="100%">
-                                                                {% if grupoSlots.mImgProducto %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            bgcolor="{{ color_background }}"
-                                                                            valign="middle">
-                                                                            <a href="#" target="_blank">
-                                                                                <img id="{{ id~'-imagenProducto' }}"
-                                                                                     width="{{ grupoSlots.idTamanyoImgProducto.ancho }}"
-                                                                                     height="{{ grupoSlots.idTamanyoImgProducto.alto }}"
-                                                                                     style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
-                                                                                     alt="Fluid images" border="0"
-                                                                                     class="img-max imagenProducto">
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" align="left" class="responsive-table">
+                                            <tr>
+                                                <td style="padding: 20px 0 40px 0;">
+                                                    <table id="{{id }}" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                        {% if grupoSlots.mImgProducto %}
+                                                            <tr>
+                                                                <td align="center" bgcolor="{{ color_background }}" valign="middle">
+                                                                    <a href="#" target="_blank">
+                                                                        <img id="{{ id~'-imagenProducto' }}"  width="{{ grupoSlots.idTamanyoImgProducto.ancho }}" height="{{ grupoSlots.idTamanyoImgProducto.alto }}" style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;" alt="Fluid images" border="0" class="img-max imagenProducto">
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mPrecio %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-precio' }}"
-                                                                                  class="appleBody precio">Precio</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mPrecio %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-precio' }}" class="appleBody precio">Precio</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mVolumen %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-volumen' }}"
-                                                                                  class="appleBody volumen">Volumen</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mVolumen %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-volumen' }}" class="appleBody volumen">Volumen</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mCondiciones %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-condiciones' }}"
-                                                                                  class="appleBody condiciones">condiciones</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mCondiciones %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-condiciones' }}" class="appleBody condiciones">condiciones</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mImgMarca %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            bgcolor="{{ color_background }}"
-                                                                            valign="middle">
-                                                                            <a href="#" target="_blank">
-                                                                                <img id="{{ id~'-imagenMarca' }}"
-                                                                                     width="{{ grupoSlots.idTamanyoImgMarca.ancho }}"
-                                                                                     height="{{ grupoSlots.idTamanyoImgMarca.alto }}"
-                                                                                     style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
-                                                                                     alt="Fluid images" border="0"
-                                                                                     class="img-max imagenMarca">
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mImgMarca %}
+                                                            <tr>
+                                                                <td align="center" bgcolor="{{ color_background }}" valign="middle">
+                                                                    <a href="#" target="_blank">
+                                                                        <img id="{{ id~'-imagenMarca' }}"  width="{{ grupoSlots.idTamanyoImgMarca.ancho }}" height="{{ grupoSlots.idTamanyoImgMarca.alto }}" style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;" alt="Fluid images" border="0" class="img-max imagenMarca">
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mTexto %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-texto' }}"
-                                                                                  class="appleBody texto">Texto Libre</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mTexto %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-texto' }}" class="appleBody texto">Texto Libre</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mVoucher %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-voucher' }}"
-                                                                                  class="appleBody voucher">Voucher</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
+                                                        {% if grupoSlots.mVoucher %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-voucher' }}"class="appleBody voucher">Voucher</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
 
-                                                                {% if grupoSlots.mFidelizacion %}
-                                                                    <tr>
-                                                                        <td align="center"
-                                                                            style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
-                                                                            bgcolor="{{ color_background }}">
-                                                                            <span id="{{ id~'-fidelizacion' }}"
-                                                                                  class="appleBody fidelizacion">Fidelizacion</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endif %}
-                                                                {#<tr>
-                                                                    <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="#F5F7FA"><a href="#" style="color: #256F9C; text-decoration: none;">Read More &rarr;</a></td>
-                                                                </tr>#}
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </td>
-            </tr>
-        </table>
+                                                        {% if grupoSlots.mFidelizacion %}
+                                                            <tr>
+                                                                <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="{{ color_background }}">
+                                                                    <span id="{{ id~'-fidelizacion' }}" class="appleBody fidelizacion">Fidelizacion</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                        {#<tr>
+                                                            <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;" bgcolor="#F5F7FA"><a href="#" style="color: #256F9C; text-decoration: none;">Read More &rarr;</a></td>
+                                                        </tr>#}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
     {% endif %}
 
 {% endfor %}
@@ -464,14 +343,8 @@
             <!-- UNSUBSCRIBE COPY -->
             <table width="500" border="0" cellspacing="0" cellpadding="0" align="center" class="responsive-table">
                 <tr>
-                    <td align="center"
-                        style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
-                        <span class="appleFooter" style="color:#666666;">RelationalMessages</span><br><a
-                                class="original-only"
-                                style="color: #666666; text-decoration: none;">Unsubscribe</a><span
-                                class="original-only"
-                                style="font-family: Arial, sans-serif; font-size: 12px; color: #444444;">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span><a
-                                style="color: #666666; text-decoration: none;">View this email in your browser</a>
+                    <td align="center" style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
+                        <span class="appleFooter" style="color:#666666;">RelationalMessages</span><br><a class="original-only" style="color: #666666; text-decoration: none;">Unsubscribe</a><span class="original-only" style="font-family: Arial, sans-serif; font-size: 12px; color: #444444;">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span><a style="color: #666666; text-decoration: none;">View this email in your browser</a>
                     </td>
                 </tr>
             </table>

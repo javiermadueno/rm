@@ -15,21 +15,20 @@ class Util
      * Convierte un array multidimensional en un array unidemensional
      * que contiene todos las 'keys' y 'values' del anterior.
      *
-     * @param   array $array
-     * @param   array $return
-     *
+     * @param   array   $array
+     * @param   array   $return
      * @return  array
      */
-    static function array_flatten($array, $return)
-    {
-        foreach ($array as $key => $elem) {
-            if (is_string($key)) {
+    static function array_flatten($array, $return) {
+        foreach($array as $key => $elem) {
+            if(is_string($key)) {
                 $return[] = $key;
             }
 
             if (is_array($elem)) {
                 $return = self::array_flatten($elem, $return);
-            } else {
+            }
+            else {
                 $return[] = $elem;
             }
         }
@@ -46,9 +45,10 @@ class Util
     {
         //$fecha = new \DateTime('first day of this month');
 
-        if ($fechaInicio) {
+        if($fechaInicio) {
             $fecha = $fechaInicio;
-        } else {
+        }
+        else{
             $fecha = new \DateTime('first day of this month');
         }
 
@@ -58,7 +58,7 @@ class Util
         $meses = [];
 
         /** @var \Datetime $mes */
-        foreach ($periodo as $mes) {
+        foreach($periodo as $mes) {
             $meses[] = $mes->format('Y-m');
         }
 

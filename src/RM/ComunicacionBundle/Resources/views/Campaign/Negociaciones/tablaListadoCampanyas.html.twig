@@ -1,4 +1,4 @@
-<h4 class="widgettitle">{{ "campanas" |trans|title }}</h4>
+<h4 class="widgettitle">{{ "campanas" |trans|title}}</h4>
 
 <table class="table table-bordered responsive">
     <colgroup>
@@ -29,13 +29,9 @@
         {% for objIns in objInstancias %}
             <tr>
                 {% if closing == 1 %}
-                    <td>
-                        <a href="{{ path('campaign_closing_ficha', {'id_categoria': id_categoria, 'id_instancia': objIns.idInstancia}) }}"
-                           style="cursor:pointer;">#{{ "%07d" |format(objIns.idInstancia) }}</a></td>
+                    <td><a href="{{ path('campaign_closing_ficha', {'id_categoria': id_categoria, 'id_instancia': objIns.idInstancia}) }}" style="cursor:pointer;">#{{ "%07d" |format(objIns.idInstancia) }}</a></td>
                 {% else %}
-                    <td>
-                        <a href="{{ path('campaign_ficha', {'id_categoria': id_categoria,'id_instancia': objIns.idInstancia}) }}"
-                           style="cursor:pointer;">#{{ "%07d" |format(objIns.idInstancia) }}</a></td>
+                    <td><a href="{{ path('campaign_ficha', {'id_categoria': id_categoria,'id_instancia': objIns.idInstancia}) }}" style="cursor:pointer;">#{{ "%07d" |format(objIns.idInstancia)}}</a></td>
                 {% endif %}
                 <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
 

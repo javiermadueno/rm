@@ -1,21 +1,20 @@
 {% extends '::direct/base_direct.html.twig' %}
 
 {% block title %}
-    {{ "nueva.comunicacion" | trans }}
+	{{ "nueva.comunicacion" | trans }}
 {% endblock %}
 
 
 
 {% block migas %}
-    <li><a href="{{ path('direct_manager') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span>
-    </li>
-    <li>{{ "menu.direct.gestion" |trans|title }} <span class="separator"></span></li>
-    <li>{{ "nueva.comunicacion" |trans|title }}</li>
+    <li><a href="{{ path('direct_manager') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.direct.gestion" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "nueva.comunicacion" |trans|title}}</li>
 {% endblock %}
 
 {% block contenedorPrincipal %}
 
-    <h4 class="widgettitle">{{ "datos" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "datos" |trans|title}}</h4>
     <form id="form" name="form" method="post" action="{{ path(app.request.attributes.get('_route')) }}">
         {% set accion = "nuevo" %}
         {{ include ('RMComunicacionBundle:Default:formularioComunicacion.html.twig') }}
@@ -24,11 +23,11 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".datepicker").datepicker({dateFormat: "dd/mm/yy"});
-        });
-    </script>
+	{{ parent() }}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+		});
+	</script>
 {% endblock %}
 

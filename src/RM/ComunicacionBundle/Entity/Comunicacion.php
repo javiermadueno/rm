@@ -4,8 +4,8 @@ namespace RM\ComunicacionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Model\Interfaces\FechaInicioFinInterface;
-use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use RM\ComunicacionBundle\Model\Validator as ComunicacionAssert;
+use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

@@ -5,68 +5,68 @@
 
     <table class="record_properties">
         <tbody>
-        <tr>
-            <th>Nombre</th>
-            <td>{{ entity.nombre }}</td>
-        </tr>
-        <tr>
-            <th>Tipo</th>
-            <td>{{ entity.tipo }}</td>
-        </tr>
-        <tr>
-            <th>Estado</th>
-            <td>{{ entity.estado }}</td>
-        </tr>
-        <tr>
-            <th>Mimgproducto</th>
-            <td>{{ entity.mImgProducto }}</td>
-        </tr>
-        <tr>
-            <th>Mprecio</th>
-            <td>{{ entity.mPrecio }}</td>
-        </tr>
-        <tr>
-            <th>Mvolumen</th>
-            <td>{{ entity.mVolumen }}</td>
-        </tr>
-        <tr>
-            <th>Mcondiciones</th>
-            <td>{{ entity.mCondiciones }}</td>
-        </tr>
-        <tr>
-            <th>Mimgmarca</th>
-            <td>{{ entity.mImgMarca }}</td>
-        </tr>
-        <tr>
-            <th>Mtexto</th>
-            <td>{{ entity.mTexto }}</td>
-        </tr>
-        <tr>
-            <th>Mvoucher</th>
-            <td>{{ entity.mVoucher }}</td>
-        </tr>
-        <tr>
-            <th>Mfidelizacion</th>
-            <td>{{ entity.mFidelizacion }}</td>
-        </tr>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ entity.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ entity.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entity.estado }}</td>
+            </tr>
+            <tr>
+                <th>Mimgproducto</th>
+                <td>{{ entity.mImgProducto }}</td>
+            </tr>
+            <tr>
+                <th>Mprecio</th>
+                <td>{{ entity.mPrecio }}</td>
+            </tr>
+            <tr>
+                <th>Mvolumen</th>
+                <td>{{ entity.mVolumen }}</td>
+            </tr>
+            <tr>
+                <th>Mcondiciones</th>
+                <td>{{ entity.mCondiciones }}</td>
+            </tr>
+            <tr>
+                <th>Mimgmarca</th>
+                <td>{{ entity.mImgMarca }}</td>
+            </tr>
+            <tr>
+                <th>Mtexto</th>
+                <td>{{ entity.mTexto }}</td>
+            </tr>
+            <tr>
+                <th>Mvoucher</th>
+                <td>{{ entity.mVoucher }}</td>
+            </tr>
+            <tr>
+                <th>Mfidelizacion</th>
+                <td>{{ entity.mFidelizacion }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('gruposlotsmodelo') }}">
-                Back to the list
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('gruposlotsmodelo_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('gruposlotsmodelo') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('gruposlotsmodelo_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
 {% endblock %}

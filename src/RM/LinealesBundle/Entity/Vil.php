@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Vil
- *
+ * 
  * @ORM\Table(name="vil")
  * @ORM\Entity(repositoryClass="RM\LinealesBundle\Entity\VilRepository")
  */
@@ -71,10 +71,25 @@ class Vil implements \JsonSerializable
      */
     private $idVil;
 
+
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Vil
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -82,23 +97,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set nombre
+     * Set descripcion
      *
-     * @param string $nombre
-     *
+     * @param string $descripcion
      * @return Vil
      */
-    public function setNombre($nombre)
+    public function setDescripcion($descripcion)
     {
-        $this->nombre = $nombre;
-
+        $this->descripcion = $descripcion;
+    
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {
@@ -106,23 +120,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set descripcion
+     * Set tipo
      *
-     * @param string $descripcion
-     *
+     * @param smallint $tipo
      * @return Vil
      */
-    public function setDescripcion($descripcion)
+    public function setTipo($tipo)
     {
-        $this->descripcion = $descripcion;
-
+        $this->tipo = $tipo;
+    
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getTipo()
     {
@@ -130,23 +143,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set tipo
+     * Set solicitaTiempo
      *
-     * @param smallint $tipo
-     *
+     * @param smallint $solicitaTiempo
      * @return Vil
      */
-    public function setTipo($tipo)
+    public function setSolicitaTiempo($solicitaTiempo)
     {
-        $this->tipo = $tipo;
-
+        $this->solicitaTiempo = $solicitaTiempo;
+    
         return $this;
     }
 
     /**
      * Get solicitaTiempo
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getSolicitaTiempo()
     {
@@ -154,23 +166,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set solicitaTiempo
+     * Set mesesN
      *
-     * @param smallint $solicitaTiempo
-     *
+     * @param integer $mesesN
      * @return Vil
      */
-    public function setSolicitaTiempo($solicitaTiempo)
+    public function setMesesN($mesesN)
     {
-        $this->solicitaTiempo = $solicitaTiempo;
-
+        $this->mesesN = $mesesN;
+    
         return $this;
     }
 
     /**
      * Get mesesN
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesN()
     {
@@ -178,23 +189,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set mesesN
+     * Set mesesM
      *
-     * @param integer $mesesN
-     *
+     * @param integer $mesesM
      * @return Vil
      */
-    public function setMesesN($mesesN)
+    public function setMesesM($mesesM)
     {
-        $this->mesesN = $mesesN;
-
+        $this->mesesM = $mesesM;
+    
         return $this;
     }
 
     /**
      * Get mesesM
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesM()
     {
@@ -202,23 +212,22 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set mesesM
+     * Set estado
      *
-     * @param integer $mesesM
-     *
+     * @param smallint $estado
      * @return Vil
      */
-    public function setMesesM($mesesM)
+    public function setEstado($estado)
     {
-        $this->mesesM = $mesesM;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -226,23 +235,9 @@ class Vil implements \JsonSerializable
     }
 
     /**
-     * Set estado
-     *
-     * @param smallint $estado
-     *
-     * @return Vil
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
      * Get idVil
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdVil()
     {
@@ -252,12 +247,12 @@ class Vil implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'             => $this->idVil,
-            'nombre'         => $this->nombre,
-            'descripcion'    => $this->descripcion,
-            'mesesM'         => $this->mesesM,
-            'mesesN'         => $this->mesesN,
-            'estado'         => $this->estado,
+            'id' => $this->idVil,
+            'nombre' => $this->nombre,
+            'descripcion' => $this->descripcion,
+            'mesesM' => $this->mesesM,
+            'mesesN' => $this->mesesN,
+            'estado' => $this->estado,
             'solicitaTiempo' => $this->solicitaTiempo,
         ];
     }

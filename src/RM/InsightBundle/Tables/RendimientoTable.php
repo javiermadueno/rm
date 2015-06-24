@@ -27,7 +27,7 @@ class RendimientoTable
      *
      * @return array
      */
-    public function tablaRendimiento($meses = [], $estructura_segmentos = [])
+    public function tablaRendimiento($meses= [], $estructura_segmentos = [])
     {
         $nombre_segmentos = Util::array_flatten($estructura_segmentos, []);
 
@@ -49,4 +49,5 @@ class RendimientoTable
     }
 
 
-}
+
+} 

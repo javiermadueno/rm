@@ -8,6 +8,7 @@
 
 namespace RM\PlantillaBundle\EventListeners;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use RM\PlantillaBundle\Entity\Slot;
 use RM\PlantillaBundle\Model\Interfaces\GrupoSlotsInterface;
@@ -19,28 +20,28 @@ class ModificaNumeroSlotsListener
     {
         $grupoSlots = $event->getEntity();
 
-        if (!$grupoSlots instanceof GrupoSlotsInterface) {
+        if(!$grupoSlots instanceof GrupoSlotsInterface) {
             return;
         }
 
         $em = $event->getEntityManager();
 
-        $numSlotsPreUpdate = $grupoSlots->getSlots()->count();
+        $numSlotsPreUpdate  = $grupoSlots->getSlots()->count();
         $numSlotsPostUpdate = $grupoSlots->getNumSlots();
 
-        if ($numSlotsPostUpdate == $numSlotsPreUpdate) {
+        if($numSlotsPostUpdate == $numSlotsPreUpdate) {
             return;
         }
 
-        if ($numSlotsPostUpdate > $numSlotsPreUpdate) {
+        if($numSlotsPostUpdate > $numSlotsPreUpdate) {
             $numSlotsNuevos = $numSlotsPostUpdate - $numSlotsPreUpdate;
 
-            for ($i = 0; $i < $numSlotsNuevos; $i++) {
+            for($i=0; $i<$numSlotsNuevos; $i++) {
                 $slot = new Slot();
 
                 $slot->setEstado(1)
                     ->setIdGrupo($grupoSlots)
-                    ->setCodigo(uniqid($grupoSlots->getIdGrupo() . '_'));
+                    ->setCodigo(uniqid($grupoSlots->getIdGrupo().'_'));
 
                 $em->persist($slot);
             }
@@ -49,17 +50,21 @@ class ModificaNumeroSlotsListener
             return;
         }
 
-        if ($numSlotsPostUpdate < $numSlotsPreUpdate) {
+        if($numSlotsPostUpdate < $numSlotsPreUpdate) {
             $numSlotsABorrar = $numSlotsPreUpdate - $numSlotsPostUpdate;
+            /** @var ArrayCollection $slots */
+            $slots = $grupoSlots->getSlots();
 
-            while ($numSlotsABorrar) {
-                $slot = $grupoSlots->getSlots()->last();
+            $slots->last();
+            while($numSlotsABorrar) {
+                $slot = $slots->last();
                 $em->remove($slot);
-                $em->flush();
+                $slots->removeElement($slot);
 
                 $numSlotsABorrar--;
             }
 
+            $em->flush();
         }
 
     }

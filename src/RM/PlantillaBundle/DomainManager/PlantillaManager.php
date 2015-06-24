@@ -17,7 +17,6 @@ class PlantillaManager extends AbstractManager
 
     /**
      * @param $id
-     *
      * @return mixed
      */
     public function find($id)
@@ -36,6 +35,11 @@ class PlantillaManager extends AbstractManager
         $this->dispatcher->dispatch(PlantillaEvents::NUEVA_PLANTILLA, new PlantillaEvent($plantilla));
     }
 
+    public function update(Plantilla $plantilla)
+    {
+        $this->save($plantilla);
+    }
+
     /**
      * @param Plantilla $plantilla
      */
@@ -43,11 +47,6 @@ class PlantillaManager extends AbstractManager
     {
         $this->em->persist($plantilla);
         $this->em->flush();
-    }
-
-    public function update(Plantilla $plantilla)
-    {
-        $this->save($plantilla);
     }
 
     /**

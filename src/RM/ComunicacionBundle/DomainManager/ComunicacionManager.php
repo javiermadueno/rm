@@ -8,11 +8,10 @@
 
 namespace RM\ComunicacionBundle\DomainManager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\ComunicacionRepository;
-use Doctrine\ORM\EntityManager;
 use RM\PlantillaBundle\Entity\Plantilla;
 use RM\PlantillaBundle\Event\PlantillaEvent;
 use RM\PlantillaBundle\Event\PlantillaEvents;

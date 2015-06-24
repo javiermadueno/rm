@@ -7,7 +7,6 @@ use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\ProductoBundle\Form\PromocionType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -455,7 +454,7 @@ class CampaignController extends RMController
         );
     }
 
-    public function compruebaPromociones(array $promociones)
+    private function compruebaPromociones(array $promociones)
     {
         if (empty($promociones)) {
             return false;
@@ -488,7 +487,7 @@ class CampaignController extends RMController
         return $promociones;
     }
 
-    public function isNullOrEmpty($variable)
+    private  function isNullOrEmpty($variable)
     {
         return empty($variable) || $variable == '-1' || $variable == -1 ? true : false;
     }

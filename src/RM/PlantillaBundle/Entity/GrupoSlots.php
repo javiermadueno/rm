@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class GrupoSlots implements GrupoSlotsInterface
 {
     const CREATIVIDADES = 2;
-    const PROMOCION = 1;
+    const PROMOCION =1;
 
     /**
      * @var string
@@ -159,10 +159,25 @@ class GrupoSlots implements GrupoSlotsInterface
         $this->slots = new ArrayCollection();
     }
 
+
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return GrupoSlots
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -170,23 +185,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set nombre
+     * Set tipo
      *
-     * @param string $nombre
-     *
+     * @param smallint $tipo
      * @return GrupoSlots
      */
-    public function setNombre($nombre)
+    public function setTipo($tipo)
     {
-        $this->nombre = $nombre;
-
+        $this->tipo = $tipo;
+    
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getTipo()
     {
@@ -194,23 +208,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set tipo
+     * Set estado
      *
-     * @param smallint $tipo
-     *
+     * @param smallint $estado
      * @return GrupoSlots
      */
-    public function setTipo($tipo)
+    public function setEstado($estado)
     {
-        $this->tipo = $tipo;
-
+        $this->estado = $estado;
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -218,23 +231,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set estado
+     * Set mImgProducto
      *
-     * @param smallint $estado
-     *
+     * @param smallint $mImgProducto
      * @return GrupoSlots
      */
-    public function setEstado($estado)
+    public function setMImgProducto($mImgProducto)
     {
-        $this->estado = $estado;
-
+        $this->mImgProducto = $mImgProducto;
+    
         return $this;
     }
 
     /**
      * Get mImgProducto
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMImgProducto()
     {
@@ -242,23 +254,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mImgProducto
+     * Set mPrecio
      *
-     * @param smallint $mImgProducto
-     *
+     * @param smallint $mPrecio
      * @return GrupoSlots
      */
-    public function setMImgProducto($mImgProducto)
+    public function setMPrecio($mPrecio)
     {
-        $this->mImgProducto = $mImgProducto;
-
+        $this->mPrecio = $mPrecio;
+    
         return $this;
     }
 
     /**
      * Get mPrecio
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMPrecio()
     {
@@ -266,23 +277,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mPrecio
+     * Set mVolumen
      *
-     * @param smallint $mPrecio
-     *
+     * @param smallint $mVolumen
      * @return GrupoSlots
      */
-    public function setMPrecio($mPrecio)
+    public function setMVolumen($mVolumen)
     {
-        $this->mPrecio = $mPrecio;
-
+        $this->mVolumen = $mVolumen;
+    
         return $this;
     }
 
     /**
      * Get mVolumen
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMVolumen()
     {
@@ -290,23 +300,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mVolumen
+     * Set mCondiciones
      *
-     * @param smallint $mVolumen
-     *
+     * @param smallint $mCondiciones
      * @return GrupoSlots
      */
-    public function setMVolumen($mVolumen)
+    public function setMCondiciones($mCondiciones)
     {
-        $this->mVolumen = $mVolumen;
-
+        $this->mCondiciones = $mCondiciones;
+    
         return $this;
     }
 
     /**
      * Get mCondiciones
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMCondiciones()
     {
@@ -314,23 +323,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mCondiciones
+     * Set mImgMarca
      *
-     * @param smallint $mCondiciones
-     *
+     * @param smallint $mImgMarca
      * @return GrupoSlots
      */
-    public function setMCondiciones($mCondiciones)
+    public function setMImgMarca($mImgMarca)
     {
-        $this->mCondiciones = $mCondiciones;
-
+        $this->mImgMarca = $mImgMarca;
+    
         return $this;
     }
 
     /**
      * Get mImgMarca
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMImgMarca()
     {
@@ -338,23 +346,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mImgMarca
+     * Set mTexto
      *
-     * @param smallint $mImgMarca
-     *
+     * @param smallint $mTexto
      * @return GrupoSlots
      */
-    public function setMImgMarca($mImgMarca)
+    public function setMTexto($mTexto)
     {
-        $this->mImgMarca = $mImgMarca;
-
+        $this->mTexto = $mTexto;
+    
         return $this;
     }
 
     /**
      * Get mTexto
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMTexto()
     {
@@ -362,23 +369,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mTexto
+     * Set mVoucher
      *
-     * @param smallint $mTexto
-     *
+     * @param smallint $mVoucher
      * @return GrupoSlots
      */
-    public function setMTexto($mTexto)
+    public function setMVoucher($mVoucher)
     {
-        $this->mTexto = $mTexto;
-
+        $this->mVoucher = $mVoucher;
+    
         return $this;
     }
 
     /**
      * Get mVoucher
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMVoucher()
     {
@@ -386,23 +392,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mVoucher
+     * Set mFidelizacion
      *
-     * @param smallint $mVoucher
-     *
+     * @param smallint $mFidelizacion
      * @return GrupoSlots
      */
-    public function setMVoucher($mVoucher)
+    public function setMFidelizacion($mFidelizacion)
     {
-        $this->mVoucher = $mVoucher;
-
+        $this->mFidelizacion = $mFidelizacion;
+    
         return $this;
     }
 
     /**
      * Get mFidelizacion
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getMFidelizacion()
     {
@@ -410,23 +415,9 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set mFidelizacion
-     *
-     * @param smallint $mFidelizacion
-     *
-     * @return GrupoSlots
-     */
-    public function setMFidelizacion($mFidelizacion)
-    {
-        $this->mFidelizacion = $mFidelizacion;
-
-        return $this;
-    }
-
-    /**
      * Get idGrupo
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdGrupo()
     {
@@ -434,9 +425,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
+     * Set idTamanyoImgProducto
+     *
+     * @param \RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgProducto
+     * @return GrupoSlots
+     */
+    public function setIdTamanyoImgProducto(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgProducto = null)
+    {
+        $this->idTamanyoImgProducto = $idTamanyoImgProducto;
+    
+        return $this;
+    }
+
+    /**
      * Get idTamanyoImgProducto
      *
-     * @return \RM\PlantillaBundle\Entity\TamanyoImagen
+     * @return \RM\PlantillaBundle\Entity\TamanyoImagen 
      */
     public function getIdTamanyoImgProducto()
     {
@@ -444,16 +448,15 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set idTamanyoImgProducto
+     * Set idPlantilla
      *
-     * @param \RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgProducto
-     *
+     * @param PlantillaInterface $idPlantilla
      * @return GrupoSlots
      */
-    public function setIdTamanyoImgProducto(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgProducto = null)
+    public function setIdPlantilla(PlantillaInterface $idPlantilla = null)
     {
-        $this->idTamanyoImgProducto = $idTamanyoImgProducto;
-
+        $this->idPlantilla = $idPlantilla;
+    
         return $this;
     }
 
@@ -468,23 +471,22 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set idPlantilla
+     * Set idTamanyoImgMarca
      *
-     * @param PlantillaInterface $idPlantilla
-     *
+     * @param \RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgMarca
      * @return GrupoSlots
      */
-    public function setIdPlantilla(PlantillaInterface $idPlantilla = null)
+    public function setIdTamanyoImgMarca(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgMarca = null)
     {
-        $this->idPlantilla = $idPlantilla;
-
+        $this->idTamanyoImgMarca = $idTamanyoImgMarca;
+    
         return $this;
     }
 
     /**
      * Get idTamanyoImgMarca
      *
-     * @return \RM\PlantillaBundle\Entity\TamanyoImagen
+     * @return \RM\PlantillaBundle\Entity\TamanyoImagen 
      */
     public function getIdTamanyoImgMarca()
     {
@@ -492,59 +494,43 @@ class GrupoSlots implements GrupoSlotsInterface
     }
 
     /**
-     * Set idTamanyoImgMarca
+     * Set numSlots
      *
-     * @param \RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgMarca
-     *
+     * @param integer $numSlots
      * @return GrupoSlots
      */
-    public function setIdTamanyoImgMarca(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgMarca = null)
+    public function setNumSlots($numSlots)
     {
-        $this->idTamanyoImgMarca = $idTamanyoImgMarca;
-
+        $this->numSlots = $numSlots;
+    
         return $this;
     }
 
     /**
      * Get numSlots
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumSlots()
     {
         return $this->numSlots;
     }
 
-    /**
-     * Set numSlots
-     *
-     * @param integer $numSlots
-     *
-     * @return GrupoSlots
-     */
-    public function setNumSlots($numSlots)
-    {
-        $this->numSlots = $numSlots;
 
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->idGrupo . '';
-    }
+  public function __toString(){
+    return $this->idGrupo.'';
+  }
 
     /**
      * Add slots
      *
      * @param \RM\PlantillaBundle\Entity\Slot $slots
-     *
      * @return GrupoSlots
      */
     public function addSlot(\RM\PlantillaBundle\Entity\Slot $slots)
     {
         $this->slots[] = $slots;
-
+    
         return $this;
     }
 
@@ -561,7 +547,7 @@ class GrupoSlots implements GrupoSlotsInterface
     /**
      * Get slots
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getSlots()
     {

@@ -1,457 +1,417 @@
 {% extends '::insight/base_insight.html.twig' %}
 {% block title %}
 
-    {% trans %}Activo{% endtrans %}
+ {% trans %}Activo{% endtrans %}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet"/>
-    <script src="{{ asset('js/datepicker/jquery-datepicker.js') }}"></script>
-    <script src="{{ asset('js/datepicker/jquery.ui.datepicker-es.js') }}"></script>
-    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/highcharts.js"></script>
-    <script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/modules/exporting.js"></script>
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet" />
+    <script src="{{ asset('js/datepicker/jquery-datepicker.js') }}" ></script>
+	<script src="{{ asset('js/datepicker/jquery.ui.datepicker-es.js') }}"></script>
+	<script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/highcharts.js"></script>
+	<script src="/Symfony/vendor/ob/highcharts-bundle/Ob/HighchartsBundle/Resources/public/js/highcharts/modules/exporting.js"></script>
 {% endblock %}
 
 {% block migas %}
-    <p>
-        <span class="ml1">{% trans %}Insight>{% endtrans %}</span> > <span class="mlN">{% trans %}
-            Dashboard{% endtrans %}</span>
-    </p>
+	<p> 
+		<span class="ml1">{% trans %}Insight>{% endtrans %}</span> > <span class="mlN">{% trans %}Dashboard{% endtrans %}</span>
+	</p>
 {% endblock %}
 
 {% block contenedorPrincipal %}
+	
 
-
-<div class="bloque_contenido">
-
-<div class="cabecera_contenido">
-    <span>{% trans %}Clientes{% endtrans %}</span>
-</div>
-<div class="bloque_contenido sinborde">
-<div class="linea_contenido">
-    <label>{% trans %}Compara&nbsp;&nbsp;{% endtrans %}</label>
-    <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-        <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
-        <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-        <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-        <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-        <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-        <option value="5">{% trans %}May-2014{% endtrans %}</option>
-        <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-        <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
-        <option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
-        <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
-        <option value="10">{% trans %}Oct-2014{% endtrans %}</option>
-        <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-        <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
-    </select>
-    <label>{% trans %}&nbsp;&nbsp;con&nbsp;&nbsp;{% endtrans %}</label>
-    <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-        <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
-        <option value="1">{% trans %}Ene-2014{% endtrans %}</option>
-        <option value="2">{% trans %}Feb-2014{% endtrans %}</option>
-        <option value="3">{% trans %}Mar-2014{% endtrans %}</option>
-        <option value="4">{% trans %}Abr-2014{% endtrans %}</option>
-        <option value="5">{% trans %}May-2014{% endtrans %}</option>
-        <option value="6">{% trans %}Jun-2014{% endtrans %}</option>
-        <option value="7">{% trans %}Jul-2014{% endtrans %}</option>
-        <option value="8">{% trans %}Ago-2014{% endtrans %}</option>
-        <option value="9">{% trans %}Sep-2014{% endtrans %}</option>
-        <option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
-        <option value="11">{% trans %}Nov-2014{% endtrans %}</option>
-        <option value="12">{% trans %}Dic-2014{% endtrans %}</option>
-    </select>
-</div>
-<div class="bloque_contenido sinborde">
-    <div id="tablaClientes" class="linea_contenido">
-        <table>
-            <tbody>
-            <thead>
-            <tr>
-                <th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center;">{% trans %}Segmentos{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}N&uacute;mero Clientes{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}Media Ventas{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}Frecuencia Media{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}Ticket Medio{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}Recencia Media{% endtrans %}</th>
-                <th colspan="3" style="text-align: center;">{% trans %}Amplitud Media{% endtrans %}</th>
-            </tr>
-            <tr>
-                <th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-                <th style="text-align: center;">{{ fecha1 }}</th>
-                <th style="text-align: center;">{{ fecha2 }}</th>
-                <th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
-            </tr>
-            </thead>
-            {% for count in rendimiento %}
-                <tr>
-                    <td width="7%">
-                        <div style="vertical-align: middle;">
-                            {{ count[0] }}
-                        </div>
-                    </td>
-                    <td width="2%">
-                        {% if count[0] == "Detalle" %}
-                            <a href="{{ path("rm_insight_cliente_activo_detalle") }}">
-                                <img style="float:center; display: inline-block;" class="info"
-                                     src="{{ asset('img/icono_info.png') }}" alt="{{ 'Detalle' | trans }}"
-                                     title="{{ 'Detalle' | trans }}"/>
-                            </a>
-                        {% endif %}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[1] }}
-                    </td>
-                    <td style="text-align: center; border-left-color: #000000; border-width:1px; border-style: solid;"
-                        width="10%">
-                        {{ count[2] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[3] }}
-                    </td>
-                    {% if count[4] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[4] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                         src="{{ asset('img/arrowup.png') }}"
-                                                                         alt="{{ 'Proyeccion' | trans }}"
-                                                                         title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[4] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[4] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                                         alt="{{ 'Proyeccion' | trans }}"
-                                                                         title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[4] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                    <td style="border-color: #000000; border-width:1px; border-style: solid" width="10%">
-                        {{ count[5] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[6] }}
-                    </td>
-                    {% if count[7] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[7] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                         src="{{ asset('img/arrowup.png') }}"
-                                                                         alt="{{ 'Proyeccion' | trans }}"
-                                                                         title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[7] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[7] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                                         alt="{{ 'Proyeccion' | trans }}"
-                                                                         title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[7] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                    <td style="text-align: center;" width="10%">
-                        {{ count[8] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[9] }}
-                    </td>
-                    {% if count[10] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[10] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowup.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[10] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[10] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowdown.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[10] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                    <td style="text-align: center;" width="10%">
-                        {{ count[11] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[12] }}
-                    </td>
-                    {% if count[13] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[13] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowup.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[13] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[13] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowdown.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[13] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                    <td style="text-align: center;" width="10%">
-                        {{ count[14] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[15] }}
-                    </td>
-                    {% if count[16] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[16] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowup.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[16] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[16] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowdown.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[16] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                    <td style="text-align: center;" width="10%">
-                        {{ count[17] }}
-                    </td>
-                    <td style="text-align: center;" width="10%">
-                        {{ count[18] }}
-                    </td>
-                    {% if count[19] > 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[19] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowup.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% elseif count[19] < 0 %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[19] }}{% trans %}%{% endtrans %}<img style="float:right;"
-                                                                          src="{{ asset('img/arrowdown.png') }}"
-                                                                          alt="{{ 'Proyeccion' | trans }}"
-                                                                          title="{{ 'Proyeccion' | trans }}"/>
-                        </td>
-                    {% else %}
-                        <td style="text-align: center;" width="10%">
-                            {{ count[19] }}{% trans %}%{% endtrans %}
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="bloque_contenido sinborde">
-    <table class="tablaSinBordes" style="width: 100%">
-        <tbody>
-        <tr>
-            <td width="25%" class="graficoIzquierda" align="center">
-                <div id="graficoRiesgos"></div>
-            </td>
-            <td width="25%" class="graficoDerecha" align="center">
-                <div id="graficoEvolucionActivos"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</div>
+    <div class="bloque_contenido">
+						
+		<div class="cabecera_contenido">
+			<span>{% trans %}Clientes{% endtrans %}</span> 
+		</div>
+		<div class="bloque_contenido sinborde">
+			<div class="linea_contenido">
+				<label>{% trans %}Compara&nbsp;&nbsp;{% endtrans %}</label>
+				<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+					<option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+					<option value="5" >{% trans %}May-2014{% endtrans %}</option>
+					<option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+					<option value="7" >{% trans %}Jul-2014{% endtrans %}</option>					
+					<option value="8" selected>{% trans %}Ago-2014{% endtrans %}</option>
+					<option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
+					<option value="10" >{% trans %}Oct-2014{% endtrans %}</option>
+					<option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+					<option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
+				</select>
+				<label>{% trans %}&nbsp;&nbsp;con&nbsp;&nbsp;{% endtrans %}</label>
+				<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
+					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
+					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
+					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
+					<option value="4" >{% trans %}Abr-2014{% endtrans %}</option>
+					<option value="5" >{% trans %}May-2014{% endtrans %}</option>
+					<option value="6" >{% trans %}Jun-2014{% endtrans %}</option>
+					<option value="7" >{% trans %}Jul-2014{% endtrans %}</option>					
+					<option value="8" >{% trans %}Ago-2014{% endtrans %}</option>
+					<option value="9" >{% trans %}Sep-2014{% endtrans %}</option>
+					<option value="10" selected>{% trans %}Oct-2014{% endtrans %}</option>
+					<option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
+					<option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
+				</select>
+			</div>
+			<div class="bloque_contenido sinborde">
+				<div id="tablaClientes" class="linea_contenido">
+					<table>
+						<tbody>	
+							<thead>
+								<tr>
+									<th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;">{% trans %}Segmentos{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}N&uacute;mero Clientes{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}Media Ventas{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}Frecuencia Media{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}Ticket Medio{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}Recencia Media{% endtrans %}</th>
+									<th colspan="3" style="text-align: center;">{% trans %}Amplitud Media{% endtrans %}</th>
+								</tr>
+								<tr>
+									<th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;">{% trans %}&nbsp;{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+									<th style="text-align: center;">{{ fecha1 }}</th>
+									<th style="text-align: center;">{{ fecha2}}</th>
+									<th style="text-align: center;">{% trans %}Proyecci&oacute;n{% endtrans %}</th>
+								</tr>
+							</thead>
+							{% for count in rendimiento %}
+								<tr>
+									<td width="7%">
+										<div style="vertical-align: middle;">
+												{{ count[0] }} 
+										</div>	
+									</td>
+									<td width="2%">
+										{% if count[0] == "Detalle" %}
+											<a href="{{ path("rm_insight_cliente_activo_detalle") }}">
+												<img style="float:center; display: inline-block;" class="info"	src="{{ asset('img/icono_info.png') }}"	alt="{{ 'Detalle' | trans }}" title="{{ 'Detalle' | trans }}" />
+											</a>
+										{% endif %}										
+									</td>									
+									<td style="text-align: center;" width="10%">
+										{{ count[1] }}
+									</td>
+									<td style="text-align: center; border-left-color: #000000; border-width:1px; border-style: solid;" width="10%">
+									 	{{ count[2] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+									 	{{ count[3] }}
+									</td>
+									{% if count[4] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[4] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[4] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[4] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[4] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="border-color: #000000; border-width:1px; border-style: solid" width="10%">
+									 	{{ count[5] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+									 	{{ count[6] }}
+									</td>
+									{% if count[7] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[7] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[7] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[7] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[7] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="10%">
+										{{ count[8] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+									 	{{ count[9] }}
+									</td>
+									{% if count[10] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[10] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[10] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[10] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[10] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="10%">
+									 	{{ count[11] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+									 	{{ count[12] }}
+									</td>
+									{% if count[13] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[13] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[13] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[13] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[13] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="10%">
+									 	{{ count[14] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+										{{ count[15] }}
+									</td>
+									{% if count[16] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[16] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[16] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[16] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[16] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+									<td style="text-align: center;" width="10%">
+									 	{{ count[17] }}
+									</td>
+									<td style="text-align: center;" width="10%">
+									 	{{ count[18] }}
+									</td>
+									{% if count[19] > 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[19] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% elseif count[19] < 0 %}
+										<td style="text-align: center;" width="10%">
+											{{ count[19] }}{% trans %}%{% endtrans %}<img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+										</td>
+									{% else %}
+										<td style="text-align: center;" width="10%">
+											{{ count[19] }}{% trans %}%{% endtrans %}
+										</td>
+									{% endif %}	
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="bloque_contenido sinborde">
+				<table class="tablaSinBordes" style="width: 100%">
+					<tbody>
+						<tr>
+							<td width="25%" class="graficoIzquierda" align="center">
+								<div id="graficoRiesgos"></div>
+							</td>
+							<td width="25%" class="graficoDerecha" align="center">
+								<div id="graficoEvolucionActivos"></div>
+							</td>
+						</tr>
+					</tbody>		
+				</table>
+			</div>
+	</div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            $('.date-picker').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: true,
-                dateFormat: 'MM yy',
-                onClose: function (dateText, inst) {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    $(this).datepicker('setDate', new Date(year, month, 1));
-                }
-            });
-        });
-        $('#graficoRiesgos').highcharts({
-            chart: {
-                type: 'column'
+	{{ parent() }}
+	<script type="text/javascript">
+	$(function() {
+		$('.date-picker').datepicker( {
+		    changeMonth: true,
+		    changeYear: true,
+		    showButtonPanel: true,
+		    dateFormat: 'MM yy',
+		    onClose: function(dateText, inst) { 
+		        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		        $(this).datepicker('setDate', new Date(year, month, 1));
+		    }
+		});
+		});
+	$('#graficoRiesgos').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Evolucion Clientes en Riesgo'
+        },
+        xAxis: {
+            categories: ['Ago', 'Sep', 'Oct']
+        },
+        yAxis: {            
+            min: 0,
+
+            labels: {
+                format: '{value}%',
             },
+            
             title: {
-                text: 'Evolucion Clientes en Riesgo'
+                
+                text: '% Clientes'
             },
-            xAxis: {
-                categories: ['Ago', 'Sep', 'Oct']
-            },
-            yAxis: {
-                min: 0,
-
-                labels: {
-                    format: '{value}%',
-                },
-
-                title: {
-
-                    text: '% Clientes'
-                },
-                stackLabels: {
-                    enabled: false,
-                    style: {
-                        fontWeight: 'bold',
-                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                    }
+            stackLabels: {
+                enabled: false,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                 }
-            },
-            legend: {
-                align: 'right',
-                x: -70,
-                verticalAlign: 'top',
-                y: 20,
-                floating: true,
-                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.x + '</b><br/>' +
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -70,
+            verticalAlign: 'top',
+            y: 20,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
                     this.series.name + ': ' + this.y + '%<br/>' +
                     'Total: ' + this.point.stackTotal;
-                }
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                        style: {
-                            textShadow: '0 0 3px black, 0 0 3px black'
-                        }
-                    }
-                }
-            },
-            series: [{
-                name: 'Riesgo',
-                color: '#B40404',
-                data: [62, 58, 51]
-            }, {
-                name: 'No Riesgo',
-                color: '#045FB4',
-                data: [38, 42, 49]
-            }]
-        });
-
-        $('#graficoEvolucionActivos').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Evolucion Activos'
-            },
-            xAxis: {
-                categories: ['Ago', 'Sep', 'Oct']
-            },
-            yAxis: {
-                min: 0,
-
-                title: {
-
-                    text: ''
-                },
-                stackLabels: {
-                    enabled: false,
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
                     style: {
-                        fontWeight: 'bold',
-                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        textShadow: '0 0 3px black, 0 0 3px black'
                     }
                 }
+            }
+        },
+        series: [{
+            name: 'Riesgo',
+            color: '#B40404',
+            data: [62, 58, 51]
+        }, {
+            name: 'No Riesgo',
+            color: '#045FB4',
+            data: [38, 42, 49]
+        }]
+    });
+
+	$('#graficoEvolucionActivos').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Evolucion Activos'
+        },
+        xAxis: {
+            categories: ['Ago', 'Sep', 'Oct']
+        },
+        yAxis: {            
+            min: 0,
+            
+            title: {
+                
+                text: ''
             },
-            legend: {
-                align: 'right',
-                x: -70,
-                verticalAlign: 'top',
-                y: 20,
-                floating: true,
-                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.x + '</b><br/>' +
+            stackLabels: {
+                enabled: false,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -70,
+            verticalAlign: 'top',
+            y: 20,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
                     this.series.name + ': ' + this.y + '<br/>' +
                     'Total: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black',
                 }
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black',
-                    }
-                }
-            },
-            series: [{
-                name: 'Ocasional',
-                color: '#DF0101',
-                data: [23, 26, 24]
-            }, {
-                name: 'Compartido',
-                color: '#DF7401',
-                data: [38, 35, 39]
-            }, {
-                name: 'Habitual',
-                color: '#D7DF01',
-                data: [62, 58, 51]
-            }, {
-                name: 'Fidelizado',
-                color: '#3ADF00',
-                data: [12, 16, 8]
-
-            }]
-        });
-
-    </script>
+            }
+        },
+        series: [{
+            name: 'Ocasional',
+            color: '#DF0101',
+            data: [23, 26, 24]
+        }, {
+            name: 'Compartido',
+            color: '#DF7401',
+            data: [38, 35, 39]
+        }, {
+	        name: 'Habitual',
+	        color: '#D7DF01',
+	        data: [62, 58, 51]
+	    }, {
+	        name: 'Fidelizado',
+	        color: '#3ADF00',
+	        data: [12, 16, 8]
+	    
+	        }]
+    });
+	
+	</script>
 {% endblock %}

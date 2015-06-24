@@ -35,41 +35,41 @@ class NivelCategoria
      * @ORM\Column(name="asociado", type="boolean", nullable=false)
      */
     private $asociado;
-
+    
     /**
      * Get idNivelCategoria
      *
      * @return integer
      */
 
-    public function getIdNivelCategoria()
-    {
-        return $this->idNivelCategoria;
-    }
+	public function getIdNivelCategoria() 
+	{
+		return $this->idNivelCategoria;
+	}
+	
+	/**
+	 * Set nombre
+	 *
+	 * @param string $nombre
+	 * @return NivelCategoria
+	 */
+	public function setNombre($nombre)
+	{
+		$this->nombre = $nombre;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get nombre
+	 *
+	 * @return string
+	 */
+	public function getNombre()
+	{
+		return $this->nombre;
+	}
 
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return NivelCategoria
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
 
     /**
      * @return samllint
@@ -81,7 +81,6 @@ class NivelCategoria
 
     /**
      * @param samllint $asociado
-     *
      * @return NivelCategoria
      */
     public function setAsociado($asociado)

@@ -1,13 +1,11 @@
 <?php
 namespace RM\LinealesBundle\DependencyInjection;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Tipo;
-use RM\LinealesBundle\Entity\Vil;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\DiscretasBundle\Entity\VidGrupoSegmento;
-
+use RM\LinealesBundle\Entity\Vil;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 

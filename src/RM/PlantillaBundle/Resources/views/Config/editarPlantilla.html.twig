@@ -1,11 +1,11 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
 {% block title %}
-    {{ "editar" | trans }} {{ "plantilla"|trans|title }}
+	{{ "editar" | trans }} {{ "plantilla"|trans|title }}
 {% endblock %}
 
 {% block migas %}
-    {{ parent() }}
+	{{ parent() }}
     <li>{{ "plantillas"|trans|title }} <span class="separator"></span></li>
     <li>{{ "editar" | trans }} {{ "plantilla"|trans|title }}</li>
 {% endblock %}
@@ -14,40 +14,38 @@
 
     <div class="row-fluid">
         <div class="span1 offset11">
-            <button class="btn btn-primary"
-                    onclick="javascript:window.location.href='{{ path('direct_config_plantillas') }}';">
+            <button class="btn btn-primary" onclick="javascript:window.location.href='{{ path('direct_config_plantillas') }}';">
                 {{ "boton.volver"|trans }}
             </button>
         </div>
     </div>
 
-    <form method="post" action="{{ path('direct_config_plantillas_editar', { 'id_plantilla': id_plantilla}) }}">
+	<form method="post" action="{{ path('direct_config_plantillas_editar', { 'id_plantilla': id_plantilla}) }}">
 
         <h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
-
         <div class="mediamgr_head">
-            <table class="table responsive">
+            <table class="table responsive" >
                 <colgroup>
 
                 </colgroup>
                 <tbody>
-                <tr>
-                    <td class="sinborde">{{ form_label(formulario.nombre, 'nombre' | trans) }}</td>
-                    <td class="sinborde">
-                        {{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}
-                    </td>
-                    <td class="sinborde">{{ form_label(formulario.idCanal, 'canal' | trans) }}</td>
-                    <td class="sinborde">
-                        {{ form_widget(formulario.idCanal, { 'attr': { 'class': 'tam150' } }) }}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sinborde">{{ form_label(formulario.descripcion, 'descripcion' | trans) }}</td>
-                    <td class="sinborde" colspan="3">
-                        {{ form_widget(formulario.descripcion, { 'attr': { 'class': 'tam600' } }) }}
-                    </td>
-                </tr>
-                {{ form_rest(formulario) }}
+                    <tr>
+                        <td class="sinborde">{{ form_label(formulario.nombre, 'nombre' | trans) }}</td>
+                        <td class="sinborde">
+                            {{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}
+                        </td>
+                        <td class="sinborde">{{ form_label(formulario.idCanal, 'canal' | trans) }}</td>
+                        <td class="sinborde">
+                            {{ form_widget(formulario.idCanal, { 'attr': { 'class': 'tam150' } }) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="sinborde">{{ form_label(formulario.descripcion, 'descripcion' | trans) }}</td>
+                        <td class="sinborde" colspan="3">
+                            {{ form_widget(formulario.descripcion, { 'attr': { 'class': 'tam600' } }) }}
+                        </td>
+                    </tr>
+                    {{ form_rest(formulario) }}
                 </tbody>
             </table>
 
@@ -65,104 +63,99 @@
             </tr>
             </tbody>
         </table>
-    </form>
+	</form>
     <br/>
-
-    <form name="form2" id="form2" method="post" action="{{ path('direct_config_plantillas_editar_eliminar_grupo') }}">
-        <input type="hidden" name="id_plantilla" value="{{ id_plantilla }}">
-        <input type="hidden" name="elementosBorrar" id="elementosBorrar">
-
+	
+	<form name="form2" id="form2" method="post" action="{{ path('direct_config_plantillas_editar_eliminar_grupo') }}">
+		<input type="hidden" name="id_plantilla" value="{{ id_plantilla }}">
+		<input type="hidden" name="elementosBorrar" id="elementosBorrar" >
+		
         <h4 class="widgettitle">{{ "grupo.slots"|trans }}</h4>
 
-        <table class="table table-bordered responsive">
-            <thead>
-            <tr>
-                <th width="1%"><input type="checkbox" id="checkTodos"/></th>
-                <th>{{ "nombre" | trans|title }}</th>
-                <th>{{ "numero.slots" | trans|title }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if selectGrupos == null %}
+            <table class="table table-bordered responsive">
+                <thead>
                 <tr>
-                    <td colspan="3">
-                        {{ "sin.resultados" | trans }}
-                    </td>
+                    <th width="1%"><input type="checkbox" id="checkTodos" /></th>
+                    <th>{{ "nombre" | trans|title }}</th>
+                    <th>{{ "numero.slots" | trans|title }}</th>
                 </tr>
-            {% else %}
-                {% for objGrupo in selectGrupos %}
+                </thead>
+                <tbody>
+                {% if selectGrupos == null %}
                     <tr>
-                        <td>
-                            <input class="selTodos" type="checkbox" value="{{ objGrupo.idGrupo }}"/>
-                        </td>
-                        <td>
-                            <a href="{{ path("direct_config_plantillas_grupo_slots_editar", { 'id_plantilla': id_plantilla, 'id_grupo': objGrupo.idGrupo }) }}"
-                               style="cursor:pointer;">{{ objGrupo.nombre }}</a>
-                        </td>
-                        <td>
-                            {{ objGrupo.numSlots }}
+                        <td colspan="3">
+                            {{ "sin.resultados" | trans }}
                         </td>
                     </tr>
-                {% endfor %}
-            {% endif %}
-            </tbody>
-        </table>
+                {% else %}
+                    {% for objGrupo in selectGrupos %}
+                        <tr>
+                            <td>
+                                <input class="selTodos" type="checkbox" value="{{objGrupo.idGrupo}}"/>
+                            </td>
+                            <td>
+                                <a href="{{ path("direct_config_plantillas_grupo_slots_editar", { 'id_plantilla': id_plantilla, 'id_grupo': objGrupo.idGrupo })}}" style="cursor:pointer;">{{ objGrupo.nombre }}</a>
+                            </td>
+                            <td>
+                                {{ objGrupo.numSlots }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
         <table cellpadding="0" cellspacing="0" border="0">
             <tbody>
             <tr>
-                <td width="100">
-                    <button class="btn btn-success"
-                            onclick="window.location.href='{{ path('direct_config_plantillas_grupo_slots_nuevo', {'id_plantilla':id_plantilla}) }}'; return false;">{{ "boton.nuevo" | trans }}</button>
-                </td>
-                <td width="100">
-                    <button class="btn btn-danger" id="btonBorrarGrupo">{{ "boton.eliminar" | trans }}</button>
-                </td>
+                <td width="100"> <button class="btn btn-success" onclick="window.location.href='{{ path('direct_config_plantillas_grupo_slots_nuevo', {'id_plantilla':id_plantilla}) }}'; return false;">{{ "boton.nuevo" | trans }}</button></td>
+                <td width="100"> <button class="btn btn-danger" id="btonBorrarGrupo">{{ "boton.eliminar" | trans }}</button></td>
             </tr>
             </tbody>
         </table>
 
 
-    </form>
 
-
+	</form>
+	
+	
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#btonBorrarGrupo').live("click", function (e) {
-                e.preventDefault(); //cancela el comportamiento por defecto
-                var existe = 0;
-                $(".selTodos:checked").each(function () {
-                    existe = 1;
-                    var cur_val = $('#elementosBorrar').val();
-                    if (cur_val)
-                        $('#elementosBorrar').val(cur_val + "," + this.value);
-                    else
-                        $('#elementosBorrar').val(this.value);
-                });
-
-                if (existe == 0) {
-                    alert("Debe de elegir al menos un registro");
-                }
-                else {
-                    if (confirm("¿Desea eliminar los registros seleccionados?")) {
-                        msg = $("#form2").submit();
-                    }
-                    else {
-                        $('#elementosBorrar').val("");
-                    }
-                }
-            });
-
-            $('#checkTodos').live("click", function () {
-                if ($("#checkTodos").is(':checked')) {
-                    $('.selTodos').prop("checked", true);
-
-                } else {
-                    $('.selTodos').prop("checked", false);
-                }
-            });
-        });
-    </script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#btonBorrarGrupo').live("click", function(e) {
+				e.preventDefault(); //cancela el comportamiento por defecto
+				var existe = 0;
+				$(".selTodos:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#elementosBorrar').val();
+					if(cur_val)
+					  $('#elementosBorrar').val(cur_val + "," + this.value);
+					else
+					  $('#elementosBorrar').val(this.value);
+				});
+	
+				if(existe == 0){
+					alert("Debe de elegir al menos un registro");
+				}
+				else{
+					if(confirm("¿Desea eliminar los registros seleccionados?")){
+						msg = $("#form2").submit();
+					}
+					else{
+						 $('#elementosBorrar').val("");
+					}
+				}
+			});
+	
+			$('#checkTodos').live("click", function() {
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
+	
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
+		});
+	</script>
 {% endblock %}

@@ -1,141 +1,134 @@
 {% extends '::pantallaPopUp.html.twig' %}
 
 {% block title %}
-    {{ "Promoción" | trans }} - {{ "Información avanzada" | trans }}
+	{{ "Promoción" | trans }} - {{ "Información avanzada" | trans }}
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <script src="{{ asset('js/jquery-1.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-1.7.1.min.js') }}" ></script>
 {% endblock %}
 
 {% block body %}
-    <div class="bloque_contenido">
-        <div class="cabecera_contenido">
+	<div class="bloque_contenido">
+		<div class="cabecera_contenido">
 			<span>
 				{{ "Info" | trans }}
-			</span>
-        </div>
-        <div class="linea_contenido">
-            <div class="linea_contenido_i">
-                <table class="tablaSinBordes">
-                    <tbody>
-                    <tr>
-                        <td>{{ "Precio actual" | trans }}:</td>
-                        <td>{{ objPromocion.idProducto.precioVenta }} €</td>
-                    </tr>
-
-                    <tr>
-                        <td>{{ "Volumen" | trans }}:</td>
-                        <td>{{ objPromocion.idProducto.Volumen }} g</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <form name="form" id="form">
-        <input type="hidden" name="id_promocion" value="{{ objPromocion.getIdPromocion() }}">
-
-        <div class="bloque_contenido">
-            <div class="cabecera_contenido">
+			</span> 
+		</div>
+		<div class="linea_contenido">
+			<div class="linea_contenido_i">
+				<table class="tablaSinBordes">
+					<tbody>						
+						<tr>
+							<td>{{ "Precio actual" | trans }}:</td>
+							<td>{{ objPromocion.idProducto.precioVenta }} €</td>
+						</tr>
+						
+						<tr>
+							<td>{{ "Volumen" | trans }}:</td>
+							<td>{{ objPromocion.idProducto.Volumen }} g</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<form name="form" id="form" >
+		<input type="hidden" name="id_promocion" value="{{ objPromocion.getIdPromocion() }}">
+		<div class="bloque_contenido">
+			<div class="cabecera_contenido">
 				<span>
 					{{ "Configuración" | trans }}
-				</span>
-            </div>
-            <div class="linea_contenido">
-                <div class="linea_contenido_i">
-                    <table class="tablaSinBordes">
-                        <tbody>
-                        <tr>
-                            <td>{{ "Descripción" | trans }}:</td>
-                            <td><input type="text" name="descripcion" value="{{ objPromocion.descripcion }}"
-                                       class="tam8"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Imp. fijo" | trans }}:</td>
-                            <td><input type="text" name="fijo" value="{{ objPromocion.impFijo }}" class="tam8 soloNum">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Imp. distribuidor" | trans }}:</td>
-                            <td><input type="text" name="distribuidor" value="{{ objPromocion.impDistribuidor }}"
-                                       class="tam8 soloNum"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Imp. consumidor" | trans }}:</td>
-                            <td><input type="text" name="consumidor" value="{{ objPromocion.impConsumidor }}"
-                                       class="tam8 soloNum"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Condiciones" | trans }}:</td>
-                            <td><input type="text" name="condiciones" value="{{ objPromocion.condiciones }}"
-                                       class="tam8"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Fidelización" | trans }}:</td>
-                            <td><input type="text" name="fidelizacion" value="{{ objPromocion.fidelizacion }}"
-                                       class="tam8"></td>
-                        </tr>
-                        <tr>
-                            <td>{{ "Código promoción" | trans }}:</td>
-                            <td><input type="text" name="codigo" value="{{ objPromocion.codigo }}" class="tam8"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </form>
-
-
-
-    <div class="bloque_contenido sinborde">
-        <div class="linea_contenido">
-            <div class="linea_contenido_i botonera_central">
-                <button class="tam4" id="botonAceptar">{{ "Aceptar" | trans }}</button>
-                <button class="tam4" id="botonCancelar" onClick="window.close();">{{ "Cancelar" | trans }}</button>
-            </div>
-        </div>
-    </div>
+				</span> 
+			</div>
+			<div class="linea_contenido">
+				<div class="linea_contenido_i">
+					<table class="tablaSinBordes">
+						<tbody>						
+							<tr>
+								<td>{{ "Descripción" | trans }}:</td>
+								<td><input type="text" name="descripcion" value="{{ objPromocion.descripcion }}" class="tam8"></td>
+							</tr>
+							<tr>
+								<td>{{ "Imp. fijo" | trans }}:</td>
+								<td><input type="text" name="fijo" value="{{ objPromocion.impFijo }}" class="tam8 soloNum"></td>
+							</tr>
+							<tr>
+								<td>{{ "Imp. distribuidor" | trans }}:</td>
+								<td><input type="text" name="distribuidor" value="{{ objPromocion.impDistribuidor }}" class="tam8 soloNum"></td>
+							</tr>
+							<tr>
+								<td>{{ "Imp. consumidor" | trans }}:</td>
+								<td><input type="text" name="consumidor" value="{{ objPromocion.impConsumidor }}" class="tam8 soloNum"></td>
+							</tr>
+							<tr>
+								<td>{{ "Condiciones" | trans }}:</td>
+								<td><input type="text" name="condiciones" value="{{ objPromocion.condiciones }}" class="tam8"></td>
+							</tr>
+							<tr>
+								<td>{{ "Fidelización" | trans }}:</td>
+								<td><input type="text" name="fidelizacion" value="{{ objPromocion.fidelizacion }}" class="tam8"></td>
+							</tr>
+							<tr>
+								<td>{{ "Código promoción" | trans }}:</td>
+								<td><input type="text" name="codigo" value="{{ objPromocion.codigo }}" class="tam8"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	
+	
+	<div class="bloque_contenido sinborde">
+		<div class="linea_contenido">
+			<div class="linea_contenido_i botonera_central">
+				<button class="tam4" id="botonAceptar">{{ "Aceptar" | trans }}</button>
+				<button class="tam4" id="botonCancelar" onClick="window.close();">{{ "Cancelar" | trans }}</button> 
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        function habilitarSoloNumerosConDecimales() {
-            $('.soloNum').keydown(function (e) {
-                if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9 && e.keyCode != 110 && e.keyCode != 190 && e.keyCode != 109 && e.keyCode != 173)
-                    e.preventDefault();
-            });
-        }
+	<script type="text/javascript">		
+		function habilitarSoloNumerosConDecimales(){
+			$('.soloNum').keydown(function(e) {
+				if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8 && e.keyCode != 9 && e.keyCode != 110 && e.keyCode != 190 && e.keyCode != 109 && e.keyCode != 173 )
+			          e.preventDefault();
+			});
+		}
 
-        $(document).ready(function () {
-            habilitarSoloNumerosConDecimales();
+		$(document).ready(function(){
+			habilitarSoloNumerosConDecimales();
 
-            $('#botonAceptar').click(function (e) {
-                e.preventDefault();
-                msg = $("#form").serialize();
-                {% set crearUrl = url('campaign_ficha_promocion_guardar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
-                            window.opener.$('#control_mensajes').remove();
-                            window.opener.$('#control_mensajes').append(objeto.responseText);
-                            window.close();
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
+			$('#botonAceptar').click(function(e){
+				e.preventDefault();
+				msg = $("#form").serialize();
+				{% set crearUrl = url('campaign_ficha_promocion_guardar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						window.opener.$('#control_mensajes').remove();
+						window.opener.$('#control_mensajes').append(objeto.responseText);
+						window.close();
+			        }
+		          },
+				  error: function(objeto, quepaso, otroobj){
+		          }
+				});
+			});
 
-
-        });
-
-    </script>
+			
+		});
+		
+	</script>
 {% endblock %}

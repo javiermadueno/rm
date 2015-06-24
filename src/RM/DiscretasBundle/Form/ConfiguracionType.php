@@ -8,24 +8,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ConfiguracionType extends AbstractType
 {
-    /**
+        /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('valor', 'number', ['required' => true]);
+            ->add('valor', 'number', ['required' => true])
+        ;
     }
-
+    
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\DiscretasBundle\Entity\Configuracion'
-        ]);
+        ));
     }
 
     /**

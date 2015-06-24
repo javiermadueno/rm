@@ -9,7 +9,7 @@
     </colgroup>
     <thead>
     <tr>
-        <th width="1%"><input type="checkbox" class="checkTodos" id="{{ tipoImg }}"/></th>
+        <th width="1%"><input type="checkbox" class="checkTodos" id="{{ tipoImg }}" /></th>
         <th>{{ "nombre" | trans }}</th>
         <th>{{ "imagen.ancho" | trans }}</th>
         <th>{{ "imagen.alto" | trans }}</th>
@@ -25,9 +25,7 @@
     {% else %}
         {% for objTI in objTamImg %}
             <tr>
-                <td><input type="checkbox"
-                           {% if (objTI.idGrupo != null) %}disabled="true"{% else %} class="selTodos{{ tipoImg }}" value="{{ objTI.idTamanyo }}" {% endif %}/>
-                </td>
+                <td><input type="checkbox" {% if (objTI.idGrupo != null) %}disabled="true"{% else %} class="selTodos{{ tipoImg }}" value="{{ objTI.idTamanyo }}" {% endif %}/></td>
                 <td>{{ objTI.codigo }}</td>
                 <td>{{ objTI.ancho }}</td>
                 <td>{{ objTI.alto }}</td>

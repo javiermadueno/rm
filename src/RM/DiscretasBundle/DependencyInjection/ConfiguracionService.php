@@ -3,12 +3,10 @@
 namespace RM\DiscretasBundle\DependencyInjection;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Configuracion;
-use RM\DiscretasBundle\Entity\ParametroConfiguracion;
 use RM\DiscretasBundle\Entity\ConfiguracionRepository;
-use Doctrine\Common\Persistence\ObjectManager;
+use RM\DiscretasBundle\Entity\ParametroConfiguracion;
 
 
 class ConfiguracionService

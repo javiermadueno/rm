@@ -2,16 +2,12 @@
 
 namespace RM\RMMongoBundle\Controller;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use RM\AppBundle\Controller\RMController;
 use RM\RMMongoBundle\Document\ClienteSegmento;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Zend\Json\Json;
 
 class DefaultController extends RMController
 {

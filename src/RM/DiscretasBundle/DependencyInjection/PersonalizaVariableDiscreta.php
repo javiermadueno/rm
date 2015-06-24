@@ -9,7 +9,6 @@
 namespace RM\DiscretasBundle\DependencyInjection;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\DiscretasBundle\Entity\Tipo;
 use RM\DiscretasBundle\Entity\Vid;
@@ -57,20 +56,21 @@ class PersonalizaVariableDiscreta
     public function personalizaVariable(Vid $variable)
     {
 
-        if (!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
+        if(!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
             return false;
         }
 
         $vidGrupo->setPersonalizado(self::PERSONALIZADO);
 
-        if ($variable->getSolicitaTiempo() == Vid::SOLICITA_N) {
+        if($variable->getSolicitaTiempo() == Vid::SOLICITA_N) {
             $vidGrupo->setMesesN($this->criteriosGlobales->getReferenciaN());
-        } else {
+        }
+        else {
             $vidGrupo->setMesesM($this->criteriosGlobales->getMesesM());
             $vidGrupo->setMesesN($this->criteriosGlobales->getMesesN());
         }
 
-        if (Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
+        if( Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo() ) {
             $this->copiaSegmentosGlobalesA($vidGrupo);
         }
 
@@ -82,8 +82,33 @@ class PersonalizaVariableDiscreta
     }
 
     /**
-     * @param $idVid
+     * Marca el vidGrupoSegmento asociado a la variable como NO personalizado y
+     * elimina los segmentos asociados
      *
+     * @param Vid $variable
+     *
+     * @return bool
+     */
+    public function despersonalizarVariable(Vid $variable)
+    {
+        if(!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
+            return false;
+        }
+
+        $vidGrupo->setPersonalizado(self::NO_PERSONALIZADO);
+
+        if(Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
+            $this->eliminaSegmentos($vidGrupo);
+        }
+
+        $this->em->persist($vidGrupo);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param $idVid
      * @return VidGrupoSegmento|null
      */
     public function getVidGrupoSegmento($idVid)
@@ -91,12 +116,13 @@ class PersonalizaVariableDiscreta
         $vidGrupo = $this->repository
             ->obtenerUnicoGrupoSegmentoByVid($idVid);
 
-        if (!$vidGrupo instanceof VidGrupoSegmento) {
+        if(!$vidGrupo instanceof VidGrupoSegmento) {
             return null;
         }
 
         return $vidGrupo;
     }
+
 
     /**
      * Copia los segmentos Globales al grupo
@@ -110,7 +136,8 @@ class PersonalizaVariableDiscreta
         /**
          * @var  VidSegmentoGlobal $segmento
          */
-        foreach ($segmentosGlobales as $segmento) {
+        foreach($segmentosGlobales as $segmento)
+        {
             $this->creaVidSegmentoAPartirde($segmento, $vidGrupoSegmento);
         }
     }
@@ -119,11 +146,11 @@ class PersonalizaVariableDiscreta
      * Crea un VidSegmento copiado de un SegmentoGlobal y se los asigna al VidGrupoSegmento
      *
      * @param VidSegmentoGlobal $vidSegmentoGlobal
-     * @param VidGrupoSegmento  $vidGrupoSegmento
+     * @param VidGrupoSegmento $vidGrupoSegmento
      */
     private function creaVidSegmentoAPartirde(VidSegmentoGlobal $vidSegmentoGlobal, VidGrupoSegmento $vidGrupoSegmento)
     {
-        if (is_null($vidGrupoSegmento) || is_null($vidGrupoSegmento)) {
+        if(is_null($vidGrupoSegmento) || is_null($vidGrupoSegmento)) {
             return;
         }
 
@@ -140,39 +167,13 @@ class PersonalizaVariableDiscreta
     }
 
     /**
-     * Marca el vidGrupoSegmento asociado a la variable como NO personalizado y
-     * elimina los segmentos asociados
-     *
-     * @param Vid $variable
-     *
-     * @return bool
-     */
-    public function despersonalizarVariable(Vid $variable)
-    {
-        if (!$vidGrupo = $this->getVidGrupoSegmento($variable->getIdVid())) {
-            return false;
-        }
-
-        $vidGrupo->setPersonalizado(self::NO_PERSONALIZADO);
-
-        if (Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
-            $this->eliminaSegmentos($vidGrupo);
-        }
-
-        $this->em->persist($vidGrupo);
-        $this->em->flush();
-
-        return true;
-    }
-
-    /**
      * Elimina los segmentos asociados al VidGrupoSegmento
      *
      * @param VidGrupoSegmento $vidGrupo
      */
     private function eliminaSegmentos(VidGrupoSegmento $vidGrupo)
     {
-        $this->repository->eliminarSegmentosDelGrupo($vidGrupo);
+       $this->repository->eliminarSegmentosDelGrupo($vidGrupo);
     }
 
 } 

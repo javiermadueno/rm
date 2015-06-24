@@ -39,7 +39,7 @@ class CriterioDesempate
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -47,9 +47,22 @@ class CriterioDesempate
     }
 
     /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return CriterioDesempate
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -57,40 +70,25 @@ class CriterioDesempate
     }
 
     /**
-     * Set nombre
+     * Set codigo
      *
-     * @param string $nombre
-     *
+     * @param string $codigo
      * @return CriterioDesempate
      */
-    public function setNombre($nombre)
+    public function setCodigo($codigo)
     {
-        $this->nombre = $nombre;
-
+        $this->codigo = $codigo;
+    
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
         return $this->codigo;
-    }
-
-    /**
-     * Set codigo
-     *
-     * @param string $codigo
-     *
-     * @return CriterioDesempate
-     */
-    public function setCodigo($codigo)
-    {
-        $this->codigo = $codigo;
-
-        return $this;
     }
 }

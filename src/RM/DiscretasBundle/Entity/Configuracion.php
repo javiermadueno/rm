@@ -10,40 +10,39 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="configuracion")
  * @ORM\Entity(repositoryClass="RM\DiscretasBundle\Entity\ConfiguracionRepository")
  */
-class Configuracion
-{
+class Configuracion {
 
     const GENERAL = 'general';
     const SEGMENTOS = 'segmentos';
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
-    /**
-     * @var string
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 */
+	private $id;
+	
+	/**
+	 * @var string
      * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
-     */
-    private $nombre;
-
-    /**
-     *
-     * @var string
+	 */
+	private $nombre;
+	
+	/**
+	 *
+	 * @var string
      * @ORM\Column(name="valor", type="string", length=255, nullable=true)
-     */
-    private $valor;
-
-    /**
-     *
-     * @var int
+	 */
+	private $valor;
+	
+	/**
+	 *
+	 * @var int
      * @ORM\Column(name="estado", type="smallint", nullable=true)
-     */
-    private $estado;
+	 */
+	private $estado;
 
     /**
      * @var string
@@ -56,83 +55,74 @@ class Configuracion
      * @ORM\Column(name="tipo", type="string", nullable=false, options={"default": "general"})
      */
     private $tipo;
-
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return Configuracion
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get valor
-     *
-     * @return string
-     */
-    public function getValor()
-    {
-        return $this->valor;
-    }
-
-    /**
-     * Set valor
-     *
-     * @param string $valor
-     *
-     * @return Configuracion
-     */
-    public function setValor($valor)
-    {
-        $this->valor = $valor;
-
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return string
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param smallint $estado
-     *
-     * @return Configuracion
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
+	
+	/**
+	 * Set nombre
+	 *
+	 * @param string $nombre        	
+	 * @return Configuracion
+	 */
+	public function setNombre($nombre) {
+		$this->nombre = $nombre;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get nombre
+	 *
+	 * @return string
+	 */
+	public function getNombre() {
+		return $this->nombre;
+	}
+	
+	/**
+	 * Set valor
+	 *
+	 * @param string $valor      	
+	 * @return Configuracion
+	 */
+	public function setValor($valor) {
+		$this->valor = $valor;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get valor
+	 *
+	 * @return string
+	 */
+	public function getValor() {
+		return $this->valor;
+	}
+	
+	/**
+	 * Set estado
+	 *
+	 * @param smallint $estado        	
+	 * @return Configuracion
+	 */
+	public function setEstado($estado) {
+		$this->estado = $estado;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get estado
+	 *
+	 * @return string
+	 */
+	public function getEstado() {
+		return $this->estado;
+	}
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -140,9 +130,22 @@ class Configuracion
     }
 
     /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     * @return Configuracion
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+    
+        return $this;
+    }
+
+    /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {
@@ -150,40 +153,25 @@ class Configuracion
     }
 
     /**
-     * Set descripcion
+     * Set tipo
      *
-     * @param string $descripcion
-     *
+     * @param string $tipo
      * @return Configuracion
      */
-    public function setDescripcion($descripcion)
+    public function setTipo($tipo)
     {
-        $this->descripcion = $descripcion;
-
+        $this->tipo = $tipo;
+    
         return $this;
     }
 
     /**
      * Get tipo
      *
-     * @return string
+     * @return string 
      */
     public function getTipo()
     {
         return $this->tipo;
-    }
-
-    /**
-     * Set tipo
-     *
-     * @param string $tipo
-     *
-     * @return Configuracion
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
     }
 }

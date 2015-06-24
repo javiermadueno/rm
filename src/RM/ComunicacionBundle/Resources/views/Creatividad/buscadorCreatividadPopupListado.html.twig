@@ -1,4 +1,4 @@
-<h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
+<h4 class="widgettitle">{{ "creatividades" |trans|title}}</h4>
 <table class="table table-bordered responsive">
     <colgroup>
         <col class="con0">
@@ -29,8 +29,7 @@
                 <td>
                     <button class="btn btn-default " style="cursor: pointer"
                             onclick="asocCreatividad('{{ objCreatividad.idCreatividad }}', '{{ objCreatividad.nombre }}');"
-                            title="{{ "select.seleccione" | trans }}"> <
-                    </button>
+                            title="{{ "select.seleccione" | trans }}"> < </button>
                 </td>
                 <td>{{ objCreatividad.nombre }}</td>
                 <td>{{ objCreatividad.descripcion }}</td>
@@ -57,22 +56,23 @@
 </table>
 <div class="paginate wrapper">
     {{ simple_paginator_render(
-    'direct_config_listado_creatividad_paginador', null,
-    {
-    'routeParams' : {'nombre': nombre},
-    'container_class' : '',
-    'first_disabled': 'disabled',
-    'currentClass': 'active',
-    'firstEnabledClass': '',
-    'firstDisableClass': 'disabled',
-    'previousPageText' : 'Anterior',
-    'previousEnabledClass' : '',
-    'previousDisabledClass' : 'disabled',
-    'nextPageText' : 'Siguiente',
-    'nextEnabledClass': '',
-    'nextDisabledClass': 'disabled',
-    'lastEnabledClass': '',
-    'lastDisabledClass' : 'disabled'
-    }
-    ) }}
+        'direct_config_listado_creatividad_paginador', null,
+        {
+        'routeParams' : {'nombre': nombre},
+        'container_class' : '',
+        'first_disabled': 'disabled',
+        'currentClass': 'active',
+        'firstEnabledClass': '',
+        'firstDisableClass': 'disabled',
+        'previousPageText' : 'Anterior',
+        'previousEnabledClass' : '',
+        'previousDisabledClass' : 'disabled',
+        'nextPageText' : 'Siguiente',
+        'nextEnabledClass': '',
+        'nextDisabledClass': 'disabled',
+        'lastEnabledClass': '',
+        'lastDisabledClass' : 'disabled'
+        }
+        )
+    }}
 </div>

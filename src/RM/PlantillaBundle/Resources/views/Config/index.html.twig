@@ -1,19 +1,19 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - {{ "plantillas" | trans | title }}
+	{{ parent()}} - {{ "plantillas" | trans | title }}
 {% endblock %}
 
 {% block migas %}
-    {{ parent() }}
+	{{ parent() }}
     <li>{{ "plantillas" | trans | title }}</li>
 {% endblock %}
 
 {% block tabcontent %}
-
-    <form id="form" name="form">
-        <input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
-        <ul class="mediamgr_menu">
+	
+	<form id="form" name="form" >
+		<input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
+		<ul class="mediamgr_menu">
             <li>
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
@@ -21,9 +21,9 @@
                         <td>
                             <label for="id_canal">{{ "canal" | trans|title }}</label>
                             <select id="id_canal" name="id_canal" class=" actualizarPlantillas">
-                                <option value="-1" {% if -1 == id_canal %} selected {% endif %}>{{ "select.todas" | trans }}</option>
+                                <option value="-1" {% if -1 == id_canal %} selected {%  endif %}>{{ "select.todas" | trans }}</option>
                                 {% for objCanal in objCanales %}
-                                    <option value="{{ objCanal.idCanal }}" {% if objCanal.getIdCanal() == id_canal %} selected {% endif %}>{{ objCanal.nombre }}</option>
+                                    <option value="{{ objCanal.idCanal }}" {% if objCanal.getIdCanal() == id_canal %} selected {%  endif %}>{{ objCanal.nombre }}</option>
                                 {% endfor %}
                             </select>
                         </td>
@@ -34,91 +34,89 @@
             <li class="right newfilebtn">
                 <button class="btn btn-primary" id="botonEliminarPlantilla">{{ "boton.eliminar" | trans }}</button>
                 &nbsp;&nbsp;
-                <button class="btn btn-primary"
-                        onclick="location.href='{{ path('direct_config_plantillas_new') }}'; return false;">{{ "boton.nuevo" | trans }}</button>
+                <button class="btn btn-primary" onclick="location.href='{{ path('direct_config_plantillas_new') }}'; return false;">{{ "boton.nuevo" | trans }}</button>
             </li>
-        </ul>
+		</ul>
         <br/>
-
-        <div id="tablaListado">
-            {{ include ('RMPlantillaBundle:Config:tablaListado.html.twig') }}
-        </div>
-    </form>
-
+		<div id="tablaListado">
+			{{ include ('RMPlantillaBundle:Config:tablaListado.html.twig') }}
+		</div>
+	</form>
+	
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#checkTodos').live("change", function () {
-                if ($("#checkTodos").is(':checked')) {
-                    $('.selTodos').prop("checked", true);
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#checkTodos').live("change", function() {
+				if ($("#checkTodos").is(':checked')) {
+					$('.selTodos').prop("checked", true);
 
-                } else {
-                    $('.selTodos').prop("checked", false);
-                }
-            });
+		        } else {
+		        	$('.selTodos').prop("checked", false);
+		        }
+			});
 
-            $('#botonEliminarPlantilla').click(function (event) {
-                event.preventDefault(); //cancela el comportamiento por defecto
-                var existe = 0;
-                $(".selTodos:checked").each(function () {
-                    existe = 1;
-                    var cur_val = $('#elementosBorrar').val();
-                    if (cur_val)
-                        $('#elementosBorrar').val(cur_val + "," + this.value);
-                    else
-                        $('#elementosBorrar').val(this.value);
-                });
+			$('#botonEliminarPlantilla').click(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				var existe = 0;
+				$(".selTodos:checked").each(function() {
+					existe = 1;
+					var cur_val = $('#elementosBorrar').val();
+					if(cur_val)
+					  $('#elementosBorrar').val(cur_val + "," + this.value);
+					else
+					  $('#elementosBorrar').val(this.value);
+				});
 
-                if (existe == 0) {
-                    alert("Debe de elegir al menos un registro");
-                }
-                else {
-                    if (confirm("¿Desea eliminar los registros seleccionados?")) {
-                        msg = $("#form").serialize();
-                        {% set crearUrl = url('direct_config_plantillas_delete') %}
-                        var myUrl = '{{crearUrl}}';
-                        $.ajax({
-                            type: "POST",
-                            url: myUrl,
-                            data: msg,
-                            complete: function (objeto, exito) {
-                                if (exito == "success") {
-                                    $('#tablaListado').children().remove();
-                                    $('#tablaListado').append(objeto.responseText);
-                                }
-                            },
-                            error: function (objeto, quepaso, otroobj) {
-                            }
-                        });
-                    }
-                    else {
-                        $('#elementosBorrar').val("");
-                    }
-                }
-            });
+				if(existe == 0){
+					alert("Debe de elegir al menos un registro");
+				}
+				else{
+					if(confirm("¿Desea eliminar los registros seleccionados?")){
+						msg = $("#form").serialize();
+						{% set crearUrl = url('direct_config_plantillas_delete') %}
+						var myUrl = '{{crearUrl}}';
+						$.ajax({  
+						  type: "POST",  
+						  url: myUrl,
+						  data: msg,  
+						  complete: function(objeto, exito){
+							if(exito=="success"){
+								$('#tablaListado').children().remove();
+								$('#tablaListado').append(objeto.responseText);
+				            }
+				          },
+						  error: function(objeto, quepaso, otroobj){		            
+				          }
+						}); 
+					}
+					else{
+						 $('#elementosBorrar').val("");
+					}
+				}
+			});
+			
 
-
-            $('.actualizarPlantillas').change(function (event) {
-                event.preventDefault(); //cancela el comportamiento por defecto
-                msg = $("#form").serialize();
-                {% set crearUrl = url('direct_config_plantillas_actualizar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function (objeto, exito) {
-                        if (exito == "success") {
-                            $('#tablaListado').children().remove();
-                            $('#tablaListado').append(objeto.responseText);
-                        }
-                    },
-                    error: function (objeto, quepaso, otroobj) {
-                    }
-                });
-            });
-        });
-    </script>
+			$('.actualizarPlantillas').change(function(event){
+				event.preventDefault(); //cancela el comportamiento por defecto
+				msg = $("#form").serialize();
+				{% set crearUrl = url('direct_config_plantillas_actualizar') %}
+				var myUrl = '{{crearUrl}}';
+				$.ajax({  
+				  type: "POST",  
+				  url: myUrl,
+				  data: msg,  
+				  complete: function(objeto, exito){
+					if(exito=="success"){
+						$('#tablaListado').children().remove();
+						$('#tablaListado').append(objeto.responseText);
+		            }
+		          },
+				  error: function(objeto, quepaso, otroobj){		            
+		          }
+				}); 
+			});
+		});
+	</script>
 {% endblock %}

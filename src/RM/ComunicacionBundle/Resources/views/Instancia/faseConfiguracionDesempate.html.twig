@@ -1,8 +1,7 @@
 {% extends 'RMComunicacionBundle:Instancia:faseConfiguracionPromo.html.twig' %}
 
 {% block tabcontent %}
-    <form name="form" id="form" method="post"
-          action="{{ path("direct_monitor_controlador_fases_guardar", {'id_instancia': objInstancia.idInstancia}) }}">
+    <form name="form" id="form" method="post" action="{{ path("direct_monitor_controlador_fases_guardar", {'id_instancia': objInstancia.idInstancia}) }}">
         <input type="hidden" name="desempate" value="1">
 
 
@@ -18,11 +17,10 @@
             {% set creatividad = 2 %}
             {% for objGS in objGrupoSlots if objGS.tipo != creatividad %}
 
-                <input type="hidden" id="numSlot_{{ objGS.idGrupo }}" name="numSlot_{{ objGS.idGrupo }}"
-                       value="{{ objGS.numSlots }}"/>
+                <input type="hidden" id="numSlot_{{ objGS.idGrupo }}" name="numSlot_{{ objGS.idGrupo }}" value="{{ objGS.numSlots  }}"/>
 
                 <h4 class="widgettitle">{{ objGS.nombre }} ({{ "numero.slots" | trans }}: {{ objGS.numSlots }})</h4>
-                <table class="table table-bordered responsive">
+                <table class="table table-bordered responsive" >
                     <thead>
                     <tr>
                         <th style="width: 20%;">{{ "numero.slots" | trans }}</th>
@@ -31,18 +29,13 @@
                     </thead>
                     <tbody>
                     {% if criteriosDesempate is defined %}
-                        {% set indice = 1 %}
+                        {% set indice = 1  %}
                         {% for criterio in criteriosDesempate %}
                             {% if arrayCriteriosNumSlots[objGS.idGrupo][criterio.codigo] is defined %}
                                 <tr>
                                     <td class="botonera_central control-group">
-                                        {% set valor = arrayCriteriosNumSlots[objGS.idGrupo][criterio.codigo] %}
-                                        <input value="{{ valor }}" data-grupo="{{ objGS.idGrupo }}"
-                                               tabindex="{{ indice }}"
-                                               id="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}"
-                                               name="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}"
-                                               class="tam5 botonera_central soloNum suma suma_{{ objGS.idGrupo }}"
-                                               type="text"/>
+                                        {% set valor = arrayCriteriosNumSlots[objGS.idGrupo][criterio.codigo]  %}
+                                        <input value="{{ valor }}" data-grupo="{{ objGS.idGrupo }}" tabindex="{{ indice }}" id="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}" name="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}" class="tam5 botonera_central soloNum suma suma_{{ objGS.idGrupo }}" type="text"/>
                                     </td>
                                     <td>
                                         {{ criterio.nombre }}
@@ -51,11 +44,7 @@
                             {% else %}
                                 <tr>
                                     <td class="botonera_central control-group">
-                                        <input value="" tabindex="{{ indice }}" data-grupo="{{ objGS.idGrupo }}"
-                                               id="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}"
-                                               name="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}"
-                                               class="tam5 botonera_central soloNum suma suma_{{ objGS.idGrupo }}"
-                                               type="text" placeholder="0"/>
+                                        <input value="" tabindex="{{ indice }}" data-grupo="{{ objGS.idGrupo }}" id="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}" name="numSlot_{{ objGS.idGrupo }}_{{ criterio.codigo }}" class="tam5 botonera_central soloNum suma suma_{{ objGS.idGrupo }}" type="text" placeholder="0"/>
                                     </td>
                                     <td>
                                         {{ criterio.nombre }}
@@ -64,7 +53,7 @@
                             {% endif %}
 
                             {% set indice = indice +1 %}
-                        {% endfor %}
+                        {% endfor  %}
                     {% endif %}
                     </tbody>
                 </table>
@@ -75,9 +64,7 @@
             <table cellpadding="0" cellspacing="0" border="0">
                 <tbody>
                 <tr>
-                    <td width="100">
-                        <button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans }}</button>
-                    </td>
+                    <td width="100"><button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans }}</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -92,26 +79,26 @@
         function suma(event) {
             var e = event || window.event;
             var idGrupo = e.target.dataset.grupo;
-            var idNumSlots = 'numSlot_' + idGrupo;
+            var idNumSlots = 'numSlot_' + idGrupo ;
             var numSlots = parseInt(document.getElementById(idNumSlots).value, 10);
-            var input_suma = document.getElementsByClassName('suma_' + idGrupo);
+            var input_suma = document.getElementsByClassName('suma_'+ idGrupo );
             var suma = 0;
 
-            [].forEach.call(input_suma, function (elem) {
-                suma += isNaN(parseInt(elem.value, 10)) ? 0 : parseInt(elem.value, 10);
+            [].forEach.call(input_suma, function(elem){
+                suma += isNaN(parseInt(elem.value,10))? 0: parseInt(elem.value,10);
             });
 
-            compruebaNumSlot(suma, numSlots, idGrupo);
+            compruebaNumSlot(suma,numSlots, idGrupo);
         }
 
         function compruebaNumSlot(suma, numSlots, idGrupo) {
 
             var boton = document.querySelector('button[type=submit]');
-            var alerta = document.getElementById('alert_' + idGrupo);
+            var alerta =  document.getElementById('alert_'+idGrupo);
 
-            if (suma > numSlots) {
+            if( suma > numSlots ) {
                 //se deshabilita el boton para que no pueda enviarse el formulario y se marca en rojo
-                [].forEach.call(document.getElementsByClassName('suma_' + idGrupo), function (elem) {
+                [].forEach.call(document.getElementsByClassName('suma_'+idGrupo), function(elem){
                     elem.parentNode.classList.remove('success');
                     elem.parentNode.classList.add('error');
                 });
@@ -123,8 +110,9 @@
                 boton.disabled = true;
             }
 
-            if (suma === numSlots) {
-                [].forEach.call(document.getElementsByClassName('suma_' + idGrupo), function (elem) {
+            if(suma === numSlots)
+            {
+                [].forEach.call(document.getElementsByClassName('suma_'+idGrupo), function(elem){
                     elem.parentNode.classList.remove('error');
                     elem.parentNode.classList.add('success');
                 });
@@ -132,8 +120,8 @@
                 boton.disabled = false;
             }
 
-            if (suma < numSlots) {
-                [].forEach.call(document.getElementsByClassName('suma_' + idGrupo), function (elem) {
+            if(suma < numSlots) {
+                [].forEach.call(document.getElementsByClassName('suma_'+idGrupo), function(elem){
                     elem.parentNode.classList.remove('error');
                     elem.parentNode.classList.remove('success');
                 });
@@ -142,12 +130,14 @@
             }
         }
 
-        $(document).ready(function () {
-            [].forEach.call(document.getElementsByClassName('suma'), function (elem) {
+        $(document).ready(function(){
+            [].forEach.call(document.getElementsByClassName('suma'), function(elem){
                 elem.addEventListener('change', suma);
                 elem.addEventListener('keyup', suma);
             });
         });
+
+
 
 
     </script>

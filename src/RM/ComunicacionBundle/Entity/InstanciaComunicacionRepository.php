@@ -3,8 +3,8 @@
 namespace RM\ComunicacionBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use RM\ProductoBundle\Entity\Promocion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
+use RM\ProductoBundle\Entity\Promocion;
 
 class InstanciaComunicacionRepository extends EntityRepository
 {
@@ -66,19 +66,19 @@ class InstanciaComunicacionRepository extends EntityRepository
             $dql .= " AND ic.fase IN (". $fase. ")";
         }
 
-        if($fecha_inicio != -1 and $fecha_inicio != '') {
+        if($fecha_inicio != -1 && $fecha_inicio != '') {
 
             $fecha_init = new \DateTime($fecha_inicio);
             $fecha_inicial = $fecha_init->format('Y-m-d H:i:s');
 
-            if($fecha_fin != -1 and $fecha_fin != '' ){
+            if($fecha_fin != -1 && $fecha_fin != '' ){
                 $fecha_end = new \DateTime($fecha_fin);
                 $fecha_final = $fecha_end->format('Y-m-d H:i:s');
                 $dql .= " AND ic.fecEjecucion > '" .$fecha_inicial. "' AND ic.fecEjecucion < '" .$fecha_final."'";
             } else {
                 $dql .= " AND ic.fecEjecucion > '" .$fecha_inicial. "'";
             }
-        } elseif ($fecha_fin != -1 and $fecha_fin != '' ){
+        } elseif ($fecha_fin != -1 && $fecha_fin != '' ){
             $fecha_end = new \DateTime($fecha_fin);
             $fecha_final = $fecha_end->format('Y-m-d H:i:s');
             $dql .= " AND ic.fecEjecucion < '" .$fecha_final. "'";

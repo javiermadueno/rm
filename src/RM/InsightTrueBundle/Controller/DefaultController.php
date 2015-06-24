@@ -2,8 +2,8 @@
 
 namespace RM\InsightTrueBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ob\HighchartsBundle\Highcharts\Highchart;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller {
 	

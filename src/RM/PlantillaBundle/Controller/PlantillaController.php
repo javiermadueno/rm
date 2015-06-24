@@ -11,9 +11,9 @@ namespace RM\PlantillaBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
+use RM\PlantillaBundle\Entity\Plantilla;
 use RM\PlantillaBundle\Form\PlantillaType;
 use Symfony\Component\HttpFoundation\Request;
-use RM\PlantillaBundle\Entity\Plantilla;
 
 class PlantillaController extends RMController
 {

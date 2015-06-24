@@ -1,41 +1,40 @@
 <td><input class="selTodos" type="checkbox" value="{{ objComu.idComunicacion }}"/></td>
 <td>
-    <a href="{{ path("direct_manager_edit_datos", { 'idComunicacion': objComu.idComunicacion }) }}"
-       style="cursor:pointer;">{{ objComu.nombre }}</a>
+    <a href="{{ path("direct_manager_edit_datos", { 'idComunicacion': objComu.idComunicacion })}}" style="cursor:pointer;">{{ objComu.nombre }}</a>
 </td>
 {% if  objComu.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
     <td class="atn">{{ "comunicacion.estado.activo"|trans }}</td>
-{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION')%}
     <td class="atv">{{ "comunicacion.estado.configuracion"|trans }}</td>
-{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO') %}
-    <td class="atv">{{ "comunicacion.estado.pausado" |trans|title }}</td>
-{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
-    <td class="atv">{{ "comunicacion.estado.completada" |trans|title }}</td>
+{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO')%}
+    <td class="atv">{{ "comunicacion.estado.pausado" |trans|title}}</td>
+{% elseif  objComu.estado is constant('\\RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA')%}
+    <td class="atv">{{ "comunicacion.estado.completada" |trans|title}}</td>
 {% endif %}
 
 {% set proximaEjecucion = objComu.fecProximaEjecucion %}
-<td>{{ proximaEjecucion is not null? proximaEjecucion|date('d-m-Y H:i') : proximaEjecucion|default('-') }}</td>
+<td>{{ proximaEjecucion is not null? proximaEjecucion|date('d-m-Y H:i') : proximaEjecucion|default('-')}}</td>
 
 <td class="center">
     <button data-comunicacion="{{ objComu.idComunicacion }}" class="btn btn-success reanudar"
             {% set estados_activo = [
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO'),
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA'),
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION')] %}
-            {% if objComu.estado in estados_activo %}
-    disabled
-            {% endif %}>
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO'),
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA'),
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION')] %}
+        {% if objComu.estado in estados_activo %}
+            disabled
+        {% endif %}>
         <small>{{ "boton.reanudar"|trans }}</small>
     </button>
     &nbsp;&nbsp;
     <button data-comunicacion="{{ objComu.idComunicacion }}" class="btn btn-danger parar"
             {% set estados_parado = [
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO'),
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA'),
-            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION')] %}
-            {% if objComu.estado in estados_parado %}
-    disabled
-            {% endif %}>
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO'),
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA'),
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION')] %}
+        {% if objComu.estado in estados_parado  %}
+            disabled
+        {% endif %}>
         <small>{{ "boton.parar" |trans }}</small>
     </button>
 </td>

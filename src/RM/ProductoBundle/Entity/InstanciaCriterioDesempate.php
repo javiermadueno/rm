@@ -62,7 +62,7 @@ class InstanciaCriterioDesempate
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -70,9 +70,22 @@ class InstanciaCriterioDesempate
     }
 
     /**
+     * Set numSlot
+     *
+     * @param integer $numSlot
+     * @return InstanciaCriterioDesempate
+     */
+    public function setNumSlot($numSlot)
+    {
+        $this->numSlot = $numSlot;
+    
+        return $this;
+    }
+
+    /**
      * Get numSlot
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumSlot()
     {
@@ -80,23 +93,22 @@ class InstanciaCriterioDesempate
     }
 
     /**
-     * Set numSlot
+     * Set peso
      *
-     * @param integer $numSlot
-     *
+     * @param integer $peso
      * @return InstanciaCriterioDesempate
      */
-    public function setNumSlot($numSlot)
+    public function setPeso($peso)
     {
-        $this->numSlot = $numSlot;
-
+        $this->peso = $peso;
+    
         return $this;
     }
 
     /**
      * Get peso
      *
-     * @return integer
+     * @return integer 
      */
     public function getPeso()
     {
@@ -104,23 +116,22 @@ class InstanciaCriterioDesempate
     }
 
     /**
-     * Set peso
+     * Set grupo
      *
-     * @param integer $peso
-     *
+     * @param \RM\PlantillaBundle\Entity\GrupoSlots $grupo
      * @return InstanciaCriterioDesempate
      */
-    public function setPeso($peso)
+    public function setGrupo(\RM\PlantillaBundle\Entity\GrupoSlots $grupo = null)
     {
-        $this->peso = $peso;
-
+        $this->grupo = $grupo;
+    
         return $this;
     }
 
     /**
      * Get grupo
      *
-     * @return \RM\PlantillaBundle\Entity\GrupoSlots
+     * @return \RM\PlantillaBundle\Entity\GrupoSlots 
      */
     public function getGrupo()
     {
@@ -128,23 +139,22 @@ class InstanciaCriterioDesempate
     }
 
     /**
-     * Set grupo
+     * Set idInstancia
      *
-     * @param \RM\PlantillaBundle\Entity\GrupoSlots $grupo
-     *
+     * @param \RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia
      * @return InstanciaCriterioDesempate
      */
-    public function setGrupo(\RM\PlantillaBundle\Entity\GrupoSlots $grupo = null)
+    public function setIdInstancia(\RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia = null)
     {
-        $this->grupo = $grupo;
-
+        $this->idInstancia = $idInstancia;
+    
         return $this;
     }
 
     /**
      * Get idInstancia
      *
-     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion
+     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion 
      */
     public function getIdInstancia()
     {
@@ -152,40 +162,25 @@ class InstanciaCriterioDesempate
     }
 
     /**
-     * Set idInstancia
+     * Set criterioDesempate
      *
-     * @param \RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia
-     *
+     * @param \RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate
      * @return InstanciaCriterioDesempate
      */
-    public function setIdInstancia(\RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia = null)
+    public function setCriterioDesempate(\RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate = null)
     {
-        $this->idInstancia = $idInstancia;
-
+        $this->criterioDesempate = $criterioDesempate;
+    
         return $this;
     }
 
     /**
      * Get criterioDesempate
      *
-     * @return \RM\ProductoBundle\Entity\CriterioDesempate
+     * @return \RM\ProductoBundle\Entity\CriterioDesempate 
      */
     public function getCriterioDesempate()
     {
         return $this->criterioDesempate;
-    }
-
-    /**
-     * Set criterioDesempate
-     *
-     * @param \RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate
-     *
-     * @return InstanciaCriterioDesempate
-     */
-    public function setCriterioDesempate(\RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate = null)
-    {
-        $this->criterioDesempate = $criterioDesempate;
-
-        return $this;
     }
 }

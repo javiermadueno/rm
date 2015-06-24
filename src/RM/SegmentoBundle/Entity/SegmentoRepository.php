@@ -56,8 +56,11 @@ class SegmentoRepository extends EntityRepository
 		
 		$query = $this->_em
             ->createQuery($dql)
-            ->setParameter('comunicacion', $id_comunicacion)
         ;
+
+        if($id_comunicacion != -1){
+            $query->setParameter('comunicacion', $id_comunicacion);
+        }
 	
 		$registros = $query->getResult();
 	
