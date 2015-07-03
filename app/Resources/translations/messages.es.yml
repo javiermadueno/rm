@@ -22,6 +22,8 @@ mensaje:
     parar.segmentocomunicacion: No ha podido detenerse la comunicación del segmento.
     reanudar.segmentocomunicacion: No se ha podido reanudar la comunicación del segmento.
     eliminar.segmentocomunicacion: No se ha podido eliminar el segmento.
+    parar.comunicacion: No se ha podido parar la comunicación
+    reanudar.comunicacion: No se ha podido reanudar la comunicación
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -126,7 +128,7 @@ boton:
 cabecera:
   niveles.categorias: Niveles de categorías a considerar para segmentar
   categorias: Categorías a considerar para segmentar
-  criterios: Criterios de elegibilidad de un consumidor para variables intermedias Compra de Prod. y Hab. Compra
+  criterios: Criterios temporales de variables intermedias Compra de Producto y Hábitos de Compra
   criterios.eligibilidad: criterios de eligibilidad
   segmentos: Segmentos
   parametros: Parámetros de configuración
@@ -134,6 +136,8 @@ cabecera:
     gamas: Configuración de Gamas
     parametros.generales: Configuración de Parámetros Generales
     franjas.horarias: Configuración de Franjas Horarias
+    segmentos: Configuración de Segmentos de Compra de Productos
+    parametros.segmentos: Parámetros de configuración de Segmentos
   criterios.busqueda: Criterios de búsqueda
   segmento.periodicidad: Segmentos y Periodicidad
   acciones.plantilla: Acciones de Plantilla
@@ -155,6 +159,7 @@ sin.resultados: Sin resultados
 area: Área
 seccion: Sección
 categoria: Categoría
+subcategoria: Subcategoría
 segmento: Segmento
 segmentos: Segmentos
 subsegmento: Subsegmento
@@ -194,6 +199,8 @@ personalizado: Personalizado
 variables: Variables
 variable: Variable
 
+variable.ciclo.vida: Variable de Ciclo de Vida
+
 nueva:
   variable: Nueva Variable
   plantilla: Nueva Plantilla
@@ -229,13 +236,15 @@ select:
   seleccione: Seleccione
   seleccione.imagen: Seleccione Imagen
   seleccione.tipo: Seleccione Tipo
+  producto: Seleccione Producto
+  marca: Seleccione Marca
 
 estado: Estado
 estado.comunicacion: Estado de la comunicación
-fecha.entre: Fecha entre
 y: y
 tipo: Tipo
 criterio: Criterio
+
 
 fecha:
   inicial: Fecha Inicial
@@ -244,6 +253,8 @@ fecha:
   ejecucion: Fecha Ejecución
   proxima.ejecucion: Fecha Próxima Ejecución
   promociones: Fecha de Promociones
+  entre: Fecha entre
+  entre.y: y
 
 filtro.busqueda: Filtro de búsqueda
 instancias: Instancias
@@ -251,7 +262,7 @@ instancia: Instancia
 
 fase:
   configuracion: Configuración
-  campaña: Campañas
+  campana: Campañas
   cierre: Cierre Negociación
   simulacion: Simulación
   generacion: Generación
@@ -282,6 +293,7 @@ editar: Editar
 listado: Listado
 datos: Datos
 promocion: Promoción
+promociones: Promociones
 subir.plantilla.maquetada: Subir plantilla maquetada
 grupo.slots: Grupo Slots
 
@@ -359,8 +371,7 @@ campana: Campaña
 campanas: Campañas
 poblacion: Población
 minimo: Mínimo
-tipo:
-  promocion: Tipo Promoción
+tipo.promocion: Tipo Promoción
 tipo.clasificacion: Tipo de clasificación
 referencia: Referencia
 info: Info
@@ -399,21 +410,6 @@ previsualizacion.comunicaciones: Previsualización de Comunicaciones
 consumidor: Consumidor
 consumidores: Consumidores
 visualizar: Visualizar
-comparativa: Comparativa
-porcentaje.ventas: Porcentaje de Ventas
-otros.datos: Otros Datos
-numero.miembros: Número  de  Miembros
-frecuencia.contribuciones: Frecuencia   Contribuciones
-ticket.medio: Ticket   Medio
-amplitud.categorias: Amplitud   Categorias
-atencion: Atención
-
-ventas.totales: Ventas Totales
-ventas.miembros: Ventas de Miembros
-ventas.no.miembros: Ventas de No Miembros
-contribucion.miembros: Contribucion de Miembros
-contribuciones.mensuales.vs.miembros: Contribuciones mensuales VS miembros
-
 
 Validacion_Segmentos: Validación de segmentos
 Maximo_dias_novedad: Máximo días novedad
@@ -424,12 +420,69 @@ nivel_category_manager: Nivel de Category Manager
 mostrar.imagen.creatividad: Mostrar Imagen de la creatividad
 mostrar.texto.creatividad: Mostrar texto de la creatividad
 
+
 #Modulo INSIGHT
-numero.clientes: Número Clientes
+numero:
+  clientes: Número Clientes
+  miembros: Número  de  Miembros
+media: Media
+evolucion: Evolución
+periodo: Periodo
+
 media.ventas: Media Ventas
 frecuencia.media: Frecuencia Media
 recencia.media: Recencia Media
 amplitud.media: Amplitud Media
+porcentaje.ventas: Porcentaje de Ventas
+otros.datos: Otros Datos
+frecuencia.contribuciones: Frecuencia Contribuciones
+ticket.medio: Ticket   Medio
+amplitud.categorias: Amplitud  Categorias
+amplitud.medida:
+  alta: Alta
+  media: Media
+  baja: Baja
+
+atencion: Atención
+
+comunidad: Comunidad
+comparacion: Comparación
+comparativa: Comparativa
+compara: Compara
+compara.con: con
+coste:
+  fijo: Coste Fijo
+  variable: Coste Variable
+grafica: Gráfica
+graficas: Gráficas
+ventas: Ventas
+gasto.total: Gasto total
+activos: Activos
+nuevos: Nuevos
+inactivos: Inactivos
+desglose: Desglose
+proyeccion: Proyección
+detalle: Detalle
+target: Target
+total: Total
+redencion: Redención
+impactos: Impactos
+clientes: clientes
+clientes:
+  activos: Clientes Activos
+  nuevos: Clientes Nuevos
+
+ventas:
+  totales: Ventas Totales
+  miembros: Ventas de Miembros
+  no.miembros: Ventas de No Miembros
+contribucion:
+  miembros: Contribucion de Miembros
+  mensuales.vs.miembros: Contribuciones mensuales VS miembros
+
+reactividad.target.por.comunicades: Reactividad-Target por Comunicades
+reactividad: Reactividad
+
 
 
 

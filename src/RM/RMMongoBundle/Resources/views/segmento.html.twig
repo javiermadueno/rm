@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div id="formulario_segmento_comunicacion">
+        {{ form_start(form, {'attr': {'class':'form-horizontal'} })  }}
+
+        <fieldset>
+            <legend>{{ "datos" |trans|title}}</legend>
+            <div class="control-group">
+                {{ form_label(form.variable_ciclo_vida, null, {'label_attr': {'class':'control-label'} }) }}
+                <div class="controls">
+                    {{ form_widget(form.variable_ciclo_vida) }}
+                </div>
+            </div>
+            {% if form.idSegmento is defined %}
+            <div class="control-group">
+                {{ form_label(form.idSegmento, null, {'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.idSegmento) }}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="control-group {% if form.fecInicio.vars.errors is not empty %}error{% endif %}">
+                {{ form_label(form.fecInicio,  null,{'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.fecInicio) }}
+                    {% if form.fecInicio.vars.errors is not empty %}
+                        <span class="help-inline">{{ form_errors(form.fecInicio) }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if form.fecFin.vars.errors is not empty %}error{% endif %}">
+                {{ form_label(form.fecFin, null, {'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.fecFin) }}
+                    {% if form.fecFin.vars.errors is not empty %}
+                        <span class="help-inline">{% for error in form.fecFin.vars.errors %} {{ error.message }} {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>{{ "frecuencia" |trans|title}}</legend>
+            <div class="control-group">
+                {{ form_label(form.tipo,  null,{'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.tipo) }}
+                </div>
+            </div>
+
+            {% if form.mes is defined %}
+            <div class="control-group">
+                {{ form_label(form.mes,  null,{'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.mes) }}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if form.dia is defined %}
+                <div class="control-group">
+                    {{ form_label(form.dia,  null, {'label_attr': {'class':'control-label'}}) }}
+                    <div class="controls">
+                        {{ form_widget(form.dia) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="control-group">
+                {{ form_label(form.horaProg,  null, {'label_attr': {'class':'control-label'}}) }}
+                <div class="controls">
+                    {{ form_widget(form.horaProg) }}
+                </div>
+            </div>
+
+        </fieldset>
+
+        {{ form_end(form) }}
+    </div>
+
+
+
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('change','.change-ajax-submit', function(){
+
+                var $form = $(this).closest('form');
+                var $tipo = $(this);
+                var data_from = $form.serializeArray().reduce(function(obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                delete data_from['segmento_comunicacion[_token]'];
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data_from,
+                    success: function(html){
+                        $('#formulario_segmento_comunicacion').replaceWith($(html).find('#formulario_segmento_comunicacion'));
+                        createDatePicker();
+                    }
+                });
+            });
+
+            var createDatePicker = function() {
+                if(!Modernizr.inputtypes.date) {
+                    $('input[type=date]').each(function(){
+                        var min = $(this).data('min');
+                        var max = $(this).data('max');
+
+                        $(this).datepicker({
+                            dateFormat: "yy-mm-dd",
+                            minDate: new Date(Date.parse(min)),
+                            maxDate: new Date(Date.parse(max))
+                        });
+                    });
+                }
+            }
+
+            createDatePicker();
+
+
+
+
+        });
+    </script>
+
+    <script>
+
+    </script>
+
+{% endblock body %}

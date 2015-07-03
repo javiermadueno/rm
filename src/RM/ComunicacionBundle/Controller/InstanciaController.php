@@ -53,7 +53,7 @@ class InstanciaController extends RMController
         $objSegmentos = $servicioSeg->getSegmentoByIdComunicacion($id_comunicacion);
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($objInstancias, $this->getRequest()->query->get('page', 1), 100);
+        $pagination = $paginator->paginate($objInstancias, $this->get('request')->query->get('page', 1), 100);
 
 
         return $this->render(
@@ -114,6 +114,9 @@ class InstanciaController extends RMController
 
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
+        $instancia = $em
+            ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
+            ->find($id_instancia);
 
         if (!$objInstancias) {
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
@@ -412,14 +415,6 @@ class InstanciaController extends RMController
                         } else {
                             $arrayEstados[$objInfo ['idCategoria']] = 'finalizada';
                         }
-
-                        /**
-                         * elseif($rechazadas > 0 && $aceptadas == 0) {
-                         * $arrayEstados[$objInfo['idCategoria']] = 'rechazada';
-                         * }
-                         * elseif($aceptadas > 0){
-                         * $arrayEstados[$objInfo['idCategoria']] = 'aceptada';
-                         * }*/
 
 
                     } elseif ($objInfo['tipoGrupo'] == GrupoSlots::CREATIVIDADES) {
@@ -818,23 +813,20 @@ class InstanciaController extends RMController
                         return $this->redirect(
                             $this->generateUrl(
                                 'direct_monitor_controlador_fases',
-                                [
-                                    'id_instancia' => $id_instancia
-                                ]
+                                ['id_instancia' => $id_instancia]
                             )
                         );
+
                     } elseif ($request->get('desempate') == 1) {
                         $em = $this->getManager();
 
-                        $instanciasCriterios = $em->getRepository(
-                            'RMProductoBundle:InstanciaCriterioDesempate'
-                        )->findBy(
-                            [
-                                'idInstancia' => $objInstancia
-                            ]
-                        );
+                        $instanciasCriterios = $em
+                            ->getRepository('RMProductoBundle:InstanciaCriterioDesempate')
+                            ->findBy(['idInstancia' => $objInstancia]);
 
-                        $criteriosDesempate = $em->getRepository('RMProductoBundle:CriterioDesempate')->findAll();
+                        $criteriosDesempate = $em
+                            ->getRepository('RMProductoBundle:CriterioDesempate')
+                            ->findAll();
 
                         $servicioIC->guardarCriteriosFaseConfiguracion(
                             $objInstancia,

@@ -85,10 +85,10 @@
             <thead>
             <tr>
                 <th style="text-align: center; width:auto;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Per&iacute;odo{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Categor&iacute;a{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Media{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Evoluci&oacute;n{% endtrans %}</th>
+                <th style="text-align: center; width:auto;">{{ "periodo" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "categoria" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "media" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "evolucion" |trans|title}}</th>
             </tr>
             </thead>
             <tbody>
@@ -109,17 +109,17 @@
                     {% if dato[4] > 0 %}
                         <td style="text-align: center;" width="20%">
                             {% if dato[4]|length == 3 %}
-                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% elseif dato[4] < 0 %}
                         <td style="text-align: center;" width="20%">
                             {% if dato[4]|length == 3 %}
-                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% else %}
@@ -141,17 +141,17 @@
                     {% if dato[8] > 0 %}
                         <td style="text-align: center; " width="20%">
                             {% if dato[8]|length == 3 %}
-                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% elseif dato[8] < 0 %}
                         <td style="text-align: center; " width="20%">
                             {% if dato[8]|length == 3 %}
-                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}"title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% else %}
@@ -191,14 +191,14 @@
         </colgroup>
         <thead>
         <tr>
-            <th style="text-align: center;">{% trans %}Subcategor&iacute;a{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Ventas{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}% Categor&iacute;a{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}% Total{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Evoluci&oacute;n{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Comparaci&oacute;n{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Impactos{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Redenci&oacute;n{% endtrans %}</th>
+            <th style="text-align: center;">{{ "subcategoria" |trans|title}}</th>
+            <th style="text-align: center;">{{ "ventas" |trans|title}}</th>
+            <th style="text-align: center;">{{ "categoria" |trans|title}}</th>
+            <th style="text-align: center;">{{ "total" |trans|title}}</th>
+            <th style="text-align: center;">{{ "evolucion" |trans|title}}</th>
+            <th style="text-align: center;">{{ "comparacion" |trans|title}}</th>
+            <th style="text-align: center;">{{ "impactos" |trans|title}}</th>
+            <th style="text-align: center;">{{ "redencion" |trans|title}}</th>
         </tr>
         </thead>
         {% for d in data %}

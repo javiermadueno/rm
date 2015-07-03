@@ -34,7 +34,7 @@
             </li>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
             <li>
-                <label for="fechaHasta">{{ "con" |trans|title}}:</label>
+                <label for="fechaHasta">{{ "compara.con" |trans|title}}:</label>
                 <select name="fecha[hasta]" id="fechaHasta">
                     {% for mes in meses %}
                         <option value="{{ mes['id'] }}" {{ mes2.id == mes['id'] ? 'selected' : '' }}>{{ mes['fecha']|date('M-Y') }}</option>

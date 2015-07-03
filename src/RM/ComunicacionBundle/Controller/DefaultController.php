@@ -26,11 +26,13 @@ class DefaultController extends RMController
     {
 
         $servicioCanal = $this->get("CanalService");
-        $servicioCom = $this->get("ComunicacionService");
+        $servicioCom   = $this->get("ComunicacionService");
 
         $selectCanales = $servicioCanal->getCanales();
 
         $selectComunicaciones = $servicioCom->getComunicaciones($id_canal, $estado);
+
+        /** @var Comunicacion $comunicacion */
         foreach ($selectComunicaciones as $comunicacion) {
             $fechaProxEjecucion = $servicioCom->calculaFechaProximaEjecucion($comunicacion);
             $comunicacion->setFecProximaEjecucion($fechaProxEjecucion);
@@ -49,10 +51,10 @@ class DefaultController extends RMController
     public function actualizarListadoComunicacionesAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request = $this->container->get('request');
-            $servicioCom = $this->get("ComunicacionService");
-            $id_canal = $request->get('id_canal');
-            $estado = $request->get('estado');
+            $request              = $this->container->get('request');
+            $servicioCom          = $this->get("ComunicacionService");
+            $id_canal             = $request->get('id_canal');
+            $estado               = $request->get('estado');
             $selectComunicaciones = $servicioCom->getComunicaciones($id_canal, $estado);
 
             return $this->render('RMComunicacionBundle:Default:tablaListado.html.twig', [
@@ -66,13 +68,13 @@ class DefaultController extends RMController
     public function deleteComunicacionesAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request = $this->container->get('request');
-            $servicioCom = $this->get("ComunicacionService");
-            $id_canal = $request->get('id_canal');
-            $estado = $request->get('estado');
+            $request                = $this->container->get('request');
+            $servicioCom            = $this->get("ComunicacionService");
+            $id_canal               = $request->get('id_canal');
+            $estado                 = $request->get('estado');
             $idComunicacionesBorrar = $request->get('elementosBorrar');
 
-            $tmp = $servicioCom->deleteComunicaciones($idComunicacionesBorrar);
+            $servicioCom->deleteComunicaciones($idComunicacionesBorrar);
 
             $selectComunicaciones = $servicioCom->getComunicaciones($id_canal, $estado);
 
@@ -126,7 +128,7 @@ class DefaultController extends RMController
 
     public function pararComunicacionAction($idComunicacion)
     {
-        $request = $this->getRequest();
+        $request    = $this->get('request');
         $translator = $this->get('translator');
 
         if (!$idComunicacion || !$request->isXmlHttpRequest()) {
@@ -140,7 +142,7 @@ class DefaultController extends RMController
         }
 
 
-        $mensaje = $translator->trans('mensaje.ok.comunicacion.parada');
+        $mensaje      = $translator->trans('mensaje.ok.comunicacion.parada');
         $comunicacion = $this->getManager()
             ->find('RMComunicacionBundle:Comunicacion', $idComunicacion);
 
@@ -161,7 +163,7 @@ class DefaultController extends RMController
 
     public function reanudarComunicacionAction($idComunicacion)
     {
-        $request = $this->getRequest();
+        $request    = $this->get('request');
         $translator = $this->get('translator');
 
         if (!$idComunicacion || !$request->isXmlHttpRequest()) {

@@ -38,18 +38,18 @@
             <div class="mediamgr_head">
                 <ul class="mediamgr_menu">
                     <li>
-                        <label for="filtro[desde]">Desde: </label>
+                        <label for="filtro[desde]">{{ "fecha.entre" |trans|title}}</label>
                         <input id="desde" type="datetime" name="filtro[desde]" class="tam4 izq datepicker"/>
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[hasta]">Hasta: </label>
+                        <label for="filtro[hasta]">{{ "fecha.entre.y" |trans|title}}</label>
                         <input id="hasta" type="datetime" name="filtro[hasta]" class="tam4 izq datepicker"/>
 
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[categoria]">Categoria: </label>
+                        <label for="filtro[categoria]">{{ "categoria" |trans|title}} </label>
                         <select name="filtro[categoria]" id="select_categorias" class="izq">
                             <option value="-1">Todas</option>
                             {% for categoria in categorias %}
@@ -61,7 +61,7 @@
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[marca]">Marca: </label>
+                        <label for="filtro[marca]">{{ "marca" |trans|title}} </label>
                         <select name="filtro[marca]" id="select_marcas" class="izq">
                             <option value="-1">Todas</option>
                             {% for marca in marcas %}
@@ -73,7 +73,7 @@
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[producto]">Producto: </label>
+                        <label for="filtro[producto]">{{ "producto" |trans|title}} </label>
                         <select id="select_productos" name="filtro[producto]">
                             <option value="-1">Seleccione una marca</option>
                         </select>
@@ -88,7 +88,7 @@
         </div>
     </form>
 
-    <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "graficas" |trans|title }}</h4>
     <div id="graficos" class="mediamgr_head">
         {% include('@RMComunicacion/Seguimiento/graficosSeguimiento.html.twig') %}
     </div>

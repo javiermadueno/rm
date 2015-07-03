@@ -40,20 +40,20 @@
                             <a class="modificaRuta" href="{{ path("rm_insight_cliente_new") }}">
                                 <img style="float:center; display: inline-block;" class="info"
                                      src="{{ asset('img/icono_info.png') }}"
-                                     alt="{{ 'Nuevos' | trans }}" title="{{ 'Nuevos' | trans }}"/>
+                                     alt="{{ 'nuevos' | trans }}" title="{{ 'nuevos' | trans }}"/>
                             </a>
                         {% elseif nombre_segmento1|lower == "estado_activo" %}
                             <a class="modificaRuta" href="{{ path("rm_insight_cliente_activo") }}">
                                 <img style="float:center; display: inline-block;" class="info"
                                      src="{{ asset('img/icono_info.png') }}"
-                                     alt="{{ 'Activos' | trans }}" title="{{ 'Activos' | trans }}"/>
+                                     alt="{{ 'activos' | trans }}" title="{{ 'activos' | trans }}"/>
                             </a>
                         {% elseif nombre_segmento1|lower == "estado_inactivo" %}
                             <a href="#">
                                 <img style="float:center; display: inline-block;" class="info"
                                      src="{{ asset('img/icono_info.png') }}"
-                                     alt="{{ 'Inactivos' | trans }}"
-                                     title="{{ 'Inactivos' | trans }}"/>
+                                     alt="{{ 'inactivos' | trans }}"
+                                     title="{{ 'inactivos' | trans }}"/>
                             </a>
                         {% endif %}
                     </td>
@@ -93,20 +93,20 @@
                                 <a class="modificaRuta" href="{{ path("rm_insight_cliente_new") }}">
                                     <img style="float:center; display: inline-block;" class="info"
                                          src="{{ asset('img/icono_info.png') }}"
-                                         alt="{{ 'Nuevos' | trans }}" title="{{ 'Nuevos' | trans }}"/>
+                                         alt="{{ 'nuevos' | trans }}" title="{{ 'nuevos' | trans }}"/>
                                 </a>
                             {% elseif nombre_segmento1|lower == "estado_activo" %}
                                 <a class="modificaRuta" href="{{ path("rm_insight_cliente_activo") }}">
                                     <img style="float:center; display: inline-block;" class="info"
                                          src="{{ asset('img/icono_info.png') }}"
-                                         alt="{{ 'Activos' | trans }}" title="{{ 'Activos' | trans }}"/>
+                                         alt="{{ 'activos' | trans }}" title="{{ 'activos' | trans }}"/>
                                 </a>
                             {% elseif nombre_segmento1|lower == "estado_inactivo" %}
                                 <a  href="#">
                                     <img style="float:center; display: inline-block;" class="info"
                                          src="{{ asset('img/icono_info.png') }}"
-                                         alt="{{ 'Inactivos' | trans }}"
-                                         title="{{ 'Inactivos' | trans }}"/>
+                                         alt="{{ 'inactivos' | trans }}"
+                                         title="{{ 'inactivos' | trans }}"/>
                                 </a>
                             {% endif %}
                         </td>

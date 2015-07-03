@@ -3,5 +3,9 @@ rm_comunicacion.segmento_comunicacion.new:
   defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:create }
 
 rm_comunicacion.segmento_comunicacion.index:
-  path: /
+  path: /index
   defaults: {_controller: RMComunicacionBundle:SegmentoComunicacion:index }
+
+rm_comunicacion.segmento_comunicacion.edit:
+  path: /{id}/edit
+  defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:create}

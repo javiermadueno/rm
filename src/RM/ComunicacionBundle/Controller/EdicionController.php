@@ -13,38 +13,6 @@ use Symfony\Component\Serializer\Serializer;
 class EdicionController extends Controller
 {
 
-    public function deleteSegmentosComunicacionAction($id_segmento_comunicacion)
-    {
-        $servicioSegCom = $this->get("SegmentoComunicacionService");
-        $respuesta = $servicioSegCom->deleteSegmentosComunicacion($id_segmento_comunicacion);
-        if ($respuesta == 1) {
-            $this->get('session')->getFlashBag()->add('mensaje', 'eliminar_ok');
-        } else {
-            $this->get('session')->getFlashBag()->add('mensaje', 'eliminar_ko');
-        }
-
-        return $this->render('::logMensajes.html.twig');
-    }
-
-    public function controladorSegmentosComunicacionAction(Request $request)
-    {
-        if ($request->isMethod('POST')) {
-            $servicioSegCom = $this->get("SegmentoComunicacionService");
-
-            $respuesta = $servicioSegCom->controladorSegmentosComunicacion($request->get('id_segmento_comunicacion'));
-            if ($respuesta == 1) {
-                $this->get('session')->getFlashBag()->add('mensaje', 'editar_ok');
-            } else {
-                $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
-            }
-
-            return $this->redirect($this->generateUrl('direct_manager_edit_segmentos', [
-                'id_comunicacion' => $request->get('id_comunicacion')
-            ]));
-        } else {
-            throw $this->createNotFoundException('Se ha producido un error de envio de la informaci�n');
-        }
-    }
 
     public function nuevoSegmentosComunicacionAction(
         $idOpcionMenuSup,

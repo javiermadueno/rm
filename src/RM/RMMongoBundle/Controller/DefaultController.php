@@ -3,6 +3,8 @@
 namespace RM\RMMongoBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
+use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
+use RM\ComunicacionBundle\Form\Type\SegmentoComunicacionType;
 use RM\RMMongoBundle\Document\ClienteSegmento;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -260,6 +262,38 @@ class DefaultController extends RMController
         return $this->render('@RMMongo/blanco.html.twig', [
             'variable' => $clientes
         ]);
+    }
+
+    /**
+     * @Route(name="rm_mongo.default.new", path="/new/{idComunicacion}")
+     */
+    public function newAction(Request $request, $idComunicacion)
+    {
+        $em = $this->get('rm.manager')->getManager();
+
+        $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->findById($idComunicacion);
+
+        $segmento = new SegmentoComunicacion();
+        $segmento->setIdComunicacion($comunicacion);
+
+        $form = $this->createForm(new SegmentoComunicacionType(), $segmento, [
+            'em' => $em
+        ]);
+
+        $form->add('submit', 'submit', ['label' => 'boton.guardar']);
+
+        $form->handleRequest($request);
+
+        if($form->isValid() ){
+            echo "Correcto";
+        }
+
+        return  $this->render('RMMongoBundle::segmento.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+
+
     }
 
 }

@@ -12,7 +12,7 @@ namespace RM\ComunicacionBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
-use RM\ComunicacionBundle\Form\SegmentoComunicacionType;
+use RM\ComunicacionBundle\Form\Type\SegmentoComunicacionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,14 +36,17 @@ class SegmentoComunicacionController extends Controller
         $comunicacion = $em->find('RMComunicacionBundle:Comunicacion', $idComunicacion);
 
         if (!$comunicacion instanceof Comunicacion) {
-            return Response::create('mensaje.error.no.comunicacion', 404);
+            return $this->createNotFoundException(
+                sprintf("No se ha encontrado la comunicacion con Id = '%s'", $idComunicacion)
+            );
         }
 
         $segmentos = $em->getRepository('RMComunicacionBundle:SegmentoComunicacion')
             ->findSegmentosComunicacionByComunicacion($comunicacion);
 
         return $this->render('RMComunicacionBundle:SegmentoComunicacion:listado.html.twig', [
-            'segmentos' => $segmentos
+            'segmentos' => $segmentos,
+            'id_comunicacion' => $idComunicacion
         ]);
     }
 
@@ -83,9 +86,12 @@ class SegmentoComunicacionController extends Controller
             $em->persist($segmentoComunicacion);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.ok.crear');
+            $this->addFlash('mensaje', 'mensaje.ok.crear');
 
-            return $this->redirect($this->generateUrl('rm_comunicacion.segmento_comunicacion.index'));
+            return $this->redirectToRoute(
+                'direct_manager_edit_datos',
+                ['idComunicacion' => $idComunicacion]
+            );
         }
 
         return $this->render('RMComunicacionBundle:SegmentoComunicacion:new.html.twig', [
@@ -110,7 +116,7 @@ class SegmentoComunicacionController extends Controller
             'em'     => $this->getManager(),
         ]);
 
-        $form->add('submit', 'submit', ['label' => 'guradar']);
+        $form->add('submit', 'submit', ['label' => 'boton.guardar']);
 
         return $form;
     }
@@ -120,9 +126,8 @@ class SegmentoComunicacionController extends Controller
      *
      * @return JsonResponse
      */
-    public function reanudarSegmentoComunicacionAction($idSegmentoComunicacion = 0)
+    public function reanudarSegmentoComunicacionAction(Request $request, $idSegmentoComunicacion = 0)
     {
-        $request = $this->getRequest();
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {
@@ -159,9 +164,8 @@ class SegmentoComunicacionController extends Controller
      *
      * @return JsonResponse
      */
-    public function pararSegmentoComunicacionAction($idSegmentoComunicacion = 0)
+    public function pararSegmentoComunicacionAction(Request $request, $idSegmentoComunicacion = 0)
     {
-        $request = $this->getRequest();
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {
@@ -197,9 +201,8 @@ class SegmentoComunicacionController extends Controller
      *
      * @return JsonResponse|Response
      */
-    public function eliminarSegmentoComunicacionAction($idSegmentoComunicacion = 0)
+    public function eliminarSegmentoComunicacionAction(Request $request, $idSegmentoComunicacion = 0)
     {
-        $request = $this->getRequest();
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {

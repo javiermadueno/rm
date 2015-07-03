@@ -1,0 +1,3 @@
+rm_comunicacion.comunicacion.index:
+  path: /data/comunicacion/index
+  defaults: { _controller: RMComunicacionBundle:Comunicacion:index }

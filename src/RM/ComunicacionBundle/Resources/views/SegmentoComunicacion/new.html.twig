@@ -17,13 +17,63 @@
 {% endblock %}
 
 {% block tabcontent %}
-    {{ form(form) }}
+    <h4 class="widgettitle">{{ "nuevo.segmento" |trans|title }}</h4>
+    <div class="mediamgr_head">
+
+        {% include 'RMComunicacionBundle:SegmentoComunicacion:formulario_segmento_comunicacion.html.twig' with {'form' : form} %}
+
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        $(document).ready(function() {
-            $(".datepicker").datepicker({dateFormat: "dd/mm/yy"});
+        $(document).ready(function(){
+            $(document).on('change','.change-ajax-submit', function(){
+
+                var $form = $(this).closest('form');
+                var $tipo = $(this);
+                var data_from = $form.serializeArray().reduce(function(obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+
+                //Se borra el token para forzar que el formulario sea incorrecto y no guarde.
+                delete data_from['segmento_comunicacion[_token]'];
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data_from,
+                    success: function(html){
+                        $('#formulario_segmento_comunicacion').replaceWith($(html).find('#formulario_segmento_comunicacion'));
+                        createDatePicker();
+                    }
+                });
+            });
+
+            var createDatePicker = function() {
+                if(!Modernizr.inputtypes.date) {
+                    $('input[type=date]').each(function(){
+                        var min = $(this).data('min');
+                        var max = $(this).data('max');
+                        var options = {
+                            dateFormat: "yy-mm-dd"
+                        };
+
+                        if (typeof min !== 'undefined') {
+                            $.extend(options, {minDate: new Date(Date.parse(min))})
+                        }
+
+                        if (typeof max !== 'undefined') {
+                            $.extend(options, {maxDate: new Date(Date.parse(max))})
+                        }
+
+                        $(this).datepicker(options);
+                    });
+                }
+            }
+
+            createDatePicker();
         });
     </script>
 {% endblock %}

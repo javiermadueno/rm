@@ -3,6 +3,7 @@
 namespace RM\ComunicacionBundle\DependencyInjection;
 
 
+use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
@@ -17,7 +18,7 @@ class InstanciaComunicacionServicio
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|EntityManager
      */
     private $em;
 
@@ -632,7 +633,10 @@ class InstanciaComunicacionServicio
          * Se comprueba que el número de promociones creadas sea el indicado en numPromociones
          */
 
-        $numPromociones = $instancia->getNumPromociones();
+        $numPromociones = $instancia->getNumPromociones()->filter(function (NumPromociones $numPromociones) {
+            return $numPromociones->getEstado() > -1;
+        });
+
         foreach ($numPromociones as $numPromocion) {
             $totalSegmentadas = intval($numPromocion->getNumSegmentadas());
             $totalGenericas = intval($numPromocion->getNumGenericas());

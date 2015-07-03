@@ -7,73 +7,93 @@ use Doctrine\ORM\Query;
 
 class ComunicacionRepository extends EntityRepository
 {
-    public function obtenerComunicaciones($id_canal, $estado)
+    /**
+     * @param $id_canal
+     * @param $estado
+     *
+     * @return Comunicacion[]
+     */
+	public function obtenerComunicaciones($id_canal, $estado)
     {
-        $dql = "select c
-			from RMComunicacionBundle:Comunicacion c
-			WHERE 1=1";
 
-        if ($id_canal != -1) {
-            $dql .= " AND c.idCanal = :id_canal";
-        }
+        $qb = $this->createQueryBuilder('c')
+            ->addOrderBy('c.idComunicacion', 'ASC')
+        ;
 
-        if ($estado != -2) {
-            $dql .= " AND c.estado = :estado";
+        if($estado != -2) {
+            $qb->andWhere('c.estado = :estado')
+                ->setParameter('estado', $estado);
         } else {
-            $dql .= " AND c.estado > -1";
+            $qb->andWhere('c.estado > -1');
         }
 
-        $query = $this->_em->createQuery($dql);
-        if ($id_canal != -1) {
-            $query->setParameter('id_canal', $id_canal);
+        if($id_canal != -1) {
+            $qb->andWhere('c.idCanal = :canal')
+                ->setParameter('canal', $id_canal);
         }
-        if ($estado != -2) {
-            $query->setParameter('estado', $estado);
-        }
-        $registros = $query->getResult();
 
-        return $registros;
+        return $qb->getQuery()->getResult();
+	}
 
+    /**
+     * @return Comunicacion[]
+     */
+    public function findAll()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.estado > -1')
+            ->orderBy('c.idComunicacion', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
-    public function deleteComunicaciones($id_comunicacion)
+    /**
+     * @param $id_comunicacion
+     *
+     * @return Comunicacion[]
+     */
+	public function deleteComunicaciones($id_comunicacion)
+    {
+        return $this->createQueryBuilder('c')
+            ->update()
+            ->set('c.estado', -1)
+            ->where('c.idComunicacion = :comunicacion')
+            ->setParameter('comunicacion', $id_comunicacion)
+            ->getQuery()->getResult()
+        ;
+	}
+
+    /**
+     * @param $id_comunicacion
+     *
+     * @return array
+     */
+	public function obtenerComunicacionById($id_comunicacion)
     {
 
-        $dql = "
-				UPDATE RMComunicacionBundle:Comunicacion c
-				SET c.estado = -1
-				WHERE c.idComunicacion = :idComunicacion
-				";
-
-        $query = $this->_em
-            ->createQuery($dql)
-            ->setParameter('idComunicacion', $id_comunicacion);
-
-        $registros = $query->getResult();
-
-        return $registros;
-
-    }
-
-    public function obtenerComunicacionById($id_comunicacion)
-    {
-
-        $dql = "
+		$dql = "
             select c
             from RMComunicacionBundle:Comunicacion c
             WHERE c.idComunicacion = :idComunicacion
         ";
-
-        $query = $this->_em
+	
+		$query = $this->_em
             ->createQuery($dql)
             ->setParameter('idComunicacion', $id_comunicacion);
 
-        $registros = $query->getResult();
+		$registros = $query->getResult();
+	
+		return $registros;
+	
+	}
 
-        return $registros;
-
-    }
-
+    /**
+     * @param $id
+     *
+     * @return Comunicacion
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findById($id)
     {
         return $this->createQueryBuilder('c')
@@ -85,6 +105,11 @@ class ComunicacionRepository extends EntityRepository
             ->getQuery()->getOneOrNullResult(Query::HYDRATE_OBJECT);
     }
 
+    /**
+     * @param $plantilla
+     *
+     * @return array
+     */
     public function findByPlantilla($plantilla)
     {
         return $this->createQueryBuilder('c')
@@ -95,5 +120,5 @@ class ComunicacionRepository extends EntityRepository
             ->getQuery()->getResult();
     }
 
-
+	
 }

@@ -39,7 +39,7 @@
             <tbody>
             <tr>
                 <td width="50%" class="graficoIzquierda" align="center">
-                    <div id="graficoTarta" width="50%">
+                    <div id="graficoTarta" >
                         <div id="tablaRendimiento">
 
                             <table class="table table-bordered responsive">
@@ -63,19 +63,13 @@
                                 <tr>
                                     <th style="text-align: center;" width="8%">{% trans %}&nbsp;{% endtrans %}</th>
                                     <th style="text-align: center;" width="4%">{% trans %}&nbsp;{% endtrans %}</th>
-                                    <th style="text-align: center;" width="7%">{% trans %}Segmentos{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}N&uacute;mero
-                                        Clientes{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Media
-                                        Ventas{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Frecuencia
-                                        Media{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Ticket
-                                        Medio{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="12%">{% trans %}Recencia
-                                        Media{% endtrans %}</th>
-                                    <th colspan="2" style="text-align: center;" width="14%">{% trans %}Amplitud
-                                        Media{% endtrans %}</th>
+                                    <th style="text-align: center;" width="7%">{{ "segmentos" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="12%">{{ "numero.clientes" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="12%">{{ "media.ventas" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="12%">{{ "frecuencia.media" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="12%">{{ "ticket.medio" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="12%">{{ "recencia.media" |trans|title}}</th>
+                                    <th colspan="2" style="text-align: center;" width="14%">{{ "amplitud.media" |trans|title}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -101,20 +95,20 @@
                                                 <a href="{{ path("rm_insight_cliente_new") }}">
                                                     <img style="float:center; display: inline-block;" class="info"
                                                          src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Nuevos' | trans }}" title="{{ 'Nuevos' | trans }}"/>
+                                                         alt="{{ 'nuevos' | trans }}" title="{{ 'nuevos' | trans }}"/>
                                                 </a>
                                             {% elseif count[0] == "Activos" %}
                                                 <a href="{{ path("rm_insight_cliente_activo") }}">
                                                     <img style="float:center; display: inline-block;" class="info"
                                                          src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Activos' | trans }}" title="{{ 'Activos' | trans }}"/>
+                                                         alt="{{ 'activos' | trans }}" title="{{ 'activos' | trans }}"/>
                                                 </a>
                                             {% elseif count[0] == "Inactivos" %}
                                                 <a href="">
                                                     <img style="float:center; display: inline-block;" class="info"
                                                          src="{{ asset('img/icono_info.png') }}"
-                                                         alt="{{ 'Inactivos' | trans }}"
-                                                         title="{{ 'Inactivos' | trans }}"/>
+                                                         alt="{{ 'inactivos' | trans }}"
+                                                         title="{{ 'inactivos' | trans }}"/>
                                                 </a>
                                             {% endif %}
                                         </td>
@@ -127,15 +121,15 @@
                                         {% if count[4] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[4] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
@@ -148,15 +142,15 @@
                                         {% if count[7] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[7] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[7] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
@@ -169,15 +163,15 @@
                                         {% if count[10] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[10] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[10] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
@@ -190,15 +184,15 @@
                                         {% if count[13] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[13] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[13] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
@@ -211,15 +205,15 @@
                                         {% if count[16] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[16] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[16] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
@@ -232,15 +226,15 @@
                                         {% if count[19] > 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 <img src="{{ asset('img/arrowup.png') }}"
-                                                     alt="{{ 'Proyeccion' | trans }}"
-                                                     title="{{ 'Proyeccion' | trans }}"/>{{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
+                                                     alt="{{ 'proyeccion' | trans }}"
+                                                     title="{{ 'proyeccion' | trans }}"/>{{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}
                                             </td>
                                         {% elseif count[19] < 0 %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">
                                                 {{ count[19] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img
                                                         src="{{ asset('img/arrowdown.png') }}"
-                                                        alt="{{ 'Proyeccion' | trans }}"
-                                                        title="{{ 'Proyeccion' | trans }}"/>
+                                                        alt="{{ 'proyeccion' | trans }}"
+                                                        title="{{ 'proyeccion' | trans }}"/>
                                             </td>
                                         {% else %}
                                             <td rowspan="2" class="vertical-center" style="text-align: center;" width="7%">

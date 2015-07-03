@@ -62,7 +62,7 @@
         <div class="mediamgr_head">
             <ul class="mediamgr_menu">
                 <li>
-                    <label for="select_categorias">Categorias: </label>
+                    <label for="select_categorias">{{ "categoria" |trans|title}}: </label>
                     <select name="categorias" id="select_categorias">
                         <option value="{{ path('campaign_ficha', {'id_categoria': 0, 'id_instancia': objInstancia.idInstancia }) }}">{{ "select.todas" |trans|title}}</option>
                         {% for cat in categorias %}
@@ -126,7 +126,7 @@
                                             name="promocion[{{ idNumPro }}][segmentadas][{{ idPromocion }}][marca]"
                                             class="izq"
                                             onchange="actualizaProductos('{{ promocion['numPromocion'].idCategoria.idCategoria }}',this.value, 'producto_promo_{{ idPromocion }}')">
-                                        <option value="-1"> {{ "Seleccione una marca" | trans }}</option>
+                                        <option value="-1"> {{ "select.marca" | trans }}</option>
                                         {% for marca in promocion['marcas'] %}
                                             <option value="{{ marca.idMarca }}"
                                                     {% if segmentada.idProducto and marca.idMarca == segmentada.idProducto.idMarca.idMarca %}
@@ -143,7 +143,7 @@
                                     <select id='producto_promo_{{ idPromocion }}'
                                             name="promocion[{{ idNumPro }}][segmentadas][{{ idPromocion }}][producto]"
                                             class=" izq">
-                                        <option value="-1"> {{ "Seleccione un producto" | trans }}</option>
+                                        <option value="-1"> {{ "select.producto" | trans }}</option>
                                         {% if segmentada.idProducto %}
                                             {% set productos = segmentada.getProductosByMarca(nivelCategoria) %}
                                             {% for producto in productos %}
@@ -205,94 +205,6 @@
                                            value="{{ segmentada.minimo }}"/>
                                 </td>
                             </tr>
-                            {#
-                            <tr class="hidden" >
-                                <td colspan="7">
-                                    <div>
-                                        <div class="bloque_contenido">
-                                            <div class="cabecera_contenido">
-                                                <span>
-                                                    {{ "Info" | trans }}
-                                                </span>
-                                            </div>
-                                            <div class="linea_contenido">
-                                                <div class="linea_contenido_i">
-                                                    <table class="tablaSinBordes">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>{{ "Precio actual" | trans }}:</td>
-                                                            <td>{{ segmentada.idProducto.precioVenta }} €</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>{{ "Volumen" | trans }}:</td>
-                                                            <td>{{ segmentada.idProducto.Volumen }} g</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <form name="form" id="form" >
-                                            <input type="hidden" name="id_promocion" value="{{ segmentada.getIdPromocion() }}">
-                                            <div class="bloque_contenido">
-                                                <div class="cabecera_contenido">
-                                                    <span>
-                                                        {{ "Configuración" | trans }}
-                                                    </span>
-                                                </div>
-                                                <div class="linea_contenido">
-                                                    <div class="linea_contenido_i">
-                                                        <table class="tablaSinBordes">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>{{ "Descripción" | trans }}:</td>
-                                                                <td><input type="text" name="descripcion" value="{{ segmentada.descripcion }}" class=""></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Imp. fijo" | trans }}:</td>
-                                                                <td><input type="text" name="fijo" value="{{ segmentada.impFijo }}" class=" soloNum"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Imp. distribuidor" | trans }}:</td>
-                                                                <td><input type="text" name="distribuidor" value="{{ segmentada.impDistribuidor }}" class=" soloNum"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Imp. consumidor" | trans }}:</td>
-                                                                <td><input type="text" name="consumidor" value="{{ segmentada.impConsumidor }}" class=" soloNum"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Condiciones" | trans }}:</td>
-                                                                <td><input type="text" name="condiciones" value="{{ segmentada.condiciones }}" class=""></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Fidelización" | trans }}:</td>
-                                                                <td><input type="text" name="fidelizacion" value="{{ segmentada.fidelizacion }}" class=""></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>{{ "Código promoción" | trans }}:</td>
-                                                                <td><input type="text" name="codigo" value="{{ segmentada.codigo }}" class=""></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <div class="bloque_contenido sinborde">
-                                            <div class="linea_contenido">
-                                                <div class="linea_contenido_i botonera_central">
-                                                    <button disabled class="" id="botonAceptar">{{ "Aceptar" | trans }}</button>
-                                                    <button disabled class="" id="botonCancelar">{{ "Cancelar" | trans }}</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            #}
                         {% endfor %}
 
                         {% if restantes > 0 %}
@@ -306,7 +218,7 @@
                                                 name="promocion[{{ idNumPro }}][segmentadas][{{ -k }}][marca]"
                                                 class="izq"
                                                 onchange="actualizaProductos('{{ promocion['numPromocion'].idCategoria.idCategoria }}',this.value, '{{ idNumPro }}_producto_promo_seg_{{ -k }}')">
-                                            <option value="-1"> {{ "Seleccione una marca" | trans }}</option>
+                                            <option value="-1"> {{ "select.marca" | trans }}</option>
                                             {% for marca in promocion['marcas'] %}
                                                 <option value="{{ marca.idMarca }}">
                                                     {{ marca.nombre }}
@@ -320,7 +232,7 @@
                                         <select id='{{ idNumPro }}_producto_promo_seg_{{ -k }}'
                                                 name="promocion[{{ idNumPro }}][segmentadas][{{ -k }}][producto]"
                                                 class="izq">
-                                            <option value="-1"> {{ "Seleccione un producto" | trans }}</option>
+                                            <option value="-1"> {{ "select.producto" | trans }}</option>
                                         </select>
                                     </td>
 
@@ -340,8 +252,8 @@
                                     <td class="botonera_central">
                                         <img class="info" style="display:none;"
                                              src="{{ asset('img/icono_info.png') }}"
-                                             alt="{{ 'Informacion' | trans }}"
-                                             title="{{ 'Informacion' | trans }}"/>
+                                             alt="{{ 'informacion' | trans }}"
+                                             title="{{ 'informacion' | trans }}"/>
                                     </td>
 
 
@@ -394,10 +306,10 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th width="25%" class="botonera_central">{{ "Marca" | trans }}</th>
-                            <th width="40%" class="botonera_central">{{ "Referencia" | trans }}</th>
-                            <th width="30%" class="botonera_central">{{ "Promoción" | trans }}</th>
-                            <th width="5%" class="botonera_central">{{ "Info." | trans }}</th>
+                            <th width="25%" class="botonera_central">{{ "marca" | trans }}</th>
+                            <th width="40%" class="botonera_central">{{ "referencia" | trans }}</th>
+                            <th width="30%" class="botonera_central">{{ "promocion" | trans }}</th>
+                            <th width="5%" class="botonera_central">{{ "info" | trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -414,7 +326,7 @@
                                                 name="promocion[{{ idNumPro }}][genericas][{{ idPromocion }}][marca]"
                                                 class=" izq"
                                                 onchange="actualizaProductos('{{ promocion['numPromocion'].idCategoria.idCategoria }}',this.value, 'producto_promo_{{ idPromocion }}')">
-                                            <option value="-1"> {{ "Seleccione" | trans }}</option>
+                                            <option value="-1"> {{ "select.marca" | trans }}</option>
                                             {% for marca in promocion['marcas'] %}
                                                 <option value="{{ marca.idMarca }}"
                                                         {% if generica.idProducto and marca.idMarca == generica.idProducto.idMarca.idMarca %}
@@ -431,7 +343,7 @@
                                         <select id='producto_promo_{{ idPromocion }}' style="width: auto"
                                                 name="promocion[{{ idNumPro }}][genericas][{{ idPromocion }}][producto]"
                                                 class=" izq">
-                                            <option value="-1"> {{ "Seleccione" | trans }}</option>
+                                            <option value="-1"> {{ "select.producto" | trans }}</option>
                                             {% if generica.idProducto %}
                                                 {% set productos = generica.getProductosByMarca(nivelCategoria) %}
                                                 {% for producto in productos %}
@@ -478,7 +390,7 @@
                                                     name="promocion[{{ idNumPro }}][genericas][{{ -k }}][marca]"
                                                     class=" izq"
                                                     onchange="actualizaProductos('{{ promocion['numPromocion'].idCategoria.idCategoria }}',this.value, '{{ idNumPro }}_producto_promo_gen_{{ -k }}')">
-                                                <option value="-1"> {{ "Seleccione una marca" | trans }}</option>
+                                                <option value="-1"> {{ "select.marca" | trans }}</option>
                                                 {% for marca in promocion['marcas'] %}
                                                     <option value="{{ marca.idMarca }}">
                                                         {{ marca.nombre }}
@@ -492,7 +404,7 @@
                                             <select id='{{ idNumPro }}_producto_promo_gen_{{ -k }}' style="width: auto"
                                                     name="promocion[{{ idNumPro }}][genericas][{{ -k }}][producto]"
                                                     class=" izq">
-                                                <option value="-1"> {{ "Seleccione un producto" | trans }}</option>
+                                                <option value="-1"> {{ "select.producto" | trans }}</option>
                                             </select>
                                         </td>
 

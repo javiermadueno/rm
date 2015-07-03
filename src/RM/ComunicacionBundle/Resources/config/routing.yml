@@ -48,16 +48,6 @@ rm_comunicacion.comunicacion.editar_plantilla:
   requirements:
       idComunicacion: \d+
 
-direct_manager_edit_segmentos_delete:
-  path: /manager/edit/segments/delete/{id_segmento_comunicacion}/
-  defaults: {_controller: RMComunicacionBundle:Edicion:deleteSegmentosComunicacion}
-  methods: [POST]
-  
-direct_manager_edit_segmentos_control:
-  path: /manager/edit/segments/controller/
-  defaults: {_controller: RMComunicacionBundle:Edicion:controladorSegmentosComunicacion}
-  methods: [POST]
-  
 direct_manager_edit_segmentos_nuevo:
   path: /manager/edit/segments/{id_comunicacion}/new/
   defaults: {_controller: RMComunicacionBundle:Edicion:nuevoSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2}
@@ -239,3 +229,7 @@ rm_comunicacion.segmento_comunicacion.eliminar_segmento:
    methods: [POST]
    requirements:
       idSegmentoComunicacion: \d+
+
+rm_comunicacion.comunicacion.index:
+  path: /direct/manager/comunicacion/index
+  defaults: { _controller: RMComunicacionBundle:Comunicacion:index }
