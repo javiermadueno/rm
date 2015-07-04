@@ -10,7 +10,7 @@
 	},
 	"require" : {
 		"php" : ">=5.5",
-		"symfony/symfony" : "2.6.*",
+		"symfony/symfony" : "2.7.*",
 		"doctrine/orm" : ">=2.2.3,<2.4-dev",
 		"doctrine/doctrine-bundle" : "1.2.*",
 		"twig/extensions" : "~1.2",
@@ -22,10 +22,10 @@
 		"sensio/generator-bundle" : "2.3.*",
 		"incenteev/composer-parameter-handler" : "~2.0",
 		"beberlei/DoctrineExtensions" : "0.3.0",
-		"ideup/simple-paginator-bundle" : "dev-master",
-		"knplabs/knp-paginator-bundle" : "dev-master",
+		"ideup/simple-paginator-bundle" : "dev-master#12639a9c75bc403649fc2b2881e190a017d8c5b2",
+		"knplabs/knp-paginator-bundle" : "2.4.*",
 		"ob/highcharts-bundle" : "1.*",
-		"imag/ldap-bundle" : "dev-master",
+		"imag/ldap-bundle" : "dev-master#d8da84c3c7cf7b8f384cb427c8aeebfcbab7eae1",
 		"raulfraile/ladybug-bundle" : "~1.0",
         "doctrine/mongodb-odm": "1.0.*@dev",
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
@@ -58,7 +58,7 @@
 			"file" : "app/config/parameters.yml"
 		},
 		"branch-alias" : {
-			"dev-master" : "2.6-dev"
+			"dev-master" : "2.7-dev"
 		}
 	}
 }
