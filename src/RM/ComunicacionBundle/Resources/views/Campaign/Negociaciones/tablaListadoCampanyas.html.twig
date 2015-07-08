@@ -1,5 +1,7 @@
 <h4 class="widgettitle">{{ "campanas" |trans|title}}</h4>
 
+{% import '@RMComunicacion/Instancia/macro_instancias.html.twig' as instancia %}
+
 <table class="table table-bordered responsive">
     <colgroup>
         <col class="con0">
@@ -39,23 +41,7 @@
                 <td>
                     {% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}
                 </td>
-                <td>
-                    {% if  objIns.getFase.codigo == 'cnf' %}
-                        {{ "fase.configuracion" | trans }}
-                    {% elseif objIns.getFase.codigo == 'ngc' %}
-                        {{ "fase.campaña" | trans }}
-                    {% elseif objIns.getFase.codigo == 'sim' %}
-                        {{ "fase.simulacion" | trans }}
-                    {% elseif objIns.getFase.codigo == 'cie' %}
-                        {{ "fase.cierre" | trans }}
-                    {% elseif objIns.getFase.codigo == 'gen' %}
-                        {{ "fase.generacion" | trans }}
-                    {% elseif objIns.getFase.codigo == 'cnf' %}
-                        {{ "fase.confirmacion" | trans }}
-                    {% elseif objIns.getFase.codigo == 'fin' %}
-                        {{ "fase.finalizada" | trans }}
-                    {% endif %}
-                </td>
+                <td>{{ instancia.fase(objIns) }}</td>
             </tr>
         {% endfor %}
     {% endif %}

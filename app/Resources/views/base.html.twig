@@ -42,7 +42,7 @@
 
             <div class="header">
                 <div class="logo">
-                    <a href="categorias.html"><img src="{{ asset('images/logo.png') }}" alt="" width="360" /></a>
+                    <a href="#"><img src="{{ asset('images/logo.png') }}" alt="" width="360" /></a>
                 </div>
                 <div class="headerinner">
                     <ul class="headmenu">
@@ -113,6 +113,17 @@
                                         <li><a href="#">{{ 'menu.usuario.editar' | trans  }}</a></li>
                                         <li><a href="#">{{ 'menu.usuario.ajustes' | trans  }}</a></li>
                                         <li><a href="{{ path('logout') }}">{{ 'menu.usuario.cerrar' | trans  }}</a></li>
+                                        {#
+                                        <li><span>
+                                                 <a href="{{  path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'}))}}">Ingles</a>
+
+                                        </span>
+                                            <span>
+                                                 <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'es'})) }}">Español</a>
+                                            </span>
+
+
+                                        </li>#}
                                     </ul>
                                 </div>
                             </div>

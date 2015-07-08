@@ -28,32 +28,26 @@ class Creatividad
      */
     private $nombre;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+	 */
+	private $descripcion;
+	
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="estado", type="smallint", nullable=true)
+	 */
+	private $estado;
+
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     * @ORM\Column(name="imagen", type="string")
      */
-    private $descripcion;
+    private $imagen;
 
-    /**
-     * @var smallint
-     *
-     * @ORM\Column(name="estado", type="smallint", nullable=true)
-     */
-    private $estado;
-
-    private $tamanyoImagen;
-
-    public function setTamanyoImagen($tamanyo)
-    {
-        $this->tamanyoImagen = $tamanyo;
-        return $this;
-    }
-
-    public function getTamanyoImagen()
-    {
-        return $this->tamanyoImagen;
-    }
 
 
     /**
@@ -102,40 +96,59 @@ class Creatividad
     {
         $this->descripcion = $descripcion;
 
-        return $this;
-    }
+	/**
+	 * Get descripcion
+	 *
+	 * @return string
+	 */
+	public function getDescripcion()
+	{
+		return $this->descripcion;
+	}
+	
+	/**
+	 * Set estado
+	 *
+	 * @param int $estado
+	 * @return Creatividad
+	 */
+	public function setEstado($estado)
+	{
+		$this->estado = $estado;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get estado
+	 *
+	 * @return int
+	 */
+	public function getEstado()
+	{
+		return $this->estado;
+	}
 
     /**
-     * Get descripcion
+     * Set imagen
      *
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param smallint $estado
-     *
+     * @param string $imagen
      * @return Creatividad
      */
-    public function setEstado($estado)
+    public function setImagen($imagen)
     {
-        $this->estado = $estado;
-
+        $this->imagen = $imagen;
+    
         return $this;
     }
 
     /**
-     * Get estado
+     * Get imagen
      *
-     * @return smallint
+     * @return string 
      */
-    public function getEstado()
+    public function getImagen()
     {
-        return $this->estado;
+        return $this->imagen;
     }
 }

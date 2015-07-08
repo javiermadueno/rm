@@ -38,20 +38,20 @@
             <div class="mediamgr_head">
                 <ul class="mediamgr_menu">
                     <li>
-                        <label for="filtro[desde]">Desde: </label>
+                        <label for="filtro[desde]">{{ "fecha.entre" |trans|title}}</label>
                         <input id="desde" type="datetime" name="filtro[desde]" class="tam4 izq datepicker"/>
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[hasta]">Hasta: </label>
+                        <label for="filtro[hasta]">{{ "fecha.entre.y" |trans|title}}</label>
                         <input id="hasta" type="datetime" name="filtro[hasta]" class="tam4 izq datepicker"/>
 
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[categoria]">Categoria: </label>
+                        <label for="filtro[categoria]">{{ "categoria" |trans|title}} </label>
                         <select name="filtro[categoria]" id="select_categorias" class="izq">
-                            <option value="-1">Todas</option>
+                            <option value="-1">{{ "select.todas" |trans|title}}</option>
                             {% for categoria in categorias %}
                                 <option value="{{ categoria.idCategoria }}">
                                     {{ categoria.nombre }}
@@ -61,9 +61,9 @@
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[marca]">Marca: </label>
+                        <label for="filtro[marca]">{{ "marca" |trans|title}} </label>
                         <select name="filtro[marca]" id="select_marcas" class="izq">
-                            <option value="-1">Todas</option>
+                            <option value="-1">{{ "select.todas" |trans|title}}</option>
                             {% for marca in marcas %}
                                 <option value="{{ marca.idMarca }}">
                                     {{ marca.nombre }}
@@ -73,9 +73,9 @@
                     </li>
                     <li>&nbsp;</li>
                     <li>
-                        <label for="filtro[producto]">Producto: </label>
+                        <label for="filtro[producto]">{{ "producto" |trans|title}} </label>
                         <select id="select_productos" name="filtro[producto]">
-                            <option value="-1">Seleccione una marca</option>
+                            <option value="-1">{{ "select.marca" |trans|title}}</option>
                         </select>
                     </li>
                     <li class="right">
@@ -88,7 +88,7 @@
         </div>
     </form>
 
-    <h4 class="widgettitle">{{ "graficos" |trans|title }}</h4>
+    <h4 class="widgettitle">{{ "graficas" |trans|title }}</h4>
     <div id="graficos" class="mediamgr_head">
         {% include('@RMComunicacion/Seguimiento/graficosSeguimiento.html.twig') %}
     </div>
@@ -110,7 +110,7 @@
                 <th>{{ "promocion"|trans }}</th>
                 <th>{{ "marca" |trans }}</th>
                 <th>{{ "producto"|trans }}</th>
-                <th>{{ "fecha"|trans }}</th>
+                <th>{{ "fecha.0"|trans }}</th>
                 <th>{{ "simulado"|trans }}</th>
             </tr>
             </thead>
@@ -139,7 +139,7 @@
                 "responsive": true,
                 "deferRender": true,
                 language: {
-                    url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                    url: '{{ asset('js/DataTables/Plugins/i18n/'~ app.request.locale ~'.lang') }}'
                 },
                 ajax: {
                     url: '{{ path('campaign_seguimiento') }}',
@@ -184,7 +184,7 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Simulados'
+                    text: '{{ 'highchart.seguimiento.simulado'|trans }}'
                 },
 
                 xAxis: {
@@ -193,7 +193,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Número de simulados'
+                        text: '{{ 'highchart.seguimiento.numero.simulados'|trans }}'
                     }
                 },
                 legend: {
@@ -201,7 +201,7 @@
                 },
 
                 series: [{
-                    name: 'Simulados'
+                    name: '{{ 'highchart.seguimiento.simulado'|trans }}'
                 }]
             });
 
@@ -212,7 +212,7 @@
                     plotShadow: false
                 },
                 title: {
-                    text: 'Promociones Aceptdas/Rechazadas'
+                    text: '{{ 'highchart.seguimiento.promociones.aceptadas.rechazadas'|trans }}'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -249,11 +249,11 @@
 
                 var seriePie = [
                     {
-                        name: 'Aceptadas',
+                        name: '{{ 'highchart.seguimiento.aceptadas'|trans }}',
                         y: aceptadas
                     },
                     {
-                        name: 'Rechazadas',
+                        name: '{{ 'highchart.seguimiento.rechazadas'|trans }}',
                         y: rechazadas
                     }
                 ];

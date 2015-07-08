@@ -298,6 +298,9 @@
         $(document).ready(function(){
             $('.actualizarTabla').change(function(event){
                 event.preventDefault(); //cancela el comportamiento por defecto
+
+                var $tablaListado = $('#tablaListado');
+
                 msg = $("#form").serialize();
                 {% set crearUrl = url('campaign_campanyas_actualizar') %}
                 var myUrl = '{{crearUrl}}';
@@ -307,8 +310,8 @@
                     data: msg,
                     complete: function(objeto, exito){
                         if(exito=="success"){
-                            $('#tablaListado').children().remove();
-                            $('#tablaListado').append(objeto.responseText);
+                            $tablaListado.children().remove();
+                            $tablaListado.append(objeto.responseText);
                         }
                     },
                     error: function(objeto, quepaso, otroobj){

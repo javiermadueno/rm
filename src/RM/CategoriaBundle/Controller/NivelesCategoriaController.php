@@ -24,7 +24,6 @@ class NivelesCategoriaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
             $data = $form->getData();
 
             foreach ($data['niveles'] as $nivel) {

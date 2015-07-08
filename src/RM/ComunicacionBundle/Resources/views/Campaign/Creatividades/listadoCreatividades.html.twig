@@ -1,4 +1,5 @@
 {% extends '::campaign/base_campaign.html.twig' %}
+{% import '@RMComunicacion/Instancia/macro_instancias.html.twig' as instancia %}
 
 {% block title %}
     {{ "menu.campaign.creatividades" | trans|title }}
@@ -53,21 +54,7 @@
                     <td>
                         {% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}
                     </td>
-                    <td> {% if  objIns.getFase.codigo == 'cfg' %}
-                            {{ "fase.configuracion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'ngc' %}
-                            {{ "fase.campaña" | trans }}
-                        {% elseif objIns.getFase.codigo == 'sim' %}
-                            {{ "fase.simulacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'cie' %}
-                            {{ "fase.cierre" | trans }}
-                        {% elseif objIns.getFase.codigo == 'gen' %}
-                            {{ "fase.generacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'cnf' %}
-                            {{ "fase.confirmacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'fin' %}
-                            {{ "fase.finalizada" | trans }}
-                        {% endif %}</td>
+                    <td> {{ instancia.fase(objIns) }}</td>
                 </tr>
             {% endfor %}
         {% endif %}

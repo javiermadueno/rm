@@ -7,12 +7,13 @@
     {% else %}
         {% set dif = valor1 == 0 ? (valor2 - valor1)/valor2 : (valor2 - valor1)/valor1  %}
     {% endif %}
+    {% spaceless %}
+        {{- "%.2f%%"|format(dif * 100) -}}
 
-    {{ "%.2f%%"|format(dif * 100) }}
-
-    {% if dif > 0 %}
-        <img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'mejora' | trans }}"/>
-    {% else %}
-        <img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'baja' | trans }}" />
-    {% endif %}
+        {% if dif > 0 %}
+            <img style="float:right;" src="{{ asset('img/arrowup.png') }}" alt="{{ 'mejora' | trans }}"/>
+        {% else %}
+            <img style="float:right;" src="{{ asset('img/arrowdown.png') }}" alt="{{ 'baja' | trans }}" />
+        {% endif %}
+    {% endspaceless %}
 {% endmacro %}

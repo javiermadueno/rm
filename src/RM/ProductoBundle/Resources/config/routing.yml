@@ -8,7 +8,7 @@ direct_config_listado_productos_paginador:
   requirements:
     id_categoria: -?\d+
     id_marca: -?\d+
-    
+
 direct_config_listado_productos_actualizar:
   path: /config/products/list/update/
   defaults: {_controller: RMProductoBundle:Default:actualizarProductos}
@@ -16,22 +16,11 @@ direct_config_listado_productos_actualizar:
   
 direct_config_ficha_productos:
   path: /config/products/list/product/{cod_sku}/
-  defaults: {_controller: RMProductoBundle:Default:showFichaProducto}
+  defaults: {_controller: RMProductoBundle:Producto:uploadImage}
   requirements:
     cod_sku: \d+
-
-direct_config_ficha_productos_crear:
-  path: /config/products/list/product/new/
-  defaults: {_controller: RMProductoBundle:Default:showFichaProductoCrear}
-  
-direct_config_ficha_producto_upload:
-  path: /config/products/list/product/upload/
-  defaults: {_controller: RMProductoBundle:Default:uploadImageProducto}
-  methods: [POST]
 
 producto_default_generate_unique_voucher:
   path: /generate/voucher
   defaults: { _controller: RMProductoBundle:Default:getUniqueVoucher}
-index:
-    path:     /index
-    defaults: { _controller: RMProductoBundle:Producto:index }
+

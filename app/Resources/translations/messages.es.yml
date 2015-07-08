@@ -22,6 +22,9 @@ mensaje:
     parar.segmentocomunicacion: No ha podido detenerse la comunicación del segmento.
     reanudar.segmentocomunicacion: No se ha podido reanudar la comunicación del segmento.
     eliminar.segmentocomunicacion: No se ha podido eliminar el segmento.
+    parar.comunicacion: No se ha podido parar la comunicación
+    reanudar.comunicacion: No se ha podido reanudar la comunicación
+    subida.fichero.demasiado.grande: El tamaño de la imagen es demasiado grande.
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -49,6 +52,8 @@ mensaje:
 
 mensaje.alerta.validar.segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
 mensaje.alerta.asociar.categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+error: Error
+correcto: Correcto
 
 menu:
   data:
@@ -91,7 +96,6 @@ menu:
     evolucion: Evolución
     proveedores: Proveedores
 
-
   usuario:
     editar: Editar perfil
     ajustes: Ajustes
@@ -126,14 +130,17 @@ boton:
 cabecera:
   niveles.categorias: Niveles de categorías a considerar para segmentar
   categorias: Categorías a considerar para segmentar
-  criterios: Criterios de elegibilidad de un consumidor para variables intermedias Compra de Prod. y Hab. Compra
+  criterios: Criterios temporales de variables intermedias Compra de Producto y Hábitos de Compra
   criterios.eligibilidad: criterios de eligibilidad
+  criterios.desempate: Criterios de desempate
   segmentos: Segmentos
   parametros: Parámetros de configuración
   configuracion:
     gamas: Configuración de Gamas
     parametros.generales: Configuración de Parámetros Generales
     franjas.horarias: Configuración de Franjas Horarias
+    segmentos: Configuración de Segmentos de Compra de Productos
+    parametros.segmentos: Parámetros de configuración de Segmentos
   criterios.busqueda: Criterios de búsqueda
   segmento.periodicidad: Segmentos y Periodicidad
   acciones.plantilla: Acciones de Plantilla
@@ -147,6 +154,7 @@ cabecera:
   eliminar:
     segmento: Eliminar Segmento
   cambio.fase.instancia: Cambio de Fase de Instancia Comunicación
+  promociones.categoria: Promociones por Categoría
 
 # Módulo DATA
 nivel: Nivel
@@ -155,6 +163,7 @@ sin.resultados: Sin resultados
 area: Área
 seccion: Sección
 categoria: Categoría
+subcategoria: Subcategoría
 segmento: Segmento
 segmentos: Segmentos
 subsegmento: Subsegmento
@@ -194,6 +203,8 @@ personalizado: Personalizado
 variables: Variables
 variable: Variable
 
+variable.ciclo.vida: Variable de Ciclo de Vida
+
 nueva:
   variable: Nueva Variable
   plantilla: Nueva Plantilla
@@ -229,21 +240,26 @@ select:
   seleccione: Seleccione
   seleccione.imagen: Seleccione Imagen
   seleccione.tipo: Seleccione Tipo
+  producto: Seleccione Producto
+  marca: Seleccione Marca
 
 estado: Estado
 estado.comunicacion: Estado de la comunicación
-fecha.entre: Fecha entre
 y: y
 tipo: Tipo
 criterio: Criterio
 
+
 fecha:
+  0: Fecha
   inicial: Fecha Inicial
   final: Fecha Final
   creacion: Fecha Creación
   ejecucion: Fecha Ejecución
   proxima.ejecucion: Fecha Próxima Ejecución
   promociones: Fecha de Promociones
+  entre: Fecha entre
+  entre.y: y
 
 filtro.busqueda: Filtro de búsqueda
 instancias: Instancias
@@ -251,7 +267,7 @@ instancia: Instancia
 
 fase:
   configuracion: Configuración
-  campaña: Campañas
+  campana: Campañas
   cierre: Cierre Negociación
   simulacion: Simulación
   generacion: Generación
@@ -282,6 +298,7 @@ editar: Editar
 listado: Listado
 datos: Datos
 promocion: Promoción
+promociones: Promociones
 subir.plantilla.maquetada: Subir plantilla maquetada
 grupo.slots: Grupo Slots
 
@@ -293,6 +310,8 @@ numero:
   creatividades:
     segmentadas: Número de creatividades segmentadas
     genericas: Número de creatividades genéricas
+  clientes: Número Clientes
+  miembros: Número  de  Miembros
 
 slot: slot
 slots: slots
@@ -359,8 +378,7 @@ campana: Campaña
 campanas: Campañas
 poblacion: Población
 minimo: Mínimo
-tipo:
-  promocion: Tipo Promoción
+tipo.promocion: Tipo Promoción
 tipo.clasificacion: Tipo de clasificación
 referencia: Referencia
 info: Info
@@ -399,21 +417,6 @@ previsualizacion.comunicaciones: Previsualización de Comunicaciones
 consumidor: Consumidor
 consumidores: Consumidores
 visualizar: Visualizar
-comparativa: Comparativa
-porcentaje.ventas: Porcentaje de Ventas
-otros.datos: Otros Datos
-numero.miembros: Número  de  Miembros
-frecuencia.contribuciones: Frecuencia   Contribuciones
-ticket.medio: Ticket   Medio
-amplitud.categorias: Amplitud   Categorias
-atencion: Atención
-
-ventas.totales: Ventas Totales
-ventas.miembros: Ventas de Miembros
-ventas.no.miembros: Ventas de No Miembros
-contribucion.miembros: Contribucion de Miembros
-contribuciones.mensuales.vs.miembros: Contribuciones mensuales VS miembros
-
 
 Validacion_Segmentos: Validación de segmentos
 Maximo_dias_novedad: Máximo días novedad
@@ -424,12 +427,201 @@ nivel_category_manager: Nivel de Category Manager
 mostrar.imagen.creatividad: Mostrar Imagen de la creatividad
 mostrar.texto.creatividad: Mostrar texto de la creatividad
 
+
 #Modulo INSIGHT
-numero.clientes: Número Clientes
+
+media: Media
+evolucion: Evolución
+periodo: Periodo
+
 media.ventas: Media Ventas
 frecuencia.media: Frecuencia Media
 recencia.media: Recencia Media
 amplitud.media: Amplitud Media
+porcentaje.ventas: Porcentaje de Ventas
+otros.datos: Otros Datos
+frecuencia.contribuciones: Frecuencia Contribuciones
+ticket.medio: Ticket   Medio
+amplitud.categorias: Amplitud  Categorias
+amplitud.medida:
+  alta: Alta
+  media: Media
+  baja: Baja
+
+atencion: Atención
+
+comunidad: Comunidad
+comparacion: Comparación
+comparativa: Comparativa
+compara: Compara
+compara.con: con
+coste:
+  fijo: Coste Fijo
+  variable: Coste Variable
+grafica: Gráfica
+graficas: Gráficas
+gasto.total: Gasto total
+activos: Activos
+nuevos: Nuevos
+inactivos: Inactivos
+desglose: Desglose
+proyeccion: Proyección
+detalle: Detalle
+target: Target
+total: Total
+redencion: Redención
+impactos: Impactos
+
+clientes:
+  0: Clientes
+  activos: Clientes Activos
+  nuevos: Clientes Nuevos
+
+ventas:
+  0: ventas
+  totales: Ventas Totales
+  miembros: Ventas de Miembros
+  no.miembros: Ventas de No Miembros
+contribucion:
+  miembros: Contribucion de Miembros
+  mensuales.vs.miembros: Contribuciones mensuales VS miembros
+
+reactividad.target.por.comunicades: Reactividad-Target por Comunicades
+reactividad: Reactividad
+
+highchart:
+  seguimiento:
+    promociones.aceptadas.rechazadas: Promociones Aceptdas/Rechazadas
+    numero.simulados: Número de simulados
+    aceptadas: Aceptadas
+    rechazadas: Rechazadas
+    simulado: Simulado
+    categoria: Categoría
+
+  intancia:
+    negociacion:
+      porcentaje.promociones.elaboradas: % Promociones elaboradas Global
+      realizadas: Realizadas
+      restantes: Restantes
+      totales: Totales
+      promociones.elaboradas.requeridas: Promociones elaboradas vs promociones requeridas
+    cierre:
+      porcentaje.promociones.elaboradas: % Promociones elaboradas Global
+      pendientes: Pendientes
+      aceptadas: Aceptadas
+      rechazadas: Rechazadas
+      promociones.aceptadas.rechazadas: Promociones aceptadas, pendientes, rechazadas
+
+  insight:
+    clientes:
+      contribuciones.title: Contribuciones mensuales vs miembros
+      numero:
+        miembros: Número de miembros
+        contribuciones: Número de contribuciones
+      porcentaje.ventas:
+        title: Ventas %mes%
+        miembros: Miembros
+        no.miembros: No Miembros
+        ventas: Ventas
+    evolucion:
+      title: Evolucion de segmentos
+
+    nuevos:
+      sexo:
+        title: Sexo de clientes
+      edades:
+        title: Clientes Nuevos por edades
+      franja.horaria:
+        title: Clientes Nuevos por Franja Horaria
+      dias:
+        title: Clientes Nuevos por Día
+      categorias:
+        title: Clientes nuevos por categorías - %fecha%
+        serie:
+          title: Clientes nuevos por categoría
+      punto.venta:
+        title: Clientes nuevos por Tipo Punto de Venta - %fecha%
+        serie:
+          title: Clientes nuevos por Tipo Punto de Venta
+      gama:
+        title: Clientes nuevos por Gama - %fecha%
+        serie:
+          title: Clientes nuevos por Gama
+
+    activos:
+      evolucion.clientes.riesgo:
+        title: Evolución Clientes en Riesgo
+      evolucion.clientes.activos:
+         title: Evolución clientes Activos
+
+    categorias:
+      ventas.mensuales:
+        title: Ventas mensuales por categoria
+        serie:
+          title: Ventas mensuales por categoría
+          axis.y: Ventas
+      recencia.anual:
+        title: Recencia Anual
+        serie:
+          axis.y: Recencia (%)
+      fidelizacion:
+        title: Clientes de la categoria %categoria% por nivel de fidelización
+        serie:
+          axis.y: Compras
+      nuevos:
+        title: Clientes nuevos de la categoría %categoria%
+      edad:
+        title: Clientes de la categoria %categoria% por Edades
+        serie:
+          axis.y: Compras
+      sexo:
+        title: Clientes de la categoria %categoria% por Sexo
+        serie:
+          axis.y: Compras
+
+    campaigns:
+      reactividad.redencion.ventas:
+        title: Reactividad - Redencion - Ventas
+        serie:
+          axis.y: Ventas
+
+      reactividad.target:
+        tipo.cliente:
+          title: Reactividad - Target por tipo de cliente
+          serie:
+            axis.y: %
+
+        edades:
+          title: Reactividad - Target por Edades
+          serie:
+            axis.y: Clientes
+
+        sexos:
+          title: Reactividad - Target por Sexos
+          serie:
+            axis.y:  Clientes
+
+        fidelizacion:
+          title: Reactividad - Target por Fidelizacion
+          serie:
+            axis.y: Clientes
+
+    proveedores:
+      reactividad.target:
+        edades:
+          title: Reactividad - Target por Edades
+          serie:
+            axis.y: Clientes
+
+        sexos:
+          title: Reactividad - Targer por Sexos
+          serie:
+            axis.y: Clientes
+
+
+
+
+
 
 
 

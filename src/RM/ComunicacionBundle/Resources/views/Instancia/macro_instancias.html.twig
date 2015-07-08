@@ -1,0 +1,20 @@
+{% macro fase(instancia) %}
+    {% if  instancia.getFase.codigo == 'cfg' %}
+        {{ "fase.configuracion" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'ngc' %}
+        {{ "fase.campana" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'sim' %}
+        {{ "fase.simulacion" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'cie' %}
+        {{ "fase.cierre" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'gen' %}
+        {{ "fase.generacion" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'cnf' %}
+        {{ "fase.confirmacion" | trans|title }}
+    {% elseif instancia.getFase.codigo == 'fin' %}
+        {{ "fase.finalizada" | trans|title }}
+    {% elseif objIns.getFase.codigo == 'can'  %}
+        {{ "fase.cancelada" | trans|title }}
+    {% endif %}
+{% endmacro %}
+

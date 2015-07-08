@@ -53,7 +53,7 @@ class InstanciaController extends RMController
         $objSegmentos = $servicioSeg->getSegmentoByIdComunicacion($id_comunicacion);
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($objInstancias, $this->getRequest()->query->get('page', 1), 100);
+        $pagination = $paginator->paginate($objInstancias, $this->get('request')->query->get('page', 1), 100);
 
 
         return $this->render(
@@ -109,11 +109,15 @@ class InstanciaController extends RMController
      */
     public function controladorVistasFaseInstanciasAction($id_instancia)
     {
+        $translator = $this->get('translator');
         $servicioIC = $this->get("InstanciaComunicacionService");
         $em = $this->getManager();
 
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
+        $instancia = $em
+            ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
+            ->find($id_instancia);
 
         if (!$objInstancias) {
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
@@ -282,9 +286,11 @@ class InstanciaController extends RMController
 
                 // GrÃ¡fico tarta
 
+
+
                 $objGT = new Highchart ();
                 $objGT->chart->renderTo('graficoTarta');
-                $objGT->title->text('% Promociones elaboradas Global');
+                $objGT->title->text($translator->trans('highchart.intancia.negociacion.porcentaje.promociones.elaboradas'));
                 $objGT->plotOptions->pie(
                     [
                         'allowPointSelect' => true,
@@ -301,11 +307,11 @@ class InstanciaController extends RMController
                 );
                 $data = [
                     [
-                        'Realizadas',
+                        $translator->trans('highchart.intancia.negociacion.realizadas'),
                         $total != 0 ? round(($totalRealizadas / $total) * 100, 2) : 0
                     ],
                     [
-                        'Restantes',
+                        $translator->trans('highchart.intancia.negociacion.restantes'),
                         $total != 0 ? round((($total - $totalRealizadas) / $total) * 100, 2) : 0
                     ]
                 ];
@@ -313,7 +319,7 @@ class InstanciaController extends RMController
                     [
                         [
                             'type' => 'pie',
-                            'name' => 'Promociones',
+                            'name' => $translator->trans('promociones'),
                             'data' => $data
                         ]
                     ]
@@ -330,13 +336,13 @@ class InstanciaController extends RMController
 
                 $series = [
                     [
-                        'name'  => 'Realizadas',
+                        'name'  => $translator->trans('highchart.intancia.negociacion.realizadas'),
                         'type'  => 'column',
                         'color' => '#4572A7',
                         'data'  => $arrayValoresRealizadas
                     ],
                     [
-                        'name'  => 'Totales',
+                        'name'  => $translator->trans('highchart.intancia.negociacion.totales'),
                         'type'  => 'column',
                         'color' => '#AA4643',
                         'data'  => $arrayValoresTotales
@@ -348,12 +354,12 @@ class InstanciaController extends RMController
                 $objGB = new Highchart ();
                 $objGB->chart->renderTo('graficoBarras'); // The #id of the div where to render the chart
                 $objGB->chart->type('column');
-                $objGB->title->text('Promociones elaboradas vs promociones requeridas');
+                $objGB->title->text($translator->trans('highchart.intancia.negociacion.promociones.elaboradas.requeridas'));
                 $objGB->xAxis->categories($categories);
                 $objGB->yAxis->min('0');
                 $objGB->yAxis->title(
                     [
-                        'text' => "Promociones"
+                        'text' => $translator->trans('promociones')
                     ]
                 );
                 $objGB->legend->enabled(true);
@@ -413,14 +419,6 @@ class InstanciaController extends RMController
                             $arrayEstados[$objInfo ['idCategoria']] = 'finalizada';
                         }
 
-                        /**
-                         * elseif($rechazadas > 0 && $aceptadas == 0) {
-                         * $arrayEstados[$objInfo['idCategoria']] = 'rechazada';
-                         * }
-                         * elseif($aceptadas > 0){
-                         * $arrayEstados[$objInfo['idCategoria']] = 'aceptada';
-                         * }*/
-
 
                     } elseif ($objInfo['tipoGrupo'] == GrupoSlots::CREATIVIDADES) {
                         $arrayInfoPromoCreatividad[$objInfo['idGrupo']][1] = $aceptadas;
@@ -454,11 +452,12 @@ class InstanciaController extends RMController
                     }
                 }
 
-                $creatividades = $this->get('creatividadservice')->getDatosPromocionesCreatividadByInstancia($objInstancia);
+                $creatividades = $this->get('creatividadservice')
+                    ->getDatosPromocionesCreatividadByInstancia($objInstancia);
 
                 $objGT = new Highchart ();
                 $objGT->chart->renderTo('graficoTarta');
-                $objGT->title->text('% Promociones elaboradas Global');
+                $objGT->title->text($translator->trans('highchart.intancia.cierre.porcentaje.promociones.elaboradas'));
                 $objGT->plotOptions->pie(
                     [
                         'allowPointSelect' => true,
@@ -476,17 +475,17 @@ class InstanciaController extends RMController
 
                 $data = [
                     [
-                        'name'  => 'Pendientes',
+                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
                         'color' => '#e67e22',
                         'y'     => $total != 0 ? round((($totalPendientes) / $total) * 100, 2) : 0
                     ],
                     [
-                        'name'  => 'Aceptadas',
+                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
                         'color' => '#2ecc71',
                         'y'     => $total != 0 ? round(($totalAceptadas / $total) * 100, 2) : 0
                     ],
                     [
-                        'name'  => 'Rechazadas',
+                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
                         'color' => '#e74c3c',
                         'y'     => $total != 0 ? round((($totalRechazadas) / $total) * 100, 2) : 0
                     ]
@@ -495,7 +494,7 @@ class InstanciaController extends RMController
                     [
                         [
                             'type' => 'pie',
-                            'name' => 'Promociones',
+                            'name' => $translator->trans('promociones'),
                             'data' => $data
                         ]
                     ]
@@ -514,19 +513,19 @@ class InstanciaController extends RMController
 
                 $series = [
                     [
-                        'name'  => 'Pendientes',
+                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
                         'type'  => 'column',
                         'color' => '#e67e22',
                         'data'  => $arrayValoresPendientes
                     ],
                     [
-                        'name'  => 'Aceptadas',
+                        'name'  => $translator->trans('highchart.intancia.cierre.aceptadas'),
                         'type'  => 'column',
                         'color' => '#2ecc71',
                         'data'  => $arrayValoresAceptadas
                     ],
                     [
-                        'name'  => 'Rechazadas',
+                        'name'  => $translator->trans('highchart.intancia.cierre.rechazadas'),
                         'type'  => 'column',
                         'color' => '#e74c3c',
                         'data'  => $arrayValoresRechazadas
@@ -538,12 +537,12 @@ class InstanciaController extends RMController
                 $objGB = new Highchart ();
                 $objGB->chart->renderTo('graficoBarras'); // The #id of the div where to render the chart
                 $objGB->chart->type('column');
-                $objGB->title->text('Promociones aceptadas, pendientes, rechazadas');
+                $objGB->title->text($translator->trans('highchart.intancia.cierre.promociones.aceptadas.rechazadas'));
                 $objGB->xAxis->categories($categories);
                 $objGB->yAxis->min('0');
                 $objGB->yAxis->title(
                     [
-                        'text' => "Promociones"
+                        'text' => $translator->trans('promociones')
                     ]
                 );
                 $objGB->legend->enabled(true);
@@ -818,23 +817,20 @@ class InstanciaController extends RMController
                         return $this->redirect(
                             $this->generateUrl(
                                 'direct_monitor_controlador_fases',
-                                [
-                                    'id_instancia' => $id_instancia
-                                ]
+                                ['id_instancia' => $id_instancia]
                             )
                         );
+
                     } elseif ($request->get('desempate') == 1) {
                         $em = $this->getManager();
 
-                        $instanciasCriterios = $em->getRepository(
-                            'RMProductoBundle:InstanciaCriterioDesempate'
-                        )->findBy(
-                            [
-                                'idInstancia' => $objInstancia
-                            ]
-                        );
+                        $instanciasCriterios = $em
+                            ->getRepository('RMProductoBundle:InstanciaCriterioDesempate')
+                            ->findBy(['idInstancia' => $objInstancia]);
 
-                        $criteriosDesempate = $em->getRepository('RMProductoBundle:CriterioDesempate')->findAll();
+                        $criteriosDesempate = $em
+                            ->getRepository('RMProductoBundle:CriterioDesempate')
+                            ->findAll();
 
                         $servicioIC->guardarCriteriosFaseConfiguracion(
                             $objInstancia,

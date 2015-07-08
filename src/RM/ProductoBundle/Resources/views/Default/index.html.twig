@@ -78,19 +78,6 @@
 {% block javascripts %}
 <script type="text/javascript">
 
-	function crearProducto(){			
-
-			var largo = 550;
-			var altura = 550;
-			var top = (screen.height-altura)/2;
-			var izquierda = (screen.width-largo)/2;
-			{% set nombreVentana = "Crear Producto" %}
-			camino = "{{ path('direct_config_ficha_productos_crear')}}";
-			var myUrl = camino;
-			var nomVentana = '{{ nombreVentana }}';
-			window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-	}
-
 	
 		$(document).ready(function(){
 			$('#checkTodos').live("change", function() {

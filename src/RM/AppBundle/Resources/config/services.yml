@@ -15,6 +15,7 @@ services:
     class: RM\AppBundle\Configuracion\DoctrineConfiguration
     arguments: [ %kernel.root_dir% ]
 
+
 #  rm.doctrine_dynamic_connection:
 #    class: RM\AppBundle\EventListener\ChangeDoctrineConnectionListener
 #    arguments: [@service_container, @security.context, @doctrine.dbal.default_connection, %doctrine.connections% ]

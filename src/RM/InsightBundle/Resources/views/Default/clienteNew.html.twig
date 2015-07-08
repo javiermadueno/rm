@@ -282,7 +282,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Categorias - '~ fechaInicial }}',
+	                text: '{{ 'highchart.insight.nuevos.categorias.title'|trans({'%fecha%': fechaInicial}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -299,7 +299,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Categorias',
+	                name: '{{ 'highchart.insight.nuevos.categorias.serie.title'|trans }}',
 	                data: [
 	                    ['Alimentacion Seca',   45],
 	                    ['Consumibles',       26],
@@ -326,7 +326,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Categorias - '~ fechaFinal }}',
+	                text: '{{ 'highchart.insight.nuevos.categorias.title'|trans({'%fecha%': fechaFinal}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -343,7 +343,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Categorias',
+	                name: '{{ 'highchart.insight.nuevos.categorias.serie.title'|trans }}',
 	                data: [
 	                    ['Alimentacion Seca',   34],
 	                    ['Consumibles',       37],
@@ -373,7 +373,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Tipo Punto de Venta - '~fechaInicial }}',
+	                text: '{{ 'highchart.insight.nuevos.punto.venta.title'|trans({'%fecha%': fechaInicial}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -390,7 +390,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Tipo Punto de Venta',
+	                name: '{{ 'highchart.insight.nuevos.punto.venta.serie.title'|trans }}',
 	                data: [
 	                    ['Retailing',   830],
 	                    ['Supermercado',       1950],
@@ -413,7 +413,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Tipo Punto de Venta - '~ fechaFinal }}',
+	                text: '{{ 'highchart.insight.nuevos.punto.venta.title'|trans({'%fecha%': fechaFinal}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -430,7 +430,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Tipo Punto de Venta',
+	                name: '{{ 'highchart.insight.nuevos.punto.venta.serie.title'|trans }}',
 	                data: [
 	                    ['Retailing',   725],
 	                    ['Supermercado',       2412],
@@ -456,7 +456,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Gama - '~ fechaInicial }}',
+	                text: '{{ 'highchart.insight.nuevos.gama.title'|trans({'%fecha%': fechaInicial}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -473,7 +473,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Gama',
+	                name: '{{ 'highchart.insight.nuevos.gama.serie.title'|trans }}',
 	                data: [
 	                    ['Premium',   23],
 	                    ['Estandar',       78],
@@ -497,7 +497,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: '{{'Clientes nuevos por Gama - '~ fechaFinal }}',
+	                text: '{{ 'highchart.insight.nuevos.gama.title'|trans({'%fecha%': fechaFinal}) }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -514,7 +514,7 @@
 	            },
 	            series: [{
 	                type: 'pie',
-	                name: 'Clientes nuevos por Gama',
+	                name: '{{ 'highchart.insight.nuevos.gama.serie.title'|trans }}',
 	                data: [
 	                    ['Premium',   25],
 	                    ['Estandar',       73],

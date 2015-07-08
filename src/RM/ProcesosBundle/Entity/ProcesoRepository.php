@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProcesoRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
+    public function findProcesosCreadosOEnProceso()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.tipoProceso', 'tipo')
+            ->join('p.estadoProceso', 'estado')
+            ->where('estado.codigo IN (:estados)')
+            ->andWhere('tipo.codigo = :tipo')
+            ->setParameter('tipo', TipoProceso::P00)
+            ->setParameter('estados', [EstadoProceso::ESTADO_CREADO, EstadoProceso::ESTADO_EN_PROCESO])
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,146 @@
+<!-- Grupo tipo Promocion -->
+<table id="{{ grupoSlots.idGrupo }}" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;"
+            class="section-padding">
+            <table border="0" cellpadding="0" cellspacing="0"
+                   width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(500) }}" class="responsive-table">
+                <tr>
+                    <td>
+                        <!-- TITLE SECTION AND COPY -->
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="center"
+                                    style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;"
+                                    class="padding-copy">{{ grupoSlots.nombre }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {% set slots = grupoSlots.slots %}
+                {% for slot in slots %}
+                    {% set id = grupoSlots.idGrupo~'-'~slot.idSlot %}
+                    <tr id="{{ id }}">
+                        <td width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(500) }}"
+                            height="{{ grupoSlots.idTamanyoImgProducto.alto|default(500) }}">
+                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td valign="top" style="padding: 0;" class="mobile-wrapper">
+
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                               align="left" class="responsive-table">
+                                            <tr>
+                                                <td style="padding: 20px 0 40px 0;">
+                                                    <table cellpadding="0" cellspacing="0"
+                                                           border="0">
+                                                        {% if grupoSlots.mImgProducto %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    bgcolor="{{ color_background }}"
+                                                                    valign="middle">
+                                                                    <a href="#" target="_blank">
+                                                                        <img id="{{ id~'-imagenProducto' }}"
+                                                                             style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
+                                                                             alt="Fluid images" border="0"
+                                                                             class="img-max imagenProducto">
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mPrecio %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-precio' }}"
+                                                                                  class="appleBody precio">Precio</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mVolumen %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-volumen' }}"
+                                                                                  class="appleBody volumen">Volumen</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mCondiciones %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-condiciones' }}"
+                                                                                  class="appleBody condiciones">condiciones</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mImgMarca %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    bgcolor="{{ color_background }}"
+                                                                    valign="middle">
+                                                                    <a href="#" target="_blank">
+                                                                        <img id="{{ id~'-imagenMarca' }}"
+                                                                             width="{{ grupoSlots.idTamanyoImgMarca.ancho }}"
+                                                                             height="{{ grupoSlots.idTamanyoImgMarca.alto }}"
+                                                                             style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
+                                                                             alt="Fluid images" border="0"
+                                                                             class="img-max imagenMarca">
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mTexto %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-texto' }}"
+                                                                                  class="appleBody texto">Texto Libre</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mVoucher %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-voucher' }}"
+                                                                                  class="appleBody voucher">Voucher</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mFidelizacion %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 14px; line-height: 20px;"
+                                                                    bgcolor="{{ color_background }}">
+                                                                            <span id="{{ id~'-fidelizacion' }}"
+                                                                                  class="appleBody fidelizacion">Fidelizacion</span>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </td>
+    </tr>
+</table>

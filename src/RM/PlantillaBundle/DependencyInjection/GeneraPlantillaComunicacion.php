@@ -15,6 +15,7 @@ use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig_Environment as Twig;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 
 class GeneraPlantillaComunicacion
@@ -49,12 +50,10 @@ class GeneraPlantillaComunicacion
 
     /**
      * @param Plantilla $plantilla
-     * @param string    $cliente
-     *
      * @throws \Exception
-     * @throws \FileNotFoundException
+     * @throws FileNotFoundException
      */
-    public function creaArchivoPlantilla(PlantillaInterface $plantilla, $cliente = '')
+    public function creaArchivoPlantilla(PlantillaInterface $plantilla)
     {
         $html = $this->renderPlantilla($plantilla);
 
@@ -62,7 +61,7 @@ class GeneraPlantillaComunicacion
             $this->getRutaCarpetaPlantillasCliente($this->cliente) . '/' . $plantilla->getIdPlantilla() . '.html';
 
         if (!file_put_contents($nombreArchivoPlantilla, $html)) {
-            throw new \FileNotFoundException(
+            throw new FileNotFoundException(
                 sprintf('No se ha podido escribir en el fichero %s', $nombreArchivoPlantilla));
         }
     }
@@ -87,7 +86,7 @@ class GeneraPlantillaComunicacion
      * @return string
      * @throws \Exception
      */
-    private function getRutaCarpetaPlantillasCliente($cliente = '')
+    private function getRutaCarpetaPlantillasCliente()
     {
         $ruta = $this->webPath . '/' . $this->cliente . '/plantillas';
 
@@ -117,14 +116,14 @@ class GeneraPlantillaComunicacion
      */
     public function getRutaPlantilla(PlantillaInterface $plantilla)
     {
-        return $this->getRutaCarpetaPlantillasCliente($this->cliente) . '/' . $plantilla->getIdPlantilla() . '.html';
+        return $this->getRutaCarpetaPlantillasCliente().'/'.$plantilla->getIdPlantilla().'.html';
     }
 
     /**
      * @param PlantillaInterface $plantilla
      *
      * @return array|string
-     * @throws \FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function compruebaPlantilla(PlantillaInterface $plantilla)
     {

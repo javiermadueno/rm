@@ -26,7 +26,7 @@
     <div class="mediamgr_head">
         <ul class="mediamgr_menu">
             <li>
-                <label>{{ "fecha" |trans|title}}</label>
+                <label for="id_categoria">{{ "fecha.0" |trans|title}}</label>
                 <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
                     <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
                     <option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
@@ -45,7 +45,7 @@
             </li>
             <li>&nbsp;&nbsp;</li>
             <li>
-                <label>{{ "categoria" |trans|title}}</label>
+                <label for="fecha_from">{{ "categoria" |trans|title}}</label>
                 <select id="fecha_from" name="fecha_from" class="tam6 izq actualizarTabla">
                     <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
                     <option value="1" >{% trans %}Alimentacion Seca{% endtrans %}</option>
@@ -59,7 +59,7 @@
             </li>
             <li>&nbsp;&nbsp;</li>
             <li>
-                <label>{{ "marca" |trans|title}}</label>
+                <label for="id_marca">{{ "marca" |trans|title}}</label>
                 <select id="id_marca" name="id_marca" class="tam6 izq actualizarTabla">
                     <option value="-1">{% trans %}Seleccione{% endtrans %}</option>
                     <option value="1" >{% trans %}Chambourcy{% endtrans %}</option>
@@ -85,10 +85,10 @@
             <thead>
             <tr>
                 <th style="text-align: center; width:auto;">{% trans %}&nbsp;{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Per&iacute;odo{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Categor&iacute;a{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Media{% endtrans %}</th>
-                <th style="text-align: center; width:auto;">{% trans %}Evoluci&oacute;n{% endtrans %}</th>
+                <th style="text-align: center; width:auto;">{{ "periodo" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "categoria" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "media" |trans|title}}</th>
+                <th style="text-align: center; width:auto;">{{ "evolucion" |trans|title}}</th>
             </tr>
             </thead>
             <tbody>
@@ -109,17 +109,17 @@
                     {% if dato[4] > 0 %}
                         <td style="text-align: center;" width="20%">
                             {% if dato[4]|length == 3 %}
-                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% elseif dato[4] < 0 %}
                         <td style="text-align: center;" width="20%">
                             {% if dato[4]|length == 3 %}
-                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[4] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% else %}
@@ -141,17 +141,17 @@
                     {% if dato[8] > 0 %}
                         <td style="text-align: center; " width="20%">
                             {% if dato[8]|length == 3 %}
-                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% elseif dato[8] < 0 %}
                         <td style="text-align: center; " width="20%">
                             {% if dato[8]|length == 3 %}
-                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;{% endtrans %}<img src="{{ asset('img/arrowdown.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% else %}
-                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'Proyeccion' | trans }}"title="{{ 'Proyeccion' | trans }}" />
+                                {{ dato[8] }}{% trans %}%&nbsp;&nbsp;{% endtrans %}<img src="{{ asset('img/arrowup.png') }}" alt="{{ 'proyeccion' | trans }}" title="{{ 'proyeccion' | trans }}" />
                             {% endif %}
                         </td>
                     {% else %}
@@ -170,7 +170,7 @@
             <tbody>
             <tr>
                 <td width="50%" class="graficoIzquierda" align="center">
-                    <div id="graficoVentasMes" style="height: 300px; margin: 0 auto" width="50%"></div>
+                    <div id="graficoVentasMes" style="height: 300px; margin: 0 auto"></div>
                 </td>
                 <td width="50%" class="graficoDerecha" align="center">
                     <div id="graficoRecenciaAnual" style="height: 300px; margin: 0 auto"></div>
@@ -191,14 +191,14 @@
         </colgroup>
         <thead>
         <tr>
-            <th style="text-align: center;">{% trans %}Subcategor&iacute;a{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Ventas{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}% Categor&iacute;a{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}% Total{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Evoluci&oacute;n{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Comparaci&oacute;n{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Impactos{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Redenci&oacute;n{% endtrans %}</th>
+            <th style="text-align: center;">{{ "subcategoria" |trans|title}}</th>
+            <th style="text-align: center;">{{ "ventas.0" |trans|title}}</th>
+            <th style="text-align: center;">{{ "categoria" |trans|title}}</th>
+            <th style="text-align: center;">{{ "total" |trans|title}}</th>
+            <th style="text-align: center;">{{ "evolucion" |trans|title}}</th>
+            <th style="text-align: center;">{{ "comparacion" |trans|title}}</th>
+            <th style="text-align: center;">{{ "impactos" |trans|title}}</th>
+            <th style="text-align: center;">{{ "redencion" |trans|title}}</th>
         </tr>
         </thead>
         {% for d in data %}
@@ -237,7 +237,7 @@
             <tbody>
             <tr>
                 <td width="50%" class="graficoIzquierda" align="center">
-                    <div id="grafico1" style="height: 300px; margin: 0 auto" width="50%"></div>
+                    <div id="grafico1" style="height: 300px; margin: 0 auto" ></div>
                 </td>
                 <td width="50%" class="graficoDerecha" align="center">
                     <div id="graficoImpactosMensuales" style="height: 300px; margin: 0 auto"></div>
@@ -245,7 +245,7 @@
             </tr>
             <tr>
                 <td width="50%" class="graficoIzquierda" align="center">
-                    <div id="graficoEdades" style="height: 300px; margin: 0 auto" width="50%"></div>
+                    <div id="graficoEdades" style="height: 300px; margin: 0 auto" ></div>
                 </td>
                 <td width="50%" class="graficoDerecha" align="center">
                     <div id="graficoSexos" style="height: 300px; margin: 0 auto"></div>
@@ -282,7 +282,7 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: 'Ventas Mensuales por Categoria'
+	            text: '{{ 'highchart.insight.categorias.ventas.mensuales.title'|trans }}'
 	        },
 	        subtitle: {
 	            text: ''
@@ -295,7 +295,7 @@
 	        yAxis: {
 	            min: 0,
 	            title: {
-	                text: 'Ventas (Euros)'
+	                text: '{{ 'highchart.insight.categorias.ventas.mensuales.serie.axis.y'|trans }}'
 	            }
 	        },
 	        tooltip: {
@@ -326,7 +326,7 @@
 
 	    $('#graficoRecenciaAnual').highcharts({
 	        title: {
-	            text: 'Recencia Anual',
+	            text: '{{ 'highchart.insight.categorias.recencia.anual.title'|trans }}',
 	            x: -20 //center
 	        },
 	        subtitle: {
@@ -339,7 +339,7 @@
 	        },
 	        yAxis: {
 	            title: {
-	                text: 'Recencia (%)'
+	                text: '{{ 'highchart.insight.categorias.recencia.anual.serie.axis.y'|trans }}'
 	            },
 	            plotLines: [{
 	                value: 0,
@@ -370,7 +370,7 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: 'Clientes de la Categoria {{ categoria }} por Nivel de Fidelizacion'
+	            text: '{{ 'highchart.insight.categorias.fidelizacion.title'|trans({'%categoria%': categoria}) }}'
 	        },
 	        subtitle: {
 	            text: '{{ categoria }}'
@@ -381,7 +381,7 @@
 	        yAxis: {
 	            min: 0,
 	            title: {
-	                text: 'Compras'
+	                text: '{{ 'highchart.insight.categorias.fidelizacion.serie.axis.y'|trans }}'
 	            },
 	            stackLabels: {
 	                enabled: true,
@@ -397,7 +397,7 @@
 	            verticalAlign: 'top',
 	            y: 20,
 	            floating: true,
-	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.background) || 'white',
 	            borderColor: '#CCC',
 	            borderWidth: 1,
 	            shadow: false
@@ -443,7 +443,7 @@
                 plotShadow: false
             },
             title: {
-                text: 'Clientes nuevos por Categoria'
+                text: '{{ 'highchart.insight.categorias.nuevos.title'|trans({'%categoria%': categoria}) }}'
             },
 	        subtitle: {
 	            text: '{{ categoria }}'
@@ -477,7 +477,7 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: 'Clientes de la Categoria {{ categoria }} por Edades'
+	            text: '{{ 'highchart.insight.categorias.edad.title'|trans({'%categoria%': categoria}) }}'
 	        },
 	        xAxis: {
 	            categories: ['Compra', 'Media']
@@ -485,7 +485,7 @@
 	        yAxis: {
 	            min: 0,
 	            title: {
-	                text: 'Compras'
+	                text: '{{ 'highchart.insight.categorias.edad.serie.axis.y'|trans }}'
 	            },
 	            stackLabels: {
 	                enabled: true,
@@ -501,7 +501,7 @@
 	            verticalAlign: 'top',
 	            y: 20,
 	            floating: true,
-	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.background) || 'white',
 	            borderColor: '#CCC',
 	            borderWidth: 1,
 	            shadow: false
@@ -548,7 +548,7 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: 'Clientes de la Categoria {{ categoria }} por Sexos'
+	            text: '{{ 'highchart.insight.categorias.sexo.title'|trans({'%categoria%': categoria}) }}'
 	        },
 	        xAxis: {
 	            categories: ['Compra', 'Media']
@@ -556,7 +556,7 @@
 	        yAxis: {
 	            min: 0,
 	            title: {
-	                text: 'Compras'
+	                text: '{{ 'highchart.insight.categorias.sexo.serie.axis.y'|trans }}'
 	            },
 	            stackLabels: {
 	                enabled: true,
@@ -572,7 +572,7 @@
 	            verticalAlign: 'top',
 	            y: 20,
 	            floating: true,
-	            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+	            backgroundColor: (Highcharts.theme && Highcharts.theme.background) || 'white',
 	            borderColor: '#CCC',
 	            borderWidth: 1,
 	            shadow: false

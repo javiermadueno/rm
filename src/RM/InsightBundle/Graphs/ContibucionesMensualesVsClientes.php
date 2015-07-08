@@ -10,6 +10,7 @@ namespace RM\InsightBundle\Graphs;
 
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\RMMongoBundle\Document\ResultadoMensual;
+use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Json\Expr;
 
 class ContibucionesMensualesVsClientes
@@ -18,6 +19,16 @@ class ContibucionesMensualesVsClientes
      * @var Highchart
      */
     private $chart;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
 
     public function getGraficoContribucionesClienteVsMiembros(array $meses)
@@ -33,11 +44,11 @@ class ContibucionesMensualesVsClientes
             $series['fechas'][] = $mes->getFecha()->format('M-Y');
         }
 
-
-        $data = [
+        
+        $data  = [
 
             [
-                'name'  => 'Numero de contribuciones',
+                'name'  => $this->translator->trans('highchart.insight.clientes.numero.contribuciones'),
                 'type'  => 'column',
                 'color' => '#4572A7',
                 'yAxis' => 1,
@@ -45,7 +56,7 @@ class ContibucionesMensualesVsClientes
 
             ],
             [
-                'name'  => 'Numero de miembros',
+                'name'  => $this->translator->trans('highchart.insight.clientes.numero.miembros'),
                 'type'  => 'spline',
                 'color' => '#AA4643',
                 'yAxis' => 0,
@@ -56,32 +67,32 @@ class ContibucionesMensualesVsClientes
         $yData = [
             [
                 'labels' => [
-                    'style' => ['color' => '#AA4643']
+                    'style'     => ['color' => '#AA4643']
                 ],
-                'title'  => [
-                    'text'  => 'Numero de miembros',
+                'title' => [
+                    'text'  => $this->translator->trans('highchart.insight.clientes.numero.miembros'),
                     'style' => ['color' => '#AA4643']
                 ],
             ],
             [
-                'labels'        => [
+                'labels' => [
                     'formatter' => new Expr('function () { return this.value + " %" }'),
                     'style'     => ['color' => '#4572A7']
                 ],
                 'gridLineWidth' => 0,
-                'title'         => [
-                    'text'  => 'Numero de contribuciones',
+                'title' => [
+                    'text'  => $this->translator->trans('highchart.insight.clientes.numero.contribuciones'),
                     'style' => ['color' => '#4572A7']
                 ],
-                'opposite'      => true,
+                'opposite' => true,
             ],
         ];
 
 
-        $this->chart->chart->renderTo('contribucionesClientesVsMiembros');
-        $this->chart->chart->type('column');
-        $this->chart->title->text('Contribuciones mensuales vs miembros');
-        $this->chart->xAxis->categories($series['fechas']);
+        $this->chart->chart->renderTo ( 'contribucionesClientesVsMiembros' );
+        $this->chart->chart->type ( 'column' );
+        $this->chart->title->text ( $this->translator->trans('highchart.insight.clientes.contribuciones.title') );
+        $this->chart->xAxis->categories ( $series['fechas'] );
         $this->chart->yAxis($yData);
 
 
@@ -93,4 +104,6 @@ class ContibucionesMensualesVsClientes
 
         return $this->chart;
     }
+
+
 } 

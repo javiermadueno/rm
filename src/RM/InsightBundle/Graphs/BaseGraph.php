@@ -9,10 +9,22 @@
 namespace RM\InsightBundle\Graphs;
 
 use Ob\HighchartsBundle\Highcharts\Highchart;
+use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Json\Expr;
 
 class BaseGraph
 {
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+
+    }
+
     /**
      * @return Highchart
      */
@@ -65,13 +77,11 @@ class BaseGraph
             ->renderTo($renderTo)
             ->type('pie');
 
-        $chart->series([
-            [
-                'type' => 'pie',
-                'name' => 'Sin Datos',
-                'data' => []
-            ]
-        ]);
+        $chart->series([[
+            'type' => 'pie',
+            'name' => $this->translator->trans('sin.resultados'),
+            'data' => []
+        ]]);
 
         return $chart;
 
@@ -93,13 +103,11 @@ class BaseGraph
             ->renderTo($renderTo)
             ->type('column');
 
-        $chart->series([
-            [
-                'type' => 'column',
-                'name' => 'Sin Datos',
-                'data' => []
-            ]
-        ]);
+        $chart->series([[
+            'type' => 'column',
+            'name' => $this->translator->trans('sin.resultados'),
+            'data' => []
+        ]]);
 
         return $chart;
     }
@@ -116,7 +124,7 @@ class BaseGraph
             ->plotBorderWidth(null)
             ->plotShadow(null);
 
-        $chart->title->text('Sin datos que mostrar');
+        $chart->title->text($this->translator->trans('sin.resultados'));
 
         return $chart;
     }
@@ -136,18 +144,16 @@ class BaseGraph
             ]
         ]);
 
-        $chart->yAxis([
-            [
-                'min'         => 0,
-                'title'       => [
-                    'text' => 'Número de clientes'
-                ],
-                'stackLabels' => [
-                    'enabled' => false,
-                    'style'   => [
-                        'fontWeight' => 'bold',
-                        'color'      => new Expr("(Highcharts.theme && Highcharts.theme.textColor) || 'gray'")
-                    ]
+        $chart->yAxis([[
+            'min' => 0,
+            'title' => [
+                'text' => $this->translator->trans('numero.clientes')
+            ],
+            'stackLabels' => [
+                'enabled' => false,
+                'style' => [
+                    'fontWeight' => 'bold',
+                    'color' => new Expr("(Highcharts.theme && Highcharts.theme.textColor) || 'gray'")
                 ]
             ]
         ]);

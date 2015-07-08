@@ -13,10 +13,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs buttons-icons">
                     <li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="active"{% endif %}>
-                        <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Promociones por categoria" | trans }}</a>
+                        <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "cabecera.promociones.categoria" | trans }}</a>
                     </li>
                     <li id="menuTabFaseConf2" {% if opcionMenuTabFaseConf == 2 %}class="active"{% endif %}>
-                        <a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "Criterios desempate" | trans }}</a>
+                        <a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "cabecera.criterios.desempate" | trans }}</a>
                     </li>
                 </ul>
 

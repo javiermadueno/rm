@@ -24,6 +24,199 @@
         <tr>
             {{ include('@RMComunicacion/Edicion/filaSegmentoComunicacion.html.twig') }}
         </tr>
+    {% else  %}
+        <tr>
+            <td colspan="7"><div class="center-all">{{ "sin.resultados" |trans|title}}</div></td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+        <td width="100">
+            <a class="btn btn-success" href='{{ path('rm_comunicacion.segmento_comunicacion.new', {'idComunicacion': id_comunicacion}) }}'>{{ "boton.nuevo" | trans }}</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+<script>
+    jQuery(document).on('ready', function(){
+        jQuery(document).on('click', '.eliminarsegmento', function(event){
+            var e= event||window.event;
+            e.preventDefault();
+
+            var self = this;
+
+            var idSegmento = self.dataset.segmento;
+            var fila = $(self).closest('tr')[0];
+
+            jQuery.alerts.dialogClass = 'alert-danger';
+            jConfirm("{{ 'mensaje.eliminar.segmento'|trans }}", "{{ 'cabecera.eliminar.segmento'|trans|title }}", function(confirmacion){
+                (function(confirmacion, idSegmento, fila) {
+                    if (!confirmacion) {
+                        return;
+                    }
+                    var url = '{{ path('rm_comunicacion.segmento_comunicacion.eliminar_segmento',{idSegmentoComunicacion: 111})}}';
+                    url = url.replace('111', idSegmento);
+
+                    $.post(url, function(respuesta){
+
+                        jQuery(fila).children('td, th')
+                                .animate({
+                                    padding: 0
+                                })
+                                .wrapInner('<div />')
+                                .children()
+                                .slideUp(function () {
+                                    $(this).closest('tr').remove();
+                                });
+
+                        $.jGrowl(respuesta.mensaje, {
+                            header: 'Correcto',
+                            life: 50000
+                        });
+                    }).error(function(respuesta){
+                        $.jGrowl(respuesta, {
+                            header: 'ERROR'
+
+                        });
+                    });
+                    console.log('Se reanuda la comunicacion #' + idSegmento);
+
+                }(confirmacion, idSegmento, fila));
+            });
+
+        });
+
+        jQuery(document).on('click', '.reanudarsegmento', function(event){
+
+            var e= event||window.event;
+            e.preventDefault();
+
+            var self = this;
+
+            var idSegmento = self.dataset.segmento;
+            var fila = $(self).closest('tr')[0];
+
+            jQuery.alerts.dialogClass = 'alert-success';
+            jConfirm("{{ 'mensaje.reanudar.segmento'|trans }}", "{{ 'cabecera.reanudar.segmento'|trans|title }}", function(confirmacion){
+                (function(confirmacion, idSegmento, fila) {
+                    if (!confirmacion) {
+                        return;
+                    }
+                    var url = '{{ path('rm_comunicacion.segmento_comunicacion.reanudar_segmento',{idSegmentoComunicacion: 111})}}';
+                    url = url.replace('111', idSegmento);
+
+                    $.post(url, function(respuesta){
+                        var html = respuesta.fila;
+                        if(fila){
+                            $(fila).html(html);
+                        }
+                        $.jGrowl(respuesta.mensaje, {
+                            header: 'Correcto',
+                            life: 50000
+                        });
+                    }).error(function(respuesta){
+                        $.jGrowl(respuesta, {
+                            header: 'ERROR'
+                        });
+                    });
+                    console.log('Se reanuda la comunicacion #' + idSegmento);
+
+                }(confirmacion, idSegmento, fila));
+            });
+        });
+
+        jQuery(document).on('click', '.pararsegmento', function(event){
+
+            var e= event||window.event;
+            e.preventDefault();
+
+            var self = this;
+
+            var idSegmento = self.dataset.segmento;
+            var fila = $(self).closest('tr')[0];
+
+            jQuery.alerts.dialogClass = 'alert-danger';
+            jConfirm("{{ 'mensaje.parar.segmento'|trans }}", "{{ 'cabecera.parar.segmento'|trans|title }}", function(confirmacion){
+                (function(confirmacion, idSegmento, fila) {
+                    if (!confirmacion) {
+                        return;
+                    }
+                    var url = '{{ path('rm_comunicacion.segmento_comunicacion.parar_segmento',{idSegmentoComunicacion: 111})}}';
+                    url = url.replace('111', idSegmento);
+
+                    $.post(url, function(respuesta){
+                        var html = respuesta.fila;
+                        if(fila){
+                            $(fila).html(html);
+                        }
+                        $.jGrowl(respuesta.mensaje, {
+                            header: 'Correcto',
+                            life: 50000
+                        });
+                    }).error(function(respuesta){
+                        $.jGrowl(respuesta, {
+                            header: 'ERROR'
+
+                        });
+                    });
+                    console.log('Se reanuda la comunicacion #' + idSegmento);
+
+                }(confirmacion, idSegmento, fila));
+            });
+        });
+
+        jQuery(document).on('click', '.eliminarsegmento', function(event){
+            var e= event||window.event;
+            e.preventDefault();
+
+            var self = this;
+
+            var idSegmento = self.dataset.segmento;
+            var fila = $(self).closest('tr')[0];
+
+            jQuery.alerts.dialogClass = 'alert-danger';
+            jConfirm("{{ 'mensaje.eliminar.segmento'|trans }}", "{{ 'cabecera.eliminar.segmento'|trans|title }}", function(confirmacion){
+                (function(confirmacion, idSegmento, fila) {
+                    if (!confirmacion) {
+                        return;
+                    }
+                    var url = '{{ path('rm_comunicacion.segmento_comunicacion.eliminar_segmento',{idSegmentoComunicacion: 111})}}';
+                    url = url.replace('111', idSegmento);
+
+                    $.post(url, function(respuesta){
+
+                        jQuery(fila).children('td, th')
+                                .animate({
+                                    padding: 0
+                                })
+                                .wrapInner('<div />')
+                                .children()
+                                .slideUp(function () {
+                                    $(this).closest('tr').remove();
+                                });
+
+                        $.jGrowl(respuesta.mensaje, {
+                            header: 'Correcto',
+                            life: 50000
+                        });
+                    }).error(function(respuesta){
+                        $.jGrowl(respuesta, {
+                            header: 'ERROR'
+
+                        });
+                    });
+                    console.log('Se reanuda la comunicacion #' + idSegmento);
+
+                }(confirmacion, idSegmento, fila));
+            });
+
+        });
+    });
+</script>

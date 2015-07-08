@@ -1,5 +1,7 @@
 {% extends 'RMComunicacionBundle:Instancia:baseFasesInstancia.html.twig' %}
 
+{% import '@RMComunicacion/Instancia/macro_instancias.html.twig' as instancia %}
+
 {% block stylesheets %}
     {{ parent() }}
     <script src="{{ asset('js/DataTables/media/js/jquery.dataTables.js') }}"></script>
@@ -32,23 +34,7 @@
                 <td class="sinborde"><b>{{ "segmento" | trans }}:</b></td>
                 <td class="sinborde">{{ objInstancia.getIdSegmentocomunicacion.getIdSegmento.getNombre }}</td>
                 <td class="sinborde"><b>{{ "estado" | trans }}:</b></td>
-                <td class="sinborde">
-                    {% if  objInstancia.getFase.codigo == 'cfg' %}
-                        {{ "fase.configuracion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'ngc' %}
-                        {{ "fase.campaña" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'sim' %}
-                        {{ "fase.simulacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'cie'  %}
-                        {{ "fase.cierre" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'gen' %}
-                        {{ "fase.generacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'cnf' %}
-                        {{ "fase.confirmacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'fin' %}
-                        {{ "fase.finalizada" | trans }}
-                    {% endif %}
-                </td>
+                <td class="sinborde"> {{ instancia.fase(objInstancia) }}</td>
             </tr>
             </tbody>
         </table>

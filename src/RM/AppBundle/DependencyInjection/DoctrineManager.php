@@ -24,6 +24,8 @@ class DoctrineManager
 
     private $cliente;
 
+    private $security;
+
     /**
      * @param ManagerRegistry       $doctrine
      * @param TokenStorageInterface $security
@@ -65,4 +67,21 @@ class DoctrineManager
 
         return $this->em;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getCliente()
+    {
+        if (!isset($this->cliente)) {
+            /** @var TokenInterface $token */
+            $token = $this->security->getToken();
+            /** @var LdapUser $usuario */
+            $usuario = $token->getUser();
+            $this->cliente = $usuario instanceof LdapUser ? $usuario->getCliente() : null;
+        }
+
+        return $this->cliente;
+    }
+
 } 

@@ -32,16 +32,12 @@
                 <td>
                     {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
                     {% set existeImagen = 0 %}
-                    {% set imagenUrl = "" %}
-                    {% for cadFormato in extensionFormatoImages %}
-                        {% set imagen= web_path~"/"~app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.idCreatividad~cadFormato %}
-                        {% if file_exists(imagen) %}
-                            {% set existeImagen = 1 %}
-                            {% set imagenUrl = app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.idCreatividad~cadFormato %}
-                        {% endif %}
-                    {% endfor %}
+                    {% set imagenUrl = app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.imagen %}
+                    {% if objCreatividad.imagen is not null and file_exists(imagenUrl) %}
+                        {% set existeImagen = 1 %}
+                    {% endif %}
                     {% if(existeImagen == 1) %}
-                        <img src="{{ asset(imagenUrl) }}?={{ random(500) }}" width="100px" height="100px"/>
+                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px" height="100px"/>
                     {% else %}
                         &nbsp;
                     {% endif %}

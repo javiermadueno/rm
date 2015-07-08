@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TipoProceso
 {
+    const P00 = 'P00';
+
     /**
      * @var integer
      *

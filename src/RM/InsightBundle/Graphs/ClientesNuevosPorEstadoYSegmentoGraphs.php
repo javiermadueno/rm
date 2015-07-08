@@ -12,6 +12,7 @@ namespace RM\InsightBundle\Graphs;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use Symfony\Component\Translation\TranslatorInterface;
 
 
 /**
@@ -42,8 +43,9 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
      *
      * @throws \Exception
      */
-    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager)
+    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager, TranslatorInterface $translator)
     {
+        parent::__construct($translator);
         $this->repository = $repository;
         $this->em = $manager->getManager();
     }
@@ -60,6 +62,12 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $segmento_activo = $this->getSegementoEstado();
         $sexo = $this->getSegmentosSexo();
 
+        if (!$sexo) {
+            $chart = $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.sexo.title'));
+            return $chart;
+        }
+
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
                 $meses,
@@ -74,7 +82,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
 
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
-        $chart->title->text('Sexo de Clientes');
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.sexo.title'));
         $chart->xAxis->categories(array_keys($sexo));
         $chart->series($data);
 
@@ -116,6 +124,12 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $segmento_activo = $this->getSegementoEstado();
         $edades = $this->getSegmentosEdades();
 
+        if (!$edades) {
+            $chart =  $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.edades.title'));
+            return $chart;
+        }
+
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
                 $meses,
@@ -130,7 +144,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $chart = $this->graficoColumnas();
 
         $chart->chart->renderTo($renderTo);
-        $chart->title->text('Clientes Nuevos por Edades');
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.edades.title'));
         $chart->xAxis->categories(array_keys($edades));
         $chart->series($data);
 
@@ -166,6 +180,12 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $segmento_activo = $this->getSegementoEstado();
         $horas = $this->getSegmentosFranjaHoraria();
 
+        if(!$horas) {
+            $chart =  $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.franja.horaria.title'));
+            return $chart;
+        }
+
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
                 $meses,
@@ -179,7 +199,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
 
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
-        $chart->title->text('Clientes Nuevos por Franja Horaria');
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.franja.horaria.title'));
         $chart->xAxis->categories(array_keys($horas));
         $chart->series($data);
 
@@ -211,6 +231,12 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $segmento_activo = $this->getSegementoEstado();
         $dias = $this->getSegmentosDias();
 
+        if(!$dias) {
+            $chart =  $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.dias.title'));
+            return $chart;
+        }
+
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
                 $meses,
@@ -224,7 +250,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
 
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
-        $chart->title->text('Clientes Nuevos por Día');
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.dias.title'));
         $chart->xAxis->categories(array_keys($dias));
         $chart->series($data);
 

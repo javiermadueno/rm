@@ -97,10 +97,12 @@ class CreatividadController extends RMController
     public function uploadImageCreatividadAction()
     {
 
-        $request = $this->container->get('request');
-        $servicioCR = $this->get("CreatividadService");
+        $em = $this->get('rm.manager')->getManager();
 
-        $usuario = $this->get('security.context')->getToken()->getUser();
+        $request = $this->container->get( 'request' );
+        $servicioCR = $this->get( "CreatividadService" );
+
+        $usuario = $this->get('security.token_storage')->getToken()->getUser();
         $folderName = $usuario->getCliente();  //Identificacion del centro
         $myAssetUrl = $this->get('kernel')->getRootDir() . '/../web';
 
@@ -136,6 +138,11 @@ class CreatividadController extends RMController
                     if (!move_uploaded_file($_FILES['uploadFile']['tmp_name'], $carpetaFicPlantilla)) {
                         $exito = false;
                     }
+
+                    $creatividad = $em->getRepository('RMComunicacionBundle:Creatividad')->find($id_creatividad);
+                    $creatividad->setImagen(sprintf('%s.%s', $id_creatividad, $extension));
+                    $em->flush();
+
 
                 } catch (\Exception $e) {
                     $exito = false;

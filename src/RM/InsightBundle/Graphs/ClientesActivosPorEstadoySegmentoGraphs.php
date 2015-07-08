@@ -11,6 +11,7 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use Symfony\Component\Translation\TranslatorInterface;
 
 
 /**
@@ -41,8 +42,9 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @throws \Exception
      */
-    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager)
+    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager, TranslatorInterface $translator)
     {
+        parent::__construct($translator);
         $this->repository = $repository;
         $this->em = $manager->getManager();
     }
@@ -62,7 +64,9 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($riesgo));
 
         if (!$data) {
-            return $this->graphColumnNoData($renderTo);
+            $graph =  $this->graphColumnNoData($renderTo);
+            $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.riesgo.title'));
+            return $graph;
         }
 
         $data_prepared = $this->prepareData($data, array_keys($riesgo));
@@ -72,7 +76,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
-        $graph->title->text('Evolucion Clientes en Riesgo');
+        $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.riesgo.title'));
         $graph->xAxis->categories($categorias);
         $graph->series($series);
 
@@ -144,7 +148,9 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($activos));
 
         if (!$data) {
-            return $this->graphColumnNoData($renderTo);
+            $graph =  $this->graphColumnNoData($renderTo);
+            $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.activos.title'));
+            return $graph;
         }
 
         $data_prepared = $this->prepareData($data, array_keys($activos));
@@ -154,7 +160,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
-        $graph->title->text('Evolucion Clientes Activos');
+        $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.activos.title'));
         $graph->xAxis->categories($categorias);
         $graph->series($series);
 

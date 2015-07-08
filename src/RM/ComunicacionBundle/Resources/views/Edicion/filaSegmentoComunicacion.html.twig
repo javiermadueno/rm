@@ -1,5 +1,5 @@
 <td>
-    <a href="{{ path("direct_manager_edit_segmentos_editar", { 'id_comunicacion':segmento.idComunicacion.idComunicacion, 'id_segmento': segmento.idSegmentoComunicacion})}}" style="cursor:pointer;">
+    <a href="{{ path("rm_comunicacion.segmento_comunicacion.edit", { 'idComunicacion':segmento.idComunicacion.idComunicacion, 'id': segmento.idSegmentoComunicacion})}}" style="cursor:pointer;">
         {{ segmento.idSegmento.nombre}}
     </a>
 </td>

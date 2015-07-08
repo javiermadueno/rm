@@ -28,28 +28,28 @@
     <div class="bloque_contenido">
 						
 		<div class="cabecera_contenido">
-			<span>{% trans %}Clientes{% endtrans %}</span> 
+			<span>{{ "clientes" |trans|title}}</span>
 		</div>
 		<div class="bloque_contenido sinborde">
 			<div class="linea_contenido">
-				<label>{% trans %}Proveedor:&nbsp;&nbsp;{% endtrans %}</label>
+				<label>{{ "proveedor" |trans|title}}</label>
 {# 				<label>{% trans %}Campa&ntilde;as:&nbsp;{% endtrans %}</label>#}
 				<select id="proveedor" name="proveedor" class="tam6 izq actualizarTabla">
-					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="-1">{{ "select.seleccione" |trans|title}}</option>
 					<option value="1" >{% trans %}Nutrexpa{% endtrans %}</option>
 					<option value="2" selected>{% trans %}Procter & Gamble{% endtrans %}</option>			
 				</select>
-				<label>{% trans %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marca&nbsp;&nbsp;{% endtrans %}</label>
+				<label>{{ "marca" |trans|title}}</label>
 				<select id="id_marca" name="id_marca" class="tam6 izq actualizarTabla">
-					<option value="-1" selected>{% trans %}Todas{% endtrans %}</option>
+					<option value="-1" selected>{{ "select.todas" |trans|title}}</option>
 					<option value="1" >{% trans %}Chambourcy{% endtrans %}</option>
 					<option value="2" >{% trans %}El Pozo{% endtrans %}</option>
 					<option value="3" >{% trans %}Campofrio{% endtrans %}</option>
 					<option value="4" >{% trans %}Purina{% endtrans %}</option>
 				</select>
-			<label>{% trans %}Fecha Inicio:&nbsp;&nbsp;{% endtrans %}</label>
+			<label>{{ "fecha.inicial" |trans|title}}</label>
 			<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="-1">{{ "select.seleccione" |trans|title}}</option>
 					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
 					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
 					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
@@ -63,9 +63,9 @@
 					<option value="11" >{% trans %}Nov-2014{% endtrans %}</option>
 					<option value="12" >{% trans %}Dic-2014{% endtrans %}</option>
 				</select>
-			<label>{% trans %}Fecha Fin:&nbsp;&nbsp;{% endtrans %}</label>
+			<label>{{ "fecha.final" |trans|title}}</label>
 			<select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
-					<option value="-1">{% trans %}Seleccione{% endtrans %}</option>
+					<option value="-1">{{ "select.seleccione" |trans|title}}</option>
 					<option value="1" >{% trans %}Ene-2014{% endtrans %}</option>
 					<option value="2" >{% trans %}Feb-2014{% endtrans %}</option>
 					<option value="3" >{% trans %}Mar-2014{% endtrans %}</option>
@@ -90,16 +90,16 @@
 								<thead>
 									<tr>
 										<th colspan="11" style="text-align: center;">
-											{% trans %}Desglose{% endtrans %}
+											{{ "desglose" |trans|title}}
 										</th>
 									</tr>
 									<tr>
-										<th style="text-align: center;">{% trans %}Promociones{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Clientes{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Redenci&oacute;n{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Ventas{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Coste Fijo{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Coste Variable{% endtrans %}</th>
+										<th style="text-align: center;">{{ "promociones" |trans|title}}</th>
+										<th style="text-align: center;">{{ "clientes" |trans|title}}</th>
+										<th style="text-align: center;">{{ "redencion" |trans|title}}</th>
+										<th style="text-align: center;">{{ "ventas" |trans|title}}</th>
+										<th style="text-align: center;">{{ "coste.fijo" |trans|title}}</th>
+										<th style="text-align: center;">{{ "coste.variable" |trans|title}}</th>
 									</tr>
 								</thead>
 									{% for d in data %}
@@ -133,23 +133,23 @@
 								<div id="graficoEdades" style="height: 300px; margin: 0 auto"></div>
 							</td>
 							<td width="50%" class="graficoIzquierda" align="center">
-								<div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div
+								<div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div>
 							</td>
 						</tr>
 						<tr>
 							<td width="50%" class="graficoDerecha" align="center">
-								<div id="tablaCCAA" margin: 0 auto">
+								<div id="tablaCCAA" >
 								<table>
 								<thead align="center">
 									<tr>
 										<th colspan="3" style="text-align: center;">
-											{% trans %}Reactividad-Target por Comunidades{% endtrans %}
+											{{ "reactividad.target.por.comunicades" |trans|title}}
 										</th>
 									</tr>
 									<tr>
-										<th style="text-align: center;">{% trans %}Comunidad{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Reactividad{% endtrans %}</th>
-										<th style="text-align: center;">{% trans %}Target{% endtrans %}</th>
+										<th style="text-align: center;">{{ "comunidad" |trans|title}}</th>
+										<th style="text-align: center;">{{ "reactividad" |trans|title}}</th>
+										<th style="text-align: center;">{{ "target" |trans|title}}</th>
 									</tr>
 								</thead>
 									{% for d2 in data2 %}
@@ -168,7 +168,7 @@
 								</div>
 							</td>
 							<td width="50%" class="graficoIzquierda" align="center">
-								<div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div
+								<div id="graficoSexos" style="height: 300px; margin: 0 auto" width="50%"></div>
 							</td>
 						</tr>
 						<tr>

@@ -10,6 +10,7 @@ namespace RM\InsightBundle\Graphs;
 
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\RMMongoBundle\Document\ResultadoMensual;
+use Symfony\Component\Translation\TranslatorInterface;
 
 
 class PorcentajeDeVentas
@@ -19,6 +20,13 @@ class PorcentajeDeVentas
      */
     private $chart;
 
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
 
     public function getGraficoPorcentajeVentas(ResultadoMensual $mes, $nombre)
     {
@@ -27,27 +35,31 @@ class PorcentajeDeVentas
         $this->chart = new Highchart();
         $this->chart->chart->renderTo($nombre);
 
-        $this->chart->plotOptions->pie([
-            'allowPointSelect' => true,
-            'cursor'           => 'pointer',
-            'dataLabels'       => [
-                'enabled' => false
-            ],
-            'showInLegend'     => true
-        ]);
+        $this->chart->plotOptions->pie ( [
+                'allowPointSelect' => true,
+                'cursor' => 'pointer',
+                'dataLabels' => [
+                    'enabled' => false
+                ],
+                'showInLegend' => true
+            ] );
 
         if (!$mes) {
             return $this->chart;
         }
 
-        $this->chart->title->text(sprintf('Ventas %s', $mes->getFecha()->format('F-Y')));
-        $this->chart->series([
+        $this->chart->title->text ( $this->translator->trans(
+            'highchart.insight.clientes.porcentaje.ventas.title',
+            ['%mes%' =>  $mes->getFecha()->format('F-Y')]
+        ));
+
+        $this->chart->series ( [
                 [
                     'type' => 'pie',
-                    'name' => 'Ventas',
+                    'name' => $this->translator->trans('highchart.insight.clientes.porcentaje.ventas.ventas'),
                     'data' => [
-                        ['Miembros', $mes->getVentasCliente() ? $mes->getVentasCliente() : 0.00],
-                        ['No miembros', $mes->getVentasNoCliente() ? $mes->getVentasNoCliente() : 0.00]
+                        [$this->translator->trans('highchart.insight.clientes.porcentaje.ventas.miembros'),    $mes->getVentasCliente()  ? $mes->getVentasCliente()   : 0.00 ],
+                        [$this->translator->trans('highchart.insight.clientes.porcentaje.ventas.no.miembros'), $mes->getVentasNoCliente()? $mes->getVentasNoCliente() : 0.00 ]
                     ]
                 ]
             ]

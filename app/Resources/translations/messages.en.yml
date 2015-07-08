@@ -1,58 +1,92 @@
 mensaje:
   error:
-    general: Se ha producido un error.
-    guardar: No se ha podido guardar.
-    actualizar: No se ha podido actualizar.
-    eliminar: No se ha podido eliminar el registro.
-    importar: Se ha producido un error en la importación.
-    exportar: Se ha producido un error en la exportación.
-    subida: Se ha producido un error en la subida del fichero.
-    no.segmentos: No hay segmentos a los que enviar la comunicación
-    no.gruposlots: Seleccione uno o varios grupos de slots
-    no.gruposlot.configurado: No hay ningun Grupo de Slots configurado
-    no.categoria.asociada: No hay ninguna Categoria asociada al centro
+    general: An Error has occurred.
+    guardar: Could not Save.
+    actualizar: Could not Update.
+    eliminar: Could not delete the record.
+    importar: There has been errors during Import Process.
+    exportar: There has been errors during Export Process
+    subida: There has been errors during File Upload.
+    no.segmentos: There are no customer's segments that communications be sent.
+    no.gruposlots: Select One or More Groups of Slots.
+    no.gruposlot.configurado: There is no Group of Slots configured. 
+    no.categoria.asociada: There is no Category associated to the Center.
+    no.instancia: Communication's Instance Not Found.
+    cambio.fase: Unable to Process the Instance to the next step.
+    cambio.fase.simulacion: Unable to Process the Instance to Simulation Step. There are still Generic Promotions to be defined.
+    cambio.fase.generacion.pendientes: Unable to Process the Instance to Generation Step. There are still Pending Promotions.
+    cambio.fase.generacion.rechazadas: Personalized Commnications will be generated for each Customer without Rejected Promotions.
+    limite.numslots: Numer of Slots Exceeded.
+    faltan.segmentos: Unable to Activate Communications. There is no slot defined. 
+    categorias.numero.promociones.defininido: Following Categories haven't reached the defined number of promotions. 
+    parar.segmentocomunicacion: Unable to Stop Communication to Customer Segment. 
+    reanudar.segmentocomunicacion: Unable to Resume Communications to Customer Segment. 
+    eliminar.segmentocomunicacion: Unable to delete the Customer Segment.
+    parar.comunicacion: Unable to Stop Communication.
+    reanudar.comunicacion: Unable to Resume Communication.
+    subida.fichero.demasiado.grande: The image is too large.
   ok:
-    eliminar: Se ha eliminado el registro correctamente.
-    editar: La operación se ha realizado con exito.
-    crear: Se ha creado un nuevo registro.
-    importar: La operación de importación se ha realizado con exito.
-    exportar: Se ha exportado correctamente.
-    guardar: El formulario se ha guardado correctamente.
+    eliminar: Record Deleted.
+    editar: Operation was performed successfully.
+    crear: New record created.
+    importar: Data Import was performed successfully.
+    exportar: Data Export was performed successfully.
+    guardar: Form was saved successfully.
+    mensajes.enviados: Messages were sent successfully.
+    comunicacion.parada: Communication Stopped.
+    comunicacion.reanudada: Communications Resumed
+    segmentocomunicacion.eliminado: Customer Segment successfully deleted.
+    segmentocomunicacion.reanudado: Communication to Customer Segment was resumed successfully. 
+    segmentocomunicacion.parado: Communication to Customer Segment was stopped.
+    cambio.fase: Processed instance to the next step. 
+  reanudar:
+    comunicacion: Communcation will be resumed. Do you want to proceed? 
+    segmento: Communcation to Customer Segment will be resumed. Do you want to proceed? 
+  parar:
+    comunicacion: Communcation will be stopped. Do you want to proceed? 
+    segmento: Communcation to Customer Segment will be stopped. Do you want to proceed? 
+  eliminar:
+    segmento: Customer Segment will be deleted. Do you want to proceed? 
+    segmento: Customer Segment will be deleted. Do you want to proceed?
+  tramitar:
+    simulacion: Are you sure you want to proceed to simulation step? 
+mensaje.alerta.validar.segmentos: Do you want to proceed? New segments will be created and old ones will be deteled from current configuration!.
+mensaje.alerta.asociar.categorias: If you save, all categories from selected levels will be asociated and all categories from unselected ones will be disociated. Do you want to proceed?
 
 menu:
   data:
     nombre: Data
-    modo_basico: Simple Mode
+    modo_basico: Basis Mode
     modo_avanzado: Advanced Mode
     categorias: Categories
-    categorias_avanzado: Advanced Categories
-    segmentos: Segments
-    configuracion: Configuration
-    ciclo_vida: Lifecycle
-    compra_productos: Buying Products
-    habitos_compra: Buying Habits
-    sociodemografico: Sociodemographics
-    otros: Other Transforms
-    procesamiento: Prosecution
+    categorias_avanzado: Advanced Category Management
+    segmentos: Customer Segments
+    configuracion: Set-Up
+    ciclo_vida: Life-Cycle
+    compra_productos: Product Purchase
+    habitos_compra: Purchase Behaviour
+    sociodemografico: Sociodemographic
+    otros: Customized Variables
+    procesamiento: Processing
     informacion: Information
 
   direct:
     nombre: Direct
-    instancia_comunicaciones:  Communications Instance
+    instancia_comunicaciones: Communication Instance
     monitor: Communication Monitor
-    gestion: communication management
-    configuracion: Setting
+    gestion: Communication Management
+    configuracion: Communication Set-Up
 
   campaign:
     nombre: Campaign
-    campanas: Campaigns
-    cierre: Closing Campaigns
-    creatividades: Creativities
-    seguimiento: Tracing
+    campanas: Campiagn
+    cierre: Closing Negotiations
+    creatividades: Creative Designs
+    seguimiento: Follow-Up
 
   insight:
     nombre: Insight
-    clientes: Clients
+    clientes: Customers
     categorias: Categories
     campanas: Campaigns
     dashboard: Dashboard
@@ -62,9 +96,9 @@ menu:
 
 
   usuario:
-    editar: Edit Profile
+    editar: Edit User Profile
     ajustes: Settings
-    cerrar: Logout
+    cerrar: Close session
 
 boton:
   guardar: Save
@@ -72,205 +106,521 @@ boton:
   nuevo: New
   buscar: Search
   cancelar: Cancel
-  aceptar: Accept
+  aceptar: Acept
   volver: Back
-  copiar: Copy
+  copiar: Copy 
   parar: Stop
   reanudar: Resume
   descargar: Download
   importar: Import
   exportar: Export
-  previsualizar.plantilla: Preview Template
+  previsualizar.plantilla: Template Preview
   previsualizar: Preview
   subir: Upload
-  listado: List
-  avisos: Notifications
+  listado: Listing
+  avisos: Warnings
   limpiar: Clean
+  seleccione.filtro: Select Filter
+  actualizar: Update
+  editar: Edit
+  eliminar: Delete
+  eliminar.plantilla: Delete Template
 
 cabecera:
-  categorias: categories levels to consider
-  criterios: Criterios de elegibilidad de un consumidor para variables intermedias Compra de Prod. y Hab. Compra
-  criterios.eligibilidad: Eligibility criteria
-  segmentos: Segments
-  parametros: Settings Parameters
+  niveles.categorias: Category Levels to take into account for segmenting.
+  categorias: Categories to take into account for segmenting.
+  criterios: Temporal Criteria of Product Purchase and Purchase Behavoir Intermediate Variables.
+  criterios.eligibilidad: Elegibility Criteria.
+  criterios.desempate: Tiebreakers Criteria
+  segmentos: Customer Segments
+  parametros: Set-Up Parameters.
   configuracion:
-    gamas: Setting Ranges
-    parametros.generales: Setting General Parameters
-    franjas.horarias: Setting Time Bands
-  criterios.busqueda: Search criteria
-  segmento.periodicidad: Segments and Frequency
+    gamas: Range Set-Up
+    parametros.generales: General Parameters Set-Up
+    franjas.horarias: Time Interval Set-Up
+    segmentos: Product Purchase Segments' Set-Up
+    parametros.segmentos: Customer Segments Parameters Set-Up
+  criterios.busqueda: Search Criteria
+  segmento.periodicidad: Customer Segments and Regularity
   acciones.plantilla: Template Actions
+  informacion.variable.sociodemografica: Sociodemographic Variable Informaton. 
+  reanudar:
+    comunicacion: Resume Communication
+    segmento: Resume Customer Segment
+  parar:
+    comunicacion: Stop Communication
+    segmento: Stop Customer Segment
+  eliminar:
+    segmento: Delete Customer Segment
+  cambio.fase.instancia: Change Intance Step.
+  promociones.categoria: Promotions by Category
 
-# Módulo DATA
+# MÃ³dulo DATA
 nivel: Level
 niveles: Levels
-sin.resultados: No result
+sin.resultados: Without Results
 area: Area
 seccion: Section
 categoria: Category
+subcategoria: Subcategory
 segmento: Segment
 segmentos: Segments
 subsegmento: Subsegment
-estacionalidad: seasonality
+estacionalidad: Seasonality
 tiempo.referencia: Reference Time
 condicion: Condition
+condiciones: Conditions
 percentil: Percentile
 parametro: Parameter
 descripcion: Description
 valor: Value
-configuracion: Setting
-parametros.generales: General Parameter
-numero.dias.novedad: Days number novelty
-amplitud: amplitude
-recencia: recency
-frecuencia: frequency
+configuracion: Set-Up
+parametros.generales: General Parameters
+numero.dias.novedad: Novelty Number of Days
+amplitud: Breadth
+recencia: Recency
+frecuencia: Frequency
+
+frecuencia.diaria: Daily
+frecuencia.semanal: Weekly
+frecuencia.quincenal: BiWeekly
+frecuencia.mensual: Monthly
+frecuencia.trimestral: Quarterly
+frecuencia.cuatrimestral: Four-Monthly
+frecuencia.semestral: biyearly
+frecuencia.anual: yearly
 gama: range
-gasto: expenditure
-numero.dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
+gasto: spending
+numero.dias.novedad.descripcion: Number of days for a purchase to be considered novelty
 dias: Days
-franja.horaria: Time Band
+franja.horaria: Time Interval
 desde: From
 hasta: To
+proveedor: Provider
+personalizado: Personalized
 
 variables: Variables
 variable: Variable
-nueva.variable: New Variable
+
+nueva:
+  variable: New Variable
+  plantilla: New Template
+  comunicacion: New Communication
+
+nuevo:
+  segmento: New Segment
+  grupo.slots: New Group of Slots
+  recurso: New Graphic Resource
 
 tiempo:
-  referencia.n: Reference time N
-  referencia.m: Reference time M
+  referencia.n: Time Reference N
+  referencia.m: Time Reference M
 
 marca: Brand
-validar.segmentos: Segment Validation
+validar.segmentos: Validate Segments
 
 # Modulo DIRECT
-gestion.de: Gestión de
-monitor.de: Monitor de
-comunicaciones: Comunicaciones
-comunicacion: Comunicación
-select.todas: Todas
-estado: Estado
-fecha.entre: Fecha entre
-y: y
-tipo: Tipo
+gestion.de: Management of
+monitor.de: Monitor of
+comunicaciones: Comunications
+comunicacion: Comunication
+
+comunicacion.estado:
+  activo: Active
+  pausado: Paused
+  configuracion: in Settings
+  inactivo: Inactive
+  completada: Completed
+
+select:
+  todas: All
+  seleccione: Select
+  seleccione.imagen: Select Image
+  seleccione.tipo: Select Type
+  marca: Select Brand
+  producto: Select Product
+
+estado: Step
+estado.comunicacion: Communication Step
+y: and
+tipo: Type
+criterio: Criteria
 
 fecha:
-  inicial: Fecha Inicial
-  final: Fecha Final
-  creacion: Fecha Creación
-  ejecucion: Fecha Ejecución
-  promociones: Fecha de Promociones
+  inicial: Start Date
+  final: End Date
+  creacion: Creation Date
+  ejecucion: Execution Date
+  proxima.ejecucion: Next Execution Date
+  promociones: Date of Promotions
+  entre: Date between
+  entre.y: and
 
-filtro.busqueda: Filtro de búsqueda
-instancias: Instancias
-instancia: Instancia
+filtro.busqueda: Search Filter
+instancias: Instances
+instancia: Instance
 
 fase:
-  configuracion: Configuración
-  campaña: Campañas
-  cierre: Cierre Negociación
-  simulacion: Simulación
-  generacion: Generación
-  finalizada: Finalizada
-  confirmacion: Confirmación
-  cancelada: Cancelada
+  configuracion: Set-Up
+  configuracion: Set-Up
+  campana: Campaign
+  cierre: Closing Negotiations
+  simulacion: Simulation
+  generacion: Generation
+  finalizada: Finished
+  confirmacion: Confirmation
+  cancelada: Canceled
 
-activo: Activo
-desactivado: Desactivado
-en.proceso: En proceso
-canal: Canal
-controles: Controles
-recursos.graficos: Recursos Gráficos
-creatividades: Creatividades
-creatividad: Creatividad
+activo: Active
+desactivado: Deactivated
+en.proceso: In Process
+canal: Channel
+controles: Controls
+recursos.graficos: Graphic Resources
+creatividades: Creative Designs
+creatividad: Creative Design
 
-plantilla: Plantilla
-plantillas: Plantillas
-codigo: Código
-productos: Productos
-producto: Producto
-imagen: Imagen
-imagen.alto: Alto
-imagen.ancho: Ancho
-nombre: Nombre
-editar: Editar
-listado: Listado
-datos: Datos
-promocion: Promoción
-subir.plantilla.maquetada: Subir plantilla maquetada
-grupo.slots: Grupo Slots
+plantilla: Template
+plantillas: Templates
+codigo: Code
+codigo.promocion: Promotion Code
+productos: Products
+producto: Product
+imagen: Image
+imagen.alto: Height
+imagen.ancho: Width
+nombre: Name
+editar: Edit
+listado: Listing
+datos: Data
+promocion: Promotion
+promociones: Promotions
+subir.plantilla.maquetada: Upload Designed Template 
+grupo.slots: Group of Slots
 
 numero:
-  slots: Número de Slots
+  slots: Number of Slots
   promociones:
-    segmentadas: Número de promociones segmentadas
-    genericas: Número de promociones genéricas
+    segmentadas: Number of Segmented Product-based Promotions
+    genericas: Number of Generic Promotions
+  creatividades:
+    segmentadas: Number of Segmented Creative Design-based Promotions
+    genericas: Number of Generic Creative Design-based Promotions
+  clientes: Number of Customers
+  miembros: Number of Members
 
 slot: slot
 slots: slots
-volver.a: Volver a
-tramitar.a: Tramitar a
-pendiente: pendiente
-aceptada: aceptada
-rechazada: Rechazada
-previsualizar: previsualizar
-segmentadas: segmentadas
-genericas: genéricas
+volver.a: Back to
+tramitar.a: Process to
+pendiente: pending
+aceptada: acepted
+rechazada: Rejected
+previsualizar: preview
+segmentadas: segmented
+genericas: generic
 
-segmento.comunicacion: Segmentos Comunicación
-nuevo:
-  segmento: Nuevo Segmento
-  grupo.slots: Nuevo Grupo Slots
+segmento.comunicacion: Customer Communication Segments
 
+
+editar:
+  recurso: Edit Graphic Resource
 tamano:
-  imagenes: Tamaño Imágenes
+  imagenes: Image Size 
   imagen:
-    marca: Tamaño Imagen Marca
-    producto: Tamaño Imagen Producto
-    imagen: Tamaño Imágen
-  slots: Tamaño de Slot
+    marca: Brand Image Size
+    producto: Prodcut Image Size
+    imagen: Image Size
+    creatividad: Creative Design Image Size 
+  slots: Slot Size
   slot:
-     creatividad: Tamaño Slot Creatividad
-     promocion: Tamaño Slot Promocion
-     slot: Tamaño Slot
+     creatividad: Creative-Design-based Slot Size
+     promocion: Product-Promotion-based Slot Size
+     slot: Slot Size
 
 tabla:
-  resumen: Tabla resumen
-  resumen.creatividades: Tabla resumen de Creatividades
-  resumen.promociones: Tabla resumen de Promociones
+  resumen: Summary Table
+  resumen.creatividades: Creative Design Summary Table
+  resumen.promociones: Product-Promotions Summary Table
 
 opciones:
-  email: Opciones de Email
-  batch: Opciones de Batch
+  email: Email Options
+  batch: Batch Options
 
-horas: Horas
-hora: Horas
-minuto: minuto
-minutos: minutos
-segundo: segundo
-segundos: Segundos
-dia: Día
-dias: Días
-mes: Mes
-meses: Meses
-Anyo: Año
-anyos: Años
-diaria: Diaria
-semanal: Semanal
-mensual: Mensual
-quincenal: Quincenal
-trimestral: Trimestral
-semestral: Semestral
-cuatrimestral: Cuatrimestral
-anual: Anual
-nuevo: Nuevo
+horas: Hours
+hora: Hour
+minuto: minute
+minutos: minutes
+segundo: second
+segundos: Seconds
+dia: Day
+dias: Days
+mes: Month
+meses: Months
+Anyo: Year
+anyos: Years
+diaria: Daily
+semanal: Weekly
+mensual: Monthly
+quincenal: BiWeekly
+trimestral: Quarterly
+semestral: biyearly
+cuatrimestral: four-monthly
+anual: Yearly
+
 
 # Modulo CAMPAIGN
-campana: Campaña
-campanas: Campañas
-poblacion: Población
-minimo: Mínimo
-tipo.promocion: Tipo Promoción
-referencia: Referencia
+campana: Campaign
+campanas: Campaigns
+poblacion: Target
+minimo: Minimun
+tipo:
+  promocion: Prootion Type
+tipo.clasificacion: Clasification Type
+referencia: Reference
 info: Info
-simulado: Simulado
+
+informacion:
+  avanzada: Advanced Info
+
+simulado: Simulated
+
+# popups
+
+precio:
+  actual: Current Price
+
+volumen: Volumen
+telefono: Phone Number
+responsable: Responsible
+email: Email
+
+importar.plantilla: Import Template
+exportar.plantilla: Export Template
+ficha.de: Card of
+manager:
+  category: Category Manager
+  workflow: Workflow Manager
+
+enviar.mensaje: Send Message
+
+imp:
+  fijo: Fixed Ammount
+  distribuidor: Dealer Ammount
+  consumidor: Consumer Ammount
+
+fidelizacion: Loyalty
+previsualizacion.comunicaciones: Communications' Previes 
+consumidor: Consumer
+consumidores: Consumers
+visualizar: View
+
+Validacion_Segmentos: Customer Segments Validation
+Maximo_dias_novedad: Novelty maximun number of days
+nivel_gama_segmentar: Range Level for Segmentation
+num_meses_segmentar: Number of Momthd for Segmentation
+nivel_category_manager: Category Manager Level
+
+mostrar.imagen.creatividad: Show Creative Design Image
+mostrar.texto.creatividad: Show Creative Design Text
+
+
+#Modulo INSIGHT
+
+media: Average
+evolucion: Evolution
+periodo: Period
+
+media.ventas: Average Sale
+frecuencia.media: Average Frequency
+recencia.media: Average Recency
+amplitud.media: Average Breadth
+porcentaje.ventas: Sales' Percentage
+otros.datos: Other figures
+frecuencia.contribuciones: Contributions' Frequency
+ticket.medio: Average Ticket
+amplitud.categorias: Category Breadth
+amplitud.medida:
+  alta: High
+  media: Medium
+  baja: Low
+
+atencion: Notive
+
+comunidad: Comunity
+comparacion: Comparison
+comparativa: Comparative
+compara: Compare
+compara.con: with
+coste:
+  fijo: Fix Cost
+  variable: Variable Cost
+grafica: Chart
+graficas: Charts
+gasto.total: Total Spending
+activos: Actives
+nuevos: New
+inactivos: Inactives
+desglose: Breakdown
+proyeccion: Proyection
+detalle: Detail
+target: Target
+total: Total
+redencion: Redemption
+impactos: Impacts
+
+clientes:
+  0: Customers
+  activos: Active Customers
+  nuevos: New Customers
+
+ventas:
+  0: Sales
+  totales: Total Sales
+  miembros: Member Sales
+  no.miembros: Non Member Sales
+contribucion:
+  miembros: Member Contribution
+  mensuales.vs.miembros: Monthly Contributions vs. members
+
+reactividad.target.por.comunicades: Target Reactivity by Communcation
+reactividad: Reactivity
+
+## Graficas de highcharts
+highchart:
+  seguimiento:
+    promociones.aceptadas.rechazadas: Accepted/Rejected Promotions
+    numero.simulados: Number of simulated
+    aceptadas: Accepted
+    rechazadas: Rejected
+    simulado: Simulated
+    categoria: Category
+  intancia:
+    negociacion:
+      porcentaje.promociones.elaboradas: % Global elaborate promotions
+      realizadas: Completed
+      restantes: Leftover
+      totales: Total
+      promociones.elaboradas.requeridas: Elaborate Promotions vs Required Promotions
+    cierre:
+      porcentaje.promociones.elaboradas: % Global elaborate promotions
+      pendientes: Pending
+      aceptadas: Accepted
+      rechazadas: Rejected
+      promociones.aceptadas.rechazadas: Accepted, pending, rejected Promotions
+  insight:
+    clientes:
+      contribuciones.title: Monthly Contributions vs Members
+      numero:
+        miembros: Members
+        contribuciones: Number of contributions
+      porcentaje.ventas:
+        title: Sales %mes%
+        miembros: Members
+        no.miembros: No Member
+        ventas: Sales
+    evolucion:
+      title: Segments Evolution
+    nuevos:
+      sexo:
+        title: Clients Sex
+      edades:
+        title: New Customer Age
+      franja.horaria:
+        title: New Customer Time Frame
+      dias:
+        title: New Customer Days
+      categorias:
+        title: New Customers by category - %fecha%
+        serie:
+          title: New Customers by category
+      punto.venta:
+        title: New Customers by POS Type  - %fecha%
+        serie:
+          title: New Customers by POS Type
+      gama:
+        title: New Customers By Range - %fecha%
+        serie:
+          title:  New Customers By Range
+    activos:
+      evolucion.clientes.riesgo:
+        title: Customer at Risk Evolution
+      evolucion.clientes.activos:
+         title: Active Customer Evolution
+
+    categorias:
+      ventas.mensuales:
+        title: Monthly sales by category
+        serie:
+          title: Monthly sales by category
+          axis.y: Sales
+      recencia.anual:
+        title: Anual Recency
+        serie:
+          axis.y: Recency (%)
+      fidelizacion:
+        title: Customers of category %categoria% by loyalty level
+        serie:
+          axis.y: Sales
+      nuevos:
+        title: New customers of category %categoria%
+      edad:
+        title: Customers of category %categoria% by Age
+        serie:
+          axis.y: Sales
+      sexo:
+        title: Customers of category %categoria% by Sex
+        serie:
+          axis.y: Sales
+
+    campaigns:
+      reactividad.redencion.ventas:
+        title: Reactivity - Redemption - Sales
+        serie:
+          axis.y: Sales
+
+      reactividad.target:
+        tipo.cliente:
+          title: Reactivity - Target by customer type
+          serie:
+            axis.y: %
+
+        edades:
+          title: Reactivity - Target by Age
+          serie:
+            axis.y: Customers
+
+        sexos:
+          title: Reactivity - Target by Gender
+          serie:
+            axis.y:  Customers
+
+        fidelizacion:
+          title: Reactivity - Target by Loyalty
+          serie:
+            axis.y: Customers
+
+    proveedores:
+      reactividad.target:
+        edades:
+          title: Reactivity - Target by Age
+          serie:
+            axis.y: Customers
+
+        sexos:
+          title: Reactivity - Target by Gender
+          serie:
+            axis.y: Customers
+
+
+
+
+
+
+
+
+
+
+
+
+

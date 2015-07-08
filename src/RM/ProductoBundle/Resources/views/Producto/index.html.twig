@@ -1,7 +1,153 @@
-{% extends "::base.html.twig" %}
+{% extends '::pantallaPopUp.html.twig' %}
 
-{% block title %}RMProductoBundle:Producto:index{% endblock %}
+{% block title %}
+    {{ "producto" |trans|title }}
+{% endblock %}
+
+{% block header %}
+    <div class="contanier">
+        <div class="pageheader">
+            <div class="pagetitle">
+                <h5>{{ "ficha.de" | trans }} </h5>
+
+                <h1>{{ "producto" |trans|title }}</h1>
+
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
 
 {% block body %}
-<h1>Welcome to the Producto:index page</h1>
+    <div class="maincontentinner">
+        {{ form_start(form, {'attr': {'class':'form-horizontal'} }) }}
+
+        <h4 class="widgettitle">{{ "datos" |trans|title}}</h4>
+        <table class="table table-bordered">
+          <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>{{ "nombre" |trans|title}}</td>
+                <td>{{ form.vars.value.nombre }}</td>
+              </tr>
+              <tr>
+                  <td>{{ "codigo" |trans|title}}</td>
+                  <td>{{ form.vars.value.codSku }}</td>
+              </tr>
+              <tr>
+                  <td>{{ "marca" |trans|title}}</td>
+                  <td>{{ form.vars.value.idMarca.nombre }}</td>
+              </tr>
+            </tbody>
+        </table>
+
+        <h4 class="widgettitle">{{ "imagen" |trans|title}}</h4>
+        <table class="table table-bordered">
+          <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+            </colgroup>
+            <tbody>
+              <tr>
+                  <td> {{ form_label(form.file) }}</td>
+                <td>{{ form_widget(form.file) }}</td>
+              </tr>
+            </tbody>
+        </table>
+
+        <table class="margin-center" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+            <tr>
+                <td width="100">
+                    {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-success'}}) }}
+                </td>
+                <td width="100">
+                    <button class="btn btn-danger" id="botonCancelar" onclick="window.close();">Cancelar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        (function() {
+            var compruebaImagen = function() {
+                var $input_file = $('input[type=file]');
+                var file = $input_file.val();
+                var extArray = [".jpeg", ".jpg", ".gif", ".tiff", ".bmp", ".png"];
+                var allowSubmit = false;
+
+                if (!file) {
+                    return false;
+                }
+
+                while (file.indexOf("\\") != -1) file = file.slice(file.indexOf("\\") + 1);
+                var ext = file.slice(file.indexOf(".")).toLowerCase();
+                for (var i = 0; i < extArray.length; i++) {
+                    if (extArray[i] == ext) {
+                        allowSubmit = true;
+                        break;
+                    }
+                }
+
+                var tamMega = 1048576;
+                var tamFile = tamMega * 5; //5 Megas
+                var fic = $input_file[0].files;
+
+                if (fic !== undefined) {
+                    if (fic[0].size > tamFile) {
+                        jAlert('{{ 'mensaje.error.subida.fichero.demasiado.grande'|trans }}');
+                        return false;
+                    }
+                }
+
+                return allowSubmit;
+            };
+
+            $('form').on('submit', function(event){
+                var e = event||window.event;
+                e.preventDefault();
+
+                if(!compruebaImagen()) {
+                    jAlert("No se puede subir este tipo de archivo");
+                    return false;
+                }
+
+                var $form = $(this);
+                var data = new FormData($form[0]);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        window.opener.document.getElementsByClassName('actualizarTabla')[0].click();
+                        window.close();
+                        }
+                });
+            });
+
+        })();
+    </script>
 {% endblock %}

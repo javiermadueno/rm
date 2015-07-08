@@ -15,6 +15,7 @@ use RM\ComunicacionBundle\Event\ComunicacionEvents;
 use RM\ComunicacionBundle\Form\Gestion\nuevaComunicacionType;
 use RM\PlantillaBundle\Entity\Plantilla;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ComunicacionController extends Controller
 {
@@ -24,6 +25,11 @@ class ComunicacionController extends Controller
 
         $comunicaciones = $em->getRepository('RMComunicacionBundle:Comunicacion')->findAll();
         $canales = $em->getRepository('RMComunicacionBundle:Canal')->findAll();
+
+        return $this->render('RMComunicacionBundle:Comunicacion:index.html.twig', [
+            'comunicaciones' => $comunicaciones,
+            'canales'        => $canales
+        ]);
     }
 
     private function getManager()
@@ -32,11 +38,12 @@ class ComunicacionController extends Controller
     }
 
     /**
-     * @param $idComunicacion
+     * @param Request $request
+     * @param         $idComunicacion
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($idComunicacion)
+    public function editAction(Request $request, $idComunicacion)
     {
         $em = $this->getManager();
 
@@ -48,10 +55,14 @@ class ComunicacionController extends Controller
             ));
         }
 
+        $segmentos = $em
+            ->getRepository('RMComunicacionBundle:SegmentoComunicacion')
+            ->findSegmentosComunicacionByComunicacion($comunicacion);
+
         $servicioSegCom = $this->get("SegmentoComunicacionService");
         $objSegmentos = $servicioSegCom->getSegmentosComunicacionById($idComunicacion);
 
-        $peticion = $this->get('request');
+        $peticion = $request;
 
         $gruposSlot = $em->getRepository('RMPlantillaBundle:GrupoSlots')
             ->findGruposSlotsByComunicacion($idComunicacion);
@@ -68,19 +79,24 @@ class ComunicacionController extends Controller
              */
             if (Comunicacion::ESTADO_ACTIVO == $comunicacion->getEstado()) {
 
-                if (!$objSegmentos) {
+                if ($comunicacion->getSegmentos()->isEmpty()) {
                     $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.segmentos");
+                    $comunicacion->setEstado(Comunicacion::ESTADO_PAUSADO);
                 }
 
                 if (!$gruposSlot) {
                     $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.gruposslots");
+                    $comunicacion->setEstado(Comunicacion::ESTADO_PAUSADO);
                 }
 
                 if ($objSegmentos && $gruposSlot) {
-                    $em->persist($comunicacion);
-                    $em->flush();
                     $this->get('session')->getFlashBag()->add('formulario_ok', "mensaje.ok.guardar");
                 }
+
+                $em->persist($comunicacion);
+                $em->flush();
+
+                return $this->redirectToRoute('direct_manager_edit_datos', ['idComunicacion' => $idComunicacion]);
             } else {
                 $em->persist($comunicacion);
                 $em->flush();

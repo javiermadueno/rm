@@ -3,7 +3,7 @@
 		<tbody>
 			<tr height="20"><td colspan="4" class="sinborde"></td></tr>
 			<tr>
-				<td width="40%" class="sinborde textoDerecha">{{ form_label(formulario.nombre, 'Nombre') }}</td>
+				<td width="40%" class="sinborde textoDerecha">{{ form_label(formulario.nombre, 'nombre') }}</td>
 				<td width="3%" class="sinborde">&nbsp;</td>
 				<td class="sinborde">
 					{{ form_widget(formulario.nombre, { 'attr': { 'class': 'tam150' } }) }}
@@ -11,21 +11,21 @@
 				
 			</tr>
 			<tr>
-				<td class="sinborde textoDerecha">{{ form_label(formulario.fecInicio, 'Fecha de inicio') }}</td>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.fecInicio, 'fecha.inicial') }}</td>
 				<td class="sinborde">&nbsp;</td>
 				<td class="sinborde">
 					{{ form_widget(formulario.fecInicio, { 'attr': { 'class': 'datepicker tam150' } }) }}
 				</td>
 			</tr>
 			<tr>
-				<td class="sinborde textoDerecha">{{ form_label(formulario.fecFin, 'Fecha de fin') }}</td>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.fecFin, 'fecha.final') }}</td>
 				<td class="sinborde">&nbsp;</td>
 				<td class="sinborde">
 					{{ form_widget(formulario.fecFin, { 'attr': { 'class': 'datepicker tam150' } }) }}
 				</td>
 			</tr>
 			<tr>
-				<td class="sinborde textoDerecha">{{ form_label(formulario.estado, 'Estado de la comunicación') }}</td>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.estado, 'estado.comunicacion') }}</td>
 				<td class="sinborde">&nbsp;</td>
 				<td class="sinborde">
                     {% if cumpleRequisitos is defined and cumpleRequisitos == true %}
@@ -36,7 +36,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="sinborde textoDerecha">{{ form_label(formulario.idCanal, 'Canal') }}</td>
+				<td class="sinborde textoDerecha">{{ form_label(formulario.idCanal, 'canal') }}</td>
 				<td class="sinborde">&nbsp;</td>
 				<td class="sinborde">
 					{{ form_widget(formulario.idCanal, { 'attr': { 'class': 'tam150' } }) }}
@@ -57,12 +57,12 @@
                 <td colspan="3" class="sinborde botonera_central">
                     {% for error in app.session.flashbag.get('formulario') %}
                         <div class="alert alert-danger ">
-                            <strong>{{ "Error"|trans }}: </strong>{{ error |trans }}
+                            <strong>{{ "error"|trans|title }}: </strong>{{ error |trans }}
                         </div>
                     {% endfor %}
                     {% for mensaje in app.session.flashbag.get('formulario_ok') %}
                         <div class="alert alert-success">
-                            <strong>{{ "Correcto"|trans }}: </strong>{{ mensaje|trans }}
+                            <strong>{{ "correcto"|trans|title }}: </strong>{{ mensaje|trans }}
                         </div>
                     {% endfor %}
 			    </td>

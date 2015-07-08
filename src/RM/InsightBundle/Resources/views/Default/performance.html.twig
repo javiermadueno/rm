@@ -4,18 +4,19 @@
 {% set idOpcionMenuSup = 4 %}
 
 {% import '@RMInsight/PorcentajeDiferencia.html.twig' as porcentaje %}
+
 {% block title %}
     {{ "menu.insight.rendimiento" |trans|title }}
 {% endblock %}
 
 {% block migas %}
     <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
-    <li>{{ "menu.insight.rendimiento" |trans|title }}</li>
+    <li>{{ 'menu.insight.rendimiento' |trans|title }}</li>
 {% endblock %}
 
 {% block pagetitle %}
-  <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
-    <h1>{{ "menu.insight.rendimiento" |trans|title}}</h1>
+  <h5>{{ "menu.insight.clientes"|trans|title}}</h5>
+  <h1>{{ 'menu.insight.rendimiento'|trans|title}}</h1>
 {% endblock pagetitle %}
 
 {% block contenedorPrincipal %}

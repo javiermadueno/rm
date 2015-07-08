@@ -7,7 +7,26 @@ use Doctrine\ORM\Query;
 
 class SegmentoComunicacionRepository extends EntityRepository
 {
-    public function obtenerSegmentosComunicacion()
+
+    /**
+     * @param $id
+     *
+     * @return SegmentoComunicacion
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findById($id)
+    {
+        $segmento = $this->createQueryBuilder('s')
+            ->where('s.idSegmentoComunicacion = :id')
+            ->andWhere('s.estado > -1')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $segmento;
+    }
+
+	public function obtenerSegmentosComunicacion()
     {
 
         $dql = "select sc

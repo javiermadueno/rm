@@ -102,23 +102,6 @@ class DefaultController extends RMController
         }
     }
 
-    public function showFichaProductoAction($cod_sku)
-    {
-
-        $em = $this->getManager();
-
-        $producto = $em->find('RMProductoBundle:Producto', $cod_sku);
-
-        if (!$producto instanceof Producto) {
-            return $this->createNotFoundException('mensaje.error.producto');
-        }
-
-        return $this->render('RMProductoBundle:Default:fichaProducto.html.twig', [
-            'creation'        => "old",
-            'objMarca'        => $producto->getIdMarca(),
-            'selectedProduct' => $producto
-        ]);
-    }
 
     public function getUniqueVoucherAction()
     {
@@ -129,71 +112,8 @@ class DefaultController extends RMController
         ]);
     }
 
-    public function showFichaProductoCrearAction()
-    {
-        $servicioMarca = $this->get("MarcaService");
 
-        $selectMarcas = $servicioMarca->getMarcas();
 
-        $estado = 'new';
 
-        return $this->render('RMProductoBundle:Default:fichaProducto.html.twig', [
-            'creation'        => $estado,
-            'objMarcas'       => $selectMarcas,
-            'selectedProduct' => null
-        ]);
-    }
-
-    public function uploadImageProductoAction()
-    {
-
-        $request = $this->container->get('request');
-        $id_producto = $request->get('id_producto');
-        $servicioProducto = $this->get("ProductoService");
-
-        $usuario = $this->get('security.context')->getToken()->getUser();
-        $folderName = $usuario->getCliente();  //Identificacion del centro
-        $myAssetUrl = $this->get('kernel')->getRootDir() . '/../web';
-
-        //Recibe una imagen.
-        if ($request->isMethod('POST')) {
-
-            $exito = true;
-            try {
-                $carpetaCentro = $myAssetUrl . "/" . $folderName;
-                if (!file_exists($carpetaCentro)) {
-                    mkdir($carpetaCentro);
-                }
-
-                $carpetaPlantilla = $carpetaCentro . "/imagenesProducto";
-                if (!file_exists($carpetaPlantilla)) {
-                    mkdir($carpetaPlantilla);
-                }
-
-                $arrayExt = explode(".", basename($_FILES ["uploadFile"] ["name"]));
-                $extension = $arrayExt[1];
-
-                $carpetaFicPlantilla = $carpetaPlantilla . "/" . $id_producto . "." . $extension;
-
-                if (!move_uploaded_file($_FILES['uploadFile']['tmp_name'], $carpetaFicPlantilla)) {
-                    $exito = false;
-                }
-                $this->get('ladybug')->log($carpetaFicPlantilla);
-
-            } catch (Exception $e) {
-                $exito = false;
-            }
-
-            if ($exito) {
-                $this->get('session')->getFlashBag()->add('mensaje', 'editar_ok');
-            } else {
-                $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
-            }
-
-            return $this->render('::logMensajes.html.twig');
-        } else {
-            throw $this->createNotFoundException('Se ha producido un error de envio de la informaciÃ³n');
-        }
-    }
 
 }

@@ -83,7 +83,7 @@
         </div>
 		
 		<div id="tablaListado">
-			{{ include ('RMComunicacionBundle:Instancia:listadoInstancias.html.twig') }}
+			{% include '@RMComunicacion/Instancia/listadoInstancias.html.twig' with {'objInstancias' : objInstancias} %}
 		</div>
 	</form>
 

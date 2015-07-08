@@ -32,10 +32,10 @@
         </colgroup>
         <thead>
         <tr>
-            <th style="text-align: center;">{% trans %}Gasto Total{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Baja{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Media{% endtrans %}</th>
-            <th style="text-align: center;">{% trans %}Alta{% endtrans %}</th>
+            <th style="text-align: center;">{{ "gasto.total" |trans|title}}</th>
+            <th style="text-align: center;">{{ "amplitud.medida.baja" |trans|title}}</th>
+            <th style="text-align: center;">{{ "amplitud.medida.media" |trans|title}}</th>
+            <th style="text-align: center;">{{ "amplitud.medida.alta" |trans|title}}</th>
         </tr>
         </thead>
         {% for count in countGasto %}
@@ -57,7 +57,7 @@
     </table>
 
 
-    <h4 class="widgettitle">{{ "graficos" |trans|title}}</h4>
+    <h4 class="widgettitle">{{ "graficas" |trans|title}}</h4>
     <div class="widgetcontent">
         <table class="table">
             <tbody>
@@ -149,7 +149,7 @@
 	                plotShadow: false
 	            },
 	            title: {
-	                text: 'Categorias ',
+	                text: '{{ 'categoria'|trans }}'
 	            },
 	            tooltip: {
 	                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

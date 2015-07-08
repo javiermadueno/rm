@@ -26,7 +26,7 @@
                     <table cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <td width="300">
-                                <label>{{ "canal" | trans|title }}</label>
+                                <label for="id_canal">{{ "canal" | trans|title }}</label>
                                 <select id="id_canal" name="id_canal" class="  actualizarComunicaciones">
                                     <option value="-1">Todos</option>
                                     {% for objCanal in objCanales %}
@@ -66,18 +66,31 @@
                                 </select>
                             </td>
                         </tr>
-
                     </table>
-                </li>
-                <li class="right newfilebtn">
-                    <button class="btn btn-danger" id="botonEliminarComunicacion">{{ "boton.eliminar" | trans }}</button>
-                    <button class="btn btn-success " onclick="location.href='{{ path('direct_manager_new') }}'; return false;">{{ "boton.nuevo" | trans }}</button>
                 </li>
             </ul>
         </div>
     </div>
     <h4 class="widgettitle">{{ "comunicaciones"|trans }}</h4>
-		{{ include ('RMComunicacionBundle:Default:tablaListado.html.twig') }}
+    {{ include ('RMComunicacionBundle:Default:tablaListado.html.twig') }}
+
+    <table>
+        <tbody>
+            <tr>
+                <td width="100">
+                    <button class="btn btn-success "
+                            onclick="location.href='{{ path('direct_manager_new') }}';">
+                        {{ "boton.nuevo" | trans }}
+                    </button>
+                </td>
+                <td width="100">
+                    <button class="btn btn-danger" id="botonEliminarComunicacion">
+                        {{ "boton.eliminar" | trans }}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <div id="popup_container" class="bottom-left"></div>
 </form>
@@ -182,14 +195,11 @@
                                     $(fila).html(html);
                                 }
                                 $.jGrowl(respuesta.mensaje, {
-                                    header: 'Correcto',
-                                    group: 'alert alert-success',
-                                    life: 50000
+                                    header: '{{ 'correcto'|trans|title }}'
                                 });
                             }).error(function(){
                                 $.jGrowl(respuesta, {
-                                    header: 'ERROR',
-                                    group: 'alert alert-danger'
+                                    header: '{{ 'error'|trans|title }}'
                                 });
                             });
                             console.log('Se reanuda la comunicacion #' + idComunicacion);
@@ -223,14 +233,12 @@
                                     $(fila).html(html);
                                 }
                                 $.jGrowl(respuesta.mensaje, {
-                                    header: 'Correcto',
-                                    group: 'alert-success'
+                                    header: '{{ 'correcto'|title|trans }}'
                                 });
                             })
                             .error(function(respuesta) {
                                 $.jGrowl(respuesta, {
-                                    header: 'ERROR',
-                                    group: 'alert-danger'
+                                    header: '{{ 'error'|trans|title }}'
                                 });
                             });
 
@@ -240,15 +248,6 @@
                 });
             }
 
-
-
-			//$('#botonGuardarCat').click(function(event){
-			//	event.preventDefault(); //cancela el comportamiento por defecto
-			//	if(confirm("Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?"))
-			//	{
-			//		$('#form').submit();
-			//	}
-			//});
 		});
 
 	</script>

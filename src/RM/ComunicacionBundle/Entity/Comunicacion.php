@@ -2,6 +2,7 @@
 
 namespace RM\ComunicacionBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Model\Interfaces\FechaInicioFinInterface;
 use RM\ComunicacionBundle\Model\Validator as ComunicacionAssert;
@@ -18,23 +19,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Comunicacion implements FechaInicioFinInterface
 {
     const ESTADO_CONFIGURACION = 0;
-    const ESTADO_ACTIVO = 1;
-    const ESTADO_PAUSADO = 2;
-    const ESTADO_COMPLETADA = 3;
-    const ESTADO_ELIMINADO = -1;
+    const ESTADO_ACTIVO        = 1;
+    const ESTADO_PAUSADO       = 2;
+    const ESTADO_COMPLETADA    = 3;
+    const ESTADO_ELIMINADO     = -1;
 
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+	 * @var string
+	 *
+	 * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
      * @Assert\NotBlank()
-     */
-    private $nombre;
+	 */
+	private $nombre;
 
     /**
      * @var \Date
-     *
+     *  
      * @ORM\Column(name="fec_inicio", type="date", nullable=true)
      * @Assert\Date()
      * @Assert\NotBlank()
@@ -43,7 +44,7 @@ class Comunicacion implements FechaInicioFinInterface
 
     /**
      * @var \Date
-     *
+     * 
      * @ORM\Column(name="fec_fin", type="date", nullable=true)
      * @Assert\Date()
      */
@@ -57,12 +58,12 @@ class Comunicacion implements FechaInicioFinInterface
     private $estado;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_comunicacion", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id_comunicacion", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 */
     private $idComunicacion;
 
     /**
@@ -88,6 +89,18 @@ class Comunicacion implements FechaInicioFinInterface
      */
     private $plantilla;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="RM\ComunicacionBundle\Entity\SegmentoComunicacion", mappedBy="idComunicacion")
+     */
+    private $segmentos;
+
+    public function _construct()
+    {
+        $this->segmentos = new ArrayCollection();
+    }
+
+
 
     private $fecProximaEjecucion;
 
@@ -98,35 +111,35 @@ class Comunicacion implements FechaInicioFinInterface
 
     public function setFecProximaEjecucion($fecha)
     {
-        $this->fecProximaEjecucion = $fecha;
+        $this->fecProximaEjecucion =  $fecha;
 
         return $this;
     }
 
 
+    
     public function __toString()
     {
-        return $this->getNombre();
+    	return $this->getNombre();
     }
-
+    
     /**
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Comunicacion
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -137,20 +150,19 @@ class Comunicacion implements FechaInicioFinInterface
      * Set fecInicio
      *
      * @param \Date $fecInicio
-     *
      * @return Comunicacion
      */
     public function setFecInicio($fecInicio = null)
     {
         $this->fecInicio = $fecInicio;
-
+    
         return $this;
     }
 
     /**
      * Get fecInicio
      *
-     * @return \Date
+     * @return \Datetime
      */
     public function getFecInicio()
     {
@@ -160,21 +172,20 @@ class Comunicacion implements FechaInicioFinInterface
     /**
      * Set fecFin
      *
-     * @param \Date $fecFin
-     *
+     * @param \Datetime $fecFin
      * @return Comunicacion
      */
     public function setFecFin($fecFin = null)
     {
         $this->fecFin = $fecFin;
-
+    
         return $this;
     }
 
     /**
      * Get fecFin
      *
-     * @return \Date
+     * @return \Datetime
      */
     public function getFecFin()
     {
@@ -185,13 +196,12 @@ class Comunicacion implements FechaInicioFinInterface
      * Set estado
      *
      * @param int $estado
-     *
      * @return Comunicacion
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
@@ -208,7 +218,7 @@ class Comunicacion implements FechaInicioFinInterface
     /**
      * Get idComunicacion
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdComunicacion()
     {
@@ -219,20 +229,19 @@ class Comunicacion implements FechaInicioFinInterface
      * Set idCanal
      *
      * @param \RM\ComunicacionBundle\Entity\Canal $idCanal
-     *
      * @return Comunicacion
      */
     public function setIdCanal(\RM\ComunicacionBundle\Entity\Canal $idCanal = null)
     {
         $this->idCanal = $idCanal;
-
+    
         return $this;
     }
 
     /**
      * Get idCanal
      *
-     * @return \RM\ComunicacionBundle\Entity\Canal
+     * @return \RM\ComunicacionBundle\Entity\Canal 
      */
     public function getIdCanal()
     {
@@ -244,20 +253,19 @@ class Comunicacion implements FechaInicioFinInterface
      * Set generada
      *
      * @param boolean $generada
-     *
      * @return Comunicacion
      */
     public function setGenerada($generada)
     {
         $this->generada = $generada;
-
+    
         return $this;
     }
 
     /**
      * Get generada
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getGenerada()
     {
@@ -265,27 +273,72 @@ class Comunicacion implements FechaInicioFinInterface
     }
 
 
+
+
     /**
      * Set plantilla
      *
      * @param \RM\PlantillaBundle\Entity\Plantilla $plantilla
-     *
      * @return Comunicacion
      */
     public function setPlantilla(\RM\PlantillaBundle\Entity\Plantilla $plantilla = null)
     {
         $this->plantilla = $plantilla;
-
+    
         return $this;
     }
 
     /**
      * Get plantilla
      *
-     * @return \RM\PlantillaBundle\Entity\Plantilla
+     * @return \RM\PlantillaBundle\Entity\Plantilla 
      */
     public function getPlantilla()
     {
         return $this->plantilla;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->segmentos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add segmentos
+     *
+     * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $segmentos
+     * @return Comunicacion
+     */
+    public function addSegmento(\RM\ComunicacionBundle\Entity\SegmentoComunicacion $segmentos)
+    {
+        $this->segmentos[] = $segmentos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove segmentos
+     *
+     * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $segmentos
+     */
+    public function removeSegmento(\RM\ComunicacionBundle\Entity\SegmentoComunicacion $segmentos)
+    {
+        $this->segmentos->removeElement($segmentos);
+    }
+
+    /**
+     * Get segmentos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSegmentos()
+    {
+
+        return $this->segmentos->filter(function($segmento){
+            /** $segmento   SegmentoComunicacion */
+            return $segmento->getEstado() > -1;
+        });
     }
 }

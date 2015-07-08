@@ -10,13 +10,34 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class EvolucionSegmentosGraph extends BaseGraph
 {
-    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager)
+
+    /**
+     * @var EstadisticasClientes
+     */
+    private $repository;
+
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @param EstadisticasClientes $repository
+     * @param DoctrineManager      $manager
+     * @param TranslatorInterface  $translator
+     *
+     * @throws \Exception
+     */
+    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager, TranslatorInterface $translator)
     {
+        parent::__construct($translator);
         $this->repository = $repository;
         $this->em = $manager->getManager();
+
     }
 
     public function getGraficoEvolucionSegmentos($renderTo = '')
@@ -32,7 +53,7 @@ class EvolucionSegmentosGraph extends BaseGraph
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
-        $graph->title->text('Evolución de segmentos');
+        $graph->title->text($this->translator->trans('highchart.insight.evolucion.title'));
         $graph->xAxis->categories($categorias);
         $graph->series($series);
 

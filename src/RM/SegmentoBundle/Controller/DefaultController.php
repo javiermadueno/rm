@@ -63,76 +63,22 @@ class DefaultController extends RMController
 
     public function showValidarSegmentosAction()
     {
-
         $em = $this->getDoctrine()->getManager('procesos');
-
-        $repoTipo = $em->getRepository("ProcesosBundle:TipoProceso");
-        $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
-
-
-        $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
-
-        $estadoCreado = $repoEstados->findOneBy(['codigo' => 'cr']);
-        $estadoEnProceso = $repoEstados->findOneBy(['codigo' => 'ep']);
-
-        if (!$tipo0) {
-            $this->createNotFoundException('No se ha encontrado tipo 0');
-        }
-
-        if (!$estadoCreado) {
-            $this->createNotFoundException('No se ha encontrado el estado "Creado"');
-        }
-
-        if (!$estadoEnProceso) {
-            $this->createNotFoundException('No se ha encontrado el estado "En Proceso"');
-        }
-
         $repoProcesos = $em->getRepository("ProcesosBundle:Proceso");
-        $procesoDeCentro = $repoProcesos->findBy([
-            'idCentro'      => $this->get('security.token_storage')->getToken()->getUser()->getCliente(),
-            'estadoProceso' => [$estadoCreado, $estadoEnProceso],
-            'tipoProceso'   => $tipo0
-        ]);
+
+        $procesoDeCentro = $repoProcesos->findProcesosCreadosOEnProceso();
 
         if (count($procesoDeCentro) > 0) {
             return $this->render('RMSegmentoBundle:Default:validandoSegmentos.html.twig');
         } else {
             return $this->render('RMSegmentoBundle:Default:validarSegmentos.html.twig');
         }
-
     }
 
     public function validarSegmentosAction()
     {
-        $em = $this->getDoctrine()->getManager('procesos');
-
-        $repoTipo = $em->getRepository("ProcesosBundle:TipoProceso");
-        $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
-
-        $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
-
-
-        $estadoCreado = $repoEstados->findOneBy(['codigo' => 'cr']);
-
-        if (!$tipo0) {
-            $this->createNotFoundException('No se ha encontrado tipo 0');
-        }
-
-        if (!$estadoCreado) {
-            $this->createNotFoundException('No se ha encontrado el estado "Creado"');
-        }
-
-        $usuario = $this->get('security.token_storage')->getToken()->getUser();
-
-        $proceso = new Proceso();
-        $proceso->setFechaCreacion(new \DateTime())
-            ->setEstadoProceso($estadoCreado)
-            ->setUidUsuario($usuario->getUsername())
-            ->setTipoProceso($tipo0)
-            ->setIdCentro($usuario->getCliente());
-
-        $em->persist($proceso);
-        $em->flush();
+        $this->get('rm_procesos.factory.proceso_factory')
+            ->createProcesoTipo0();
 
         return $this->render('RMSegmentoBundle:Default:validandoSegmentos.html.twig');
     }

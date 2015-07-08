@@ -52,7 +52,7 @@ services:
 
     rm_plantilla.email_parser:
       class: RM\PlantillaBundle\Parsers\EmailParser
-      arguments: [@rm_plantilla_genera_plantilla_comunicacion, @rmmongo_manager_instancia_cliente]
+      arguments: [@rm_plantilla_genera_plantilla_comunicacion, @rmmongo_manager_instancia_cliente, @security.token_storage, @twig.extension.assets]
 
     rm.plantilla_manager:
       class: RM\PlantillaBundle\DomainManager\PlantillaManager
@@ -64,7 +64,7 @@ services:
 
     rm_plantilla.create_plantilla_form_handler:
       class: RM\PlantillaBundle\Form\Handler\CreatePlantillaFormHandler
-      arguments: [@rm.plantilla_manager]
+      arguments: [@rm.plantilla_manager, @form.factory]
 
     rm.create_grupo_slot_form_handler:
       class: RM\PlantillaBundle\Form\Handler\CreateGrupoSlotFormHandler

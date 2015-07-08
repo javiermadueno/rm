@@ -15,5 +15,5 @@ _main:
 
 RmComunicacionBundle_segmentocomunicacion:
     resource: '@RMComunicacionBundle/Resources/config/routing/segmentocomunicacion.yml'
-    prefix: /direct/manager/comunicacion/{idComunicacion}/segmentos
+    prefix: /{_locale}/direct/manager/comunicacion/{idComunicacion}/segmentos
 

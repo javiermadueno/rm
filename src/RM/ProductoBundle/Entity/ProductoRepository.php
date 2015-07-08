@@ -7,6 +7,26 @@ use Doctrine\ORM\EntityRepository;
 class ProductoRepository extends EntityRepository
 {
 
+    /**
+     * @param $id
+     *
+     * @return Producto
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findById($id)
+    {
+        $producto = $this->createQueryBuilder('producto')
+            ->join('producto.idMarca', 'marca')
+            ->addSelect('marca')
+            ->where('producto.idProducto = :id')
+            ->andWhere('producto.activo = 1')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $producto;
+    }
+
     public function obtenerProductosByFiltroDQL($id_categoria, $id_marca, $codigo)
     {
 

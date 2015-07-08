@@ -16,21 +16,23 @@ services:
 
     rm_insight.porcentaje_ventas:
         class: RM\InsightBundle\Graphs\PorcentajeDeVentas
+        arguments: [@translator]
 
     rm_insight.numero_contribuciones_vs_numero_miembros:
         class: RM\InsightBundle\Graphs\ContibucionesMensualesVsClientes
+        arguments: [@translator]
 
     rm_insight.evolucion_segmentos:
        class: RM\InsightBundle\Graphs\EvolucionSegmentosGraph
-       arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+       arguments: [@rm.mongo.estadisticas_clientes, @rm.manager, @translator]
 
     rm_insight.clientes_nuevos_por_estado_y_segmento:
       class: RM\InsightBundle\Graphs\ClientesNuevosPorEstadoYSegmentoGraphs
-      arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+      arguments: [@rm.mongo.estadisticas_clientes, @rm.manager, @translator]
 
     rm_insight.clientes_activos_por_estado_y_segmento:
           class: RM\InsightBundle\Graphs\ClientesActivosPorEstadoySegmentoGraphs
-          arguments: [@rm.mongo.estadisticas_clientes, @rm.manager]
+          arguments: [@rm.mongo.estadisticas_clientes, @rm.manager, @translator]
 
     rm_insight.tabla_rendimiento:
       class: RM\InsightBundle\Tables\RendimientoTable

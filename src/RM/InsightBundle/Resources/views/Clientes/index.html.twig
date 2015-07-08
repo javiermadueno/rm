@@ -1,4 +1,5 @@
 {% extends '::insight/base_insight.html.twig' %}
+
 {% set idOpcionMenuIzq = 1 %}
 {% set idOpcionMenuSup = 4 %}
 
@@ -34,7 +35,7 @@
             </li>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
             <li>
-                <label for="fechaHasta">{{ "con" |trans|title}}:</label>
+                <label for="fechaHasta">{{ "compara.con" |trans|title}}:</label>
                 <select name="fecha[hasta]" id="fechaHasta">
                     {% for mes in meses %}
                         <option value="{{ mes['id'] }}" {{ mes2.id == mes['id'] ? 'selected' : '' }}>{{ mes['fecha']|date('M-Y') }}</option>
@@ -106,7 +107,7 @@
             </div>
         </div>
 
-        <h4 class="widgettitle">{{ "contribuciones.mensuales.vs.miembros" |trans|title}}</h4>
+        <h4 class="widgettitle">{{ "contribucion.mensuales.vs.miembros" |trans|title}}</h4>
         <div class="widgetcontent">
             <div id="contribucionesClientesVsMiembros" style="height: 300px; margin: 0 auto"></div>
         </div>

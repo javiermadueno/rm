@@ -4,6 +4,7 @@ namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Producto
@@ -217,6 +218,89 @@ class Producto implements JsonSerializable
      * })
      */
     private $idProveedor;
+
+    /**
+     * @var string
+     * @ORM\Column(name="imagen", type="string")
+     */
+    private $imagen;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     *
+     * @return $this
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function uploadImagen($cliente_path = '')
+    {
+        if (empty($cliente_path)) {
+            throw new \Exception("No se ha definido el cliente");
+        }
+
+
+        $this->removeImagen($cliente_path);
+
+        $nombre_imagen  =  $this->idProducto . '.' . $this->getFile()->guessExtension();
+        $this->getFile()->move(
+            $this->getUploadRootDir($cliente_path),
+            $nombre_imagen
+        );
+
+        // set the path property to the filename where you've saved the file
+
+        $this->setImagen($nombre_imagen);
+
+        // clean up the file property as you won't need it anymore
+        $this->file = null;
+    }
+
+    public function getAbsolutePath($cliente_path)
+    {
+        return null === $this->imagen
+            ? null
+            : $this->getUploadRootDir($cliente_path).'/'.$this->imagen;
+    }
+
+    public function getWebPath($cliente_path)
+    {
+        return null === $this->imagen
+            ? null
+            : $this->getUploadDir($cliente_path).'/'.$this->imagen;
+    }
+
+    protected function getUploadRootDir($cliente_path)
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir($cliente_path);
+    }
+
+    protected function getUploadDir($cliente_path)
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return sprintf('%s/imagenesProducto', $cliente_path);
+    }
+
 
 
     /**
@@ -498,7 +582,7 @@ class Producto implements JsonSerializable
     {
 
         return [
-            'id'     => $this->idProducto,
+            'id' => $this->idProducto,
             'nombre' => $this->nombre
         ];
     }
@@ -741,5 +825,36 @@ class Producto implements JsonSerializable
     public function getIdCategoria2()
     {
         return $this->idCategoria2;
+    }
+
+    /**
+     * Set imagen
+     *
+     * @param string $imagen
+     * @return Producto
+     */
+    public function setImagen($imagen)
+    {
+        $this->imagen = $imagen;
+    
+        return $this;
+    }
+
+    /**
+     * Get imagen
+     *
+     * @return string 
+     */
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    public function removeImagen($cliente)
+    {
+        if(file_exists( $this->getAbsolutePath($cliente))) {
+            unlink($this->getAbsolutePath($cliente));
+        }
+
     }
 }

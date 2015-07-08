@@ -1,5 +1,7 @@
 {% extends '::direct/base_direct.html.twig' %}
 
+{% import '@RMComunicacion/Instancia/macro_instancias.html.twig' as fase %}
+
 {% set idOpcionMenuIzq=2 %}
 
 {% block title %}
@@ -33,35 +35,19 @@
                 <td class="sinborde" width="5%"><b>{{ "comunicacion" | trans }}</b>:</td>
                 <td class="sinborde"
                     width="35%">{{ objInstancia.getIdSegmentocomunicacion.getIdComunicacion.getNombre }}</td>
-                <td class="sinborde" width="10%">{{ "volver.a" | trans }}</td>
+                <td class="sinborde" width="10%"><strong>{{ "volver.a" | trans }}</strong></td>
                 <td class="sinborde textoDerecha">
-                    <button class="btn btn-primary"
-                            onClick="window.location.href='{{ path('direct_monitor') }}'; return false;">{{ "boton.listado" | trans|title }}</button>
+                    <a class="btn btn-primary"
+                       href='{{ path('direct_monitor') }}'>{{ "boton.listado" | trans|title }}</a>
                 </td>
             </tr>
             <tr>
-                <td class="sinborde"><b>{{ "segmento" | trans }}:</b></td>
+                <td class="sinborde"><strong>{{ "segmento" | trans }}:</strong></td>
                 <td class="sinborde">{{ objInstancia.getIdSegmentocomunicacion.getIdSegmento.getNombre }}</td>
-                <td class="sinborde"><b>{{ "estado" | trans }}:</td>
-                <td class="sinborde">
-                    {% if  objInstancia.getFase.codigo == 'cfg' %}
-                        {{ "fase.configuracion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'ngc' %}
-                        {{ "fase.campaña" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'sim' %}
-                        {{ "fase.simulacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'cie' %}
-                        {{ "fase.cierre" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'gen' %}
-                        {{ "fase.generacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'cnf' %}
-                        {{ "fase.confirmacion" | trans }}
-                    {% elseif objInstancia.getFase.codigo == 'fin' %}
-                        {{ "fase.finalizada" | trans }}
-                    {% endif %}
-                </td>
+                <td class="sinborde"><strong>{{ "estado" | trans }}:</strong></td>
+                <td class="sinborde"> {{ fase.fase(objInstancia) }}</td>
                 {% if preview == '0' %}
-                    <td class="sinborde">{{ "tramitar.a" | trans }}</td>
+                    <td class="sinborde"><strong>{{ "tramitar.a" | trans }}</strong></td>
                     <td class="sinborde textoDerecha">
                         {% if  objInstancia.getFase.codigo == 'fin' %}
                             &nbsp;
@@ -74,11 +60,12 @@
                                             data-numpromociones="{{ numPromocionesCorrecto|default(false) }}"
                                             data-genericas="{{ genericasCorrecto|default(false) }}"
                                             class="btn btn-large btn-warning">
-                                        {{ "fase.campaña" | trans }}</button>
+                                        {{ "fase.campana" | trans }}</button>
 
                                 {% elseif objInstancia.getFase.codigo == 'ngc' %}
                                     <button id="tramitar"
-                                            class="btn btn-large btn-warning" data-disabled="{{ tramitar|default(false)? 'enabled': 'disabled' }}">
+                                            class="btn btn-large btn-warning"
+                                            data-disabled="{{ tramitar|default(false)? 'enabled': 'disabled' }}">
                                         {{ "fase.simulacion" | trans }}
                                     </button>
                                 {% elseif objInstancia.getFase.codigo == 'sim' %}
@@ -87,7 +74,8 @@
                                         {{ "fase.cierre" | trans }}
                                     </button>
                                 {% elseif objInstancia.getFase.codigo == 'cie' %}
-                                    <button id="tramitar" data-rechazadas = "{{ tieneRechazadas|default(false)?1:0 }}" data-pendientes = "{{ tramitar? 0:1 }}"
+                                    <button id="tramitar" data-rechazadas="{{ tieneRechazadas|default(false)?1:0 }}"
+                                            data-pendientes="{{ tramitar? 0:1 }}"
                                             class="btn btn-large btn-warning">
                                         {{ "fase.generacion" | trans }}
                                     </button>

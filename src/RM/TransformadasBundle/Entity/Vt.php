@@ -4,6 +4,7 @@ namespace RM\TransformadasBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use RM\DiscretasBundle\Entity\Tipo;
 
 /**
  * Vt
@@ -128,7 +129,7 @@ class Vt implements \JsonSerializable
     /**
      * Get tipo
      *
-     * @return smallint
+     * @return Tipo
      */
     public function getTipo()
     {

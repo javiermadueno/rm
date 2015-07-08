@@ -1,3 +1,4 @@
+{% import '@RMComunicacion/Instancia/macro_instancias.html.twig' as instancia %}
 
 	    <h4 class="widgettitle">{{ "instancias" |trans|title }}</h4>
 		<table class="table table-bordered responsive">
@@ -20,53 +21,33 @@
 			</tr>
 			</thead>
 			<tbody>
-			{% if objInstancias == null %}
-				<tr>
-					<td colspan="30">
-						{{ "sin.resultados" | trans }}
-					</td>
-				</tr>
-			{% else %}
-				{% for objIns in objInstancias %}
-					<tr>
-						<td>
-                            <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objIns.idInstancia}) }}"
-                               class="
+            {% for objIns in objInstancias %}
+                <tr>
+                    <td>
+                        <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objIns.idInstancia}) }}"
+                           class="
                                {% if objIns.fase.codigo == 'sim'%}
                                     {{ "alertsimulacion"}}
                                {% elseif objIns.fase.codigo == 'gen' %}
                                     {{ "alertgeneracion" }} {{ objIns.paso }}
                                 {% endif %}">
 
-                                #{{ "%07d" | format(objIns.idInstancia) }}
-                            </a>
-                        </td>
-						<td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
-						<td>{{ objIns.idSegmentoComunicacion.idSegmento.nombre }}</td>
-						<td>{% if objIns.fecCreacion %}{{ objIns.fecCreacion|date('d/m/Y') }}{% endif %}</td>
-						<td>{% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}</td>
-						<td>
-                            {% if  objIns.getFase.codigo == 'cfg' %}
-                                {{ "fase.configuracion" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'ngc' %}
-                                {{ "fase.campaña" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'sim' %}
-                                {{ "fase.simulacion" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'cie'  %}
-                                {{ "fase.cierre" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'gen' %}
-                                {{ "fase.generacion" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'cnf' %}
-                                {{ "fase.confirmacion" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'fin' %}
-                                {{ "fase.finalizada" | trans|title }}
-                            {% elseif objIns.getFase.codigo == 'can'  %}
-                                {{ "fase.cancelada" | trans|title }}
-                            {% endif %}
-						</td>
-					</tr>
-				{% endfor %} 
-			{% endif %}
+                            #{{ "%07d" | format(objIns.idInstancia) }}
+                        </a>
+                    </td>
+                    <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>
+                    <td>{{ objIns.idSegmentoComunicacion.idSegmento.nombre }}</td>
+                    <td>{% if objIns.fecCreacion %}{{ objIns.fecCreacion|date('d/m/Y') }}{% endif %}</td>
+                    <td>{% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}</td>
+                    <td>{{ instancia.fase(objIns) }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="30">
+                        {{ "sin.resultados" | trans }}
+                    </td>
+                </tr>
+            {% endfor %}
 		</table>
 		<div class="navigation wrapper">
 		    {{ knp_pagination_render(objInstancias) }}

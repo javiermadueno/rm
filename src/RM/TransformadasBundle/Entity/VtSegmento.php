@@ -21,7 +21,7 @@ class VtSegmento
     private $nombre;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -37,7 +37,7 @@ class VtSegmento
     private $idVtSegmento;
 
     /**
-     * @var \RM\TransformadasBundle\Entity\Vt
+     * @var Vt
      *
      * @ORM\ManyToOne(targetEntity="RM\TransformadasBundle\Entity\Vt", inversedBy="segmentos")
      * @ORM\JoinColumns({
@@ -53,6 +53,12 @@ class VtSegmento
      *                                                                      cascade={"persist", "remove"})
      */
     private $grupos;
+
+    /**
+     * @var int
+     * @ORM\Column(name="orden", type="smallint", length=6)
+     */
+    private $orden;
 
 
     /**
@@ -82,7 +88,7 @@ class VtSegmento
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      *
      * @return VtSegmento
      */
@@ -96,7 +102,7 @@ class VtSegmento
     /**
      * Get estado
      *
-     * @return smallint
+     * @return int
      */
     public function getEstado()
     {
@@ -116,11 +122,11 @@ class VtSegmento
     /**
      * Set idVt
      *
-     * @param \RM\TransformadasBundle\Entity\Vt $idVt
+     * @param Vt $idVt
      *
      * @return VtSegmento
      */
-    public function setIdVt(\RM\TransformadasBundle\Entity\Vt $idVt = null)
+    public function setIdVt(Vt $idVt = null)
     {
         $this->idVt = $idVt;
 
@@ -130,7 +136,7 @@ class VtSegmento
     /**
      * Get idVt
      *
-     * @return \RM\TransformadasBundle\Entity\Vt
+     * @return Vt
      */
     public function getIdVt()
     {
@@ -147,17 +153,17 @@ class VtSegmento
      */
     public function __construct()
     {
-        $this->grupos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->grupos = new ArrayCollection();
     }
 
     /**
      * Add grupos
      *
-     * @param \RM\TransformadasBundle\Entity\VtGrupo $grupos
+     * @param VtGrupo $grupos
      *
      * @return VtSegmento
      */
-    public function addGrupo(\RM\TransformadasBundle\Entity\VtGrupo $grupos)
+    public function addGrupo(VtGrupo $grupos)
     {
         $this->grupos[] = $grupos;
 
@@ -167,9 +173,9 @@ class VtSegmento
     /**
      * Remove grupos
      *
-     * @param \RM\TransformadasBundle\Entity\VtGrupo $grupos
+     * @param VtGrupo $grupos
      */
-    public function removeGrupo(\RM\TransformadasBundle\Entity\VtGrupo $grupos)
+    public function removeGrupo(VtGrupo $grupos)
     {
         $this->grupos->removeElement($grupos);
     }
@@ -184,5 +190,28 @@ class VtSegmento
         return $this->grupos->filter(function (VtGrupo $grupo) {
             return $grupo->getEstado() > -1;
         });
+    }
+
+    /**
+     * Set orden
+     *
+     * @param integer $orden
+     * @return VtSegmento
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+    
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return integer 
+     */
+    public function getOrden()
+    {
+        return $this->orden;
     }
 }

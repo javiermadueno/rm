@@ -31,6 +31,8 @@ framework:
     http_method_override: true
     serializer:
       enabled: true
+    templating:
+      assets_base_url: "http://192.168.100.229/web"
 
 
 # Twig Configuration

@@ -26,22 +26,19 @@
     {% else %}
         {% for objPr in objProductos %}
             <tr>
-                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); " >{{ objPr.idProducto }}</a></td>
+                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); ">{{ objPr.idProducto }}</a></td>
                 <td>{{ objPr.idMarca.nombre|default('') }}</td>
                 <td>{{ objPr.nombre|default('') }}</td>
                 <td>
                     {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
                     {% set existeImagen = 0 %}
-                    {% set imagenUrl = "" %}
-                    {% for cadFormato in extensionFormatoImages %}
-                        {% set imagen= web_path~"/"~app.user.getCliente()~'/imagenesProducto/'~objPr.idProducto~cadFormato %}
-                        {% if file_exists(imagen) %}
-                            {% set existeImagen = 1 %}
-                            {% set imagenUrl = app.user.getCliente()~'/imagenesProducto/'~objPr.idProducto~cadFormato %}
-                        {% endif %}
-                    {% endfor %}
+                    {% set imagenUrl = app.user.getCliente()~'/imagenesProducto/'~objPr.imagen %}
+                    {% if objPr.imagen is not null and file_exists(imagenUrl) %}
+                        {% set existeImagen = 1 %}
+                    {% endif %}
                     {% if(existeImagen == 1) %}
-                        <img src="{{ asset(imagenUrl) }}?={{ random(500) }}" width="100px" height="100px"/>
+                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px"
+                             height="100px"/>
                     {% else %}
                         &nbsp;
                     {% endif %}
@@ -53,7 +50,7 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="pagination pagination-centered">
-            {{ simple_paginator_render(            'direct_config_listado_productos_paginador', null,
+            {{ simple_paginator_render('direct_config_listado_productos_paginador', null,
             {
             'routeParams' : {'id_categoria' : id_categoria, 'id_marca': id_marca, 'codigo': codigo|default(-1), 'nombre': nombre|url_encode|default(-1)},
             'container_class' : '',
@@ -70,32 +67,30 @@
             'nextDisabledClass': 'disabled',
             'lastEnabledClass': '',
             'lastDisabledClass' : 'disabled',
-                'lastPageText' : 'Última>>'
+            'lastPageText' : 'Última>>'
             }
-            )
-            }}
+            ) }}
         </div>
     </div>
 </div>
 
 
 {% block javascript %}
-<script type="text/javascript">
-	
-		function verDatosProducto(cod_sku){			
-			if(cod_sku > -1)
-			{
-				var largo = 550;
-				var altura = 550;
-				var top = (screen.height-altura)/2;
-				var izquierda = (screen.width-largo)/2;
-				{% set nombreVentana = "Producto" %}
-				camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
-				camino = camino.replace('111', cod_sku);
-				var myUrl = camino;
-				var nomVentana = '{{ nombreVentana }}';
-				window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-			}
-		}
-	</script>
+    <script type="text/javascript">
+
+        function verDatosProducto(cod_sku) {
+            if (cod_sku > -1) {
+                var largo = 550;
+                var altura = 550;
+                var top = (screen.height - altura) / 2;
+                var izquierda = (screen.width - largo) / 2;
+                {% set nombreVentana = "Producto" %}
+                camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
+                camino = camino.replace('111', cod_sku);
+                var myUrl = camino;
+                var nomVentana = '{{ nombreVentana }}';
+                window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+            }
+        }
+    </script>
 {% endblock %}

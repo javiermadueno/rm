@@ -20,9 +20,12 @@ use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use RM\ProductoBundle\Entity\Producto;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\RMMongoBundle\DependencyInjection\ManagerInstanciaComunicacionCliente;
+use Symfony\Bundle\TwigBundle\Extension\AssetsExtension;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\Asset\PackageInterface;
 
 
 class EmailParser implements ParserInterface
@@ -54,14 +57,26 @@ class EmailParser implements ParserInterface
      */
     private $cliente;
 
+    /** @var  string */
+    private $empresa;
+
+    /**
+     * @var PackageInterface
+     */
+    private $asset;
+
 
     public function __construct(
         GeneraPlantillaComunicacion $plantillaGenerator,
-        ManagerInstanciaComunicacionCliente $manager
+        ManagerInstanciaComunicacionCliente $manager,
+        TokenStorageInterface $token,
+        AssetsExtension $asset
     ) {
         $this->crawler = new Crawler();
         $this->manager = $manager;
         $this->plantillaGenerator = $plantillaGenerator;
+        $this->empresa = $token->getToken()->getUser()->getCliente();
+        $this->asset = $asset;
 
         $this->document = new \DOMDocument();
 
@@ -343,32 +358,14 @@ class EmailParser implements ParserInterface
 
     private function getRutaImagen(Producto $producto)
     {
-        $finder = new Finder();
-
-        $finder->in(__DIR__ . '/../../../../web/3/imagenesProducto')->files();
-
-        $file = $finder->name(sprintf('%s.*', $producto->getIdProducto()));
-
-        foreach ($file as $fil) {
-            return '/RM2/web/3/imagenesProducto/' . $fil->getRelativePathName();
-        }
-
-        return '';
+        $path = sprintf('/%s/%s/%s', $this->empresa, 'imagenesProducto', $producto->getImagen());
+        return $this->absoluteRouteImagenProducto($path);
     }
 
     private function getRutaCreatividad(Creatividad $creatividad)
     {
-        $finder = new Finder();
-
-        $finder->in(__DIR__ . '/../../../../web/3/imagenesCreatividad')->files();
-
-        $file = $finder->name(sprintf('%s.*', $creatividad->getIdCreatividad()));
-
-        foreach ($file as $fil) {
-            return '/RM2/web/3/imagenesCreatividad/' . $fil->getRelativePathName();
-        }
-
-        return '';
+        $path = sprintf('/%s/%s/%s', $this->empresa, 'imagenesCreatividad', $creatividad->getImagen());
+        return $this->absoluteRouteImagenProducto($path);
     }
 
     /**
@@ -454,6 +451,11 @@ class EmailParser implements ParserInterface
 
         $nodo->nodeValue = $texto;
 
+    }
+
+    private function absoluteRouteImagenProducto($path)
+    {
+        return $this->asset->getAssetUrl($path, $absolute = true);
     }
 
 

@@ -16,25 +16,28 @@ class DoctrineDynamicConnectionPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        try {
-            if (!$container->has('security.token_storage')) {
+        try{
+            if( !$container->has('security.token_storage')) {
                 return;
             }
 
-            $cliente = $container->get('security.token_storage')->getToken()->getUser()->getCliente();
+            $cliente = $_SESSION['connection'];
 
             $connections = $container->getExtensionConfig('doctrine')[0];
 
-            if (!array_key_exists($cliente, $connections['dbal']['connections'])) {
+            if(!array_key_exists($cliente, $connections['dbal']['connections'])) {
                 return;
             }
 
             $connections['orm']['entity_managers']['defaul']['connection'] = $cliente;
 
 
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
             return;
         }
+
+
+
 
 
     }
