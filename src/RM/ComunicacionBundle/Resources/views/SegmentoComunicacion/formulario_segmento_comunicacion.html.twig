@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 <div id="formulario_segmento_comunicacion" class="form-center">
-=======
-<div id="formulario_segmento_comunicacion">
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     {{ form_start(form, {'attr': {'class':'form-horizontal'} }) }}
 
     <fieldset>
@@ -27,15 +23,11 @@
             <div class="controls">
                 {{ form_widget(form.fecInicio) }}
                 {% if form.fecInicio.vars.errors is not empty %}
-<<<<<<< HEAD
                     <span class="help-inline">
                         {% for error in form.fecInicio.vars.errors %}
                             {{ error.message }}
                            {% if not loop.last %} <br/> {% endif %}
                         {% endfor %}</span>
-=======
-                    <span class="help-inline">{{ form_errors(form.fecInicio) }}</span>
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
                 {% endif %}
             </div>
         </div>
@@ -49,7 +41,6 @@
                 {% endif %}
             </div>
         </div>
-<<<<<<< HEAD
 
         <div class="control-group">
             {{ form_label(form.estado, null,{'label_attr': {'class':'control-label' }} ) }}
@@ -57,8 +48,6 @@
                 {{ form_widget(form.estado)  }}
             </div>
         </div>
-=======
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     </fieldset>
 
     <fieldset>
@@ -96,14 +85,11 @@
         </div>
 
     </fieldset>
-<<<<<<< HEAD
     <div class="control-group">
         <div class="controls">
             {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
         </div>
     </div>
 
-=======
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     {{ form_end(form) }}
 </div>

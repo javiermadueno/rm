@@ -17,14 +17,15 @@ class NivelCategoriaCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('niveles', 'collection', [
-                'required'  => true,
-                'allow_add' => true,
-                'type'      => new NivelCategoriaType(),
-            ])
-            ->add('submit', 'submit', [
-                'label' => 'boton.guardar'
-            ]);
+            ->add('niveles', 'collection', array(
+                'required'       => true,
+                'allow_add'      => true,
+                'type'           => new NivelCategoriaType(),
+            ))
+            ->add('submit', 'submit', array(
+                    'label' => 'boton.guardar'
+                ))
+        ;
     }
 
     public function getName()

@@ -41,7 +41,7 @@ class ContibucionesMensualesVsClientes
         foreach ($meses as $mes) {
             $series['contribuciones'][] = is_null($mes->getContribucionClientes()) ? 0 : $mes->getContribucionClientes();
             $series['numeroClientes'][] = is_null($mes->getNumeroClientes()) ? 0 : $mes->getNumeroClientes();
-            $series['fechas'][] = $mes->getFecha()->format('M-Y');
+            $series['fechas'][]         = $mes->getFecha()->format('M-Y');
         }
 
         
@@ -96,11 +96,12 @@ class ContibucionesMensualesVsClientes
         $this->chart->yAxis($yData);
 
 
+
         $this->chart->tooltip->shared = true;
 
-        $this->chart->legend->enabled(false);
+        $this->chart->legend->enabled ( false );
 
-        $this->chart->series($data);
+        $this->chart->series ( $data );
 
         return $this->chart;
     }

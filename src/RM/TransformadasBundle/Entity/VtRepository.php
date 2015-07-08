@@ -59,9 +59,10 @@ class VtRepository extends EntityRepository
 			from RMTransformadasBundle:VtSegmento s
 			where s.idVtSegmento IN ( :id_vt_segmento )";
 
-        $query = $this->_em
+        $query     = $this->_em
             ->createQuery($dql)
-            ->setParameter('id_vt_segmento', $id_vt_segmento);
+            ->setParameter('id_vt_segmento', $id_vt_segmento)
+        ;
         $registros = $query->getResult();
 
         return $registros;
@@ -135,9 +136,10 @@ class VtRepository extends EntityRepository
 			from RMTransformadasBundle:VtGrupo g
 			where g.idGrupo IN (:grupo)";
 
-        $query = $this->_em
+        $query     = $this->_em
             ->createQuery($dql)
-            ->setParameter('grupo', $id_grupo);
+            ->setParameter('grupo', $id_grupo)
+        ;
         $registros = $query->getResult();
 
         return $registros;
@@ -155,7 +157,8 @@ class VtRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('id_vt_segmento', $id_vt_segmento);
+            ->setParameter('id_vt_segmento', $id_vt_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -173,7 +176,8 @@ class VtRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('intervalo', $id_intervalo);
+            ->setParameter('intervalo', $id_intervalo)
+        ;
 
         $registros = $query->getResult();
 
@@ -192,7 +196,8 @@ class VtRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('grupo', $id_grupo);
+            ->setParameter('grupo', $id_grupo)
+        ;
 
         $registros = $query->getResult();
 

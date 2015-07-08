@@ -13,10 +13,7 @@ use Doctrine\ORM\EntityManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 use RM\ComunicacionBundle\Form\Type\SegmentoComunicacionType;
-<<<<<<< HEAD
 use RM\SegmentoBundle\Entity\Segmento;
-=======
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -158,7 +155,6 @@ class SegmentoComunicacionController extends Controller
         ]);
 
         $form->add('submit', 'submit', ['label' => 'boton.guardar']);
-<<<<<<< HEAD
 
         return $form;
     }
@@ -175,8 +171,6 @@ class SegmentoComunicacionController extends Controller
         ]);
 
         $form->add('submit', 'submit', ['label' => 'boton.actualizar']);
-=======
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
         return $form;
     }

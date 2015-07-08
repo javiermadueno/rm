@@ -14,7 +14,7 @@ class SegmentoComunicacionServicio
 
     public function getSegmentosComunicacion()
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
+        $repo      = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
         $registros = $repo->obtenerSegmentosComunicacion();
 
         return $registros;
@@ -22,7 +22,7 @@ class SegmentoComunicacionServicio
 
     public function getSegmentosComunicacionById($id_comunicacion = -1, $id_segmento = -1, $estado = -1)
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
+        $repo      = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
         $registros = $repo->obtenerSegmentosComunicacionById($id_comunicacion, $id_segmento, $estado);
 
         return $registros;
@@ -57,7 +57,7 @@ class SegmentoComunicacionServicio
 
     public function getSegmentosComunicacionBySC($id_segmento_comunicacion)
     {
-        $repo = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
+        $repo      = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
         $registros = $repo->obtenerSegmentosComunicacionBySC($id_segmento_comunicacion);
 
         return $registros;
@@ -89,7 +89,7 @@ class SegmentoComunicacionServicio
     public function getNuevosSegmentosParaComunicacion($id_comunicacion)
     {
 
-        $repo = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
+        $repo      = $this->em->getRepository('RMComunicacionBundle:SegmentoComunicacion');
         $registros = $repo->obtenerNuevosSegmentosParaComunicacion($id_comunicacion);
 
         return $registros;
@@ -116,15 +116,15 @@ class SegmentoComunicacionServicio
         $repoCom = $this->em->getRepository('RMComunicacionBundle:Comunicacion');
 
         $regSegmentos = $repoSeg->obtenerSegmentoById($id_segmento);
-        $idSegmento = $regSegmentos[0];
+        $idSegmento   = $regSegmentos[0];
 
         $regComunicaciones = $repoCom->obtenerComunicacionById($id_comunicacion);
-        $idComunicacion = $regComunicaciones[0];
+        $idComunicacion    = $regComunicaciones[0];
         if ($id_segmento_comunicacion == -1) {
             $objSegCom = new SegmentoComunicacion();
         } else {
             $regSegmentosCom = $repo->obtenerSegmentosComunicacionById($id_comunicacion, $id_segmento);
-            $objSegCom = $regSegmentosCom[0];
+            $objSegCom       = $regSegmentosCom[0];
         }
         $objSegCom->setTipo($tipo);
         $objSegCom->setEstado($estado);

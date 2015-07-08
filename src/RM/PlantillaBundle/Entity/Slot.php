@@ -46,24 +46,24 @@ class Slot
     private $idGrupo;
 
 
+
     /**
      * Set codigo
      *
      * @param string $codigo
-     *
      * @return Slot
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-
+    
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -74,20 +74,19 @@ class Slot
      * Set estado
      *
      * @param smallint $estado
-     *
      * @return Slot
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -97,7 +96,7 @@ class Slot
     /**
      * Get idSlot
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdSlot()
     {
@@ -108,20 +107,19 @@ class Slot
      * Set idGrupo
      *
      * @param \RM\PlantillaBundle\Entity\GrupoSlots $idGrupo
-     *
      * @return Slot
      */
     public function setIdGrupo(\RM\PlantillaBundle\Entity\GrupoSlots $idGrupo = null)
     {
         $this->idGrupo = $idGrupo;
-
+    
         return $this;
     }
 
     /**
      * Get idGrupo
      *
-     * @return \RM\PlantillaBundle\Entity\GrupoSlots
+     * @return \RM\PlantillaBundle\Entity\GrupoSlots 
      */
     public function getIdGrupo()
     {

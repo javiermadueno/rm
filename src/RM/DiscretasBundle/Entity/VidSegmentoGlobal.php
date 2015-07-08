@@ -14,14 +14,14 @@ class VidSegmentoGlobal
 {
     /**
      * @var string
-     *
+     * 
      * @ORM\Column(name="nombre", type="string", nullable=true)
      */
     private $nombre;
 
     /**
      * @var smallint
-     *
+     * 
      * @ORM\Column(name="condicion", type="smallint", nullable=true)
      */
     private $condicion;
@@ -35,39 +35,38 @@ class VidSegmentoGlobal
 
     /**
      * @var smallint
-     *
+     * 
      * @ORM\Column(name="estado", type="smallint", nullable=true, options={"default" : 1})
      */
     private $estado;
 
     /**
      * @var integer
-     *
+     * 
      * @ORM\Column(name="id_vid_segmento_global", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idVidSegmentoGlobal;
-
+    
 
     /**
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return VidSegmentoGlobal
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -78,20 +77,19 @@ class VidSegmentoGlobal
      * Set condicion
      *
      * @param smallint $condicion
-     *
      * @return VidSegmentoGlobal
      */
     public function setCondicion($condicion)
     {
         $this->condicion = $condicion;
-
+    
         return $this;
     }
 
     /**
      * Get condicion
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getCondicion()
     {
@@ -102,20 +100,19 @@ class VidSegmentoGlobal
      * Set pivote
      *
      * @param float $pivote
-     *
      * @return VidSegmentoGlobal
      */
     public function setPivote($pivote)
     {
         $this->pivote = $pivote;
-
+    
         return $this;
     }
 
     /**
      * Get pivote
      *
-     * @return float
+     * @return float 
      */
     public function getPivote()
     {
@@ -126,20 +123,19 @@ class VidSegmentoGlobal
      * Set estado
      *
      * @param smallint $estado
-     *
      * @return VidSegmentoGlobal
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -149,7 +145,7 @@ class VidSegmentoGlobal
     /**
      * Get idVidSegmentoGlobal
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdVidSegmento()
     {

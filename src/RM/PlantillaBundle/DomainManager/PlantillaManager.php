@@ -17,7 +17,6 @@ class PlantillaManager extends AbstractManager
 
     /**
      * @param $id
-     *
      * @return mixed
      */
     public function find($id)

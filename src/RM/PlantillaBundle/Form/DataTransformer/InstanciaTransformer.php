@@ -18,7 +18,6 @@ class InstanciaTransformer extends EntityToNumberTransformer
 
     /**
      * @param Object|InstanciaComunicacion $entity
-     *
      * @return int
      */
     protected function getId($entity)
@@ -28,7 +27,6 @@ class InstanciaTransformer extends EntityToNumberTransformer
 
     /**
      * @param int $id
-     *
      * @return Object|InstanciaComunicacion
      */
     protected function getEntity($id)

@@ -29,7 +29,7 @@ class VtGrupo
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idGrupo;
-
+    
     /**
      * @var smallint
      *
@@ -50,30 +50,29 @@ class VtGrupo
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtIntervalo", mappedBy="idGrupo", cascade={"persist",
-     *                                                                          "remove"})
+     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtIntervalo", mappedBy="idGrupo", cascade={"persist", "remove"})
      */
     private $intervalos;
+
 
 
     /**
      * Set orden
      *
      * @param integer $orden
-     *
      * @return VtGrupo
      */
     public function setOrden($orden)
     {
         $this->orden = $orden;
-
+    
         return $this;
     }
 
     /**
      * Get orden
      *
-     * @return integer
+     * @return integer 
      */
     public function getOrden()
     {
@@ -84,27 +83,26 @@ class VtGrupo
     /**
      * Get idGrupo
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdGrupo()
     {
         return $this->idGrupo;
     }
-
+    
     /**
      * Set estado
      *
      * @param smallint $estado
-     *
      * @return Vt
      */
     public function setEstado($estado)
     {
-        $this->estado = $estado;
-
-        return $this;
+    	$this->estado = $estado;
+    
+    	return $this;
     }
-
+    
     /**
      * Get estado
      *
@@ -112,33 +110,32 @@ class VtGrupo
      */
     public function getEstado()
     {
-        return $this->estado;
+    	return $this->estado;
     }
 
     /**
      * Set idVtSegmento
      *
      * @param \RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento
-     *
      * @return VtGrupo
      */
     public function setIdVtSegmento(\RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento = null)
     {
         $this->idVtSegmento = $idVtSegmento;
-
+    
         return $this;
     }
 
     /**
      * Get idVtSegmento
      *
-     * @return \RM\TransformadasBundle\Entity\VtSegmento
+     * @return \RM\TransformadasBundle\Entity\VtSegmento 
      */
     public function getIdVtSegmento()
     {
         return $this->idVtSegmento;
     }
-
+    
     /**
      * __toString()
      *
@@ -146,9 +143,8 @@ class VtGrupo
      */
     public function __toString()
     {
-        return (string)$this->idGrupo;
+    	return (string) $this->idGrupo;
     }
-
     /**
      * Constructor
      */
@@ -156,18 +152,17 @@ class VtGrupo
     {
         $this->intervalos = new ArrayCollection();
     }
-
+    
     /**
      * Add intervalos
      *
      * @param \RM\TransformadasBundle\Entity\VtIntervalo $intervalos
-     *
      * @return VtGrupo
      */
     public function addIntervalo(\RM\TransformadasBundle\Entity\VtIntervalo $intervalos)
     {
         $this->intervalos[] = $intervalos;
-
+    
         return $this;
     }
 
@@ -184,11 +179,11 @@ class VtGrupo
     /**
      * Get intervalos
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIntervalos()
     {
-        return $this->intervalos->filter(function (VtIntervalo $intervalo) {
+        return $this->intervalos->filter(function(VtIntervalo $intervalo){
             return $intervalo->getEstado() > 1;
         });
     }

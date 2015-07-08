@@ -89,7 +89,7 @@ class ParametroConfiguracion
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -100,20 +100,19 @@ class ParametroConfiguracion
      * Set maximo
      *
      * @param float $maximo
-     *
      * @return ParametroConfiguracion
      */
     public function setMaximo($maximo)
     {
         $this->maximo = $maximo;
-
+    
         return $this;
     }
 
     /**
      * Get maximo
      *
-     * @return float
+     * @return float 
      */
     public function getMaximo()
     {
@@ -124,20 +123,19 @@ class ParametroConfiguracion
      * Set minimo
      *
      * @param float $minimo
-     *
      * @return ParametroConfiguracion
      */
     public function setMinimo($minimo)
     {
         $this->minimo = $minimo;
-
+    
         return $this;
     }
 
     /**
      * Get minimo
      *
-     * @return float
+     * @return float 
      */
     public function getMinimo()
     {
@@ -148,20 +146,19 @@ class ParametroConfiguracion
      * Set valorMedio
      *
      * @param float $valorMedio
-     *
      * @return ParametroConfiguracion
      */
     public function setValorMedio($valorMedio)
     {
         $this->valorMedio = $valorMedio;
-
+    
         return $this;
     }
 
     /**
      * Get valorMedio
      *
-     * @return float
+     * @return float 
      */
     public function getValorMedio()
     {
@@ -172,20 +169,19 @@ class ParametroConfiguracion
      * Set cVariacion
      *
      * @param float $cVariacion
-     *
      * @return ParametroConfiguracion
      */
     public function setCVariacion($cVariacion)
     {
         $this->cVariacion = $cVariacion;
-
+    
         return $this;
     }
 
     /**
      * Get cVariacion
      *
-     * @return float
+     * @return float 
      */
     public function getCVariacion()
     {
@@ -196,20 +192,19 @@ class ParametroConfiguracion
      * Set maxBajo
      *
      * @param float $maxBajo
-     *
      * @return ParametroConfiguracion
      */
     public function setMaxBajo($maxBajo)
     {
         $this->maxBajo = $maxBajo;
-
+    
         return $this;
     }
 
     /**
      * Get maxBajo
      *
-     * @return float
+     * @return float 
      */
     public function getMaxBajo()
     {
@@ -220,20 +215,19 @@ class ParametroConfiguracion
      * Set maxMedio
      *
      * @param float $maxMedio
-     *
      * @return ParametroConfiguracion
      */
     public function setMaxMedio($maxMedio)
     {
         $this->maxMedio = $maxMedio;
-
+    
         return $this;
     }
 
     /**
      * Get maxMedio
      *
-     * @return float
+     * @return float 
      */
     public function getMaxMedio()
     {
@@ -244,20 +238,19 @@ class ParametroConfiguracion
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return ParametroConfiguracion
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -268,20 +261,19 @@ class ParametroConfiguracion
      * Set codigo
      *
      * @param string $codigo
-     *
      * @return ParametroConfiguracion
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-
+    
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -292,20 +284,19 @@ class ParametroConfiguracion
      * Set descripcion
      *
      * @param string $descripcion
-     *
      * @return ParametroConfiguracion
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-
+    
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {

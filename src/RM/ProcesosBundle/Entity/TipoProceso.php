@@ -12,8 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TipoProceso
 {
-    const P00 = 'P00';
-
     /**
      * @var integer
      *
@@ -41,7 +39,7 @@ class TipoProceso
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -52,20 +50,19 @@ class TipoProceso
      * Set codigo
      *
      * @param string $codigo
-     *
      * @return TipoProceso
      */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
-
+    
         return $this;
     }
 
     /**
      * Get codigo
      *
-     * @return string
+     * @return string 
      */
     public function getCodigo()
     {
@@ -76,20 +73,19 @@ class TipoProceso
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return TipoProceso
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -98,6 +94,6 @@ class TipoProceso
 
     public function __toString()
     {
-        return $this->id . '';
+        return $this->id.'';
     }
 }

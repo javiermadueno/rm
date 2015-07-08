@@ -54,25 +54,7 @@
                     <td>
                         {% if objIns.fecEjecucion %}{{ objIns.fecEjecucion|date('d/m/Y') }}{% endif %}
                     </td>
-<<<<<<< HEAD
                     <td> {{ instancia.fase(objIns) }}</td>
-=======
-                    <td> {% if  objIns.getFase.codigo == 'cfg' %}
-                            {{ "fase.configuracion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'ngc' %}
-                            {{ "fase.campana" | trans }}
-                        {% elseif objIns.getFase.codigo == 'sim' %}
-                            {{ "fase.simulacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'cie' %}
-                            {{ "fase.cierre" | trans }}
-                        {% elseif objIns.getFase.codigo == 'gen' %}
-                            {{ "fase.generacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'cnf' %}
-                            {{ "fase.confirmacion" | trans }}
-                        {% elseif objIns.getFase.codigo == 'fin' %}
-                            {{ "fase.finalizada" | trans }}
-                        {% endif %}</td>
->>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
                 </tr>
             {% endfor %}
         {% endif %}

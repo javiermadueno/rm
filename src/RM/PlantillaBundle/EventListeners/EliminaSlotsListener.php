@@ -24,7 +24,7 @@ class EliminaSlotsListener
     {
         try {
             $this->em = $manager->getManager();
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
             return;
         }
     }
@@ -33,7 +33,7 @@ class EliminaSlotsListener
     {
         $grupo = $event->getGrupoSlots();
 
-        if (!$grupo instanceof GrupoSlotsInterface) {
+        if(!$grupo instanceof GrupoSlotsInterface) {
             return;
         }
 

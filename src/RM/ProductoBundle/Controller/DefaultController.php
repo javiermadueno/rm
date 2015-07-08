@@ -18,13 +18,13 @@ class DefaultController extends RMController
         $nombre = -1
     ) {
         $servicioMarca = $this->get("MarcaService");
-        $servicioCat = $this->get("categoriaservice");
-        $servicioTI = $this->get("TamanyoImagenService");
-        $servicioPR = $this->get("ProductoService");
+        $servicioCat   = $this->get("categoriaservice");
+        $servicioTI    = $this->get("TamanyoImagenService");
+        $servicioPR    = $this->get("ProductoService");
 
-        $selectMarcas = $servicioMarca->getMarcas();
+        $selectMarcas     = $servicioMarca->getMarcas();
         $selectCategorias = $servicioCat->getCatAsociadas();
-        $selectTamanyos = $servicioTI->getTIByTipo(0);
+        $selectTamanyos   = $servicioTI->getTIByTipo(0);
 
         asort($selectMarcas);
         asort($selectCategorias);
@@ -43,6 +43,7 @@ class DefaultController extends RMController
 
         $selectProductos = $paginator
             ->paginate($repo->findProductosByFiltro($id_categoria, $id_marca, $nombre, $codigo))->getResult();
+
 
 
         return $this->render('RMProductoBundle:Default:index.html.twig', [
@@ -65,7 +66,7 @@ class DefaultController extends RMController
     public function actualizarProductosAction()
     {
         if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request = $this->container->get('request');
+            $request    = $this->container->get('request');
             $servicioPR = $this->get("ProductoService");
             $servicioTI = $this->get("TamanyoImagenService");
 
@@ -79,13 +80,14 @@ class DefaultController extends RMController
             $nombre = $request->get('nombre');
             $nombre = str_replace('-', ' ', $nombre);
 
-            $repo = $this->getManager()->getRepository('RMProductoBundle:Producto');
+            $repo            = $this->getManager()->getRepository('RMProductoBundle:Producto');
             $selectProductos = $paginator->paginate(
                 $repo->findProductosByFiltro(
                     $request->get('id_categoria'),
                     $request->get('id_marca'),
                     $nombre,
                     $request->get('codigo')))->getResult();
+
 
 
             return $this->render('RMProductoBundle:Default:listadoProductos.html.twig', [

@@ -99,24 +99,25 @@ class Plantilla implements PlantillaInterface
     private $editable = null;
 
 
+
+
     /**
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Plantilla
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -127,20 +128,19 @@ class Plantilla implements PlantillaInterface
      * Set lienzoAncho
      *
      * @param integer $lienzoAncho
-     *
      * @return Plantilla
      */
     public function setLienzoAncho($lienzoAncho)
     {
         $this->lienzoAncho = $lienzoAncho;
-
+    
         return $this;
     }
 
     /**
      * Get lienzoAncho
      *
-     * @return integer
+     * @return integer 
      */
     public function getLienzoAncho()
     {
@@ -151,20 +151,19 @@ class Plantilla implements PlantillaInterface
      * Set lienzoAlto
      *
      * @param integer $lienzoAlto
-     *
      * @return Plantilla
      */
     public function setLienzoAlto($lienzoAlto)
     {
         $this->lienzoAlto = $lienzoAlto;
-
+    
         return $this;
     }
 
     /**
      * Get lienzoAlto
      *
-     * @return integer
+     * @return integer 
      */
     public function getLienzoAlto()
     {
@@ -175,13 +174,12 @@ class Plantilla implements PlantillaInterface
      * Set estado
      *
      * @param int $estado
-     *
      * @return Plantilla
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
@@ -198,7 +196,7 @@ class Plantilla implements PlantillaInterface
     /**
      * Get idPlantilla
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdPlantilla()
     {
@@ -209,13 +207,12 @@ class Plantilla implements PlantillaInterface
      * Add gruposSlots
      *
      * @param \RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots
-     *
      * @return Plantilla
      */
     public function addGruposSlot(\RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots)
     {
         $this->gruposSlots[] = $gruposSlots;
-
+    
         return $this;
     }
 
@@ -232,33 +229,32 @@ class Plantilla implements PlantillaInterface
     /**
      * Get gruposSlots
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getGruposSlots()
     {
-        return $this->gruposSlots->filter(function (GrupoSlots $grupo) {
-            return $grupo->getEstado() > -1;
-        });
+        return $this->gruposSlots->filter(function(GrupoSlots $grupo){
+                return $grupo->getEstado() > -1;
+            });
     }
 
     /**
      * Set canal
      *
      * @param \RM\ComunicacionBundle\Entity\Canal $canal
-     *
      * @return Plantilla
      */
     public function setCanal(\RM\ComunicacionBundle\Entity\Canal $canal = null)
     {
         $this->canal = $canal;
-
+    
         return $this;
     }
 
     /**
      * Get canal
      *
-     * @return \RM\ComunicacionBundle\Entity\Canal
+     * @return \RM\ComunicacionBundle\Entity\Canal 
      */
     public function getCanal()
     {
@@ -269,20 +265,19 @@ class Plantilla implements PlantillaInterface
      * Set descripcion
      *
      * @param string $descripcion
-     *
      * @return Plantilla
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-
+    
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {
@@ -293,20 +288,19 @@ class Plantilla implements PlantillaInterface
      * Set esModelo
      *
      * @param boolean $esModelo
-     *
      * @return Plantilla
      */
     public function setEsModelo($esModelo)
     {
         $this->esModelo = $esModelo;
-
+    
         return $this;
     }
 
     /**
      * Get esModelo
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getEsModelo()
     {
@@ -320,13 +314,13 @@ class Plantilla implements PlantillaInterface
 
     public function getEditable()
     {
-        if (is_null($this->editable)) {
+        if(is_null($this->editable)) {
 
-            if ($this->esModelo) {
+            if($this->esModelo) {
                 $this->editable = $this->comunicaciones->isEmpty();
             } else {
 
-                $this->editable = !$this->comunicaciones->exists(function ($key, $comunicacion) {
+                $this->editable = !$this->comunicaciones->exists(function($key, $comunicacion){
                     /** @var $comunicacion \RM\ComunicacionBundle\Entity\Comunicacion */
                     return true === $comunicacion->getGenerada();
                 });

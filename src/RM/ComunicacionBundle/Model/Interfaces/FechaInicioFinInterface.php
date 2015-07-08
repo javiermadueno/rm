@@ -23,14 +23,12 @@ interface FechaInicioFinInterface
 
     /**
      * @param  $fechaInicio
-     *
      * @return mixed
      */
     public function setFecFin($fechaInicio = null);
 
     /**
      * @param   $fechaFin
-     *
      * @return  mixed
      */
     public function setFecInicio($fechaFin = null);

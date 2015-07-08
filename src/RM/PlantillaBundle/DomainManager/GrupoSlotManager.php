@@ -48,7 +48,7 @@ class GrupoSlotManager extends AbstractManager
 
     public function deleteByIds($ids = [])
     {
-        if (empty($ids)) {
+        if(empty($ids)) {
             return false;
         }
 

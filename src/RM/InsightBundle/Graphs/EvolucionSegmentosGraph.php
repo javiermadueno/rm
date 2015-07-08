@@ -49,7 +49,7 @@ class EvolucionSegmentosGraph extends BaseGraph
         $data_prepared = $this->prepareData($data, array_keys($estados));
 
         $categorias = $data_prepared['categorias'];
-        $series = $data_prepared['series'];
+        $series     = $data_prepared['series'];
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);

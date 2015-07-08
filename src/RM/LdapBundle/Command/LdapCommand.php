@@ -16,17 +16,16 @@ abstract class LdapCommand extends ContainerAwareCommand
     /**
      * @var resource
      */
-    protected $connection;
+    protected  $connection;
 
     /**
      * @var bool
      */
-    protected $bind;
+    protected  $bind;
 
     public function __construct()
     {
         parent::__construct();
-        $this->connect();
     }
 
     protected function connect()

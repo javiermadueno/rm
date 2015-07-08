@@ -41,26 +41,25 @@ class VidCriterioGlobal implements VidCriterioInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idVidCriterioGlobal;
+   	private $idVidCriterioGlobal;
 
     /**
      * Set referenciaN
      *
      * @param integer $referenciaN
-     *
      * @return VidCriterioGlobal
      */
     public function setReferenciaN($referenciaN)
     {
         $this->referenciaN = $referenciaN;
-
+    
         return $this;
     }
 
     /**
      * Get referenciaN
      *
-     * @return integer
+     * @return integer 
      */
     public function getReferenciaN()
     {
@@ -71,20 +70,19 @@ class VidCriterioGlobal implements VidCriterioInterface
      * Set mesesN
      *
      * @param integer $mesesN
-     *
      * @return VidCriterioGlobal
      */
     public function setMesesN($mesesN)
     {
         $this->mesesN = $mesesN;
-
+    
         return $this;
     }
 
     /**
      * Get mesesN
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesN()
     {
@@ -95,20 +93,19 @@ class VidCriterioGlobal implements VidCriterioInterface
      * Set mesesM
      *
      * @param integer $mesesM
-     *
      * @return VidCriterioGlobal
      */
     public function setMesesM($mesesM)
     {
         $this->mesesM = $mesesM;
-
+    
         return $this;
     }
 
     /**
      * Get mesesM
      *
-     * @return integer
+     * @return integer 
      */
     public function getMesesM()
     {
@@ -118,7 +115,7 @@ class VidCriterioGlobal implements VidCriterioInterface
     /**
      * Get idVidCriterioGlobal
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdVidCriterioGlobal()
     {

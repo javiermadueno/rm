@@ -197,24 +197,24 @@ class Cliente
     private $idCliente;
 
 
+
     /**
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Cliente
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -225,20 +225,19 @@ class Cliente
      * Set apellidos
      *
      * @param string $apellidos
-     *
      * @return Cliente
      */
     public function setApellidos($apellidos)
     {
         $this->apellidos = $apellidos;
-
+    
         return $this;
     }
 
     /**
      * Get apellidos
      *
-     * @return string
+     * @return string 
      */
     public function getApellidos()
     {
@@ -249,20 +248,19 @@ class Cliente
      * Set numeroId
      *
      * @param integer $numeroId
-     *
      * @return Cliente
      */
     public function setNumeroId($numeroId)
     {
         $this->numeroId = $numeroId;
-
+    
         return $this;
     }
 
     /**
      * Get numeroId
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumeroId()
     {
@@ -273,20 +271,19 @@ class Cliente
      * Set email
      *
      * @param string $email
-     *
      * @return Cliente
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
+    
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -297,20 +294,19 @@ class Cliente
      * Set telefono
      *
      * @param string $telefono
-     *
      * @return Cliente
      */
     public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
-
+    
         return $this;
     }
 
     /**
      * Get telefono
      *
-     * @return string
+     * @return string 
      */
     public function getTelefono()
     {
@@ -321,20 +317,19 @@ class Cliente
      * Set direccion1
      *
      * @param string $direccion1
-     *
      * @return Cliente
      */
     public function setDireccion1($direccion1)
     {
         $this->direccion1 = $direccion1;
-
+    
         return $this;
     }
 
     /**
      * Get direccion1
      *
-     * @return string
+     * @return string 
      */
     public function getDireccion1()
     {
@@ -345,20 +340,19 @@ class Cliente
      * Set direccion2
      *
      * @param string $direccion2
-     *
      * @return Cliente
      */
     public function setDireccion2($direccion2)
     {
         $this->direccion2 = $direccion2;
-
+    
         return $this;
     }
 
     /**
      * Get direccion2
      *
-     * @return string
+     * @return string 
      */
     public function getDireccion2()
     {
@@ -369,20 +363,19 @@ class Cliente
      * Set cp
      *
      * @param string $cp
-     *
      * @return Cliente
      */
     public function setCp($cp)
     {
         $this->cp = $cp;
-
+    
         return $this;
     }
 
     /**
      * Get cp
      *
-     * @return string
+     * @return string 
      */
     public function getCp()
     {
@@ -393,20 +386,19 @@ class Cliente
      * Set pais
      *
      * @param string $pais
-     *
      * @return Cliente
      */
     public function setPais($pais)
     {
         $this->pais = $pais;
-
+    
         return $this;
     }
 
     /**
      * Get pais
      *
-     * @return string
+     * @return string 
      */
     public function getPais()
     {
@@ -417,20 +409,19 @@ class Cliente
      * Set estado
      *
      * @param string $estado
-     *
      * @return Cliente
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return string
+     * @return string 
      */
     public function getEstado()
     {
@@ -441,20 +432,19 @@ class Cliente
      * Set ciudad
      *
      * @param string $ciudad
-     *
      * @return Cliente
      */
     public function setCiudad($ciudad)
     {
         $this->ciudad = $ciudad;
-
+    
         return $this;
     }
 
     /**
      * Get ciudad
      *
-     * @return string
+     * @return string 
      */
     public function getCiudad()
     {
@@ -465,20 +455,19 @@ class Cliente
      * Set fechaUnion
      *
      * @param \DateTime $fechaUnion
-     *
      * @return Cliente
      */
     public function setFechaUnion($fechaUnion)
     {
         $this->fechaUnion = $fechaUnion;
-
+    
         return $this;
     }
 
     /**
      * Get fechaUnion
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaUnion()
     {
@@ -489,20 +478,19 @@ class Cliente
      * Set tile
      *
      * @param string $tile
-     *
      * @return Cliente
      */
     public function setTile($tile)
     {
         $this->tile = $tile;
-
+    
         return $this;
     }
 
     /**
      * Get tile
      *
-     * @return string
+     * @return string 
      */
     public function getTile()
     {
@@ -513,20 +501,19 @@ class Cliente
      * Set fechaNacimiento
      *
      * @param \DateTime $fechaNacimiento
-     *
      * @return Cliente
      */
     public function setFechaNacimiento($fechaNacimiento)
     {
         $this->fechaNacimiento = $fechaNacimiento;
-
+    
         return $this;
     }
 
     /**
      * Get fechaNacimiento
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getFechaNacimiento()
     {
@@ -537,20 +524,19 @@ class Cliente
      * Set idMiembroProg
      *
      * @param integer $idMiembroProg
-     *
      * @return Cliente
      */
     public function setIdMiembroProg($idMiembroProg)
     {
         $this->idMiembroProg = $idMiembroProg;
-
+    
         return $this;
     }
 
     /**
      * Get idMiembroProg
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdMiembroProg()
     {
@@ -561,20 +547,19 @@ class Cliente
      * Set robbinson
      *
      * @param string $robbinson
-     *
      * @return Cliente
      */
     public function setRobbinson($robbinson)
     {
         $this->robbinson = $robbinson;
-
+    
         return $this;
     }
 
     /**
      * Get robbinson
      *
-     * @return string
+     * @return string 
      */
     public function getRobbinson()
     {
@@ -585,20 +570,19 @@ class Cliente
      * Set optIn
      *
      * @param string $optIn
-     *
      * @return Cliente
      */
     public function setOptIn($optIn)
     {
         $this->optIn = $optIn;
-
+    
         return $this;
     }
 
     /**
      * Get optIn
      *
-     * @return string
+     * @return string 
      */
     public function getOptIn()
     {
@@ -609,20 +593,19 @@ class Cliente
      * Set genero
      *
      * @param smallint $genero
-     *
      * @return Cliente
      */
     public function setGenero($genero)
     {
         $this->genero = $genero;
-
+    
         return $this;
     }
 
     /**
      * Get genero
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getGenero()
     {
@@ -633,20 +616,19 @@ class Cliente
      * Set estadoMarital
      *
      * @param smallint $estadoMarital
-     *
      * @return Cliente
      */
     public function setEstadoMarital($estadoMarital)
     {
         $this->estadoMarital = $estadoMarital;
-
+    
         return $this;
     }
 
     /**
      * Get estadoMarital
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstadoMarital()
     {
@@ -657,20 +639,19 @@ class Cliente
      * Set numHijos
      *
      * @param smallint $numHijos
-     *
      * @return Cliente
      */
     public function setNumHijos($numHijos)
     {
         $this->numHijos = $numHijos;
-
+    
         return $this;
     }
 
     /**
      * Get numHijos
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getNumHijos()
     {
@@ -681,20 +662,19 @@ class Cliente
      * Set tipoVivienda
      *
      * @param smallint $tipoVivienda
-     *
      * @return Cliente
      */
     public function setTipoVivienda($tipoVivienda)
     {
         $this->tipoVivienda = $tipoVivienda;
-
+    
         return $this;
     }
 
     /**
      * Get tipoVivienda
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getTipoVivienda()
     {
@@ -705,20 +685,19 @@ class Cliente
      * Set personalizado1
      *
      * @param string $personalizado1
-     *
      * @return Cliente
      */
     public function setPersonalizado1($personalizado1)
     {
         $this->personalizado1 = $personalizado1;
-
+    
         return $this;
     }
 
     /**
      * Get personalizado1
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado1()
     {
@@ -729,20 +708,19 @@ class Cliente
      * Set personalizado2
      *
      * @param string $personalizado2
-     *
      * @return Cliente
      */
     public function setPersonalizado2($personalizado2)
     {
         $this->personalizado2 = $personalizado2;
-
+    
         return $this;
     }
 
     /**
      * Get personalizado2
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado2()
     {
@@ -753,20 +731,19 @@ class Cliente
      * Set personalizado3
      *
      * @param string $personalizado3
-     *
      * @return Cliente
      */
     public function setPersonalizado3($personalizado3)
     {
         $this->personalizado3 = $personalizado3;
-
+    
         return $this;
     }
 
     /**
      * Get personalizado3
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado3()
     {
@@ -777,20 +754,19 @@ class Cliente
      * Set personalizado4
      *
      * @param string $personalizado4
-     *
      * @return Cliente
      */
     public function setPersonalizado4($personalizado4)
     {
         $this->personalizado4 = $personalizado4;
-
+    
         return $this;
     }
 
     /**
      * Get personalizado4
      *
-     * @return string
+     * @return string 
      */
     public function getPersonalizado4()
     {
@@ -800,7 +776,7 @@ class Cliente
     /**
      * Get idCliente
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdCliente()
     {

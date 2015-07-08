@@ -35,7 +35,7 @@ class FranjaHorariaController extends Controller
 
             return JsonResponse::create([
                 'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-                'error'   => 1
+                'error' => 1
             ], 400);
         }
 

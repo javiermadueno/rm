@@ -1,11 +1,11 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: 192.168.100.229
+    database_host: localhost
     database_port: null
     database_name: 3
-    database_user: admin
-    database_password: icca
+    database_user: root
+    database_password:
     mailer_transport: gmail
     mailer_host: smtp.gmail.com
     mailer_user: imsodelicioso@gmail.com

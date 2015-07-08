@@ -23,7 +23,7 @@ class AbstractManager
     /**
      * @var EventDispatcherInterface
      */
-    protected $dispatcher;
+    protected  $dispatcher;
 
     /**
      * @param DoctrineManager          $manager
@@ -35,7 +35,7 @@ class AbstractManager
     {
         try {
             $this->em = $manager->getManager();
-        } catch (\Exception $e) {
+        }catch (\Exception $e) {
             return;
         }
         $this->dispatcher = $dispatcher;

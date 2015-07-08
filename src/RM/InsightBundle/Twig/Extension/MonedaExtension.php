@@ -13,26 +13,25 @@ class MonedaExtension extends \Twig_Extension
 
     public function getFilters()
     {
-        return [
-            new \Twig_SimpleFilter('moneda', [$this, 'monedaFilter'], [
-                    'is_safe'    => ['html'],
+        return array(
+            new \Twig_SimpleFilter('moneda', array($this, 'monedaFilter'), array(
+                    'is_safe' => array('html'),
                     'pre_escape' => 'html'
-                ]
+                )
             ),
-            new \Twig_SimpleFilter('porcentaje', [$this, 'porcentajeFilter'], [
-                'is_safe'    => ['html'],
-                'pre_escape' => 'html'
-            ])
-        ];
+            new \Twig_SimpleFilter('porcentaje', array($this, 'porcentajeFilter'), array(
+                    'is_safe' => array('html'),
+                    'pre_escape' => 'html'
+                ))
+        );
     }
 
-    public function monedaFilter($valor)
-    {
+    public function monedaFilter($valor) {
         if (!$valor || !is_numeric($valor)) {
             $valor = 0.00;
         }
 
-        return sprintf('%s %s', number_format($valor, 2, ',', '.'), '&euro;');
+        return sprintf('%s %s',number_format($valor, 2, ',', '.') , '&euro;');
     }
 
     public function porcentajeFilter($valor)
@@ -41,7 +40,7 @@ class MonedaExtension extends \Twig_Extension
             $valor = 0.00;
         }
 
-        return sprintf('%s %s', number_format($valor, 2, ',', '.'), '%');
+        return sprintf('%s %s',number_format($valor, 2, ',', '.') , '%');
     }
 
     public function getName()

@@ -17,9 +17,9 @@ class DefaultController extends Controller
         $servicio = $this->get("variablesDiscretas");
 
         // Creación del formulario mediante clase
-        $peticion = $this->get('request');
+        $peticion         = $this->get('request');
         $variableDiscreta = new Vid ();
-        $formulario = $this->createForm(new DiscretaBuscadorType (), $variableDiscreta);
+        $formulario       = $this->createForm(new DiscretaBuscadorType (), $variableDiscreta);
 
         $formulario->handleRequest($peticion);
         // *************************************
@@ -42,8 +42,8 @@ class DefaultController extends Controller
 
     public function showConfiguracionAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
-        $em = $this->get('rm.manager')->getManager();
-        $servicio = $this->get("configuracion");
+        $em             = $this->get('rm.manager')->getManager();
+        $servicio       = $this->get("configuracion");
 
 
         $nivelAmplitud = $em
@@ -62,19 +62,19 @@ class DefaultController extends Controller
 
 
         return $this->render('RMDiscretasBundle:Default:configuracion.html.twig', [
-            'idOpcionMenuSup' => $idOpcionMenuSup,
-            'idOpcionMenuIzq' => $idOpcionMenuIzq,
-            'parametros'      => $parametros,
-            'configuraciones' => $result
+            'idOpcionMenuSup'         => $idOpcionMenuSup,
+            'idOpcionMenuIzq'         => $idOpcionMenuIzq,
+            'parametros'              => $parametros,
+            'configuraciones'         => $result
         ]);
     }
 
     public function insertConfigurationDataAction(Request $request)
     {
-        $servicio = $this->get("configuracion");
+        $servicio       = $this->get("configuracion");
 
         $configuracion = $request->get('configuracion', []);
-        $parametros = $request->get('parametro', []);
+        $parametros    = $request->get('parametro', []);
 
         if (empty($configuracion) || empty($parametros)) {
             $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.error.actualizar');

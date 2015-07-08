@@ -22,12 +22,11 @@ class DatetimeToStringTransformer implements DataTransformerInterface
 
     /**
      * @param mixed $date
-     *
      * @return mixed|null
      */
     public function transform($date)
     {
-        if (!$date) {
+        if(!$date) {
             return null;
         }
 
@@ -36,12 +35,11 @@ class DatetimeToStringTransformer implements DataTransformerInterface
 
     /**
      * @param mixed $string
-     *
      * @return \DateTime|mixed|null
      */
     public function reverseTransform($string)
     {
-        if (empty($string) || !is_string($string)) {
+        if(empty($string) || !is_string($string)) {
             return null;
         }
 
@@ -49,9 +47,9 @@ class DatetimeToStringTransformer implements DataTransformerInterface
 
         if (!$date) {
             throw new TransformationFailedException(sprintf(
-                'No se ha podido crear la fecha a partir de "%s"',
-                $string
-            ));
+                    'No se ha podido crear la fecha a partir de "%s"',
+                    $string
+                ));
         }
 
         return $date;

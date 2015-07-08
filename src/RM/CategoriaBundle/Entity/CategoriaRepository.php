@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CategoriaRepository extends EntityRepository
 {
-    public function obtenerCategoria($id_categoria)
+    public function obtenerCategoria ($id_categoria)
     {
 
 
@@ -24,7 +24,7 @@ class CategoriaRepository extends EntityRepository
         return $registro;
     }
 
-    public function obtenerCategorias($id_nivel = -1, $asociado = -1, $id_categoria = '')
+    public function obtenerCategorias ($id_nivel = -1, $asociado = -1, $id_categoria = '')
     {
 
         $dql = "select c
@@ -56,7 +56,7 @@ class CategoriaRepository extends EntityRepository
 
     }
 
-    public function obtenerCatAsoc()
+    public function obtenerCatAsoc ()
     {
 
         $dql = "select c
@@ -72,7 +72,7 @@ class CategoriaRepository extends EntityRepository
 
     }
 
-    public function obtenerCatByInstancia($id_instancia)
+    public function obtenerCatByInstancia ($id_instancia)
     {
 
 
@@ -95,7 +95,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCatPermitidasByInstancia($id_instancia, $categorias = [])
+    public function obtenerCatPermitidasByInstancia ($id_instancia, $categorias = array ())
     {
 
 
@@ -110,14 +110,15 @@ class CategoriaRepository extends EntityRepository
 			GROUP BY c.idCategoria
 			ORDER BY c.nombre";
 
-        if (empty($categorias)) {
-            return [];
+        if(empty($categorias)) {
+            return array();
         }
 
         $query = $this->_em->createQuery($dql);
         $query
             ->setParameter('categorias', $categorias)
-            ->setParameter('id_instancia', $id_instancia);
+            ->setParameter('id_instancia', $id_instancia)
+        ;
 
         $registros = $query->getResult();
 
@@ -125,7 +126,7 @@ class CategoriaRepository extends EntityRepository
     }
 
 
-    public function obtenerNivelesCategoria()
+    public function obtenerNivelesCategoria ()
     {
 
         $dql = "select n
@@ -137,7 +138,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasDeCampanya()
+    public function obtenerCategoriasDeCampanya ()
     {
 
 
@@ -156,8 +157,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasPermitidasDeCampanya($categorias = [])
-    {
+    public function obtenerCategoriasPermitidasDeCampanya($categorias = array()){
 
 
         $dql = "select c
@@ -177,7 +177,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasDeCampanyaByNombre($nombreCategorias = [])
+    public function obtenerCategoriasDeCampanyaByNombre ($nombreCategorias = array ())
     {
 
 
@@ -200,7 +200,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasPorNombre($nombreCategorias = [])
+    public function obtenerCategoriasPorNombre ($nombreCategorias = array ())
     {
 
 
@@ -221,7 +221,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function findCategoriasByNombreYNivel($categorias = [], $idNivel)
+    public function findCategoriasByNombreYNivel($categorias = array(), $idNivel)
     {
         $dql = "
             SELECT cat
@@ -233,14 +233,14 @@ class CategoriaRepository extends EntityRepository
             ORDER BY cat.nombre
         ";
 
-        if (empty($categorias)) {
-            return [];
+        if(empty($categorias)) {
+            return array();
         }
 
         $categorias = array_map('trim', $categorias);
 
         return $this->_em->createQuery($dql)
-            ->setParameter('nombres', $categorias)
+            ->setParameter('nombres',$categorias )
             ->setParameter('id_nivel', $idNivel)
             ->getResult();
     }
@@ -278,28 +278,27 @@ class CategoriaRepository extends EntityRepository
     }
 
     /**
-     * public function findCategoriasRestantesByInstacia($id_instancia)
-     * {
-     *
-     * $qb3 = $this->_em->createQueryBuilder()
-     * ->select('conf.valor')
-     * ->from('RMDiscretasBundle:Configuracion', 'conf')
-     * ->where('conf.nombre = :nombre')
-     * ->setParameter('nombre', 'nivel_category_manager');
-     *
-     * $qb2 = $this->_em->createQueryBuilder();
-     *
-     * $qb2
-     * ->select('nivel.idNivelCategoria')
-     * ->from('RMCategoriaBundle:NivelCategoria', 'nivel')
-     * ->where($qb2->expr()->);
-     *
-     * $this->_em->createQueryBuilder()
-     * ->from('RMCategoriaBundle:Categoria', 'c')
-     * ->where('c.idCategoria NOT IN (SELECT num.idCategoria FROM RMProductoBundle:NumPromociones num WHERE
-     * num.idInstancia = :idInstancia AND num.idCategoria IS NOT NULL')
-     * ->andWhere('c.idNivelCategoria = (SELECT FROM RMDiscretaBundle:Configuracion conf WHERE  ')
-     *
-     * }
+    public function findCategoriasRestantesByInstacia($id_instancia)
+    {
+
+        $qb3 = $this->_em->createQueryBuilder()
+            ->select('conf.valor')
+            ->from('RMDiscretasBundle:Configuracion', 'conf')
+            ->where('conf.nombre = :nombre')
+            ->setParameter('nombre', 'nivel_category_manager');
+
+        $qb2 = $this->_em->createQueryBuilder();
+
+        $qb2
+            ->select('nivel.idNivelCategoria')
+            ->from('RMCategoriaBundle:NivelCategoria', 'nivel')
+            ->where($qb2->expr()->);
+
+        $this->_em->createQueryBuilder()
+            ->from('RMCategoriaBundle:Categoria', 'c')
+            ->where('c.idCategoria NOT IN (SELECT num.idCategoria FROM RMProductoBundle:NumPromociones num WHERE num.idInstancia = :idInstancia AND num.idCategoria IS NOT NULL')
+            ->andWhere('c.idNivelCategoria = (SELECT FROM RMDiscretaBundle:Configuracion conf WHERE  ')
+
+    }
      */
 }

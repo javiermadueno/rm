@@ -27,16 +27,16 @@ class ResultadoMensualRepository extends DocumentRepository
             ->getQuery()
             ->execute();
 
-        $resultado = [];
+        $resultado = array();
 
-        foreach ($meses as $mes) {
+        foreach($meses as $mes) {
             if (is_null($mes['_id'])) {
                 continue;
             }
 
             list($year, $month) = explode('-', $mes['_id']);
             $resultado[] = [
-                'id'    => $mes['_id'],
+                'id' => $mes['_id'],
                 'fecha' => new \DateTime(sprintf('01-%s-%s', $month, $year))
             ];
         }

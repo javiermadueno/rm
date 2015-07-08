@@ -58,30 +58,29 @@ class Vt implements \JsonSerializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtSegmento", mappedBy="idVt", cascade={"persist",
-     *                                                                         "remove"})
+     * @ORM\OneToMany(targetEntity="RM\TransformadasBundle\Entity\VtSegmento", mappedBy="idVt", cascade={"persist", "remove"})
      */
     private $segmentos;
+
 
 
     /**
      * Set nombre
      *
      * @param string $nombre
-     *
      * @return Vt
      */
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-
+    
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string
+     * @return string 
      */
     public function getNombre()
     {
@@ -92,20 +91,19 @@ class Vt implements \JsonSerializable
      * Set descripcion
      *
      * @param string $descripcion
-     *
      * @return Vt
      */
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
-
+    
         return $this;
     }
 
     /**
      * Get descripcion
      *
-     * @return string
+     * @return string 
      */
     public function getDescripcion()
     {
@@ -116,13 +114,12 @@ class Vt implements \JsonSerializable
      * Set tipo
      *
      * @param smallint $tipo
-     *
      * @return Vt
      */
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
-
+    
         return $this;
     }
 
@@ -144,14 +141,14 @@ class Vt implements \JsonSerializable
     public function setEstado($estado)
     {
         $this->estado = $estado;
-
+    
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint
+     * @return smallint 
      */
     public function getEstado()
     {
@@ -161,28 +158,27 @@ class Vt implements \JsonSerializable
     /**
      * Get idVt
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdVt()
     {
         return $this->idVt;
     }
-
+    
     public function __toString()
     {
-        return (string)$this->idVt;
+    	return (string)$this->idVt;
     }
 
     public function jsonSerialize()
     {
         return [
-            'id'          => $this->idVt,
-            'nombre'      => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'estado'      => $this->estado,
+            'id'            => $this->idVt,
+            'nombre'        => $this->nombre,
+            'descripcion'   => $this->descripcion,
+            'estado'        => $this->estado,
         ];
     }
-
     /**
      * Constructor
      */
@@ -190,18 +186,17 @@ class Vt implements \JsonSerializable
     {
         $this->segmentos = new ArrayCollection();
     }
-
+    
     /**
      * Add segmentos
      *
      * @param \RM\TransformadasBundle\Entity\VtSegmento $segmentos
-     *
      * @return Vt
      */
     public function addSegmento(\RM\TransformadasBundle\Entity\VtSegmento $segmentos)
     {
         $this->segmentos[] = $segmentos;
-
+    
         return $this;
     }
 
@@ -218,11 +213,11 @@ class Vt implements \JsonSerializable
     /**
      * Get segmentos
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getSegmentos()
     {
-        return $this->segmentos->filter(function (VtSegmento $segmento) {
+        return $this->segmentos->filter(function(VtSegmento $segmento){
             return $segmento->getEstado() > -1;
         });
     }

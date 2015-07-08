@@ -33,7 +33,7 @@ class PorcentajeDeVentas
 
 
         $this->chart = new Highchart();
-        $this->chart->chart->renderTo($nombre);
+        $this->chart->chart->renderTo ( $nombre );
 
         $this->chart->plotOptions->pie ( [
                 'allowPointSelect' => true,
@@ -44,7 +44,7 @@ class PorcentajeDeVentas
                 'showInLegend' => true
             ] );
 
-        if (!$mes) {
+        if(!$mes) {
             return $this->chart;
         }
 

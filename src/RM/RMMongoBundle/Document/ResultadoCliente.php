@@ -87,7 +87,6 @@ class ResultadoCliente
      * Set fecha
      *
      * @param string $fecha
-     *
      * @return self
      */
     public function setFecha($fecha)
@@ -110,7 +109,6 @@ class ResultadoCliente
      * Set cliente
      *
      * @param int $cliente
-     *
      * @return self
      */
     public function setCliente($cliente)
@@ -133,7 +131,6 @@ class ResultadoCliente
      * Set contribucion
      *
      * @param float $contribucion
-     *
      * @return self
      */
     public function setContribucion($contribucion)
@@ -156,7 +153,6 @@ class ResultadoCliente
      * Set frecuencia
      *
      * @param float $frecuencia
-     *
      * @return self
      */
     public function setFrecuencia($frecuencia)
@@ -179,7 +175,6 @@ class ResultadoCliente
      * Set ticketMedio
      *
      * @param float $ticketMedio
-     *
      * @return self
      */
     public function setTicketMedio($ticketMedio)
@@ -202,7 +197,6 @@ class ResultadoCliente
      * Set gama
      *
      * @param float $gama
-     *
      * @return self
      */
     public function setGama($gama)
@@ -225,7 +219,6 @@ class ResultadoCliente
      * Set amplitu1
      *
      * @param float $amplitu1
-     *
      * @return self
      */
     public function setAmplitu1($amplitu1)
@@ -248,7 +241,6 @@ class ResultadoCliente
      * Set amplitud2
      *
      * @param float $amplitud2
-     *
      * @return self
      */
     public function setAmplitud2($amplitud2)
@@ -271,7 +263,6 @@ class ResultadoCliente
      * Set amplitud3
      *
      * @param float $amplitud3
-     *
      * @return self
      */
     public function setAmplitud3($amplitud3)
@@ -294,7 +285,6 @@ class ResultadoCliente
      * Set recencia
      *
      * @param float $recencia
-     *
      * @return self
      */
     public function setRecencia($recencia)

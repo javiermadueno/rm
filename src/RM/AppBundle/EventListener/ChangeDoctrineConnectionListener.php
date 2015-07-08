@@ -31,17 +31,13 @@ class ChangeDoctrineConnectionListener
     private $connection;
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface    $container
      * @param TokenStorageInterface $security
-     * @param Connection $connection
-     * @param array $connections
+     * @param Connection            $connection
+     * @param array                 $connections
      */
-    public function __construct(
-        ContainerInterface $container,
-        TokenStorageInterface $security,
-        Connection $connection,
-        array $connections
-    ) {
+    public function __construct(ContainerInterface $container, TokenStorageInterface $security, Connection $connection, array $connections)
+    {
         $this->container = $container;
         $this->security = $security;
         $this->connection = $connection;
@@ -53,11 +49,11 @@ class ChangeDoctrineConnectionListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if(!$event->isMasterRequest()) {
             return;
         }
         $token = $this->security->getToken();
-        $this->user = $token ? $token->getUser() : null;
+        $this->user  = $token ? $token->getUser(): null;
 
         if (!$this->user || is_string($this->user)) {
             return;

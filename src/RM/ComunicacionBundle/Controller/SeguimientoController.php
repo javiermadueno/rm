@@ -52,22 +52,22 @@ class SeguimientoController extends Controller
             ->obtenerPromocionesFiltradasPor();
 
         $categorias = array_column($promociones, 'idCategoria');
-        $marcas = array_column($promociones, 'idMarca');
+        $marcas     = array_column($promociones, 'idMarca');
 
-        if (!empty($categorias)) {
+        if(!empty($categorias)) {
             $categorias = $em->getRepository('RMCategoriaBundle:Categoria')
                 ->findBy(['idCategoria' => $categorias]);
         }
 
-        if (!empty($marcas)) {
+        if(!empty($marcas)) {
             $marcas = $em->getRepository('RMProductoBundle:Marca')
                 ->findBy(['idMarca' => $marcas]);
         }
 
 
         return $this->render('RMComunicacionBundle:Seguimiento:index.html.twig', [
-            'categorias' => $categorias,
-            'marcas'     => $marcas,
+            'categorias'    => $categorias,
+            'marcas'        => $marcas,
         ]);
     }
 

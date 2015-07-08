@@ -42,10 +42,11 @@ class ClienteSegmento
     private $idCliente;
 
 
+
     /**
      * Get idClienteSegmento
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdClienteSegmento()
     {
@@ -56,20 +57,19 @@ class ClienteSegmento
      * Set idSegmento
      *
      * @param \RM\SegmentoBundle\Entity\Segmento $idSegmento
-     *
      * @return ClienteSegmento
      */
     public function setIdSegmento(\RM\SegmentoBundle\Entity\Segmento $idSegmento = null)
     {
         $this->idSegmento = $idSegmento;
-
+    
         return $this;
     }
 
     /**
      * Get idSegmento
      *
-     * @return \RM\SegmentoBundle\Entity\Segmento
+     * @return \RM\SegmentoBundle\Entity\Segmento 
      */
     public function getIdSegmento()
     {
@@ -80,20 +80,19 @@ class ClienteSegmento
      * Set idCliente
      *
      * @param \RM\ClienteBundle\Entity\Cliente $idCliente
-     *
      * @return ClienteSegmento
      */
     public function setIdCliente(\RM\ClienteBundle\Entity\Cliente $idCliente = null)
     {
         $this->idCliente = $idCliente;
-
+    
         return $this;
     }
 
     /**
      * Get idCliente
      *
-     * @return \RM\ClienteBundle\Entity\Cliente
+     * @return \RM\ClienteBundle\Entity\Cliente 
      */
     public function getIdCliente()
     {

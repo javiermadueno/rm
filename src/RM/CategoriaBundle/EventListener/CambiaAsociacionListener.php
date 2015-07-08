@@ -18,7 +18,7 @@ class CambiaAsociacionListener
     {
         $nivel = $event->getEntity();
 
-        if (!$nivel instanceof NivelCategoria) {
+        if(!$nivel instanceof NivelCategoria) {
             return;
         }
 

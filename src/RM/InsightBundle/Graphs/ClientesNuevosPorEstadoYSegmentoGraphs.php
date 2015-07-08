@@ -47,7 +47,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     {
         parent::__construct($translator);
         $this->repository = $repository;
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
     }
 
 
@@ -60,7 +60,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficaPorSexo($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $sexo = $this->getSegmentosSexo();
+        $sexo            = $this->getSegmentosSexo();
 
         if (!$sexo) {
             $chart = $this->graphColumnNoData($renderTo);
@@ -122,7 +122,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoPorEdades($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $edades = $this->getSegmentosEdades();
+        $edades          = $this->getSegmentosEdades();
 
         if (!$edades) {
             $chart =  $this->graphColumnNoData($renderTo);
@@ -178,7 +178,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoFranjaHoraria($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $horas = $this->getSegmentosFranjaHoraria();
+        $horas           = $this->getSegmentosFranjaHoraria();
 
         if(!$horas) {
             $chart =  $this->graphColumnNoData($renderTo);
@@ -229,7 +229,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoDia($meses, $renderTo = '')
     {
         $segmento_activo = $this->getSegementoEstado();
-        $dias = $this->getSegmentosDias();
+        $dias            = $this->getSegmentosDias();
 
         if(!$dias) {
             $chart =  $this->graphColumnNoData($renderTo);

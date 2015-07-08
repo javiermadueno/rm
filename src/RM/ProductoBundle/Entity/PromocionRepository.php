@@ -142,6 +142,7 @@ class PromocionRepository extends EntityRepository
     {
 
 
+
         $dql = "select p
 		from RMProductoBundle:Promocion p
 		WHERE p.estado > -1
@@ -192,14 +193,14 @@ class PromocionRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder()
             ->select('p.simulado as simulado',
-                'c.nombre as nombreComunicacion',
-                'pr.nombre as nombreProducto',
-                'm.nombre as nombreMarca',
-                'tp.nombre as tipoPromocion',
-                'ic.fecCreacion as fecha',
-                'p.aceptada as aceptada',
-                'cat.idCategoria as idCategoria',
-                'm.idMarca as idMarca')
+              'c.nombre as nombreComunicacion',
+              'pr.nombre as nombreProducto',
+              'm.nombre as nombreMarca',
+              'tp.nombre as tipoPromocion',
+              'ic.fecCreacion as fecha',
+              'p.aceptada as aceptada',
+              'cat.idCategoria as idCategoria',
+              'm.idMarca as idMarca')
             ->from('RMProductoBundle:Promocion', 'p')
             ->join('p.idTipoPromocion', 'tp')
             ->join('p.idProducto', 'pr')
@@ -214,7 +215,8 @@ class PromocionRepository extends EntityRepository
             ->andWhere('fase.codigo = :fase_confirmacion')
             ->groupBy('p.idPromocion')
             ->orderBy('p.idPromocion', 'ASC')
-            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION);
+            ->setParameter('fase_confirmacion', InstanciaComunicacion::FASE_CONFIRMACION)
+        ;
 
         if ($id_categoria > 0) {
             $qb->andWhere('np.idCategoria = :categoria')

@@ -62,7 +62,7 @@ class InstanciaCriterioDesempate
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -73,20 +73,19 @@ class InstanciaCriterioDesempate
      * Set numSlot
      *
      * @param integer $numSlot
-     *
      * @return InstanciaCriterioDesempate
      */
     public function setNumSlot($numSlot)
     {
         $this->numSlot = $numSlot;
-
+    
         return $this;
     }
 
     /**
      * Get numSlot
      *
-     * @return integer
+     * @return integer 
      */
     public function getNumSlot()
     {
@@ -97,20 +96,19 @@ class InstanciaCriterioDesempate
      * Set peso
      *
      * @param integer $peso
-     *
      * @return InstanciaCriterioDesempate
      */
     public function setPeso($peso)
     {
         $this->peso = $peso;
-
+    
         return $this;
     }
 
     /**
      * Get peso
      *
-     * @return integer
+     * @return integer 
      */
     public function getPeso()
     {
@@ -121,20 +119,19 @@ class InstanciaCriterioDesempate
      * Set grupo
      *
      * @param \RM\PlantillaBundle\Entity\GrupoSlots $grupo
-     *
      * @return InstanciaCriterioDesempate
      */
     public function setGrupo(\RM\PlantillaBundle\Entity\GrupoSlots $grupo = null)
     {
         $this->grupo = $grupo;
-
+    
         return $this;
     }
 
     /**
      * Get grupo
      *
-     * @return \RM\PlantillaBundle\Entity\GrupoSlots
+     * @return \RM\PlantillaBundle\Entity\GrupoSlots 
      */
     public function getGrupo()
     {
@@ -145,20 +142,19 @@ class InstanciaCriterioDesempate
      * Set idInstancia
      *
      * @param \RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia
-     *
      * @return InstanciaCriterioDesempate
      */
     public function setIdInstancia(\RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia = null)
     {
         $this->idInstancia = $idInstancia;
-
+    
         return $this;
     }
 
     /**
      * Get idInstancia
      *
-     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion
+     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion 
      */
     public function getIdInstancia()
     {
@@ -169,20 +165,19 @@ class InstanciaCriterioDesempate
      * Set criterioDesempate
      *
      * @param \RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate
-     *
      * @return InstanciaCriterioDesempate
      */
     public function setCriterioDesempate(\RM\ProductoBundle\Entity\CriterioDesempate $criterioDesempate = null)
     {
         $this->criterioDesempate = $criterioDesempate;
-
+    
         return $this;
     }
 
     /**
      * Get criterioDesempate
      *
-     * @return \RM\ProductoBundle\Entity\CriterioDesempate
+     * @return \RM\ProductoBundle\Entity\CriterioDesempate 
      */
     public function getCriterioDesempate()
     {

@@ -3,7 +3,6 @@
 namespace RM\ComunicacionBundle\DependencyInjection;
 
 
-use Doctrine\ORM\EntityManager;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
@@ -18,7 +17,7 @@ class InstanciaComunicacionServicio
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|EntityManager
+     * @var \Doctrine\Common\Persistence\ObjectManager
      */
     private $em;
 
@@ -30,7 +29,7 @@ class InstanciaComunicacionServicio
 
     public function __construct(DoctrineManager $manager)
     {
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
         $this->repository = $this->em->getRepository('RMComunicacionBundle:InstanciaComunicacion');
     }
 
@@ -80,9 +79,9 @@ class InstanciaComunicacionServicio
 
         $manager = $this->em;
 
-        $categoriaYGrupoUsados = [];
+        $categoriaYGrupoUsados    = [];
         $grupoCreatividadesUsados = [];
-        $grupoCreatividad = [];
+        $grupoCreatividad         = [];
 
         /**
          * Primero se comprueba si ha habido cambios en la num_promociones existentes
@@ -91,7 +90,7 @@ class InstanciaComunicacionServicio
 
         foreach ($objNumPromociones as $numPromo) {
             $idGrupoSlots = $numPromo->getIdGrupo()->getIdGrupo();
-            $idCategoria = $numPromo->getIdCategoria()->getIdCategoria();
+            $idCategoria  = $numPromo->getIdCategoria()->getIdCategoria();
 
             $nomVarSeg = sprintf("seg_%s_%s", $idGrupoSlots, $idCategoria);
             $nomVarGen = sprintf("gen_%s_%s", $idGrupoSlots, $idCategoria);
@@ -166,7 +165,7 @@ class InstanciaComunicacionServicio
 
                 if ($varGen || $varSeg) {
 
-                    $objGrupo = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
+                    $objGrupo     = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
                     $numPromocion = new NumPromociones();
                     $numPromocion->setEstado(1);
                     $numPromocion->setIdGrupo($objGrupo);
@@ -202,7 +201,7 @@ class InstanciaComunicacionServicio
 
                     if ($varGen || $varSeg) {
 
-                        $objGrupo = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
+                        $objGrupo     = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
                         $numPromocion = new NumPromociones();
                         $numPromocion->setEstado(1);
                         $numPromocion->setIdCategoria($categoria);
@@ -240,7 +239,7 @@ class InstanciaComunicacionServicio
         $criteriosYGruposUsados = [];
 
         foreach ($instanciasCriterios as $instancia) {
-            $idGrupo = $instancia->getGrupo()->getIdGrupo();
+            $idGrupo      = $instancia->getGrupo()->getIdGrupo();
             $tipoCriterio = $instancia->getCriterioDesempate()->getCodigo();
 
             $varNumSlot = sprintf("numSlot_%s_%s", $idGrupo, $tipoCriterio);
@@ -259,7 +258,7 @@ class InstanciaComunicacionServicio
 
         foreach ($objGrupoSlots as $grupoSlot) {
             foreach ($criteriosDesempate as $criterio) {
-                $idGrupo = $grupoSlot['idGrupo'];
+                $idGrupo      = $grupoSlot['idGrupo'];
                 $tipoCriterio = $criterio->getCodigo();
 
                 if (in_array(sprintf("%s_%s", $idGrupo, $tipoCriterio), $criteriosYGruposUsados)) {
@@ -325,9 +324,9 @@ class InstanciaComunicacionServicio
 
     public function getCategoryManagersByBusinessCategory($businessCategory)
     {
-        $bind_rdn = 'cn=admin,dc=relationalmessages,dc=com';
+        $bind_rdn      = 'cn=admin,dc=relationalmessages,dc=com';
         $bind_password = 'admin';
-        $host = '192.168.100.229';
+        $host          = '192.168.100.229';
 
         $client = [
             'port'              => 389,
@@ -358,8 +357,8 @@ class InstanciaComunicacionServicio
 
             if ($data2) {
                 // Query users. Todos los usuarios con la businessCategory
-                $dn = "ou=usuarios,dc=relationalmessages,dc=com";
-                $filter = "(businessCategory=*$businessCategory*)";
+                $dn        = "ou=usuarios,dc=relationalmessages,dc=com";
+                $filter    = "(businessCategory=*$businessCategory*)";
                 $justthese = [
                     "uid",
                     "givenName",
@@ -368,8 +367,8 @@ class InstanciaComunicacionServicio
                 ];
 
                 $params ['base_dn'] = $dn;
-                $params ['filter'] = $filter;
-                $params ['attrs'] = $justthese;
+                $params ['filter']  = $filter;
+                $params ['attrs']   = $justthese;
 
                 // Search
                 $usersCategory = ldap_search($data, $dn, $filter, $justthese);
@@ -378,15 +377,15 @@ class InstanciaComunicacionServicio
                 $infoUsersCategory = ldap_get_entries($data, $usersCategory);
 
                 // Query Category Managers. Todos los members del ROLE Category Manager
-                $dn2 = "ou=roles,dc=relationalmessages,dc=com";
-                $filter2 = "(cn=category_manager)";
+                $dn2        = "ou=roles,dc=relationalmessages,dc=com";
+                $filter2    = "(cn=category_manager)";
                 $justthese2 = [
                     "member"
                 ];
 
                 $params ['base_dn'] = $dn2;
-                $params ['filter'] = $filter2;
-                $params ['attrs'] = $justthese2;
+                $params ['filter']  = $filter2;
+                $params ['attrs']   = $justthese2;
 
                 // Search
                 $sr = ldap_search($data, $dn2, $filter2, $justthese2);
@@ -408,9 +407,9 @@ class InstanciaComunicacionServicio
 
                         for ($j = 0; $j < $infoUsersCategory ['count']; $j++) {
 
-                            $dnUC = $infoUsersCategory [$j] ['dn'];
-                            $givenName = $infoUsersCategory [$j] ['givenname'];
-                            $mail = $infoUsersCategory [$j] ['mail'];
+                            $dnUC            = $infoUsersCategory [$j] ['dn'];
+                            $givenName       = $infoUsersCategory [$j] ['givenname'];
+                            $mail            = $infoUsersCategory [$j] ['mail'];
                             $telephoneNumber = $infoUsersCategory [$j] ['telephonenumber'];
 
                             if ($dnCM = $dnUC) {
@@ -544,7 +543,7 @@ class InstanciaComunicacionServicio
 
         foreach ($totalGenericasPorgrupo as $total) {
             $totalGenericas = $total['totalGenericas'];
-            $totalSlots = $total['totalSlots'];
+            $totalSlots     = $total['totalSlots'];
 
             if ($totalGenericas < $totalSlots) {
                 return false;
@@ -633,16 +632,16 @@ class InstanciaComunicacionServicio
          * Se comprueba que el número de promociones creadas sea el indicado en numPromociones
          */
 
-        $numPromociones = $instancia->getNumPromociones()->filter(function (NumPromociones $numPromociones) {
+        $numPromociones = $instancia->getNumPromociones()->filter(function(NumPromociones $numPromociones) {
             return $numPromociones->getEstado() > -1;
         });
 
         foreach ($numPromociones as $numPromocion) {
             $totalSegmentadas = intval($numPromocion->getNumSegmentadas());
-            $totalGenericas = intval($numPromocion->getNumGenericas());
+            $totalGenericas   = intval($numPromocion->getNumGenericas());
 
             $segmentadas = $numPromocion->getPromocionesSegentadas()->count();
-            $genericas = $numPromocion->getPromocionesGenericas()->count();
+            $genericas   = $numPromocion->getPromocionesGenericas()->count();
 
             if ($genericas < $totalGenericas) {
                 return false;

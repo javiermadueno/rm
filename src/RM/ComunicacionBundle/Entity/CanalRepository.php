@@ -6,36 +6,36 @@ use Doctrine\ORM\EntityRepository;
 
 class CanalRepository extends EntityRepository
 {
-    public function obtenerCanales()
+	public function obtenerCanales()
     {
 
-        $dql = "
+		$dql = "
             select c
 			  from RMComunicacionBundle:Canal c
         ";
-
-        $query = $this->_em->createQuery($dql);
-
-        $registros = $query->getResult();
-
-        return $registros;
-
-    }
-
-    public function obtenerCanalById($id_canal)
+			
+		$query = $this->_em->createQuery($dql);
+	
+		$registros = $query->getResult();
+	
+		return $registros;
+	
+	}
+	
+	public function obtenerCanalById($id_canal)
     {
-        $dql = "
+		$dql = "
           select c
 			from RMComunicacionBundle:Canal c
            WHERE c.idCanal = :idcanal
         ";
-
-        $query = $this->_em->createQuery($dql);
-        $query->setParameter('idcanal', $id_canal);
-
-        $registros = $query->getResult();
-
-        return $registros;
-
-    }
+			
+		$query = $this->_em->createQuery($dql);
+		$query->setParameter('idcanal', $id_canal);
+	
+		$registros = $query->getResult();
+	
+		return $registros;
+	
+	}
 }

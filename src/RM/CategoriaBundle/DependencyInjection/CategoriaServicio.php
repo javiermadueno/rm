@@ -53,15 +53,12 @@ class CategoriaServicio
      *
      * @throws \Exception
      */
-    public function __construct(
-        DoctrineManager $manager,
-        TokenStorageInterface $security,
-        AuthorizationCheckerInterface $authorizationChecker
-    ) {
-        $this->em = $manager->getManager();
-        $this->security = $security;
-        $this->user = $security->getToken()->getUser();
-        $this->repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
+    public function __construct(DoctrineManager $manager, TokenStorageInterface $security, AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->em                    = $manager->getManager();
+        $this->security              = $security;
+        $this->user                  = $security->getToken()->getUser();
+        $this->repo                  = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $this->nivelCategoriaVisible = $this->getNivelCategoriasVisible();
 
         if ($authorizationChecker->isGranted('ROLE_WORKFLOW_MANAGER')) {
@@ -288,7 +285,7 @@ class CategoriaServicio
      */
     public function getNivelesCategoria()
     {
-        $repo = $this->em->getRepository('RMCategoriaBundle:Categoria');
+        $repo      = $this->em->getRepository('RMCategoriaBundle:Categoria');
         $registros = $repo->obtenerNivelesCategoria();
 
         return $registros;

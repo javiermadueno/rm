@@ -13,23 +13,23 @@ use RM\ComunicacionBundle\Entity\Canal;
 
 interface PlantillaInterface
 {
-    public function setNombre($nombre);
+    public function setNombre ($nombre);
 
-    public function getNombre();
+    public function getNombre ();
 
-    public function setLienzoAncho($lienzoAncho);
+    public function setLienzoAncho ($lienzoAncho);
 
-    public function getLienzoAncho();
+    public function getLienzoAncho ();
 
-    public function setLienzoAlto($lienzoAlto);
+    public function setLienzoAlto ($lienzoAlto);
 
-    public function getLienzoAlto();
+    public function getLienzoAlto ();
 
-    public function setEstado($estado);
+    public function setEstado ($estado);
 
-    public function getEstado();
+    public function getEstado ();
 
-    public function getIdPlantilla();
+    public function getIdPlantilla ();
 
     public function getGruposSlots();
 

@@ -12,21 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Creatividad
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_creatividad", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idCreatividad;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id_creatividad", type="integer", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 */
+	private $idCreatividad;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
-     */
-    private $nombre;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+	 */
+	private $nombre;
 
 	/**
 	 * @var string
@@ -49,53 +49,52 @@ class Creatividad
     private $imagen;
 
 
+	/**
+	 * Get idCreatividad
+	 *
+	 * @return integer
+	 */
 
-    /**
-     * Get idCreatividad
-     *
-     * @return integer
-     */
+	public function getIdCreatividad()
+	{
+		return $this->idCreatividad;
+	}
 
-    public function getIdCreatividad()
-    {
-        return $this->idCreatividad;
-    }
+	/**
+	 * Set nombre
+	 *
+	 * @param string $nombre
+	 * @return Creatividad
+	 */
+	public function setNombre($nombre)
+	{
+		$this->nombre = $nombre;
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return Creatividad
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get nombre
+	 *
+	 * @return string
+	 */
+	public function getNombre()
+	{
+		return $this->nombre;
+	}
 
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
+	/**
+	 * Set descripcion
+	 *
+	 * @param string $descripcion
+	 * @return Creatividad
+	 */
+	public function setDescripcion($descripcion)
+	{
+		$this->descripcion = $descripcion;
 
-    /**
-     * Set descripcion
-     *
-     * @param string $descripcion
-     *
-     * @return Creatividad
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-    }
+		return $this;
+	}
 
 	/**
 	 * Get descripcion

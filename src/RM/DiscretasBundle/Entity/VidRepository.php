@@ -135,7 +135,8 @@ class VidRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('vid_grupo_segmento', $id_vid_grupo_segmento);
+            ->setParameter('vid_grupo_segmento', $id_vid_grupo_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -243,25 +244,25 @@ class VidRepository extends EntityRepository
             ->where('sc.estado > -1');
 
         if ($id_vid_segmento_global != -1) {
-            $qb->andWhere('sc.idVidSegmentoGlobal = :id_vid_segmento_global')
-                ->setParameter('id_vid_segmento_global', $id_vid_segmento_global);
+           $qb->andWhere('sc.idVidSegmentoGlobal = :id_vid_segmento_global')
+               ->setParameter('id_vid_segmento_global', $id_vid_segmento_global);
         }
 
-        $registros = $qb->getQuery()->getResult();
+         $registros = $qb->getQuery()->getResult();
 
         /**
-         * $dql = "
-         * SELECT s
-         * FROM RMDiscretasBundle:VidSegmentoGlobal s
-         * WHERE s.estado > -1";
-         *
-         * if ($id_vid_segmento_global != -1) {
-         * $dql .= " AND s.idVidSegmentoGlobal IN (" . $id_vid_segmento_global . ")";
-         * }
-         *
-         * $query = $this->_em->createQuery($dql);
-         *
-         * $registros = $query->getResult();
+        $dql = "
+				SELECT s
+            FROM RMDiscretasBundle:VidSegmentoGlobal s
+            WHERE s.estado > -1";
+
+        if ($id_vid_segmento_global != -1) {
+            $dql .= " AND s.idVidSegmentoGlobal IN (" . $id_vid_segmento_global . ")";
+        }
+
+        $query = $this->_em->createQuery($dql);
+
+        $registros = $query->getResult();
          * */
 
         return $registros;
@@ -295,7 +296,8 @@ class VidRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('id_vid_segmento', $id_vid_segmento);
+            ->setParameter('id_vid_segmento', $id_vid_segmento)
+        ;
 
         $registros = $query->getResult();
 
@@ -313,7 +315,8 @@ class VidRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('id_vid_segmento_global', $id_vid_segmento_global);
+            ->setParameter('id_vid_segmento_global', $id_vid_segmento_global)
+        ;
 
         $registros = $query->getResult();
 
