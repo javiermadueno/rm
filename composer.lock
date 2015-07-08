@@ -4,7 +4,11 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "78555cc594840da360c940861be1fe91",
+=======
+    "hash": "dc9a09299f94bf64e4d08b239c965333",
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -2506,6 +2510,33 @@
                 "framework"
             ],
             "time": "2015-07-04 11:07:22"
+        },
+        {
+            "name": "twbs/bootstrap",
+            "version": "v2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "b4c4072679943773a7582daa63f545ba818fa627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/b4c4072679943773a7582daa63f545ba818fa627",
+                "reference": "b4c4072679943773a7582daa63f545ba818fa627",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+            "homepage": "http://twbs.github.com/bootstrap/",
+            "keywords": [
+                "bootstrap",
+                "css"
+            ],
+            "time": "2013-07-27 06:36:38"
         },
         {
             "name": "twbs/bootstrap",

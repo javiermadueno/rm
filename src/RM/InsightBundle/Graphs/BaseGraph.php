@@ -144,7 +144,7 @@ class BaseGraph
             ]
         ]);
 
-        $chart->yAxis([[
+        $chart->yAxis([
             'min' => 0,
             'title' => [
                 'text' => $this->translator->trans('numero.clientes')

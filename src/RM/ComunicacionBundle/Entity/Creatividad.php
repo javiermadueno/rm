@@ -95,6 +95,7 @@ class Creatividad
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
+    }
 
 	/**
 	 * Get descripcion

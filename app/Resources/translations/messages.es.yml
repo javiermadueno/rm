@@ -24,7 +24,10 @@ mensaje:
     eliminar.segmentocomunicacion: No se ha podido eliminar el segmento.
     parar.comunicacion: No se ha podido parar la comunicación
     reanudar.comunicacion: No se ha podido reanudar la comunicación
+<<<<<<< HEAD
     subida.fichero.demasiado.grande: El tamaño de la imagen es demasiado grande.
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -429,7 +432,13 @@ mostrar.texto.creatividad: Mostrar texto de la creatividad
 
 
 #Modulo INSIGHT
+<<<<<<< HEAD
 
+=======
+numero:
+  clientes: Número Clientes
+  miembros: Número  de  Miembros
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 media: Media
 evolucion: Evolución
 periodo: Periodo
@@ -460,6 +469,10 @@ coste:
   variable: Coste Variable
 grafica: Gráfica
 graficas: Gráficas
+<<<<<<< HEAD
+=======
+ventas: Ventas
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 gasto.total: Gasto total
 activos: Activos
 nuevos: Nuevos
@@ -471,14 +484,22 @@ target: Target
 total: Total
 redencion: Redención
 impactos: Impactos
+<<<<<<< HEAD
 
 clientes:
   0: Clientes
+=======
+clientes: clientes
+clientes:
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   activos: Clientes Activos
   nuevos: Clientes Nuevos
 
 ventas:
+<<<<<<< HEAD
   0: ventas
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   totales: Ventas Totales
   miembros: Ventas de Miembros
   no.miembros: Ventas de No Miembros
@@ -489,6 +510,7 @@ contribucion:
 reactividad.target.por.comunicades: Reactividad-Target por Comunicades
 reactividad: Reactividad
 
+<<<<<<< HEAD
 highchart:
   seguimiento:
     promociones.aceptadas.rechazadas: Promociones Aceptdas/Rechazadas
@@ -622,6 +644,8 @@ highchart:
 
 
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
 
 

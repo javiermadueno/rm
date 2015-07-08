@@ -22,9 +22,13 @@ mensaje:
     parar.segmentocomunicacion: Unable to Stop Communication to Customer Segment. 
     reanudar.segmentocomunicacion: Unable to Resume Communications to Customer Segment. 
     eliminar.segmentocomunicacion: Unable to delete the Customer Segment.
+<<<<<<< HEAD
     parar.comunicacion: Unable to Stop Communication.
     reanudar.comunicacion: Unable to Resume Communication.
     subida.fichero.demasiado.grande: The image is too large.
+=======
+    parar.comunicacion: Unable to Stop Communication.    reanudar.comunicacion: Unable to Resume Communication.
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   ok:
     eliminar: Record Deleted.
     editar: Operation was performed successfully.
@@ -131,7 +135,10 @@ cabecera:
   categorias: Categories to take into account for segmenting.
   criterios: Temporal Criteria of Product Purchase and Purchase Behavoir Intermediate Variables.
   criterios.eligibilidad: Elegibility Criteria.
+<<<<<<< HEAD
   criterios.desempate: Tiebreakers Criteria
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   segmentos: Customer Segments
   parametros: Set-Up Parameters.
   configuracion:
@@ -153,7 +160,10 @@ cabecera:
   eliminar:
     segmento: Delete Customer Segment
   cambio.fase.instancia: Change Intance Step.
+<<<<<<< HEAD
   promociones.categoria: Promotions by Category
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
 # MÃ³dulo DATA
 nivel: Level
@@ -306,8 +316,11 @@ numero:
   creatividades:
     segmentadas: Number of Segmented Creative Design-based Promotions
     genericas: Number of Generic Creative Design-based Promotions
+<<<<<<< HEAD
   clientes: Number of Customers
   miembros: Number of Members
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
 slot: slot
 slots: slots
@@ -426,7 +439,13 @@ mostrar.texto.creatividad: Show Creative Design Text
 
 
 #Modulo INSIGHT
+<<<<<<< HEAD
 
+=======
+numero:
+  clientes: Number of Customers
+  miembros: Number of Members
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 media: Average
 evolucion: Evolution
 periodo: Period
@@ -457,6 +476,10 @@ coste:
   variable: Variable Cost
 grafica: Chart
 graficas: Charts
+<<<<<<< HEAD
+=======
+ventas: Sales
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 gasto.total: Total Spending
 activos: Actives
 nuevos: New
@@ -468,14 +491,22 @@ target: Target
 total: Total
 redencion: Redemption
 impactos: Impacts
+<<<<<<< HEAD
 
 clientes:
   0: Customers
+=======
+clientes: customers
+clientes:
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   activos: Active Customers
   nuevos: New Customers
 
 ventas:
+<<<<<<< HEAD
   0: Sales
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
   totales: Total Sales
   miembros: Member Sales
   no.miembros: Non Member Sales
@@ -486,6 +517,7 @@ contribucion:
 reactividad.target.por.comunicades: Target Reactivity by Communcation
 reactividad: Reactivity
 
+<<<<<<< HEAD
 ## Graficas de highcharts
 highchart:
   seguimiento:
@@ -619,6 +651,8 @@ highchart:
 
 
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
 
 

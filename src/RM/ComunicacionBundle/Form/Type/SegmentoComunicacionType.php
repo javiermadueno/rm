@@ -11,7 +11,10 @@ use Doctrine\ORM\EntityRepository;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 use RM\DiscretasBundle\Entity\Tipo;
+<<<<<<< HEAD
 use RM\SegmentoBundle\Entity\Segmento;
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormEvent;
@@ -42,11 +45,14 @@ class SegmentoComunicacionType extends AbstractType
                     'class' => 'change-ajax-submit'
                 ]
             ])
+<<<<<<< HEAD
             ->add('estado', 'choice', [
                 'label' => 'estado',
                 'required' => true,
                 'choice_list' => $this->getEstados(),
             ])
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
             ->add('tipo', 'choice', [
                 'label'       => 'tipo',
                 'required'    => true,
@@ -64,6 +70,7 @@ class SegmentoComunicacionType extends AbstractType
                     'pattern'     => "([01]?[0-9]|2[0-3]):[0-5][0-9]",
                     'placeholder' => 'HH:mm'
                 ]
+<<<<<<< HEAD
             ]);
 
 
@@ -89,6 +96,32 @@ class SegmentoComunicacionType extends AbstractType
                     $this->addDiasMes($form, 31);
             }
         };
+=======
+            ])
+            ->get('tipo')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $form = $event->getForm()->getParent();
+                $tipo = $event->getForm()->getData();
+
+
+                switch ($tipo) {
+                    case SegmentoComunicacion::FREC_DIARIA:
+                        break;
+                    case SegmentoComunicacion::FREC_SEMANAL:
+                        $this->addDiasSemana($form);
+                        break;
+                    case SegmentoComunicacion::FREC_QUINCENAL:
+                        $this->addDiasMes($form, 15);
+                        break;
+                    case SegmentoComunicacion::FREC_ANUAL:
+                        $this->addDiasMes($form, 31);
+                        $this->addMes($form);
+                        break;
+                    default:
+                        $this->addDiasMes($form, 31);
+                }
+
+            });
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
 
         $modificaSegmentos = function (FormInterface $form, $variable_ciclo_vida) use ($options) {
             $form->add('idSegmento', 'entity', [
@@ -128,6 +161,7 @@ class SegmentoComunicacionType extends AbstractType
             $form->add('fecFin', 'date',  array_merge($options_date, ['label' => 'fecha.final']));
         };
 
+<<<<<<< HEAD
         $builder ->get('tipo')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use($modificaMesesDias) {
             $form = $event->getForm()->getParent();
             $tipo = $event->getForm()->getData();
@@ -139,6 +173,8 @@ class SegmentoComunicacionType extends AbstractType
 
         });
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
         $builder->get('variable_ciclo_vida')->addEventListener(FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($modificaSegmentos) {
                 $form                = $event->getForm()->getParent();
@@ -148,6 +184,7 @@ class SegmentoComunicacionType extends AbstractType
             });
 
         $builder->addEventListener(FormEvents::POST_SET_DATA,
+<<<<<<< HEAD
             function (FormEvent $event) use ($modificaSegmentos, $modificaFechas, $modificaMesesDias) {
                 $form                = $event->getForm();
                 $variable_ciclo_vida = $form->get('variable_ciclo_vida')->getData();
@@ -170,6 +207,17 @@ class SegmentoComunicacionType extends AbstractType
                 $modificaFechas($form, $comunicacion);
             }
         );
+=======
+        function (FormEvent $event) use ($modificaSegmentos, $modificaFechas) {
+            $form                = $event->getForm();
+            $variable_ciclo_vida = $form->get('variable_ciclo_vida')->getData();
+            $comunicacion        = $event->getData()->getidComunicacion();
+
+            !$variable_ciclo_vida ?: $modificaSegmentos($form, $variable_ciclo_vida);
+
+            $modificaFechas($form, $comunicacion);
+        });
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     }
 
     private function getTipoFrecuencia()
@@ -198,6 +246,7 @@ class SegmentoComunicacionType extends AbstractType
         );
     }
 
+<<<<<<< HEAD
     private function getEstados() {
         return new ChoiceList(
             [
@@ -215,6 +264,8 @@ class SegmentoComunicacionType extends AbstractType
         );
     }
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
     private function addDiasSemana(FormInterface $form)
     {
         $form->add('dia', 'choice', [
@@ -235,7 +286,10 @@ class SegmentoComunicacionType extends AbstractType
 
     private function addDiasMes(FormInterface $form, $numero_dias)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
         $form->add('dia', 'choice', [
             'required' => true,
             'choices'  => $this->diasMes($numero_dias)
@@ -256,7 +310,10 @@ class SegmentoComunicacionType extends AbstractType
 
     private function addMes(FormInterface $form)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> cb48d9a796bf2536a8def9fa7ee65d0887e61228
         $form->add('mes', 'choice', [
             'required' => true,
             'choices'  => cal_info(CAL_GREGORIAN)['months']
