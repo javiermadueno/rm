@@ -20,7 +20,7 @@ class Slot
     private $codigo;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -73,7 +73,7 @@ class Slot
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      * @return Slot
      */
     public function setEstado($estado)
@@ -86,7 +86,7 @@ class Slot
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstado()
     {

@@ -15,12 +15,12 @@ class NivelCategoriaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre','text', array(
+            ->add('nombre','text', [
                     'required' => true,
-                ))
-            ->add('asociado', 'checkbox', array(
+                ])
+            ->add('asociado', 'checkbox', [
                     'required' => false
-                ))
+                ])
         ;
     }
     
@@ -29,9 +29,9 @@ class NivelCategoriaType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\CategoriaBundle\Entity\NivelCategoria'
-        ));
+        ]);
     }
 
     /**

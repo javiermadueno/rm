@@ -18,7 +18,7 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
     public function __construct(InstanciaComunicacionServicio $servicio, DoctrineManager $doctrine)
     {
         $this->instanciaService = $servicio;
-        $this->em = $doctrine->getManager();
+        $this->em               = $doctrine->getManager();
     }
 
     public static function getSubscribedEvents()
@@ -30,7 +30,7 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
 
     public function onCambioFase(InstanciaComunicacionEvent $event)
     {
-        $instancia = $event->getInstancia();
+        $instancia  = $event->getInstancia();
         $codigoFase = $instancia->getFase()->getCodigo();
 
         switch($codigoFase){
@@ -92,7 +92,7 @@ class InstanciaComunicacionSubscriber implements EventSubscriberInterface
         foreach($numPromociones as $numPromocion)
         {
             $grupoSlot = $numPromocion->getIdGrupo();
-            $numSlot = $grupoSlot->getNumSlots();
+            $numSlot   = $grupoSlot->getNumSlots();
 
             if($numPromocion->getNumGenericas() < $numSlot) {
                 return false;

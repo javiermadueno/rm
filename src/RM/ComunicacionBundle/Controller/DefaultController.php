@@ -89,17 +89,15 @@ class DefaultController extends RMController
     public function nuevaComunicacionAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq)
     {
         $peticion = $request;
+        $em       = $this->getManager();
 
         $objComunicacion = new Comunicacion();
         $objComunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
 
-        $formulario = $this->createForm(new nuevaComunicacionType(), $objComunicacion);
+        $formulario = $this->createForm(new nuevaComunicacionType(), $objComunicacion, ['em' => $em]);
         $formulario->handleRequest($peticion);
 
         if ($formulario->isValid()) {
-
-            $em = $this->getManager();
-
             $objComunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
             $objComunicacion->setGenerada(false);
 

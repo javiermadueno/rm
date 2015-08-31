@@ -37,33 +37,36 @@ class GeneraPlantillaComunicacion
     private $cliente;
 
     /**
-     * @param Twig $twig
-     * @param string $webPath
+     * @param Twig                  $twig
+     * @param string                $webPath
+     * @param TokenStorageInterface $security
      */
     public function __construct(Twig $twig, $webPath = '', TokenStorageInterface $security)
     {
-        $this->twig = $twig;
+        $this->twig    = $twig;
         $this->webPath = $webPath;
         $this->cliente = $security->getToken()->getUser()->getCliente();
         $this->crawler = new Crawler();
     }
 
     /**
-     * @param Plantilla $plantilla
-     * @throws \Exception
-     * @throws FileNotFoundException
+     * @param PlantillaInterface $plantilla
+     *
+     * @return $this
      */
     public function creaArchivoPlantilla(PlantillaInterface $plantilla)
     {
         $html = $this->renderPlantilla($plantilla);
 
         $nombreArchivoPlantilla =
-            $this->getRutaCarpetaPlantillasCliente($this->cliente).'/'.$plantilla->getIdPlantilla().'.html';
+            $this->getRutaCarpetaPlantillasCliente($this->cliente) . '/' . $plantilla->getIdPlantilla() . '.html';
 
         if(!file_put_contents($nombreArchivoPlantilla, $html)) {
             throw new FileNotFoundException(
                 sprintf('No se ha podido escribir en el fichero %s', $nombreArchivoPlantilla));
         }
+
+        return $this;
     }
 
     /**
@@ -80,13 +83,11 @@ class GeneraPlantillaComunicacion
     }
 
     /**
-     * @param string $cliente
      * @return string
-     * @throws \Exception
      */
-    private function getRutaCarpetaPlantillasCliente()
+    public  function getRutaCarpetaPlantillasCliente()
     {
-        $ruta  = $this->webPath.'/' . $this->cliente . '/plantillas';
+        $ruta  = $this->webPath . '/' . $this->cliente . '/plantillas';
 
         if(!is_dir($ruta)) {
             mkdir($ruta, 0777, true);
@@ -97,7 +98,7 @@ class GeneraPlantillaComunicacion
 
     public function getRutaCarpetaComunicacionesGeneradas()
     {
-        $ruta  = $this->webPath.'/' . $this->cliente . '/comunicaciones_generadas';
+        $ruta  = $this->webPath . '/' . $this->cliente . '/comunicaciones_generadas';
 
         if(!is_dir($ruta)) {
             mkdir($ruta, 0777, true);
@@ -113,7 +114,7 @@ class GeneraPlantillaComunicacion
      */
     public function getRutaPlantilla(PlantillaInterface $plantilla)
     {
-        return $this->getRutaCarpetaPlantillasCliente().'/'.$plantilla->getIdPlantilla().'.html';
+        return $this->getRutaCarpetaPlantillasCliente() . '/' . $plantilla->getIdPlantilla() . '.html';
     }
 
     /**
@@ -129,7 +130,7 @@ class GeneraPlantillaComunicacion
            $this->creaArchivoPlantilla($plantilla);
         }
 
-        $error = [];
+        $error   = [];
         $crawler = new Crawler(file_get_contents($rutaPlantilla));
 
         $estilos = $crawler->filter('head>style');

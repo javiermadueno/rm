@@ -47,8 +47,8 @@ class PlantillaController extends RMController
         $editForm   = $this->createEditForm($plantilla, $comunicacion);
 
         return $this->render('RMPlantillaBundle:Plantilla:edit.html.twig', [
-                'plantilla' => $plantilla,
-                'edit_form' => $editForm->createView(),
+                'plantilla'    => $plantilla,
+                'edit_form'    => $editForm->createView(),
                 'comunicacion' => $comunicacion
             ]);
     }
@@ -139,8 +139,8 @@ class PlantillaController extends RMController
         $editForm   = $this->createEditForm($plantilla, $comunicacion);
 
         return $this->render('RMPlantillaBundle:Plantilla:edit.html.twig', [
-                'plantilla' => $plantilla,
-                'edit_form' => $editForm->createView(),
+                'plantilla'    => $plantilla,
+                'edit_form'    => $editForm->createView(),
                 'comunicacion' => $comunicacion
             ]);
     }
@@ -152,8 +152,8 @@ class PlantillaController extends RMController
     private function createEditForm(Plantilla $plantilla, Comunicacion $comunicacion)
     {
         $form = $this->createForm(new PlantillaType(), $plantilla, [
-            'action' => $this->generateUrl('rm_plantilla_plantilla_update', [
-                    'id' => $plantilla->getIdPlantilla(),
+            'action'                 => $this->generateUrl('rm_plantilla_plantilla_update', [
+                    'id'             => $plantilla->getIdPlantilla(),
                     'idComunicacion' => $comunicacion->getIdComunicacion()
                 ]),
             'method' => 'PUT'
@@ -188,14 +188,14 @@ class PlantillaController extends RMController
 
             $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.ok.actualizar');
             return $this->redirect($this->generateUrl('rm_plantilla_plantilla_edit', [
-                        'id' => $plantilla->getIdPlantilla(),
+                        'id'             => $plantilla->getIdPlantilla(),
                         'idComunicacion' => $idComunicacion]
                 ));
         }
 
         return $this->render('RMPlantillaBundle:Plantilla:edit.html.twig', [
-                'plantilla' => $plantilla,
-                'edit_form' => $editForm,
+                'plantilla'    => $plantilla,
+                'edit_form'    => $editForm,
                 'comunicacion' => $comunicacion
             ]);
     }

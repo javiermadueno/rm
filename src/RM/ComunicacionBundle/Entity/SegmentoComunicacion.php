@@ -27,7 +27,7 @@ class SegmentoComunicacion implements FechaInicioFinInterface
     const FREC_TRIMESTRAL   =   5;
     const FREC_CUATRIMESTRAL=   6;
     const FREC_SEMESTRAL    =   8;
-    const FREC_ANUAL       =    7;
+    const FREC_ANUAL        =   7;
 
 	/**
 	 * @var integer
@@ -378,7 +378,7 @@ class SegmentoComunicacion implements FechaInicioFinInterface
         //Ha terminado la comunicacion
         if($ahora > $this->fecFin){
             $this->proximaEjecucion = null;
-            $this->getEstado() == Comunicacion::ESTADO_ELIMINADO ?:
+            $this->getEstado() === Comunicacion::ESTADO_ELIMINADO ?:
                 $this->setEstado(Comunicacion::ESTADO_COMPLETADA);
             return $this->proximaEjecucion;
         }
@@ -397,10 +397,10 @@ class SegmentoComunicacion implements FechaInicioFinInterface
     public function calculaProximaEjecucion()
     {
         $cronExpresion = '';
-        $minutos = $this->horaProg->format('i');
-        $hora = $this->horaProg->format('H');
-        $dia = $this->dia;
-        $mes = $this->mes;
+        $minutos       = $this->horaProg->format('i');
+        $hora          = $this->horaProg->format('H');
+        $dia           = $this->dia;
+        $mes           = $this->mes;
 
         /**
          *
@@ -443,7 +443,7 @@ class SegmentoComunicacion implements FechaInicioFinInterface
                 break;
         }
 
-        $cron = CronExpression::factory($cronExpresion);
+        $cron                   = CronExpression::factory($cronExpresion);
         $this->proximaEjecucion = $cron->getNextRunDate(new \DateTime('now'));
     }
 }

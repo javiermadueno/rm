@@ -30,7 +30,7 @@ class NivelCategoria
 
 
     /**
-     * @var samllint
+     * @var int
      *
      * @ORM\Column(name="asociado", type="boolean", nullable=false)
      */
@@ -72,7 +72,7 @@ class NivelCategoria
 
 
     /**
-     * @return samllint
+     * @return int
      */
     public function getAsociado()
     {
@@ -80,7 +80,7 @@ class NivelCategoria
     }
 
     /**
-     * @param samllint $asociado
+     * @param int $asociado
      * @return NivelCategoria
      */
     public function setAsociado($asociado)

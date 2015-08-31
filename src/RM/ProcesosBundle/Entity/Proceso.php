@@ -58,18 +58,18 @@ class Proceso
     private $uidUsuario;
 
     /**
-     * @var integer
+     * @var EstadoProceso
      *
-     * @ORM\Column(name="id_estado_proceso", type="integer")
-     * @ORM\OneToOne(targetEntity="RM\ProcesosBundle\Entity\EstadoProceso")
+     * @ORM\ManyToOne(targetEntity="RM\ProcesosBundle\Entity\EstadoProceso")
+     * @ORM\JoinColumn(name="id_estado_proceso", referencedColumnName="id_estado_proceso")
      */
     private $estadoProceso;
 
     /**
-     * @var integer
+     * @var TipoProceso
      *
-     * @ORM\Column(name="id_tipo_proceso", type="integer")
-     * @ORM\OneToOne(targetEntity="RM\ProcesosBundle\Entity\TipoProceso")
+     * @ORM\ManyToOne(targetEntity="RM\ProcesosBundle\Entity\TipoProceso")
+     * @ORM\JoinColumn(name="id_tipo_proceso", referencedColumnName="id_tipo_proceso")
      */
     private $tipoProceso;
 
@@ -88,7 +88,7 @@ class Proceso
      * @param $tipoProceso
      * @return $this
      */
-    public function setTipoProceso($tipoProceso)
+    public function setTipoProceso(TipoProceso $tipoProceso)
     {
         $this->tipoProceso = $tipoProceso;
 
@@ -96,9 +96,7 @@ class Proceso
     }
 
     /**
-     * Get idTipoProceso
-     *
-     * @return \RM\ProcesosBundle\Entity\TipoProceso
+     * @return TipoProceso
      */
     public function getTipoProceso()
     {
@@ -221,12 +219,11 @@ class Proceso
     }
 
     /**
-     * Set estadoProceso
+     * @param EstadoProceso $estadoProceso
      *
-     * @param \RM\ProcesosBundle\Entity\TipoProceso
-     * @return Proceso
+     * @return $this
      */
-    public function setEstadoProceso($estadoProceso)
+    public function setEstadoProceso(EstadoProceso $estadoProceso)
     {
         $this->estadoProceso = $estadoProceso;
     
@@ -236,7 +233,7 @@ class Proceso
     /**
      * Get estadoProceso
      *
-     * @return \RM\ProcesosBundle\Entity\TipoProceso
+     * @return EstadoProceso
      */
     public function getEstadoProceso()
     {

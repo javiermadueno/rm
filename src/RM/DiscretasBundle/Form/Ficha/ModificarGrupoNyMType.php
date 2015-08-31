@@ -10,14 +10,14 @@ class ModificarGrupoNyMType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-		->add('mesesN', 'number', array(
-			'label' => 'Tiempo de referencia N',
+		->add('mesesN', 'number', [
+			'label'    => 'Tiempo de referencia N',
 			'required' => true,
-		))
-		->add('mesesM', 'number', array(
-				'label' => 'Tiempo de referencia M',
+		])
+		->add('mesesM', 'number', [
+				'label'    => 'Tiempo de referencia M',
 				'required' => true,
-		));
+		]);
 	}
 
 	public function getName()

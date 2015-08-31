@@ -2,11 +2,16 @@
 
 namespace RM\StaticBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use RM\AppBundle\Controller\RMController;
+use RM\ComunicacionBundle\Entity\Campaign;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\Creatividad;
 use RM\ComunicacionBundle\Form\CreatividadType;
+use RM\ProductoBundle\Form\Type\CampaignType;
+use RM\ProductoBundle\Form\Type\NumPromocionesType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class DefaultController extends RMController
@@ -52,7 +57,7 @@ class DefaultController extends RMController
         $webpath = $this->container->getParameter('web_path');
         $cliente = $this->getUser()->getCliente();
 
-        $rutaPlantilla = $webpath .'/'. $cliente.'/plantillas/'.$plantilla->getIdPlantilla().'.html';
+        $rutaPlantilla = $webpath . '/' . $cliente . '/plantillas/' . $plantilla->getIdPlantilla() . '.html';
 
         if(!file_exists($rutaPlantilla)){
            $this->get('rm_plantilla_genera_plantilla_comunicacion')
@@ -73,6 +78,33 @@ class DefaultController extends RMController
 
         return Response::create(implode('', $error), 200);
 
+    }
+
+    public function campaignAction(Request $request)
+    {
+        $em = $this->getManager();
+
+        $instancia = $em
+            ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
+            ->find(4);
+
+        $categorias = $this
+            ->get('categoriaservice')
+            ->getCatByInstancia(
+                $instancia->getIdInstancia()
+            );
+
+        $instancia = new Campaign($instancia, new ArrayCollection($categorias));
+
+        return $this->render('RMStaticBundle:Default:campaign.html.twig', [
+            'campaign' => $instancia,
+        ]);
+
+    }
+
+    public function numPromocionesAction(Request $request)
+    {
+        return $this->render('RMStaticBundle:Default:index.html.twig');
     }
 
 

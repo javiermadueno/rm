@@ -9,3 +9,11 @@ rm_static_default_plantillas:
 rm_static_default_plantilla:
     path: /plantilla/{idPlantilla}
     defaults: { _controller: RMStaticBundle:Default:plantilla }
+
+rm_static.default.campaign:
+    path: /campaign/new
+    defaults: { _controller: RMStaticBundle:Default:campaign }
+
+rm_static.default.numpromociones:
+   path: /num/edit
+   defaults: { _controller: RMStaticBundle:Default:numPromociones }

@@ -24,21 +24,16 @@
             </td>
         </tr>
     {% else %}
+        {% set ruta_productos = app.user.cliente ~ '/imagenesProducto/'  %}
         {% for objPr in objProductos %}
-            <tr>
-                <td><a href="javascript:verDatosProducto('{{ objPr.idProducto }}'); ">{{ objPr.idProducto }}</a></td>
+            <tr data-producto="{{ objPr.idProducto }}">
+                <td><a data-toggle="modal" data-target="#modal-producto" href="{{ path('direct_config_ficha_productos', {'cod_sku': objPr.idProducto}) }}">{{ objPr.idProducto }}</a></td>
                 <td>{{ objPr.idMarca.nombre|default('') }}</td>
                 <td>{{ objPr.nombre|default('') }}</td>
                 <td>
-                    {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
-                    {% set existeImagen = 0 %}
-                    {% set imagenUrl = app.user.getCliente()~'/imagenesProducto/'~objPr.imagen %}
+                    {% set imagenUrl = ruta_productos ~ objPr.imagen %}
                     {% if objPr.imagen is not null and file_exists(imagenUrl) %}
-                        {% set existeImagen = 1 %}
-                    {% endif %}
-                    {% if(existeImagen == 1) %}
-                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px"
-                             height="100px"/>
+                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px" height="100px"/>
                     {% else %}
                         &nbsp;
                     {% endif %}
@@ -58,16 +53,16 @@
             'currentClass': 'active',
             'firstEnabledClass': '',
             'firstDisableClass': 'disabled',
-            'firstPageText' : '<<Primera',
-            'previousPageText' : 'Anterior',
+            'firstPageText' : '<<' ~ 'paginador.primera'|trans,
+            'previousPageText' : 'paginador.anterior'|trans,
             'previousEnabledClass' : '',
             'previousDisabledClass' : 'disabled',
-            'nextPageText' : 'Siguiente',
+            'nextPageText' : 'paginador.siguiente'|trans,
             'nextEnabledClass': '',
             'nextDisabledClass': 'disabled',
             'lastEnabledClass': '',
             'lastDisabledClass' : 'disabled',
-            'lastPageText' : 'Última>>'
+            'lastPageText' : "paginador.ultima"|trans ~ '>>'
             }
             ) }}
         </div>
@@ -75,22 +70,3 @@
 </div>
 
 
-{% block javascript %}
-    <script type="text/javascript">
-
-        function verDatosProducto(cod_sku) {
-            if (cod_sku > -1) {
-                var largo = 550;
-                var altura = 550;
-                var top = (screen.height - altura) / 2;
-                var izquierda = (screen.width - largo) / 2;
-                {% set nombreVentana = "Producto" %}
-                camino = "{{ path('direct_config_ficha_productos', {'cod_sku':'111'}) }}";
-                camino = camino.replace('111', cod_sku);
-                var myUrl = camino;
-                var nomVentana = '{{ nombreVentana }}';
-                window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-            }
-        }
-    </script>
-{% endblock %}

@@ -16,7 +16,7 @@
             <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "6" %}active{%  endif %}"><a href="{{ path('data_avanced_hc') }}"><span class="iconfa-shopping-cart"></span> {{ "menu.data.habitos_compra" | trans }}</a></li>
             <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "7" %}active{%  endif %}"><a href="{{ path('data_avanced_sociodemografico') }}"><span class="iconfa-group"></span>{{ "menu.data.sociodemografico" | trans }}</a></li>
             <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "9" %}active{%  endif %}"><a href="{{ path("data_avanced_ot") }}"><span class="iconfa-tasks"></span>{{ "menu.data.otros" |trans }}</a></li>
-            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "10" %}active{%  endif %}"><a href="{{ path('data_avanced_categorias') }}"><span class="iconfa-th-list"></span> Categorías</a></li>
+            <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "10" %}active{%  endif %}"><a href="{{ path('data_avanced_categorias') }}"><span class="iconfa-th-list"></span> {{ 'menu.data.categorias'|trans|title }}</a></li>
 
             <li class="nav-header">{{ "menu.data.procesamiento" | trans | upper  }}</li>
             <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "11" %}active{%  endif %}"><a href="{{ path("data_info_segmentos") }}"><span class="iconfa-sitemap"></span> {{ "menu.data.segmentos" |trans }}</a></li>

@@ -1,3 +1,4 @@
+
 direct_config_listado_productos:
   path: /config/products/list/
   defaults: {_controller: RMProductoBundle:Default:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1 }
@@ -23,4 +24,12 @@ direct_config_ficha_productos:
 producto_default_generate_unique_voucher:
   path: /generate/voucher
   defaults: { _controller: RMProductoBundle:Default:getUniqueVoucher}
+
+rm_producto_bundle.promocion.promociones_by_num_promocion:
+  path: /promociones/{idNumPromocion}
+  defaults: { _controller: RMProductoBundle:Promocion:promocionesByNumPromocion }
+
+rm_producto_bundle.producto.upload_imagenes_csv:
+  path: /producto/imagenes/csv/upload
+  defaults: { _controller: RMProductoBundle:Producto:uploadCsvImages }
 

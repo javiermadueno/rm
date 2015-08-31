@@ -24,6 +24,7 @@
             </td>
         </tr>
     {% else %}
+        {% set ruta_creatividad = app.user.cliente ~ '/imagenesCreatividad/' %}
         {% for objCreatividad in objCreatividades %}
             <tr>
                 <td>
@@ -35,17 +36,9 @@
                 <td>{{ objCreatividad.descripcion }}</td>
                 <td>
                     {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
-                    {% set existeImagen = 0 %}
-                    {% set imagenUrl = "" %}
-                    {% for cadFormato in extensionFormatoImages %}
-                        {% set imagen= web_path~"/"~app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.idCreatividad~cadFormato %}
-                        {% if file_exists(imagen) %}
-                            {% set existeImagen = 1 %}
-                            {% set imagenUrl = app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.idCreatividad~cadFormato %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if(existeImagen == 1) %}
-                        <img src="{{ asset(imagenUrl) }}?={{ random(500) }}" width="100px" height="100px"/>
+                    {% set imagen = ruta_creatividad ~ objCreatividad.imagen %}
+                    {% if objCreatividad.imagen is not null and file_exists(imagen)  %}
+                        <img src="{{ asset(imagen) }}?v={{ random(500) }}" width="100px" height="100px"/>
                     {% else %}
                         &nbsp;
                     {% endif %}
@@ -54,7 +47,7 @@
         {% endfor %}
     {% endif %}
 </table>
-<div class="paginate wrapper">
+<div class="pagination">
     {{ simple_paginator_render(
         'direct_config_listado_creatividad_paginador', null,
         {
@@ -64,10 +57,10 @@
         'currentClass': 'active',
         'firstEnabledClass': '',
         'firstDisableClass': 'disabled',
-        'previousPageText' : 'Anterior',
+        'previousPageText' : 'paginador.anterior'|trans,
         'previousEnabledClass' : '',
         'previousDisabledClass' : 'disabled',
-        'nextPageText' : 'Siguiente',
+        'nextPageText' : 'paginador.siguiente'|trans,
         'nextEnabledClass': '',
         'nextDisabledClass': 'disabled',
         'lastEnabledClass': '',

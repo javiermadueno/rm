@@ -62,7 +62,7 @@
                 </tr>
                 <tr>
                     <td>{{ "codigo.promocion" | trans|title }}:</td>
-                    <td>{{ form_widget(form.codigo) }}&nbsp;&nbsp;<button onclick="genereateVoucher();" class="btn btn-default">{{ "generar" |trans|title}}</button></td>
+                    <td>{{ form_widget(form.codigo) }}&nbsp;&nbsp;<button class="btn btn-default voucher_generator">{{ "generar" |trans|title}}</button></td>
                 </tr>
 
             </tbody>
@@ -92,7 +92,6 @@
 
         function genereateVoucher(event){
             var e = event||window.event;
-
             e.preventDefault();
             var codigo = document.getElementById('{{ form.codigo.vars.id }}');
 
@@ -122,6 +121,8 @@
                     }
                 });
             });
+
+            $('.voucher_generator').on('click', genereateVoucher);
 
 			
 		});

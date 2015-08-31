@@ -4,6 +4,8 @@ namespace RM\ComunicacionBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use RM\ComunicacionBundle\Model\Abstracts\InstanciaComunicacionAbstract;
+use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\NumPromociones;
 
 /**
@@ -12,18 +14,24 @@ use RM\ProductoBundle\Entity\NumPromociones;
  * @ORM\Table(name="instancia_comunicacion")
  * @ORM\Entity(repositoryClass="RM\ComunicacionBundle\Entity\InstanciaComunicacionRepository")
  */
-class InstanciaComunicacion
+class InstanciaComunicacion extends InstanciaComunicacionAbstract
 {
     const FASE_CONFIGURACION = 'cfg';
-    const FASE_NEGOCIACION = 'ngc';
-    const FASE_SIMULACION = 'sim';
-    const FASE_CIERRE = 'cie';
-    const FASE_GENERACION = 'gen';
-    const FASE_CONFIRMACION = 'cnf';
-    const FASE_FINALIZADA = 'fin';
-    const FASE_CANCELADA = 'can';
-    const PASO_1 = 1;
-    const PASO_2 = 2;
+    const FASE_NEGOCIACION   = 'ngc';
+    const FASE_SIMULACION    = 'sim';
+    const FASE_CIERRE        = 'cie';
+    const FASE_GENERACION    = 'gen';
+    const FASE_CONFIRMACION  = 'cnf';
+    const FASE_FINALIZADA    = 'fin';
+    const FASE_CANCELADA     = 'can';
+    const PASO_1             = 1;
+    const PASO_2             = 2;
+
+    /** @var  ArrayCollection */
+    private $genericas;
+
+    /** @var  ArrayCollection */
+    private $segmentadas;
 
     public function __construct()
     {
@@ -31,14 +39,14 @@ class InstanciaComunicacion
     }
 
     /**
-     * @var \Date
+     * @var \Datetime
      *
      * @ORM\Column(name="fec_creacion", type="datetime", nullable=true)
      */
     private $fecCreacion;
 
     /**
-     * @var \Date
+     * @var \Datetime
      *
      * @ORM\Column(name="fec_ejecucion", type="datetime", nullable=true)
      */
@@ -53,7 +61,7 @@ class InstanciaComunicacion
     private $fase;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -77,10 +85,10 @@ class InstanciaComunicacion
      */
     private $idSegmentoComunicacion;
 
-  /**
-   * @var ArrayCollection
-   * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
-   */
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="RM\ProductoBundle\Entity\NumPromociones", mappedBy="idInstancia")
+     */
     private $numPromociones;
 
     /**
@@ -90,24 +98,24 @@ class InstanciaComunicacion
     private $paso;
 
 
-
     /**
      * Set fecCreacion
      *
-     * @param \Date $fecCreacion
+     * @param \Datetime $fecCreacion
+     *
      * @return InstanciaComunicacion
      */
     public function setFecCreacion($fecCreacion)
     {
         $this->fecCreacion = $fecCreacion;
-    
+
         return $this;
     }
 
     /**
      * Get fecCreacion
      *
-     * @return \Date 
+     * @return \Datetime
      */
     public function getFecCreacion()
     {
@@ -117,20 +125,21 @@ class InstanciaComunicacion
     /**
      * Set fecEjecucion
      *
-     * @param \Date $fecEjecucion
+     * @param \Datetime $fecEjecucion
+     *
      * @return InstanciaComunicacion
      */
     public function setFecEjecucion($fecEjecucion)
     {
         $this->fecEjecucion = $fecEjecucion;
-    
+
         return $this;
     }
 
     /**
      * Get fecEjecucion
      *
-     * @return \Date 
+     * @return \Datetime
      */
     public function getFecEjecucion()
     {
@@ -141,12 +150,13 @@ class InstanciaComunicacion
      * Set fase
      *
      * @param \RM\ComunicacionBundle\Entity\Fases $fase
+     *
      * @return InstanciaComunicacion
      */
     public function setFase($fase)
     {
         $this->fase = $fase;
-    
+
         return $this;
     }
 
@@ -163,20 +173,21 @@ class InstanciaComunicacion
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
+     *
      * @return InstanciaComunicacion
      */
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstado()
     {
@@ -186,7 +197,7 @@ class InstanciaComunicacion
     /**
      * Get idInstancia
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdInstancia()
     {
@@ -196,20 +207,21 @@ class InstanciaComunicacion
     /**
      * Set idSegmentoComunicacion
      *
-     * @param \RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion
+     * @param SegmentoComunicacion $idSegmentoComunicacion
+     *
      * @return InstanciaComunicacion
      */
-    public function setIdSegmentoComunicacion(\RM\ComunicacionBundle\Entity\SegmentoComunicacion $idSegmentoComunicacion = null)
+    public function setIdSegmentoComunicacion(SegmentoComunicacion $idSegmentoComunicacion = null)
     {
         $this->idSegmentoComunicacion = $idSegmentoComunicacion;
-    
+
         return $this;
     }
 
     /**
      * Get idSegmentoComunicacion
      *
-     * @return \RM\ComunicacionBundle\Entity\SegmentoComunicacion
+     * @return SegmentoComunicacion
      */
     public function getIdSegmentoComunicacion()
     {
@@ -219,22 +231,24 @@ class InstanciaComunicacion
     /**
      * Add numPromociones
      *
-     * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
+     * @param NumPromociones $numPromociones
+     *
      * @return InstanciaComunicacion
      */
-    public function addNumPromocion(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
+    public function addNumPromocion(NumPromociones $numPromociones)
     {
+        $numPromociones->setIdInstancia(this);
         $this->numPromociones[] = $numPromociones;
-    
+
         return $this;
     }
 
     /**
      * Remove numPromociones
      *
-     * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
+     * @param NumPromociones $numPromociones
      */
-    public function removeNumPromocion(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
+    public function removeNumPromocion(NumPromociones $numPromociones)
     {
         $this->numPromociones->removeElement($numPromociones);
     }
@@ -242,13 +256,11 @@ class InstanciaComunicacion
     /**
      * Get numPromociones
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getNumPromociones()
     {
-        return $this->numPromociones->filter(function(NumPromociones $numPro){
-                return $numPro->getEstado() > -1;
-            });
+        return $this->numPromociones;
     }
 
 
@@ -256,19 +268,20 @@ class InstanciaComunicacion
      * Set paso
      *
      * @param integer $paso
+     *
      * @return InstanciaComunicacion
      */
     public function setPaso($paso)
     {
         $this->paso = $paso;
-    
+
         return $this;
     }
 
     /**
      * Get paso
      *
-     * @return integer 
+     * @return integer
      */
     public function getPaso()
     {
@@ -276,25 +289,78 @@ class InstanciaComunicacion
     }
 
     /**
-     * Add numPromociones
-     *
-     * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
-     * @return InstanciaComunicacion
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function addNumPromocione(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
+    public function getGruposSlots()
     {
-        $this->numPromociones[] = $numPromociones;
-    
-        return $this;
+        return $this
+            ->getIdSegmentoComunicacion()
+            ->getIdComunicacion()
+            ->getPlantilla()
+            ->getGruposSlots();
     }
 
     /**
-     * Remove numPromociones
-     *
-     * @param \RM\ProductoBundle\Entity\NumPromociones $numPromociones
+     * @return ArrayCollection
      */
-    public function removeNumPromocione(\RM\ProductoBundle\Entity\NumPromociones $numPromociones)
+    public function getPromocionesSegmentadas()
     {
-        $this->numPromociones->removeElement($numPromociones);
+        if (!$this->segmentadas->isEmpty()) {
+            $segmentadas = [];
+            foreach ($this->numPromociones as $numPromocion) {
+                $segmentadas = array_merge(
+                    $segmentadas,
+                    $numPromocion
+                        ->getSegmentadas()
+                        ->toArray()
+                );
+            }
+
+            $this->segmentadas = new ArrayCollection($segmentadas);
+        }
+
+        return $this->segmentadas;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGenericas()
+    {
+        if (!$this->genericas->isEmpty()) {
+            $genericas = [];
+            foreach ($this->numPromociones as $numPromocion) {
+                $genericas = array_merge(
+                    $genericas,
+                    $numPromocion
+                        ->getGenericas()
+                        ->toArray()
+                );
+            }
+
+            $this->genericas = new ArrayCollection($genericas);
+        }
+
+        return $this->genericas;
+
+    }
+
+    /**
+     * @param GrupoSlots $grupoSlot
+     *
+     * @return \Doctrine\Common\Collections\Collection|static
+     */
+    public function getNumPromocionesByGrupo(GrupoSlots $grupoSlot)
+    {
+        return $this
+            ->numPromociones
+            ->filter(
+                function (NumPromociones $numPromocion) use ($grupoSlot) {
+                    return $numPromocion->getIdGrupo()->getIdGrupo() === $grupoSlot->getIdGrupo();
+                }
+            );
+
+    }
+
+
 }

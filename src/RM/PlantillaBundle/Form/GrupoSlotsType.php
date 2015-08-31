@@ -40,7 +40,7 @@ class GrupoSlotsType extends AbstractType
 
         $modificaTamanyoImagen = function (FormInterface $form, $tipo) use ($em) {
 
-            $tamanyo = GrupoSlots::PROMOCION == $tipo ?
+            $tamanyo = GrupoSlots::PROMOCION === $tipo ?
                 TamanyoImagen::PRODUCTO:
                 TamanyoImagen::CREATIVIDAD;
 
@@ -85,7 +85,7 @@ class GrupoSlotsType extends AbstractType
                 ])
                 ->add('mTexto', 'checkbox', [
                     'required' => false,
-                    'label' => 'mostrar.texto.libre'
+                    'label'    => 'mostrar.texto.libre'
                 ])
                 ->add('mVoucher', 'checkbox', [
                     'required' => false
@@ -118,7 +118,7 @@ class GrupoSlotsType extends AbstractType
 
         $modificaCampos = function (FormInterface $form, $tipo) use ($camposPromocion, $camposCreatividad){
 
-           if(GrupoSlots::PROMOCION == $tipo) {
+           if(GrupoSlots::PROMOCION === $tipo) {
                $camposPromocion($form);
            }else{
                $camposCreatividad($form);
@@ -153,7 +153,7 @@ class GrupoSlotsType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'RM\PlantillaBundle\Entity\GrupoSlots',
+            'data_class'      => 'RM\PlantillaBundle\Entity\GrupoSlots',
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
         ])->setDefaults([

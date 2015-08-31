@@ -40,9 +40,9 @@ abstract class AbstractManager
      */
     public function __construct(DoctrineManager $manager, EventDispatcherInterface $dispatcher, ValidatorInterface $validator )
     {
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
         $this->dispatcher = $dispatcher;
-        $this->validator = $validator;
+        $this->validator  = $validator;
 
     }
 

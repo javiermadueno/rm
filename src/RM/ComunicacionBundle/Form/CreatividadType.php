@@ -15,12 +15,9 @@ class CreatividadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', 'text')
-            ->add('descripcion')
-            ->add('tamanyoImagen', 'tamanyoImagen' )
-            ->add('estado', 'hidden', array(
-                    'data' => 1
-                ))
+            ->add('nombre', 'text', ['required' => true])
+            ->add('descripcion', 'text', ['required' => true])
+            ->add('file', 'file', ['required' => false])
         ;
     }
     
@@ -29,9 +26,9 @@ class CreatividadType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\ComunicacionBundle\Entity\Creatividad',
-        ));
+        ]);
     }
 
     /**

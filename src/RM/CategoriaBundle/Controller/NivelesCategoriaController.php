@@ -15,9 +15,9 @@ class NivelesCategoriaController extends Controller
 
         $niveles = $em->getRepository('RMCategoriaBundle:NivelCategoria')->findAll();
 
-        $form = $this->createForm(new NivelCategoriaCollectionType(), array(
+        $form = $this->createForm(new NivelCategoriaCollectionType(), [
                 'niveles' => $niveles
-            ));
+            ]);
 
         $niveles = new ArrayCollection($niveles);
 
@@ -28,7 +28,7 @@ class NivelesCategoriaController extends Controller
             $data = $form->getData();
 
             foreach($data['niveles']  as $nivel) {
-                if (false == $niveles->contains($nivel)) {
+                if (false === $niveles->contains($nivel)) {
                     $em->persist($nivel);
                 }
             }
@@ -36,9 +36,9 @@ class NivelesCategoriaController extends Controller
             $this->get('session')->getFlashBag()->add('mensaje','mensaje.ok.editar');
         }
 
-        return $this->render('RMCategoriaBundle:NivelesCategoria:index.html.twig', array(
+        return $this->render('RMCategoriaBundle:NivelesCategoria:index.html.twig', [
               'form' => $form->createView()
-            ));
+            ]);
 
     }
 

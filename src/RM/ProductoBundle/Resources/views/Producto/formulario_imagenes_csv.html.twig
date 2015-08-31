@@ -1,0 +1,48 @@
+<h4 class="widgettitle">{{ "Fichero CSV de Imagenes" |trans|title}}</h4>
+<div class="widgetcontent">
+    {{ form_start(form, {attr:{'class': 'form-horizontal', 'id': 'form-csv'}}) }}
+    <div class="control-group">
+        <div class="control-label">{{ form_label(form.file) }}</div>
+        <div class="controls">
+            {{ form_widget(form.file, {attr:{'class': 'file', 'style': 'display: none', 'accept': 'application/zip'}}) }}
+            <div class="input-append">
+                <input id="fichero" class="input-large" type="text"/>
+                <button id="browse" class="btn"><i class="icon-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <div>{{ form_widget(form.submit, {attr: {'class': 'btn btn-primary'} }) }}</div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+<div id='modal-load' class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>{{ "Cargando..." |trans|title}}</h3>
+    </div>
+    <div class="modal-body">
+        <p class="center-all"><img src="{{ asset('images/loaders/loader6.gif') }}" alt=""/></p>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#imagenes_csv_file').on('change', function(){
+            $('#fichero').val($(this).val());
+        });
+
+        $('#browse').on('click', function(e){
+            var e = e || window.event;
+            e.preventDefault();
+            $('#imagenes_csv_file').click();
+        });
+
+        $('#form-csv').on('submit', function(){
+            $('#modal-load').modal('show');
+        })
+
+    });
+</script>

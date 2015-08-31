@@ -8,14 +8,14 @@
 
 {% block body %}
 
-    <h4 class="widgettitle">{{ "buscador" |trans|title}}</h4>
+    <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title}}</h4>
     <div class="mediamgr_head">
         <form id="form" name="form">
             <input type="hidden" name="id_id" id="id_id" value="{{ id_id }}">
             <input type="hidden" name="id_nombre" id="id_nombre" value="{{ id_nombre }}">
             <ul class="mediamgr_menu">
                 <li>
-                    <label>{{ "nombre" | trans }}</label>
+                    <label for="nombre">{{ "nombre" | trans }}</label>
                     <input type="text" name="nombre" id="nombre" class="" value="{{ nombre }}" />
                 </li>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>

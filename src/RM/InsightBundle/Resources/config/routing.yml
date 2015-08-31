@@ -13,6 +13,9 @@ rm_insight_evolution:
 rm_insight_cliente_activo:
     path:     /index/activo
     defaults: { _controller: RMInsightBundle:Default:clienteActivo }
+rm_insight_cliente_inactivo:
+    path: /index/inactivo
+    defaults: {_controller: RMInsightBundle:Default:clienteInactivo }
 
 rm_insight_cliente_activo_detalle:
     path:     /index/activo/detalle

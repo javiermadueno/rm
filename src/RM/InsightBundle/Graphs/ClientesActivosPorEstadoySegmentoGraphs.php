@@ -11,6 +11,7 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use RM\RMMongoBundle\Util;
 use Symfony\Component\Translation\TranslatorInterface;
 
 
@@ -46,7 +47,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     {
         parent::__construct($translator);
         $this->repository = $repository;
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
     }
 
     /**
@@ -57,8 +58,8 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     public function  graficaEvolucionClientesEnRiesgo($renderTo = '')
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $riesgo = $this->getSegmentosRiesgo();
-        $meses = $this->getUltimosMeses(12);
+        $riesgo          = $this->getSegmentosRiesgo();
+        $meses           = Util::getUltimosMeses(new \DateTime(), 12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($riesgo));
@@ -72,7 +73,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
         $data_prepared = $this->prepareData($data, array_keys($riesgo));
 
         $categorias = $data_prepared['categorias'];
-        $series = $data_prepared['series'];
+        $series     = $data_prepared['series'];
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
@@ -119,9 +120,9 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     protected function getUltimosMeses($numero_meses = 1)
     {
         //$fecha = new \DateTime('first day of this month');
-        $fecha = new \DateTime('01-06-2013');
+        $fecha           = new \DateTime();
         $intervalo_1_mes = \DateInterval::createFromDateString('-1 month');
-        $periodo = new \DatePeriod($fecha, $intervalo_1_mes, $numero_meses);
+        $periodo         = new \DatePeriod($fecha, $intervalo_1_mes, $numero_meses);
 
         $meses = [];
 
@@ -141,8 +142,8 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     public function graficaEvolucionActivos($renderTo = '')
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $activos = $this->getSegmentosActivos();
-        $meses = $this->getUltimosMeses(12);
+        $activos         = $this->getSegmentosActivos();
+        $meses           = $this->getUltimosMeses(12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($activos));
@@ -156,7 +157,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
         $data_prepared = $this->prepareData($data, array_keys($activos));
 
         $categorias = $data_prepared['categorias'];
-        $series = $data_prepared['series'];
+        $series     = $data_prepared['series'];
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);

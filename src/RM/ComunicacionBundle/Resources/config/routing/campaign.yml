@@ -1,0 +1,65 @@
+Campaign_homepage:
+  path: /
+  defaults: {_controller: RMComunicacionBundle:Campaign:showCampanyas, idOpcionMenuIzq 1, closing 0 }
+  methods: [GET]
+
+campaign_campanyas:
+  path: /list/
+  defaults: {_controller: RMComunicacionBundle:Campaign:showCampanyas, idOpcionMenuIzq 1, closing 0 }
+  methods: [GET]
+
+campaign_ficha:
+  path: /list/{id_instancia}
+  defaults: {_controller: RMComunicacionBundle:Campaign:show, idOpcionMenuIzq 1 }
+  methods: [GET]
+  requirements:
+    id_instancia: \d+
+
+campaign_redirect:
+  path: /list/
+  defaults: {_controller: RMComunicacionBundle:Campaign:showCampanyas, idOpcionMenuIzq 1 }
+  methods: [GET]
+
+campaign_marca_producto_actualizar:
+  path: /list/producto_actualizar/
+  defaults: {_controller: RMComunicacionBundle:Campaign:fichaCampanyaActualizar}
+  methods: [POST]
+
+campaign_closing_campanyas:
+  path: /list/closing_campaigns/
+  defaults: {_controller: RMComunicacionBundle:Campaign:showClosingCampaigns, idOpcionMenuIzq 2, closing 1}
+  methods: [GET]
+
+campaign_closing_ficha:
+  path: /list/closing/{id_instancia}/{id_categoria}
+  defaults: {_controller: RMComunicacionBundle:Campaign:fichaClosingCampanya, idOpcionMenuIzq 1 }
+  methods: [GET]
+  requirements:
+    id_categoria: \d+
+    id_instancia: \d+
+
+campaign_creatividades:
+   path: /creatividades/list
+   defaults: { _controller: RMComunicacionBundle:Creatividad:listaCreatividades, idOpcionMenuIzq 3 }
+
+campaign_creatividad_ficha:
+  path: /creatividades/list/{idInstancia}
+  defaults: { _controller: RMComunicacionBundle:Creatividad:informacionCreatividad, idOpcionMenuIzq 3, idOpcionMenuSup 3 }
+  methods: [GET]
+  requirements:
+    $idInstancia: \d+
+
+campaign_creatividad_ficha_save:
+  path: /creatividades/list/save
+  defaults: {_controller: RMComunicacionBundle:Creatividad:saveFichaCreatividad}
+  methods: [POST]
+
+campaign_seguimiento:
+  path: /seguimiento
+  defaults: { _controller: RMComunicacionBundle:Seguimiento:index }
+
+campaign_productos_marca:
+  path: /seguimiento/productos/
+  defaults: { _controller: RMComunicacionBundle:Seguimiento:obtenerProductosPorMarca }
+  methods: [GET]
+

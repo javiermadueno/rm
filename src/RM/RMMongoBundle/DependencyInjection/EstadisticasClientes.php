@@ -44,7 +44,7 @@ class EstadisticasClientes extends MongoService
 
         $match = [
             '$match' => [
-                "fecha" => ['$in' => $meses],
+                "fecha" => ['$in'  => $meses],
                 "ls"    => ['$all' => $segmentos]
             ]
         ];
@@ -142,7 +142,7 @@ class EstadisticasClientes extends MongoService
     public function findNumeroClientosPorSegmentos($meses = [], $segmentos = [])
     {
         if (empty($meses)) {
-            $meses = Util::getUltimosMeses(new \DateTime('01-06-2013'), 5);
+            $meses = Util::getUltimosMeses(new \DateTime('-1 month'), 5);
         }
 
         $this->compruebaFechaMes($meses);
@@ -175,7 +175,7 @@ class EstadisticasClientes extends MongoService
             [
                 '$group' => [
                     "_id"  => ['fecha' => '$fecha', 'segmento' => '$ls'],
-                    'data' => ['$sum' => 1]
+                    'data' => ['$sum'  => 1]
                 ]
             ],
             [
@@ -194,7 +194,7 @@ class EstadisticasClientes extends MongoService
         );
 
         $resultado = $res['result'];
-        $series = $this->consolidaDatos($meses, $segmentos, $resultado);
+        $series    = $this->consolidaDatos($meses, $segmentos, $resultado);
 
         return $series;
 
@@ -280,7 +280,7 @@ class EstadisticasClientes extends MongoService
             [
                 '$group' => [
                     "_id"  => ['fecha' => '$fecha', 'segmento' => '$ls'],
-                    'data' => ['$sum' => 1]
+                    'data' => ['$sum'  => 1]
                 ]
             ],
             [
@@ -296,23 +296,10 @@ class EstadisticasClientes extends MongoService
                     'total'    => '$data'
                 ]
             ]
-        /*
-        [
-            '$group' => [
-                "_id"         => '$_id.fecha',
-                'data' => ['$push' => '$total']
-            ]
-        ],
-        [
-            '$sort' => [
-                "_id" => 1,
-            ]
-        ]
-        */
         );
 
         $resultado = $res['result'];
-        $series = $this->consolidaDatos($meses, $segmentos, $resultado);
+        $series    = $this->consolidaDatos($meses, $segmentos, $resultado);
 
         return $series;
 

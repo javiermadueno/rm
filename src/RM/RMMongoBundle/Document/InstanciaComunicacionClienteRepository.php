@@ -25,11 +25,11 @@ class InstanciaComunicacionClienteRepository extends DocumentRepository
             throw new \Exception(sprintf("Faltan argumentos"));
         }
 
-        return $this->findBy(array(
+        return $this->findBy([
                 'id_instancia'  => $id_instancia,
                 'id_cliente'    => $id_cliente,
                 'id_slot'       => $id_slot
-            ));
+            ]);
     }
 
     /**
@@ -43,9 +43,9 @@ class InstanciaComunicacionClienteRepository extends DocumentRepository
             throw new \Exception("Argumento no valido");
         }
 
-        return $this->findBy(array(
+        return $this->findBy([
                 'id_slot' => $id_slot
-            ));
+            ]);
     }
 
     /**
@@ -60,10 +60,10 @@ class InstanciaComunicacionClienteRepository extends DocumentRepository
             throw new \Exception("Argumento no valido");
         }
 
-        return $this->findBy(array(
+        return $this->findBy([
                 'id_instancia' => $id_instancia,
                 'id_cliente'   => $id_cliente,
-            ));
+            ]);
     }
 
     /**

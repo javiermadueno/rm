@@ -2,213 +2,220 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use RM\AppBundle\Controller\RMController;
+use RM\ComunicacionBundle\Entity\CampaingCreatividad;
+use RM\ComunicacionBundle\Entity\Creatividad;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
+use RM\ComunicacionBundle\Form\CreatividadType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class CreatividadController extends RMController
 {
 
-    //FUNCIONES DE GESTION DE CREATIVIDADES DE LA PARTE DE DIRECT
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function indexAction(Request $request)
+    {
+        $em = $this->getManager();
 
-    public function showCreatividadAction($idOpcionMenuSup, $idOpcionMenuIzq, $opcionMenuTabConfig, $nombre = "") {
-        $servicioCR = $this->get ( "CreatividadService" );
-
-
-        $extensionFormatoImages = [".jpeg",".jpg",".gif",".tiff",".bmp",".png"];
-
-        $paginator = $this->get ( 'ideup.simple_paginator' );
-        $paginator->setItemsPerPage ( 25 ); // Para poner el numero de item que se quieren por pagina
-
-        $selectCreatividad = $paginator->paginate( $servicioCR->getCreatividadByFiltroDQL($nombre))->getResult ();
-
-        return $this->render ( 'RMComunicacionBundle:Creatividad:index.html.twig', [
-            'idOpcionMenuSup' => $idOpcionMenuSup,
-            'idOpcionMenuIzq' => $idOpcionMenuIzq,
-            'opcionMenuTabConfig' => $opcionMenuTabConfig,
-            'objCreatividades' => $selectCreatividad,
-            'extensionFormatoImages' => $extensionFormatoImages,
-            'nombre' => $nombre
-        ] );
-    }
+        $nombre        = $request->get('nombre', '');
+        $creatividades = $em
+            ->getRepository('RMComunicacionBundle:Creatividad')
+            ->obtenerCreatividadByFiltroDQL($nombre);
 
 
-    public function actualizarCreatividadAction() {
-        if ($this->container->get ( 'request' )->isXmlHttpRequest ()) {
-            $request = $this->container->get ( 'request' );
-            $servicioCR = $this->get ( "CreatividadService" );
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(5);
 
-            $extensionFormatoImages = [".jpeg",".jpg",".gif",".tiff",".bmp",".png"];
+        $selectCreatividad = $paginator
+            ->paginate($creatividades)
+            ->getResult();
 
-            $paginator = $this->get ( 'ideup.simple_paginator' );
-            $paginator->setItemsPerPage ( 25 ); // Para poner el numero de item que se quieren por pagina
-
-            $selectCreatividad = $paginator->paginate ( $servicioCR->getCreatividadByFiltroDQL ( $request->get ( 'nombre' ) ) )->getResult ();
-
-            return $this->render ( 'RMComunicacionBundle:Creatividad:listadoCreatividad.html.twig', [
-                'extensionFormatoImages' => $extensionFormatoImages,
-                'objCreatividades' => $selectCreatividad,
-                'nombre' => $request->get ( 'nombre' )
-            ] );
-        } else {
-            throw $this->createNotFoundException ( 'Se ha producido un error de envio de la informaciï¿½n' );
+        if($request->isXmlHttpRequest()) {
+            return $this->render('RMComunicacionBundle:Creatividad:listadoCreatividad.html.twig', [
+                'objCreatividades'       => $selectCreatividad,
+                'nombre'                 => $nombre
+            ]);
         }
+
+        return $this->render('RMComunicacionBundle:Creatividad:index.html.twig', [
+            'objCreatividades'       => $selectCreatividad,
+            'nombre'                 => $nombre
+        ]);
+
     }
 
-    public function informacionCreatividadAction($idOpcionMenuSup, $idOpcionMenuIzq, $idInstancia){
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
+     */
+    public function newAction(Request $request)
+    {
+        $em      = $this->getManager();
+        $cliente = $this->getUser()->getCliente();
+
+        $creatividad = new Creatividad();
+        $creatividad->setEstado(1);
+
+        $form = $this->createForm(new CreatividadType(), $creatividad, [
+            'method' => Request::METHOD_POST,
+            'action' => $this->generateUrl('rm_comunicacion.creatividad.new')
+        ]);
+
+        $form->add('submit', 'submit', ['label' => 'boton.guardar']);
+
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $em->persist($creatividad);
+            $em->flush();
+
+            $creatividad->uploadImagen($cliente);
+            $em->flush();
+
+            return $this->redirectToRoute('rm_comunicacion.creatividad.index');
+        }
+
+        return $this->render('@RMComunicacion/Creatividad/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
+     */
+    public function editAction(Request $request, $id)
+    {
+        $em      = $this->getManager();
+        $cliente = $this->getUser()->getCliente();
+
+        $creatividad = $em->getRepository('RMComunicacionBundle:Creatividad')->find($id);
+
+        if(!$creatividad instanceof Creatividad) {
+            throw $this->createNotFoundException('No se ha encontrado la creatividad');
+        }
+
+        $form = $this->createForm(new CreatividadType(), $creatividad, [
+            'method' => Request::METHOD_POST,
+            'action' => $this->generateUrl('rm_comunicacion.creatividad.edit', ['id' => $id])
+        ]);
+
+        $form->add('submit', 'submit', ['label' => 'boton.editar']);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+            $creatividad->uploadImagen($cliente);
+            $em->flush();
+
+            return $this->redirectToRoute('rm_comunicacion.creatividad.index');
+        }
+
+        return $this->render('RMComunicacionBundle:Creatividad:edit.html.twig', [
+            'form'        => $form->createView(),
+            'creatividad' => $creatividad
+        ]);
+    }
+
+
+
+
+    public function informacionCreatividadAction($idOpcionMenuSup, $idOpcionMenuIzq, $idInstancia)
+    {
 
         $em = $this->getManager();
 
         $instancia = $em->find('RMComunicacionBundle:InstanciaComunicacion', $idInstancia);
 
-        if(!$instancia instanceof InstanciaComunicacion){
+        if (!$instancia instanceof InstanciaComunicacion) {
             throw $this->createNotFoundException('No se ha encontrado instancia de comunicación');
         }
+
+        $categorias = $this->get('categoriaservice')->getCatByInstancia($instancia->getIdInstancia());
 
         $creatividadService = $this->get('creatividadservice');
 
         $creatividades = $creatividadService->getDatosPromocionesCreatividadByInstancia($instancia);
 
+        $campaingCreatividad = new CampaingCreatividad(
+            $instancia, new ArrayCollection($categorias));
+
         return $this->render(
             'RMComunicacionBundle:Campaign\Creatividades:fichaCreatividad2.html.twig',
             [
-                'objInstancia' => $instancia,
-                'creatividades' => $creatividades,
+                'objInstancia'    => $instancia,
+                'creatividades'   => $creatividades,
                 'idOpcionMenuSup' => $idOpcionMenuSup,
                 'idOpcionMenuIzq' => $idOpcionMenuIzq
             ]
-        );
+        )
+            ;
     }
 
 
-    public function showFichaCreatividadCrearAction() {
-        $estado = 'new';
+    public function searchCreatividadesPopoupAction($nombre = "")
+    {
 
-        return $this->render ( 'RMComunicacionBundle:Creatividad:fichaCreatividad.html.twig', [
-            'creation' => $estado,
-            'selectedCreatividad' => null
-        ] );
-    }
+        $request    = $this->container->get('request');
+        $servicioCR = $this->get("CreatividadService");
 
-    public function uploadImageCreatividadAction() {
+        $extensionFormatoImages = [".jpeg", ".jpg", ".gif", ".tiff", ".bmp", ".png"];
 
-        $em = $this->get('rm.manager')->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(5); // Para poner el numero de item que se quieren por pagina
 
-        $request = $this->container->get( 'request' );
-        $servicioCR = $this->get( "CreatividadService" );
+        $selectCreatividad = $paginator->paginate($servicioCR->getCreatividadByFiltroDQL($nombre))->getResult();
 
-        $usuario = $this->get('security.token_storage')->getToken()->getUser();
-        $folderName = $usuario->getCliente();  //Identificacion del centro
-        $myAssetUrl = $this->get('kernel')->getRootDir() . '/../web';
-
-        //Recibe una imagen y el formulario de una creatividad nueva en el caso del parámetro de creation.
-        if ($request->isMethod('POST')) {
-
-            //Pantalla de creación. Se guarda el objeto
-            $exito = true;
-            if($request->get('creation') == 'new'){
-                $objCreatividad = $servicioCR->crearCreatividad($request->get('nombre'), $request->get('descripcion'));
-                $id_creatividad = $objCreatividad->getIdCreatividad();
-            }
-            else{
-                $id_creatividad = $request->get( 'id_creatividad' );
-            }
-
-            //Guardado de la imagen
-            if($exito) {
-                try {
-                    $carpetaCentro = $myAssetUrl."/".$folderName;
-                    if(!file_exists($carpetaCentro)){
-                        mkdir($carpetaCentro);
-                    }
-
-                    $carpetaPlantilla = $carpetaCentro."/imagenesCreatividad";
-                    if(!file_exists($carpetaPlantilla)){
-                        mkdir($carpetaPlantilla);
-                    }
-
-                    $arrayExt = explode(".", basename($_FILES ["uploadFile"] ["name"]));
-                    $extension = $arrayExt[1];
-                    $carpetaFicPlantilla = $carpetaPlantilla."/". $id_creatividad.".".$extension;
-
-                    if(!move_uploaded_file( $_FILES['uploadFile']['tmp_name'], $carpetaFicPlantilla)){
-                        $exito = false;
-                    }
-
-                    $creatividad = $em->getRepository('RMComunicacionBundle:Creatividad')->find($id_creatividad);
-                    $creatividad->setImagen(sprintf('%s.%s', $id_creatividad, $extension));
-                    $em->flush();
-
-
-                } catch (\Exception $e) {
-                    $exito = false;
-                }
-            }
-
-            if($exito){
-                $this->get('session')->getFlashBag()->add('mensaje','editar_ok');
-            }
-            else{
-                $this->get('session')->getFlashBag()->add('mensaje','error_general');
-            }
-
-            return $this->render ( '::logMensajes.html.twig' );
-        }
-        else{
-            throw $this->createNotFoundException('Se ha producido un error de envio de la información');
-        }
-    }
-
-    public function searchCreatividadesPopoupAction($nombre = "") {
-
-        $request = $this->container->get ( 'request' );
-        $servicioCR = $this->get ( "CreatividadService" );
-
-        $extensionFormatoImages = [".jpeg",".jpg",".gif",".tiff",".bmp",".png"];
-
-        $paginator = $this->get ( 'ideup.simple_paginator' );
-        $paginator->setItemsPerPage ( 25 ); // Para poner el numero de item que se quieren por pagina
-
-        $selectCreatividad = $paginator->paginate( $servicioCR->getCreatividadByFiltroDQL($nombre))->getResult ();
-
-        return $this->render ( 'RMComunicacionBundle:Creatividad:buscadorCreatividadPopup.html.twig', [
-            'id_id' => $request->get ( 'id_id' ),
-            'id_nombre' => $request->get ( 'id_nombre' ),
-            'objCreatividades' => $selectCreatividad,
+        return $this->render('RMComunicacionBundle:Creatividad:buscadorCreatividadPopup.html.twig', [
+            'id_id'                  => $request->get('id_id'),
+            'id_nombre'              => $request->get('id_nombre'),
+            'objCreatividades'       => $selectCreatividad,
             'extensionFormatoImages' => $extensionFormatoImages,
-            'nombre' => $nombre
-        ] );
+            'nombre'                 => $nombre
+        ])
+            ;
 
 
     }
 
-    public function searchActualizarCreatividadesPopupAction() {
+    public function searchActualizarCreatividadesPopupAction(Request $request)
+    {
+        $em                     = $this->getManager();
+        $nombre                 = $request->get('nombre', '');
+        $extensionFormatoImages = [".jpeg", ".jpg", ".gif", ".tiff", ".bmp", ".png"];
 
-        if ($this->container->get ( 'request' )->isXmlHttpRequest ()) {
-            $request = $this->container->get ( 'request' );
-            $servicioCR = $this->get ( "CreatividadService" );
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(5); // Para poner el numero de item que se quieren por pagina
 
-            $extensionFormatoImages = [".jpeg",".jpg",".gif",".tiff",".bmp",".png"];
+        $creatividades = $em
+            ->getRepository('RMComunicacionBundle:Creatividad')
+            ->obtenerCreatividadByFiltroDQL($nombre);
 
-            $paginator = $this->get ( 'ideup.simple_paginator' );
-            $paginator->setItemsPerPage ( 25 ); // Para poner el numero de item que se quieren por pagina
+        $selectCreatividad = $paginator
+            ->paginate($creatividades)
+            ->getResult();
 
-            $selectCreatividad = $paginator->paginate ( $servicioCR->getCreatividadByFiltroDQL ( $request->get ( 'nombre' ) ) )->getResult ();
-
-            return $this->render ( 'RMComunicacionBundle:Creatividad:buscadorCreatividadPopupListado.html.twig', [
-                'objCreatividades' => $selectCreatividad,
-                'extensionFormatoImages' => $extensionFormatoImages,
-                'nombre' => $request->get ( 'nombre' ),
-            ] );
-
-        } else {
-            throw $this->createNotFoundException ( 'Se ha producido un error de envio de la información' );
-        }
+        return $this->render('RMComunicacionBundle:Creatividad:buscadorCreatividadPopupListado.html.twig', [
+            'objCreatividades'       => $selectCreatividad,
+            'extensionFormatoImages' => $extensionFormatoImages,
+            'nombre'                 => $nombre,
+        ])
+            ;
     }
 
 
-    public function listaCreatividadesAction ($idOpcionMenuSup, $idOpcionMenuIzq)
+    public function listaCreatividadesAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
 
         $servicioIC = $this->get('InstanciaComunicacionService');
@@ -224,36 +231,27 @@ class CreatividadController extends RMController
             [
                 'idOpcionMenuSup' => $idOpcionMenuSup,
                 'idOpcionMenuIzq' => $idOpcionMenuIzq,
-                'objInstancias' => $objInstancias
+                'objInstancias'   => $objInstancias
             ]
-        );
+        )
+            ;
     }
 
-    public function showFichaCreatividadAction($id_creatividad) {
-        $servicioCR = $this->get ( "CreatividadService" );
 
-        $selectedCreatividad = $servicioCR->getCreatividadById($id_creatividad);
 
-        return $this->render ( 'RMComunicacionBundle:Creatividad:fichaCreatividad.html.twig', [
-                'creation' => "old",
-                'selectedCreatividad' => $selectedCreatividad [0]
-            ] );
-    }
-
-    public function saveFichaCreatividadAction ()
+    public function saveFichaCreatividadAction()
     {
 
-        $request = $this->container->get('request');
+        $request       = $this->container->get('request');
         $creatividades = $request->request->get('creatividad');
-        $id_instancia = $request->request->get('id_instancia');
+        $id_instancia  = $request->request->get('id_instancia');
 
         $servicioCR = $this->get("CreatividadService");
 
-        if($servicioCR->guardarPromocionesCreatividad($creatividades)) {
-            $this->get('session')->getFlashBag()->add('mensaje', 'editar_ok');
-        }
-        else {
-            $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
+        if ($servicioCR->guardarPromocionesCreatividad($creatividades)) {
+            $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.ok.editar');
+        } else {
+            $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.error.editar');
         }
 
         return $this->redirect(
@@ -263,7 +261,8 @@ class CreatividadController extends RMController
                     'idInstancia' => $id_instancia
                 ]
             )
-        );
+        )
+            ;
     }
 
 }

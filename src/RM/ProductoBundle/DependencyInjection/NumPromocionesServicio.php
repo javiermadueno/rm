@@ -16,7 +16,9 @@ class NumPromocionesServicio
     private $em;
 
     /**
-     * @param ManagerRegistry $doctrine
+     * @param DoctrineManager $doctrine
+     *
+     * @throws \Exception
      */
 	public function __construct(DoctrineManager $doctrine)
     {
@@ -32,7 +34,7 @@ class NumPromocionesServicio
     public function getNumPromocionesByFiltros($id_categoria = -1, $id_grupo = -1, $id_instancia = -1)
     {
         /** @var NumPromocionesRepository $repo */
-    	$repo = $this->em->getRepository('RMProductoBundle:NumPromociones');
+    	$repo      = $this->em->getRepository('RMProductoBundle:NumPromociones');
     	$registros = $repo->obtenerNumPromocionesByFiltros($id_categoria, $id_grupo, $id_instancia);
     	return $registros;
     
@@ -46,7 +48,7 @@ class NumPromocionesServicio
     public function getNumPromocionesCreatividadByFiltros($id_grupo = -1, $id_instancia = -1)
     {
         /** @var NumPromocionesRepository $repo */
-        $repo = $this->em->getRepository('RMProductoBundle:NumPromociones');
+        $repo      = $this->em->getRepository('RMProductoBundle:NumPromociones');
         $registros = $repo->obtenerNumPromocionesCreatividadByFiltros($id_grupo, $id_instancia);
         return $registros;
 
@@ -60,7 +62,7 @@ class NumPromocionesServicio
     public function getNumPromocionesCampanyaByFiltros($id_categoria, $id_instancia)
     {
         /** @var NumPromocionesRepository $repo */
-    	$repo = $this->em->getRepository('RMProductoBundle:NumPromociones');
+    	$repo      = $this->em->getRepository('RMProductoBundle:NumPromociones');
     	$registros = $repo->obtenerNumPromocionesCampanyaByFiltros($id_categoria, $id_instancia);
     	return $registros;
     

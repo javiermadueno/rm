@@ -1,0 +1,46 @@
+campaign_ficha_promocion:
+  path: /list/promotion/{id_promocion}/
+  defaults: {_controller: RMProductoBundle:Promocion:fichaPromocion}
+  requirements:
+    id_promocion: \d+
+
+campaign_ficha_promocion_guardar:
+  path: /list/promotion/{id}/save/
+  defaults: {_controller: RMProductoBundle:Promocion:guardarFichaPromocion}
+  methods: [POST]
+
+campaign_campanyas_save:
+  path: /campaign_save/
+  defaults: {_controller: RMProductoBundle:Promocion:saveCampaignSlots}
+  methods: [POST]
+
+campaign_campanyas_closing_save:
+  path: /campaign_closing_save/
+  defaults: {_controller: RMProductoBundle:Promocion:saveCampaignClosingSlots}
+  methods: [POST]
+  
+campaign_info_promocion:
+  path: /list/info_promotion/{id_promocion}/
+  defaults: {_controller: RMProductoBundle:Promocion:infoPromocion}
+  requirements:
+    id_promocion: \d+
+    
+campaign_guardar_poblacion:
+  path: /promocion/save/poblacion/
+  defaults: { _controller: RMProductoBundle:Promocion:guardaPoblacionyFiltroPromocion }
+
+rm_producto.promocion.segmentada_new:
+  path: /promocion/segmentada/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newSegmentada }
+
+rm_producto.promocion.segmentada_edit:
+  path: /promocion/segmentada/{id}/edit
+  defaults: { _controller: RMProductoBundle:Promocion:editSegmentada }
+
+rm_producto.promocion.generica_new:
+  path: /promocion/generica/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newGenerica }
+
+rm_producto.promocion.generica_edit:
+  path: /promocion/generica/{id}/edit
+  defaults: { _controller: RMProductoBundle:Promocion:editGenerica }

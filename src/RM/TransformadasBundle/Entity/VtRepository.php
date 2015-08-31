@@ -13,7 +13,7 @@ class VtRepository extends EntityRepository
 			FROM RMTransformadasBundle:Vt t
 			JOIN t.tipo a
 			where t.estado > -1";
-        if ($nombre != '') {
+        if ($nombre !== '') {
             $dql .= " AND t.nombre LIKE :nombre";
         }
         if ($tipoVar > 0) {
@@ -22,7 +22,7 @@ class VtRepository extends EntityRepository
         $dql .= " ORDER BY t.nombre";
 
         $query = $this->_em->createQuery($dql);
-        if ($nombre != '') {
+        if ($nombre !== '') {
             $query->setParameter('nombre', '%' . $nombre . '%');
         }
         if ($tipoVar > 0) {
@@ -75,7 +75,8 @@ class VtRepository extends EntityRepository
         $dql = "select s
 			from RMTransformadasBundle:VtSegmento s
 			where s.estado = 1
-			AND s.idVt = :idVt";
+			AND s.idVt = :idVt
+			ORDER BY s.orden";
 
         $query = $this->_em->createQuery($dql);
         $query->setParameter('idVt', $id_vt);
@@ -88,22 +89,20 @@ class VtRepository extends EntityRepository
 
     public function obtenerGruposVTbyIdVt($id_vt)
     {
+        $grupos = $this->_em->createQueryBuilder()
+            ->select('grupo')
+            ->from('RMTransformadasBundle:VtGrupo', 'grupo')
+            ->join('grupo.idVtSegmento', 'segmento')
+            ->where('segmento.idVt = :vt')
+            ->andWhere('segmento.estado > -1')
+            ->andWhere('grupo.estado > -1')
+            ->orderBy('grupo.orden')
+            ->setParameter('vt', $id_vt)
+            ->getQuery()
+            ->getResult()
+        ;
 
-
-        $dql = "select  g
-				from 	RMTransformadasBundle:VtSegmento s
-				JOIN 	RMTransformadasBundle:VtGrupo g
-				where 	s.estado = 1
-				AND 	g.estado = 1
-				AND 	s.idVt = :idVt";
-
-        $query = $this->_em->createQuery($dql);
-        $query->setParameter('idVt', $id_vt);
-
-        $registros = $query->getResult();
-
-        return $registros;
-
+        return $grupos;
     }
 
     public function obtenerIntervalosVTbyIdVt($id_vt)

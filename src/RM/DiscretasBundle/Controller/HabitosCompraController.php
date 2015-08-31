@@ -26,7 +26,8 @@ class HabitosCompraController extends Controller
 
         $vidGrupoSegmento = $servicio->getGSbyIdVid($variable);
         $segmentos        = $servicio->getSegmentosByIdGrupo($vidGrupoSegmento->getIdVidGrupoSegmento());
-        $criterioGlobal   = $servicio->getCriteriosGlobales()[0];
+        $criterioGlobal   = $em->getRepository('RMDiscretasBundle:VidCriterioGlobal')
+            ->findOneBy(['referenciaTemporal' => $variable->getReferenciaTemporal()]);
 
         if ($vidGrupoSegmento->getPersonalizado() && $variable->getSolicitaTiempo() === Vid::SOLICITA_N) {
             $form = $this->createForm(new ModificarGrupoType(), $vidGrupoSegmento);

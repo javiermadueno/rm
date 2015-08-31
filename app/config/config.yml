@@ -63,9 +63,9 @@ doctrine:
         connections:
             default:
                 driver:   "%database_driver%"
-                host:     "%database_host2%"
-                port:     "%database_port2%"
-                dbname:   "%database_name2%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
@@ -89,12 +89,12 @@ doctrine:
                 charset:  UTF8
 
             procesos:
-                driver:   "%database_procesos_driver%"
-                host:     "%database_procesos_host%"
-                port:     "%database_procesos_port%"
-                dbname:   "%database_procesos_name%"
-                user:     "%database_procesos_user%"
-                password: "%database_procesos_password%"
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
                 charset:  UTF8
 
     orm:
@@ -192,7 +192,7 @@ doctrine_mongodb:
         default:
             server: mongodb://192.168.100.102:27017
             options: {}
-    default_database: 3
+    default_database: desarrollo
     document_managers:
         default:
             connection: default
@@ -205,9 +205,9 @@ rm_mongo:
     default:
       host: 192.168.100.102
       port: 27017
-      database: 3
+      database: desarrollo
 
     3:
       host: 192.168.100.102
       port:
-      database: 3
+      database: desarrollo

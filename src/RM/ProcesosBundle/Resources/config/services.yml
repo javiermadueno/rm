@@ -1,7 +1,4 @@
-parameters:
-#    procesos.example.class: RM\ProcesosBundle\Example
-
 services:
-#    procesos.example:
-#        class: %procesos.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    rm_procesos.factory.proceso_factory:
+        class: RM\ProcesosBundle\Factory\ProcesoFactory
+        arguments: [@doctrine, @security.token_storage]

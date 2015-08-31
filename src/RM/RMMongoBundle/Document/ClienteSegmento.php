@@ -3,6 +3,7 @@
 namespace RM\RMMongoBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * ClienteSegmento
@@ -36,7 +37,7 @@ class ClienteSegmento
     /**
      * Get id
      *
-     * @return id $id
+     * @return int $id
      */
     public function getId()
     {

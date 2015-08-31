@@ -17,19 +17,19 @@ class nuevoTamanyoProductoType extends AbstractType
 		$builder->add('codigo', 'text', ['required' => true])
 				->add('ancho', 'integer', ['required'=>true])
 				->add('alto', 'integer', ['required'=>true])
-				->add('estado', 'hidden', array(
+				->add('estado', 'hidden', [
 						'data' => '1',
-				))
-                ->add('tipo', 'choice', array(
-                        'choices' => array(
+				])
+                ->add('tipo', 'choice', [
+                        'choices' => [
                             TamanyoImagen::PRODUCTO     => 'tamano.slot.promocion',
                             TamanyoImagen::CREATIVIDAD  => 'tamano.slot.creatividad'
-                        ),
+                        ],
                         'empty_value' => 'select.seleccione.tipo',
-                        'required' => true,
-                        'data' => $selected,
+                        'required'    => true,
+                        'data'        => $selected,
 
-                ))
+                ])
 		;
 	}
 
@@ -37,19 +37,19 @@ class nuevoTamanyoProductoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
-        $resolver->setRequired(array(
+        $resolver->setRequired([
                 'selected'
-            ));
+            ]);
 
-        $resolver->addAllowedValues(array(
-                'selected' => array(
+        $resolver->addAllowedValues([
+                'selected' => [
                     TamanyoImagen::PRODUCTO,
                     TamanyoImagen::CREATIVIDAD
-                )
-            ));
-        $resolver->setDefaults(array(
+                ]
+            ]);
+        $resolver->setDefaults([
                 'selected' => TamanyoImagen::PRODUCTO
-            ));
+            ]);
 
 
     }
@@ -57,7 +57,7 @@ class nuevoTamanyoProductoType extends AbstractType
 
 	public function getName()
 	{
-		return '';
+		return 'tamanyo_imagen';
 	}
 }
 

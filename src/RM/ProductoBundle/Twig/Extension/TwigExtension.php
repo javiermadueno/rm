@@ -10,9 +10,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             'file_exists' => new \Twig_Function_Function('file_exists'),
-        );
+        ];
     }
 
     public function getName()

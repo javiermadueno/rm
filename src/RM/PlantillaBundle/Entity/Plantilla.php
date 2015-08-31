@@ -5,7 +5,9 @@ namespace RM\PlantillaBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Entity\Canal;
+use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Plantilla
@@ -16,10 +18,9 @@ use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 class Plantilla implements PlantillaInterface
 {
 
-
     public function __construct()
     {
-        $this->gruposSlots = new ArrayCollection();
+        $this->gruposSlots    = new ArrayCollection();
         $this->comunicaciones = new ArrayCollection();
     }
 
@@ -206,10 +207,10 @@ class Plantilla implements PlantillaInterface
     /**
      * Add gruposSlots
      *
-     * @param \RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots
+     * @param GrupoSlots $gruposSlots
      * @return Plantilla
      */
-    public function addGruposSlot(\RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots)
+    public function addGruposSlot(GrupoSlots $gruposSlots)
     {
         $this->gruposSlots[] = $gruposSlots;
     
@@ -219,9 +220,9 @@ class Plantilla implements PlantillaInterface
     /**
      * Remove gruposSlots
      *
-     * @param \RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots
+     * @param GrupoSlots $gruposSlots
      */
-    public function removeGruposSlot(\RM\PlantillaBundle\Entity\GrupoSlots $gruposSlots)
+    public function removeGruposSlot(GrupoSlots $gruposSlots)
     {
         $this->gruposSlots->removeElement($gruposSlots);
     }
@@ -229,7 +230,7 @@ class Plantilla implements PlantillaInterface
     /**
      * Get gruposSlots
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection
      */
     public function getGruposSlots()
     {
@@ -241,10 +242,10 @@ class Plantilla implements PlantillaInterface
     /**
      * Set canal
      *
-     * @param \RM\ComunicacionBundle\Entity\Canal $canal
+     * @param Canal $canal
      * @return Plantilla
      */
-    public function setCanal(\RM\ComunicacionBundle\Entity\Canal $canal = null)
+    public function setCanal(Canal $canal = null)
     {
         $this->canal = $canal;
     
@@ -254,7 +255,7 @@ class Plantilla implements PlantillaInterface
     /**
      * Get canal
      *
-     * @return \RM\ComunicacionBundle\Entity\Canal 
+     * @return Canal
      */
     public function getCanal()
     {
@@ -307,25 +308,23 @@ class Plantilla implements PlantillaInterface
         return $this->esModelo;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getComunicaciones()
     {
         return $this->comunicaciones;
     }
 
+    /**
+     * @return bool
+     */
     public function getEditable()
     {
         if(is_null($this->editable)) {
-
-            if($this->esModelo) {
-                $this->editable = $this->comunicaciones->isEmpty();
-            } else {
-
-                $this->editable = !$this->comunicaciones->exists(function($key, $comunicacion){
-                    /** @var $comunicacion \RM\ComunicacionBundle\Entity\Comunicacion */
-                    return true === $comunicacion->getGenerada();
-                });
-            }
-
+            $this->editable = $this->comunicaciones->filter(function(Comunicacion $comunicacion) {
+                return true === $comunicacion->getGenerada();
+            })->isEmpty();
         }
 
         return $this->editable;

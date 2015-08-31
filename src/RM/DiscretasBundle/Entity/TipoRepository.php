@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class TipoRepository extends EntityRepository
 {
+    /**
+     * Devuelve todos los tipos de variables menos RFM
+     *
+     * @return Tipo[]
+     */
+    public function findTipoSegmentador()
+    {
+        $tipos = $this->createQueryBuilder('tipo')
+            ->where('tipo.codigo != :codigo_RFM')
+            ->setParameter('codigo_RFM', Tipo::RFM)
+            ->getQuery()
+            ->getResult();
+
+        return $tipos;
+    }
 }

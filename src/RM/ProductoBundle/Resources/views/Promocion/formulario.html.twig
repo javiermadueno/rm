@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+<h3>{{ num_promocion.idCategoria.nombre }}</h3>
+
+<fieldset>
+    <legend>{{ "segmentadas" |trans|title}}</legend>
+    {% include '@RMProducto/Promocion/segmentadas.html.twig' with {'form': form} %}
+</fieldset>
+
+<fieldset>
+    <legend>{{ "genericas" |trans|title}}</legend>
+    {% include '@RMProducto/Promocion/genericas.html.twig' with {'form': form} %}
+</fieldset>
+
+{{ form_end(form) }}

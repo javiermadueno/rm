@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Configuracion {
 
-    const GENERAL = 1;
+    const GENERAL   = 1;
     const SEGMENTOS = 2;
 
 	/**
@@ -101,7 +101,7 @@ class Configuracion {
 	/**
 	 * Set estado
 	 *
-	 * @param smallint $estado        	
+	 * @param int $estado
 	 * @return Configuracion
 	 */
 	public function setEstado($estado) {

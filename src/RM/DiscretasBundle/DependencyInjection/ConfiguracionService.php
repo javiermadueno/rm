@@ -41,7 +41,7 @@ class ConfiguracionService
 
             $valor = $parameter['valor'];
 
-            if($parametro->getNombre() == 'nivel_category_manager') {
+            if($parametro->getNombre() === 'nivel_category_manager') {
                 $valor_max = $this->em->createQueryBuilder()
                     ->select('MAX(nivel.idNivelCategoria)')
                     ->from('RMCategoriaBundle:NivelCategoria', 'nivel')

@@ -26,7 +26,7 @@ class Transformada
 	
 	public function getVTbyId($id_vt)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerVTbyId($id_vt);
 	
 		return $registros;
@@ -35,7 +35,7 @@ class Transformada
 	
 	public function getSegmentoById($id_vt_segmento)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerSegmentoVTbyId($id_vt_segmento);
 	
 		return $registros;
@@ -43,7 +43,7 @@ class Transformada
 	
 	public function getGrupoById($id_grupo)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerGrupoVTbyId($id_grupo);
 	
 		return $registros;
@@ -51,7 +51,7 @@ class Transformada
 	
 	public function getIntervaloById($id_intervalo)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerIntervaloVTbyId($id_intervalo);
 	
 		return $registros;
@@ -59,7 +59,7 @@ class Transformada
 
 	public function getSegmentosByIdVt($id_vt)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerSegmentosVTbyIdVt($id_vt);
 	
 		return $registros;
@@ -67,7 +67,7 @@ class Transformada
 	
 	public function getGruposByIdSegmento($id_vt_segmento)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerGruposVTbyIdSegmento($id_vt_segmento);
 	
 		return $registros;
@@ -75,7 +75,7 @@ class Transformada
 	
 	public function getIntervalosByIdGrupo($id_grupo)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerIntervalosVTbyIdGrupo($id_grupo);
 	
 		return $registros;
@@ -83,7 +83,7 @@ class Transformada
 
 	public function getGruposByIdVt($id_vt)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerGruposVTbyIdVt($id_vt);
 	
 		return $registros;
@@ -91,7 +91,7 @@ class Transformada
 	
 	public function getIntervalosByIdVt($id_vt)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo      = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$registros = $repo->obtenerIntervalosVTbyIdVt($id_vt);
 	
 		return $registros;
@@ -106,14 +106,14 @@ class Transformada
 			$selInter = $this->getIntervalosByIdGrupo($objGr->getIdGrupo());
 			$numInter = count($selInter);
 			
-			$arrayTmp["g_". $objGr->getIdGrupo()] = $numInter;
+			$arrayTmp["g_" . $objGr->getIdGrupo()] = $numInter;
 			
-			if (array_key_exists('s_'.$objGr->getIdVtSegmento()->getIdVtSegmento(), $arrayTmp)){
-				$conTotal = $arrayTmp['s_'.$objGr->getIdVtSegmento()->getIdVtSegmento()] + $numInter;
-				$arrayTmp['s_'.$objGr->getIdVtSegmento()->getIdVtSegmento()] = $conTotal;
+			if (array_key_exists('s_' . $objGr->getIdVtSegmento()->getIdVtSegmento(), $arrayTmp)){
+				$conTotal                                                    = $arrayTmp['s_' . $objGr->getIdVtSegmento()->getIdVtSegmento()] + $numInter;
+				$arrayTmp['s_' . $objGr->getIdVtSegmento()->getIdVtSegmento()] = $conTotal;
 			}
 			else{
-				$arrayTmp['s_'.$objGr->getIdVtSegmento()->getIdVtSegmento()] = $numInter;
+				$arrayTmp['s_' . $objGr->getIdVtSegmento()->getIdVtSegmento()] = $numInter;
 			}
 		}
 		
@@ -139,7 +139,7 @@ class Transformada
 		$objSegmentos = $this->getSegmentosByIdVt($request->get('id_vt'));
 		
 		$arrayObjsVl = [];
-		$repoVL = $this->em->getRepository('RMLinealesBundle:Vil');
+		$repoVL      = $this->em->getRepository('RMLinealesBundle:Vil');
 		
 		foreach($objSegmentos as $objSeg){
 			
@@ -151,11 +151,11 @@ class Transformada
 				
 				foreach($objIntervalos as $objIntervalo){
 					
-					$id_vil = $request->get('var_'. $objIntervalo->getIdIntervalo());
+					$id_vil = $request->get('var_' . $objIntervalo->getIdIntervalo());
 					
 					if(empty($arrayObjsVl[$id_vil])){
-						$objLineales = $repoVL->obtenerVLbyId($id_vil);
-						$objLineal = $objLineales[0];
+						$objLineales          = $repoVL->obtenerVLbyId($id_vil);
+						$objLineal            = $objLineales[0];
 						$arrayObjsVl[$id_vil] = $objLineal;
 					}
 					else{
@@ -163,9 +163,8 @@ class Transformada
 					} 
 					
 					$objIntervalo->setIdVil($objLineal);
-					$objIntervalo->setFactor($request->get('factor_'. $objIntervalo->getIdIntervalo()));
-					$objIntervalo->setCondicion($request->get('cond_'. $objIntervalo->getIdIntervalo()));
-					$objIntervalo->setPivote($request->get('pivote_'. $objIntervalo->getIdIntervalo()));
+					$objIntervalo->setCondicion($request->get('cond_' . $objIntervalo->getIdIntervalo()));
+					$objIntervalo->setPivote($request->get('pivote_' . $objIntervalo->getIdIntervalo()));
 					$this->em->persist($objIntervalo);
 				}
 				
@@ -173,7 +172,7 @@ class Transformada
 				$this->em->persist($objGrupo);
 			}
 			
-			$objSeg->setNombre($request->get('seg_'. $objSeg->getIdVtSegmento()));
+			$objSeg->setNombre($request->get('seg_' . $objSeg->getIdVtSegmento()));
 			$this->em->persist($objSeg);
 		}
 		
@@ -187,13 +186,13 @@ class Transformada
 	public function eliminarSegGrupoVIbyPost($listaSegmentosAEliminar, $listaGruposAEliminar, $listaIntervalosAEliminar, $id_vt)
 	{
 		/*Se elimina la descendencia de los elementos seleccionados segun sea el tipo pasado*/
-		if($listaSegmentosAEliminar != ''){
+		if($listaSegmentosAEliminar !== ''){
 			$this->eliminarSegmentosVTbyId($listaSegmentosAEliminar);
 		}		
-		if($listaGruposAEliminar != ''){
+		if($listaGruposAEliminar !== ''){
 			$this->eliminarGruposVTbyId($listaGruposAEliminar);
 		}
-		if($listaIntervalosAEliminar != ''){			
+		if($listaIntervalosAEliminar !== ''){			
 			$this->eliminarIntervalosVTbyId($listaIntervalosAEliminar);
 		}
 		
@@ -202,22 +201,22 @@ class Transformada
 		 */
 		$this->em->flush();
 		
-		if($listaIntervalosAEliminar != ''){
+		if($listaIntervalosAEliminar !== ''){
 			$selectIntervalos = $this->getIntervaloById($listaIntervalosAEliminar);
-			$arrayGrup = [];
-			$arraySeg = [];
+			$arrayGrup        = [];
+			$arraySeg         = [];
 			foreach($selectIntervalos as $selInt){
 				array_push($arrayGrup, $selInt->getIdGrupo());
 				array_push($arraySeg, $selInt->getIdGrupo()->getIdVtSegmento());
 			}
 			
 			$arrayGrup = array_unique($arrayGrup);
-			$arraySeg = array_unique($arraySeg);
+			$arraySeg  = array_unique($arraySeg);
 			
 			foreach($arrayGrup as $idgrupo){
-				if($idgrupo->getEstado() == 1) {
+				if($idgrupo->getEstado() === 1) {
 					$selectHijosdeGrupos = $this->getIntervalosByIdGrupo($idgrupo->getIdGrupo());
-					if($selectHijosdeGrupos == NULL){
+					if($selectHijosdeGrupos === NULL){
 						/*Se elimina el grupo porque se ha quedado sin hijos y se almacena los segmentos padres para realizar lo mismo*/
 						$idgrupo->setEstado(-1);
 						$this->em->persist($idgrupo);
@@ -226,11 +225,11 @@ class Transformada
 				}
 			}
 			$this->em->flush();
-			if($arraySeg != NULL){
+			if($arraySeg !== NULL){
 				foreach($arraySeg as $idseg){
-					if($idseg->getEstado() == 1) {
+					if($idseg->getEstado() === 1) {
 						$selectHijosdeSegmentos = $this->getGruposByIdSegmento($idseg->getIdVtSegmento());
-						if($selectHijosdeSegmentos == NULL){
+						if($selectHijosdeSegmentos === NULL){
 							/*Se elimina el grupo porque se ha quedado sin hijos y se almacena los segmentos padres para realizar lo mismo*/
 							$idseg->setEstado(-1);
 							$this->em->persist($idseg);
@@ -241,18 +240,18 @@ class Transformada
 			}
 		}
 		
-		if($listaGruposAEliminar != ''){
+		if($listaGruposAEliminar !== ''){
 			$selectGrupos = $this->getGrupoById($listaGruposAEliminar);
-			$arraySeg = [];
+			$arraySeg     = [];
 			foreach($selectGrupos as $selGrup){
 				array_push($arraySeg, $selGrup->getIdVtSegmento());
 			}
 			$arraySeg = array_unique($arraySeg);
 			
 			foreach($arraySeg as $idseg){
-				if($idseg->getEstado() == 1) {
+				if($idseg->getEstado() === 1) {
 					$selectHijosdeSegmentos = $this->getGruposByIdSegmento($idseg->getIdVtSegmento());
-					if($selectHijosdeSegmentos == NULL){
+					if($selectHijosdeSegmentos === NULL){
 						/*Se elimina el grupo porque se ha quedado sin hijos y se almacena los segmentos padres para realizar lo mismo*/
 						$idseg->setEstado(-1);
 						$this->em->persist($idseg);
@@ -267,7 +266,7 @@ class Transformada
 	
 	public function eliminarSegmentosVTbyId($listaSegmentosAEliminar)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo       = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objetosSeg = $repo->obtenerSegmentoVTbyId($listaSegmentosAEliminar);
 		foreach($objetosSeg as $objetoSeg){
 			$selectGrupos = $this->getGruposByIdSegmento($objetoSeg->getIdVtSegmento());
@@ -283,7 +282,7 @@ class Transformada
 	
 	public function eliminarGruposVTbyId($listaGruposAEliminar)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo         = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objetosGrupo = $repo->obtenerGrupoVTbyId($listaGruposAEliminar);
 		foreach($objetosGrupo as $objetoGrupo){
 			$selectIntervalos = $this->getIntervalosByIdGrupo($objetoGrupo->getIdGrupo());
@@ -299,7 +298,7 @@ class Transformada
 	
 	public function eliminarIntervalosVTbyId($listaIntervalosAEliminar)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo         = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objetosInter = $repo->obtenerIntervaloVTbyId($listaIntervalosAEliminar);
 		foreach($objetosInter as $objetoInt){
 			$objetoInt->setEstado(-1);
@@ -309,7 +308,7 @@ class Transformada
 	
 	public function eliminarRamaAscIntervalosVTbyId($listaIntervalosAEliminar)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo         = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objetosInter = $repo->obtenerIntervaloVTbyId($listaIntervalosAEliminar);
 		
 		if($objetosInter){
@@ -324,7 +323,7 @@ class Transformada
 	
 	public function crearObjSegmento($nombreSeg, $id_vt)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo     = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objVarTr = $repo->obtenerVTbyId($id_vt);
 
 		$objSegmento = new VtSegmento();
@@ -341,7 +340,7 @@ class Transformada
 	
 	public function crearObjGrupo($nombreGrupo, $id_vt_segmento)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo   = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objSeg = $repo->obtenerSegmentoVTbyId($id_vt_segmento);
 	
 		$objGrupo = new VtGrupo();
@@ -358,10 +357,10 @@ class Transformada
 	
 	public function crearObjIntervalo($id_grupo, $id_vil)
 	{
-		$repo = $this->em->getRepository('RMTransformadasBundle:Vt');
+		$repo    = $this->em->getRepository('RMTransformadasBundle:Vt');
 		$objGrup = $repo->obtenerGrupoVTbyId($id_grupo);
 		
-		$repoVL = $this->em->getRepository('RMLinealesBundle:Vil');
+		$repoVL    = $this->em->getRepository('RMLinealesBundle:Vil');
 		$objLineal = $repoVL->obtenerVLbyId($id_vil);			
 		
 	

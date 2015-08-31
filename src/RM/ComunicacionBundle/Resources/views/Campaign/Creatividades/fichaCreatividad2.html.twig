@@ -90,7 +90,7 @@
                                              id="nombreFiltro_{{ id }}"
                                              name="creatividad[{{ idNumPro }}][segmentada][{{ id }}][nombreFiltro]"/>
 
-                                      <input type="hidden" value="{{ segmentada.filtro }}"
+                                      <input type="hidden" value="{{ segmentada.filtro }}" class="filtro"
                                              id="filtro_{{ id }}"
                                              name="creatividad[{{ idNumPro }}][segmentada][{{ id }}][filtro]"/>
 
@@ -125,7 +125,7 @@
                                                id="nombreFiltroSeg_{{ idNumPro }}_{{ -k }}"
                                                name="creatividad[{{ idNumPro }}][segmentada][{{ -k }}][nombreFiltro]"/>
 
-                                        <input type="hidden" value=""
+                                        <input type="hidden" value="" class="filtro"
                                                id="filtroSeg_{{ idNumPro }}_{{ -k }}"
                                                name="creatividad[{{ idNumPro }}][segmentada][{{ -k }}][filtro]"/>
 
@@ -180,6 +180,9 @@
                                         <img class="info" width="16px" height="16px" style="cursor: pointer;"
                                              onClick="buscarCreatividad('idCreatividadGen_{{ id }}', 'nombreCreatividadGen_{{ id }}');"
                                              src="{{ asset('img/icono_lupa.png') }}" />
+                                        <input type="hidden" class="filtro-genericas"
+                                               name="creatividad[{{ idNumPro }}][generica][{{ id }}][filtro]"
+                                                />
                                     </td>
                                     <td>
                                         {{ generica.simulado }}
@@ -202,6 +205,9 @@
                                             <img class="info" width="16px" height="16px" style="cursor: pointer;"
                                                  onClick="buscarCreatividad('idCreatividadGen_{{ idNumPro }}_{{ -k }}', 'nombreCreatividadGen_{{ idNumPro }}_{{ -k }}');"
                                                  src="{{ asset('img/icono_lupa.png') }}" />
+                                            <input type="hidden" class="filtro-genericas"
+                                                   name="creatividad[{{ idNumPro }}][generica][{{ -k }}][filtro]"
+                                                    />
                                         </td>
                                         <td>
 
@@ -241,6 +247,47 @@
 
 {% block javascripts %}
 <script type="text/javascript">
+
+    $(document).ready(function(){
+        $('.filtro').each(function(index, elem){
+            $(this).on('change', function(event){
+                var e = event || window.event;
+                e.preventDefault();
+                addCondicionSegmentoPadre(e.target);
+            });
+        });
+
+        $('.filtro-genericas').each(function(index, elem){
+            addCondicionSegmentoPadreGenericas(this);
+        });
+    });
+
+    function addCondicionSegmentoPadre(elem) {
+        if(typeof elem === 'undefined'){
+            return false;
+        }
+
+        var filtro = JSON.parse(elem.value);
+        var filtroCompleto  = '{"$and": [__CONDICION__,{"ls": {"$in":[{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}]}}]}';
+
+        filtroCompleto = filtroCompleto.replace('__CONDICION__', filtro.parse);
+        filtro.filtroCompleto = filtroCompleto;
+
+        elem.value = JSON.stringify(filtro);
+    }
+
+    function addCondicionSegmentoPadreGenericas(elem) {
+        if (typeof elem === 'undefined') {
+            return false;
+        }
+
+        var filtro = '{"$and": [{"ls": {"$in": [{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}] } } ] }';
+        var value = {
+            filtroCompleto: filtro
+        };
+
+        elem.value = JSON.stringify(value);
+    }
 
     function buscarCreatividad (identificador, idNombre){
         document.getElementById("id_id").value = identificador;

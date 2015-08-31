@@ -12,19 +12,19 @@ class TamanyoImagenServicio
 	}
 	
 	public function getTIById($id_tamanyo){
-		$repo = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
+		$repo      = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
 		$registros = $repo->obtenerTIById($id_tamanyo);
 		return $registros;
 	}
 	
 	public function getTIByTipo($tipo){
-		$repo = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
+		$repo      = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
 		$registros = $repo->obtenerTIByTipo($tipo);
 		return $registros;
 	}
 	
 	public function getTIConInfoAsocByTipo($tipo){
-		$repo = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
+		$repo      = $this->em->getRepository('RMPlantillaBundle:TamanyoImagen');
 		$registros = $repo->obtenerTIConInfoAsocByTipo($tipo);
 		return $registros;
 	}

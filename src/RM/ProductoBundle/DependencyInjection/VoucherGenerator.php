@@ -28,7 +28,7 @@ class VoucherGenerator
         $voucher = null;
 
         do {
-            $hash = sha1(microtime(true));
+            $hash    = sha1(microtime(true));
             $voucher = strtoupper(substr($hash, mt_rand(0,33), 8));
         } while($this->isUsed($voucher));
 
@@ -37,7 +37,7 @@ class VoucherGenerator
 
     public function isUsed($code)
     {
-        $isUsed = null != $this->em->getRepository('RMProductoBundle:Promocion')->findOneBy([
+        $isUsed = null !== $this->em->getRepository('RMProductoBundle:Promocion')->findOneBy([
                 'codigo' => $code
             ]);
 

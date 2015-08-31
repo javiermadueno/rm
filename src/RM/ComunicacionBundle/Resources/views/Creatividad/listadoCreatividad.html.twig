@@ -1,89 +1,72 @@
-<h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
-<table class="table table-bordered responsive">
-    <colgroup>
-        <col class="con0" style="align: center;">
-        <col class="con1" style="align: center; ">
-        <col class="con0" style="align: center; ">
-        <col class="con1" style="align: center; ">
-        <col class="con0">
-        <col class="con1">
-    </colgroup>
-    <thead>
-    <tr>
-        <th>{{ "nombre" | trans }}</th>
-        <th>{{ "descripcion" | trans }}</th>
-        <th>{{ "imagen" | trans }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if objCreatividades == null %}
+<div id="tablaListado">
+    <h4 class="widgettitle">{{ "creatividades" |trans|title }}</h4>
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0" style="align: center;">
+            <col class="con1" style="align: center; ">
+            <col class="con0" style="align: center; ">
+            <col class="con1" style="align: center; ">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
         <tr>
-            <td colspan="30">
-                {{ "sin.resultados" | trans }}
-            </td>
+            <th>{{ "nombre" | trans }}</th>
+            <th>{{ "descripcion" | trans }}</th>
+            <th>{{ "imagen" | trans }}</th>
         </tr>
-    {% else %}
-        {% for objCreatividad in objCreatividades %}
+        </thead>
+        <tbody>
+        {% if objCreatividades == null %}
             <tr>
-                <td>
-                    <a href="javascript:verDatosProducto({{ objCreatividad.idCreatividad }}); ">{{ objCreatividad.nombre }}</a>
-                </td>
-                <td>{{ objCreatividad.descripcion }}</td>
-                <td>
-                    {# Se comprueba que la imagen existe para poder pintarla con respecto a los formatos disponibles #}
-                    {% set existeImagen = 0 %}
-                    {% set imagenUrl = app.user.getCliente()~'/imagenesCreatividad/'~objCreatividad.imagen %}
-                    {% if objCreatividad.imagen is not null and file_exists(imagenUrl) %}
-                        {% set existeImagen = 1 %}
-                    {% endif %}
-                    {% if(existeImagen == 1) %}
-                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px" height="100px"/>
-                    {% else %}
-                        &nbsp;
-                    {% endif %}
+                <td colspan="30">
+                    {{ "sin.resultados" | trans }}
                 </td>
             </tr>
-        {% endfor %}
-    {% endif %}
-</table>
-<div class="row-fluid">
-    <div class="span12">
-        <div class="pagination pagination-centered">
-            {{ simple_paginator_render('direct_config_listado_creatividad_paginador', null, {
-            'routeParams' : {'nombre': nombre},
-            'container_class' : '',
-            'first_disabled': 'disabled',
-            'currentClass': 'active',
-            'firstEnabledClass': '',
-            'firstDisableClass': 'disabled',
-            'firstPageText' : '<<Primera',
-            'previousPageText' : 'Anterior',
-            'previousEnabledClass' : '',
-            'previousDisabledClass' : 'disabled',
-            'nextPageText' : 'Siguiente',
-            'nextEnabledClass': '',
-            'nextDisabledClass': 'disabled',
-            'lastEnabledClass': '',
-            'lastDisabledClass' : 'disabled',
-            'lastPageText' : 'Última>>'
-            }) }}
+        {% else %}
+            {% set ruta_creatividades = app.user.cliente ~ '/imagenesCreatividad/' %}
+            {% for objCreatividad in objCreatividades %}
+                <tr data-creatividad="{{ objCreatividad.idCreatividad }}">
+                    <td>
+                        <a data-toggle="modal" data-target="#modal-creatividad"
+                           href="{{ path('rm_comunicacion.creatividad.edit', {'id': objCreatividad.idCreatividad}) }}">{{ objCreatividad.nombre }}</a>
+                    </td>
+                    <td>{{ objCreatividad.descripcion }}</td>
+                    <td>
+                        {% set imagenUrl = ruta_creatividades ~ objCreatividad.imagen %}
+                        {% if objCreatividad.imagen is not null and file_exists(imagenUrl) %}
+                            <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px"/>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="pagination pagination-centered">
+                {{ simple_paginator_render('rm_comunicacion.creatividad.index', null, {
+                'routeParams' : {'nombre': nombre|default('')},
+                'container_class' : '',
+                'first_disabled': 'disabled',
+                'currentClass': 'active',
+                'firstEnabledClass': '',
+                'firstDisableClass': 'disabled',
+                'firstPageText' : '<<' ~ 'paginador.primera'|trans,
+                'previousPageText' : 'paginador.anterior'|trans,
+                'previousEnabledClass' : '',
+                'previousDisabledClass' : 'disabled',
+                'nextPageText' : 'paginador.siguiente'|trans,
+                'nextEnabledClass': '',
+                'nextDisabledClass': 'disabled',
+                'lastEnabledClass': '',
+                'lastDisabledClass' : 'disabled',
+                'lastPageText' : "paginador.ultima"|trans ~ '>>'
+                }) }}
+            </div>
         </div>
     </div>
 </div>
 
-{% block javascript %}
-    <script type="text/javascript">
-        function verDatosProducto(id_creatividad) {
-            var largo = 550;
-            var altura = 550;
-            var top = (screen.height - altura) / 2;
-            var izquierda = (screen.width - largo) / 2;
-            {% set nombreVentana = "Creatividad" %}
-            camino = "{{ path('direct_config_ficha_creatividad', {'id_creatividad':'111'}) }}";
-            camino = camino.replace('111', id_creatividad);
-            var myUrl = camino;
-            var nomVentana = '{{ nombreVentana }}';
-            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-        }
-    </script>
-{% endblock %}

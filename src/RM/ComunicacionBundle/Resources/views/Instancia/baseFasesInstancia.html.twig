@@ -10,10 +10,13 @@
 
 
 {% block migas %}
-    <li><a href="{{ path('direct_homepage') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
+    <li>
+        <a href="{{ path('direct_homepage') }}"><span class="iconfa-home"></span></a> <span class="separator"></span>
     </li>
-    <li><a href="{{ path('direct_monitor') }}">{{ "menu.direct.monitor" |trans|title }}</a> <span
-                class="separator"></span></li>
+    <li>
+        <a href="{{ path('direct_monitor') }}">{{ "menu.direct.monitor" |trans|title }}</a>
+        <span class="separator"></span>
+    </li>
     <li>{{ "instancia" |trans|title }} <span class="separator"></span></li>
     <li>#{{ "%07d" | format(objInstancia.getIdInstancia) }}</li>
 {% endblock %}

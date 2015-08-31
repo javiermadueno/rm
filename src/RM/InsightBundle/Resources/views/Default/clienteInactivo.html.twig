@@ -1,0 +1,49 @@
+{% extends ':insight:base_insight.html.twig' %}
+
+
+{% set idOpcionMenuSup = 4 %}
+{% set idOpcionMenuIzq = 1 %}
+
+{% block title %}
+    {{ "inactivos" |trans|title}}
+{% endblock %}
+
+
+
+{% block migas %}
+    <li><a href="{{ path('rm_insight_homepage') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.insight.clientes" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "inactivos" |trans|title}}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.insight.clientes" |trans|title}}</h5>
+    <h1>{{ "clientes.inactivos" |trans|title}}</h1>
+{% endblock pagetitle %}
+
+{% set fecha_mes1 = date(mes1)|date('M-Y') %}
+{% set fecha_mes2 = date(mes2)|date('M-Y') %}
+
+{% block contenedorPrincipal %}
+    {{ parent() }}
+    <h4 class="widgettitle">{{ "graficas" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <div class="row-fluid">
+            <div class="span12">
+                <div id="graficoEdades"></div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div id="graficoSexo"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        {{ chart(graficoEdades) }}
+        {{ chart(graficoSexo) }}
+    </script>
+{% endblock %}

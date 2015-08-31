@@ -20,7 +20,7 @@ use RM\DiscretasBundle\Entity\VidSegmentoGlobal;
 
 class PersonalizaVariableDiscreta
 {
-    const PERSONALIZADO = 1;
+    const PERSONALIZADO    = 1;
     const NO_PERSONALIZADO = 0;
 
     /**
@@ -40,8 +40,8 @@ class PersonalizaVariableDiscreta
 
     public function __construct(DoctrineManager $doctrine)
     {
-        $this->em = $doctrine->getManager();
-        $this->repository = $this->em->getRepository('RMDiscretasBundle:Vid');
+        $this->em                = $doctrine->getManager();
+        $this->repository        = $this->em->getRepository('RMDiscretasBundle:Vid');
         $this->criteriosGlobales = $this->repository->obtenerCriteriosGlobales()[0];
     }
 
@@ -62,7 +62,7 @@ class PersonalizaVariableDiscreta
 
         $vidGrupo->setPersonalizado(self::PERSONALIZADO);
 
-        if($variable->getSolicitaTiempo() == Vid::SOLICITA_N) {
+        if($variable->getSolicitaTiempo() === Vid::SOLICITA_N) {
             $vidGrupo->setMesesN($this->criteriosGlobales->getReferenciaN());
         }
         else {
@@ -70,7 +70,7 @@ class PersonalizaVariableDiscreta
             $vidGrupo->setMesesN($this->criteriosGlobales->getMesesN());
         }
 
-        if( Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo() ) {
+        if( Tipo::HABITOS_COMPRA !== $variable->getTipo()->getCodigo() ) {
             $this->copiaSegmentosGlobalesA($vidGrupo);
         }
 
@@ -97,7 +97,7 @@ class PersonalizaVariableDiscreta
 
         $vidGrupo->setPersonalizado(self::NO_PERSONALIZADO);
 
-        if(Tipo::HABITOS_COMPRA != $variable->getTipo()->getCodigo()) {
+        if(Tipo::HABITOS_COMPRA !== $variable->getTipo()->getCodigo()) {
             $this->eliminaSegmentos($vidGrupo);
         }
 

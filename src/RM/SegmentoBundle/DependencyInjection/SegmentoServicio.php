@@ -26,7 +26,7 @@ class SegmentoServicio
 
     public function getSegmentosByIdVt($id_vt){
 
-        $repo = $this->em->getRepository('RMSegmentoBundle:Segmento');
+        $repo      = $this->em->getRepository('RMSegmentoBundle:Segmento');
         $registros = $repo->obtenerSegmentosByIdVt($id_vt);
         return $registros;
     }

@@ -270,4 +270,54 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
             ]);
     }
 
+    /**
+     * @param        $meses
+     * @param string $renderTo
+     *
+     * @return Highchart
+     */
+    public function graficoGamas($meses, $renderTo = '')
+    {
+        $estado_activo = $this->getSegementoEstado();
+        $gamas         = $this->getSegmentosGamas();
+
+        if(!$gamas) {
+            $chart =  $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.gama.title'));
+            return $chart;
+        }
+
+        $data = $this->repository
+            ->findNumeroClientesPorEstadoYPorSegmentos(
+                $meses,
+                array_values($estado_activo),
+                array_values($gamas)
+            );
+
+        if (!$data) {
+            return $this->graphNoData();
+        }
+
+        $chart = $this->graficoColumnas();
+        $chart->chart->renderTo($renderTo);
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.gama.title'));
+        $chart->xAxis->categories(array_keys($gamas));
+        $chart->series($data);
+
+        return $chart;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    private function getSegmentosGamas()
+    {
+        return $this->em->getRepository('RMSegmentoBundle:Segmento')
+            ->findSegmentosByNombre([
+                'Gama Basic_Sí',
+                'Gama Estandar_Sí',
+                'Gama Premium_Sí'
+            ]);
+    }
+
 } 

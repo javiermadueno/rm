@@ -1,7 +1,7 @@
 {% extends '::data/base_data.html.twig' %}
 
 {% block title %}
-	{{ "Segmentos" | trans }}
+	{{ "segmentos" | trans }}
 {% endblock %}
 
 {% block migas %}
@@ -41,7 +41,7 @@
                                     {% if objTipos is defined %}
                                         {% for tipo in objTipos %}
                                             <option value="{{ tipo.codigo }}" {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
-                                                {{ tipo.nombre }}
+                                                {{ tipo.codigo|trans }}
                                             </option>
                                         {% endfor %}
                                     {% endif %}
@@ -94,9 +94,9 @@
         <h4 class="widgettitle">{{ "segmentos" | trans }}</h4>
         <table id="tablaSegmentos" class="table table-bordered responsive">
             <colgroup>
-                <col class="con0" style="align: center; width: 33%">
-                <col class="con1" style="align: center; width: 33%">
-                <col class="con0" style="align: center; width: 33%">
+                <col class="con0" style="width: 33%">
+                <col class="con1" style="width: 33%">
+                <col class="con0" style="width: 33%">
             </colgroup>
             <thead>
             <tr>

@@ -35,11 +35,12 @@
             <div class="mediamgr_head">
                 <ul class="mediamgr_menu">
                     <li>
-                        <label for="id_categoria">{{ "Categoría" | trans }}</label>
+                        <label for="id_categoria">{{ "categoria" | trans }}</label>
                         <select id="id_categoria" name="id_categoria" class="tam6 izq actualizarTabla">
                             {% if objCategorias|length >1 %}
-                                <option value="0" selected>{{ "Todos" | trans }}</option>
+
                             {% endif %}
+                            <option value="0" selected>{{ "select.todas" | trans }}</option>
                             {% for objCategoria in objCategorias %}
                                 <option value="{{ objCategoria.idCategoria }}" {% if objCategoria.idCategoria == id_categoria%}selected{% endif %}>{{ objCategoria.nombre }}</option>
                             {% endfor %}
@@ -63,16 +64,16 @@
 			$('.actualizarTabla').change(function(event){
 				event.preventDefault(); //cancela el comportamiento por defecto
 				msg = $("#form").serialize();
-				{% set crearUrl = url('campaign_campanyas_actualizar') %}
-				var myUrl = '{{crearUrl}}';
+
+				var myUrl = '{{ url('campaign_campanyas', {'id_categoria': 111}) }}';
+                myUrl = myUrl.replace('111', $('#id_categoria').val())
 				$.ajax({  
-				  type: "POST",  
+				  type: "GET",
 				  url: myUrl,
 				  data: msg,  
 				  complete: function(objeto, exito){
 					if(exito=="success"){
-						$('#tablaListado').children().remove();
-						$('#tablaListado').append(objeto.responseText);
+						$('#tablaListado').html($(objeto.responseText).find('#tablaListado').html());
 		            }
 		          },
 				  error: function(objeto, quepaso, otroobj){		            

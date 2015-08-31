@@ -20,7 +20,7 @@ class VidSegmentoGlobal
     private $nombre;
 
     /**
-     * @var smallint
+     * @var int
      * 
      * @ORM\Column(name="condicion", type="smallint", nullable=true)
      */
@@ -34,7 +34,7 @@ class VidSegmentoGlobal
     private $pivote;
 
     /**
-     * @var smallint
+     * @var int
      * 
      * @ORM\Column(name="estado", type="smallint", nullable=true, options={"default" : 1})
      */
@@ -76,7 +76,7 @@ class VidSegmentoGlobal
     /**
      * Set condicion
      *
-     * @param smallint $condicion
+     * @param int $condicion
      * @return VidSegmentoGlobal
      */
     public function setCondicion($condicion)
@@ -89,7 +89,7 @@ class VidSegmentoGlobal
     /**
      * Get condicion
      *
-     * @return smallint 
+     * @return int
      */
     public function getCondicion()
     {
@@ -122,7 +122,7 @@ class VidSegmentoGlobal
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      * @return VidSegmentoGlobal
      */
     public function setEstado($estado)

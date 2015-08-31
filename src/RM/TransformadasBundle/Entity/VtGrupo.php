@@ -31,7 +31,7 @@ class VtGrupo
     private $idGrupo;
     
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -93,7 +93,7 @@ class VtGrupo
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @var int $estado
      * @return Vt
      */
     public function setEstado($estado)
@@ -106,7 +106,7 @@ class VtGrupo
     /**
      * Get estado
      *
-     * @return smallint
+     * @return int
      */
     public function getEstado()
     {

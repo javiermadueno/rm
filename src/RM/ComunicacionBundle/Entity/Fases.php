@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Fases
 {
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="id_fase", type="smallint")
      * @ORM\Id

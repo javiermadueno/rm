@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManager;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 use RM\ComunicacionBundle\Form\Type\SegmentoComunicacionType;
-use RM\SegmentoBundle\Entity\Segmento;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +45,7 @@ class SegmentoComunicacionController extends Controller
             ->findSegmentosComunicacionByComunicacion($comunicacion);
 
         return $this->render('RMComunicacionBundle:SegmentoComunicacion:listado.html.twig', [
-            'segmentos' => $segmentos,
+            'segmentos'       => $segmentos,
             'id_comunicacion' => $idComunicacion
         ]);
     }
@@ -125,7 +124,7 @@ class SegmentoComunicacionController extends Controller
             $segmento->getProximaEjecucion();
             $em->flush();
 
-            $this->addFlash('mensaje', 'mensaje.ok.actualizar');
+            $this->addFlash('mensaje', 'mensaje.ok.editar');
             return $this->redirectToRoute('direct_manager_edit_datos',
                 ['idComunicacion' => $segmento->getIdComunicacion()->getIdComunicacion()]
             );
@@ -147,7 +146,7 @@ class SegmentoComunicacionController extends Controller
     private function createCreateForm(SegmentoComunicacion $segmentoComunicacion)
     {
         $form = $this->createForm(new SegmentoComunicacionType(), $segmentoComunicacion, [
-            'action' => $this->generateUrl('rm_comunicacion.segmento_comunicacion.new', [
+            'action'             => $this->generateUrl('rm_comunicacion.segmento_comunicacion.new', [
                 'idComunicacion' => $segmentoComunicacion->getIdComunicacion()->getIdComunicacion()
             ]),
             'method' => 'POST',
@@ -162,12 +161,12 @@ class SegmentoComunicacionController extends Controller
     private function createEditForm(SegmentoComunicacion $segmentoComunicacion)
     {
         $form = $this->createForm(new SegmentoComunicacionType(), $segmentoComunicacion, [
-            'action' => $this->generateUrl('rm_comunicacion.segmento_comunicacion.edit', [
-                'id' => $segmentoComunicacion->getIdSegmentoComunicacion(),
+            'action'             => $this->generateUrl('rm_comunicacion.segmento_comunicacion.edit', [
+                'id'             => $segmentoComunicacion->getIdSegmentoComunicacion(),
                 'idComunicacion' => $segmentoComunicacion->getIdComunicacion()->getIdComunicacion()
             ]),
             'method' => 'POST',
-            'em' => $this->getManager()
+            'em'     => $this->getManager()
         ]);
 
         $form->add('submit', 'submit', ['label' => 'boton.actualizar']);
@@ -176,7 +175,8 @@ class SegmentoComunicacionController extends Controller
     }
 
     /**
-     * @param int $idSegmentoComunicacion
+     * @param Request $request
+     * @param int     $idSegmentoComunicacion
      *
      * @return JsonResponse
      */
@@ -214,7 +214,8 @@ class SegmentoComunicacionController extends Controller
     }
 
     /**
-     * @param int $idSegmentoComunicacion
+     * @param Request $request
+     * @param int     $idSegmentoComunicacion
      *
      * @return JsonResponse
      */
@@ -251,7 +252,8 @@ class SegmentoComunicacionController extends Controller
     }
 
     /**
-     * @param int $idSegmentoComunicacion
+     * @param Request $request
+     * @param int     $idSegmentoComunicacion
      *
      * @return JsonResponse|Response
      */

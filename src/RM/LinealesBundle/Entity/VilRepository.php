@@ -14,7 +14,7 @@ class VilRepository extends EntityRepository
 		$dql = "select l
 			from RMLinealesBundle:Vil l
 			where l.estado = 1";
-		if($nombre != ''){
+		if($nombre !== ''){
 			$dql .= " AND l.nombre LIKE :nombre";
 		}
 		if($tipoVar > 0){
@@ -24,7 +24,7 @@ class VilRepository extends EntityRepository
 	
 			
 		$query = $this->_em->createQuery($dql);
-		if($nombre != ''){
+		if($nombre !== ''){
 			$query->setParameter('nombre', '%' . $nombre . '%');
 		}
 		if($tipoVar > 0){

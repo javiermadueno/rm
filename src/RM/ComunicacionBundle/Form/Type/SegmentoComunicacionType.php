@@ -43,8 +43,8 @@ class SegmentoComunicacionType extends AbstractType
                 ]
             ])
             ->add('estado', 'choice', [
-                'label' => 'estado',
-                'required' => true,
+                'label'       => 'estado',
+                'required'    => true,
                 'choice_list' => $this->getEstados(),
             ])
             ->add('tipo', 'choice', [
@@ -102,7 +102,7 @@ class SegmentoComunicacionType extends AbstractType
                         ->setParameter('idvt', $variable_ciclo_vida);
                 },
                 'property'      => 'nombre',
-                'label' => 'segmento'
+                'label'         => 'segmento'
             ]);
         };
 

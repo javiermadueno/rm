@@ -30,6 +30,7 @@ class CreateClienteCommand extends LdapCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->connect();
         $id_cliente = $input->getArgument('id_cliente');
         $output->writeln(sprintf('<info>Creando el cliente con id "%s"</info>', $id_cliente));
 
@@ -62,7 +63,7 @@ class CreateClienteCommand extends LdapCommand
 
     public function findCliente($id_cliente)
     {
-        $dn = "ou=clientes,dc=relationalmessages,dc=com";
+        $dn     = "ou=clientes,dc=relationalmessages,dc=com";
         $filter = sprintf("(&(cn=%s))", $id_cliente);
 
         $search = ldap_search($this->connection, $dn, $filter);
@@ -70,7 +71,7 @@ class CreateClienteCommand extends LdapCommand
         $cliente = ldap_get_entries($this->connection, $search);
 
         try {
-            if ($cliente ['count'] == 1 || $cliente['count'] > 1) {
+            if ($cliente ['count'] === 1 || $cliente['count'] > 1) {
                 return true;
             }
         } catch (\Exception $e) {
@@ -82,17 +83,17 @@ class CreateClienteCommand extends LdapCommand
 
     private function ldap_createGroup($object_name)
     {
-        $dn = "cn={$object_name},ou=clientes,dc=relationalmessages,dc=com";
-        $addgroup_ad['cn'] = (string)$object_name;
-        $addgroup_ad['o'] = (string)$object_name;
-        $addgroup_ad['member'] = [''];
+        $dn                            = "cn={$object_name},ou=clientes,dc=relationalmessages,dc=com";
+        $addgroup_ad['cn']             = (string)$object_name;
+        $addgroup_ad['o']              = (string)$object_name;
+        $addgroup_ad['member']         = [''];
         $addgroup_ad['objectClass'][0] = "top";
         $addgroup_ad['objectClass'][1] = "groupOfNames";
 
 
         ldap_add($this->connection, $dn, $addgroup_ad);
 
-        if (ldap_error($this->connection) == "Success") {
+        if (ldap_error($this->connection) === "Success") {
             return true;
         } else {
             return false;

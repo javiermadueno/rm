@@ -1,5 +1,8 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
+{% set idOpcionMenuIzq = 3  %}
+{% set opcionMenuTabConfig =  1 %}
+
 {% block title %}
     {{ parent() }} - {{ "recursos.graficos" | trans }}
 {% endblock %}
@@ -64,8 +67,6 @@
             </table>
         </li>
         <li class="right newfilebtn">
-            {# 			<button class="tam4 der" id="botonEliminarProductos">{{ "Eliminar" |trans }}</button>#}
-            {# 			<button class="tam4 der" onclick="crearProducto();">{{ "Nuevo" | trans}}</button>#}
             <button class="btn btn-primary actualizarTabla">{{ "boton.buscar" | trans }}</button>
         </li>
     </ul>
@@ -73,13 +74,23 @@
 	<div id="tablaListado">{{ include('RMProductoBundle:Default:listadoProductos.html.twig') }}</div>
 </form>
 
+
+  {{ render(controller('RMProductoBundle:Producto:uploadCsvImages')) }}
+
+    {% include 'modal/bootstrap_modal.html.twig' with {
+        'id': 'modal-producto',
+        'title': "ficha.de" |trans|title ~ "producto" |trans|title
+    } %}
+
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
-
 	
 		$(document).ready(function(){
+
+
+
 			$('#checkTodos').live("change", function() {
 				if ($("#checkTodos").is(':checked')) {
 					$('.selTodos').prop("checked", true);

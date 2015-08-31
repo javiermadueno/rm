@@ -36,6 +36,16 @@ services:
     promocion.voucher.generator:
         class: RM\ProductoBundle\DependencyInjection\VoucherGenerator
         arguments: [@rm.manager]
+
+    rm_producto.num_promociones.manager:
+        class: RM\ProductoBundle\Manager\NumPromocionesManager
+        arguments: [@rm.manager, @event_dispatcher, @validator]
+
+    rm_producto.num_promociones.form.handler:
+        class: RM\ProductoBundle\Form\Handler\NumPromocionesEditFormHandler
+        arguments: [@rm_producto.num_promociones.manager]
+
+
         
     rm.twig_extension:
         class: %TwigExtensionService.class%

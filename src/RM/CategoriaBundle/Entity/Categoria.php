@@ -29,14 +29,14 @@ class Categoria
 	private $idCategoria;
 	
 	/**
-	 * @var smallint
+	 * @var int
 	 *
 	 * @ORM\Column(name="asociado", type="smallint", nullable=true)
 	 */
 	private $asociado;
 	
 	/**
-	 * @var \NivelCategoria
+	 * @var NivelCategoria
 	 *
 	 * @ORM\ManyToOne(targetEntity="NivelCategoria", cascade={"persist", "remove"})
 	 * @ORM\JoinColumns({
@@ -99,7 +99,7 @@ class Categoria
 	/**
      * Set asociado
      *
-     * @param smallint $asociado
+     * @param int $asociado
      * @return Categoria
      */
 	public function setAsociado( $asociado) 

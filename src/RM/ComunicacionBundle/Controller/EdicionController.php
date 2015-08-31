@@ -20,7 +20,7 @@ class EdicionController extends Controller
         $opcionMenuTabComunicacion,
         $id_comunicacion
     ) {
-        $servicioCom = $this->get("ComunicacionService");
+        $servicioCom           = $this->get("ComunicacionService");
         $servicioTransformadas = $this->get("variablestransformadas");
 
         $objComunicaciones = $servicioCom->getComunicacionById($id_comunicacion);
@@ -31,8 +31,8 @@ class EdicionController extends Controller
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
         } else {
             $objComunicacion = $objComunicaciones [0];
-            $servicioSegCom = $this->get("SegmentoComunicacionService");
-            $objSegmentos = $servicioSegCom->getNuevosSegmentosParaComunicacion($id_comunicacion);
+            $servicioSegCom  = $this->get("SegmentoComunicacionService");
+            $objSegmentos    = $servicioSegCom->getNuevosSegmentosParaComunicacion($id_comunicacion);
 
             return $this->render('RMComunicacionBundle:Edicion:nuevoSegmento.html.twig', [
                 'idOpcionMenuSup'           => $idOpcionMenuSup,
@@ -49,10 +49,10 @@ class EdicionController extends Controller
 
     public function actualizarComboSegmentosAction($id_ciclo_vida)
     {
-        $servicioSeg = $this->get("SegmentoService");
+        $servicioSeg  = $this->get("SegmentoService");
         $objSegmentos = $servicioSeg->getSegmentosByIdVt($id_ciclo_vida);
 
-        $encoder = new JsonEncoder ();
+        $encoder    = new JsonEncoder ();
         $normalizer = new GetSetMethodNormalizer ();
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getNombre();
@@ -94,7 +94,7 @@ class EdicionController extends Controller
                 $request->get('hora')
             );
 
-            if ($respuesta == 1) {
+            if ($respuesta === 1) {
                 $this->get('session')->getFlashBag()->add('mensaje', 'crear_ok');
             } else {
                 $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
@@ -128,7 +128,7 @@ class EdicionController extends Controller
                 $request->get('fecFin'), $request->get('estado'), $request->get('tipo'), $tmpMes, $tmpDia,
                 $request->get('hora'));
 
-            if ($respuesta == 1) {
+            if ($respuesta === 1) {
                 $this->get('session')->getFlashBag()->add('mensaje', 'editar_ok');
             } else {
                 $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
@@ -176,13 +176,13 @@ class EdicionController extends Controller
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
         } else {
             $servicioSegCom = $this->get("SegmentoComunicacionService");
-            $objSegmentos = $servicioSegCom->getSegmentosComunicacionBySC($id_segmento);
+            $objSegmentos   = $servicioSegCom->getSegmentosComunicacionBySC($id_segmento);
 
             if (!$objSegmentos) {
                 throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
             } else {
                 $objComunicacion = $objComunicaciones [0];
-                $objSegmento = $objSegmentos [0];
+                $objSegmento     = $objSegmentos [0];
 
                 $objSegmentos = $servicioSegCom->getNuevosSegmentosParaComunicacion($id_comunicacion);
 

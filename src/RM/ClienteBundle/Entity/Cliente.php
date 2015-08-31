@@ -132,28 +132,28 @@ class Cliente
     private $optIn;
 
     /**
-     * @var smallint
+     * @var integer
      *
      * @ORM\Column(name="genero", type="smallint", nullable=true)
      */
     private $genero;
 
     /**
-     * @var smallint
+     * @var integer
      *
      * @ORM\Column(name="estado_marital", type="smallint", nullable=true)
      */
     private $estadoMarital;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="num_hijos", type="smallint", nullable=true)
      */
     private $numHijos;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="tipo_vivienda", type="smallint", nullable=true)
      */
@@ -592,7 +592,7 @@ class Cliente
     /**
      * Set genero
      *
-     * @param smallint $genero
+     * @param int $genero
      * @return Cliente
      */
     public function setGenero($genero)
@@ -605,7 +605,7 @@ class Cliente
     /**
      * Get genero
      *
-     * @return smallint 
+     * @return int
      */
     public function getGenero()
     {
@@ -615,7 +615,7 @@ class Cliente
     /**
      * Set estadoMarital
      *
-     * @param smallint $estadoMarital
+     * @param int $estadoMarital
      * @return Cliente
      */
     public function setEstadoMarital($estadoMarital)
@@ -628,7 +628,7 @@ class Cliente
     /**
      * Get estadoMarital
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstadoMarital()
     {
@@ -638,7 +638,7 @@ class Cliente
     /**
      * Set numHijos
      *
-     * @param smallint $numHijos
+     * @param int $numHijos
      * @return Cliente
      */
     public function setNumHijos($numHijos)
@@ -651,7 +651,7 @@ class Cliente
     /**
      * Get numHijos
      *
-     * @return smallint 
+     * @return int
      */
     public function getNumHijos()
     {
@@ -661,7 +661,7 @@ class Cliente
     /**
      * Set tipoVivienda
      *
-     * @param smallint $tipoVivienda
+     * @param int $tipoVivienda
      * @return Cliente
      */
     public function setTipoVivienda($tipoVivienda)
@@ -674,7 +674,7 @@ class Cliente
     /**
      * Get tipoVivienda
      *
-     * @return smallint 
+     * @return int
      */
     public function getTipoVivienda()
     {

@@ -18,7 +18,7 @@ class RendimientoTable
     public function __construct(EstadisticasClientes $repository, DoctrineManager $manager)
     {
         $this->repository = $repository;
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
     }
 
     /**
@@ -39,7 +39,7 @@ class RendimientoTable
 
         foreach ($estructura_segmentos as $segmento1 => $segmentos) {
             foreach ($segmentos as $segmento2 => $val) {
-                $ids = [$ids_segmentos[$segmento1], $ids_segmentos[$segmento2]];
+                $ids                               = [$ids_segmentos[$segmento1], $ids_segmentos[$segmento2]];
                 $resultado[$segmento1][$segmento2] = $this->repository
                     ->findEstadisticasClientesByMesYSegmento($meses, $ids);
             }

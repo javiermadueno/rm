@@ -12,12 +12,12 @@ namespace RM\ComunicacionBundle\Model\Interfaces;
 interface FechaInicioFinInterface
 {
     /**
-     * @return \Date
+     * @return \Datetime
      */
     public function getFecInicio();
 
     /**
-     * @return \Date
+     * @return \Datetime
      */
     public function getFecFin();
 

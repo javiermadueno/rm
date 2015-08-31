@@ -1,7 +1,7 @@
 {% extends '::pantallaPopUp.html.twig' %}
 
 {% block title %}
-	{{ "Promoción" | trans }} - {{ "Información avanzada" | trans }}
+	{{ "promocion" | trans }} - {{ "informacion.avanzada" | trans }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -13,7 +13,7 @@
 	<div class="bloque_contenido">
 		<div class="cabecera_contenido">
 			<span>
-				{{ "Info" | trans }}
+				{{ "info" | trans }}
 			</span> 
 		</div>
 		<div class="linea_contenido">
@@ -21,12 +21,12 @@
 				<table class="tablaSinBordes">
 					<tbody>						
 						<tr>
-							<td>{{ "Precio actual" | trans }}:</td>
+							<td>{{ "precio.actual" | trans }}:</td>
 							<td>{{ objPromocion.idProducto.precioVenta }} €</td>
 						</tr>
 						
 						<tr>
-							<td>{{ "Volumen" | trans }}:</td>
+							<td>{{ "volumen" | trans }}:</td>
 							<td>{{ objPromocion.idProducto.Volumen }} g</td>
 						</tr>
 					</tbody>
@@ -40,7 +40,7 @@
 		<div class="bloque_contenido">
 			<div class="cabecera_contenido">
 				<span>
-					{{ "Configuración" | trans }}
+					{{ "configuracion" | trans }}
 				</span> 
 			</div>
 			<div class="linea_contenido">
@@ -48,31 +48,31 @@
 					<table class="tablaSinBordes">
 						<tbody>						
 							<tr>
-								<td>{{ "Descripción" | trans }}:</td>
+								<td>{{ "descripcion" | trans }}:</td>
 								<td><input type="text" name="descripcion" value="{{ objPromocion.descripcion }}" class="tam8"></td>
 							</tr>
 							<tr>
-								<td>{{ "Imp. fijo" | trans }}:</td>
+								<td>{{ "imp.fijo" | trans }}:</td>
 								<td><input type="text" name="fijo" value="{{ objPromocion.impFijo }}" class="tam8 soloNum"></td>
 							</tr>
 							<tr>
-								<td>{{ "Imp. distribuidor" | trans }}:</td>
+								<td>{{ "imp.distribuidor" | trans }}:</td>
 								<td><input type="text" name="distribuidor" value="{{ objPromocion.impDistribuidor }}" class="tam8 soloNum"></td>
 							</tr>
 							<tr>
-								<td>{{ "Imp. consumidor" | trans }}:</td>
+								<td>{{ "imp.consumidor" | trans }}:</td>
 								<td><input type="text" name="consumidor" value="{{ objPromocion.impConsumidor }}" class="tam8 soloNum"></td>
 							</tr>
 							<tr>
-								<td>{{ "Condiciones" | trans }}:</td>
+								<td>{{ "condiciones" | trans }}:</td>
 								<td><input type="text" name="condiciones" value="{{ objPromocion.condiciones }}" class="tam8"></td>
 							</tr>
 							<tr>
-								<td>{{ "Fidelización" | trans }}:</td>
+								<td>{{ "fidelizacion" | trans }}:</td>
 								<td><input type="text" name="fidelizacion" value="{{ objPromocion.fidelizacion }}" class="tam8"></td>
 							</tr>
 							<tr>
-								<td>{{ "Código promoción" | trans }}:</td>
+								<td>{{ "codigo.promocion" | trans }}:</td>
 								<td><input type="text" name="codigo" value="{{ objPromocion.codigo }}" class="tam8"></td>
 							</tr>
 						</tbody>
@@ -87,8 +87,8 @@
 	<div class="bloque_contenido sinborde">
 		<div class="linea_contenido">
 			<div class="linea_contenido_i botonera_central">
-				<button class="tam4" id="botonAceptar">{{ "Aceptar" | trans }}</button>
-				<button class="tam4" id="botonCancelar" onClick="window.close();">{{ "Cancelar" | trans }}</button> 
+				<button class="tam4" id="botonAceptar">{{ "boton.aceptar" | trans }}</button>
+				<button class="tam4" id="botonCancelar" onClick="window.close();">{{ "boton.cancelar" | trans }}</button>
 			</div>
 		</div>
 	</div>

@@ -247,12 +247,12 @@ class Vil implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->idVil,
-            'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion,
-            'mesesM' => $this->mesesM,
-            'mesesN' => $this->mesesN,
-            'estado' => $this->estado,
+            'id'             => $this->idVil,
+            'nombre'         => $this->nombre,
+            'descripcion'    => $this->descripcion,
+            'mesesM'         => $this->mesesM,
+            'mesesN'         => $this->mesesN,
+            'estado'         => $this->estado,
             'solicitaTiempo' => $this->solicitaTiempo,
         ];
     }

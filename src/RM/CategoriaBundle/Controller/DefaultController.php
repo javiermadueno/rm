@@ -10,20 +10,20 @@ class DefaultController extends Controller
     public function obtenerFichaNivelesAction($idOpcionMenuSup, $idOpcionMenuIzq, $nivel)
     {
         $paginator = $this->get('knp_paginator');
-    	$servicio = $this->get("categoriaService");
+    	$servicio     = $this->get("categoriaService");
 
-    	$selectNiveles = $servicio->getNivelesCategoria();
+    	$selectNiveles    = $servicio->getNivelesCategoria();
     	$selectCategorias = $servicio->getCategorias($nivel);
 
         $pagination = $paginator->paginate($selectCategorias, $this->get('request')->get('page',1), 15 );
     	
-    	return $this->render('RMCategoriaBundle:Default:indexAvanzado.html.twig', array(
-    			'idOpcionMenuSup' => $idOpcionMenuSup,
-    			'idOpcionMenuIzq' => $idOpcionMenuIzq,
-    			'selectNiveles' => $selectNiveles,
+    	return $this->render('RMCategoriaBundle:Default:indexAvanzado.html.twig', [
+    			'idOpcionMenuSup'  => $idOpcionMenuSup,
+    			'idOpcionMenuIzq'  => $idOpcionMenuIzq,
+    			'selectNiveles'    => $selectNiveles,
     			'selectCategorias' => $pagination,
-    			'nivel' => $nivel
-    	));
+    			'nivel'            => $nivel
+    	]);
 
     }
     
@@ -40,8 +40,8 @@ class DefaultController extends Controller
     	
     	$this->get('session')->getFlashBag()->add('mensaje','mensaje.ok.editar');
     	 
-    	return $this->redirect($this->generateUrl('data_avanced_nivelCategoria', array(
-    			'nivel' => $request->get('nivel'))));
+    	return $this->redirect($this->generateUrl('data_avanced_nivelCategoria', [
+    			'nivel' => $request->get('nivel')]));
     }
 
 }

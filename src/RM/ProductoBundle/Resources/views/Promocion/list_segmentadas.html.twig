@@ -1,0 +1,57 @@
+{% if num_promocion.numSegmentadas > 0 %}
+    {% set segmentadas_restantes = num_promocion.numSegmentadas - num_promocion.promocionesSegmentadas.count %}
+
+    <h4 class="widgettitle">{{ "segmentadas" |trans|title }}</h4>
+    <table class="table table-responsive table-bordered">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th width="25%">{{ "producto" |trans|title }}</th>
+            <th width="15%">{{ "tipo.promocion" |trans|title }}</th>
+            <th width="5%">{{ "poblacion" |trans|title }}</th>
+            <th width="5%">{{ "minimo" |trans|title }}</th>
+            <th width="40%">{{ "segmentos" |trans|title }}</th>
+            <th width="10%">{{ "controles" |trans|title }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for segmentada in num_promocion.promocionesSegmentadas %}
+            <tr data-id-promocion="{{ segmentada.idPromocion }}">
+                <td class="center-all">{{ segmentada.idProducto.nombre }}</td>
+                <td class="center-all">{{ segmentada.idTipoPromocion.nombre }}</td>
+                <td class="center-all">{{ segmentada.poblacion }}</td>
+                <td class="center-all">{{ segmentada.minimo }}</td>
+                <td class="center-all">{{ segmentada.nombreFiltro }}</td>
+                <td class="center-all">
+                    <a href="{{ path('rm_producto.promocion.segmentada_edit', {'id': segmentada.idPromocion}) }}"
+                       class="btn btn-warning">
+                        <i class="iconfa iconfa-edit"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="iconfa iconfa-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        {% if segmentadas_restantes > 0 %}
+            <tr>
+                <td colspan="6" class="center-all">
+                    <div class="autofill_border">
+                        <span>{{ "Añade nueva Promocion segmentada" |trans|title }}</span>
+                        <a class="btn btn-success btn-small"
+                           href="{{ path('rm_producto.promocion.segmentada_new', {'idNumPromocion': num_promocion.idNumPro}) }}">
+                            <i class="iconfa iconfa-plus"></i>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endif %}

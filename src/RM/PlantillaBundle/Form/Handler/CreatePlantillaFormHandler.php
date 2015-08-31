@@ -34,7 +34,7 @@ class CreatePlantillaFormHandler
      */
     public function __construct(PlantillaManager $manager, FormFactoryInterface $formFactory)
     {
-        $this->manager = $manager;
+        $this->manager     = $manager;
         $this->formFactory = $formFactory;
     }
 
@@ -65,9 +65,9 @@ class CreatePlantillaFormHandler
     public function createCreateForm(PlantillaInterface $plantilla)
     {
 
-        $form = $this->formFactory->create(new PlantillaType(), $plantilla, array(
+        $form = $this->formFactory->create(new PlantillaType(), $plantilla, [
                 'method' => 'POST'
-            ) );
+            ] );
 
 
         return $form;

@@ -1,0 +1,35 @@
+{% extends ':campaign:base_campaign.html.twig' %}
+
+{% block title %}{{ "promocion" |trans|title}}{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ promocion.getNumPromocion.idCategoria.nombre }}</h5>
+    <h1>{{ "promocion" |trans|title}}</h1>
+{% endblock pagetitle %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a><span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.campanas" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "campana" |trans|title }} <span class="separator"></span></li>
+    <li>#{{ "%07d"|format(promocion.getNumPromocion.getIdInstancia.idInstancia) }} <span class="separator"></span></li>
+    <li>{{ promocion.getNumPromocion.idCategoria.nombre }} <span class="separator"></span></li>
+    <li>{{ "promocion" |trans|title}}</li>
+{% endblock migas %}
+
+
+{% block body %}
+    <h4 class="widgettitle">{% block widgettitle %}{% endblock widgettitle %}</h4>
+    <div class="mediamgr_head">
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span7 offset2">
+                    <div class="well">
+                        {% block content %}{% endblock content %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+

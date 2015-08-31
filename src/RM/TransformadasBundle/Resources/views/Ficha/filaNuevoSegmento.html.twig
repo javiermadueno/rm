@@ -18,9 +18,10 @@
         </select>
 		<input type="button" id="{{objSegmento.IdVtSegmento}}_{{ objGrupo.IdGrupo }}" value="AND" title="{{ 'Añade un nuevo intervalo' |trans|raw }}" class="btn btn-default eleccion2 pull-right" style="cursor:pointer;">
 	</td>
+    {#
 	<td class="vertical-center">
 		<input type="text" name="factor_{{ objIntervalo.getIdIntervalo() }}" value="{{ objIntervalo.getFactor() }}" class="input-small soloNum" value="" />
-	</td>
+	</td>#}
 	<td class="vertical-center">
 		<select name="cond_{{ objIntervalo.getIdIntervalo() }}" class="input-small">
 			<option value="1">&lt;</option>

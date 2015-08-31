@@ -15,9 +15,9 @@ class DefaultController extends RMController
     	$servicio = $this->get("variablesTransformadas");
     	 
     	//Creaci�n del formulario mediante clase
-    	$peticion = $this->getRequest();
+    	$peticion             = $this->getRequest();
     	$variableTransformada = new Vt();
-    	$formulario = $this->createForm(new TransformadaBuscadorType(), $variableTransformada);
+    	$formulario           = $this->createForm(new TransformadaBuscadorType(), $variableTransformada);
     	 
     	$formulario->handleRequest($peticion);
     	//*************************************
@@ -33,8 +33,8 @@ class DefaultController extends RMController
     	return $this->render('RMTransformadasBundle:Default:index.html.twig', [
     			'idOpcionMenuSup' => $idOpcionMenuSup,
     			'idOpcionMenuIzq' => $idOpcionMenuIzq,
-    			'variables' => $selectVar,
-    			'formulario' => $formulario->createView(),
+    			'variables'       => $selectVar,
+    			'formulario'      => $formulario->createView(),
                 'tipoVar'=> $tipoVar
     	]);
     	 
@@ -45,8 +45,8 @@ class DefaultController extends RMController
     	
     	//ECHO 'ENTRO EN CREARVARTRANSFORMADA';
     	//Creaci�n del formulario mediante clase
-    	$peticion = $this->getRequest();
-    	$objVT = new Vt();
+    	$peticion   = $this->getRequest();
+    	$objVT      = new Vt();
     	$formulario = $this->createForm(new NuevaVarTransType(), $objVT);
     	
     	$formulario->handleRequest($peticion);
@@ -68,9 +68,9 @@ class DefaultController extends RMController
                     $this->get('session')->getFlashBag()->add('mensaje', 'error_general');
                 }
 
-                if ($tipoVar->getId() == Vt::TIPO_OTRAS_TRANSFORMADAS) {
+                if ($tipoVar->getId() === Vt::TIPO_OTRAS_TRANSFORMADAS) {
                     return $this->redirect($this->generateUrl('data_avanced_ot_editar', ['id_vt' => $objTmp->getIdVt()]));
-                } elseif ($tipoVar->getId() == Vt::TIPO_CICLO_VIDA) {
+                } elseif ($tipoVar->getId() === Vt::TIPO_CICLO_VIDA) {
                     return $this->redirect($this->generateUrl('data_avanced_cv_editar', ['id_vt'=> $objTmp->getIdVt()]));
                 }
             }
@@ -79,7 +79,7 @@ class DefaultController extends RMController
     		return $this->render('RMTransformadasBundle:Default:nuevaVar.html.twig', [
     				'idOpcionMenuSup' => $idOpcionMenuSup,
     				'idOpcionMenuIzq' => $idOpcionMenuIzq,
-    				'formulario' => $formulario->createView()
+    				'formulario'      => $formulario->createView()
     		]);
     	}
     }

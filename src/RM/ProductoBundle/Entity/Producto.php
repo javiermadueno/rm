@@ -277,21 +277,21 @@ class Producto implements  JsonSerializable
     {
         return null === $this->imagen
             ? null
-            : $this->getUploadRootDir($cliente_path).'/'.$this->imagen;
+            : $this->getUploadRootDir($cliente_path) . '/' . $this->imagen;
     }
 
     public function getWebPath($cliente_path)
     {
         return null === $this->imagen
             ? null
-            : $this->getUploadDir($cliente_path).'/'.$this->imagen;
+            : $this->getUploadDir($cliente_path) . '/' . $this->imagen;
     }
 
     protected function getUploadRootDir($cliente_path)
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir($cliente_path);
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir($cliente_path);
     }
 
     protected function getUploadDir($cliente_path)
@@ -571,7 +571,7 @@ class Producto implements  JsonSerializable
     public function jsonSerialize(){
 
         return [
-            'id' => $this->idProducto,
+            'id'     => $this->idProducto,
             'nombre' => $this->nombre
         ];
     }

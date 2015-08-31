@@ -38,7 +38,7 @@ class BaseGraph
         $chart->title->text('Sexo de Clientes');
 
         $chart->yAxis([[
-            'min' => 0,
+            'min'   => 0,
             'title' => [
                 'text' => 'Número de clientes'
             ]
@@ -46,7 +46,7 @@ class BaseGraph
 
         $chart->tooltip
             ->headerFormat('<span style="font-size:10px">{point.key}</span><table>')
-            ->pointFormat('<tr><td style="color:{series.color};padding:0">{series.name}: </td>'.'<td style="padding:0"><b>{point.y}</b></td></tr>')
+            ->pointFormat('<tr><td style="color:{series.color};padding:0">{series.name}: </td>' . '<td style="padding:0"><b>{point.y}</b></td></tr>')
             ->footerFormat('</table>')
             ->shared(true)
             ->useHTML(true)
@@ -133,26 +133,26 @@ class BaseGraph
         $chart = $this->graficoColumnas();
 
         $chart->plotOptions->column([
-            'stacking' => 'normal',
+            'stacking'   => 'normal',
             'dataLabels' => [
                 'enabled' => true,
-                'color' => new Expr("(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'"),
-                'style' => [
+                'color'   => new Expr("(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'"),
+                'style'   => [
                     'textShadow' => '0 0 3px black'
                 ]
             ]
         ]);
 
         $chart->yAxis([[
-            'min' => 0,
+            'min'   => 0,
             'title' => [
                 'text' => $this->translator->trans('numero.clientes')
             ],
             'stackLabels' => [
                 'enabled' => false,
-                'style' => [
+                'style'   => [
                     'fontWeight' => 'bold',
-                    'color' => new Expr("(Highcharts.theme && Highcharts.theme.textColor) || 'gray'")
+                    'color'      => new Expr("(Highcharts.theme && Highcharts.theme.textColor) || 'gray'")
                 ]
             ]
         ]]);
@@ -164,12 +164,12 @@ class BaseGraph
     {
         $categorias = [];
         $resultado  = [];
-        $index = 0;
+        $index      = 0;
         foreach ($categories as $category) {
 
             $points = [];
             foreach($data as $series) {
-                $points[] = $series['data'][$index];
+                $points[]                      = $series['data'][$index];
                 if($index === 0) $categorias[] = $series['name'];
             }
 
@@ -184,7 +184,7 @@ class BaseGraph
 
         return [
             'categorias' => array_unique($categorias),
-            'series' => $resultado
+            'series'     => $resultado
         ];
 
     }

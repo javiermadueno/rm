@@ -49,7 +49,7 @@
                                      alt="{{ 'activos' | trans }}" title="{{ 'activos' | trans }}"/>
                             </a>
                         {% elseif nombre_segmento1|lower == "estado_inactivo" %}
-                            <a href="#">
+                            <a class="modificaRuta" href="{{ path('rm_insight_cliente_inactivo') }}">
                                 <img style="float:center; display: inline-block;" class="info"
                                      src="{{ asset('img/icono_info.png') }}"
                                      alt="{{ 'inactivos' | trans }}"

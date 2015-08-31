@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TipoProceso
 {
+    const P00 = 'P00';
+
     /**
      * @var integer
      *
@@ -94,6 +96,6 @@ class TipoProceso
 
     public function __toString()
     {
-        return $this->id.'';
+        return $this->id . '';
     }
 }

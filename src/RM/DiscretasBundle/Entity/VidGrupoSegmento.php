@@ -3,6 +3,8 @@
 namespace RM\DiscretasBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RM\CategoriaBundle\Entity\Categoria;
+use RM\ProductoBundle\Entity\Proveedor;
 
 /**
  * VidGrupoSegmento
@@ -43,7 +45,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	private $idMarca;
 	
 	/**
-	 * @var \RM\DiscretasBundle\Entity\Categoria
+	 * @var Categoria
 	 *
 	 * @ORM\ManyToOne(targetEntity="RM\CategoriaBundle\Entity\Categoria")
 	 * @ORM\JoinColumns({
@@ -53,7 +55,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	private $idCategoria;
 	
 	/**
-	 * @var \RM\DiscretasBundle\Entity\Proveedor
+	 * @var Proveedor
 	 *
 	 * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Proveedor")
 	 * @ORM\JoinColumns({
@@ -79,7 +81,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -96,7 +98,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	/**
 	 * Set estado
 	 *
-	 * @param smallint $estado
+	 * @param int $estado
 	 * @return VidGrupoSegmento
 	 */
 	public function setEstado($estado)
@@ -109,7 +111,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	/**
 	 * Get estado
 	 *
-	 * @return smallint
+	 * @return integer
 	 */
 	public function getEstado()
 	{
@@ -188,7 +190,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	/**
 	 * Get idCategoria
 	 *
-	 * @return \RM\CategoriaBundle\Entity\Categoria
+	 * @return Categoria
 	 */
 	public function getIdCategoria()
 	{
@@ -198,10 +200,10 @@ class VidGrupoSegmento implements VidCriterioInterface
 	/**
 	 * Set idProveedor
 	 *
-	 * @param \RM\ProductoBundle\Entity\Proveedor $idProveedor
+	 * @param Proveedor $idProveedor
 	 * @return VidGrupoSegmento
 	 */
-	public function setIdProveedor(\RM\ProductoBundle\Entity\Proveedor $idProveedor = null)
+	public function setIdProveedor(Proveedor $idProveedor = null)
 	{
 		$this->idProveedor = $idProveedor;
 	
@@ -211,7 +213,7 @@ class VidGrupoSegmento implements VidCriterioInterface
 	/**
 	 * Get idProveedor
 	 *
-	 * @return \RM\ProductoBundle\Entity\Proveedor
+	 * @return Proveedor
 	 */
 	public function getIdProveedor()
 	{

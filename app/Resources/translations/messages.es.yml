@@ -49,11 +49,36 @@ mensaje:
     segmento: Va a eliminar el segmento. ¿Desea continuar?
   tramitar:
     simulacion: ¿Seguro que desea pasar a la fase de simulación?
+  alerta:
+    al.menos.un.registro: Debe seleccionar al menos un registro
+    validar:
+      segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
+    asociar:
+      categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+    eliminar:
+      registros: ¿Desea eliminar los registros seleccionados?
+  calculo:
+    poblacion: Con el filtro especificado se ha calculado una poblacion de %poblacion% clientes
 
-mensaje.alerta.validar.segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
-mensaje.alerta.asociar.categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+
 error: Error
 correcto: Correcto
+
+cfg: Configuración
+ngc: Negociación
+sim: Simulación
+cie: Cierre Negociación
+gen: Generación
+cnf: Confirmación
+fin: Finalizada
+can: Cancelada
+
+RFM: RFM
+CP: Compra de Producto
+HC: Hábitos de compra
+SD: Sociodemográficos
+CV: Ciclo de vida
+OT: Otras Transformadas
 
 menu:
   data:
@@ -78,6 +103,8 @@ menu:
     monitor: Monitor comunicación
     gestion: Gestión comunicación
     configuracion: Configuración
+
+
 
   campaign:
     nombre: Campaign
@@ -126,11 +153,18 @@ boton:
   editar: Editar
   eliminar: Eliminar
   eliminar.plantilla: Eliminar Plantilla
+  filtro:
+    comprobar: Comprobar Filtro
+    guardar: Guardar Filtro
+    y: Y
+    o: O
+    ce: CE
+    segmentos: Segmentos
 
 cabecera:
   niveles.categorias: Niveles de categorías a considerar para segmentar
   categorias: Categorías a considerar para segmentar
-  criterios: Criterios temporales de variables intermedias Compra de Producto y Hábitos de Compra
+  criterios: Referencias temporales de variables intermedias Compra de Producto y Hábitos de Compra
   criterios.eligibilidad: criterios de eligibilidad
   criterios.desempate: Criterios de desempate
   segmentos: Segmentos
@@ -155,7 +189,14 @@ cabecera:
     segmento: Eliminar Segmento
   cambio.fase.instancia: Cambio de Fase de Instancia Comunicación
   promociones.categoria: Promociones por Categoría
+  segmentador: Segmentador
 
+buscar:
+  creatividad: Creatividad
+
+placeholder:
+  nombre:
+    variable: Introduzca el nombre de la variable
 # Módulo DATA
 nivel: Nivel
 niveles: Niveles
@@ -175,9 +216,10 @@ percentil: Percentil
 parametro: Parámetro
 descripcion: Descripción
 valor: Valor
+valor.medio: Valor Medio
 configuracion: Configuración
 parametros.generales: Parámetros Generales
-numero.dias.novedad: Número de Días Novedad
+
 amplitud: amplitud
 recencia: recencia
 frecuencia: frecuencia
@@ -192,7 +234,7 @@ frecuencia.semestral: Semestral
 frecuencia.anual: Anual
 gama: gama
 gasto: gasto
-numero.dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
+
 dias: Días
 franja.horaria: Franja Horaria
 desde: Desde
@@ -219,6 +261,13 @@ tiempo:
   referencia.n: Tiempo de referencia N
   referencia.m: Tiempo de referencia M
 
+ref:
+  temp:
+    global: Referencia de Tiempo Global
+    franjas: Referencia de Tiempo Franjas Horarias
+    dias: Referencia de Tiempo Días
+
+
 marca: Marca
 validar.segmentos: Validar Segmentos
 
@@ -236,12 +285,14 @@ comunicacion.estado:
   completada: completada
 
 select:
+  todos: Todos
   todas: Todas
   seleccione: Seleccione
   seleccione.imagen: Seleccione Imagen
   seleccione.tipo: Seleccione Tipo
   producto: Seleccione Producto
   marca: Seleccione Marca
+  canal: Seleccione Canal
 
 estado: Estado
 estado.comunicacion: Estado de la comunicación
@@ -249,6 +300,7 @@ y: y
 tipo: Tipo
 criterio: Criterio
 
+acumulado.anyo: Acumulado Año
 
 fecha:
   0: Fecha
@@ -294,6 +346,7 @@ imagen: Imagen
 imagen.alto: Alto
 imagen.ancho: Ancho
 nombre: Nombre
+apellidos: Surnames
 editar: Editar
 listado: Listado
 datos: Datos
@@ -312,6 +365,8 @@ numero:
     genericas: Número de creatividades genéricas
   clientes: Número Clientes
   miembros: Número  de  Miembros
+  dias.novedad: Número de Días Novedad
+  dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
 
 slot: slot
 slots: slots
@@ -325,6 +380,14 @@ segmentadas: segmentadas
 genericas: genéricas
 
 segmento.comunicacion: Segmentos Comunicación
+
+paginador:
+  ultima: Última
+  siguiente: Siguiente
+  anterior: Anterior
+  primera: Primera
+
+
 
 
 editar:
@@ -373,11 +436,41 @@ cuatrimestral: Cuatrimestral
 anual: Anual
 
 
+modulo:
+  direct:
+    fase:
+      finalizada:
+        envio:
+          inmediato: Envío inmediato (al tramitar a finalizado)
+          programado: Envío programado para la fecha
+          estado:
+            titlo: Estado del envío ('Enviado', 'En Proceso', o 'Programado')
+            en.proceso: En Proceso
+            programado: Programado
+            enviado: Enviado
+        formatos: Formatos
+        xpd: XPD
+        xml: XML
+        dat: DAT
+        ftp: FTP
+        server: Servidor
+        user: Usuario
+        pass: Contraseña
+        post: POST
+        url: URL
+        comunicaciones.generadas: Se han generado %comunicaciones% comunicaciones
+        formato.generado: Formato generado
+        enviado:
+          ftp: El fichero ha sido enviado via %via% con los siguientes datos
+          url: El fichero ha sido enviado a la siguiente URL
+          descarga: El fichero ha sido enviado vía Descarga
+
 # Modulo CAMPAIGN
 campana: Campaña
 campanas: Campañas
 poblacion: Población
 minimo: Mínimo
+maximo: Máximo
 tipo.promocion: Tipo Promoción
 tipo.clasificacion: Tipo de clasificación
 referencia: Referencia
@@ -423,6 +516,9 @@ Maximo_dias_novedad: Máximo días novedad
 nivel_gama_segmentar: Nivel de gama a segmentar
 num_meses_segmentar: Número de meses a segmentar
 nivel_category_manager: Nivel de Category Manager
+umbral_franjas: Umbral de Franjas Horarias
+umbral_dias: Umbral de días
+umbral_gamas: Umbral de Gamas
 
 mostrar.imagen.creatividad: Mostrar Imagen de la creatividad
 mostrar.texto.creatividad: Mostrar texto de la creatividad
@@ -433,12 +529,14 @@ mostrar.texto.creatividad: Mostrar texto de la creatividad
 media: Media
 evolucion: Evolución
 periodo: Periodo
+compra: Compra
 
 media.ventas: Media Ventas
 frecuencia.media: Frecuencia Media
 recencia.media: Recencia Media
 amplitud.media: Amplitud Media
 porcentaje.ventas: Porcentaje de Ventas
+otros: Otros
 otros.datos: Otros Datos
 frecuencia.contribuciones: Frecuencia Contribuciones
 ticket.medio: Ticket   Medio
@@ -544,7 +642,7 @@ highchart:
         serie:
           title: Clientes nuevos por Tipo Punto de Venta
       gama:
-        title: Clientes nuevos por Gama - %fecha%
+        title: Clientes nuevos por Gama
         serie:
           title: Clientes nuevos por Gama
 

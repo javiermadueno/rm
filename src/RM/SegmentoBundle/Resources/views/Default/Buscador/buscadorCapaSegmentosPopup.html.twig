@@ -15,7 +15,7 @@
                                     {% if objTipos is defined %}
                                         {% for tipo in objTipos %}
                                             <option value="{{ tipo.codigo }}" {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
-                                                {{ tipo.nombre }}
+                                                {{ tipo.codigo|trans }}
                                             </option>
                                         {% endfor %}
                                     {% endif %}
@@ -136,7 +136,7 @@
             "responsive" : true,
             "deferRender": true,
             language: {
-                url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                url: '{{ asset('js/DataTables/Plugins/i18n/'~ app.request.locale ~'.lang') }}'
             },
             ajax: {
                 url: '{{ path('data_info_segmentos') }}',

@@ -15,12 +15,12 @@ class PromocionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('descripcion', 'text')
-            ->add('impConsumidor', 'number')
-            ->add('impDistribuidor', 'number')
-            ->add('impFijo', 'number')
-            ->add('condiciones', 'text')
-            ->add('fidelizacion', 'text')
+            ->add('descripcion', 'text', ['required' => false])
+            ->add('impConsumidor', 'number', ['required' => false])
+            ->add('impDistribuidor', 'number', ['required' => false])
+            ->add('impFijo', 'number', ['required' => false])
+            ->add('condiciones', 'text', ['required' => false])
+            ->add('fidelizacion', 'text', ['required' => false])
             ->add('codigo', 'text')
         ;
     }
@@ -30,9 +30,9 @@ class PromocionType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\ProductoBundle\Entity\Promocion'
-        ));
+        ]);
     }
 
     /**

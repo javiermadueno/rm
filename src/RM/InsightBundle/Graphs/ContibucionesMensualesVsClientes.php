@@ -80,7 +80,7 @@ class ContibucionesMensualesVsClientes
                     'style'     => ['color' => '#4572A7']
                 ],
                 'gridLineWidth' => 0,
-                'title' => [
+                'title'         => [
                     'text'  => $this->translator->trans('highchart.insight.clientes.numero.contribuciones'),
                     'style' => ['color' => '#4572A7']
                 ],

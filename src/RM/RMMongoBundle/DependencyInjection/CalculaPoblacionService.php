@@ -78,7 +78,7 @@ class CalculaPoblacionService extends MongoService
 
         $pipeline_group = [
             '$group' => [
-                "_id" => null,
+                "_id"   => null,
                 "count" => ['$sum' => 1]
             ]
         ];

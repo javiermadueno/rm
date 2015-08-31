@@ -53,7 +53,7 @@ class Util
         }
 
         $intervalo_1_mes = \DateInterval::createFromDateString('-1 month');
-        $periodo = new \DatePeriod($fecha, $intervalo_1_mes, $numeroMeses);
+        $periodo         = new \DatePeriod($fecha, $intervalo_1_mes, $numeroMeses);
 
         $meses = [];
 
@@ -63,5 +63,19 @@ class Util
         }
 
         return $meses;
+    }
+
+    /**
+     * @param $dir
+     *
+     * Borra recursivamente un directorio
+     */
+    static function rmdir_recursive($dir) {
+        foreach(scandir($dir) as $file) {
+            if ('.' === $file || '..' === $file) continue;
+            if (is_dir("$dir/$file")) self::rmdir_recursive("$dir/$file");
+            else unlink("$dir/$file");
+        }
+        rmdir($dir);
     }
 } 

@@ -28,12 +28,16 @@ class InstanciaComunicacionRepository extends EntityRepository
 
     /**
      * @param $id_instancia
+     *
      * @return InstanciaComunicacion
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findById($id_instancia)
     {
         $instancia = $this->createQueryBuilder('i')
+            ->join('i.idSegmentoComunicacion', 'segmento')
+            ->join('i.fase', 'fase')
+            ->join('segmento.idComunicacion', 'comununicacion')
             ->where('i.idInstancia = :id_instancia')
             ->andWhere('i.estado > -1')
             ->setParameter('id_instancia', $id_instancia)
@@ -44,6 +48,13 @@ class InstanciaComunicacionRepository extends EntityRepository
 
     }
 
+    public function obtenerInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin)
+    {
+
+        return $this->obtenerInstanciasByFiltroDQL($id_comunicacion, $id_segmento, $fase, $fecha_inicio,
+            $fecha_fin)->getResult();
+    }
+
     public function obtenerInstanciasByFiltroDQL($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin)
     {
         $qb = $this->createQueryBuilder('ic')
@@ -51,31 +62,30 @@ class InstanciaComunicacionRepository extends EntityRepository
             ->join('sc.idComunicacion', 'c')
             ->join('sc.idSegmento', 's')
             ->where('ic.estado > -1')
-            ->orderBy('ic.idInstancia', 'ASC')
-        ;
+            ->orderBy('ic.idInstancia', 'ASC');
 
-        if($id_comunicacion != -1) {
+        if ($id_comunicacion !== -1) {
             $qb->andWhere('c.idComunicacion = :id_comunicacion')
                 ->setParameter('id_comunicacion', $id_comunicacion);
         }
 
-        if($id_segmento != -1){
-           $qb->andWhere('s.idSegmento = :id_segmento')
-               ->setParameter('id_segmento', $id_segmento);
+        if ($id_segmento !== -1) {
+            $qb->andWhere('s.idSegmento = :id_segmento')
+                ->setParameter('id_segmento', $id_segmento);
         }
 
-        if($fase != -1){
+        if ($fase !== -1) {
             $qb->andWhere('ic.fase = :fase')
                 ->setParameter('fase', $fase);
         }
 
-        if($fecha_inicio != -1 && $fecha_inicio != '') {
+        if ($fecha_inicio !== -1 && $fecha_inicio !== '') {
             $fecha_init = new \DateTime($fecha_inicio);
             $qb->andWhere('ic.fecEjecucion >= :fecha_inicio')
                 ->setParameter('fecha_inicio', $fecha_init);
         }
 
-        if($fecha_fin != -1 && $fecha_fin != '' ) {
+        if ($fecha_fin !== -1 && $fecha_fin !== '') {
             $fecha_end = new \DateTime($fecha_fin);
             $qb->andWhere('ic.fecEjecucion <= :fecha_fin')
                 ->setParameter('fecha_fin', $fecha_end);
@@ -83,11 +93,6 @@ class InstanciaComunicacionRepository extends EntityRepository
 
         return $qb->getQuery();
 
-    }
-
-    public function obtenerInstanciasByFiltro($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin) {
-
-        return $this->obtenerInstanciasByFiltroDQL($id_comunicacion, $id_segmento, $fase, $fecha_inicio, $fecha_fin)->getResult();
     }
 
     public function obtenerResumenPromocionesByTipo($id_instancia)
@@ -146,30 +151,32 @@ class InstanciaComunicacionRepository extends EntityRepository
             ->setParameter('rechazada', Promocion::RECHAZADA)
             ->setParameter('segmentada', Promocion::TIPO_SEGMENTADA)
             ->setParameter('tipos', [
-                    Promocion::ACEPTADA,
-                    Promocion::PENDIENTE,
-                    Promocion::RECHAZADA
-                ])
-        ;
+                Promocion::ACEPTADA,
+                Promocion::PENDIENTE,
+                Promocion::RECHAZADA
+            ]);
 
         return $query->getResult();
     }
 
     public function obtenerCampanyasByFiltro($id_categoria)
     {
+        if(is_array($id_categoria) && empty($id_categoria)) {
+            return [];
+        }
+
         $qb = $this->createQueryBuilder('ic')
-            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH', 'ic.idInstancia = np.idInstancia AND np.estado > -1')
-            ->join('RMComunicacionBundle:Fases', 'f', 'WITH', 'f.codigo = :codigo AND ic.fase = f')
+            ->join('ic.numPromociones', 'np')
+            ->join('ic.fase', 'fase')
             ->where('ic.estado > -1')
+            ->andWhere('fase.codigo = :codigo')
             ->groupBy('ic.idInstancia')
             ->orderBy('ic.idInstancia', 'ASC')
-            ->setParameter('codigo', InstanciaComunicacion::FASE_NEGOCIACION)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_NEGOCIACION);
 
-        if($id_categoria != null && $id_categoria > 0){
+        if ($id_categoria !== null && $id_categoria > 0) {
             $qb->andWhere('np.idCategoria IN (:categoria)')
-                ->setParameter('categoria', $id_categoria)
-            ;
+                ->setParameter('categoria', $id_categoria);
         }
 
         return $qb->getQuery()->getResult();
@@ -190,58 +197,61 @@ class InstanciaComunicacionRepository extends EntityRepository
 
         $query = $this->_em
             ->createQuery($dql)
-            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE);
+
         return $query->getResult();
     }
+
     public function obtenerClosingCampaignsByFiltro($id_categoria)
     {
 
         $qb = $this->createQueryBuilder('ic')
-            ->join('RMComunicacionBundle:SegmentoComunicacion', 'sc', 'WITH', 'ic.idSegmentoComunicacion = sc.idSegmentoComunicacion')
+            ->join('RMComunicacionBundle:SegmentoComunicacion', 'sc', 'WITH',
+                'ic.idSegmentoComunicacion = sc.idSegmentoComunicacion')
             ->join('RMComunicacionBundle:Comunicacion', 'c', 'WITH', 'sc.idComunicacion = c.idComunicacion')
             ->join('RMSegmentoBundle:Segmento', 's', 'WITH', 'sc.idSegmento = s.idSegmento')
-            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH', 'ic.idInstancia = np.idInstancia AND np.estado > -1')
+            ->join('RMProductoBundle:NumPromociones', 'np', 'WITH',
+                'ic.idInstancia = np.idInstancia AND np.estado > -1')
             ->join('ic.fase', 'f')
             ->where('ic.estado > -1')
             ->andWhere('f.codigo = :codigo')
             ->groupBy('ic.idInstancia')
             ->orderBy('ic.idInstancia', 'ASC')
-            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE)
-        ;
+            ->setParameter('codigo', InstanciaComunicacion::FASE_CIERRE);
 
-        if($id_categoria != null && $id_categoria > 0){
-           $qb->andWhere('np.idCategoria = :categoria')
-               ->setParameter('categoria', $id_categoria);
+        if ($id_categoria !== null && $id_categoria > 0) {
+            $qb->andWhere('np.idCategoria = :categoria')
+                ->setParameter('categoria', $id_categoria);
         }
 
         return $qb->getQuery()->getResult();
         /**
-        $dql = "SELECT ic
-		FROM RMComunicacionBundle:InstanciaComunicacion ic
-		JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (ic.idSegmentoComunicacion = sc.idSegmentoComunicacion)
-		JOIN RMComunicacionBundle:Comunicacion c WITH (sc.idComunicacion = c.idComunicacion)
-		JOIN RMSegmentoBundle:Segmento s WITH (sc.idSegmento = s.idSegmento)
-		JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
-		WHERE ic.estado > 0
-		AND  ic.fase = 3";
-
-        if($id_categoria != null && $id_categoria > 0){
-            $dql .= " AND np.idCategoria IN (". $id_categoria. ")";
-        }
-
-        $dql .= " GROUP BY ic.idInstancia
-				ORDER BY ic.idInstancia ASC";
-
-        $query = $this->_em->createQuery($dql);
-
-        return $query->getResult();**/
+         * $dql = "SELECT ic
+         * FROM RMComunicacionBundle:InstanciaComunicacion ic
+         * JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (ic.idSegmentoComunicacion = sc.idSegmentoComunicacion)
+         * JOIN RMComunicacionBundle:Comunicacion c WITH (sc.idComunicacion = c.idComunicacion)
+         * JOIN RMSegmentoBundle:Segmento s WITH (sc.idSegmento = s.idSegmento)
+         * JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
+         * WHERE ic.estado > 0
+         * AND  ic.fase = 3";
+         *
+         * if($id_categoria != null && $id_categoria > 0){
+         * $dql .= " AND np.idCategoria IN (". $id_categoria. ")";
+         * }
+         *
+         * $dql .= " GROUP BY ic.idInstancia
+         * ORDER BY ic.idInstancia ASC";
+         *
+         * $query = $this->_em->createQuery($dql);
+         *
+         * return $query->getResult();**/
     }
 
     public function obtenerInstanciasCreatividad()
     {
         $dql = "SELECT ic
             FROM RMComunicacionBundle:InstanciaComunicacion ic
+            JOIN ic.fase as fase
             JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (sc.idSegmentoComunicacion = ic.idSegmentoComunicacion )
             JOIN RMComunicacionBundle:Comunicacion com WITH (com.idComunicacion = sc.idComunicacion)
             JOIN RMSegmentoBundle:Segmento seg WITH (sc.idSegmento = seg.idSegmento)
@@ -249,11 +259,14 @@ class InstanciaComunicacionRepository extends EntityRepository
     		JOIN RMProductoBundle:NumPromociones np WITH (ic.idInstancia = np.idInstancia AND np.estado > -1)
             JOIN RMPlantillaBundle:GrupoSlots gs WITH (np.idGrupo = gs.idGrupo AND gs.estado > -1 AND gs.tipo = :tipo)
             WHERE ic.estado > -1
+            AND fase.codigo = :codigo_cierre
             ORDER BY ic.idInstancia
             ";
 
         $query = $this->_em->createQuery($dql)
-            ->setParameter('tipo', GrupoSlots::CREATIVIDADES);
+            ->setParameter('tipo', GrupoSlots::CREATIVIDADES)
+            ->setParameter('codigo_cierre', InstanciaComunicacion::FASE_NEGOCIACION)
+        ;
 
         return $query->getResult();
     }

@@ -55,7 +55,7 @@ class CreaSlotsListener
             $slot = new Slot();
 
             $slot->setIdGrupo($grupo)
-                ->setCodigo(uniqid($grupo->getIdGrupo().'_'))
+                ->setCodigo(uniqid($grupo->getIdGrupo() . '_'))
                 ->setEstado(1);
 
             $this->em->persist($slot);

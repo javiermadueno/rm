@@ -52,16 +52,16 @@ class MongoService
      */
     public function __construct(TokenStorageInterface $security, array $config)
     {
-        $this->sc = $security;
+        $this->sc     = $security;
         $this->config =  $config;
-        $this->user = $this->sc->getToken()->getUser();
+        $this->user   = $this->sc->getToken()->getUser();
         $this->getParameters();
         $this->connect();
     }
 
     public function connect()
     {
-        $this->mongo = new \MongoClient($this->parameters['host']);
+        $this->mongo    = new \MongoClient($this->parameters['host']);
         $this->database = $this->mongo->selectDB($this->parameters['database']);
     }
 
@@ -88,7 +88,7 @@ class MongoService
         }
 
         $default_connection = $config['default_connection'];
-        $this->parameters = $connections[$default_connection];
+        $this->parameters   = $connections[$default_connection];
 
     }
 

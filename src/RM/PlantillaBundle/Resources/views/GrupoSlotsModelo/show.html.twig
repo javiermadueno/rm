@@ -3,7 +3,7 @@
 
 {% set opcionMenuTabConfig =  2%}
 
-{% set tipo = {1: 'Tipo Promocion', 2: 'Tipo Creatividad' } %}
+{% set tipo = {1: 'promocion'|trans|title, 2: 'creatividad'|trans|title } %}
 
 {% block tabcontent %}
 <h4 class="widgettitle">{{ "datos" |trans }}</h4>
@@ -37,58 +37,58 @@
 <h4 class="widgettitle">{{ "caracteristicas" |trans|title }}</h4>
 <table class="table table-bordered responsive">
     <tbody>
-    {% if entity.mImgProducto is defined %}
+    {% if entity.mImgProducto is not null %}
         <tr>
-            <td  width="1%">{{ entity.mImgProducto }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mImgProducto }}"/></td>
             <td  colspan="2">{{ "Mostrar imagen producto" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mPrecio is defined %}
+    {% if entity.mPrecio is not null %}
         <tr>
-            <td >{{ entity.mPrecio }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mPrecio }}"/></td>
             <td colspan="2">{{ "Mostrar precio producto" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mVolumen is defined %}
+    {% if entity.mVolumen is not null %}
         <tr>
-            <td >{{ entity.mVolumen }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mVolumen }}"/></td>
             <td  colspan="2">{{ "Mostrar volumen" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mCondiciones is defined %}
+    {% if entity.mCondiciones is not null %}
         <tr>
-            <td>{{  entity.mCondiciones }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mCondiciones }}"/></td>
             <td colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mImgMarca is defined %}
+    {% if entity.mImgMarca is not null %}
         <tr>
-            <td>{{ entity.mImgMarca }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mImgMarca }}"/></td>
             <td>{{ "Mostrar imagen marca" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mTexto is defined %}
+    {% if entity.mTexto is not null %}
         <tr>
-            <td>{{ entity.mTexto }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mTexto }}"/></td>
             <td  colspan="2">{{ "Mostrar texto libre" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mVoucher is defined %}
+    {% if entity.mVoucher is not null %}
         <tr>
-            <td>{{ entity.mVoucher }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mVoucher }}"/></td>
             <td  colspan="2">{{ "Mostrar voucher" | trans }}</td>
         </tr>
     {% endif %}
 
-    {% if entity.mFidelizacion is defined %}
+    {% if entity.mFidelizacion is not null %}
         <tr>
-            <td>{{ entity.mFidelizacion }}</td>
+            <td  width="1%"><input type="checkbox" checked="{{ entity.mFidelizacion }}"/></td>
             <td  colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
         </tr>
     {% endif %}

@@ -70,9 +70,9 @@ class SegmentoComunicacionServicio
         $devolver = 1;
         if ($registros) {
             foreach ($registros as $objSC) {
-                if ($objSC->getEstado() == 1) {
+                if ($objSC->getEstado() === 1) {
                     $objSC->setEstado(0);
-                } elseif ($objSC->getEstado() == 0) {
+                } elseif ($objSC->getEstado() === 0) {
                     $objSC->setEstado(1);
                 }
                 $this->em->persist($objSC);
@@ -120,7 +120,7 @@ class SegmentoComunicacionServicio
 
         $regComunicaciones = $repoCom->obtenerComunicacionById($id_comunicacion);
         $idComunicacion    = $regComunicaciones[0];
-        if ($id_segmento_comunicacion == -1) {
+        if ($id_segmento_comunicacion === -1) {
             $objSegCom = new SegmentoComunicacion();
         } else {
             $regSegmentosCom = $repo->obtenerSegmentosComunicacionById($id_comunicacion, $id_segmento);

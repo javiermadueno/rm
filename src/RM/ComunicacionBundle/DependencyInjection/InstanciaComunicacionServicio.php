@@ -4,10 +4,12 @@ namespace RM\ComunicacionBundle\DependencyInjection;
 
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
+use RM\CategoriaBundle\Entity\Categoria;
 use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacionRepository;
 use RM\PlantillaBundle\Entity\GrupoSlots;
+use RM\ProductoBundle\Entity\CriterioDesempate;
 use RM\ProductoBundle\Entity\InstanciaCriterioDesempate;
 use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
@@ -17,7 +19,7 @@ class InstanciaComunicacionServicio
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager
      */
     private $em;
 
@@ -76,7 +78,7 @@ class InstanciaComunicacionServicio
         $objPromocionesCreatividad,
         Request $request
     ) {
-
+        /** @var  $manager */
         $manager = $this->em;
 
         $categoriaYGrupoUsados    = [];
@@ -88,6 +90,7 @@ class InstanciaComunicacionServicio
          * y se actualiza su valor
          */
 
+        /** @var NumPromociones $numPromo */
         foreach ($objNumPromociones as $numPromo) {
             $idGrupoSlots = $numPromo->getIdGrupo()->getIdGrupo();
             $idCategoria  = $numPromo->getIdCategoria()->getIdCategoria();
@@ -98,13 +101,13 @@ class InstanciaComunicacionServicio
             $varGen = $request->get($nomVarGen);
             $varSeg = $request->get($nomVarSeg);
 
-            if ($varGen || $varSeg) {
+            if (is_numeric($varGen) || is_numeric($varSeg) ) {
 
-                if (null != $varGen) {
+                if (null !== $varGen) {
                     $numPromo->setNumGenericas($varGen);
                 }
 
-                if (null != $varSeg) {
+                if (null !== $varSeg) {
                     $numPromo->setNumSegmentadas($varSeg);
                 }
 
@@ -115,6 +118,7 @@ class InstanciaComunicacionServicio
 
         }
 
+        /** @var NumPromociones $numPromo */
         foreach ($objPromocionesCreatividad as $numPromo) {
             $idGrupoSlots = $numPromo->getIdGrupo()->getIdGrupo();
 
@@ -125,13 +129,13 @@ class InstanciaComunicacionServicio
             $varGen = $request->get($nomVarGen);
             $varSeg = $request->get($nomVarSeg);
 
-            if ($varGen || $varSeg) {
+            if (is_numeric($varGen) || is_numeric($varSeg)) {
 
-                if (null != $varGen) {
+                if (null !== $varGen) {
                     $numPromo->setNumGenericas($varGen);
                 }
 
-                if (null != $varSeg) {
+                if (null !== $varSeg) {
                     $numPromo->setNumSegmentadas($varSeg);
                 }
 
@@ -152,7 +156,7 @@ class InstanciaComunicacionServicio
             $idGrupoSlots = $grupoSlot['idGrupo'];
 
             //Se comprueba si el grupo es de tipo creatividad
-            if ($grupoSlot['tipo'] == GrupoSlots::CREATIVIDADES) {
+            if ($grupoSlot['tipo'] === GrupoSlots::CREATIVIDADES) {
                 if (in_array(sprintf("%s", $idGrupoSlots), $grupoCreatividadesUsados)) {
                     continue;
                 }
@@ -171,11 +175,11 @@ class InstanciaComunicacionServicio
                     $numPromocion->setIdGrupo($objGrupo);
                     $numPromocion->setIdInstancia($objInstancia);
 
-                    if (null != $varSeg) {
+                    if (null !== $varSeg) {
                         $numPromocion->setNumSegmentadas($varSeg);
                     }
 
-                    if (null != $varGen) {
+                    if (null !== $varGen) {
                         $numPromocion->setNumGenericas($varGen);
                     }
 
@@ -183,6 +187,7 @@ class InstanciaComunicacionServicio
 
                 }
             } else {
+                /** @var Categoria $categoria */
                 foreach ($objCategorias as $categoria) {
 
 
@@ -209,11 +214,11 @@ class InstanciaComunicacionServicio
                         $numPromocion->setIdInstancia($objInstancia);
 
 
-                        if (null != $varSeg) {
+                        if (null !== $varSeg) {
                             $numPromocion->setNumSegmentadas($varSeg);
                         }
 
-                        if (null != $varGen) {
+                        if (null !== $varGen) {
                             $numPromocion->setNumGenericas($varGen);
                         }
 
@@ -232,12 +237,13 @@ class InstanciaComunicacionServicio
         $objGrupoSlots,
         $criteriosDesempate,
         $instanciasCriterios,
-        $request
+        Request $request
     ) {
         $manager = $this->em;
 
         $criteriosYGruposUsados = [];
 
+        /** @var InstanciaCriterioDesempate $instancia */
         foreach ($instanciasCriterios as $instancia) {
             $idGrupo      = $instancia->getGrupo()->getIdGrupo();
             $tipoCriterio = $instancia->getCriterioDesempate()->getCodigo();
@@ -246,7 +252,7 @@ class InstanciaComunicacionServicio
 
             $numSlot = $request->get($varNumSlot);
 
-            if (null != $numSlot) {
+            if (null !== $numSlot) {
                 $instancia->setNumSlot($numSlot);
                 $manager->merge($instancia);
 
@@ -257,6 +263,8 @@ class InstanciaComunicacionServicio
         $manager->flush();
 
         foreach ($objGrupoSlots as $grupoSlot) {
+
+            /** @var CriterioDesempate $criterio */
             foreach ($criteriosDesempate as $criterio) {
                 $idGrupo      = $grupoSlot['idGrupo'];
                 $tipoCriterio = $criterio->getCodigo();
@@ -269,7 +277,7 @@ class InstanciaComunicacionServicio
 
                 $numSlot = $request->get($varNumSlot);
 
-                if (null != $numSlot) {
+                if (null !== $numSlot) {
                     $objGrupo = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupo);
 
                     //Se crea una nueva instancia de criterio de Desempate
@@ -632,18 +640,30 @@ class InstanciaComunicacionServicio
          * Se comprueba que el número de promociones creadas sea el indicado en numPromociones
          */
 
-        $numPromociones = $instancia->getNumPromociones()->filter(function(NumPromociones $numPromociones) {
-            return $numPromociones->getEstado() > -1;
-        });
+        $numPromociones = $instancia->getNumPromociones();
 
-        foreach ($numPromociones as $numPromocion) {
-            $totalSegmentadas = intval($numPromocion->getNumSegmentadas());
-            $totalGenericas   = intval($numPromocion->getNumGenericas());
+        $plantilla = $instancia
+            ->getIdSegmentoComunicacion()
+            ->getIdComunicacion()
+            ->getPlantilla();
 
-            $segmentadas = $numPromocion->getPromocionesSegentadas()->count();
-            $genericas   = $numPromocion->getPromocionesGenericas()->count();
+        $gruposSlots = $plantilla->getGruposSlots();
 
-            if ($genericas < $totalGenericas) {
+        /** @var GrupoSlots $grupo */
+        foreach ($gruposSlots as $grupo) {
+            $totalGenericas = intval($grupo->getNumSlots());
+
+            $promociones = $numPromociones->filter(function(NumPromociones $numPromociones) use ($grupo){
+                return $numPromociones->getIdGrupo() === $grupo;
+            });
+
+
+            $genericas = array_reduce($promociones->toArray(), function($genericas, NumPromociones $promocion){
+                $genericas += $promocion->getPromocionesGenericas()->count();
+                return $genericas;
+            });
+
+            if($genericas < $totalGenericas ) {
                 return false;
             }
         }
@@ -695,7 +715,7 @@ class InstanciaComunicacionServicio
          */
         foreach ($instancia->getNumPromociones() as $numPro) {
             foreach ($numPro->getPromociones() as $promocion) {
-                if ($promocion->getAceptada() == Promocion::PENDIENTE) {
+                if ($promocion->getAceptada() === Promocion::PENDIENTE) {
                     return false;
                 }
             }
@@ -718,7 +738,7 @@ class InstanciaComunicacionServicio
          */
         foreach ($instancia->getNumPromociones() as $numPro) {
             foreach ($numPro->getPromociones() as $promocion) {
-                if ($promocion->getAceptada() == Promocion::RECHAZADA) {
+                if ($promocion->getAceptada() === Promocion::RECHAZADA) {
                     return true;
                 }
             }

@@ -20,39 +20,39 @@ class SegmentoComunicacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $comunicacionTransformer = new ComunicacionToNumberTransformer($options['em']);
-        $datetimeTransformer =  new DatetimeToStringTransformer('d/m/Y');
+        $datetimeTransformer     =  new DatetimeToStringTransformer('d/m/Y');
 
 
         $builder
-            ->add( $builder->create('fecInicio', 'text', array(
+            ->add( $builder->create('fecInicio', 'text', [
                         'required' => true,
-                        'attr' => array(
+                        'attr'     => [
                             'class' => 'datepicker'
-                        )))->addViewTransformer($datetimeTransformer)
+                        ]])->addViewTransformer($datetimeTransformer)
                 )
-            ->add($builder->create('fecFin', 'text', array(
+            ->add($builder->create('fecFin', 'text', [
                         'required' => true,
-                        'attr' => array(
+                        'attr'     => [
                             'class' => 'datepicker'
-                        )))->addViewTransformer($datetimeTransformer))
-            ->add('horaProg', 'time', array(
+                        ]])->addViewTransformer($datetimeTransformer))
+            ->add('horaProg', 'time', [
                     'required' => true
-                ))
-            ->add('tipo', 'choice', array(
+                ])
+            ->add('tipo', 'choice', [
                     'required'   => true,
                     'choices'    => $this->getTipos(),
                     'empty_data' => 'Seleccione una frecuencia',
-                ))
+                ])
             ->add('dia')
             ->add('mes')
-            ->add('estado', 'hidden', array(
+            ->add('estado', 'hidden', [
                     'data' => 1
-                ))
+                ])
             ->add($builder->create('idComunicacion', 'hidden')->addModelTransformer($comunicacionTransformer))
-            ->add('idCicloVida', 'entity', array(
-                    'mapped' => false,
-                    'em' => $_SESSION['connection'],
-                    'class' => 'RM\TransformadasBundle\Entity\Vt',
+            ->add('idCicloVida', 'entity', [
+                    'mapped'        => false,
+                    'em'            => $_SESSION['connection'],
+                    'class'         => 'RM\TransformadasBundle\Entity\Vt',
                     'query_builder' => function (EntityRepository $er){
                         return $er->createQueryBuilder('v')
                             ->where('v.tipo = :tipo')
@@ -63,7 +63,7 @@ class SegmentoComunicacionType extends AbstractType
                     'empty_value'   => 'Seleccione variable',
                     'empty_data'    => null,
                     'label'         => 'Ciclo de vida'
-                ))
+                ])
 
         ;
     }
@@ -73,10 +73,10 @@ class SegmentoComunicacionType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\ComunicacionBundle\Entity\SegmentoComunicacion',
             'em'         => $_SESSION['connection'],
-        ));
+        ]);
     }
 
     /**
@@ -89,7 +89,7 @@ class SegmentoComunicacionType extends AbstractType
 
     private function getTipos()
     {
-        return array(
+        return [
             SegmentoComunicacion::FREC_DIARIA       => 'frecuencia.diaria',
             SegmentoComunicacion::FREC_SEMANAL      => 'frecuencia.semanal',
             SegmentoComunicacion::FREC_QUINCENAL    => 'frecuencia.quincenal',
@@ -98,6 +98,6 @@ class SegmentoComunicacionType extends AbstractType
             SegmentoComunicacion::FREC_CUATRIMESTRAL=> 'frecuencia.cuatrimestral',
             SegmentoComunicacion::FREC_SEMESTRAL    => 'frecuencia.semestral',
             SegmentoComunicacion::FREC_ANUAL        => 'frecuencia.anual'
-        );
+        ];
     }
 }

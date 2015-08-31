@@ -20,16 +20,16 @@ class nuevoTamanyoCreatividadType extends nuevoTamanyoProductoType
         $builder->add('codigo','text', ['required'=>true])
             ->add('ancho', 'number', ['required' => true])
             ->add('alto', 'number', ['required' => true])
-            ->add('estado', 'hidden', array(
+            ->add('estado', 'hidden', [
                     'data' => '1',
-                ))
-            ->add('tipo', 'choice', array(
-                    'choices' => array(
-                        TamanyoImagen::PRODUCTO => 'tamanyo.producto',
-                        TamanyoImagen::MARCA    => 'tamanyo.marca',
+                ])
+            ->add('tipo', 'choice', [
+                    'choices' => [
+                        TamanyoImagen::PRODUCTO    => 'tamanyo.producto',
+                        TamanyoImagen::MARCA       => 'tamanyo.marca',
                         TamanyoImagen::CREATIVIDAD => 'tamanyo.creatividad'
-                    )
-                ))
+                    ]
+                ])
         ;
     }
 

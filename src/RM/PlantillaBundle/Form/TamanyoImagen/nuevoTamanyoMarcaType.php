@@ -12,12 +12,12 @@ class nuevoTamanyoMarcaType extends nuevoTamanyoProductoType
 		$builder->add('codigo','text', ['required'=>true])
 				->add('ancho', 'number', ['required' => true])
 				->add('alto', 'number', ['required' => true])
-				->add('estado', 'hidden', array(
+				->add('estado', 'hidden', [
 						'data' => '1',
-				))
-				->add('tipo', 'hidden', array(
+				])
+				->add('tipo', 'hidden', [
 						'data' => TamanyoImagen::MARCA,
-				))
+				])
 		;
 	}
 

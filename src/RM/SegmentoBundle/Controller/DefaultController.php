@@ -4,6 +4,7 @@ namespace RM\SegmentoBundle\Controller;
 
 use RM\AppBundle\Controller\RMController;
 use RM\DiscretasBundle\Entity\Tipo;
+use RM\DiscretasBundle\Entity\TipoRepository;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\ProcesosBundle\Entity\Proceso;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,10 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends RMController
 {
 
+    /**
+     * @param $idOpcionMenuSup
+     * @param $idOpcionMenuIzq
+     *
+     * @return Response|static
+     */
     public function obtenerSegmentosAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
-
-        $em = $this->get('rm.manager')->getManager();
+        $em = $this->getManager();
 
         $servicioSeg   = $this->get("SegmentoService");
         $servicioMarca = $this->get("marcaservice");
@@ -48,7 +54,7 @@ class DefaultController extends RMController
             return JsonResponse::create($data, 200);
         }
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
+        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
         $objMarcas     = $servicioMarca->getMarcas();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
@@ -61,83 +67,39 @@ class DefaultController extends RMController
         ]);
     }
 
+
+    /**
+     * @return Response
+     */
     public function showValidarSegmentosAction()
     {
+        $em           = $this->getDoctrine()->getManager('procesos');
+        $repoProcesos = $em->getRepository("ProcesosBundle:Proceso");
 
-        $em = $this->getDoctrine()->getManager('procesos');
-
-        $repoTipo    = $em->getRepository("ProcesosBundle:TipoProceso");
-        $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
-
-
-        $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
-
-        $estadoCreado    = $repoEstados->findOneBy(['codigo' => 'cr']);
-        $estadoEnProceso = $repoEstados->findOneBy(['codigo' => 'ep']);
-
-        if (!$tipo0) {
-            $this->createNotFoundException('No se ha encontrado tipo 0');
-        }
-
-        if (!$estadoCreado) {
-            $this->createNotFoundException('No se ha encontrado el estado "Creado"');
-        }
-
-        if (!$estadoEnProceso) {
-            $this->createNotFoundException('No se ha encontrado el estado "En Proceso"');
-        }
-
-        $repoProcesos    = $em->getRepository("ProcesosBundle:Proceso");
-        $procesoDeCentro = $repoProcesos->findBy([
-            'idCentro'      => $this->get('security.token_storage')->getToken()->getUser()->getCliente(),
-            'estadoProceso' => [$estadoCreado, $estadoEnProceso],
-            'tipoProceso'   => $tipo0
-        ]);
+        $procesoDeCentro = $repoProcesos->findProcesosCreadosOEnProceso();
 
         if (count($procesoDeCentro) > 0) {
             return $this->render('RMSegmentoBundle:Default:validandoSegmentos.html.twig');
         } else {
             return $this->render('RMSegmentoBundle:Default:validarSegmentos.html.twig');
         }
-
     }
 
+    /**
+     * @return Response
+     */
     public function validarSegmentosAction()
     {
-        $em = $this->getDoctrine()->getManager('procesos');
-
-        $repoTipo    = $em->getRepository("ProcesosBundle:TipoProceso");
-        $repoEstados = $em->getRepository("ProcesosBundle:EstadoProceso");
-
-        $tipo0 = $repoTipo->findOneBy(['codigo' => 'P00']);
-
-
-        $estadoCreado = $repoEstados->findOneBy(['codigo' => 'cr']);
-
-        if (!$tipo0) {
-            $this->createNotFoundException('No se ha encontrado tipo 0');
-        }
-
-        if (!$estadoCreado) {
-            $this->createNotFoundException('No se ha encontrado el estado "Creado"');
-        }
-
-        $usuario = $this->get('security.token_storage')->getToken()->getUser();
-
-        $proceso = new Proceso();
-        $proceso->setFechaCreacion(new \DateTime())
-            ->setEstadoProceso($estadoCreado)
-            ->setUidUsuario($usuario->getUsername())
-            ->setTipoProceso($tipo0)
-            ->setIdCentro($usuario->getCliente())
-        ;
-
-        $em->persist($proceso);
-        $em->flush();
+        $this->get('rm_procesos.factory.proceso_factory')
+            ->createProcesoTipo0();
 
         return $this->render('RMSegmentoBundle:Default:validandoSegmentos.html.twig');
     }
 
+    /**
+     * @return Response
+     * @throws \Exception
+     */
     public function searchSegmentosPopoupAction()
     {
         $em = $this->get('rm.manager')->getManager();
@@ -147,7 +109,7 @@ class DefaultController extends RMController
         $fecha_busqueda = $request->get('fecha_busqueda');
         $fecha_busqueda = new \DateTime($fecha_busqueda);
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findAll();
+        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
         return $this->render('RMSegmentoBundle:Default\Buscador:buscadorSegmentosPopup.html.twig', [
@@ -225,7 +187,7 @@ class DefaultController extends RMController
         $id_variable = $request->query->get('id', -1);
         $codigo_tipo = $request->query->get('tipo', -1);
 
-        if ($id_variable == -1) {
+        if ($id_variable === -1) {
             return Response::create('', 200);
         }
 

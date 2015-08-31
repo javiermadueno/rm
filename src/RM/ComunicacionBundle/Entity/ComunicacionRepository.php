@@ -20,14 +20,14 @@ class ComunicacionRepository extends EntityRepository
             ->addOrderBy('c.idComunicacion', 'ASC')
         ;
 
-        if($estado != -2) {
+        if($estado !== -2) {
             $qb->andWhere('c.estado = :estado')
                 ->setParameter('estado', $estado);
         } else {
             $qb->andWhere('c.estado > -1');
         }
 
-        if($id_canal != -1) {
+        if($id_canal !== -1) {
             $qb->andWhere('c.idCanal = :canal')
                 ->setParameter('canal', $id_canal);
         }

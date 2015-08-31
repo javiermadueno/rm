@@ -5,6 +5,7 @@ namespace RM\ProductoBundle\DependencyInjection;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\ProductoBundle\Entity\Promocion;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use \NumberFormatter;
 
 class PromocionServicio {
 
@@ -14,33 +15,34 @@ class PromocionServicio {
 
 
 	public function getPromocionById($id_promocion) {
-		$repo = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
+		$repo      = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
 		$registros = $repo->obtenerPromocionById ( $id_promocion );
 		return $registros;
 	}
 
 	public function getPromocionesByIdInstancia($id_instancia){
 		
-		$repo = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
+		$repo      = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
 		$registros = $repo->obtenerPromocionesByIdInstancia( $id_instancia );
 		return $registros;
 	}
 
 	public function getPromocionesCampanya($id_categoria, $id_instancia, $tipo) {
-		$repo = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
+		$repo      = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
 		$registros = $repo->obtenerPromocionesCampanya ( $id_categoria, $id_instancia, $tipo );
 		return $registros;
 	}
 	public function getPromocionAsignadaSlot($id_slot, $id_plantilla) {
-		$repo = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
+		$repo      = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
 		$registros = $repo->obtenerPromocionAsignadaSlot ( $id_slot, $id_plantilla );
 		return $registros;
 	}
 
-    public function guardarPromocionesCampanya ($promociones)
+    public function guardarPromocionesCampanya ($promociones, $locale = 'es')
     {
+        $formatter = NumberFormatter::create($locale, NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
 
-        $repo = $this->em->getRepository('RMProductoBundle:Promocion');
+        $repo          = $this->em->getRepository('RMProductoBundle:Promocion');
         $tipoPromocion = $this->em->getRepository('RMProductoBundle:TipoPromocion');
         try {
             foreach ($promociones as $idNumPro => $promocion) {
@@ -59,11 +61,11 @@ class PromocionServicio {
                         $promo = $repo->find($segmentada['idPromocion']);
 
                         $promo->setIdProducto($producto)
-                            ->setMinimo($segmentada['minimo'])
+                            ->setMinimo($formatter->parse($segmentada['minimo']))
                             ->setIdTipoPromocion($tipoPromocion->findOneBy(['codigo' => $segmentada['tipo']]))
                             ->setFiltro($segmentada['filtroParse'])
                             ->setNombreFiltro($segmentada['filtro'])
-                            ->setPoblacion($segmentada['poblacion']);
+                            ->setPoblacion($formatter->parse($segmentada['poblacion']));
 
 
                         //Habria que añadir codigo necesario para guardar el filtro y hacer el calculo de la poblacion
@@ -113,6 +115,7 @@ class PromocionServicio {
                             ->setNumPromocion($this->em->find('RMProductoBundle:NumPromociones', $idNumPro))
                             ->setTipo(Promocion::TIPO_GENERICA)
                             ->setAceptada(Promocion::ACEPTADA)
+                            ->setFiltro($generica['filtroParse'])
                             ->setEstado(1);
                     }
 
@@ -132,17 +135,17 @@ class PromocionServicio {
 	public function actualizarPromocionesCampanya($data) {
 		
 		$repo = $this->em->getRepository ( 'RMProductoBundle:Promocion' );
-		$val =0;
+		$val  =0;
 		
 		foreach ( $data as $promoArray ) {
-			if ($promoArray != NULL) {
+			if ($promoArray !== NULL) {
 		
 				$respuesta = $repo->actualizarPromocionesCampanya ( $promoArray );
 				$val++;
 			}
 		}
 		
-		if($respuesta == 1){
+		if($respuesta === 1){
 			return 1;
 		}
 		else{

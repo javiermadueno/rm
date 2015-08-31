@@ -33,21 +33,21 @@ class FichaController extends Controller
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
         }
         
-        if($id_vid_grupo_segmento == 0)
+        if($id_vid_grupo_segmento === 0)
         { 
         	//Si es 0 (como al entrar por primera vez), se coge una por defecto y si no tiene se crea)
         	//Se comprueba para los casos de categorias y marcas, que si no existen alguna de ellas, se lanza una excepcion
-        	if($variable[0]->getClasificacion() == Vid::CLASIFICACION_CATEGORIA) //Categoria
+        	if($variable[0]->getClasificacion() === Vid::CLASIFICACION_CATEGORIA) //Categoria
         	{
-        		$servicioCat = $this->get("categoriaService");
+        		$servicioCat  = $this->get("categoriaService");
         		$objExisteCat = $servicioCat->getCategoriasPorNivel(1);
         		if (!$objExisteCat) {
         			throw $this->createNotFoundException('No hay ninguna categoria creada');
         		}
         	}
-        	elseif ($variable[0]->getClasificacion() == Vid::CLASIFICACION_MARCA) //Marca
+        	elseif ($variable[0]->getClasificacion() === Vid::CLASIFICACION_MARCA) //Marca
         	{
-        		$servicioMarca = $this->get("marcaService");
+        		$servicioMarca   = $this->get("marcaService");
         		$objExisteMarcas = $servicioMarca->getMarcas();
         		if (!$objExisteMarcas) {
         			throw $this->createNotFoundException('No hay ninguna marca creada');
@@ -65,7 +65,7 @@ class FichaController extends Controller
        			throw $this->createNotFoundException('No se encuentra el grupoSegmento asociado a la variable');
        		}
        		else{
-       			if($grupoSegmento[0]->getIdVid()->getIdVid() <> $id_vid){
+       			if($grupoSegmento[0]->getIdVid()->getIdVid() !== $id_vid){
        				throw $this->createNotFoundException('El idVid del grupoSegmento no coincide con la Id de la variabel ');
        			}
        		}
@@ -91,7 +91,7 @@ class FichaController extends Controller
        		 */
        		
        		$segmentos = $servicio->getSegmentosByIdGrupo($grupoSegmento->getIdVidGrupoSegmento());
-       		if(sizeof($segmentos) == 0){
+       		if(sizeof($segmentos) === 0){
                 $this->get('rm_discretas.personaliza_variable_discreta')->copiaSegmentosGlobalesA($grupoSegmento);
                 $segmentos = $servicio->getSegmentosByIdGrupo($grupoSegmento->getIdVidGrupoSegmento());
 
@@ -104,9 +104,9 @@ class FichaController extends Controller
        		 * Si la variable no es personalizada
        		 * Se obtienen los segmentos globales
        		 */
-       		$segmentos = $servicio->getSegmentosGlobales();
+       		$segmentos         = $servicio->getSegmentosGlobales();
        		$criteriosGlobales = $servicio->getCriteriosGlobales();
-       		$criterio = $criteriosGlobales[0];
+       		$criterio          = $criteriosGlobales[0];
        		
        	}
        	else
@@ -116,11 +116,11 @@ class FichaController extends Controller
         
     	//Creación del formulario mediante clase
     	//*************************************
-        if($grupoSegmento->getPersonalizado() && $variable[0]->getSolicitaTiempo() == Vid::SOLICITA_N)
+        if($grupoSegmento->getPersonalizado() && $variable[0]->getSolicitaTiempo() === Vid::SOLICITA_N)
             $formulario1 = $this->createForm(new ModificarGrupoType(), $criterio );
-        elseif ($variable[0]->getSolicitaTiempo() == Vid::SOLICITA_N)
+        elseif ($variable[0]->getSolicitaTiempo() === Vid::SOLICITA_N)
             $formulario1 = $this->createForm(new ModificarGrupoNType(), $criterio);
-        elseif ($variable[0]->getSolicitaTiempo() == Vid::SOLICITA_N_M)
+        elseif ($variable[0]->getSolicitaTiempo() === Vid::SOLICITA_N_M)
             $formulario1 = $this->createForm(new ModificarGrupoNyMType(), $criterio);
         else
             $formulario1 = null; // $this->createForm(new ModificarGrupoType(), $criterio);
@@ -143,39 +143,39 @@ class FichaController extends Controller
         //*************************************
      	//Ahora se envia un array de objetos conteniendo las categorias,proveedores o marcas que tenga configurado la variable
      	$objClasificacion = NULL; //Es un objeto que contiene o las categorias o marcas, segun configuracion
-     	if($variable[0]->getClasificacion() == Vid::CLASIFICACION_CATEGORIA) //Categoria
+     	if($variable[0]->getClasificacion() === Vid::CLASIFICACION_CATEGORIA) //Categoria
      	{	
-     		$servicioCat = $this->get("categoriaService");
+     		$servicioCat      = $this->get("categoriaService");
      		$objClasificacion = $servicioCat->getCategoriasPorNivel(1);
      		
      	}
-     	elseif ($variable[0]->getClasificacion() == Vid::CLASIFICACION_PROVEEDOR) //Proveedor
+     	elseif ($variable[0]->getClasificacion() === Vid::CLASIFICACION_PROVEEDOR) //Proveedor
      	{
-     		$servicioProveedor = $this->get("ProveedorService");
-     		$objClasificacion = $servicioProveedor->getProveedores();
+     		$servicioProveedor     = $this->get("ProveedorService");
+     		$objClasificacion      = $servicioProveedor->getProveedores();
             $objClasificacion = $objClasificacion[0];
      	}
-     	elseif ($variable[0]->getClasificacion() == Vid::CLASIFICACION_MARCA) //Marca
+     	elseif ($variable[0]->getClasificacion() === Vid::CLASIFICACION_MARCA) //Marca
      	{	
-     		$servicioMarca = $this->get("marcaService");
+     		$servicioMarca    = $this->get("marcaService");
      		$objClasificacion = $servicioMarca->getMarcas();
      	}
      	
      	//$this->get('ladybug')->log($formulario1->createView()->vars['value']);
-        if($formulario1 != null){
+        if($formulario1 !== null){
             $formulario1 = $formulario1->createView();
         }
      	
-    	return $this->render('RMDiscretasBundle:Ficha:index.html.twig', array(
-    			'idOpcionMenuSup' => $idOpcionMenuSup,
-    			'idOpcionMenuIzq' => $idOpcionMenuIzq,
-    			'formGrupo' => $formulario1,
+    	return $this->render('RMDiscretasBundle:Ficha:index.html.twig', [
+    			'idOpcionMenuSup'  => $idOpcionMenuSup,
+    			'idOpcionMenuIzq'  => $idOpcionMenuIzq,
+    			'formGrupo'        => $formulario1,
     			'segGlobalDefecto' => $segGlobalDefecto,
-    			'objVariable' => $variable[0],
-    			'objGrupo' => $objGrupoSeg,
-    			'objSegmentos' => $segmentos,
+    			'objVariable'      => $variable[0],
+    			'objGrupo'         => $objGrupoSeg,
+    			'objSegmentos'     => $segmentos,
     			'objClasificacion' => $objClasificacion
-    	));
+    	]);
     	 
     }
     
@@ -186,9 +186,9 @@ class FichaController extends Controller
     		Crea una nueva fila de segmento asociado a un grupo de segmento, poniendo como parte de los ids al numero pasado
     	*/
     	
-    	return $this->render('RMDiscretasBundle:Ficha:nuevaFilaSegmento.html.twig', array(
+    	return $this->render('RMDiscretasBundle:Ficha:nuevaFilaSegmento.html.twig', [
     		'idNuevoSeg' => $idNuevoSeg
-    	));
+    	]);
     }
         
     public function eliminarGuardarSegmentosAsocAction(Request $request){
@@ -204,20 +204,20 @@ class FichaController extends Controller
 	    */
     	if ($request->isMethod('POST')) {
     		$servicio = $this->get("variablesDiscretas");
-    		if($request->get('accionEjecutar') == 'eliminar'){
+    		if($request->get('accionEjecutar') === 'eliminar'){
     			$deleteSeg = $servicio->eliminarSegmentosAsocByIdSegmento($request->get('listaSegmentosAEliminar'));
     			
     			$this->get('session')->getFlashBag()->add('mensaje','eliminar_ok');    		
     		}
-    		elseif ($request->get('accionEjecutar') == 'guardar'){
+    		elseif ($request->get('accionEjecutar') === 'guardar'){
     			//Se a�aden los nuevos segmentos en el caso de que halla
-    			if($request->get('segGlobalDefecto') == 1){
+    			if($request->get('segGlobalDefecto') === 1){
     				$guardarSeg = $servicio->guardarNuevosSegmentosGlobalesDefectoAsocByPost($request);
     			}
     			if($request->get('contSegmentos') > 0){
     				$guardarSeg = $servicio->guardarNuevosSegmentosAsocByPost($request);
     			}
-    			if($request->get('numSegAct') > 0 && $request->get('segGlobalDefecto') == 0){
+    			if($request->get('numSegAct') > 0 && $request->get('segGlobalDefecto') === 0){
     				$modificarSeg = $servicio->modificarSegmentosAsocByPost($request);
     			}
     			
@@ -227,17 +227,17 @@ class FichaController extends Controller
     		$objVar = $servicio->getVDbyId($request->get('id_vid'));
     		$objVid = $objVar[0];
     		
-    		if($objVid->getTipo()->getCodigo() == Tipo::COMPRA_PRODUCTO){
-	    		return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', array(
-	    				'id_vid' => $request->get('id_vid'),
+    		if($objVid->getTipo()->getCodigo() === Tipo::COMPRA_PRODUCTO){
+	    		return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', [
+	    				'id_vid'                => $request->get('id_vid'),
 	    				'id_vid_grupo_segmento' => $request->get('id_vid_grupo_segmento')
-	    		)));
+	    		]));
     		}
 	    	else{
-	    		return $this->redirect($this->generateUrl('data_avanced_hc_editar_con_grupo', array(
-	    				'id_vid' => $request->get('id_vid'),
+	    		return $this->redirect($this->generateUrl('data_avanced_hc_editar_con_grupo', [
+	    				'id_vid'                => $request->get('id_vid'),
 	    				'id_vid_grupo_segmento' => $request->get('id_vid_grupo_segmento')
-	    		)));
+	    		]));
 	    	}
     	}
     	else{
@@ -255,16 +255,16 @@ class FichaController extends Controller
     	 	Por ultimo, redireccionar a la ficha de la variable con el (nuevo) grupo de segmento.
     	 */
     	if ($request->isMethod('POST')) {
-    		$servicioVD = $this->get("variablesDiscretas");
+    		$servicioVD  = $this->get("variablesDiscretas");
     		$objGrupoSeg = null;
 
-    		if($request->get('tipoClasificacion') == Vid::CLASIFICACION_CATEGORIA){
+    		if($request->get('tipoClasificacion') === Vid::CLASIFICACION_CATEGORIA){
     			$objGrupoSeg = $servicioVD->getGSByIdVidIdCategoria($request->get('id_vid'), $request->get('idClasificacion'));
     		}
-    		elseif($request->get('tipoClasificacion') == Vid::CLASIFICACION_MARCA){
+    		elseif($request->get('tipoClasificacion') === Vid::CLASIFICACION_MARCA){
     			$objGrupoSeg = $servicioVD->getGSByIdVidIdMarca($request->get('id_vid'), $request->get('idClasificacion'));
     		}
-            elseif($request->get('tipoClasificacion') == Vid::CLASIFICACION_PROVEEDOR){
+            elseif($request->get('tipoClasificacion') === Vid::CLASIFICACION_PROVEEDOR){
                 $objGrupoSeg = $servicioVD->getGSByIdVidIdProveedor($request->get('id_vid'), $request->get('idClasificacion'));
             }
     		
@@ -273,39 +273,39 @@ class FichaController extends Controller
     		
     		if(!$objGrupoSeg){
     			//Si no hay ninguno, se crea uno nuevo. Se obtiene los objetos tanto de la categoria como de la variable
-    			if($request->get('tipoClasificacion') == Vid::CLASIFICACION_CATEGORIA){
-	    			$servicioCat = $this->get("categoriaService");
-	    			$objCat = $servicioCat->getCatById($request->get('idClasificacion'));
+    			if($request->get('tipoClasificacion') === Vid::CLASIFICACION_CATEGORIA){
+	    			$servicioCat  = $this->get("categoriaService");
+	    			$objCat       = $servicioCat->getCatById($request->get('idClasificacion'));
 	    			$objCategoria = $objCat[0];
-	    			$objGS = $servicioVD->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $request->get('personalizado'));
+	    			$objGS        = $servicioVD->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $request->get('personalizado'));
     			}
-    			elseif($request->get('tipoClasificacion') == Vid::CLASIFICACION_MARCA ){
+    			elseif($request->get('tipoClasificacion') === Vid::CLASIFICACION_MARCA ){
     				$servicioMarca = $this->get("marcaService");
-    				$objMar = $servicioMarca->getMarcaById($request->get('idClasificacion'));
-    				$objMarca = $objMar[0];
-    				$objGS = $servicioVD->crearObjGrupoSegmentoConMarca($objVid, $objMarca);
+    				$objMar        = $servicioMarca->getMarcaById($request->get('idClasificacion'));
+    				$objMarca      = $objMar[0];
+    				$objGS         = $servicioVD->crearObjGrupoSegmentoConMarca($objVid, $objMarca);
     			}
-                elseif($request->get('tipoClasificacion') == Vid::CLASIFICACION_PROVEEDOR){
+                elseif($request->get('tipoClasificacion') === Vid::CLASIFICACION_PROVEEDOR){
                     $objProveedor = $this->get('proveedorservice')->getProveedorById($request->get('idClasificacion'));
-                    $objProveedor=$objProveedor[0];
-                    $objGS = $servicioVD->crearObjGrupoSegmentoConProveedor($objVid, $objProveedor);
+                    $objProveedor =$objProveedor[0];
+                    $objGS        = $servicioVD->crearObjGrupoSegmentoConProveedor($objVid, $objProveedor);
                 }
     		}
     		else{
     			$objGS = $objGrupoSeg[0];
     		}
     		
-    		if($objVid->getTipo()->getCodigo() == Tipo::COMPRA_PRODUCTO){
-    			return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', array(
-    					'id_vid' => $request->get('id_vid'),
+    		if($objVid->getTipo()->getCodigo() === Tipo::COMPRA_PRODUCTO){
+    			return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', [
+    					'id_vid'                => $request->get('id_vid'),
     					'id_vid_grupo_segmento' => $objGS->getIdVidGrupoSegmento()
-    			)));
+    			]));
     		}	
     		else {
-    			return $this->redirect($this->generateUrl('data_avanced_hc_editar_con_grupo', array(
-    					'id_vid' => $request->get('id_vid'),
+    			return $this->redirect($this->generateUrl('data_avanced_hc_editar_con_grupo', [
+    					'id_vid'                => $request->get('id_vid'),
     					'id_vid_grupo_segmento' => $objGS->getIdVidGrupoSegmento()
-    			)));
+    			]));
     		}
     		
     	}
@@ -340,7 +340,7 @@ class FichaController extends Controller
     		throw $this->createNotFoundException('No se encuentra el elemento seleccionado de la variable');
     	}
     	else{
-    		if($grupoSegmento[0]->getIdVid()->getIdVid() <> $id_vid){
+    		if($grupoSegmento[0]->getIdVid()->getIdVid() !== $id_vid){
     			throw $this->createNotFoundException('No se encuentra el elemento de la variable seleccionada');
     		}
     	}
@@ -352,12 +352,12 @@ class FichaController extends Controller
     	$objsVariables = $servicio->getDiscretas('', $objVar->getTipo());
     	
     	
-    	return $this->render('RMDiscretasBundle:Ficha:copiarSegmentos.html.twig', array(
-    			'objVar' => $objVar,
-    			'objGrupo' => $objGS,
+    	return $this->render('RMDiscretasBundle:Ficha:copiarSegmentos.html.twig', [
+    			'objVar'       => $objVar,
+    			'objGrupo'     => $objGS,
     			'objSegmentos' => $objSegmentos,
     			'objVariables' => $objsVariables
-    	));
+    	]);
     	
     	
     }
@@ -392,16 +392,16 @@ class FichaController extends Controller
             $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.error.personalizar');
         }
     	
-    	if($objVid->getTipo()->getCodigo() == Tipo::COMPRA_PRODUCTO){
-    			return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', array(
-    					'id_vid' => $request->get('id_vid'),
+    	if($objVid->getTipo()->getCodigo() === Tipo::COMPRA_PRODUCTO){
+    			return $this->redirect($this->generateUrl('data_avanced_cp_editar_con_grupo', [
+    					'id_vid'                => $request->get('id_vid'),
     					'id_vid_grupo_segmento' => $objGrupoSegmento->getIdVidGrupoSegmento()
-    			)));
+    			]));
     		}	
     		else {
-    			return $this->redirect($this->generateUrl('data_avanced_hc_editar', array(
+    			return $this->redirect($this->generateUrl('data_avanced_hc_editar', [
     					'id_vid' => $request->get('id_vid'),
-    			)));
+    			]));
     		}
     	
     }
@@ -414,17 +414,17 @@ class FichaController extends Controller
 
         $proveedores = $servicioProveedor->findProvedoresByNombre($term);
 
-        $json = array();
+        $json = [];
 
         /**
          * @var $proveedor \RM\ProductoBundle\Entity\Proveedor
          */
         foreach($proveedores as  $proveedor){
-            $json[] = array(
-                'id' =>$proveedor->getIdProveedor(),
+            $json[] = [
+                'id'    => $proveedor->getIdProveedor(),
                 'label' => $proveedor->getNombre(),
                 'value' => $proveedor->getNombre()
-            );
+            ];
         }
 
         return new JsonResponse($json);
@@ -436,13 +436,13 @@ class FichaController extends Controller
         $request = $this->getRequest();
 
         //look for the referer route
-        $referer = $request->headers->get('referer');
+        $referer  = $request->headers->get('referer');
         $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
         $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
 
-        $matcher = $this->get('router')->getMatcher();
+        $matcher    = $this->get('router')->getMatcher();
         $parameters = $matcher->match($lastPath);
-        $route = $parameters['_route'];
+        $route      = $parameters['_route'];
 
         return $route;
     }

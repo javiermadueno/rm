@@ -1,5 +1,4 @@
-{% extends '::pantallaPopUp.html.twig' %}
-
+{#
 {% block title %}
     {{ "producto" |trans|title }}
 {% endblock %}
@@ -16,11 +15,10 @@
         </div>
     </div>
 {% endblock header %}
-
-
+#}
 {% block body %}
     <div class="maincontentinner">
-        {{ form_start(form, {'attr': {'class':'form-horizontal'} }) }}
+        {{ form_start(form, {'attr': {'class':'form-horizontal', 'id': 'form-imagen-producto'} }) }}
 
         <h4 class="widgettitle">{{ "datos" |trans|title}}</h4>
         <table class="table table-bordered">
@@ -60,8 +58,8 @@
             </colgroup>
             <tbody>
               <tr>
-                  <td> {{ form_label(form.file) }}</td>
-                <td>{{ form_widget(form.file) }}</td>
+                <td> {{ form_label(form.file) }}</td>
+                <td> {{ form_widget(form.file) }}</td>
               </tr>
             </tbody>
         </table>
@@ -73,7 +71,7 @@
                     {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-success'}}) }}
                 </td>
                 <td width="100">
-                    <button class="btn btn-danger" id="botonCancelar" onclick="window.close();">Cancelar</button>
+                    <button class="btn btn-danger" id="botonCancelar" data-target="#modal-producto" data-dismiss="modal" aria-hidden="true">{{ "boton.cancelar" |trans|title}}</button>
                 </td>
             </tr>
             </tbody>
@@ -90,7 +88,7 @@
 
         (function() {
             var compruebaImagen = function() {
-                var $input_file = $('input[type=file]');
+                var $input_file = $('#producto_file');
                 var file = $input_file.val();
                 var extArray = [".jpeg", ".jpg", ".gif", ".tiff", ".bmp", ".png"];
                 var allowSubmit = false;
@@ -122,7 +120,7 @@
                 return allowSubmit;
             };
 
-            $('form').on('submit', function(event){
+            $('#form-imagen-producto').on('submit', function(event){
                 var e = event||window.event;
                 e.preventDefault();
 
@@ -142,9 +140,13 @@
                     contentType: false,
                     processData: false,
                     success: function(data) {
-                        window.opener.document.getElementsByClassName('actualizarTabla')[0].click();
-                        window.close();
-                        }
+                        console.log(data);
+                        var tr = $('tr[data-producto="'+ data['id_producto'] +'"]');
+                        console.log(tr);
+                        tr.find('img').attr('src', data['imagen']);
+                        //document.getElementsByClassName('actualizarTabla')[0].click();
+                        $('#modal-producto').modal('hide');
+                    }
                 });
             });
 

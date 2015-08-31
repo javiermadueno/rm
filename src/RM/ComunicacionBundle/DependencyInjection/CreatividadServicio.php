@@ -22,7 +22,7 @@ class CreatividadServicio
 
     public function getCreatividadByFiltro($nombre)
     {
-        if ($nombre == null) {
+        if ($nombre === null) {
             $nombre = '';
         }
 
@@ -113,7 +113,8 @@ class CreatividadServicio
                     $promocion
                         ->setDescripcion($datos['descripcion'])
                         ->setNombreFiltro($datos['nombreFiltro'])
-                        ->setFiltro($datos['filtro']);
+                        ->setFiltro($datos['filtro'])
+                    ;
 
                     if ($creatividad instanceof Creatividad) {
                         $promocion->setCreatividad($creatividad);
@@ -134,7 +135,8 @@ class CreatividadServicio
                         ->setNombreFiltro($datos['nombreFiltro'])
                         ->setTipo(Promocion::TIPO_SEGMENTADA)
                         ->setAceptada(Promocion::ACEPTADA)
-                        ->setEstado(1);
+                        ->setEstado(1)
+                    ;
 
                 }
 
@@ -152,10 +154,9 @@ class CreatividadServicio
                         continue;
                     }
 
-
                     $promocion
-                        ->setDescripcion($datos['descripcion']);
-
+                        ->setDescripcion($datos['descripcion'])
+                    ;
 
                     if ($creatividad instanceof Creatividad) {
                         $promocion->setCreatividad($creatividad);
@@ -173,7 +174,9 @@ class CreatividadServicio
                         ->setCreatividad($creatividad)
                         ->setEstado(1)
                         ->setTipo(Promocion::TIPO_GENERICA)
-                        ->setAceptada(Promocion::ACEPTADA);
+                        ->setAceptada(Promocion::ACEPTADA)
+                        ->setFiltro($datos['filtro'])
+                    ;
 
                 }
 
@@ -185,7 +188,7 @@ class CreatividadServicio
             $this->em->flush();
 
             return true;
-        } catch (\Excepcion $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -202,7 +205,8 @@ class CreatividadServicio
         }
 
         $creatividad = $this->em
-            ->find('RMComunicacionBundle:Creatividad', $idCreatividad);
+            ->find('RMComunicacionBundle:Creatividad', $idCreatividad)
+        ;
 
         if (!$creatividad instanceof Creatividad) {
             return null;
@@ -257,7 +261,8 @@ class CreatividadServicio
 
                         //Se obtiene el objeto de Num_promociones asignado al grupo y a la instancia
                         $objNumPro = $this->em->getRepository('RMProductoBundle:NumPromociones')->obtenerNumPromocionesCreatividadByFiltros($idGrupoSlots,
-                            $id_instancia);
+                            $id_instancia)
+                        ;
 
                         if (sizeof($objNumPro) > 0) {
                             for ($i = 1; $i <= $numSegmentadasNuevas; $i++) {
@@ -331,7 +336,8 @@ class CreatividadServicio
 
                         //Se obtiene el objeto de Num_promociones asignado al grupo y a la instancia
                         $objNumPro = $this->em->getRepository('RMProductoBundle:NumPromociones')
-                            ->obtenerNumPromocionesCreatividadByFiltros($idGrupoSlots, $id_instancia);
+                                              ->obtenerNumPromocionesCreatividadByFiltros($idGrupoSlots, $id_instancia)
+                        ;
 
                         if (sizeof($objNumPro) > 0) {
                             for ($i = 1; $i <= $numGenericasNuevas; $i++) {
@@ -387,8 +393,10 @@ class CreatividadServicio
             return [];
         }
 
-        $numPromociones = $this->em->getRepository('RMProductoBundle:NumPromociones')
-            ->findNumPromocionesCreatividadByInstancia($instancia->getIdInstancia());
+        $numPromociones = $this->em
+            ->getRepository('RMProductoBundle:NumPromociones')
+            ->findNumPromocionesCreatividadByInstancia($instancia->getIdInstancia())
+        ;
 
 
         $infoCreatividades = [];
@@ -396,7 +404,7 @@ class CreatividadServicio
         foreach ($numPromociones as $numPro) {
             $idGrupo     = $numPro->getIdGrupo()->getIdGrupo();
             $idNumPro    = $numPro->getIdNumPro();
-            $segmentadas = $numPro->getPromocionesSegentadas()->toArray();
+            $segmentadas = $numPro->getPromocionesSegmentadas()->toArray();
             $genericas   = $numPro->getPromocionesGenericas()->toArray();
 
             $infoCreatividades[$idGrupo][$idNumPro] = [

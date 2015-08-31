@@ -27,7 +27,7 @@ class ResultadoMensualRepository extends DocumentRepository
             ->getQuery()
             ->execute();
 
-        $resultado = array();
+        $resultado = [];
 
         foreach($meses as $mes) {
             if (is_null($mes['_id'])) {
@@ -35,8 +35,8 @@ class ResultadoMensualRepository extends DocumentRepository
             }
 
             list($year, $month) = explode('-', $mes['_id']);
-            $resultado[] = [
-                'id' => $mes['_id'],
+            $resultado[]        = [
+                'id'    => $mes['_id'],
                 'fecha' => new \DateTime(sprintf('01-%s-%s', $month, $year))
             ];
         }
@@ -51,7 +51,7 @@ class ResultadoMensualRepository extends DocumentRepository
      */
     public function find12UltimosMeses()
     {
-        $fecha = new \DateTime();
+        $fecha       = new \DateTime();
         $mesAnterior = $fecha->sub(new \DateInterval('P1M'));
 
         $meses = $this->dm->createQueryBuilder('RMMongoBundle:ResultadoMensual')

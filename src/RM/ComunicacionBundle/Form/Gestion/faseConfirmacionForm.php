@@ -11,20 +11,20 @@ class faseConfirmacionForm extends AbstractType
 	{
 		$builder->add('nombre')
 		
-		->add('fecha', 'date', array(
+		->add('fecha', 'date', [
 				'widget' => 'single_text',
 				'format' => 'dd/MM/yyyy HH:mm',
-		))
+		])
 		->add('envio', 
-			'choice', array(
-				'choices'   => array(
+			'choice', [
+				'choices'   => [
 						'0'   => 'Env�o inmediato (al tramitar a finalizado)',
-						'1' => 'Env�o programado para el d�a: ',
-				),
+						'1'   => 'Env�o programado para el d�a: ',
+				],
 				'required'  => true,
 				'multiple'  => true,
-				'expanded' => true, 
-		))		
+				'expanded'  => true, 
+		])		
 		;
 	}
 

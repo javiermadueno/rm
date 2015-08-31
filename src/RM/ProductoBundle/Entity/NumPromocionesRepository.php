@@ -112,7 +112,7 @@ class NumPromocionesRepository extends EntityRepository
                AND ic.idInstancia IN (:instancia)
         ";
 
-        if ($id_categoria != null && $id_categoria > 0) {
+        if ($id_categoria !== null && $id_categoria > 0) {
             $dql .= " AND c.idCategoria IN (:categoria) ";
         }
 
@@ -123,7 +123,7 @@ class NumPromocionesRepository extends EntityRepository
             ->createQuery($dql)
             ->setParameter('instancia', $id_instancia);
 
-        if ($id_categoria != null && $id_categoria > 0) {
+        if ($id_categoria !== null && $id_categoria > 0) {
             $query->setParameter('categoria', $id_categoria);
         }
 

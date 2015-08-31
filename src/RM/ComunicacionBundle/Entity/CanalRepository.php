@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CanalRepository extends EntityRepository
 {
+
 	public function obtenerCanales()
     {
 

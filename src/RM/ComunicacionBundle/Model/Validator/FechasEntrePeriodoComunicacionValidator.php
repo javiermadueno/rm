@@ -17,8 +17,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 class FechasEntrePeriodoComunicacionValidator extends  ConstraintValidator
 {
     /**
-     * @param mixed $entity
-     * @param FechasEntrePeriodoComunicacion $constraint
+     * @param mixed      $entity
+     * @param Constraint $constraint
      */
     public function validate($entity, Constraint $constraint)
     {
@@ -38,16 +38,16 @@ class FechasEntrePeriodoComunicacionValidator extends  ConstraintValidator
             $entity->getFecFin() <= $comunicacion->getFecFin()
         );
 
-        if(false == $fechasEntrePeriodo) {
-            $this->context->addViolation( $constraint->message, array(), null);
+        if(false === $fechasEntrePeriodo) {
+            $this->context->addViolation( $constraint->message, [], null);
         }
 
-        if(false == ($entity->getFecInicio() >= $comunicacion->getFecInicio())) {
-            $this->context->addViolationAt('fecInicio', $constraint->errorFechaInicio, array(), null);
+        if(false === ($entity->getFecInicio() >= $comunicacion->getFecInicio())) {
+            $this->context->addViolationAt('fecInicio', $constraint->errorFechaInicio, [], null);
         }
 
-        if(false == ($entity->getFecFin() <= $comunicacion->getFecFin())) {
-            $this->context->addViolationAt('fecFin', $constraint->errorFechaFin, array(), null);
+        if(false === ($entity->getFecFin() <= $comunicacion->getFecFin())) {
+            $this->context->addViolationAt('fecFin', $constraint->errorFechaFin, [], null);
         }
     }
 } 

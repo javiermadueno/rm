@@ -12,13 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tipo
 {
-    const RFM = 'RFM';
-    const COMPRA_PRODUCTO = 'CP';
-    const HABITOS_COMPRA = 'HC';
-    const SOCIODEMOGRAFICO = 'SD';
+    const RFM                    = 'RFM';
+    const COMPRA_PRODUCTO        = 'CP';
+    const HABITOS_COMPRA         = 'HC';
+    const SOCIODEMOGRAFICO       = 'SD';
     const SOCIODEMOGRAFICO_LINEAL='';
-    const CICLO_VIDA = 'CV';
-    const OTRAS_TRANSFORMADAS = 'OT';
+    const CICLO_VIDA             = 'CV';
+    const OTRAS_TRANSFORMADAS    = 'OT';
 
     /**
      * @var integer

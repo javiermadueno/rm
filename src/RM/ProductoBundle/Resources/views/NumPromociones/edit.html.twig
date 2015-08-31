@@ -1,0 +1,27 @@
+<div class="formulario-configuracion animated fadeInDown" data-instancia="{{ instancia.idInstancia }}" data-grupo="{{ grupo.idGrupo }}" data-index=" {{ form.num_promocion|length }}">
+    {{ form_start(form) }}
+
+    <div class="content">
+            {% include '@RMProducto/NumPromociones/form_edit.html.twig'  with {'form': form} %}
+    </div>
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td width="100"><button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|title}}</button></td>
+            <td width="100"><button class="nuevo btn btn-success"><i class="iconfa-plus"></i></button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+</div>
+
+

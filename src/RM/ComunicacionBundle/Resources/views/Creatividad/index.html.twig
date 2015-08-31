@@ -1,100 +1,79 @@
 {% extends 'RMProductoBundle:Default:baseConfig.html.twig' %}
 
+{% set opcionMenuTabConfig = 4 %}
+
 {% block title %}
-	{{ parent() }} - {{ "creatividades" | trans|title }}
+    {{ parent() }} - {{ "creatividades" | trans|title }}
 {% endblock %}
 
 {% block migas %}
-	{{ parent() }}
+    {{ parent() }}
     <li>{{ "creatividades" | trans|title }}</li>
 {% endblock %}
 
 {% block tabcontent %}
-	
-	<form id="form" name="form">
-		<input type="hidden" name="elementosBorrar" id="elementosBorrar" value="">
-
-        <div class="mediamgr_left">
-            <div class="mediamgr_head">
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <form id="busqueda" name="form" class="form-search">
                 <ul class="mediamgr_menu">
                     <li>
-                        <label for="nombre">{{ "Nombre" | trans }}</label>
-                        <input type="text" name="nombre" id="nombre" class="tam4" value="{{ nombre }}" />
+                        <div class="input-append">
+                            <input id="nombre" value="{{ nombre|default('') }}" name="nombre" type="search" class="span2 search-query" placeholder="{{ "nombre" |trans|title}}">
+                            <button type="submit" class="btn">{{ "boton.buscar" |trans|title }}</button>
+                        </div>
                     </li>
                     <li class="right newfilebtn">
-                        <button class="btn btn-primary actualizarTabla">{{ "boton.buscar" | trans }}</button>
-                        &nbsp;&nbsp;
-                        <button class="btn btn-success" onclick="return nuevoRegistro();">{{ "boton.nuevo" | trans }}</button>
-                        <button id="updateTabla" style="display: none;"></button>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#modal-creatividad"
+                           href="{{ path('rm_comunicacion.creatividad.new') }}">
+                            {{ "boton.nuevo" | trans }}
+                        </a>
                     </li>
                 </ul>
-            </div>
+
+            </form>
         </div>
-	
-		<div id="tablaListado">{{ include('RMComunicacionBundle:Creatividad:listadoCreatividad.html.twig') }}</div>
-	</form>
-	
+    </div>
+
+    {% include 'RMComunicacionBundle:Creatividad:listadoCreatividad.html.twig' %}
+
+
+    {% include 'modal/bootstrap_modal.html.twig' with {
+    'id': 'modal-creatividad',
+    'title': 'creatividad'|trans|title
+    } %}
+
 {% endblock %}
 
 {% block javascripts %}
-	<script type="text/javascript">
-	
-		function nuevoRegistro() {
-			var largo = 550;
-			var altura = 550;
-			var top = (screen.height-altura)/2;
-			var izquierda = (screen.width-largo)/2;
-			{% set nombreVentana = "Crear Creatividad" %}
-			camino = "{{ path('direct_config_ficha_creatividad_crear')}}";
-			var myUrl = camino;
-			var nomVentana = '{{ nombreVentana }}';
-			window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
-			return false;
-		}
+    <script type="text/javascript">
 
-		$(document).ready(function(){
-			$('#checkTodos').live("change", function() {
-				if ($("#checkTodos").is(':checked')) {
-					$('.selTodos').prop("checked", true);
 
-		        } else {
-		        	$('.selTodos').prop("checked", false);
-		        }
-			});
+        $(document).ready(function () {
 
-			$('.actualizarTabla').click(function(event){
-				event.preventDefault(); //cancela el comportamiento por defecto
-				actualizarRegistros();
-			});
+            $('#busqueda').on('submit', function(event){
+                var e = event || window.event;
+                e.preventDefault();
+                actualizarRegistros();
+            })
 
-			$('#updateTabla').click(function(event){
-				actualizarRegistros();
-				event.preventDefault();
-			});
-
-			$('.actTabla').change(function(event){
-				event.preventDefault(); //cancela el comportamiento por defecto
-				actualizarRegistros();
-			});
-
-			function actualizarRegistros() {
-				msg = $("#form").serialize();
-				{% set crearUrl = url('direct_config_listado_creatividad_actualizar') %}
-				var myUrl = '{{crearUrl}}';
-				$.ajax({  
-				  type: "POST",  
-				  url: myUrl,
-				  data: msg,  
-				  complete: function(objeto, exito){
-					if(exito=="success"){
-						$('#tablaListado').children().remove();
-						$('#tablaListado').append(objeto.responseText);
-		            }
-		          },
-				  error: function(objeto, quepaso, otroobj){		            
-		          }
-				}); 
-			}
-		});
-	</script>
+            function actualizarRegistros() {
+                var msg = $("#busqueda").serialize();
+                {% set crearUrl = path('rm_comunicacion.creatividad.index') %}
+                var myUrl = '{{crearUrl}}';
+                $.ajax({
+                    type: "POST",
+                    url: myUrl,
+                    data: msg,
+                    complete: function (objeto, exito) {
+                        if (exito == "success") {
+                            $('#tablaListado').children().remove();
+                            $('#tablaListado').append(objeto.responseText);
+                        }
+                    },
+                    error: function (objeto, quepaso, otroobj) {
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
