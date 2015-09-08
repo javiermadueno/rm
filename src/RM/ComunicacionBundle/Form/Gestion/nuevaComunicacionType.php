@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class nuevaComunicacionType extends AbstractType
+class NuevaComunicacionType extends AbstractType
 {
     private $comunicacion;
 
