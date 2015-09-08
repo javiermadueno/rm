@@ -47,12 +47,12 @@ class SegmentoComunicacionRepository extends EntityRepository
             ->where('sc.estado > -1')
         ;
 
-		if($id_comunicacion !== -1){
+		if($id_comunicacion != -1){
             $qb->andWhere('sc.idComunicacion = :comunicacion')
                 ->setParameter('comunicacion', $id_comunicacion);
 		}
 		
-		if($id_segmento !== -1){
+		if($id_segmento != -1){
 			$qb->andWhere('sc.idSegmento = :segmento')
                 ->setParameter('segmento', $id_segmento);
 		}

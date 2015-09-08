@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class NumPromocionesType extends AbstractType
@@ -23,13 +24,13 @@ class NumPromocionesType extends AbstractType
         $builder
             ->add('numSegmentadas', 'integer', [
                 'constraints' => [
-                    new GreaterThan(['value' => 0]),
+                    new GreaterThanOrEqual(['value' => 0]),
                     new NotBlank(),
                 ]
             ])
             ->add('numGenericas', 'integer', [
                 'constraints' => [
-                    new GreaterThan(['value' => 0]),
+                    new GreaterThanOrEqual(['value' => 0]),
                     new NotBlank(),
                 ]
             ])

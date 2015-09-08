@@ -9,6 +9,8 @@
 	{{ parent() }} - {{ "comunicacion"|trans }}
 {% endblock %}
 
+{% block id %}ajax{% endblock id %}
+
 
 {% block tabcontent %}
     {% set cumpleRequisitos = gruposSlots is not null and gruposSlots|length > 0 %}

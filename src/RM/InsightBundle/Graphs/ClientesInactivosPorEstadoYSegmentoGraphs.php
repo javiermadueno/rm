@@ -42,7 +42,7 @@ class ClientesInactivosPorEstadoYSegmentoGraphs extends BaseGraph
     {
         parent::__construct($translator);
         $this->repository = $repository;
-        $this->em         = $manager->getManager();
+        $this->em = $manager->getManager();
     }
 
     /**
@@ -95,8 +95,8 @@ class ClientesInactivosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficaEvolucionPorSexo($renderTo = '')
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $sexo            = $this->getSegmentosSexo();
-        $meses           = Util::getUltimosMeses(new \Datetime(), 6);
+        $sexo = $this->getSegmentosSexo();
+        $meses = Util::getUltimosMeses(new \Datetime(), 6);
 
         $data =$this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(
@@ -129,8 +129,8 @@ class ClientesInactivosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficaEvolucionPorEdad($renderTo = '')
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $edades          = $this->getSegmentosEdades();
-        $meses           = Util::getUltimosMeses(new \Datetime(), 6);
+        $edades = $this->getSegmentosEdades();
+        $meses = Util::getUltimosMeses(new \Datetime(), 6);
 
         $data =$this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos(

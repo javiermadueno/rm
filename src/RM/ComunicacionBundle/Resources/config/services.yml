@@ -46,7 +46,20 @@ services:
         tags:
             - { name: serializer.normalizer }
 
+    rm_comunicacion.services.cambio_fase:
+        class: RM\ComunicacionBundle\Services\CambioFaseService
+        arguments: [ @rm.entity_manager, @rm_procesos.factory.proceso_factory ]
+
+    rm_comunicacion.graph.promociones_realizadas_vs_totales:
+        class: RM\ComunicacionBundle\Graphs\PromocionesRealizadasVsTotales
+        arguments: [ @translator ]
+
+    rm_comunicacion.graphs.promociones_aceptadas_rechazas_pendientes:
+        class: RM\ComunicacionBundle\Graphs\PromocionesAceptadasRechazasPendientes
+        arguments: [ @translator]
+
     #Para borra despues pbdespues
     twig.extension.debug:
         class: Twig_Extension_Debug
         tags: [{ name: 'twig.extension' }]
+

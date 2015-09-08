@@ -15,6 +15,14 @@
                         <td class="sinborde"> {{ 'modulo.direct.fase.finalizada.comunicaciones.generadas'|trans({'%comunicaciones%' : random(14000)}) }}</td>
                         <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
 					</tr>
+                <tr>
+                    <td class="sinborde">{{ '' }}</td>
+                    <td class="sinborde pull-right">
+                        <a class="btn btn-success" target="_blank" {{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
+                            {{ "boton.descargar.batch" |trans|title}}
+                        </a>
+                    </td>
+                </tr>
 				</tbody>
 			</table>
             </form>

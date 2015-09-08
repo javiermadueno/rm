@@ -18,10 +18,10 @@ use RM\ComunicacionBundle\Entity\Creatividad;
 class Promocion
 {
     const TIPO_SEGMENTADA = 0;
-    const TIPO_GENERICA   = 1;
-    const ACEPTADA        = 2;
-    const RECHAZADA       = 3;
-    const PENDIENTE       = 1;
+    const TIPO_GENERICA = 1;
+    const ACEPTADA = 2;
+    const RECHAZADA = 3;
+    const PENDIENTE = 1;
 
     /**
      * @var string
@@ -165,7 +165,7 @@ class Promocion
     /**
      * @var int
      *
-     * @ORM\Column(name="aceptada", type="integer", nullable=false, options={"default" = 0})
+     * @ORM\Column(name="aceptada", type="integer", nullable=false, options={"default" = 1})
      */
     private $aceptada;
 

@@ -2,14 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: parameters_local.yml }
     - { resource: security.yml }
-    - { resource: "@RMClienteBundle/Resources/config/services.yml" }
-    - { resource: "@RMProductoBundle/Resources/config/services.yml" }
-    - { resource: "@RMPlantillaBundle/Resources/config/services.yml" }
-    - { resource: "@RMComunicacionBundle/Resources/config/services.yml" }
-    - { resource: "@RMCategoriaBundle/Resources/config/services.yml" }
-    - { resource: "@RMLinealesBundle/Resources/config/services.yml" }
-    - { resource: "@RMDiscretasBundle/Resources/config/services.yml" }
-    - { resource: "@RMMongoBundle/Resources/config/services.yml" }
 
 framework:
     #esi: ~
@@ -40,8 +32,9 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        urlImgCentro: "%direccion_imagenes_centro%"
         web_path:      %web_path%
+        imagenes_prodcuto: %carpeta.imagenes.producto%
+        imagenes_creatividad: %carpeta.imagenes.creatividad%
 
 # Assetic Configuration
 assetic:
@@ -63,9 +56,9 @@ doctrine:
         connections:
             default:
                 driver:   "%database_driver%"
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
+                host:     "%database_host2%"
+                port:     "%database_port2%"
+                dbname:   "%database_name2%"
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
@@ -89,12 +82,12 @@ doctrine:
                 charset:  UTF8
 
             procesos:
-                driver:   "%database_driver%"
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
-                user:     "%database_user%"
-                password: "%database_password%"
+                driver:   "%database_procesos_driver%"
+                host:     "%database_procesos_host%"
+                port:     "%database_procesos_port%"
+                dbname:   "%database_procesos_name%"
+                user:     "%database_procesos_user%"
+                password: "%database_procesos_password%"
                 charset:  UTF8
 
     orm:

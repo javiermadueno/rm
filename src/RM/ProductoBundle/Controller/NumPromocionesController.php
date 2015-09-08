@@ -45,6 +45,7 @@ class NumPromocionesController extends RMController
             'idGrupo'     => $id_grupo_slot
         ])
         ;
+
         $numPromocionesOriginales = new ArrayCollection($numPromociones);
 
         $form = $this->createEditForm($numPromociones, $id_instancia, $id_grupo_slot);
@@ -168,7 +169,7 @@ class NumPromocionesController extends RMController
      */
     public function editCreatividadAction(Request $request, $id_instancia, $id_grupo_slot)
     {
-        $em      = $this->getManager();
+        $em = $this->getManager();
         $manager = $this->get('rm_producto.num_promociones.manager');
 
         $instancia = $em->getRepository('RMComunicacionBundle:InstanciaComunicacion')->findById($id_instancia);
@@ -195,9 +196,9 @@ class NumPromocionesController extends RMController
 
         if ($request->isMethod(Request::METHOD_GET)) {
             return $this->render('@RMProducto/NumPromociones/edit_creatividad.html.twig', [
-                'form'      => $form->createView(),
+                'form' => $form->createView(),
                 'instancia' => $instancia,
-                'grupo'     => $grupo
+                'grupo' => $grupo
             ]);
         }
 
@@ -237,10 +238,10 @@ class NumPromocionesController extends RMController
     private function createEditCreatividadForm(NumPromociones $numPromocion, $id_instancia, $id_grupo_slot)
     {
         $form = $this->createForm(new NumPromocionesCreatividadType(), $numPromocion, [
-            'em'                => $this->getManager(),
-            'method'            => Request::METHOD_POST,
-            'action'            => $this->generateUrl('rm_producto.num_promociones.edit_creatividad', [
-                'id_instancia'  => $id_instancia,
+            'em' => $this->getManager(),
+            'method' => Request::METHOD_POST,
+            'action' => $this->generateUrl('rm_producto.num_promociones.edit_creatividad', [
+                'id_instancia' => $id_instancia,
                 'id_grupo_slot' => $id_grupo_slot
             ])
         ]);

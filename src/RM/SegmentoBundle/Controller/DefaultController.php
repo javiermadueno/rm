@@ -7,6 +7,7 @@ use RM\DiscretasBundle\Entity\Tipo;
 use RM\DiscretasBundle\Entity\TipoRepository;
 use RM\DiscretasBundle\Entity\Vid;
 use RM\ProcesosBundle\Entity\Proceso;
+use RM\ProcesosBundle\Entity\TipoProceso;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,17 +25,17 @@ class DefaultController extends RMController
     {
         $em = $this->getManager();
 
-        $servicioSeg   = $this->get("SegmentoService");
+        $servicioSeg = $this->get("SegmentoService");
         $servicioMarca = $this->get("marcaservice");
 
         $request = $this->get('request');
 
         $fecha_busqueda = $request->query->get('fecha_busqueda', null);
-        $id_categoria   = $request->query->get('id_categoria', -1);
-        $id_proveedor   = $request->query->get('proveedor', -1);
-        $id_variable    = $request->query->get('variables', -1);
-        $id_marca       = $request->query->get('id_marca', -1);
-        $tipo           = $request->query->get('tipo', -1);
+        $id_categoria = $request->query->get('id_categoria', -1);
+        $id_proveedor = $request->query->get('proveedor', -1);
+        $id_variable = $request->query->get('variables', -1);
+        $id_marca = $request->query->get('id_marca', -1);
+        $tipo = $request->query->get('tipo', -1);
 
         $tipoVariable = $em->getRepository('RMDiscretasBundle:Tipo')
             ->findOneBy(['codigo' => $tipo]);
@@ -54,8 +55,8 @@ class DefaultController extends RMController
             return JsonResponse::create($data, 200);
         }
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
-        $objMarcas     = $servicioMarca->getMarcas();
+        $objTipos = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
+        $objMarcas = $servicioMarca->getMarcas();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
         return $this->render('RMSegmentoBundle:Default:listado.html.twig', [
@@ -73,7 +74,7 @@ class DefaultController extends RMController
      */
     public function showValidarSegmentosAction()
     {
-        $em           = $this->getDoctrine()->getManager('procesos');
+        $em = $this->getDoctrine()->getManager('procesos');
         $repoProcesos = $em->getRepository("ProcesosBundle:Proceso");
 
         $procesoDeCentro = $repoProcesos->findProcesosCreadosOEnProceso();
@@ -91,7 +92,7 @@ class DefaultController extends RMController
     public function validarSegmentosAction()
     {
         $this->get('rm_procesos.factory.proceso_factory')
-            ->createProcesoTipo0();
+            ->createProcesoTipo(TipoProceso::P00);
 
         return $this->render('RMSegmentoBundle:Default:validandoSegmentos.html.twig');
     }
@@ -109,7 +110,7 @@ class DefaultController extends RMController
         $fecha_busqueda = $request->get('fecha_busqueda');
         $fecha_busqueda = new \DateTime($fecha_busqueda);
 
-        $objTipos      = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
+        $objTipos = $em->getRepository('RMDiscretasBundle:Tipo')->findTipoSegmentador();
         $objCategorias = $em->getRepository('RMCategoriaBundle:Categoria')->findCategoriasDeSegmentos();
 
         return $this->render('RMSegmentoBundle:Default\Buscador:buscadorSegmentosPopup.html.twig', [
@@ -187,7 +188,7 @@ class DefaultController extends RMController
         $id_variable = $request->query->get('id', -1);
         $codigo_tipo = $request->query->get('tipo', -1);
 
-        if ($id_variable === -1) {
+        if ($id_variable == -1) {
             return Response::create('', 200);
         }
 

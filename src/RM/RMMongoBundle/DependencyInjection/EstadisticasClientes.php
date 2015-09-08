@@ -44,7 +44,7 @@ class EstadisticasClientes extends MongoService
 
         $match = [
             '$match' => [
-                "fecha" => ['$in'  => $meses],
+                "fecha" => ['$in' => $meses],
                 "ls"    => ['$all' => $segmentos]
             ]
         ];
@@ -175,7 +175,7 @@ class EstadisticasClientes extends MongoService
             [
                 '$group' => [
                     "_id"  => ['fecha' => '$fecha', 'segmento' => '$ls'],
-                    'data' => ['$sum'  => 1]
+                    'data' => ['$sum' => 1]
                 ]
             ],
             [
@@ -194,7 +194,7 @@ class EstadisticasClientes extends MongoService
         );
 
         $resultado = $res['result'];
-        $series    = $this->consolidaDatos($meses, $segmentos, $resultado);
+        $series = $this->consolidaDatos($meses, $segmentos, $resultado);
 
         return $series;
 
@@ -280,7 +280,7 @@ class EstadisticasClientes extends MongoService
             [
                 '$group' => [
                     "_id"  => ['fecha' => '$fecha', 'segmento' => '$ls'],
-                    'data' => ['$sum'  => 1]
+                    'data' => ['$sum' => 1]
                 ]
             ],
             [
@@ -299,7 +299,7 @@ class EstadisticasClientes extends MongoService
         );
 
         $resultado = $res['result'];
-        $series    = $this->consolidaDatos($meses, $segmentos, $resultado);
+        $series = $this->consolidaDatos($meses, $segmentos, $resultado);
 
         return $series;
 

@@ -93,13 +93,13 @@ class SeguimientoController extends Controller
         );
 
         $resolver->setNormalizer('desde', function ($options, $value) {
-            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value) : null;
+            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value)->setTime(0,0) : null;
 
             return $value;
         });
 
         $resolver->setNormalizer('hasta', function ($options, $value) {
-            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value) : null;
+            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y  H:i:s', $value)->setTime(0,0) : null;
 
             return $value;
         });

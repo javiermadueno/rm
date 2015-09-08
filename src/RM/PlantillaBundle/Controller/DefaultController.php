@@ -24,21 +24,21 @@ class DefaultController extends RMController
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($id_comunicacion);
 
 
-        if($comunicacion->getIdCanal()->getIdCanal() !== $id_canal){
+        if($comunicacion->getIdCanal()->getIdCanal() != $id_canal){
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
         }
 
 
         $plantillas = $em->getRepository('RMPlantillaBundle:Plantilla')->findBy([
                 'esModelo' => true,
-                'canal'    => $id_canal], [
+                'canal'  => $id_canal], [
                 'idPlantilla' => 'DESC'
             ]);
 
         return $this->render('RMPlantillaBundle:Default:importarPlantilla.html.twig', [
                 'id_comunicacion' => $id_comunicacion,
                 'objComunicacion' => $comunicacion,
-                'objPlantillas'   => $plantillas
+                'objPlantillas' => $plantillas
         ]);
 
 
@@ -56,7 +56,7 @@ class DefaultController extends RMController
     	}
     	else{
     		$objComunicacion = $objComunicaciones[0];
-    		if($objComunicacion->getIdCanal()->getIdCanal() !== $id_canal){
+    		if($objComunicacion->getIdCanal()->getIdCanal() != $id_canal){
     			throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
     		}
     		else{
@@ -109,19 +109,19 @@ class DefaultController extends RMController
         $idComunicacion = $request->get('id_comunicacion');
 
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
-        $plantilla    = $comunicacion->getPlantilla();
+        $plantilla = $comunicacion->getPlantilla();
 
 
 
-        if($request->get('accionEjecutar') === 'importar'){
+        if($request->get('accionEjecutar') == 'importar'){
 
             /*Se importa el id de la plantilla modelo a plantilla actual de comunicaciÃ³n, eliminando la existente*/
             //$respuesta = $servicioPlantilla->importarModeloPlantillaToActual($request->get('plantillaModelo'), $idPlantillaActual);
-            $id              = $request->get('plantillaModelo');
+            $id = $request->get('plantillaModelo');
             $plantillaModelo =
                 $em->getRepository('RMPlantillaBundle:Plantilla')->findOneBy([
                         'idPlantilla' => $id,
-                        'esModelo'    => true
+                        'esModelo' => true
                     ]);
 
             $comunicacion->setPlantilla($plantillaModelo);
@@ -130,9 +130,9 @@ class DefaultController extends RMController
 
             $this->get('session')->getFlashBag()->add('mensaje','importar_plantilla_ok');
         }
-        elseif ($request->get('accionEjecutar') === 'exportar') {
+        elseif ($request->get('accionEjecutar') == 'exportar') {
 
-            $nombre      = $request->get('nombre');
+            $nombre = $request->get('nombre');
             $descripcion = $request->get('descripcion');
 
             $plantilla
@@ -159,7 +159,7 @@ class DefaultController extends RMController
         $em = $this->getManager();
 
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($id_comunicacion);
-        $plantilla    = $comunicacion->getPlantilla();
+        $plantilla = $comunicacion->getPlantilla();
 
 
         if (!$plantilla instanceof Plantilla) {
@@ -173,7 +173,7 @@ class DefaultController extends RMController
                 ->creaArchivoPlantilla($plantilla, $this->getUser()->getCliente());
         }
 
-        $filename =  $plantilla->getIdPlantilla() . '.html';
+        $filename =  $plantilla->getIdPlantilla().'.html';
 
        // check if file exists
         if (!file_exists($filePath)) {
@@ -194,7 +194,7 @@ class DefaultController extends RMController
     
     public function uploadFicherosPlantillaAction($id_comunicacion, Request $request)
     {
-    	$usuario    = $this->get('security.token_storage')->getToken()->getUser();
+    	$usuario = $this->get('security.token_storage')->getToken()->getUser();
     	$folderName = $usuario->getCliente();  //Identificacion del centro
     	$myAssetUrl = $this->get('kernel')->getRootDir() . '/../web';
     	
@@ -205,16 +205,16 @@ class DefaultController extends RMController
             $em = $this->getManager();
 
             $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($id_comunicacion);
-            $plantilla    = $comunicacion->getPlantilla();
+            $plantilla = $comunicacion->getPlantilla();
 
     		$exito = true;
     		try {
-    			$carpetaCentro = $myAssetUrl . "/" . $folderName;
+    			$carpetaCentro = $myAssetUrl."/".$folderName;
 	    		if(!file_exists($carpetaCentro)){
 	    			mkdir($carpetaCentro);
 	    		}
 	    		
-	    		$carpetaPlantilla = $carpetaCentro . "/plantillas";
+	    		$carpetaPlantilla = $carpetaCentro."/plantillas";
 	    		if(!file_exists($carpetaPlantilla)){
 	    			mkdir($carpetaPlantilla);
 	    		}

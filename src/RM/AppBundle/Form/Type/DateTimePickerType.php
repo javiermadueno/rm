@@ -17,9 +17,9 @@ class DateTimePickerType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'widget' => 'single_text'
-        ]);
+        ));
     }
 
     public function getName()

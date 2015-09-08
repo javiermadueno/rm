@@ -14,14 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends RMController
 {
 
-
-    public function indexAction($idOpcionMenuSup)
-    {
-        return $this->render('RMComunicacionBundle:Default:index.html.twig', [
-            'idOpcionMenuSup' => $idOpcionMenuSup
-        ]);
-    }
-
     public function showComunicacionesAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_canal = -1, $estado = -2)
     {
 
@@ -89,7 +81,7 @@ class DefaultController extends RMController
     public function nuevaComunicacionAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq)
     {
         $peticion = $request;
-        $em       = $this->getManager();
+        $em = $this->getManager();
 
         $objComunicacion = new Comunicacion();
         $objComunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);

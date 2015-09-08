@@ -23,17 +23,24 @@ class NumPromociones
         $this->promociones = new ArrayCollection();
         $this->segmentadas = new ArrayCollection();
         $this->genericas   = new ArrayCollection();
+
     }
 
+    /**
+     * @var ArrayCollection
+     */
     protected $segmentadas;
 
+    /**
+     * @var ArrayCollection
+     */
     protected $genericas;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="num_segmentadas", type="integer", nullable=true)
-     * @Assert\GreaterThan( value = 0)
+     * @Assert\GreaterThanOrEqual( value = 0)
      */
     private $numSegmentadas;
 
@@ -41,7 +48,7 @@ class NumPromociones
      * @var integer
      *
      * @ORM\Column(name="num_genericas", type="integer", nullable=true)
-     * @Assert\GreaterThan(value = 0)
+     * @Assert\GreaterThanOrEqual(value = 0)
      */
     private $numGenericas;
 
@@ -99,6 +106,20 @@ class NumPromociones
      *
      */
     private $promociones;
+
+
+    private $nombre = '';
+
+    public function getNombre()
+    {
+        if($this->idCategoria instanceof Categoria) {
+            $this->nombre = $this->idCategoria->getNombre();
+        }
+
+        return $this->nombre;
+    }
+
+
 
 
 
@@ -293,7 +314,7 @@ class NumPromociones
     public function getPromocionesSegmentadas(){
 
       return $this->promociones->filter(function(Promocion $promocion){
-        return $promocion->getTipo() === Promocion::TIPO_SEGMENTADA
+        return $promocion->getTipo() == Promocion::TIPO_SEGMENTADA
               && $promocion->getEstado() > -1;
       });
 
@@ -305,12 +326,12 @@ class NumPromociones
     public function getPromocionesGenericas(){
 
       return $this->promociones->filter(function(Promocion $promocion){
-        return $promocion->getTipo() ===  Promocion::TIPO_GENERICA
+        return $promocion->getTipo() ==  Promocion::TIPO_GENERICA
             && $promocion->getEstado() > -1;
       });
 
     }
-
+    /**
     public function getGenericas()
     {
         $this->genericas = $this->promociones
@@ -328,6 +349,7 @@ class NumPromociones
         return $this->genericas;
     }
 
+
     public function getSegmentadas()
     {
         $this->segmentadas = $this->promociones
@@ -344,7 +366,9 @@ class NumPromociones
 
         return $this->segmentadas;
     }
+     */
 
+    /**
     public function addSegmentadas(Promocion $promocion)
     {
         $promocion
@@ -383,14 +407,97 @@ class NumPromociones
 
         return $this;
     }
+     *
+     * /
 
+    /**
+     * @return bool
+     */
     public function isSegementadasCompletas()
     {
-        return $this->getSegmentadas()->count() >= $this->numSegmentadas;
+        return $this->getPromocionesSegmentadas()->count() >= $this->numSegmentadas;
     }
 
+    /**
+     * @return bool
+     */
     public function isGenericasCompletas()
     {
-        return $this->getGenericas()->count() >= $this->numGenericas;
+        return $this->getPromocionesGenericas()->count() >= $this->numGenericas;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPromociones()
+    {
+        return
+            (int) $this->numSegmentadas + $this->numGenericas;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPromocionesRealizadas()
+    {
+        return
+            (int) $this->getPromocionesGenericas()->count() + $this->getPromocionesSegmentadas()->count();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNingunaPromocionPendiente()
+    {
+        /** @var Promocion $promocion */
+        foreach ($this->getPromocionesSegmentadas() as $promocion) {
+            if (Promocion::PENDIENTE === $promocion->getAceptada()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPromocionesAceptadas()
+    {
+        return $this->getPromocionesByEstado(Promocion::ACEPTADA);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPromocionesPendientes()
+    {
+        return $this->getPromocionesByEstado(Promocion::PENDIENTE);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPromocionesRechazadas()
+    {
+        return $this->getPromocionesByEstado(Promocion::RECHAZADA);
+    }
+
+    /**
+     * @param $estado
+     *
+     * @return int
+     */
+    public function getPromocionesByEstado($estado)
+    {
+
+        $promociones = $this
+            ->getPromocionesSegmentadas();
+
+        $promociones = $promociones->filter(function(Promocion $promocion) use ($estado) {
+                return $estado === $promocion->getAceptada();
+            });
+
+        return $promociones->count();
     }
 }

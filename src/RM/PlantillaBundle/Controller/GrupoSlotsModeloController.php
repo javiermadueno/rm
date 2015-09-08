@@ -36,12 +36,12 @@ class GrupoSlotsModeloController extends RMController
             return $this->render('RMPlantillaBundle:GrupoSlotsModelo:index.html.twig', [
                 'entities'  => $entities,
                 'plantilla' => $idPlantilla,
-                'editable'  => $editable
+                'editable' => $editable
 
             ]);
         }else{
             return $this->render('RMPlantillaBundle:GrupoSlotsModelo:indexNoEditable.html.twig', [
-                'entities'  => $entities,
+                'entities' => $entities,
                 'plantilla' => $idPlantilla
             ]);
         }
@@ -61,7 +61,7 @@ class GrupoSlotsModeloController extends RMController
     {
 
         $entity = new GrupoSlots();
-        $form   = $this->createCreateForm($entity, $idPlantilla);
+        $form = $this->createCreateForm($entity, $idPlantilla);
 
         $formHandler = $this->get('rm.create_grupo_slot_form_handler');
 
@@ -97,7 +97,7 @@ class GrupoSlotsModeloController extends RMController
         $entity->setIdPlantilla($plantilla);
 
         $form = $this->get('rm.create_grupo_slot_form_handler')->createForm($entity, [
-            'action'              => $this->generateUrl('gruposlotsmodelo_create', [
+            'action' => $this->generateUrl('gruposlotsmodelo_create', [
                     'idPlantilla' => $idPlantilla
             ]),
             'method' => 'POST',
@@ -129,7 +129,7 @@ class GrupoSlotsModeloController extends RMController
         return $this->render('RMPlantillaBundle:GrupoSlotsModelo:show.html.twig', [
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
-            'plantilla'   => $idPlantilla
+            'plantilla' => $idPlantilla
         ]);
     }
 
@@ -202,7 +202,7 @@ class GrupoSlotsModeloController extends RMController
         $em   = $this->getManager();
 
         $form = $this->createForm(new GrupoSlotsType(), $entity, [
-            'action'          => $this->generateUrl('gruposlotsmodelo_update', [
+            'action' => $this->generateUrl('gruposlotsmodelo_update', [
                 'id'          => $entity->getIdGrupo(),
                 'idPlantilla' => $entity->getIdPlantilla()->getIdPlantilla()
             ]),

@@ -160,10 +160,10 @@ class InstanciaComunicacionCliente implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'        => $this->id,
+            'id' => $this->id,
             'instancia' => $this->id_instancia,
-            'cliente'   => $this->id_cliente,
-            'slot'      => $this->id_slot,
+            'cliente' => $this->id_cliente,
+            'slot' => $this->id_slot,
         ];
     }
 

@@ -47,7 +47,7 @@
             {% for objIns in objInstancias %}
                 <tr>
                     <td>
-                        <a href="{{ path('campaign_creatividad_ficha', {'idInstancia': objIns.idInstancia}) }}" style="cursor:pointer;">#{{"%07d"|format( objIns.idInstancia) }}</a>
+                        <a href="{{ path('rm_comunicacion.campaign.show_campaing_creatividades', {'id_instancia': objIns.idInstancia}) }}">#{{"%07d"|format( objIns.idInstancia) }}</a>
                     </td>
 
                     <td>{{ objIns.idSegmentoComunicacion.idComunicacion.nombre }}</td>

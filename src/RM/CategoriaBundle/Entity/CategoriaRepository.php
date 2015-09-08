@@ -37,7 +37,7 @@ class CategoriaRepository extends EntityRepository
         if ($asociado > -1) {
             $dql .= " AND c.asociado = :asociado";
         }
-        if ($id_categoria !== '') {
+        if ($id_categoria != '') {
             $dql .= " AND c.idCategoria IN (" . $id_categoria . ")";
         }
         $dql .= " ORDER BY c.nombre";
@@ -95,7 +95,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCatPermitidasByInstancia ($id_instancia, $categorias =  [])
+    public function obtenerCatPermitidasByInstancia ($id_instancia, $categorias = array ())
     {
 
 
@@ -111,7 +111,7 @@ class CategoriaRepository extends EntityRepository
 			ORDER BY c.nombre";
 
         if(empty($categorias)) {
-            return [];
+            return array();
         }
 
         $query = $this->_em->createQuery($dql);
@@ -132,7 +132,7 @@ class CategoriaRepository extends EntityRepository
         $dql = "select n
 			from RMCategoriaBundle:NivelCategoria n";
 
-        $query     = $this->_em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
@@ -151,13 +151,13 @@ class CategoriaRepository extends EntityRepository
 			GROUP BY c.idCategoria
 			ORDER BY c.nombre";
 
-        $query     = $this->_em->createQuery($dql);
+        $query = $this->_em->createQuery($dql);
         $registros = $query->getResult();
 
         return $registros;
     }
 
-    public function obtenerCategoriasPermitidasDeCampanya($categorias = []){
+    public function obtenerCategoriasPermitidasDeCampanya($categorias = array()){
 
 
         $dql = "select c
@@ -177,7 +177,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasDeCampanyaByNombre ($nombreCategorias =  [])
+    public function obtenerCategoriasDeCampanyaByNombre ($nombreCategorias = array ())
     {
 
 
@@ -200,7 +200,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function obtenerCategoriasPorNombre ($nombreCategorias =  [])
+    public function obtenerCategoriasPorNombre ($nombreCategorias = array ())
     {
 
 
@@ -221,7 +221,7 @@ class CategoriaRepository extends EntityRepository
         return $registros;
     }
 
-    public function findCategoriasByNombreYNivel($categorias = [], $idNivel)
+    public function findCategoriasByNombreYNivel($categorias = array(), $idNivel)
     {
         $dql = "
             SELECT cat
@@ -234,7 +234,7 @@ class CategoriaRepository extends EntityRepository
         ";
 
         if(empty($categorias)) {
-            return [];
+            return array();
         }
 
         $categorias = array_map('trim', $categorias);

@@ -13,17 +13,17 @@ class MonedaExtension extends \Twig_Extension
 
     public function getFilters()
     {
-        return [
-            new \Twig_SimpleFilter('moneda', [$this, 'monedaFilter'], [
-                    'is_safe'    => ['html'],
+        return array(
+            new \Twig_SimpleFilter('moneda', array($this, 'monedaFilter'), array(
+                    'is_safe' => array('html'),
                     'pre_escape' => 'html'
-                ]
+                )
             ),
-            new \Twig_SimpleFilter('porcentaje', [$this, 'porcentajeFilter'], [
-                    'is_safe'    => ['html'],
+            new \Twig_SimpleFilter('porcentaje', array($this, 'porcentajeFilter'), array(
+                    'is_safe' => array('html'),
                     'pre_escape' => 'html'
-                ])
-        ];
+                ))
+        );
     }
 
     public function monedaFilter($valor) {

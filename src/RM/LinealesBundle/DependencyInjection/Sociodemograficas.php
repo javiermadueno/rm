@@ -45,7 +45,7 @@ class Sociodemograficas
             return $this->obtenerVariableSociodemograficas();
         }
 
-        $lineales  = $this->findVariablesSociodemograficasLinealesByNombre($nombre);
+        $lineales = $this->findVariablesSociodemograficasLinealesByNombre($nombre);
         $discretas = $this->findVariablesSociodemograficasDiscretasByNombre($nombre);
 
         return array_merge($lineales, $discretas );
@@ -62,7 +62,7 @@ class Sociodemograficas
               LEFT JOIN RMLinealesBundle:Vil v WITH (v.idVil = vs.idVil)
               LEFT JOIN RMDiscretasBundle:Tipo t WITH (v.tipo = t.id AND t.codigo = :codigoSociodemograficas)
         ";
-        $query    = $this->em->createQuery($dql_lineales)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
+        $query = $this->em->createQuery($dql_lineales)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
         $lineales =  $query->getResult();
 
         return $lineales;
@@ -83,7 +83,7 @@ class Sociodemograficas
         ";
 
 
-        $query     = $this->em->createQuery($dql_discretas)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
+        $query = $this->em->createQuery($dql_discretas)->setParameter('codigoSociodemograficas', Tipo::SOCIODEMOGRAFICO);
         $discretas = $query->getResult();
 
         return $discretas;

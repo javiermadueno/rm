@@ -11,10 +11,23 @@ services:
       - @doctrine_mongodb
       - @security.token_storage
 
-  rm.doctrine_configuration:
-    class: RM\AppBundle\Configuracion\DoctrineConfiguration
-    arguments: [ %kernel.root_dir% ]
+  rm.entity_manager:
+     class: Doctrine\Common\Persistence\ObjectManager
+     factory:
+       - @rm.manager
+       - getManager
 
+  rm.document_manager:
+     class: Doctrine\Common\Persistence\ObjectManager
+     factory:
+       - @rm.mongo_manager
+       - getManager
+
+
+
+#  rm.doctrine_configuration:
+#    class: RM\AppBundle\Configuracion\DoctrineConfiguration
+#    arguments: [ %kernel.root_dir% ]
 
 #  rm.doctrine_dynamic_connection:
 #    class: RM\AppBundle\EventListener\ChangeDoctrineConnectionListener

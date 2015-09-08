@@ -2,11 +2,13 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
-use Ob\HighchartsBundle\Highcharts\Highchart;
+use Doctrine\Common\Collections\ArrayCollection;
 use RM\AppBundle\Controller\RMController;
+use RM\ComunicacionBundle\Entity\Campaign;
+use RM\ComunicacionBundle\Entity\CampaingCreatividad;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\PlantillaBundle\Entity\Plantilla;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,600 +114,56 @@ class InstanciaController extends RMController
      */
     public function controladorVistasFaseInstanciasAction($id_instancia)
     {
-        $translator = $this->get('translator');
-        $servicioIC = $this->get("InstanciaComunicacionService");
-        $em         = $this->getManager();
 
+        $em = $this->getManager();
 
-        $objInstancias = $servicioIC->getInstanciaById($id_instancia);
-        $instancia     = $em
+        $instancia = $em
             ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
-            ->find($id_instancia)
+            ->findById($id_instancia)
         ;
 
-        if (!$objInstancias) {
-            throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
-        } else {
-
-
-            $fase = $instancia->getFase();
-
-            switch ($fase->getCodigo()) {
-                case InstanciaComunicacion::FASE_CONFIGURACION:
-                    return $this->faseConfiguracion($instancia);
-                    break;
-                default:
-                    break;
-            }
-
-            /** @var InstanciaComunicacion $objInstancia */
-            $objInstancia = $objInstancias [0];
-
-            $servicioPl  = $this->get("PlantillaService");
-            $servicioCat = $this->get("categoriaservice");
-            $servicioNP  = $this->get("NumPromocionesService");
-
-            $comunicacion    = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
-            $id_comunicacion = $comunicacion->getIdComunicacion();
-
-            $objPlantilla = $comunicacion->getPlantilla();
-
-
-            if (!$objPlantilla instanceof Plantilla) {
-                $this->get('session')->getFlashBag()->add('mensaje', 'No se ha encontrado la plantilla asociada');
-            }
-
-
-            $objGrupoSlots = $servicioPl->getGruposConNumeroSlots($objPlantilla->getIdPlantilla());
-
-            $gruposPromociones = array_filter($objGrupoSlots, function (array $grupo) {
-                    return $grupo['tipo'] === GrupoSlots::PROMOCION;
-                }
-            );
-
-            $gruposCreatividades = array_filter($objGrupoSlots, function (array $grupo) {
-                    return $grupo['tipo'] === GrupoSlots::CREATIVIDADES;
-                }
-            );
-
-            $objCategorias = $servicioCat->getCatByInstancia($objInstancia->getIdInstancia());
-
-            $fase_instancia = $objInstancia->getFase()->getCodigo();
-
-            if ($fase_instancia === InstanciaComunicacion::FASE_CONFIGURACION) {
-
-                $objPromociones            = $servicioNP->getNumPromocionesByFiltros(-1, -1, $id_instancia);
-                $objPromocionesCreatividad = $servicioNP->getNumPromocionesCreatividadByFiltros(-1, $id_instancia);
-
-                $objCategorias = $servicioCat->getCategoriasPorNivelVisible();
-
-                $arrayPromoSeg            = [];
-                $arrayPromoGen            = [];
-                $arrayPromoSegCreatividad = [];
-                $arrayPromoGenCreatividad = [];
-
-                foreach ($objPromociones as $objPromo) {
-                    $idGrupo     = $objPromo->getIdGrupo()->getIdGrupo();
-                    $idCategoria = $objPromo->getIdCategoria()->getIdCategoria();
-
-                    $arrayPromoSeg [$idGrupo] [$idCategoria] = $objPromo->getNumSegmentadas();
-                    $arrayPromoGen [$idGrupo] [$idCategoria] = $objPromo->getNumGenericas();
-                }
-
-                foreach ($objPromocionesCreatividad as $objPromo) {
-                    $idGrupo = $objPromo->getIdGrupo()->getIdGrupo();
-
-                    $arrayPromoSegCreatividad[$idGrupo] = $objPromo->getNumSegmentadas();
-                    $arrayPromoGenCreatividad[$idGrupo] = $objPromo->getNumGenericas();
-                }
-
-                $tramitar = $servicioIC->compruebaFaseConfiguracion($objInstancia);
-
-                $compruebanNumPromociones = function () use ($objInstancia, $servicioIC) {
-                    $grupoSlots = $servicioIC
-                        ->findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($objInstancia->getIdInstancia())
-                    ;
-
-                    foreach ($grupoSlots as $grupoSlot) {
-                        if (!intval($grupoSlot['numPro'])) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                };
-
-                $em = $this->getManager();
-
-                $totalGenericasPorgrupo = $em->getRepository('RMProductoBundle:NumPromociones')
-                                             ->findTotalGenericasPorGrupoByInstancia($objInstancia->getIdInstancia())
-                ;
-
-
-                $compruebaGenericas = function () use ($totalGenericasPorgrupo) {
-                    foreach ($totalGenericasPorgrupo as $total) {
-                        $totalGenericas = $total['totalGenericas'];
-                        $totalSlots     = $total['totalSlots'];
-
-                        if ($totalGenericas < $totalSlots) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                };
-
-                $faltanNumPromociones = $compruebanNumPromociones();
-                $faltanGenericas      = $compruebaGenericas();
-
-                return $this->render(
-                    'RMComunicacionBundle:Instancia:faseConfiguracionPromo.html.twig',
-                    [
-                        'objInstancia'             => $objInstancia,
-                        'objGrupoSlots'            => $objGrupoSlots,
-                        'grupoPromociones'         => $gruposPromociones,
-                        'grupoCreatividades'       => $gruposCreatividades,
-                        'arrayPromoSegCreatividad' => $arrayPromoSegCreatividad,
-                        'arrayPromoGenCreatividad' => $arrayPromoGenCreatividad,
-                        'objCategorias'            => $objCategorias,
-                        'arrayPromoSeg'            => $arrayPromoSeg,
-                        'arrayPromoGen'            => $arrayPromoGen,
-                        'opcionMenuTabFaseConf'    => '1',
-                        'preview'                  => '0',
-                        'tramitar'                 => $tramitar,
-                        'numPromocionesCorrecto'   => $faltanNumPromociones,
-                        'genericasCorrecto'        => $faltanGenericas
-                    ]
-                )
-                    ;
-
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_NEGOCIACION) {
-                // ECHO 'ENTRO EN FASE 2';
-                $objResumenPromociones = $servicioIC->getResumenPromocionesByTipo($id_instancia);
-
-                $arrayInfoPromoTipos       = [];
-                $arrayInfoPromoCreatividad = [];
-                $totalRealizadas           = 0;
-                $total                     = 0;
-                $grupoTmp                  = 0;
-                $arrayNombreGrupos         = [];
-                $arrayGrupos               = [];
-                $arrayValores              = []; // De 2 dimensiones, la 1Âª el id del grupo y al segunda puede ser: 1- Realizadas; 2- Totales
-
-                foreach ($objResumenPromociones as $objInfo) {
-
-                    if ($objInfo['tipoGrupo'] === GrupoSlots::PROMOCION) {
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [1] = $objInfo ['numSegmentadas'];
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [2] = $objInfo ['numGenericas'];
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [3] = $objInfo ['num_pro_seg'];
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [4] = $objInfo ['num_pro_gen'];
-                    } elseif ($objInfo['tipoGrupo'] === GrupoSlots::CREATIVIDADES) {
-                        $arrayInfoPromoCreatividad [$objInfo ['idGrupo']]  [1] = $objInfo ['numSegmentadas'];
-                        $arrayInfoPromoCreatividad [$objInfo ['idGrupo']]  [2] = $objInfo ['numGenericas'];
-                        $arrayInfoPromoCreatividad [$objInfo ['idGrupo']]  [3] = $objInfo ['num_pro_seg'];
-                        $arrayInfoPromoCreatividad [$objInfo ['idGrupo']]  [4] = $objInfo ['num_pro_gen'];
-                    }
-
-                    // Valores para los graficos
-                    $totalRealizadas += $objInfo ['num_pro_seg'] + $objInfo ['num_pro_gen'];
-                    $total += $objInfo ['numSegmentadas'] + $objInfo ['numGenericas'];
-
-                    if ($grupoTmp !== $objInfo ['idGrupo']) {
-                        array_push($arrayGrupos, $objInfo ['idGrupo']);
-                        array_push($arrayNombreGrupos, $objInfo ['nombreGrupo']);
-
-                        $arrayValores [$objInfo ['idGrupo']] [1] = $objInfo ['num_pro_seg'] + $objInfo ['num_pro_gen'];
-                        $arrayValores [$objInfo ['idGrupo']] [2] = $objInfo ['numSegmentadas'] + $objInfo ['numGenericas'];
-                        $grupoTmp                                = $objInfo ['idGrupo'];
-                    } else {
-                        $arrayValores [$objInfo ['idGrupo']] [1] += $objInfo ['num_pro_seg'] + $objInfo ['num_pro_gen'];
-                        $arrayValores [$objInfo ['idGrupo']] [2] += $objInfo ['numSegmentadas'] + $objInfo ['numGenericas'];
-                    }
-                }
-
-                // GrÃ¡fico tarta
-
-
-                $objGT = new Highchart ();
-                $objGT->chart->renderTo('graficoTarta');
-                $objGT->title->text($translator->trans('highchart.intancia.negociacion.porcentaje.promociones.elaboradas'));
-                $objGT->plotOptions->pie(
-                    [
-                        'allowPointSelect' => true,
-                        'cursor'           => 'pointer',
-                        'dataLabels'       => [
-                            'enabled' => false,
-                            'format'  => '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        ],
-                        'showInLegend'     => true
-                    ]
-                )
-                ;
-                $objGT->tooltip->pointFormat(
-                    '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b><br/>'
-                )
-                ;
-                $data = [
-                    [
-                        $translator->trans('highchart.intancia.negociacion.realizadas'),
-                        $total !== 0 ? round(($totalRealizadas / $total) * 100, 2) : 0
-                    ],
-                    [
-                        $translator->trans('highchart.intancia.negociacion.restantes'),
-                        $total !== 0 ? round((($total - $totalRealizadas) / $total) * 100, 2) : 0
-                    ]
-                ];
-                $objGT->series(
-                    [
-                        [
-                            'type' => 'pie',
-                            'name' => $translator->trans('promociones'),
-                            'data' => $data
-                        ]
-                    ]
-                )
-                ;
-
-                // GrÃ¡fico columnas
-                $arrayValoresRealizadas = [];
-                $arrayValoresTotales    = [];
-
-                foreach ($arrayGrupos as $idGrupo) {
-                    array_push($arrayValoresRealizadas, $arrayValores [$idGrupo] [1]);
-                    array_push($arrayValoresTotales, $arrayValores [$idGrupo] [2]);
-                }
-
-                $series = [
-                    [
-                        'name'  => $translator->trans('highchart.intancia.negociacion.realizadas'),
-                        'type'  => 'column',
-                        'color' => '#4572A7',
-                        'data'  => $arrayValoresRealizadas
-                    ],
-                    [
-                        'name'  => $translator->trans('highchart.intancia.negociacion.totales'),
-                        'type'  => 'column',
-                        'color' => '#AA4643',
-                        'data'  => $arrayValoresTotales
-                    ]
-                ];
-
-                $categories = $arrayNombreGrupos;
-
-                $objGB = new Highchart ();
-                $objGB->chart->renderTo('graficoBarras'); // The #id of the div where to render the chart
-                $objGB->chart->type('column');
-                $objGB->title->text($translator->trans('highchart.intancia.negociacion.promociones.elaboradas.requeridas'));
-                $objGB->xAxis->categories($categories);
-                $objGB->yAxis->min('0');
-                $objGB->yAxis->title(
-                    [
-                        'text' => $translator->trans('promociones')
-                    ]
-                )
-                ;
-                $objGB->legend->enabled(true);
-
-                $objGB->series($series);
-
-                $tramitar = $servicioIC->compruebaFaseCampanya($objInstancia);
-
-                return $this->render(
-                    'RMComunicacionBundle:Instancia:faseNegociacion.html.twig',
-                    [
-                        'objInstancia'               => $objInstancia,
-                        'objGrupoSlots'              => $gruposPromociones,
-                        'objGrupoSlotsCreatividades' => $gruposCreatividades,
-                        'objCategorias'              => $objCategorias,
-                        'grafico_tarta'              => $objGT,
-                        'grafico_barra'              => $objGB,
-                        'arrayInfoPromoTipos'        => $arrayInfoPromoTipos,
-                        'arrayInfoPromoCreatividad'  => $arrayInfoPromoCreatividad,
-                        'preview'                    => '0',
-                        'tramitar'                   => $tramitar
-                    ]
-                )
-                    ;
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_SIMULACION) {
-                return $this->redirect(
-                    $this->generateUrl('direct_homepage')
-                )
-                    ;
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_CIERRE) {
-
-                $objResumenPromociones     = $servicioIC->getResumenPromocionesByEstado($id_instancia);
-                $arrayInfoPromoTipos       = [];
-                $arrayInfoPromoCreatividad = [];
-                $arrayEstados              = [];
-                $arrayEstadosCreatividades = [];
-                $arrayNombreGrupos         = [];
-                $arrayGrupos               = [];
-
-                $total           = 0;
-                $totalPendientes = 0;
-                $totalAceptadas  = 0;
-                $totalRechazadas = 0;
-                $grupoTmp        = 0;
-                foreach ($objResumenPromociones as $objInfo) {
-
-                    $aceptadas  = intval($objInfo ['aceptadas']);
-                    $pendientes = intval($objInfo ['pendientes']);
-                    $rechazadas = intval($objInfo ['rechazadas']);
-
-                    if ($objInfo['tipoGrupo'] === GrupoSlots::PROMOCION) {
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [1] = $aceptadas;
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [2] = $pendientes;
-                        $arrayInfoPromoTipos [$objInfo ['idGrupo']] [$objInfo ['idCategoria']] [3] = $rechazadas;
-
-                        if ($pendientes > 0) {
-                            $arrayEstados[$objInfo ['idCategoria']] = 'pendiente';
-                        } else {
-                            $arrayEstados[$objInfo ['idCategoria']] = 'finalizada';
-                        }
-
-
-                    } elseif ($objInfo['tipoGrupo'] === GrupoSlots::CREATIVIDADES) {
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][1]          = $aceptadas;
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][2]          = $pendientes;
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']][3]          = $rechazadas;
-                        $arrayInfoPromoCreatividad[$objInfo['idGrupo']]['idNumPro'] = $objInfo['idNumPro'];
-
-                        if ($pendientes > 0) {
-                            $arrayEstadosCreatividades['idGrupo'] = 'pendiente';
-                        }
-                    }
-
-                    $total += $aceptadas + $pendientes + $rechazadas;
-                    $totalAceptadas += $aceptadas;
-                    $totalRechazadas += $rechazadas;
-                    $totalPendientes += $pendientes;
-
-                    if ($grupoTmp !== $objInfo ['idGrupo']) {
-                        array_push($arrayGrupos, $objInfo ['idGrupo']);
-                        array_push($arrayNombreGrupos, $objInfo ['nombreGrupo']);
-
-                        $arrayValores [$objInfo ['idGrupo']] [1] = $aceptadas;
-                        $arrayValores [$objInfo ['idGrupo']] [2] = $pendientes;
-                        $arrayValores [$objInfo ['idGrupo']] [3] = $rechazadas;
-
-                        $grupoTmp = $objInfo ['idGrupo'];
-                    } else {
-                        $arrayValores [$objInfo ['idGrupo']] [1] += $aceptadas;
-                        $arrayValores [$objInfo ['idGrupo']] [2] += $pendientes;
-                        $arrayValores [$objInfo ['idGrupo']] [3] += $rechazadas;
-                    }
-                }
-
-                $creatividades = $this->get('creatividadservice')
-                                      ->getDatosPromocionesCreatividadByInstancia($objInstancia)
-                ;
-
-                $objGT = new Highchart ();
-                $objGT->chart->renderTo('graficoTarta');
-                $objGT->title->text($translator->trans('highchart.intancia.cierre.porcentaje.promociones.elaboradas'));
-                $objGT->plotOptions->pie(
-                    [
-                        'allowPointSelect' => true,
-                        'cursor'           => 'pointer',
-                        'dataLabels'       => [
-                            'enabled' => false,
-                            'format'  => '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        ],
-                        'showInLegend'     => true
-                    ]
-                )
-                ;
-                $objGT->tooltip->pointFormat(
-                    '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b><br/>'
-                )
-                ;
-
-                $data = [
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
-                        'color' => '#e67e22',
-                        'y'     => $total !== 0 ? round((($totalPendientes) / $total) * 100, 2) : 0
-                    ],
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.aceptadas'),
-                        'color' => '#2ecc71',
-                        'y'     => $total !== 0 ? round(($totalAceptadas / $total) * 100, 2) : 0
-                    ],
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.rechazadas'),
-                        'color' => '#e74c3c',
-                        'y'     => $total !== 0 ? round((($totalRechazadas) / $total) * 100, 2) : 0
-                    ]
-                ];
-                $objGT->series(
-                    [
-                        [
-                            'type' => 'pie',
-                            'name' => $translator->trans('promociones'),
-                            'data' => $data
-                        ]
-                    ]
-                )
-                ;
-
-                // GrÃ¡fico columnas
-                $arrayValoresAceptadas  = [];
-                $arrayValoresPendientes = [];
-                $arrayValoresRechazadas = [];
-
-                foreach ($arrayGrupos as $idGrupo) {
-                    array_push($arrayValoresAceptadas, $arrayValores [$idGrupo] [1]);
-                    array_push($arrayValoresPendientes, $arrayValores [$idGrupo] [2]);
-                    array_push($arrayValoresRechazadas, $arrayValores [$idGrupo] [3]);
-                }
-
-                $series = [
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.pendientes'),
-                        'type'  => 'column',
-                        'color' => '#e67e22',
-                        'data'  => $arrayValoresPendientes
-                    ],
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.aceptadas'),
-                        'type'  => 'column',
-                        'color' => '#2ecc71',
-                        'data'  => $arrayValoresAceptadas
-                    ],
-                    [
-                        'name'  => $translator->trans('highchart.intancia.cierre.rechazadas'),
-                        'type'  => 'column',
-                        'color' => '#e74c3c',
-                        'data'  => $arrayValoresRechazadas
-                    ]
-                ];
-
-                $categories = $arrayNombreGrupos;
-
-                $objGB = new Highchart ();
-                $objGB->chart->renderTo('graficoBarras'); // The #id of the div where to render the chart
-                $objGB->chart->type('column');
-                $objGB->title->text($translator->trans('highchart.intancia.cierre.promociones.aceptadas.rechazadas'));
-                $objGB->xAxis->categories($categories);
-                $objGB->yAxis->min('0');
-                $objGB->yAxis->title(
-                    [
-                        'text' => $translator->trans('promociones')
-                    ]
-                )
-                ;
-                $objGB->legend->enabled(true);
-
-                $objGB->series($series);
-
-                $tramitar        = $servicioIC->compruebaFaseCierre($objInstancia);
-                $tieneRechazadas = $servicioIC->compruebaPromocionesRechazadasEnFaseCierre($objInstancia);
-
-                return $this->render(
-                    'RMComunicacionBundle:Instancia:faseCierreNegociacion.html.twig',
-                    [
-                        'objInstancia'               => $objInstancia,
-                        'objGrupoSlots'              => $gruposPromociones,
-                        'objGrupoSlotsCreatividades' => $gruposCreatividades,
-                        'objCategorias'              => $objCategorias,
-                        'arrayInfoPromoTipos'        => $arrayInfoPromoTipos,
-                        'arrayInfoPromoCreatividad'  => $arrayInfoPromoCreatividad,
-                        'arrayEstados'               => $arrayEstados,
-                        'arrayEstadosCreatividades'  => $arrayEstadosCreatividades,
-                        'grafico_tarta'              => $objGT,
-                        'grafico_barra'              => $objGB,
-                        'preview'                    => '0',
-                        'tramitar'                   => $tramitar,
-                        'tieneRechazadas'            => $tieneRechazadas,
-                        'creatividades'              => $creatividades
-                    ]
-                )
-                    ;
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_GENERACION) {
-                return $this->redirect(
-                    $this->generateUrl('direct_homepage')
-                )
-                    ;
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_CONFIRMACION) {
-                $nomPagFase = 'confirmacion';
-
-                // ECHO 'ENTRO EN FASE 6';
-
-                $numcomunicaciones = '125.548';
-
-                return $this->render(
-                    'RMComunicacionBundle:Instancia:faseConfirmacion.html.twig',
-                    [
-                        'objInstancia'      => $objInstancia,
-                        'objGrupoSlots'     => $objGrupoSlots,
-                        'objCategorias'     => $objCategorias,
-                        'numComunicaciones' => $numcomunicaciones,
-                        'preview'           => '0'
-                    ]
-                )
-                    ;
-            } elseif ($fase_instancia === InstanciaComunicacion::FASE_FINALIZADA) {
-                $nomPagFase = 'finalizada';
-
-                // ECHO 'ENTRO EN FASE 7';
-
-                $formato = 'XML';
-                $server  = 'FTP';
-                $user    = 'jorge';
-                $pass    = '*****';
-                $url     = '192.168.100.1';
-
-                return $this->render(
-                    'RMComunicacionBundle:Instancia:faseFinalizada.html.twig',
-                    [
-                        'objInstancia'  => $objInstancia,
-                        'objGrupoSlots' => $objGrupoSlots,
-                        'objCategorias' => $objCategorias,
-                        'preview'       => '0',
-                        'formato'       => $formato,
-                        'server'        => $server,
-                        'user'          => $user,
-                        'pass'          => $pass,
-                        'url'           => $url,
-                        'otros'         => $server
-                    ]
-                )
-                    ;
-            }
+        $fase = $instancia->getFase();
+
+        switch ($fase->getCodigo()) {
+            case InstanciaComunicacion::FASE_CONFIGURACION:
+                return $this->faseConfiguracion($instancia);
+                break;
+            case InstanciaComunicacion::FASE_NEGOCIACION:
+                return $this->faseCampaign($instancia);
+                break;
+            case InstanciaComunicacion::FASE_SIMULACION:
+                return $this->faseSimulacion($instancia);
+                break;
+            case InstanciaComunicacion::FASE_CIERRE:
+                return $this->faseCierre($instancia);
+                break;
+            case InstanciaComunicacion::FASE_GENERACION:
+                return $this->faseGeneracion($instancia);
+                break;
+            case InstanciaComunicacion::FASE_CONFIRMACION:
+                return $this->faseConfirmacion($instancia);
+                break;
+            case InstanciaComunicacion::FASE_FINALIZADA:
+                return $this->faseFinalizada($instancia);
+                break;
+            default:
+                throw $this->createNotFoundException();
+                break;
         }
+
     }
 
 
     private function faseConfiguracion(InstanciaComunicacion $instancia)
     {
-        $em         = $this->getManager();
-        $servicioIC = $this->get('instanciacomunicacionservice');
+        $servicioIC = $this->get('rm_comunicacion.services.cambio_fase');
 
-        $comunicacion = $instancia->getIdSegmentoComunicacion()->getIdComunicacion();
-        $plantilla    = $comunicacion->getPlantilla();
-
-        $grupos = $em->getRepository('RMPlantillaBundle:GrupoSlots')
-                     ->findGruposSlotsByPlantilla($plantilla->getIdPlantilla())
-        ;
+        $grupos = $instancia->getGruposSlots()->toArray();
 
         $tramitar = $servicioIC->compruebaFaseConfiguracion($instancia);
 
-        $compruebanNumPromociones = function () use ($instancia, $servicioIC) {
-            $grupoSlots = $servicioIC
-                ->findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($instancia->getIdInstancia())
-            ;
-
-            foreach ($grupoSlots as $grupoSlot) {
-                if (!intval($grupoSlot['numPro'])) {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
-
-        $totalGenericasPorgrupo =
-            $em->getRepository('RMProductoBundle:NumPromociones')
-                ->findTotalGenericasPorGrupoByInstancia($instancia->getIdInstancia())
-        ;
-
-
-        $compruebaGenericas = function () use ($totalGenericasPorgrupo) {
-            foreach ($totalGenericasPorgrupo as $total) {
-                $totalGenericas = $total['totalGenericas'];
-                $totalSlots     = $total['totalSlots'];
-
-                if ($totalGenericas < $totalSlots) {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
-        $faltanNumPromociones = $compruebanNumPromociones();
-        $faltanGenericas      = $compruebaGenericas();
+        $faltanNumPromociones = !$instancia->isTodosGruposRellenos();
+        $faltanGenericas      = !$instancia->isTodasGenericasDefinidas();
 
         return $this->render(
             'RMComunicacionBundle:Instancia:faseConfiguracionPromoNew.html.twig',
@@ -723,6 +181,124 @@ class InstanciaController extends RMController
 
     }
 
+    private function faseCampaign(InstanciaComunicacion $instancia)
+    {
+        $cambioFaseService = $this->get('rm_comunicacion.services.cambio_fase');
+
+        $campaign      = new Campaign($instancia, new ArrayCollection());
+        $creatividades = new CampaingCreatividad($instancia, new ArrayCollection());
+
+        $objGT = $this
+            ->get('rm_comunicacion.graph.promociones_realizadas_vs_totales')
+            ->createPie($instancia, 'graficoTarta')
+        ;
+
+        $objGB = $this
+            ->get('rm_comunicacion.graph.promociones_realizadas_vs_totales')
+            ->createBar($instancia, 'graficoBarras')
+        ;
+
+        $tramitar = $cambioFaseService->compruebaFaseCampanya($instancia);
+
+        return $this->render(
+            'RMComunicacionBundle:Instancia:fase_campaign.html.twig',
+            [
+                'objInstancia'  => $instancia,
+                'grafico_tarta' => $objGT,
+                'grafico_barra' => $objGB,
+                'preview'       => '0',
+                'tramitar'      => $tramitar,
+                'campaign'      => $campaign,
+                'creatividad'   => $creatividades
+            ]
+        )
+            ;
+    }
+
+    private function faseSimulacion(InstanciaComunicacion $instancia)
+    {
+        return $this->redirectToRoute('direct_homepage');
+    }
+
+    private function faseCierre(InstanciaComunicacion $instancia)
+    {
+        $cambioFaseService = $this->get('rm_comunicacion.services.cambio_fase');
+        $graficas          = $this->get('rm_comunicacion.graphs.promociones_aceptadas_rechazas_pendientes');
+
+        $campaigns     = new Campaign($instancia, new ArrayCollection());
+        $creatividades = new CampaingCreatividad($instancia, new ArrayCollection());
+
+        $tramitar        = $cambioFaseService->compruebaFaseCierre($instancia);
+        $tieneRechazadas = $cambioFaseService->compruebaPromocionesRechazadasEnFaseCierre($instancia);
+
+        $objGT = $graficas->porcentajePromocionesPorEstado($campaigns);
+        $objGB = $graficas->promocionesAceptadasRechazadasPendientesPorGrupoSlot($campaigns);
+
+        return $this->render(
+            'RMComunicacionBundle:Instancia:fase_cierre.html.twig',
+            [
+                'objInstancia'    => $instancia,
+                'grafico_tarta'   => $objGT,
+                'grafico_barra'   => $objGB,
+                'preview'         => '0',
+                'tramitar'        => $tramitar,
+                'tieneRechazadas' => $tieneRechazadas,
+                'campaigns'       => $campaigns,
+                'creatividades'   => $creatividades
+            ]
+        )
+            ;
+    }
+
+    private function faseGeneracion(InstanciaComunicacion $instancia)
+    {
+        return $this->redirectToRoute('direct_homepage');
+    }
+
+    private function faseConfirmacion(InstanciaComunicacion $instancia)
+    {
+        $numcomunicaciones = '125.548';
+
+        return $this->render(
+            'RMComunicacionBundle:Instancia:faseConfirmacion.html.twig',
+            [
+                'objInstancia'      => $instancia,
+                'numComunicaciones' => $numcomunicaciones,
+                'preview'           => '0',
+                'tramitar'          => true
+            ]
+        )
+            ;
+    }
+
+    private function faseFinalizada(InstanciaComunicacion $instancia)
+    {
+        $nomPagFase = 'finalizada';
+
+        // ECHO 'ENTRO EN FASE 7';
+
+        $formato = 'XML';
+        $server  = 'FTP';
+        $user    = 'jorge';
+        $pass    = '*****';
+        $url     = '192.168.100.1';
+
+        return $this->render(
+            'RMComunicacionBundle:Instancia:faseFinalizada.html.twig',
+            [
+                'objInstancia' => $instancia,
+                'preview'      => '0',
+                'formato'      => $formato,
+                'server'       => $server,
+                'user'         => $user,
+                'pass'         => $pass,
+                'url'          => $url,
+                'otros'        => $server
+            ]
+        )
+            ;
+    }
+
     /**
      * @param $listaCatNeeded
      */
@@ -730,13 +306,11 @@ class InstanciaController extends RMController
     {
         $c = 0;
 
-        $servicioPr = $this->get("PromocionService");
-
         $listaPrueba      = urldecode($listaCatNeeded);
         $listIdCategorias = json_decode($listaPrueba);
 
 
-        $servicioCat = $this->get("CategoriaService");
+        $servicioCat = $this->get("categoriaservice");
         $servicioIC  = $this->get("InstanciaComunicacionService");
 
         if (!$listIdCategorias) {
@@ -774,7 +348,7 @@ class InstanciaController extends RMController
 
             //var_dump ( $result );exit(0);
 
-            if ($result !== 0) {
+            if ($result != 0) {
 
                 return $this->render(
                     'RMComunicacionBundle:Instancia:fichaAvisos.html.twig',
@@ -847,15 +421,7 @@ class InstanciaController extends RMController
 
         $mailer->send($message);
 
-        return $this->render(
-            'RMComunicacionBundle:Instancia:faseConfiguracionPromo.html.twig',
-            [
-                'objInstancia'  => $objInstancia,
-                'objGrupoSlots' => $objGrupoSlots,
-                'objCategorias' => $objCategorias
-            ]
-        )
-            ;
+        return Response::create();
     }
 
     /**
@@ -882,7 +448,7 @@ class InstanciaController extends RMController
                 $servicioCat = $this->get("categoriaservice");
                 $servicioNP  = $this->get("NumPromocionesService");
 
-                if ($objInstancia->getFase()->getCodigo() === InstanciaComunicacion::FASE_CONFIGURACION) {
+                if ($objInstancia->getFase()->getCodigo() == InstanciaComunicacion::FASE_CONFIGURACION) {
 
                     $comunicacion    = $objInstancia->getIdSegmentoComunicacion()->getIdComunicacion();
                     $id_comunicacion = $comunicacion->getIdComunicacion();
@@ -891,12 +457,12 @@ class InstanciaController extends RMController
 
                     $objGrupoSlots = $servicioPl->getGruposConNumeroSlots($objPlantilla->getIdPlantilla());
 
-                    if ($request->get('promociones') === 1) {
+                    if ($request->get('promociones') == 1) {
 
                         $gruposCreatividades       = array_filter(
                             $objGrupoSlots,
                             function (array $grupo) {
-                                return $grupo['tipo'] === GrupoSlots::CREATIVIDADES;
+                                return $grupo['tipo'] == GrupoSlots::CREATIVIDADES;
                             }
                         );
                         $objCategorias             = $servicioCat->getCategoriasPorNivelVisible();
@@ -929,7 +495,7 @@ class InstanciaController extends RMController
                             )
                         )
                             ;
-                    } elseif ($request->get('desempate') === 1) {
+                    } elseif ($request->get('desempate') == 1) {
                         $em = $this->getManager();
 
                         $instanciasCriterios = $em->getRepository(
@@ -1142,7 +708,7 @@ class InstanciaController extends RMController
 
         $objInstancia = $objInstancias [0];
 
-        if ($id_segmento === -1) {
+        if ($id_segmento == -1) {
             $segmentos       = null;
             $objConsumidores = null;
         } else {
@@ -1177,9 +743,10 @@ class InstanciaController extends RMController
         $instancia = $em->getRepository('RMComunicacionBundle:InstanciaComunicacion')->find($id_instancia);
         $cliente   = $em->getRepository('RMClienteBundle:Cliente')->find($id_cliente);
 
-        $plantilla_path = $this->get('rm_plantilla.email_parser')
-                               ->parse($instancia, $cliente)
-                               ->getRutaPlantillaGenerada()
+        $plantilla_path = $this
+            ->get('rm_plantilla.email_parser')
+            ->parse($instancia, $cliente)
+            ->getRutaPlantillaGenerada()
         ;
 
         return new Response(file_get_contents($plantilla_path));
@@ -1196,8 +763,10 @@ class InstanciaController extends RMController
     {
         $id_instancia = intval($id_instancia);
 
+        $cliente = $this->getUser()->getCliente();
+
         $dm = $this->get('rm.mongo_manager')->getManager();
-        $em = $this->get('rm.manager')->getManager();
+        $em = $this->get('rm.entity_manager');
 
         $instancia = $em->getRepository('RMComunicacionBundle:InstanciaComunicacion')->findById($id_instancia);
 
@@ -1217,35 +786,47 @@ class InstanciaController extends RMController
 
         \MongoCursor::$timeout = -1;
 
-        $todos_clientes = $session->get(sprintf('todos_clientes_%s', $id_instancia));
+        $key_clientes_session = sprintf('%s_todos_clientes_%s', $cliente, $id_instancia);
+
+        $todos_clientes = $session->get($key_clientes_session);
 
         if (!$todos_clientes) {
-            $clientes = $dm->getRepository('RMMongoBundle:InstanciaComunicacionCliente')
-                           ->findIdClienteByInstancia($id_instancia)
+            $clientes = $dm
+                ->getRepository('RMMongoBundle:InstanciaComunicacionCliente')
+                ->findIdClienteByInstancia($id_instancia)
             ;
 
             $result = [];
             foreach (array_chunk($clientes, 10000) as $division) {
-                $temp = $em->getRepository('RMClienteBundle:Cliente')
-                           ->findClientesByIds($division)
+                $temp = $em
+                    ->getRepository('RMClienteBundle:Cliente')
+                    ->findClientesByIds($division)
                 ;
 
                 $result = array_merge($result, $temp);
             }
 
-            $session->set(sprintf('todos_clientes_%s', $id_instancia), $result);
+            $session->set($key_clientes_session, $result);
             $todos_clientes = $result;
         }
 
         if (is_array($filtro)) {
-            $clientes = $dm->getRepository('RMMongoBundle:ClienteSegmento')->findClientes($filtro);
-            $clientes = $dm->getRepository('RMMongoBundle:InstanciaComunicacionCliente')
-                           ->findClientesByIdClienteInstancia($clientes, $id_instancia)
+            $clientes = $dm
+                ->getRepository('RMMongoBundle:ClienteSegmento')
+                ->findClientes($filtro)
             ;
 
-            $filtrado = array_filter($todos_clientes, function ($cliente) use ($clientes) {
-                return in_array($cliente['idCliente'], $clientes);
-            });
+            $clientes = $dm
+                ->getRepository('RMMongoBundle:InstanciaComunicacionCliente')
+                ->findClientesByIdClienteInstancia($clientes, $id_instancia)
+            ;
+
+            $filtrado = array_filter(
+                $todos_clientes,
+                function ($cliente) use ($clientes) {
+                    return in_array($cliente['idCliente'], $clientes);
+                }
+            );
 
             $filtrado = array_values($filtrado);
         } else {
@@ -1269,7 +850,7 @@ class InstanciaController extends RMController
      */
     public function cambioFaseAction($id_instancia)
     {
-        $instanciaServicio = $this->get('instanciacomunicacionservice');
+        $instanciaServicio = $this->get('rm_comunicacion.services.cambio_fase');
 
         if (!$instanciaServicio->cambioFase($id_instancia)) {
             $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.error.cambio.fase');
@@ -1280,6 +861,17 @@ class InstanciaController extends RMController
         $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.ok.cambio.fase');
 
         return $this->redirectToRoute('direct_monitor_controlador_fases', ['id_instancia' => $id_instancia]);
+    }
+
+    public function descargarBatchAction(Request $request, $id)
+    {
+        $ruta_batch = $this->getParameter('ruta.batch');
+        $ruta_batch = $this->getUser()->getCliente() . '/' . $ruta_batch . $id . '.xml';
+
+        $response = new BinaryFileResponse($ruta_batch);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
     }
 
     /**

@@ -10,10 +10,10 @@ class LinealBuscadorType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder->add('nombre')
-		->add('page', 'hidden', [
-				'data'   => '1',
+		->add('page', 'hidden', array(
+				'data' => '1',
 				'mapped' => false,
-		]);
+		));
 	}
 
 	public function getName()

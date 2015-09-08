@@ -29,7 +29,7 @@ class ModificaNumeroSlotsListener
         $numSlotsPreUpdate  = $grupoSlots->getSlots()->count();
         $numSlotsPostUpdate = $grupoSlots->getNumSlots();
 
-        if($numSlotsPostUpdate === $numSlotsPreUpdate) {
+        if($numSlotsPostUpdate == $numSlotsPreUpdate) {
             return;
         }
 
@@ -41,7 +41,7 @@ class ModificaNumeroSlotsListener
 
                 $slot->setEstado(1)
                     ->setIdGrupo($grupoSlots)
-                    ->setCodigo(uniqid($grupoSlots->getIdGrupo() . '_'));
+                    ->setCodigo(uniqid($grupoSlots->getIdGrupo().'_'));
 
                 $em->persist($slot);
             }

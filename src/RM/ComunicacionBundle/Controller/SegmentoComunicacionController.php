@@ -10,6 +10,7 @@ namespace RM\ComunicacionBundle\Controller;
 
 
 use Doctrine\ORM\EntityManager;
+use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 use RM\ComunicacionBundle\Form\Type\SegmentoComunicacionType;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SegmentoComunicacionController extends Controller
+class SegmentoComunicacionController extends RMController
 {
 
     /**
@@ -45,18 +46,13 @@ class SegmentoComunicacionController extends Controller
             ->findSegmentosComunicacionByComunicacion($comunicacion);
 
         return $this->render('RMComunicacionBundle:SegmentoComunicacion:listado.html.twig', [
-            'segmentos'       => $segmentos,
-            'id_comunicacion' => $idComunicacion
+            'segmentos' => $segmentos,
+            'comunicacion' => $comunicacion
         ]);
     }
 
-    /**
-     * @return EntityManager
-     */
-    private function getManager()
-    {
-        return $this->get('rm.manager')->getManager();
-    }
+
+
 
     /**
      * @param Request $request
@@ -109,7 +105,7 @@ class SegmentoComunicacionController extends Controller
         $segmento = $em->getRepository('RMComunicacionBundle:SegmentoComunicacion')->findById($id);
 
         if(!$segmento instanceof SegmentoComunicacion ) {
-            return $this->createNotFoundException(sprintf(
+            throw $this->createNotFoundException(sprintf(
                 'No se ha encontrado el segmentoComunicacion con id "%s"',
                 $id
             ));
@@ -138,6 +134,23 @@ class SegmentoComunicacionController extends Controller
 
     }
 
+    public function showAction(Request $request, $id)
+    {
+        $em = $this->getManager();
+        $segmento = $em
+            ->getRepository('RMComunicacionBundle:SegmentoComunicacion')
+            ->find($id);
+
+        if(!$segmento instanceof SegmentoComunicacion) {
+            throw $this->createNotFoundException(sprintf('No se ha encontrado el segmento con id = "%s"', $id));
+        }
+
+        return $this->render('RMComunicacionBundle:SegmentoComunicacion:show.html.twig', [
+            'segmento' => $segmento,
+            'objComunicacion' => $segmento->getIdComunicacion(),
+        ]);
+    }
+
     /**
      * @param SegmentoComunicacion $segmentoComunicacion
      *
@@ -146,7 +159,7 @@ class SegmentoComunicacionController extends Controller
     private function createCreateForm(SegmentoComunicacion $segmentoComunicacion)
     {
         $form = $this->createForm(new SegmentoComunicacionType(), $segmentoComunicacion, [
-            'action'             => $this->generateUrl('rm_comunicacion.segmento_comunicacion.new', [
+            'action' => $this->generateUrl('rm_comunicacion.segmento_comunicacion.new', [
                 'idComunicacion' => $segmentoComunicacion->getIdComunicacion()->getIdComunicacion()
             ]),
             'method' => 'POST',
@@ -161,12 +174,12 @@ class SegmentoComunicacionController extends Controller
     private function createEditForm(SegmentoComunicacion $segmentoComunicacion)
     {
         $form = $this->createForm(new SegmentoComunicacionType(), $segmentoComunicacion, [
-            'action'             => $this->generateUrl('rm_comunicacion.segmento_comunicacion.edit', [
-                'id'             => $segmentoComunicacion->getIdSegmentoComunicacion(),
+            'action' => $this->generateUrl('rm_comunicacion.segmento_comunicacion.edit', [
+                'id' => $segmentoComunicacion->getIdSegmentoComunicacion(),
                 'idComunicacion' => $segmentoComunicacion->getIdComunicacion()->getIdComunicacion()
             ]),
             'method' => 'POST',
-            'em'     => $this->getManager()
+            'em' => $this->getManager()
         ]);
 
         $form->add('submit', 'submit', ['label' => 'boton.actualizar']);
@@ -185,14 +198,14 @@ class SegmentoComunicacionController extends Controller
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {
-            return Response::create('error', 500);
+            return Response::create('error', Response::HTTP_BAD_REQUEST);
         }
 
         $segmentoComunicacion = $this->get('rm_comunicacion.cambia_estado_segmento_comunicacion')
             ->reanudarSegmentoComunicacion($idSegmentoComunicacion);
 
         if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
-            return Response::create($translator->trans('mensaje.error.reanudar.segmentocomunicacion'), 500);
+            return Response::create($translator->trans('mensaje.error.reanudar.segmentocomunicacion'), Response::HTTP_BAD_REQUEST);
         }
 
         $mensaje = $translator->trans('mensaje.ok.segmentocomunicacion.reanudado');
@@ -224,14 +237,14 @@ class SegmentoComunicacionController extends Controller
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {
-            return Response::create('error', 500);
+            return Response::create('error', Response::HTTP_BAD_REQUEST);
         }
 
         $segmentoComunicacion = $this->get('rm_comunicacion.cambia_estado_segmento_comunicacion')
             ->pararSegmentoComunicacion($idSegmentoComunicacion);
 
         if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
-            return Response::create($translator->trans('mensaje.error.parar.segmentocomunicacion'), 500);
+            return Response::create($translator->trans('mensaje.error.parar.segmentocomunicacion'), Response::HTTP_BAD_REQUEST);
         }
 
         $mensaje = $translator->trans('mensaje.ok.segmentocomunicacion.parado');
@@ -262,14 +275,15 @@ class SegmentoComunicacionController extends Controller
         $translator = $this->get('translator');
 
         if (!$idSegmentoComunicacion || !$request->isXmlHttpRequest()) {
-            return Response::create('error', 500);
+            return Response::create('error', Response::HTTP_BAD_REQUEST);
         }
 
-        $segmentoComunicacion = $this->get('rm_comunicacion.cambia_estado_segmento_comunicacion')
+        $segmentoComunicacion = $this
+            ->get('rm_comunicacion.cambia_estado_segmento_comunicacion')
             ->eliminarSegmentoComunicacion($idSegmentoComunicacion);
 
         if (!$segmentoComunicacion instanceof SegmentoComunicacion) {
-            return Response::create($translator->trans('mensaje.error.eliminar'), 500);
+            return Response::create($translator->trans('mensaje.error.eliminar'), Response::HTTP_BAD_REQUEST);
         }
 
         $mensaje = $translator->trans('mensaje.ok.segmentocomunicacion.eliminado');

@@ -37,8 +37,8 @@ class PorcentajeDeVentas
 
         $this->chart->plotOptions->pie ( [
                 'allowPointSelect' => true,
-                'cursor'           => 'pointer',
-                'dataLabels'       => [
+                'cursor' => 'pointer',
+                'dataLabels' => [
                     'enabled' => false
                 ],
                 'showInLegend' => true
@@ -50,7 +50,7 @@ class PorcentajeDeVentas
 
         $this->chart->title->text ( $this->translator->trans(
             'highchart.insight.clientes.porcentaje.ventas.title',
-            ['%mes%' => $mes->getFecha()->format('F-Y')]
+            ['%mes%' =>  $mes->getFecha()->format('F-Y')]
         ));
 
         $this->chart->series ( [

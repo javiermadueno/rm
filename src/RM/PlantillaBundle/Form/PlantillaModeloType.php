@@ -15,20 +15,20 @@ class PlantillaModeloType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('nombre', 'text', [
+        $builder->add('nombre', 'text', array(
                 'required' => true
-            ])
-            ->add('descripcion', 'text', [
+            ))
+            ->add('descripcion', 'text', array(
                     'required' => false
-                ])
-            ->add('canal', 'entity', [
-                    'class'       => 'RMComunicacionBundle:Canal',
-                    'em'          => $options['em'],
-                    'required'    => true,
+                ))
+            ->add('canal', 'entity', array(
+                    'class' => 'RMComunicacionBundle:Canal',
+                    'em' => $options['em'],
+                    'required' => true,
                     'empty_value' => '- Seleccione un canal -',
-                ])
-            ->add('estado', 'hidden', ['data' => 1])
-            ->add('esModelo', 'hidden', ['data' => true])
+                ))
+            ->add('estado', 'hidden', array('data' => 1))
+            ->add('esModelo', 'hidden', array('data' => true))
         ;
     }
     
@@ -38,9 +38,9 @@ class PlantillaModeloType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setDefaults([
+            ->setDefaults(array(
                 'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
-            ])
+            ))
             ->setRequired(['em'])
             ->setAllowedTypes([
                 'em' => 'Doctrine\Common\Persistence\ObjectManager'

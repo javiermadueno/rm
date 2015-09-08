@@ -9,12 +9,13 @@
 namespace RM\ComunicacionBundle\Model\Abstracts;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use RM\CategoriaBundle\Entity\Categoria;
 use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
-use RM\ProductoBundle\Entity\NumPromociones;
 use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\CategoriaBundle\Entity\Categoria;
+use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
 
 
@@ -52,66 +53,33 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
         $this->getGruposSlots();
     }
 
-
     /**
-     * @return int
+     * @return Arraycollection
      */
-    public function getIdInstancia()
+    public function getNumPromociones()
     {
-        return $this
-            ->instancia
-            ->getIdInstancia();
+        if (!$this->numPromociones) {
+            $this->numPromociones = $this->instancia
+                ->getNumPromociones()
+                ->filter(
+                    function (NumPromociones $numPromociones) {
+                        return
+                            (
+                                $this->categoriasPermitidas->isEmpty()
+                                || $this->categoriasPermitidas->contains($numPromociones->getIdCategoria())
+                            )
+                            && $this->getTipoNumPromocion() === $numPromociones->getIdGrupo()->getTipo();
+                    })
+            ;
+        }
+
+        $sort = Criteria::create();
+        $sort->orderBy(['nombre' => Criteria::ASC]);
+
+        return $this->numPromociones->matching($sort);
     }
 
-    /**
-     * @return SegmentoComunicacion
-     */
-    public function getIdSegmentoComunicacion()
-    {
-        return $this
-            ->instancia
-            ->getIdSegmentoComunicacion();
-    }
-
-    /**
-     * @return Fases
-     */
-    public function getFase()
-    {
-        return $this
-            ->instancia
-            ->getFase();
-    }
-
-    /**
-     * @return int
-     */
-    public function getEstado()
-    {
-        return $this
-            ->instancia
-            ->getEstado();
-    }
-
-    /**
-     * @return \Datetime
-     */
-    public function getFecCreacion()
-    {
-        return $this
-            ->instancia
-            ->getFecCreacion();
-    }
-
-    /**
-     * @return \Datetime
-     */
-    public function getFecEjecucion()
-    {
-        return $this
-            ->instancia
-            ->getFecEjecucion();
-    }
+    protected abstract function getTipoNumPromocion();
 
     /**
      * @return ArrayCollection
@@ -126,30 +94,77 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
                         function (GrupoSlots $grupo) {
                             return $this->getTipoNumPromocion() === $grupo->getTipo();
                         }
-                    );
+                    )
+            ;
         }
 
         return $this->gruposSlots;
     }
 
+    /**
+     * @return int
+     */
+    public function getIdInstancia()
+    {
+        return $this
+            ->instancia
+            ->getIdInstancia()
+            ;
+    }
 
     /**
-     * @return Arraycollection
+     * @return SegmentoComunicacion
      */
-    public function getNumPromociones()
+    public function getIdSegmentoComunicacion()
     {
-        if (!$this->numPromociones) {
-            $this->numPromociones = $this->instancia
-                ->getNumPromociones()
-                ->filter(
-                    function (NumPromociones $numPromociones) {
-                        return
-                            $this->categoriasPermitidas->contains($numPromociones->getIdCategoria())
-                            && $this->getTipoNumPromocion() === $numPromociones->getIdGrupo()->getTipo();
-                    });
-        }
+        return $this
+            ->instancia
+            ->getIdSegmentoComunicacion()
+            ;
+    }
 
-        return $this->numPromociones;
+    /**
+     * @return Fases
+     */
+    public function getFase()
+    {
+        return $this
+            ->instancia
+            ->getFase()
+            ;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEstado()
+    {
+        return $this
+            ->instancia
+            ->getEstado()
+            ;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getFecCreacion()
+    {
+        return $this
+            ->instancia
+            ->getFecCreacion()
+            ;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getFecEjecucion()
+    {
+        return $this
+            ->instancia
+            ->getFecEjecucion()
+            ;
     }
 
     /**
@@ -178,7 +193,8 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
     public function getPromocionesSegmentadasByGrupoSlotYCategoria(GrupoSlots $grupo, $categoria = null)
     {
         $numPromociones = $this
-            ->getNumPromocionesByGrupoSlotYCategoria($grupo, $categoria);
+            ->getNumPromocionesByGrupoSlotYCategoria($grupo, $categoria)
+        ;
 
         $segmentadas = array_reduce($numPromociones, function ($res, NumPromociones $numPromocion) {
             $res = array_merge($res, $numPromocion->getPromocionesSegmentadas()->toArray());
@@ -199,7 +215,8 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
     {
         if (!$categoria) {
             return $this
-                ->getNumPromocionesByGrupo($grupo);
+                ->getNumPromocionesByGrupo($grupo)
+                ;
         }
 
         $numPromociones = $this
@@ -208,8 +225,13 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
                 function (NumPromociones $numPromocio) use ($grupo, $categoria) {
                     return
                         $numPromocio->getIdGrupo() === $grupo &&
-                        $numPromocio->getIdCategoria()->getIdCategoria() === $categoria;
-                });
+                        $numPromocio->getIdCategoria()->getIdCategoria() == $categoria;
+                })
+        ;
+
+        if ($this->getTipoNumPromocion() === GrupoSlots::CREATIVIDADES) {
+            return $numPromociones->toArray();
+        }
 
         return $this->ordenaNumPromocionesByCategoria($numPromociones);
 
@@ -226,7 +248,12 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
             ->getNumPromociones()
             ->filter(function (NumPromociones $numPromociones) use ($grupo) {
                 return $numPromociones->getIdGrupo() === $grupo;
-            });
+            })
+        ;
+
+        if ($this->getTipoNumPromocion() === GrupoSlots::CREATIVIDADES) {
+            return $numPromociones->toArray();
+        }
 
         return $this->ordenaNumPromocionesByCategoria($numPromociones);
     }
@@ -239,9 +266,10 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
     protected function ordenaNumPromocionesByCategoria(ArrayCollection $numPromociones)
     {
         $iterator = $numPromociones->getIterator();
-        $iterator->uasort(function(NumPromociones $a, NumPromociones $b){
+        $iterator->uasort(function (NumPromociones $a, NumPromociones $b) {
             return strcmp($a->getIdCategoria()->getNombre(), $b->getIdCategoria()->getNombre());
-        });
+        })
+        ;
 
         return iterator_to_array($iterator);
     }
@@ -271,7 +299,7 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
      */
     public function getCategorias()
     {
-        $numPromociones =  $this->getNumPromociones()->toArray();
+        $numPromociones = $this->getNumPromociones()->toArray();
 
         $categorias = array_reduce($numPromociones, function ($res, NumPromociones $numPromocion) {
             $res[] = $numPromocion->getIdCategoria();
@@ -284,47 +312,40 @@ abstract class InstanciaDecoratorAbstract extends InstanciaComunicacionAbstract
 
     public function getPromocionesSegmentadas()
     {
-        if (!$this->segmentadas->isEmpty()) {
-            $segmentadas = [];
-            foreach ($this->getNumPromociones() as $numPromocion) {
-                $segmentadas = array_merge(
-                    $segmentadas,
-                    $numPromocion
-                        ->getSegmentadas()
-                        ->toArray()
-                );
-            }
-
-            $this->segmentadas = new ArrayCollection($segmentadas);
-        }
-
-        return $this->segmentadas;
+        return $this->instancia->getPromocionesSegmentadas();
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getGenericas()
+    public function getPromocionesGenericas()
     {
-        if (!$this->genericas->isEmpty()) {
-            $genericas = [];
-            foreach ($this->getNumPromociones() as $numPromocion) {
-                $genericas = array_merge(
-                    $genericas,
-                    $numPromocion
-                        ->getGenericas()
-                        ->toArray()
-                );
-            }
-
-            $this->genericas = new ArrayCollection($genericas);
-        }
-
-        return $this->genericas;
-
+        return $this->instancia->getPromocionesGenericas();
     }
 
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesAceptadas()
+    {
+        return $this->instancia->getTotalPromocionesAceptadas();
+    }
 
-    protected abstract function getTipoNumPromocion();
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesRechazadas()
+    {
+        return $this->instancia->getTotalPromocionesRechazadas();
+    }
+
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesPendientes()
+    {
+        return $this->instancia->getTotalPromocionesPendientes();
+    }
+
 
 } 

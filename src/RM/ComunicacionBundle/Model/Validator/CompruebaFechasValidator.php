@@ -21,10 +21,10 @@ class CompruebaFechasValidator extends ConstraintValidator
         }
 
         $fechaInicio = $entidad->getFecInicio();
-        $fechaFin    = $entidad->getFecFin();
+        $fechaFin = $entidad->getFecFin();
 
         if($fechaInicio > $fechaFin) {
-            $this->context->addViolationAt('fecFin', $constraint->message, [], null);
+            $this->context->addViolationAt('fecFin', $constraint->message, array(), null);
         }
     }
 } 

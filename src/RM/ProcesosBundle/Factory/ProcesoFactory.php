@@ -37,24 +37,24 @@ class ProcesoFactory
      */
     public function __construct(ManagerRegistry $manager, TokenStorageInterface $token)
     {
-        $this->em    = $manager->getManager('procesos');
+        $this->em = $manager->getManager('procesos');
         $this->token = $token->getToken();
     }
 
     /**
      * @return Proceso
      */
-    public function createProcesoTipo0()
+    public function createProcesoTipo($tipo)
     {
-        $usuario      = $this->getUsuario();
+        $usuario = $this->getUsuario();
         $estadoCreado = $this->getEstadoCreado();
-        $tipo0        = $this->getTipoProceso00();
+        $tipo = $this->getTipoProceso($tipo);
 
         $proceso = new Proceso();
         $proceso->setFechaCreacion(new \DateTime())
             ->setEstadoProceso($estadoCreado)
             ->setUidUsuario($usuario->getUsername())
-            ->setTipoProceso($tipo0)
+            ->setTipoProceso($tipo)
             ->setIdCentro($usuario->getCliente());
 
         $this->em->persist($proceso);
@@ -84,15 +84,15 @@ class ProcesoFactory
     /**
      * @return TipoProceso
      */
-    private function getTipoProceso00()
+    private function getTipoProceso($codigo)
     {
         $tipo = $this->em
             ->getRepository('ProcesosBundle:TipoProceso')
-            ->findOneBy(['codigo' => TipoProceso::P00]);
+            ->findOneBy(['codigo' => $codigo]);
 
         if (!$tipo instanceof TipoProceso) {
             throw new NotFoundHttpException(sprintf(
-                "No se ha enconytado el tipo de proceso 00"
+                "No se ha encontrado porceso con código '%s'", $codigo
             ));
         }
 

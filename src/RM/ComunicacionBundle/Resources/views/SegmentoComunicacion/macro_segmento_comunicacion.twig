@@ -1,0 +1,32 @@
+{% macro  frecuencia(segmento) %}
+    {%  if segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_DIARIA') %}
+        {{ "frecuencia.diaria" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_SEMANAL') %}
+        {{ "frecuencia.semanal" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_QUINCENAL') %}
+        {{ "frecuencia.quincenal" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_MENSUAL') %}
+        {{ "frecuencia.mensual" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_TRIMESTRAL') %}
+        {{ "frecuencia.trimestral" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_CUATRIMESTRAL') %}
+        {{ "frecuencia.cuatrimestral" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_SEMESTRAL') %}
+        {{ "frecuencia.semestral" |trans|title}}
+    {% elseif segmento.tipo is constant('\\RM\\ComunicacionBundle\\Entity\\SegmentoComunicacion::FREC_ANUAL') %}
+        {{ "frecuencia.anual" |trans|title}}
+    {% endif %}
+{% endmacro%}
+
+
+{% macro estado(segmento) %}
+    {% if  segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
+       {{ "comunicacion.estado.activo"|trans|title }}
+    {% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
+        {{ "comunicacion.estado.completada"|trans|title }}
+    {% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO')  %}
+        {{ "comunicacion.estado.pausado"|trans|title }}
+    {% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+        {{ "comunicacion.estado.configuracion" |trans|title}}
+    {% endif %}
+{% endmacro %}

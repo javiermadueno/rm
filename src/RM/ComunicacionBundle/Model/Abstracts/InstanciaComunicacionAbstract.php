@@ -88,7 +88,7 @@ abstract class InstanciaComunicacionAbstract
     /**
      * @return ArrayCollection
      */
-    public abstract function getGenericas();
+    public abstract function getPromocionesGenericas();
 
 
     /**
@@ -97,6 +97,24 @@ abstract class InstanciaComunicacionAbstract
      * @return \Doctrine\Common\Collections\Collection|static
      */
     public abstract function getNumPromocionesByGrupo(GrupoSlots $grupoSlot);
+
+
+    /**
+     * @return mixed
+     */
+    public abstract function getTotalPromocionesAceptadas();
+
+
+    /**
+     * @return number
+     */
+    public abstract function getTotalPromocionesRechazadas();
+
+
+    /**
+     * @return number
+     */
+    public abstract function getTotalPromocionesPendientes();
 
 
 } 

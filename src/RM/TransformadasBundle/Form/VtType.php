@@ -17,8 +17,8 @@ class VtType extends AbstractType
     {
         $builder
             ->add('segmentos', 'collection', [
-                'type'         => new VtSegmentoType(),
-                'allow_add'    => true,
+                'type' => new VtSegmentoType(),
+                'allow_add' => true,
                 'allow_delete' => true,
             ])
         ;

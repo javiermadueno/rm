@@ -3,6 +3,7 @@
 namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class ProductoRepository extends EntityRepository
 {
@@ -54,7 +55,7 @@ class ProductoRepository extends EntityRepository
             $dql .= " OR p.idCategoria11 IN (" . $id_categoria . ")";
         }
 
-        if ($codigo !== '') {
+        if ($codigo != '') {
             $dql .= " AND p.codSku IN (" . $codigo . ")";
         }
 
@@ -136,7 +137,7 @@ class ProductoRepository extends EntityRepository
                    ->where('p.activo = 1')
         ;
 
-        if ($codigo !== '') {
+        if ($codigo != '') {
             return $qb->andWhere('p.idProducto = :codigo')
                       ->setParameter('codigo', $codigo)
                       ->getQuery()->getResult()
@@ -167,7 +168,7 @@ class ProductoRepository extends EntityRepository
             ;
         }
 
-        if ($nombre !== '') {
+        if ($nombre != '') {
             $qb->andWhere($qb->expr()->like('p.nombre', ':nombre'))
                ->setParameter('nombre', sprintf('%%%s%%', $nombre))
             ;
@@ -205,6 +206,21 @@ class ProductoRepository extends EntityRepository
             ;;
 
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function findProductosSinImagen()
+    {
+        $id_productos = $this->createQueryBuilder('p')
+            ->select('p.idProducto', 'p.nombre')
+            ->where('p.imagen is null')
+            ->orWhere("p.imagen = ''")
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return $id_productos;
     }
 
 

@@ -22,10 +22,9 @@ use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use RM\ProductoBundle\Entity\Producto;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\RMMongoBundle\DependencyInjection\ManagerInstanciaComunicacionCliente;
-use Symfony\Bundle\TwigBundle\Extension\AssetsExtension;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Templating\Asset\PackageInterface;
 
@@ -82,14 +81,14 @@ class EmailParser implements ParserInterface
         GeneraPlantillaComunicacion $plantillaGenerator,
         ManagerInstanciaComunicacionCliente $manager,
         TokenStorageInterface $token,
-        AssetsExtension $asset
+        AssetExtension $asset
         )
     {
-        $this->crawler            = new Crawler();
-        $this->manager            = $manager;
+        $this->crawler  = new Crawler();
+        $this->manager    = $manager;
         $this->plantillaGenerator = $plantillaGenerator;
-        $this->empresa            = $token->getToken()->getUser()->getCliente();
-        $this->asset              = $asset;
+        $this->empresa = $token->getToken()->getUser()->getCliente();
+        $this->asset = $asset;
 
         $this->document = new \DOMDocument();
 
@@ -348,7 +347,7 @@ class EmailParser implements ParserInterface
      */
     public function getRutaPlantillaGenerada()
     {
-        return $this->getRutaComunicacionGenerada() . '/' . $this->cliente->getIdCliente() . '.html';
+        return $this->getRutaComunicacionGenerada(). '/'. $this->cliente->getIdCliente().'.html';
     }
 
     /**
@@ -358,7 +357,7 @@ class EmailParser implements ParserInterface
     {
         $ruta =  $this
                 ->plantillaGenerator
-                ->getRutaCarpetaComunicacionesGeneradas() . '/' .
+                ->getRutaCarpetaComunicacionesGeneradas().'/' .
                 $this->instancia->getIdInstancia() ;
 
         if(!file_exists($ruta)) {
@@ -431,7 +430,7 @@ class EmailParser implements ParserInterface
     {
         $nodo = $this->getElementById(sprintf("%s-precio", $id));
 
-        $precio          = $promocion->getIdProducto()->getPrecioVenta();
+        $precio = $promocion->getIdProducto()->getPrecioVenta();
         $nodo->nodeValue = sprintf("%.2F € ", $precio);
     }
 
@@ -443,7 +442,7 @@ class EmailParser implements ParserInterface
     {
         $nodo = $this->getElementById(sprintf("%s-volumen", $id));
 
-        $volumen         = $promocion;
+        $volumen = $promocion;
         $nodo->nodeValue = '';
     }
 
@@ -455,7 +454,7 @@ class EmailParser implements ParserInterface
     {
         $nodo = $this->getElementById(sprintf("%s-voucher", $id));
 
-        $voucher         = (string) $promocion->getVoucher();
+        $voucher = (string) $promocion->getVoucher();
         $nodo->nodeValue = $voucher;
     }
 
@@ -477,7 +476,7 @@ class EmailParser implements ParserInterface
      */
     private function fillNodoCondiciones($id, Promocion $promocion)
     {
-        $nodo        = $this->getElementById(sprintf("%s-condiciones", $id));
+        $nodo = $this->getElementById(sprintf("%s-condiciones", $id));
         $condiciones = (string) $promocion->getCondiciones();
 
         $nodo->nodeValue = $condiciones;
@@ -491,7 +490,7 @@ class EmailParser implements ParserInterface
     {
         $nodo =  $this->getElementById(sprintf("%s-fidelizacion", $id));
 
-        $fidelizacion    = $promocion->getFidelizacion();
+        $fidelizacion = $promocion->getFidelizacion();
         $nodo->nodeValue = $fidelizacion;
     }
 
@@ -501,7 +500,7 @@ class EmailParser implements ParserInterface
      */
     private function fillNodoTexto( $id, Promocion $promocion)
     {
-        $nodo  = $this->getElementById(sprintf("%s-texto", $id));
+        $nodo = $this->getElementById(sprintf("%s-texto", $id));
         $texto = (string) $promocion->getDescripcion();
 
         $nodo->nodeValue = $texto;

@@ -25,7 +25,7 @@ class PlantillaServicio
      */
     public function getPlantillaById($id_plantilla)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerPlantillaById($id_plantilla);
 
         return $registros;
@@ -39,7 +39,7 @@ class PlantillaServicio
      */
     public function getGSByIdPlantilla($id_plantilla)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerGSByIdPlantilla($id_plantilla);
 
         return $registros;
@@ -52,7 +52,7 @@ class PlantillaServicio
      */
     public function getGSById($id_grupo)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerGSById($id_grupo);
 
         return $registros;
@@ -65,7 +65,7 @@ class PlantillaServicio
      */
     public function getSlotByIdGrupo($id_grupo)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerSlotByIdGrupo($id_grupo);
 
         return $registros;
@@ -78,7 +78,7 @@ class PlantillaServicio
      */
     public function getSlotById($id_slot)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerSlotById($id_slot);
 
         return $registros;
@@ -91,7 +91,7 @@ class PlantillaServicio
      */
     public function getGruposConNumeroSlots($id_plantilla)
     {
-        $repo      = $this->em->getRepository('RMPlantillaBundle:Plantilla');
+        $repo = $this->em->getRepository('RMPlantillaBundle:Plantilla');
         $registros = $repo->obtenerGruposConNumeroSlots($id_plantilla);
 
         return $registros;

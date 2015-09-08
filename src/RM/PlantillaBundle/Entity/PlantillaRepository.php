@@ -108,7 +108,7 @@ class PlantillaRepository extends EntityRepository
      */
     public function findPlantillasModeloByCanal($id_canal)
     {
-        if ($id_canal === -1) {
+        if ($id_canal == -1) {
             return $this->findAllPlantillasModelo();
         }
 

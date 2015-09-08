@@ -60,13 +60,13 @@ class Discreta
         {
             $objVid = $id_vid;
 
-            if ($objVid->getClasificacion() === Vid::CLASIFICACION_CATEGORIA)            // Es una categoria
+            if ($objVid->getClasificacion() == Vid::CLASIFICACION_CATEGORIA)            // Es una categoria
             {
                 $repoCat       = $this->em->getRepository('RMCategoriaBundle:Categoria');
                 $objCategorias = $repoCat->obtenerCatAsoc();
                 $objCategoria  = $objCategorias [0];
                 $registroGS    = $this->crearObjGrupoSegmentoConCategoria($objVid, $objCategoria, $personalizado = 0);
-            } elseif ($objVid->getClasificacion() === Vid::CLASIFICACION_MARCA)            // Es una marca
+            } elseif ($objVid->getClasificacion() == Vid::CLASIFICACION_MARCA)            // Es una marca
             {
                 $repoMarca  = $this->em->getRepository('RMProductoBundle:Marca');
                 $objMarcas  = $repoMarca->obtenerMarcas();
@@ -277,7 +277,7 @@ class Discreta
 
         $contSegmentos = $request->get('contSegmentos');
         for ($i = 1; $i <= $contSegmentos; $i++) {
-            if ($request->get('nuevoSegNombre' . $i) !== "" && $request->get('nuevoSegPerc' . $i) !== "") {
+            if ($request->get('nuevoSegNombre' . $i) != "" && $request->get('nuevoSegPerc' . $i) != "") {
                 $registroS = new VidSegmento ();
                 $registroS->setIdVidGrupoSegmento($registroGS [0]);
                 $registroS->setNombre($request->get('nuevoSegNombre' . $i));
@@ -300,7 +300,7 @@ class Discreta
 
         $numSegAct = $request->get('numSegAct');
         for ($i = 1; $i <= $numSegAct ; $i++) {
-            if ($request->get('nomSeg' . $i) !== "" && $request->get('perc' . $i) !== "") {
+            if ($request->get('nomSeg' . $i) != "" && $request->get('perc' . $i) != "") {
                 $registroS = new VidSegmento ();
                 $registroS->setIdVidGrupoSegmento($registroGS [0]);
                 $registroS->setNombre($request->get('nomSeg' . $i));

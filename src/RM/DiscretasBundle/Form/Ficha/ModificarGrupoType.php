@@ -9,10 +9,10 @@ class ModificarGrupoType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$builder->add('mesesN', 'number', [
-			'label'    => 'tiempo.referencia.n',
+		$builder->add('mesesN', 'number', array(
+			'label' => 'tiempo.referencia.n',
 			'required' => true,
-		]);
+		));
 	}
 
 	public function getName()

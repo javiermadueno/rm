@@ -104,7 +104,7 @@ class VariablesBasicasController extends Controller
 
                 return JsonResponse::create([
                     'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                    'form'    => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
+                    'form' => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
                         ['formSegmentos' => $formSegmentos->createView()]),
                     'error'   => 0
                 ], Response::HTTP_OK);
@@ -112,7 +112,7 @@ class VariablesBasicasController extends Controller
 
             return JsonResponse::create([
                 'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-                'form'    => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
+                'form' => $this->renderView('@RMDiscretas/Segmentos/body_form_segmentos.html.twig',
                     ['formSegmentos' => $formSegmentos->createView()]),
                 'error'   => 1
             ], Response::HTTP_BAD_REQUEST);
@@ -150,7 +150,7 @@ class VariablesBasicasController extends Controller
 
             return JsonResponse::create([
                 'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                'form'    => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+                'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
                     ['form' => $form->createView()]),
                 'error'   => 0
             ], Response::HTTP_OK);
@@ -158,7 +158,7 @@ class VariablesBasicasController extends Controller
 
         return JsonResponse::create([
             'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-            'form'    => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
+            'form' => $this->renderView('@RMDiscretas/Configuracion/body_form_configuracion.html.twig',
                 ['form' => $form->createView()]),
             'error'   => 1
         ], Response::HTTP_BAD_REQUEST);

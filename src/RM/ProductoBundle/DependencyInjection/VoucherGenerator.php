@@ -28,7 +28,7 @@ class VoucherGenerator
         $voucher = null;
 
         do {
-            $hash    = sha1(microtime(true));
+            $hash = sha1(microtime(true));
             $voucher = strtoupper(substr($hash, mt_rand(0,33), 8));
         } while($this->isUsed($voucher));
 

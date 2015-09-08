@@ -29,7 +29,7 @@ class EditPlantillaFormHandler
      */
     public function __construct(PlantillaManager $manager, FormFactoryInterface $formFactory)
     {
-        $this->manager     = $manager;
+        $this->manager = $manager;
         $this->formFactory = $formFactory;
     }
 
@@ -62,8 +62,8 @@ class EditPlantillaFormHandler
     {
         $plantilla = $this->manager->find($id);
 
-        $form = $this->formFactory->create(new PlantillaType(), $plantilla, [
+        $form = $this->formFactory->create(new PlantillaType(), $plantilla, array(
                 'method' => 'PUT'
-            ]);
+            ));
     }
 } 

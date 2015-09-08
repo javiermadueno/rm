@@ -30,6 +30,19 @@
             <script type="text/javascript" src="{{ asset('js/jquery.cookie.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/custom.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/elements.js')}}"></script>
+            <script type="text/javascript">
+                $(document).on({
+                    ajaxStart: function() {
+                        $('body#ajax > #ajax-loading-modal').modal({
+                            'show' : true,
+                            'keyboard' : false
+                        });
+                    },
+                    ajaxStop: function() {
+                        $('body#ajax > #ajax-loading-modal').modal('hide');
+                    }
+                });
+            </script>
             {#
             <script type="text/javascript" src="{{ asset('js/responsive-tables.js') }}"></script>
              <script type="text/javascript">
@@ -218,6 +231,16 @@
 				}
 			</script>
 		{% endblock %}
+        </div>
+        <div id="ajax-loading-modal" class="modal hide fade">
+            <div class="modal-header">
+                <h3>{{ "cargando" |trans|title}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="center-all">
+                    <img src="{{ asset('images/loaders/loader6.gif') }}" alt=""/>
+                </div>
+            </div>
         </div>
 	</body>
 </html>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Model\Abstracts\InstanciaComunicacionAbstract;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\NumPromociones;
+use RM\ProductoBundle\Entity\Promocion;
 
 /**
  * InstanciaComunicacion
@@ -17,15 +18,15 @@ use RM\ProductoBundle\Entity\NumPromociones;
 class InstanciaComunicacion extends InstanciaComunicacionAbstract
 {
     const FASE_CONFIGURACION = 'cfg';
-    const FASE_NEGOCIACION   = 'ngc';
-    const FASE_SIMULACION    = 'sim';
-    const FASE_CIERRE        = 'cie';
-    const FASE_GENERACION    = 'gen';
-    const FASE_CONFIRMACION  = 'cnf';
-    const FASE_FINALIZADA    = 'fin';
-    const FASE_CANCELADA     = 'can';
-    const PASO_1             = 1;
-    const PASO_2             = 2;
+    const FASE_NEGOCIACION = 'ngc';
+    const FASE_SIMULACION = 'sim';
+    const FASE_CIERRE = 'cie';
+    const FASE_GENERACION = 'gen';
+    const FASE_CONFIRMACION = 'cnf';
+    const FASE_FINALIZADA = 'fin';
+    const FASE_CANCELADA = 'can';
+    const PASO_1 = 1;
+    const PASO_2 = 2;
 
     /** @var  ArrayCollection */
     private $genericas;
@@ -237,7 +238,7 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
      */
     public function addNumPromocion(NumPromociones $numPromociones)
     {
-        $numPromociones->setIdInstancia(this);
+        $numPromociones->setIdInstancia($this);
         $this->numPromociones[] = $numPromociones;
 
         return $this;
@@ -305,13 +306,15 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
      */
     public function getPromocionesSegmentadas()
     {
-        if (!$this->segmentadas->isEmpty()) {
+        if (is_null($this->segmentadas)  || $this->segmentadas->isEmpty()) {
             $segmentadas = [];
+
+            /** @var NumPromociones $numPromocion */
             foreach ($this->numPromociones as $numPromocion) {
                 $segmentadas = array_merge(
                     $segmentadas,
                     $numPromocion
-                        ->getSegmentadas()
+                        ->getPromocionesSegmentadas()
                         ->toArray()
                 );
             }
@@ -325,15 +328,17 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
     /**
      * @return ArrayCollection
      */
-    public function getGenericas()
+    public function getPromocionesGenericas()
     {
-        if (!$this->genericas->isEmpty()) {
+        if (is_null($this->genericas) || $this->genericas->isEmpty()) {
             $genericas = [];
+
+            /** @var NumPromociones $numPromocion */
             foreach ($this->numPromociones as $numPromocion) {
                 $genericas = array_merge(
                     $genericas,
                     $numPromocion
-                        ->getGenericas()
+                        ->getPromocionesGenericas()
                         ->toArray()
                 );
             }
@@ -359,6 +364,166 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
                     return $numPromocion->getIdGrupo()->getIdGrupo() === $grupoSlot->getIdGrupo();
                 }
             );
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTodosGruposRellenos()
+    {
+        foreach ($this->getGruposSlots() as $grupo) {
+            if ($this->getNumPromocionesByGrupo($grupo)->count() <= 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTodasGenericasDefinidas()
+    {
+        /** @var GrupoSlots $grupo */
+        foreach ($this->getGruposSlots() as $grupo) {
+
+            $totalGenericas =
+                array_sum(
+                    array_map(
+                        function(NumPromociones $numPro){
+                            return (int) $numPro->getNumGenericas();
+                        },
+                        $this->getNumPromocionesByGrupo($grupo)->toArray()
+                    )
+                );
+
+            if($totalGenericas < $grupo->getNumSlots()) {
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTodasGenericasCreadas()
+    {
+        /** @var NumPromociones $numPromocion */
+        foreach ($this->getNumPromociones() as $numPromocion) {
+            if (!$numPromocion->isGenericasCompletas()) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTodasSegmentadasCreadas()
+    {
+        /** @var NumPromociones $numPromocion */
+        foreach ($this->getNumPromociones() as $numPromocion) {
+            if (!$numPromocion->isSegementadasCompletas()) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTotalGenericasMayorQueNumeroSlot()
+    {
+        foreach ($this->getGruposSlots() as $grupo) {
+            $totalGenericas =
+                array_sum(
+                    array_map(
+                        function(NumPromociones $numPro){
+                            return (int) $numPro->getPromocionesGenericas()->count();
+                        },
+                        $this->getNumPromocionesByGrupo($grupo)->toArray()
+                    )
+                );
+
+            if($totalGenericas < $grupo->getNumSlots()) {
+                return false;
+            }
+        }
+
+        return true;
+
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNingunaPromocionPendiente()
+    {
+        /** @var NumPromociones $numPro */
+        foreach ($this->getNumPromociones() as $numPro) {
+           if (false === $numPro->isNingunaPromocionPendiente()) {
+               return false;
+           }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesAceptadas()
+    {
+        return $this->getTotalPromocionesByEstado(Promocion::ACEPTADA);
+    }
+
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesRechazadas()
+    {
+        return $this->getTotalPromocionesByEstado(Promocion::RECHAZADA);
+    }
+
+    /**
+     * @return number
+     */
+    public function getTotalPromocionesPendientes()
+    {
+        return $this->getTotalPromocionesByEstado(Promocion::PENDIENTE);
+    }
+
+    /**
+     * @param $estado
+     *
+     * @return number
+     */
+    public function getTotalPromocionesByEstado($estado)
+    {
+        $total = array_sum(
+            array_map(
+                function(NumPromociones $numPro) use ($estado){
+                    return $numPro->getPromocionesByEstado($estado);
+                },
+                $this->getNumPromociones()->toArray()
+            )
+        );
+
+        return $total;
 
     }
 

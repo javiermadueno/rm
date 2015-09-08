@@ -1,23 +1,36 @@
 <h4 class="widgettitle">{{ "Fichero CSV de Imagenes" |trans|title}}</h4>
 <div class="widgetcontent">
-    {{ form_start(form, {attr:{'class': 'form-horizontal', 'id': 'form-csv'}}) }}
-    <div class="control-group">
-        <div class="control-label">{{ form_label(form.file) }}</div>
-        <div class="controls">
-            {{ form_widget(form.file, {attr:{'class': 'file', 'style': 'display: none', 'accept': 'application/zip'}}) }}
-            <div class="input-append">
-                <input id="fichero" class="input-large" type="text"/>
-                <button id="browse" class="btn"><i class="icon-search"></i></button>
+    <div class="row-fluid">
+        <div class="span4">
+            {{ form_start(form, {attr:{'class': 'form-horizontal', 'id': 'form-csv'}}) }}
+            <div class="control-group">
+                <div class="control-label">{{ form_label(form.file) }}</div>
+                <div class="controls">
+                    {{ form_widget(form.file, {attr:{'class': 'file', 'style': 'display: none', 'accept': 'application/zip'}}) }}
+                    <div class="input-append">
+                        <input id="fichero" class="input-large" type="text"/>
+                        <button id="browse" class="btn"><i class="icon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <div>{{ form_widget(form.submit, {attr: {'class': 'btn btn-primary'} }) }}</div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="span3">
+            <div class="well">
+                <a class="btn btn-block btn-warning" href="{{ path('rm_producto.producto.exportar_csv_producto_sin_imagenes') }}">{{ 'boton.descargar.productos.sin.imagen'|trans }}</a>
+                <a class="btn btn-block" href="{{ path('rm_producto.producto.descargar_instrucciones') }}">{{ "boton.descargar.instrucciones.imagenes.producto" |trans|title}}</a>
             </div>
         </div>
     </div>
 
-    <div class="control-group">
-        <div class="controls">
-            <div>{{ form_widget(form.submit, {attr: {'class': 'btn btn-primary'} }) }}</div>
-        </div>
-    </div>
-    {{ form_end(form) }}
+
+
 </div>
 <div id='modal-load' class="modal hide fade">
     <div class="modal-header">

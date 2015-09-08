@@ -17,9 +17,9 @@ use Doctrine\ORM\Query\Lexer;
 class GroupConcat extends FunctionNode
 {
     public $isDistinct = false;
-    public $pathExp    = null;
-    public $separator  = null;
-    public $orderBy    = null;
+    public $pathExp = null;
+    public $separator = null;
+    public $orderBy = null;
 
     public function parse(\Doctrine\ORM\Query\Parser $parser)
     {
@@ -34,7 +34,7 @@ class GroupConcat extends FunctionNode
         }
 
         // first Path Expression is mandatory
-        $this->pathExp   = [];
+        $this->pathExp = array();
         $this->pathExp[] = $parser->SingleValuedPathExpression();
 
         while ($lexer->isNextToken(Lexer::T_COMMA)) {
@@ -62,7 +62,7 @@ class GroupConcat extends FunctionNode
     {
         $result = 'GROUP_CONCAT(' . ($this->isDistinct ? 'DISTINCT ' : '');
 
-        $fields = [];
+        $fields = array();
         foreach ($this->pathExp as $pathExp) {
             $fields[] = $pathExp->dispatch($sqlWalker);
         }

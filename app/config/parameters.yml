@@ -1,0 +1,33 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: 3
+    database_user: root
+    database_password:
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: imsodelicioso@gmail.com
+    mailer_password: deliciosoChorong0
+    locale: es
+    secret: 62d1128580afcf48caa0240078ed076f70b5df19
+    database_driver2: pdo_mysql
+    database_host2: 127.0.0.1
+    database_port2: null
+    database_name2: manati
+    database_user2: root
+    database_password2: null
+    mailer_transport2: gmail
+    mailer_host2: null
+    mailer_user2: messagesrelational@gmail.com
+    mailer_password2: rmrelational
+    locale2: es
+    database_procesos_driver: pdo_mysql
+    database_procesos_host: localhost
+    database_procesos_port: null
+    database_procesos_name: procesos
+    database_procesos_user: root
+    database_procesos_password:
+
+

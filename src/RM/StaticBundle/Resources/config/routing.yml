@@ -17,3 +17,7 @@ rm_static.default.campaign:
 rm_static.default.numpromociones:
    path: /num/edit
    defaults: { _controller: RMStaticBundle:Default:numPromociones }
+
+rm_static.default.descargar_batch:
+   path: /instancia/{id}/descargar/batch
+   defaults : {_controller: RMStaticBundle:Default:descargarBatch }

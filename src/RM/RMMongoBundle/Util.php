@@ -53,7 +53,7 @@ class Util
         }
 
         $intervalo_1_mes = \DateInterval::createFromDateString('-1 month');
-        $periodo         = new \DatePeriod($fecha, $intervalo_1_mes, $numeroMeses);
+        $periodo = new \DatePeriod($fecha, $intervalo_1_mes, $numeroMeses);
 
         $meses = [];
 

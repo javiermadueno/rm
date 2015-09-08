@@ -113,7 +113,7 @@ class GrupoSlotsController extends RMController
 
         $formHandler = $this->get('rm.create_grupo_slot_form_handler');
         $form        = $formHandler->createForm($entity, [
-            'action'             => $this->generateUrl('rm_plantilla_gruposlots_create', [
+            'action' => $this->generateUrl('rm_plantilla_gruposlots_create', [
                 'idComunicacion' => $idComunicacion
             ]),
             'method' => 'POST',
@@ -214,7 +214,7 @@ class GrupoSlotsController extends RMController
         $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($idComunicacion);
 
         $form = $this->createForm(new GrupoSlotsType(), $entity, [
-            'action'             => $this->generateUrl('rm_plantilla_gruposlots_update', [
+            'action' => $this->generateUrl('rm_plantilla_gruposlots_update', [
                 'id'             => $entity->getIdGrupo(),
                 'idComunicacion' => $comunicacion->getIdComunicacion()
             ]),

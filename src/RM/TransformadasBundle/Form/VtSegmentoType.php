@@ -18,11 +18,11 @@ class VtSegmentoType extends AbstractType
         $builder
             ->add('nombre', 'text', ['required' => true])
             ->add('grupos', 'collection', [
-                'type'           => new VtGrupoType(),
-                'allow_add'      => true,
-                'allow_delete'   => true,
-                'by_reference'   => true,
-                'prototype'      => new VtGrupo(),
+                'type' => new VtGrupoType(),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => true,
+                'prototype' => new VtGrupo(),
                 'prototype_name' => '__grupo__'
             ])
 

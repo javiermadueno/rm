@@ -118,7 +118,7 @@ class PromocionRepository extends EntityRepository
         if ($promoToSaveData ['idPromo'] > 0) {
 
             $promocion = $this->obtenerPromocionById($promoToSaveData ['idPromocion']);
-            $promo     = $promocion[0];
+            $promo = $promocion[0];
 
         } else {
             $promo = new Promocion();

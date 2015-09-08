@@ -142,7 +142,7 @@ class ResultadoMensual
         if(!$this->fecha) {
             if (isset($this->id)) {
                 list($year, $month) = explode('-', $this->id);
-                $this->fecha        = new \DateTime(sprintf('01-%s-%s', $month, $year));
+                $this->fecha = new \DateTime(sprintf('01-%s-%s', $month, $year));
             }
         }
 
