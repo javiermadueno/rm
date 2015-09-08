@@ -12,7 +12,7 @@ namespace RM\ComunicacionBundle\Controller;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Event\ComunicacionEvent;
 use RM\ComunicacionBundle\Event\ComunicacionEvents;
-use RM\ComunicacionBundle\Form\Gestion\nuevaComunicacionType;
+use RM\ComunicacionBundle\Form\Gestion\NuevaComunicacionType;
 use RM\PlantillaBundle\Entity\Plantilla;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +67,7 @@ class ComunicacionController extends Controller
         $gruposSlot = $em->getRepository('RMPlantillaBundle:GrupoSlots')
             ->findGruposSlotsByComunicacion($idComunicacion);
 
-        $formulario = $this->createForm(new nuevaComunicacionType ($comunicacion), $comunicacion, ['em' => $em]);
+        $formulario = $this->createForm(new NuevaComunicacionType ($comunicacion), $comunicacion, ['em' => $em]);
         $formulario->handleRequest($peticion);
 
         if ($formulario->isValid()) {

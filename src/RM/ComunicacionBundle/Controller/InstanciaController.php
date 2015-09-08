@@ -275,7 +275,7 @@ class InstanciaController extends RMController
     {
         $nomPagFase = 'finalizada';
 
-        // ECHO 'ENTRO EN FASE 7';
+
 
         $formato = 'XML';
         $server  = 'FTP';
@@ -329,8 +329,6 @@ class InstanciaController extends RMController
                 $c++;
             }
 
-            // echo'Result';
-            // TODO: parche para predemo
             $result = [];
 
             $result[0][0] = "FRESCOS, NARANJA DE MESA";
@@ -346,7 +344,6 @@ class InstanciaController extends RMController
             $result[2][2] = "jmdelrio@relationalmessages.com";
             $result[2][3] = "914112234";
 
-            //var_dump ( $result );exit(0);
 
             if ($result != 0) {
 
@@ -703,8 +700,6 @@ class InstanciaController extends RMController
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
 
-        // echo '$objInstancias';
-        // var_dump($objInstancias);
 
         $objInstancia = $objInstancias [0];
 

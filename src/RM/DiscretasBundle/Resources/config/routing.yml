@@ -34,10 +34,6 @@ data_avanced_cp_editar_cambiarClasificacion:
   defaults: {_controller: RMDiscretasBundle:Ficha:devolverGrupoSegmento}
   methods: [POST]
   
-data_avanced_cp_editar_modificarGrupoSegmentos:
-  path: /avanced/buy_products/modificar_grupo_segmento/
-  defaults: {_controller: RMDiscretasBundle:Ficha:ModificarGrupoSegmento}
-  methods: [POST]
 
 data_avanced_cp_editar_actualizarPersonalizado:
   path: /avanced/buy_products/actualizar_personalizado/

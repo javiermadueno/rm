@@ -30,14 +30,6 @@ rm_plantilla_gruposlots_delete:
     requirements: { _method: post|delete }
     prefix: /
 
-rm_plantilla_gruposlots_getform:
-    path: /get/form
-    defaults: {_controller: "RMPlantillaBundle:GrupoSlots:getForm" }
-
-rm_plantilla_gruposlots_geteditform:
-    path: /get/editform
-    defaults: {_controller: "RMPlantillaBundle:GrupoSlots:getEditForm" }
-
 rm_plantilla_gruposlots_borrar:
     path: /borrar
     defaults: {_controller: "RMPlantillaBundle:GrupoSlots:borrar" }

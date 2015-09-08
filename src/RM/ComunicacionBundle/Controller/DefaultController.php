@@ -6,7 +6,7 @@ use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Event\ComunicacionEvent;
 use RM\ComunicacionBundle\Event\ComunicacionEvents;
-use RM\ComunicacionBundle\Form\Gestion\nuevaComunicacionType;
+use RM\ComunicacionBundle\Form\Gestion\NuevaComunicacionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,7 +86,7 @@ class DefaultController extends RMController
         $objComunicacion = new Comunicacion();
         $objComunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
 
-        $formulario = $this->createForm(new nuevaComunicacionType(), $objComunicacion, ['em' => $em]);
+        $formulario = $this->createForm(new NuevaComunicacionType(), $objComunicacion, ['em' => $em]);
         $formulario->handleRequest($peticion);
 
         if ($formulario->isValid()) {
