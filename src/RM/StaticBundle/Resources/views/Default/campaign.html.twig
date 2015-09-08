@@ -23,6 +23,20 @@
 
 
 {% block body %}
+    <div class="mediamgr_head">
+        <label for="categorias">{{ "menu.data.categorias" |trans|title}}</label>
+        <select name="categorias" id="categorias">
+            <option value="{{ url(app.request.get('_route'),  {'id_instancia':objInstancia.idInstancia }) }}">{{ "select.todas" |trans|title}}</option>
+            {% for categoria in campaign.categorias %}
+                <option value="{{ url(app.request.get('_route'), {'id_instancia':objInstancia.idInstancia, 'categoria': categoria.idCategoria}) }}"
+                        {% if categoria.idCategoria == id_categoria  %} selected {% endif %}>
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+
     {% for grupo in campaign.gruposSlots %}
         {% set num_promociones = campaign.numPromocionesByGrupoSlotYCategoria(grupo, id_categoria)  %}
 
@@ -55,16 +69,7 @@
     {% endfor %}
 
 
-    <label for="categorias">{{ "menu.data.categorias" |trans|title}}</label>
-    <select name="categorias" id="categorias">
-        <option value="{{ url(app.request.get('_route'),  {'id_instancia':objInstancia.idInstancia }) }}">{{ "select.todas" |trans|title}}</option>
-        {% for categoria in campaign.categorias %}
-            <option value="{{ url(app.request.get('_route'), {'id_instancia':objInstancia.idInstancia, 'categoria': categoria.idCategoria}) }}"
-                    {% if categoria.idCategoria == id_categoria  %} selected {% endif %}>
-                {{ categoria.nombre }}
-            </option>
-        {% endfor %}
-    </select>
+
 
 
     <script type="text/javascript">

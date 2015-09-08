@@ -39,57 +39,57 @@
     <tbody>
     {% if entity.mImgProducto is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mImgProducto }}"/></td>
-            <td  colspan="2">{{ "Mostrar imagen producto" | trans }}</td>
+            <td  width="1%"><input type="checkbox" {% if  entity.mImgProducto %} checked="checked" {% endif %}/></td>
+            <td  colspan="2">{{ "formulario.grupo.slot.m_img_producto" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mPrecio is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mPrecio }}"/></td>
-            <td colspan="2">{{ "Mostrar precio producto" | trans }}</td>
+            <td  width="1%"><input type="checkbox" {% if  entity.mPrecio %} checked="checked" {% endif %}/></td>
+            <td colspan="2">{{ "formulario.grupo.slot.m_precio_producto" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mVolumen is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mVolumen }}"/></td>
-            <td  colspan="2">{{ "Mostrar volumen" | trans }}</td>
+            <td  width="1%"><input type="checkbox"  {% if  entity.mVolumen %} checked="checked" {% endif %}/></td>
+            <td  colspan="2">{{ "formulario.grupo.slot.m_volumen" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mCondiciones is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mCondiciones }}"/></td>
-            <td colspan="2">{{ "Mostrar condiciones de la promoción" | trans }}</td>
+            <td  width="1%"><input type="checkbox"  {% if  entity.mCondiciones %} checked="checked" {% endif %} /></td>
+            <td colspan="2">{{ "formulario.grupo.slot.m_condiciones" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mImgMarca is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mImgMarca }}"/></td>
-            <td>{{ "Mostrar imagen marca" | trans }}</td>
+            <td  width="1%"><input type="checkbox"  {% if  entity.mImgMarca %} checked="checked" {% endif %} /></td>
+            <td>{{ "formulario.grupo.slot.m_img_marca" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mTexto is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mTexto }}"/></td>
-            <td  colspan="2">{{ "Mostrar texto libre" | trans }}</td>
+            <td  width="1%"><input type="checkbox"  {% if  entity.mTexto %} checked="checked" {% endif %} /></td>
+            <td  colspan="2">{{ "formulario.grupo.slot.m_texto" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mVoucher is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mVoucher }}"/></td>
-            <td  colspan="2">{{ "Mostrar voucher" | trans }}</td>
+            <td  width="1%"><input type="checkbox" {% if  entity.mVoucher %} checked="checked" {% endif %}  /></td>
+            <td  colspan="2">{{ "formulario.grupo.slot.m_voucher" | trans }}</td>
         </tr>
     {% endif %}
 
     {% if entity.mFidelizacion is not null %}
         <tr>
-            <td  width="1%"><input type="checkbox" checked="{{ entity.mFidelizacion }}"/></td>
-            <td  colspan="2">{{ "Mostrar información de fidelización" | trans }}</td>
+            <td  width="1%"><input type="checkbox" {% if  entity.mFidelizacion %} checked="checked" {% endif %}/></td>
+            <td  colspan="2">{{ "formulario.grupo.slot.m_fidelizacion" | trans }}</td>
         </tr>
     {% endif %}
     </tbody>

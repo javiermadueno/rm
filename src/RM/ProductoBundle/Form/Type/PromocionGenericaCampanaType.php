@@ -29,6 +29,13 @@ class PromocionGenericaCampanaType extends AbstractType
         $numPromocion = $data instanceof Promocion ? $data->getNumPromocion() : null;
 
         $builder
+            ->add('descripcion', 'text', ['required' => false, 'label' => 'descripcion'])
+            ->add('impConsumidor', 'number', ['required' => false, 'label'=> 'imp.consumidor'])
+            ->add('impDistribuidor', 'number', ['required' => false, 'label' => 'imp.distribuidor'])
+            ->add('impFijo', 'number', ['required' => false, 'label' => 'imp.fijo'])
+            ->add('condiciones', 'text', ['required' => false, 'label' => 'condiciones'])
+            ->add('fidelizacion', 'text', ['required' => false, 'label' => 'fidelizacion'])
+            ->add('codigo', 'text', ['required' => true, 'label' => 'codigo.promocion'])
             ->add('idTipoPromocion', 'entity', [
                 'class'         => 'RMProductoBundle:TipoPromocion',
                 'property'      => 'nombre',

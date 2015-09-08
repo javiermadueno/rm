@@ -18,6 +18,11 @@
                     </tr>
                     <tr>
                         <td class="sinborde">...</td>
+                        <td class="sinborde pull-right">
+                            <a class="btn btn-success" target="_blank" href="{{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
+                                {{ "boton.descargar.batch" |trans|title}}
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -49,6 +54,7 @@
 			</table>
                 </form>
 		</div>
+    {#
     <h4 class="widgettitle">{{ "opciones.batch" | trans | title}}</h4>
 		<div class="mediamgr_head">
 			<table class="table">
@@ -119,6 +125,7 @@
 				</tbody>
 			</table>
 		</div>
+    #}
 {% endblock %}
 
 {% block javascripts %}

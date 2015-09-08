@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
 class GrupoSlots implements GrupoSlotsInterface
 {
     const CREATIVIDADES = 2;
-    const PROMOCION     =1;
+    const PROMOCION =1;
 
     /**
      * @var string
@@ -519,7 +519,7 @@ class GrupoSlots implements GrupoSlotsInterface
 
 
   public function __toString(){
-    return $this->idGrupo . '';
+    return $this->idGrupo.'';
   }
 
     /**

@@ -9,15 +9,7 @@
 
 {% block contenedorPrincipal %}
 	{{ parent() }}
-		{% if objGrupoSlots | length == 0 %}
-			<div class="alert alert-danger alert-dismissable center-all">
-				<h4>{{ "mensaje.error.no.gruposlot.configurado" | trans|capitalize }}</h4>
-			</div>
-		{% elseif objCategorias | length == 0 %}
-			<div class="alert alert-danger alert-dismissable center-all">
-				<h4>{{ "mensaje.error.no.categoria.asociada" | trans|capitalize }}</h4>
-			</div>
-		{% else %}
+
             <h4 class="widgettitle">{{ "graficas" |trans|title }}</h4>
             <div class="mediamgr_head">
                 <script type="text/javascript">
@@ -162,7 +154,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-	{% endif %}		
+
 {% endblock %}
 
 {% block javascripts %}

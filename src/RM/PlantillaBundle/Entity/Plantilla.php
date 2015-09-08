@@ -3,6 +3,7 @@
 namespace RM\PlantillaBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use RM\ComunicacionBundle\Entity\Canal;
 use RM\ComunicacionBundle\Entity\Comunicacion;
@@ -20,7 +21,7 @@ class Plantilla implements PlantillaInterface
 
     public function __construct()
     {
-        $this->gruposSlots    = new ArrayCollection();
+        $this->gruposSlots = new ArrayCollection();
         $this->comunicaciones = new ArrayCollection();
     }
 
@@ -234,9 +235,15 @@ class Plantilla implements PlantillaInterface
      */
     public function getGruposSlots()
     {
-        return $this->gruposSlots->filter(function(GrupoSlots $grupo){
+        $criteria = Criteria::create();
+        $criteria->orderBy( ['idGrupo' => Criteria::DESC]);
+
+        $grupos = $this->gruposSlots->filter(function(GrupoSlots $grupo){
                 return $grupo->getEstado() > -1;
-            });
+            })->matching($criteria);
+
+        return $grupos;
+
     }
 
     /**

@@ -143,7 +143,14 @@
                         console.log(data);
                         var tr = $('tr[data-producto="'+ data['id_producto'] +'"]');
                         console.log(tr);
-                        tr.find('img').attr('src', data['imagen']);
+                        var imagen = tr.find('img');
+                        if (imagen.length > 0) {
+                            imagen.attr('src', data['imagen']);
+                        } else {
+                            var img = $('<img>');
+                            img.attr('src', data['imagen']);
+                            tr.find('td:last').append(img);
+                        }
                         //document.getElementsByClassName('actualizarTabla')[0].click();
                         $('#modal-producto').modal('hide');
                     }

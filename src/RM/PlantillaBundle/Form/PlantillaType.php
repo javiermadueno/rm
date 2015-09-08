@@ -17,10 +17,10 @@ class PlantillaType extends AbstractType
 
 
         $builder
-            ->add('nombre', 'text', [
+            ->add('nombre', 'text', array(
                     'required' => true
-                ])
-            ->add('submit', 'submit', ['label' => 'Guardar']);
+                ))
+            ->add('submit', 'submit', array('label' => 'Guardar'));
             ;
     }
     
@@ -30,9 +30,9 @@ class PlantillaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setDefaults([
+            ->setDefaults(array(
                 'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
-                ])
+                ))
         ;
     }
 

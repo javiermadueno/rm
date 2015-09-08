@@ -13,17 +13,17 @@ class TamanyoImagenController extends RMController
     {
     	$servicioTI = $this->get("TamanyoImagenService");
     	
-    	$objTamImgPro    = $servicioTI->getTIConInfoAsocByTipo(TamanyoImagen::PRODUCTO);
+    	$objTamImgPro = $servicioTI->getTIConInfoAsocByTipo(TamanyoImagen::PRODUCTO);
         $objTamImgCre = $servicioTI->getTIConInfoAsocByTipo(TamanyoImagen::CREATIVIDAD);
     	
     	return $this->render('RMPlantillaBundle:TamanyoImagen:index.html.twig', [
-					'idOpcionMenuSup'               => $idOpcionMenuSup,
-					'idOpcionMenuIzq'               => $idOpcionMenuIzq,
-					'opcionMenuTabConfig'           => $opcionMenuTabConfig,
-					'objTamImgPro'                  => $objTamImgPro,
-                    'objTamImgCre'   => $objTamImgCre,
+					'idOpcionMenuSup' => $idOpcionMenuSup,
+					'idOpcionMenuIzq' => $idOpcionMenuIzq,
+					'opcionMenuTabConfig' => $opcionMenuTabConfig,
+					'objTamImgPro' => $objTamImgPro,
+                    'objTamImgCre' => $objTamImgCre,
                     'tamanyosImagen' => [
-                        TamanyoImagen::PRODUCTO     => $objTamImgPro,
+                        TamanyoImagen::PRODUCTO => $objTamImgPro,
                         TamanyoImagen::CREATIVIDAD  => $objTamImgCre
                     ]
 			]);
@@ -34,14 +34,14 @@ class TamanyoImagenController extends RMController
     	if($this->container->get('request')->isXmlHttpRequest()){
     		$request = $this->container->get('request');
     		
-    		$tipo            = $request->get('tipo');
-    		$elementosBorrar = $request->get('elementosBorrar' . $tipo);
+    		$tipo = $request->get('tipo');
+    		$elementosBorrar = $request->get('elementosBorrar'. $tipo);
     		
     		$servicioTI = $this->get("TamanyoImagenService");
     		
     		$respuesta = $servicioTI->eliminarTamanyosById($elementosBorrar);
     	
-    		if($respuesta === 1){
+    		if($respuesta == 1){
     			$this->get('session')->getFlashBag()->add('mensaje','eliminar_ok');
     		}
     		else{
@@ -52,7 +52,7 @@ class TamanyoImagenController extends RMController
     	
     		return $this->render('RMPlantillaBundle:TamanyoImagen:listadoTamanyo.html.twig', [
     				'objTamImg' => $objTamImg,
-    				'tipoImg'   => $tipo
+    				'tipoImg' => $tipo
     		]);
     	}
     	else{
@@ -65,7 +65,7 @@ class TamanyoImagenController extends RMController
     	
     		$objTam = new TamanyoImagen;
 
-    		if($tipoEntidad === "Producto"){
+    		if($tipoEntidad == "Producto"){
     			$formulario = $this->createForm(new nuevoTamanyoProductoType(), $objTam, ['selected' => TamanyoImagen::PRODUCTO]);
     		}
             else{
@@ -74,10 +74,10 @@ class TamanyoImagenController extends RMController
 
 
     		return $this->render('RMPlantillaBundle:TamanyoImagen:nuevoTamanyo.html.twig', [
-    				'idOpcionMenuSup'     => $idOpcionMenuSup,
-    				'idOpcionMenuIzq'     => $idOpcionMenuIzq,
+    				'idOpcionMenuSup' => $idOpcionMenuSup,
+    				'idOpcionMenuIzq' => $idOpcionMenuIzq,
     				'opcionMenuTabConfig' => $opcionMenuTabConfig,
-    				'formulario'          => $formulario->createView()
+    				'formulario' => $formulario->createView()
     		]);
     		
     	

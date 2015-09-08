@@ -21,7 +21,7 @@ class ProductType extends AbstractType
         $builder
             ->add('file', 'file', [
             'required' => false,
-            'label'    => 'imagen',
+            'label' => 'imagen',
                 'attr' => [
                     'accept' => $this->mimesPermitidos()
                 ]

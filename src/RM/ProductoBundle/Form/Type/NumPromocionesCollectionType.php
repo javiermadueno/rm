@@ -21,16 +21,16 @@ class NumPromocionesCollectionType extends AbstractType
     {
 
         $builder->add('num_promocion', 'collection', [
-            'type'         => new NumPromocionesType(),
-            'allow_add'    => true,
+            'type' => new NumPromocionesType(),
+            'allow_add' => true,
             'allow_delete' => true,
-            'options'      => [
-                'em'              => $options['em'],
+            'options' => [
+                'em' => $options['em'],
                 'nivel_categoria' => $options['nivel_categoria']
             ],
-            'label'          => false,
+            'label' => false,
             'error_bubbling' => false,
-            'constraints'    => [
+            'constraints' => [
                 new Valid()
             ]
         ]);

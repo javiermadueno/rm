@@ -643,12 +643,12 @@ class Segmento implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id'        => $this->idSegmento,
-            'nombre'    => $this->nombre,
+            'id' => $this->idSegmento,
+            'nombre' => $this->nombre,
             'categoria' => is_null($this->idCategoria)? '' : $this->idCategoria->getNombre(),
             'proveedor' => is_null($this->idProveedor)? '' : $this->idProveedor->getNombre(),
             'marca'     => is_null($this->idMarca)    ? '' : $this->idMarca->getNombre(),
-            'cClave'    => $this->c_clave,
+            'cClave' => $this->c_clave,
             'cFechaIni' => is_null($this->c_fecha_ini) ? '' : $this->c_fecha_ini->format('Y-m-d'),
             'cFechaFin' => is_null($this->c_fecha_fin) ? '' : $this->c_fecha_fin->format('Y-m-d')
 

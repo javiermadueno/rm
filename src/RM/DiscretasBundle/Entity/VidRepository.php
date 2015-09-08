@@ -14,7 +14,7 @@ class VidRepository extends EntityRepository
 			from RMDiscretasBundle:Vid d
 			where d.estado = 1";
 
-        if ($nombre !== '') {
+        if ($nombre != '') {
             $dql .= " AND d.nombre LIKE :nombre";
         }
         if ($tipoVar > 0) {
@@ -24,7 +24,7 @@ class VidRepository extends EntityRepository
 
 
         $query = $this->_em->createQuery($dql);
-        if ($nombre !== '') {
+        if ($nombre != '') {
             $query->setParameter('nombre', '%' . $nombre . '%');
         }
         if ($tipoVar > 0) {
@@ -243,7 +243,7 @@ class VidRepository extends EntityRepository
             ->from('RMDiscretasBundle:VidSegmentoGlobal', 'sc')
             ->where('sc.estado > -1');
 
-        if ($id_vid_segmento_global !== -1) {
+        if ($id_vid_segmento_global != -1) {
            $qb->andWhere('sc.idVidSegmentoGlobal = :id_vid_segmento_global')
                ->setParameter('id_vid_segmento_global', $id_vid_segmento_global);
         }

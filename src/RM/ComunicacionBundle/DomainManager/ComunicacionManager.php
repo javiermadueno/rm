@@ -43,10 +43,10 @@ class ComunicacionManager
 
     public function __construct(DoctrineManager $doctrine, EventDispatcherInterface $dispatcher, ValidatorInterface $validator)
     {
-        $this->em         = $doctrine->getManager();
+        $this->em = $doctrine->getManager();
         $this->repository = $this->em->getRespository('RMComunicacionBundle:Comunicacion');
         $this->dispatcher = $dispatcher;
-        $this->validator  = $validator;
+        $this->validator = $validator;
     }
 
     /**

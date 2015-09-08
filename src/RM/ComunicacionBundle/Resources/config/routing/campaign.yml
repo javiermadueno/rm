@@ -9,7 +9,7 @@ campaign_campanyas:
   methods: [GET]
 
 campaign_ficha:
-  path: /list/{id_instancia}
+  path: /show/{id_instancia}
   defaults: {_controller: RMComunicacionBundle:Campaign:show, idOpcionMenuIzq 1 }
   methods: [GET]
   requirements:
@@ -19,11 +19,6 @@ campaign_redirect:
   path: /list/
   defaults: {_controller: RMComunicacionBundle:Campaign:showCampanyas, idOpcionMenuIzq 1 }
   methods: [GET]
-
-campaign_marca_producto_actualizar:
-  path: /list/producto_actualizar/
-  defaults: {_controller: RMComunicacionBundle:Campaign:fichaCampanyaActualizar}
-  methods: [POST]
 
 campaign_closing_campanyas:
   path: /list/closing_campaigns/
@@ -40,19 +35,8 @@ campaign_closing_ficha:
 
 campaign_creatividades:
    path: /creatividades/list
-   defaults: { _controller: RMComunicacionBundle:Creatividad:listaCreatividades, idOpcionMenuIzq 3 }
+   defaults: { _controller: RMComunicacionBundle:Campaign:listaCreatividades, idOpcionMenuIzq 3 }
 
-campaign_creatividad_ficha:
-  path: /creatividades/list/{idInstancia}
-  defaults: { _controller: RMComunicacionBundle:Creatividad:informacionCreatividad, idOpcionMenuIzq 3, idOpcionMenuSup 3 }
-  methods: [GET]
-  requirements:
-    $idInstancia: \d+
-
-campaign_creatividad_ficha_save:
-  path: /creatividades/list/save
-  defaults: {_controller: RMComunicacionBundle:Creatividad:saveFichaCreatividad}
-  methods: [POST]
 
 campaign_seguimiento:
   path: /seguimiento
@@ -62,4 +46,11 @@ campaign_productos_marca:
   path: /seguimiento/productos/
   defaults: { _controller: RMComunicacionBundle:Seguimiento:obtenerProductosPorMarca }
   methods: [GET]
+
+rm_comunicacion.campaign.show_campaing_creatividades:
+  path: /creatividad/show/{id_instancia}
+  defaults: { _controller: RMComunicacionBundle:Campaign:showCampaignCreatividades }
+  methods: [GET]
+  requirements:
+    id_instancia: \d+
 

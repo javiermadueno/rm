@@ -13,6 +13,8 @@ mensaje:
     no.categoria.asociada: No hay ninguna Categoria asociada al centro
     no.instancia: No se ha encontrado la instancia de comunicacion
     cambio.fase: No se ha podido tramitar la instancia a la siguiente fase
+    cambio.fase.configuracion: El número de promociones genéricas definidas en cada grupo de slots tiene que ser mayor o igual al número de slots
+    cambio.fase.configuracion.promociones: Hay grupos de slots sin promociones
     cambio.fase.simulacion: No se ha podido tramitar la instancia a la fase de Simulación. Quedan promociones genéricas sin definir.
     cambio.fase.generacion.pendientes: No se ha podido tramitar la instancia a la fase de Generación. Quedan promociones pendientes.
     cambio.fase.generacion.rechazadas: Se generaran las comunicaciones personalizadas para cada cliente sin las promociones rechazadas.
@@ -25,6 +27,7 @@ mensaje:
     parar.comunicacion: No se ha podido parar la comunicación
     reanudar.comunicacion: No se ha podido reanudar la comunicación
     subida.fichero.demasiado.grande: El tamaño de la imagen es demasiado grande.
+    descargar.fichero: Se ha producido un error al descargar el fichero.
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -140,6 +143,9 @@ boton:
   parar: Parar
   reanudar: Reanudar
   descargar: Descargar
+  descargar.productos.sin.imagen: CSV Productos sin imagen
+  descargar.instrucciones.imagenes.producto: Instrucciones de Subida de imagenes
+  descargar.batch: Descargar Batch
   importar: Importar
   exportar: Exportar
   previsualizar.plantilla: Previsualizar Plantilla
@@ -352,6 +358,7 @@ listado: Listado
 datos: Datos
 promocion: Promoción
 promociones: Promociones
+promocion.avanzado: Avanzado
 subir.plantilla.maquetada: Subir plantilla maquetada
 grupo.slots: Grupo Slots
 
@@ -478,6 +485,8 @@ info: Info
 
 informacion:
   avanzada: Información Avanzada
+  promociones.restantes: "{1}Queda  %count% promoción por definir|]1,Inf[ Quedan %count% promociones por definir"
+  creatividades.restantes: "{1}Queda  %count% Creatividad por definir|]1,Inf[ Quedan %count% Creatividades por definir"
 
 simulado: Simulado
 
@@ -586,6 +595,19 @@ contribucion:
 
 reactividad.target.por.comunicades: Reactividad-Target por Comunicades
 reactividad: Reactividad
+
+
+formulario:
+  grupo.slot:
+    m_img_producto: Mostrar Imagen Producto
+    m_precio_producto: Mostrar Precio Producto
+    m_volumen: Mostrar Volumen
+    m_condiciones: Mostrar condiciones de la promoción
+    m_img_marca: Mostrar imagen marca
+    m_texto: Mostrar texto libre
+    m_voucher: Mostrar voucher
+    m_fidelizacion: Mostrar información de fidelización
+
 
 highchart:
   seguimiento:

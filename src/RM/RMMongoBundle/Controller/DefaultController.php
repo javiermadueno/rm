@@ -24,7 +24,7 @@ class DefaultController extends RMController
         $fecha      = $request->get('fecha_busqueda');
 
         try{
-            $service   = $this->get('rm.mongo.calcula_poblacion');
+            $service = $this->get('rm.mongo.calcula_poblacion');
             $poblacion = $service->calculaPoblacion($condicion, $fecha);
         } catch(\Exception $e) {
             return new Response($e->getMessage(), 500);
@@ -47,14 +47,14 @@ class DefaultController extends RMController
             ->add('numero', 'number', [
                 'required' => true,
                 'grouping' => true,
-                'attr'     => ['lang' => $request->getLocale()]
+                'attr' => ['lang' => $request->getLocale()]
             ])
             ->add('submit', 'submit')
         ->getForm();
 
         $form->handleRequest($request);
         $formatter = NumberFormatter::create($request->getLocale(), NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
-        $numero    = 0;
+        $numero = 0;
 
         if($form->isValid()) {
             $numero = $form->getData()['numero'];
@@ -65,7 +65,7 @@ class DefaultController extends RMController
 
 
         return $this->render('RMMongoBundle::formulario.html.twig', [
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
             'numero' => $formatter->format($numero)
         ]);
     }

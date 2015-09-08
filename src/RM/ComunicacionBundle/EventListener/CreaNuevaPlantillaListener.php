@@ -53,7 +53,7 @@ class CreaNuevaPlantillaListener implements EventSubscriberInterface
         $comunicacion = $event->getComunicacion();
 
         if(!$comunicacion instanceof Comunicacion) {
-            return false;
+            return;
         }
 
         $plantilla = new Plantilla();

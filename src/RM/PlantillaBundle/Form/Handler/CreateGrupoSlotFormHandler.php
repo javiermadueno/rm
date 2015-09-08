@@ -36,8 +36,8 @@ class CreateGrupoSlotFormHandler
 
     public function __construct (GrupoSlotManager $manager, FormFactoryInterface $factory)
     {
-        $this->manager  = $manager;
-        $this->factory  = $factory;
+        $this->manager = $manager;
+        $this->factory = $factory;
         $this->resolver = new OptionsResolver();
         $this->setDefaultOptions();
     }
@@ -70,8 +70,8 @@ class CreateGrupoSlotFormHandler
     public function createForm(GrupoSlots $grupo, array $options)
     {
         $options = $this->resolveOptions($options);
-        $form    = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
-        $form->add('submit', 'submit', ['label' => 'Create']);
+        $form = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
+        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -87,7 +87,7 @@ class CreateGrupoSlotFormHandler
         $grupo->setTipo(GrupoSlots::CREATIVIDADES);
 
         $form = $this->factory->create(new GrupoSlotsCreatividadType(), $grupo, $options);
-        $form->add('submit', 'submit', ['label' => 'Create']);
+        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -102,7 +102,7 @@ class CreateGrupoSlotFormHandler
         $options  = $this->resolveOptions($options);
 
         $form = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
-        $form->add('submit', 'submit', ['label' => 'Create']);
+        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -113,13 +113,13 @@ class CreateGrupoSlotFormHandler
     private function setDefaultOptions()
     {
         $this->resolver
-            ->setRequired(['action', 'em', 'method'])
-            ->setDefaults([
+            ->setRequired(array('action', 'em', 'method'))
+            ->setDefaults(array(
                 'method' => 'POST'
-            ])
-            ->addAllowedTypes([
+            ))
+            ->addAllowedTypes(array(
                 'em'=> 'Doctrine\Common\Persistence\ObjectManager'
-            ])
+            ))
 
         ;
     }

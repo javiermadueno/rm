@@ -3,99 +3,110 @@
 {% set objInstancia = promocion.numPromocion.idInstancia %}
 
 {% block widgettitle %}
-  {{ "segmentadas" |trans|title}}
+    {{ "segmentadas" |trans|title }}
 {% endblock widgettitle %}
 
 {% block content %}
-
     {{ form_start(form, {'attr': {'class': 'form-horizontal' }}) }}
+    <div id="content">
+    <div class="row-fluid">
+        <div class="span6">
+            <fieldset>
+                <legend>{{ "promocion" |trans|title }} - {{ promocion.numPromocion.idCategoria.nombre }}</legend>
 
-    <fieldset>
-        <legend>{{ "promocion" |trans|title}} - {{ promocion.numPromocion.idCategoria.nombre }}</legend>
-        <div id="content">
-            <div class="control-group {% if not form.marca.vars.valid %}error{% endif %}">
-                {{ form_label(form.marca, null, {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.marca, {'attr': {'class' : 'change span8'}}) }}
-        <span class="help-inline">
-            {% for error in form.marca.vars.errors %}
-                {{ error.message }} <br/>
-            {% endfor %}
-        </span>
-                </div>
-            </div>
-
-            <div class="control-group">
-                {{ form_label(form.idProducto, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.idProducto, {'attr': {'class' : 'span8'}}) }}
-                </div>
-            </div>
-
-            <div class="control-group {% if not form.idTipoPromocion.vars.valid %}error{% endif %}">
-                {{ form_label(form.idTipoPromocion, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.idTipoPromocion, {'attr': {'class' : 'span8'}}) }}
-                    <span class="help-inline">
-            {% for error in form.idTipoPromocion.vars.errors %}
-                {{ error.message }} <br/>
-            {% endfor %}
-        </span>
-                </div>
-            </div>
-
-            <div class="control-group">
-                {{ form_label(form.nombreFiltro, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    <div class="input-append span8">
-                        {{ form_widget(form.nombreFiltro, {'attr': {'style' : 'width: 95% !important'}}) }}
-                        <button class="btn segmentador" type="button"
-                                data-nombrefiltro="{{ form.nombreFiltro.vars.id }}"
-                                data-filtro="{{ form.filtro.vars.id }}">
-                            <i class="iconfa iconfa-filter"></i>
-                        </button>
+                    <div class="control-group {% if not form.marca.vars.valid %}error{% endif %}">
+                        {{ form_label(form.marca, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.marca, {'attr': {'class' : 'change span8' }}) }}
+                            <span class="help-inline">
+                                {% for error in form.marca.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                        </div>
                     </div>
 
-                    {{ form_widget(form.filtro, {
-                    'attr': {
-                    'class': 'filtro',
-                    'data-nombrefiltro': form.nombreFiltro.vars.id,
-                    'data-promocion': promocion.idPromocion is not null ? promocion.idPromocion : -1
-                    }
-                    }) }}
-                </div>
-            </div>
+                    <div class="control-group">
+                        {{ form_label(form.idProducto, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.idProducto, {'attr': {'class' : 'span8' }}) }}
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                {{ form_label(form.poblacion, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.poblacion, {'attr': {'class' : 'span8'}}) }}
-                </div>
-            </div>
+                    <div class="control-group {% if not form.idTipoPromocion.vars.valid %}error{% endif %}">
+                        {{ form_label(form.idTipoPromocion, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.idTipoPromocion, {'attr': {'class' : 'span8' }}) }}
+                            <span class="help-inline">
+                                {% for error in form.idTipoPromocion.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
 
-            <div class="control-group {% if not form.minimo.vars.valid %}error{% endif %}">
-                {{ form_label(form.minimo, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.minimo, {'attr': {'class' : 'span8'}}) }}
-                    <span class="help-inline">
-            {% for error in form.minimo.vars.errors %}
-                {{ error.message }} <br/>
-            {% endfor %}
-        </span>
-                </div>
-            </div>
+                    <div class="control-group">
+                        {{ form_label(form.nombreFiltro, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            <div class="input-append span8">
+                                {{ form_widget(form.nombreFiltro, {'attr': {'style' : 'width: 95% !important' }}) }}
+                                <button class="btn segmentador" type="button"
+                                        data-nombrefiltro="{{ form.nombreFiltro.vars.id }}"
+                                        data-filtro="{{ form.filtro.vars.id }}">
+                                    <i class="iconfa iconfa-filter"></i>
+                                </button>
+                            </div>
+
+                            {{ form_widget(form.filtro, {
+                                'attr': {
+                                'class': 'filtro',
+                                'data-nombrefiltro': form.nombreFiltro.vars.id,
+                                'data-promocion': promocion.idPromocion is not null ? promocion.idPromocion : -1
+                                }
+                            }) }}
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        {{ form_label(form.poblacion, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.poblacion, {'attr': {'class' : 'span8' }}) }}
+                        </div>
+                    </div>
+
+                    <div class="control-group {% if not form.minimo.vars.valid %}error{% endif %}">
+                        {{ form_label(form.minimo, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.minimo, {'attr': {'class' : 'span8' }}) }}
+                            <span class="help-inline">
+                                {% for error in form.minimo.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+
+            </fieldset>
         </div>
-
+        <div class="span6">
+            {% include '@RMProducto/Promocion/form_promocion_parte_comun.html.twig' with {'form': form} %}
+        </div>
+    </div>
+    </div>
+    <div class="row-fluid">
         <div class="form-actions">
-                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
         </div>
-    </fieldset>
+    </div>
+
     {{ form_end(form) }}
 
     {% include 'RMSegmentoBundle:Default/Buscador:formPopUpBuscadorSegmentos.html.twig' %}
 
     <script type="text/javascript">
-        $(document).on('ready', function(){
+        $(document).on('ready', function () {
+
+            $(document).on('click', '.voucher_generator', genereateVoucher)
 
             function addCondicionSegmentoPadre(elem) {
                 if (typeof elem === 'undefined') {
@@ -111,7 +122,7 @@
                 elem.value = JSON.stringify(filtro);
             }
 
-            $(document).on('click', '.segmentador', function(event){
+            $(document).on('click', '.segmentador', function (event) {
                 var e = event || window.event;
                 e.preventDefault();
 
@@ -119,10 +130,20 @@
                 buscarSegmentos($this.data('filtro'), $this.data('nombrefiltro'));
             });
 
-            $(document).on('change', '.filtro', function(){
+            $(document).on('change', '.filtro', function () {
                 addCondicionSegmentoPadre(this);
                 calculaPoblacionPromocion(this);
             });
+
+            function genereateVoucher(event){
+                var e = event||window.event;
+                e.preventDefault();
+                var codigo = document.getElementById('{{ form.codigo.vars.id }}');
+
+                $.get('{{ path('rm_producto.promocion.get_unique_voucher') }}', function(data){
+                    codigo.value = data.voucher;
+                });
+            }
 
 
             function calculaPoblacionPromocion(elem) {
@@ -185,12 +206,12 @@
             }
 
 
-            $(document).on('change', '.change', function(event){
+            $(document).on('change', '.change', function (event) {
                 var e = event || window.event;
                 e.preventDefault();
 
                 var $form = $(this).closest('form');
-                var form_data = $form.serializeArray().reduce(function(obj, item) {
+                var form_data = $form.serializeArray().reduce(function (obj, item) {
                     obj[item.name] = item.value;
                     return obj;
                 }, {});
@@ -200,7 +221,7 @@
                     method: $form.attr('method'),
                     url: $form.attr('action'),
                     data: form_data,
-                    success: function(response) {
+                    success: function (response) {
                         $form.find('#content').html($(response).find('#content'));
                     }
                 });

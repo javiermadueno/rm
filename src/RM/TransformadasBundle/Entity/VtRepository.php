@@ -13,7 +13,7 @@ class VtRepository extends EntityRepository
 			FROM RMTransformadasBundle:Vt t
 			JOIN t.tipo a
 			where t.estado > -1";
-        if ($nombre !== '') {
+        if ($nombre != '') {
             $dql .= " AND t.nombre LIKE :nombre";
         }
         if ($tipoVar > 0) {
@@ -22,7 +22,7 @@ class VtRepository extends EntityRepository
         $dql .= " ORDER BY t.nombre";
 
         $query = $this->_em->createQuery($dql);
-        if ($nombre !== '') {
+        if ($nombre != '') {
             $query->setParameter('nombre', '%' . $nombre . '%');
         }
         if ($tipoVar > 0) {

@@ -14,9 +14,11 @@ use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\ProductoBundle\Form\PromocionType;
 use RM\ProductoBundle\Form\Type\NumPromocionesCampaignType;
+use RM\ProductoBundle\Form\Type\PromocionCreatividadType;
 use RM\ProductoBundle\Form\Type\PromocionGenericaCampanaType;
 use RM\ProductoBundle\Form\Type\PromocionSegmentadaCampanaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,100 +30,46 @@ use Symfony\Component\HttpFoundation\Response;
 class PromocionController extends RMController
 {
     /**
-     * @param Request $request
-     * @param         $id_promocion
-     *
-     * @return Response|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @throws \Exception
-     */
-    public function fichaPromocionAction(Request $request, $id_promocion)
-    {
-        $em = $this->get('rm.manager')->getManager();
-
-        $promocion = $em->getRepository('RMProductoBundle:Promocion')->findBydId($id_promocion);
-
-        if (!$promocion instanceof Promocion) {
-            return $this->createNotFoundException(sprintf('No se ha encontrado promocion con id "%s"', $id_promocion));
-        }
-
-        $form = $this->createForm(new PromocionType(), $promocion,
-            [
-                'method' => 'post',
-                'action' => $this->generateUrl('campaign_ficha_promocion_guardar', ['id' => $id_promocion])
-            ]
-        )
-        ;
-
-
-        return $this->render('RMComunicacionBundle:Campaign\Negociaciones:fichaPromocion.html.twig',
-            [
-                'promocion' => $promocion,
-                'producto'  => $promocion->getIdProducto(),
-                'form'      => $form->createView()
-            ]
-        )
-            ;
-    }
-
-    /**
      * @param $id_promocion
      *
      * @return Response
      */
     public function infoPromocionAction($id_promocion)
     {
-        $servicioPr     = $this->get("PromocionService");
-        $objPromociones = $servicioPr->getPromocionById($id_promocion);
-        if (!$objPromociones) {
-            throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
-        } else {
-            $objPromocion = $objPromociones [0];
+        $em = $this->getManager();
 
-            return $this->render(
-                'RMComunicacionBundle:Campaign\Negociaciones:infoPromocion.html.twig',
-                [
-                    'objPromocion' => $objPromocion
-                ]
-            )
-                ;
+        $promocion = $em
+            ->getRepository('RMProductoBundle:Promocion')
+            ->find($id_promocion);
+
+        if (! $promocion instanceof Promocion) {
+            throw $this->createNotFoundException('No se ha encontrado promocion');
         }
+
+        return $this->render(
+            'RMComunicacionBundle:Campaign\Negociaciones:infoPromocion.html.twig',
+            [
+                'objPromocion' => $promocion
+            ]
+        );
     }
 
     /**
-     * @param Request $request
-     * @param         $id
-     *
      * @return Response|static
-     * @throws \Exception
      */
-    public function guardarFichaPromocionAction(Request $request, $id)
+    public function getUniqueVoucherAction()
     {
-        $em        = $this->get('rm.manager')->getManager();
-        $promocion = $em->getRepository('RMProductoBundle:Promocion')->findBydId(($id));
-
-        if (!$promocion instanceof Promocion) {
-            return $this->createNotFoundException(sprintf('No se ha encontrado promocion con id "%s"', $id));
-        }
-
-        $form = $this->createForm(new PromocionType(), $promocion,
-            [
-                'method' => 'post',
-                'action' => $this->generateUrl('campaign_ficha_promocion_guardar', ['id' => $id])
-            ]
-        )
+        $voucher = $this
+            ->get('promocion.voucher.generator')
+            ->generateUniqueVoucher()
         ;
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em->flush();
-            $this->addFlash('mensaje', 'mensaje.editar.ok');
-            $response = $this->render('::logMensajes.html.twig');
-
-            return $response;
-        }
-
-        return JsonResponse::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
+        return JsonResponse::create([
+            'voucher' => $voucher
+        ])
+            ;
     }
+
 
     /**
      * @param Request $request
@@ -166,96 +114,9 @@ class PromocionController extends RMController
         return new  JsonResponse($respuesta);
     }
 
+
     /**
-     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function saveCampaignSlotsAction(Request $request)
-    {
-
-        $servicioPromocion = $this->get('PromocionService');
-
-        $promociones  = $request->get('promocion');
-        $id_instancia = $request->get('id_instancia');
-        $id_categoria = $request->get('id_categoria');
-
-        $promociones = $this->compruebaPromociones($promociones);
-
-        if (empty ($promociones)) {
-            $this->addFlash('mensaje', 'mensaje.error.editar');
-
-            return $this->redirectToRoute('campaign_ficha', [
-                'id_instancia' => $id_instancia,
-                'id_categoria' => $id_categoria
-            ])
-                ;
-        }
-
-        $respuesta = $servicioPromocion->guardarPromocionesCampanya($promociones, $request->getLocale());
-
-        if ($respuesta === 1) {
-            $this->addFlash('mensaje', 'mensaje.ok.editar');
-        } else {
-            $this->addFlash('mensaje', 'mensaje.error.editar');
-        }
-
-        return $this->redirectToRoute('campaign_ficha', [
-            'id_instancia' => $id_instancia,
-            'id_categoria' => $id_categoria
-        ])
-            ;
-    }
-
-    /**
-     * @param array $promociones
-     *
-     * @return array
-     */
-    private function compruebaPromociones(array $promociones)
-    {
-        if (empty($promociones)) {
-            return false;
-        }
-
-        foreach ($promociones as $idNumPro => $promocion) {
-            if (isset($promocion['segmentadas'])) {
-                foreach ($promocion['segmentadas'] as $indice => $segmentada) {
-                    if ($this->isNullOrEmpty($segmentada['tipo'])
-                        || $this->isNullOrEmpty($segmentada['minimo'])
-                        || $this->isNullOrEmpty($segmentada['producto'])
-                    ) {
-                        unset($promociones[$idNumPro]['segmentadas'][$indice]);
-                    }
-                }
-            }
-
-            if (isset($promocion['genericas'])) {
-                foreach ($promocion['genericas'] as $indice => $generica) {
-                    if ($this->isNullOrEmpty($generica['tipo'])
-                        || $this->isNullOrEmpty($generica['producto'])
-                    ) {
-                        unset($promociones[$idNumPro]['genericas'][$indice]);
-                    }
-                }
-            }
-
-        }
-
-        return $promociones;
-    }
-
-    /**
-     * @param $variable
-     *
-     * @return bool
-     */
-    private function isNullOrEmpty($variable)
-    {
-        return empty($variable) || $variable === '-1' || $variable === -1 ? true : false;
-    }
-
-    /**
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -279,7 +140,7 @@ class PromocionController extends RMController
         }
 
         $respuesta = $servicioPromocion->actualizarPromocionesCampanya($data);
-        if ($respuesta === 1) {
+        if ($respuesta == 1) {
             $this->addFlash('mensaje', 'Inserciones realizadas correctamente!.');
 
         } else {
@@ -295,42 +156,7 @@ class PromocionController extends RMController
 
     }
 
-    /**
-     * @param Request $request
-     * @param         $idNumPromocion
-     *
-     * @return Response
-     */
-    public function promocionesByNumPromocionAction(Request $request, $idNumPromocion)
-    {
-        $em           = $this->getManager();
-        $numPromocion = $em
-            ->getRepository('RMProductoBundle:NumPromociones')
-            ->findOneBy(['idNumPro' => $idNumPromocion])
-        ;
 
-        if (!$numPromocion instanceof NumPromociones) {
-            throw $this->createNotFoundException(
-                sprintf('No se ha encontrado numPromocion con id = "%s"', $idNumPromocion)
-            )
-            ;
-        }
-
-        $segmentadasOriginal = $numPromocion->getSegmentadas();
-
-        $form = $this->createForm(new NumPromocionesCampaignType(), $numPromocion, ['em' => $em]);
-
-        $form = $form->handleRequest($request);
-        if ($form->isValid()) {
-
-        }
-
-        return $this->render('RMProductoBundle:Promocion:formulario.html.twig', [
-            'num_promocion' => $numPromocion,
-            'form'          => $form->createView()
-        ])
-            ;
-    }
 
     /**
      * @param Request $request
@@ -381,6 +207,10 @@ class PromocionController extends RMController
             $em->persist($promocion);
             $em->flush();
 
+            if (! empty($url = $request->query->get('returnUrl'))) {
+                return new RedirectResponse($url);
+            }
+
             return $this->redirectToRoute('campaign_ficha',
                 ['id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()])
                 ;
@@ -416,6 +246,10 @@ class PromocionController extends RMController
         if ($form->isValid()) {
             $em->flush();
 
+            if (! empty($url = $request->query->get('returnUrl'))) {
+                return new RedirectResponse($url);
+            }
+
             return $this->redirectToRoute('campaign_ficha', [
                 'id_instancia' => $promocion->getNumPromocion()->getIdInstancia()->getIdInstancia()
             ])
@@ -429,6 +263,12 @@ class PromocionController extends RMController
             ;
     }
 
+    /**
+     * @param Request $request
+     * @param         $idNumPromocion
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function newGenericaAction(Request $request, $idNumPromocion)
     {
         $em = $this->getManager();
@@ -456,7 +296,7 @@ class PromocionController extends RMController
             ->setNumPromocion($numPromocion)
             ->setTipo(Promocion::TIPO_GENERICA)
             ->setEstado(1)
-            ->setAceptada(Promocion::PENDIENTE)
+            ->setAceptada(Promocion::ACEPTADA)
         ;
 
         $form = $this->createForm(new PromocionGenericaCampanaType(), $promocion, [
@@ -471,6 +311,10 @@ class PromocionController extends RMController
             $em->persist($promocion);
             $em->flush();
 
+            if (! empty($url = $request->query->get('returnUrl'))) {
+                return new RedirectResponse($url);
+            }
+
             return $this->redirectToRoute('campaign_ficha',
                 ['id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()])
                 ;
@@ -484,6 +328,12 @@ class PromocionController extends RMController
 
     }
 
+    /**
+     * @param Request $request
+     * @param         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function editGenericaAction(Request $request, $id)
     {
         $em = $this->getManager();
@@ -501,6 +351,10 @@ class PromocionController extends RMController
         if ($form->isValid()) {
             $em->flush();
 
+            if (! empty($url = $request->query->get('returnUrl'))) {
+                return new RedirectResponse($url);
+            }
+
             return $this->redirectToRoute('campaign_ficha', [
                 'id_instancia' => $promocion->getNumPromocion()->getIdInstancia()->getIdInstancia()
             ])
@@ -512,6 +366,165 @@ class PromocionController extends RMController
             'promocion' => $promocion
         ])
             ;
+    }
+
+    /**
+     * @param Request $request
+     * @param         $idNumPromocion
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newCreatividadSegmentadaAction(Request $request, $idNumPromocion)
+    {
+        $em = $this->getManager();
+
+        $numPromocion = $em
+            ->getRepository('RMProductoBundle:NumPromociones')
+            ->find($idNumPromocion)
+        ;
+
+        if (!$numPromocion instanceof NumPromociones) {
+            return $this->createNotFoundException(
+                sprintf('No se ha encontrado la NumPromocion con id = "%s"', $idNumPromocion)
+            )
+                ;
+        }
+
+        if ($numPromocion->isSegementadasCompletas()) {
+            return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
+                'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
+            ]);
+        }
+
+        $promocion = new Promocion();
+        $promocion
+            ->setNumPromocion($numPromocion)
+            ->setTipo(Promocion::TIPO_SEGMENTADA)
+            ->setEstado(1)
+            ->setAceptada(Promocion::ACEPTADA)
+        ;
+
+        $form = $this->createForm(new PromocionCreatividadType(), $promocion, [
+            'em' => $em,
+            'method' => Request::METHOD_POST
+        ]);
+
+        $form->add('submit', 'submit', ['label' => 'boton.guardar']);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+            $em->persist($promocion);
+            $em->flush();
+
+            return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
+                'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
+            ]);
+        }
+
+        return $this->render('@RMProducto/Promocion/form_creatividad_segmentada.html.twig', [
+            'promocion' => $promocion,
+            'form' => $form->createView(),
+        ]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param         $idNumPromocion
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function newCreatividadGenericaAction(Request $request, $idNumPromocion)
+    {
+        $em = $this->getManager();
+
+        $numPromocion = $em
+            ->getRepository('RMProductoBundle:NumPromociones')
+            ->find($idNumPromocion)
+        ;
+
+        if (!$numPromocion instanceof NumPromociones) {
+            return $this->createNotFoundException(
+                sprintf('No se ha encontrado la NumPromocion con id = "%s"', $idNumPromocion)
+            )
+                ;
+        }
+
+        if ($numPromocion->isGenericasCompletas()) {
+            return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
+                'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
+            ]);
+        }
+
+        $promocion = new Promocion();
+        $promocion
+            ->setNumPromocion($numPromocion)
+            ->setTipo(Promocion::TIPO_GENERICA)
+            ->setEstado(1)
+            ->setAceptada(Promocion::ACEPTADA)
+        ;
+
+        $form = $this->createForm(new PromocionCreatividadType(), $promocion, [
+            'em' => $em,
+            'method' => Request::METHOD_POST
+        ]);
+
+        $form->add('submit', 'submit', ['label' => 'boton.guardar']);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+            $em->persist($promocion);
+            $em->flush();
+
+            return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
+                'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
+            ]);
+        }
+
+        return $this->render('@RMProducto/Promocion/form_creatividad_segmentada.html.twig', [
+            'promocion' => $promocion,
+            'form' => $form->createView(),
+        ]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editCreatividadAction(Request $request, $id)
+    {
+        $em = $this->getManager();
+
+        $promocion = $em->getRepository('RMProductoBundle:Promocion')->find($id);
+
+        $form = $this->createForm(new PromocionCreatividadType(), $promocion, [
+            'em' => $em
+        ])
+        ;
+
+        $form->add('submit', 'submit', ['label' => 'boton.editar']);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
+                'id_instancia' => $promocion->getNumPromocion()->getIdInstancia()->getIdInstancia()
+            ])
+                ;
+        }
+
+        return $this->render('@RMProducto/Promocion/form_creatividad_segmentada.html.twig', [
+            'form'      => $form->createView(),
+            'promocion' => $promocion
+        ])
+            ;
+
     }
 
 } 

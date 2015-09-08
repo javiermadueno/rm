@@ -26,7 +26,7 @@ class GrupoSlotsServicio
      */
 	public function __construct(DoctrineManager $manager)
 	{
-		$this->em         = $manager->getManager();
+		$this->em = $manager->getManager();
         $this->repo = $this->em->getRepository('RMPlantillaBundle:GrupoSlots');
 	}
 

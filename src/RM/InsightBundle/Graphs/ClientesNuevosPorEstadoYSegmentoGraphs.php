@@ -279,7 +279,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function graficoGamas($meses, $renderTo = '')
     {
         $estado_activo = $this->getSegementoEstado();
-        $gamas         = $this->getSegmentosGamas();
+        $gamas = $this->getSegmentosGamas();
 
         if(!$gamas) {
             $chart =  $this->graphColumnNoData($renderTo);

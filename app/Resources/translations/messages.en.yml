@@ -13,6 +13,7 @@ mensaje:
     no.categoria.asociada: There is no Category associated to the Center.
     no.instancia: Communication's Instance Not Found.
     cambio.fase: Unable to Process the Instance to the next step.
+    cambio.fase.configuracion: The number of generic promotions defined in every Slot Group has to be greater than number of slots.
     cambio.fase.simulacion: Unable to Process the Instance to Simulation Step. There are still Generic Promotions to be defined.
     cambio.fase.generacion.pendientes: Unable to Process the Instance to Generation Step. There are still Pending Promotions.
     cambio.fase.generacion.rechazadas: Personalized Commnications will be generated for each Customer without Rejected Promotions.
@@ -25,6 +26,7 @@ mensaje:
     parar.comunicacion: Unable to Stop Communication.
     reanudar.comunicacion: Unable to Resume Communication.
     subida.fichero.demasiado.grande: The image is too large.
+    descargar.fichero: The file can not be downloaded.
   ok:
     eliminar: Record Deleted.
     editar: Operation was performed successfully.
@@ -139,6 +141,9 @@ boton:
   parar: Stop
   reanudar: Resume
   descargar: Download
+  descargar.productos.sin.imagen: CSV Products without Image
+  descargar.instrucciones.imagenes.producto: Upload Product Image Instructions
+  descargar.batch: Download Batch
   importar: Import
   exportar: Export
   previsualizar.plantilla: Template Preview
@@ -348,6 +353,7 @@ listado: Listing
 datos: Data
 promocion: Promotion
 promociones: Promotions
+promocion.avanzado: Advanced
 subir.plantilla.maquetada: Upload Designed Template 
 grupo.slots: Group of Slots
 
@@ -473,6 +479,8 @@ info: Info
 
 informacion:
   avanzada: Advanced Info
+  promociones.restantes: "{1}%count% promotion remain to be defined|]1,Inf[%count% promotions remain to be defined"
+  creatividades.restantes: "{1}%count% Creative Desing remain to be defined|]1,Inf[%count% Creatives Design remain to be defined"
 
 simulado: Simulated
 
@@ -581,6 +589,17 @@ contribucion:
 
 reactividad.target.por.comunicades: Target Reactivity by Communcation
 reactividad: Reactivity
+
+formulario:
+  grupo.slot:
+    m_img_producto: Show Product Image
+    m_precio_producto: Show Product Price
+    m_volumen: Show Volume
+    m_condiciones: Show Promotion Conditions
+    m_img_marca: Show Brand Image
+    m_texto: Show Text
+    m_voucher: Show Voucher
+    m_fidelizacion: Show fidelization conditions
 
 ## Graficas de highcharts
 highchart:

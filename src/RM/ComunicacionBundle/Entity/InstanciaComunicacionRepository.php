@@ -34,10 +34,16 @@ class InstanciaComunicacionRepository extends EntityRepository
      */
     public function findById($id_instancia)
     {
-        $instancia = $this->createQueryBuilder('i')
+        $instancia = $this
+            ->createQueryBuilder('i')
+            ->addSelect('segmento', 'fase', 'comunicacion', 'np', 'promociones', 'producto', 'tipo')
             ->join('i.idSegmentoComunicacion', 'segmento')
             ->join('i.fase', 'fase')
-            ->join('segmento.idComunicacion', 'comununicacion')
+            ->join('segmento.idComunicacion', 'comunicacion')
+            ->leftJoin('i.numPromociones', 'np')
+            ->leftJoin('np.promociones', 'promociones')
+            ->leftJoin('promociones.idTipoPromocion', 'tipo')
+            ->leftJoin('promociones.idProducto', 'producto')
             ->where('i.idInstancia = :id_instancia')
             ->andWhere('i.estado > -1')
             ->setParameter('id_instancia', $id_instancia)
@@ -64,28 +70,28 @@ class InstanciaComunicacionRepository extends EntityRepository
             ->where('ic.estado > -1')
             ->orderBy('ic.idInstancia', 'ASC');
 
-        if ($id_comunicacion !== -1) {
+        if ($id_comunicacion != -1) {
             $qb->andWhere('c.idComunicacion = :id_comunicacion')
                 ->setParameter('id_comunicacion', $id_comunicacion);
         }
 
-        if ($id_segmento !== -1) {
+        if ($id_segmento != -1) {
             $qb->andWhere('s.idSegmento = :id_segmento')
                 ->setParameter('id_segmento', $id_segmento);
         }
 
-        if ($fase !== -1) {
+        if ($fase != -1) {
             $qb->andWhere('ic.fase = :fase')
                 ->setParameter('fase', $fase);
         }
 
-        if ($fecha_inicio !== -1 && $fecha_inicio !== '') {
+        if ($fecha_inicio != -1 && $fecha_inicio != '') {
             $fecha_init = new \DateTime($fecha_inicio);
             $qb->andWhere('ic.fecEjecucion >= :fecha_inicio')
                 ->setParameter('fecha_inicio', $fecha_init);
         }
 
-        if ($fecha_fin !== -1 && $fecha_fin !== '') {
+        if ($fecha_fin != -1 && $fecha_fin != '') {
             $fecha_end = new \DateTime($fecha_fin);
             $qb->andWhere('ic.fecEjecucion <= :fecha_fin')
                 ->setParameter('fecha_fin', $fecha_end);
@@ -127,12 +133,12 @@ class InstanciaComunicacionRepository extends EntityRepository
     {
         $dql = "
                 SELECT gs.idGrupo, cat.idCategoria,
-				SUM(CASE WHEN pro.aceptada = :aceptada THEN 1 ELSE 0 END) AS aceptadas,
-				SUM(CASE WHEN pro.aceptada = :pendiente THEN 1 ELSE 0 END) AS pendientes,
-				SUM(CASE WHEN pro.aceptada = :rechazada THEN 1 ELSE 0 END) AS rechazadas,
-				gs.tipo as tipoGrupo,
-				gs.nombre as nombreGrupo,
-				np.idNumPro as idNumPro
+                    SUM(CASE WHEN pro.aceptada = :aceptada THEN 1 ELSE 0 END) AS aceptadas,
+                    SUM(CASE WHEN pro.aceptada = :pendiente THEN 1 ELSE 0 END) AS pendientes,
+                    SUM(CASE WHEN pro.aceptada = :rechazada THEN 1 ELSE 0 END) AS rechazadas,
+                    gs.tipo as tipoGrupo,
+                    gs.nombre as nombreGrupo,
+                    np.idNumPro as idNumPro
 				FROM RMComunicacionBundle:InstanciaComunicacion ic
 				JOIN RMProductoBundle:NumPromociones np WITH (np.idInstancia = ic.idInstancia)
 				JOIN RMProductoBundle:Promocion pro WITH (np = pro.numPromocion AND pro.aceptada IN (:tipos) AND pro.tipo=:segmentada AND pro.estado > -1)
@@ -269,6 +275,30 @@ class InstanciaComunicacionRepository extends EntityRepository
         ;
 
         return $query->getResult();
+    }
+
+    public function findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($idInstancia)
+    {
+        $dql = "
+            SELECT gs.idGrupo as idGrupoSlot , COUNT( DISTINCT np.idNumPro ) as numPro
+            FROM RMComunicacionBundle:InstanciaComunicacion ic
+            JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (sc.idSegmentoComunicacion = ic.idSegmentoComunicacion AND sc.estado > -1)
+            JOIN  RMComunicacionBundle:Comunicacion c WITH (c.idComunicacion = sc.idComunicacion AND c.estado > -1)
+            JOIN RMPlantillaBundle:Plantilla p WITH(c.plantilla = p.idPlantilla AND p.estado > -1)
+            JOIN RMPlantillaBundle:GrupoSlots  gs WITH (gs.idPlantilla = p.idPlantilla AND gs.estado > -1)
+            LEFT JOIN RMProductoBundle:NumPromociones np WITH(np.idGrupo = gs.idGrupo AND np.idInstancia = ic.idInstancia)
+            WHERE ic.idInstancia = :idInstancia
+            AND ic.estado > -1
+            GROUP BY gs.idGrupo
+            ORDER BY gs.idGrupo
+        ";
+
+        $query = $this->_em->createQuery($dql);
+        $query->setParameter('idInstancia', $idInstancia);
+        $res = $query->getResult();
+
+        return $res;
+
     }
 
 }

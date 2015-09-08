@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('rm_mongo');
+        $rootNode = $treeBuilder->root('rm_mongo');
 
         $rootNode
             ->children()
@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
 
     public function addConnectionNode() {
         $treeBuilder = new TreeBuilder();
-        $node        = $treeBuilder->root('connections');
+        $node = $treeBuilder->root('connections');
 
         $node
             ->isRequired()

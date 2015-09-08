@@ -23,7 +23,7 @@ class NumPromocionesCreatividadType extends AbstractType
         $em = $options['em'];
 
         $instanciaTransformer = new InstanciaTransformer($em);
-        $grupoTransformer     = new GrupoSlotsToNumberTransformer($em);
+        $grupoTransformer = new GrupoSlotsToNumberTransformer($em);
 
         $builder
             ->add('numSegmentadas', 'integer', [])

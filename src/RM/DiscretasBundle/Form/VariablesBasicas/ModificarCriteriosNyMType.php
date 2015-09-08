@@ -13,15 +13,15 @@ class ModificarCriteriosNyMType extends AbstractType
 	{
 		$builder
 		->add('referenciaN', 'integer', [
-				'label'    => 'Tiempo Referencia N',
+				'label' => 'Tiempo Referencia N',
 				'required' => true,
 		])
 		->add('mesesN', 'integer', [
-			'label'    => 'N',
+			'label' => 'N',
 			'required' => true,
 		])
 		->add('mesesM', 'integer', [
-				'label'    => 'M',
+				'label' => 'M',
 				'required' => true,
 		]);
 	}

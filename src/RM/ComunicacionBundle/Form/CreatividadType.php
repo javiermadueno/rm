@@ -26,9 +26,9 @@ class CreatividadType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\ComunicacionBundle\Entity\Creatividad',
-        ]);
+        ));
     }
 
     /**

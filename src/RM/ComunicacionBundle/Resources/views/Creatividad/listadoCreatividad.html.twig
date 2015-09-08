@@ -24,7 +24,7 @@
                 </td>
             </tr>
         {% else %}
-            {% set ruta_creatividades = app.user.cliente ~ '/imagenesCreatividad/' %}
+            {% set ruta_creatividades = app.user.cliente ~ '/' ~ imagenes_creatividad %}
             {% for objCreatividad in objCreatividades %}
                 <tr data-creatividad="{{ objCreatividad.idCreatividad }}">
                     <td>

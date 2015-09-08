@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Configuracion {
 
-    const GENERAL   = 1;
+    const GENERAL = 1;
     const SEGMENTOS = 2;
 
 	/**

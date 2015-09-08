@@ -40,7 +40,7 @@ class ActualizaRutaImagenesCreatividadCommand extends ContainerAwareCommand
 
         $em = $container->get('doctrine')->getManager($id_cliente);
 
-        $web_path      = $container->getParameter('web_path');
+        $web_path = $container->getParameter('web_path');
         $ruta_imagenes = $web_path . '/' . $id_cliente . '/' . 'imagenesCreatividad/';
 
         $imagenes = scandir($ruta_imagenes);
@@ -65,7 +65,7 @@ class ActualizaRutaImagenesCreatividadCommand extends ContainerAwareCommand
             $name = $image;
             $progressBar->advance();
 
-            $info           = preg_split('/\./', $name);
+            $info = preg_split('/\./', $name);
             $id_creatividad = isset($info[0]) ? $info[0] : null;
 
             if (!is_numeric($id_creatividad)) {

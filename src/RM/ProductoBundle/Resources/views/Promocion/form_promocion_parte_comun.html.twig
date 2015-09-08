@@ -1,0 +1,64 @@
+<fieldset>
+    <legend>{{ "promocion.avanzado" |trans|title }}</legend>
+
+    <div class="control-group">
+        {{ form_label(form.descripcion, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.descripcion, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.impFijo, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.impFijo, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.impDistribuidor, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.impDistribuidor, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.impConsumidor, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.impConsumidor, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.condiciones, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.condiciones, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.fidelizacion, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            {{ form_widget(form.fidelizacion, {'attr': {'class' : 'span8' }}) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.codigo, null,  {'label_attr': {'class': 'control-label'} }) }}
+        <div class="controls">
+            <div class="input-append span8">
+                {{ form_widget(form.codigo, {'attr': {'style' : 'width: 95% !important' }}) }}
+                <button class="btn voucher_generator" type="button">
+                    <i class="iconfa iconfa-barcode"></i>
+                </button>
+            </div>
+             <span class="help-inline">
+                {% for error in form.codigo.vars.errors %}
+                    {{ error.message }} <br/>
+                {% endfor %}
+            </span>
+
+        </div>
+    </div>
+
+</fieldset>

@@ -21,22 +21,22 @@ class FichaController extends Controller
     	relacionado. La variable intermedia o lineal se guardar� una vez pulsado el bot�n de guardar. En caso contrario, mostrara todas sus relaciones.
     	*/
     	 
-    	$servicio   = $this->get("variablesTransformadas");
+    	$servicio = $this->get("variablesTransformadas");
     	$servicioVL = $this->get("variablesLineales");
     	
     	//Se comprueba si el id pasado corresponde con una variable
-    	$objVar    = $servicio->getVTbyId($id_vt);
+    	$objVar = $servicio->getVTbyId($id_vt);
         $objVar = is_array($objVar) ? $objVar[0] : $objVar;
     	 
-    	if (!$objVar && $objVar->getTipo() !== $tipoVar) {
+    	if (!$objVar && $objVar->getTipo() != $tipoVar) {
     		throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
     	}
     	
-    	$objSegmentos  = $servicio->getSegmentosByIdVt($id_vt);
-    	$objGrupos     = $servicio->getGruposByIdVt($id_vt);
+    	$objSegmentos = $servicio->getSegmentosByIdVt($id_vt);
+    	$objGrupos = $servicio->getGruposByIdVt($id_vt);
     	$objIntervalos = $servicio->getIntervalosByIdVt($id_vt);
 
-        $otras_transformadas = $objVar->getTipo()->getCodigo() === Tipo::OTRAS_TRANSFORMADAS ? true : false;
+        $otras_transformadas = $objVar->getTipo()->getCodigo() == Tipo::OTRAS_TRANSFORMADAS ? true : false;
     	
     	/*Se obtiene los rowspan de los grupos y de los segmentos
     	 * Estara formado por: g_id y s_id, haciendo refrencia al grupo mas su id y al segmento mas su id. Esto sera la clave para obtener su valor*/
@@ -44,17 +44,17 @@ class FichaController extends Controller
     	
     	$objVL = $servicioVL->getVariablesLinealesNoSociodemograficas();
     	
-    	return $this->render('RMTransformadasBundle:Ficha:index.html.twig', [
-    			'idOpcionMenuSup'             => $idOpcionMenuSup,
-    			'idOpcionMenuIzq'             => $idOpcionMenuIzq,
-    			'arrayRowspan'                => $arrayRowspan,
-    			'objVariable'                 => $objVar,
-    			'objVL'                       => $objVL,
-    			'objSegmentos'                => $objSegmentos,
-    			'objGrupos'                   => $objGrupos,
-    			'objIntervalos'               => $objIntervalos,
+    	return $this->render('RMTransformadasBundle:Ficha:index.html.twig', array(
+    			'idOpcionMenuSup' => $idOpcionMenuSup,
+    			'idOpcionMenuIzq' => $idOpcionMenuIzq,
+    			'arrayRowspan' => $arrayRowspan,
+    			'objVariable' => $objVar,
+    			'objVL' => $objVL,
+    			'objSegmentos' => $objSegmentos,
+    			'objGrupos' => $objGrupos,
+    			'objIntervalos' => $objIntervalos,
                 'otrasTransformadas' => $otras_transformadas
-    	]);
+    	));
     	 
     }
     
@@ -70,7 +70,7 @@ class FichaController extends Controller
     	*/
     	if ($request->isMethod('POST')) {
     		$servicio = $this->get("variablesTransformadas");
-    		if($request->get('accionEjecutar') === 'eliminar'){
+    		if($request->get('accionEjecutar') == 'eliminar'){
                 //TODO arreglar esta parte de guardar y eliminar segmentos
                 //Se ha copiado la parte de guardar, para mantener los posibles cambios que se hayan realizado.
                 $guardarSeg = $servicio->guardarSegGrupoVIbyPost($request);
@@ -92,7 +92,7 @@ class FichaController extends Controller
     				$this->get('session')->getFlashBag()->add('mensaje','error_general');
     			}
     		}
-    		elseif ($request->get('accionEjecutar') === 'guardar'){
+    		elseif ($request->get('accionEjecutar') == 'guardar'){
     			$guardarSeg = $servicio->guardarSegGrupoVIbyPost($request);
     			
     			if($guardarSeg){
@@ -103,17 +103,17 @@ class FichaController extends Controller
     			}
     		}    
     		$objVar = $servicio->getVTbyId($request->get('id_vt'));
-    		$objVt  = $objVar[0];
+    		$objVt = $objVar[0];
     
-    		if($objVt->getTipo()->getId() === Vt::TIPO_CICLO_VIDA){
-    			return $this->redirect($this->generateUrl('data_avanced_cv_editar', [
+    		if($objVt->getTipo()->getId() == Vt::TIPO_CICLO_VIDA){
+    			return $this->redirect($this->generateUrl('data_avanced_cv_editar', array(
     					'id_vt' => $request->get('id_vt')
-    			]));
+    			)));
     		}
     		else{
-    			return $this->redirect($this->generateUrl('data_avanced_ot_editar', [
+    			return $this->redirect($this->generateUrl('data_avanced_ot_editar', array(
     					'id_vt' => $request->get('id_vt')
-    			]));
+    			)));
     		}
     	}
     	else{
@@ -134,14 +134,14 @@ class FichaController extends Controller
     	//$translated = $this->get('translator')->trans('Symfony2 is great');
     	//ECHO 'ENTRO EN NUEVOSEGMENTOVT-';
     	$servicioVL = $this->get("variablesLineales");
-    	$objVL      = $servicioVL->getVariablesLinealesNoSociodemograficas();
+    	$objVL = $servicioVL->getVariablesLinealesNoSociodemograficas();
     	
     	//ECHO '-OBJETO VARIABLES LINEALES-';
     	//var_dump($objVL);
     	
     	$servicioVT = $this->get("variablesTransformadas");
     	
-    	$nombreSeg =  $this->get('translator')->trans('Segmento') . " " . $idNuevoSeg;
+    	$nombreSeg =  $this->get('translator')->trans('Segmento'). " ". $idNuevoSeg;
 //     	ECHO '-NOMBRE SEG-';
 //     	var_dump($nombreSeg);
 //     	ECHO '-VALOR IDVT-';
@@ -157,18 +157,18 @@ class FichaController extends Controller
     	$objGrupo = $servicioVT->crearObjGrupo($nombreGrupo, $objSegmento->getIdVtSegmento());
 //     	ECHO 'OBJETO GRUPO';
     	//var_dump($objGrupo);
-    	$id_vil       = $objVL[0]->getIdVil();
-    	$id_grupo     = $objGrupo->getIdGrupo();
+    	$id_vil = $objVL[0]->getIdVil();
+    	$id_grupo = $objGrupo->getIdGrupo();
     	$objIntervalo = $servicioVT->crearObjIntervalo($id_grupo, $id_vil);
     	
     	
-    	return $this->render('RMTransformadasBundle:Ficha:filaNuevoSegmento.html.twig', [
-    			'idNuevoSeg'   => $idNuevoSeg,
-    			'objSegmento'  => $objSegmento,
-    			'objGrupo'     => $objGrupo,
+    	return $this->render('RMTransformadasBundle:Ficha:filaNuevoSegmento.html.twig', array(
+    			'idNuevoSeg' => $idNuevoSeg,
+    			'objSegmento' => $objSegmento,
+    			'objGrupo' => $objGrupo,
     			'objIntervalo' => $objIntervalo,
-    			'objVL'        => $objVL
-    	]);
+    			'objVL' => $objVL
+    	));
     }
     
     public function parteFilaTablaSegmentoVTAction($idSeg){
@@ -179,24 +179,24 @@ class FichaController extends Controller
     		crear los ids de los elementos con los ids creados en bbdd. Esto representar� una nueva rama del segmento que hemos elegido.
     	*/
     	$servicioVL = $this->get("variablesLineales");
-    	$objVL      = $servicioVL->getVariablesLinealesNoSociodemograficas();
+    	$objVL = $servicioVL->getVariablesLinealesNoSociodemograficas();
     	
     	$servicioVT = $this->get("variablesTransformadas");
     	
     	$nombreGrupo =  $this->get('translator')->trans('Nuevo Grupo');
-    	$objGrupo    = $servicioVT->crearObjGrupo($nombreGrupo, $idSeg);
+    	$objGrupo = $servicioVT->crearObjGrupo($nombreGrupo, $idSeg);
     	 
-    	$id_vil       = $objVL[0]->getIdVil();
-    	$id_grupo     = $objGrupo->getIdGrupo();
+    	$id_vil = $objVL[0]->getIdVil();
+    	$id_grupo = $objGrupo->getIdGrupo();
     	$objIntervalo = $servicioVT->crearObjIntervalo($id_grupo, $id_vil);
     	
     	
-    	return $this->render('RMTransformadasBundle:Ficha:parteAddSegmento.html.twig', [
-    			'idSeg'        => $idSeg,
-    			'objGrupo'     => $objGrupo,
+    	return $this->render('RMTransformadasBundle:Ficha:parteAddSegmento.html.twig', array(
+    			'idSeg' => $idSeg,
+    			'objGrupo' => $objGrupo,
     			'objIntervalo' => $objIntervalo,
-    			'objVL'        => $objVL
-    	]);
+    			'objVL' => $objVL
+    	));
     }
     
     public function parteFilaTablaGrupoVTAction($idGrupo){
@@ -207,20 +207,20 @@ class FichaController extends Controller
     		crear los ids de los elementos con los ids creados en bbdd. Esto representar� una nueva rama del grupo que hemos elegido.
     	*/
     	$servicioVL = $this->get("variablesLineales");
-    	$objVL      = $servicioVL->getVariablesLinealesNoSociodemograficas();
+    	$objVL = $servicioVL->getVariablesLinealesNoSociodemograficas();
     	
     	$servicioVT = $this->get("variablesTransformadas");
     	
-    	$id_vil       = $objVL[0]->getIdVil();
+    	$id_vil = $objVL[0]->getIdVil();
     	$objIntervalo = $servicioVT->crearObjIntervalo($idGrupo, $id_vil);
     	
     	$objGrupo = $servicioVT->getGrupoById($idGrupo);
     	
-    	return $this->render('RMTransformadasBundle:Ficha:parteAddGrupo.html.twig', [
+    	return $this->render('RMTransformadasBundle:Ficha:parteAddGrupo.html.twig', array(
     			'objIntervalo' => $objIntervalo,
-    			'objVL'        => $objVL,
-    			'objGrupo'     => $objGrupo[0]
-    	]);
+    			'objVL' => $objVL,
+    			'objGrupo' => $objGrupo[0]
+    	));
     }
     
 }

@@ -48,7 +48,7 @@ class SegmentoRepository extends EntityRepository
             AND sc.estado > -1
         ";
 
-		if($id_comunicacion !== -1){
+		if($id_comunicacion != -1){
 			$dql .= " AND sc.idComunicacion IN ( :comunicacion )";
 		}
 		
@@ -58,7 +58,7 @@ class SegmentoRepository extends EntityRepository
             ->createQuery($dql)
         ;
 
-        if($id_comunicacion !== -1){
+        if($id_comunicacion != -1){
             $query->setParameter('comunicacion', $id_comunicacion);
         }
 	
@@ -139,7 +139,7 @@ class SegmentoRepository extends EntityRepository
 				$dql .= " AND m.idMarca = :idMarca";
 			}			
 	
-			if($tipo !== -1){
+			if($tipo != -1){
 				$dql .= " AND t.codigo = :tipo";
 			}
 	
@@ -155,7 +155,7 @@ class SegmentoRepository extends EntityRepository
                 $query->setParameter('idMarca', $id_marca);
             }
 
-            if($tipo !== -1){
+            if($tipo != -1){
                 $query->setParameter('tipo', $tipo);
             }
 			
@@ -186,19 +186,19 @@ class SegmentoRepository extends EntityRepository
             AND s.c_fecha_fin > :fecha
         ";
 
-        if($id_vid !== -1) {
+        if($id_vid != -1) {
             $dql .= " AND s.idVid = :idVid";
         }
 
-        if($categoria !== -1) {
+        if($categoria != -1) {
             $dql .= " AND s.idCategoria = :idCategoria";
         }
 
-        if($marca !== -1) {
+        if($marca != -1) {
             $dql .= " AND s.idMarca = :idMarca";
         }
 
-        if($proveedor !== -1) {
+        if($proveedor != -1) {
             $dql .= " AND s.idProveedor = :idProveedor";
         }
 
@@ -207,19 +207,19 @@ class SegmentoRepository extends EntityRepository
         $query->setParameter('tipo', Tipo::COMPRA_PRODUCTO)
             ->setParameter('fecha', $fecha);
 
-        if($id_vid !== -1) {
+        if($id_vid != -1) {
             $query->setParameter('idVid', $id_vid);
         }
 
-        if($categoria !== -1) {
+        if($categoria != -1) {
             $query->setParameter('idCategoria', $categoria);
         }
 
-        if($marca !== -1) {
+        if($marca != -1) {
             $query->setParameter('idMarca', $marca);
         }
 
-        if($proveedor !== -1) {
+        if($proveedor != -1) {
             $query->setParameter('idProveedor', $proveedor);
         }
 
@@ -246,13 +246,13 @@ class SegmentoRepository extends EntityRepository
             AND s.c_fecha_fin > :fecha
         ";
 
-        if($id_vil !== -1) {
+        if($id_vil != -1) {
             $dql .= " AND s.idVil = :idVil";
         }
 
         $query = $this->_em->createQuery($dql);
 
-        if($id_vil !== -1) {
+        if($id_vil != -1) {
             $query->setParameter('idVil', $id_vil);
         }
         return $query
@@ -279,13 +279,13 @@ class SegmentoRepository extends EntityRepository
             AND s.c_fecha_fin > :fecha
         ";
 
-        if($id_vid !== -1) {
+        if($id_vid != -1) {
             $dql .= " AND s.idVid = :idVid";
         }
 
         $query = $this->_em->createQuery($dql);
 
-        if($id_vid !== -1) {
+        if($id_vid != -1) {
             $query->setParameter('idVid', $id_vid);
         }
 
@@ -302,7 +302,7 @@ class SegmentoRepository extends EntityRepository
     public function findSegmentosSociodemograficoLineal($id_variable, $fecha = null)
     {
         $fecha = $fecha instanceof \DateTime? $fecha : new \Datetime($fecha);
-        $dql   = "
+        $dql = "
             SELECT s
             FROM RMSegmentoBundle:Segmento s
             INNER JOIN RMDiscretasBundle:Tipo t WITH (s.tipo = t.id)
@@ -312,13 +312,13 @@ class SegmentoRepository extends EntityRepository
             AND s.c_fecha_fin > :fecha
         ";
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
             $dql .= " AND s.idVil = :idVil";
         }
 
         $query = $this->_em->createQuery($dql);
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
             $query->setParameter('idVil', $id_variable);
         }
         return $query
@@ -345,13 +345,13 @@ class SegmentoRepository extends EntityRepository
             AND s.c_fecha_fin > :fecha
         ";
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
             $dql .= " AND s.idVid = :idVid";
         }
 
         $query = $this->_em->createQuery($dql);
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
            $query->setParameter('idVid', $id_variable);
         }
 
@@ -367,16 +367,16 @@ class SegmentoRepository extends EntityRepository
      */
     public function findSegmentosSocioDemograficos($id_variable, $fecha = null)
     {
-        $lineales         = $this->findSegmentosSociodemograficoLineal($id_variable, $fecha);
-        $discretos        = $this->findSegmentosSocioDemograficoDiscreto($id_variable, $fecha);
-        $registros        = array_merge($lineales, $discretos);
+        $lineales   = $this->findSegmentosSociodemograficoLineal($id_variable, $fecha);
+        $discretos  = $this->findSegmentosSocioDemograficoDiscreto($id_variable, $fecha);
+        $registros = array_merge($lineales, $discretos);
         return $registros = array_unique($registros);
     }
 
     public function findSegmentosCicloVida($id_variable, $fecha = null)
     {
         $fecha = $fecha instanceof \DateTime? $fecha : new \Datetime($fecha);
-        $dql   = "
+        $dql = "
             SELECT s
             FROM RMSegmentoBundle:Segmento s
             INNER JOIN RMDiscretasBundle:Tipo t WITH (s.tipo = t.id)
@@ -387,13 +387,13 @@ class SegmentoRepository extends EntityRepository
 
         ";
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
             $dql .= " AND s.idVt = :idVt";
         }
 
         $query = $this->_em->createQuery($dql);
 
-        if($id_variable !== -1) {
+        if($id_variable != -1) {
             $query->setParameter('idVt', $id_variable);
         }
 
@@ -420,7 +420,7 @@ class SegmentoRepository extends EntityRepository
             return [];
         }
 
-        $repo  = $this->_em->getRepository('RMDiscretasBundle:Vid');
+        $repo = $this->_em->getRepository('RMDiscretasBundle:Vid');
         $grupo = $repo->obtenerUnicoGrupoSegmentoByVid($vid->getIdVid());
 
         if(!$grupo instanceof VidGrupoSegmento)

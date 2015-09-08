@@ -121,7 +121,7 @@ class NumPromocionesEditFormHandler
             return false;
         }
 
-        $data                 = $form->getData();
+        $data = $form->getData();
         $numPromocionesNuevos = $data['num_promocion'];
 
         $this->removeNumPromociones($this->numPromocionesOriginales, $numPromocionesNuevos);
@@ -147,6 +147,7 @@ class NumPromocionesEditFormHandler
     ) {
         foreach ($numPromocionesOriginales as $numPromocionOriginal) {
             if (false === $numPromocionesNuevos->contains($numPromocionOriginal)) {
+                $this->getInstancia()->removeNumPromocion($numPromocionOriginal);
                 $this->manager->remove($numPromocionOriginal);
             }
         }
@@ -167,6 +168,10 @@ class NumPromocionesEditFormHandler
                     ->setIdInstancia($this->getInstancia())
                     ->setIdGrupo($this->getGrupo())
                 ;
+                $this
+                    ->getInstancia()
+                    ->addNumPromocion($numPromocion);
+
                 $this->manager->persist($numPromocion);
             }
         }

@@ -106,7 +106,7 @@ class CategoriaServicio
      */
     public function getCategoriasPorNivelVisible()
     {
-        if ($this->rol === self::WORKFLOW) {
+        if ($this->rol == self::WORKFLOW) {
             return $this->getCategoriasPorNivel($this->nivelCategoriaVisible);
         } else {
             return $this->getCategoriasPorNombreyNivel($this->getCategoriasPermitidas(), $this->nivelCategoriaVisible);
@@ -159,11 +159,11 @@ class CategoriaServicio
     public function getCategoriasPorRol()
     {
 
-        if ($this->rol === self::WORKFLOW) {
+        if ($this->rol == self::WORKFLOW) {
             //Todas las cetgorias asociadas
             $this->categoriasPermitidas = $this->getCatAsociadas();
 
-        } elseif ($this->rol === self::CATEGORY) {
+        } elseif ($this->rol == self::CATEGORY) {
             //Las actegorias que esten asociadas y que coincidan con los nombres
             $this->categoriasPermitidas = $this->getCatAsociadasPorNombre($this->user->getCategorias());
         }
@@ -198,11 +198,11 @@ class CategoriaServicio
     {
         $registros = [];
 
-        if ($this->rol === self::WORKFLOW) {
+        if ($this->rol == self::WORKFLOW) {
             $registros = $this->repo->obtenerCatByInstancia($id_instancia);
         }
 
-        if ($this->rol === self::CATEGORY) {
+        if ($this->rol == self::CATEGORY) {
             $registros = $this->repo->obtenerCatPermitidasByInstancia(
                 $id_instancia,
                 $this->getCategoriasPermitidas()

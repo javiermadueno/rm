@@ -36,22 +36,22 @@ class SegmentadorController extends RMController
         $request = $this->container->get('request');
 
         $id_tipo_variable = $request->get('tipoSegmento');
-        $result           = [];
+        $result = [];
         if ($id_tipo_variable > 0) {
 
             // Discretas
-            if ($id_tipo_variable === 2 || $id_tipo_variable === 3) {
+            if ($id_tipo_variable == 2 || $id_tipo_variable == 3) {
 
                 $result = $servicioDiscretas->getDiscretas('', $id_tipo_variable);
             } // Transformadas
-            elseif ($id_tipo_variable === 5 || $id_tipo_variable === 6) {
+            elseif ($id_tipo_variable == 5 || $id_tipo_variable == 6) {
 
                 $result = $servicioTransformadas->getTransformadas('', $id_tipo_variable);
             } // Lineales
-            elseif ($id_tipo_variable === 1) {
+            elseif ($id_tipo_variable == 1) {
 
                 $result = $servicioLineales->getLineales('', $id_tipo_variable);
-            } elseif ($id_tipo_variable === 4) {
+            } elseif ($id_tipo_variable == 4) {
 
                 $result = $this->get('sociodemograficasservice')->obtenerVariableSociodemograficas();
             }

@@ -32,14 +32,15 @@
 		"sensio/generator-bundle" : "2.3.*",
 		"beberlei/DoctrineExtensions" : "0.3.0",
 		"ideup/simple-paginator-bundle" : "dev-master#12639a9c75bc403649fc2b2881e190a017d8c5b2",
-		"knplabs/knp-paginator-bundle" : "2.4.*",
+		"knplabs/knp-paginator-bundle" : "~2.4",
 		"ob/highcharts-bundle" : "1.*",
 		"imag/ldap-bundle" : "2.3.2",
 		"raulfraile/ladybug-bundle" : "~1.0",
         "doctrine/mongodb-odm": "1.0.*@beta",
         "doctrine/mongodb-odm-bundle": "3.0.*@beta",
         "mtdowling/cron-expression": "1.0.*",
-		"league/csv": "^7.1"
+		"league/csv": "^7.1",
+		"white-october/pagerfanta-bundle": "^1.0"
 	},
 	"scripts" : {
 		"post-install-cmd" : [

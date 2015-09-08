@@ -14,7 +14,7 @@ use RM\DiscretasBundle\Entity\Tipo;
  */
 class Vt implements \JsonSerializable
 {
-    const TIPO_CICLO_VIDA          = 5;
+    const TIPO_CICLO_VIDA = 5;
     const TIPO_OTRAS_TRANSFORMADAS = 6;
 
     /**

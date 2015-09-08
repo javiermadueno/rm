@@ -1,18 +1,18 @@
 
 direct_config_listado_productos:
   path: /config/products/list/
-  defaults: {_controller: RMProductoBundle:Default:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1 }
+  defaults: {_controller: RMProductoBundle:Producto:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1 }
 
 direct_config_listado_productos_paginador:
   path: /config/products/list/{id_categoria}/{id_marca}/{codigo}/{nombre}/
-  defaults: {_controller: RMProductoBundle:Default:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1, codigo -1, nombre -1 }
+  defaults: {_controller: RMProductoBundle:Producto:showProductos, idOpcionMenuIzq 3 , opcionMenuTabConfig 1, codigo -1, nombre -1 }
   requirements:
     id_categoria: -?\d+
     id_marca: -?\d+
 
 direct_config_listado_productos_actualizar:
   path: /config/products/list/update/
-  defaults: {_controller: RMProductoBundle:Default:actualizarProductos}
+  defaults: {_controller: RMProductoBundle:Producto:actualizarProductos}
   methods: [POST]
   
 direct_config_ficha_productos:
@@ -21,15 +21,16 @@ direct_config_ficha_productos:
   requirements:
     cod_sku: \d+
 
-producto_default_generate_unique_voucher:
-  path: /generate/voucher
-  defaults: { _controller: RMProductoBundle:Default:getUniqueVoucher}
-
-rm_producto_bundle.promocion.promociones_by_num_promocion:
-  path: /promociones/{idNumPromocion}
-  defaults: { _controller: RMProductoBundle:Promocion:promocionesByNumPromocion }
-
 rm_producto_bundle.producto.upload_imagenes_csv:
   path: /producto/imagenes/csv/upload
   defaults: { _controller: RMProductoBundle:Producto:uploadCsvImages }
 
+rm_producto.producto.exportar_csv_producto_sin_imagenes:
+  path: /producto/export/csv
+  defaults: { _controller: RMProductoBundle:Producto:exportProductosSinImagen }
+  methods: [GET]
+
+rm_producto.producto.descargar_instrucciones:
+  path: /productos/instrucciones/imagenes
+  defaults: { _controller: RMProductoBundle:Producto:descargarInstrucciones }
+  methods: [GET]

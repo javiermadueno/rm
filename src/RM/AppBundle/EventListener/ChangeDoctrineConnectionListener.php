@@ -38,9 +38,9 @@ class ChangeDoctrineConnectionListener
      */
     public function __construct(ContainerInterface $container, TokenStorageInterface $security, Connection $connection, array $connections)
     {
-        $this->container   = $container;
-        $this->security    = $security;
-        $this->connection  = $connection;
+        $this->container = $container;
+        $this->security = $security;
+        $this->connection = $connection;
         $this->connections = $connections;
     }
 
@@ -52,7 +52,7 @@ class ChangeDoctrineConnectionListener
         if(!$event->isMasterRequest()) {
             return;
         }
-        $token       = $this->security->getToken();
+        $token = $this->security->getToken();
         $this->user  = $token ? $token->getUser(): null;
 
         if (!$this->user || is_string($this->user)) {

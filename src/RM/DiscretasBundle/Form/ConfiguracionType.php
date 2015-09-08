@@ -24,9 +24,9 @@ class ConfiguracionType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\DiscretasBundle\Entity\Configuracion'
-        ]);
+        ));
     }
 
     /**

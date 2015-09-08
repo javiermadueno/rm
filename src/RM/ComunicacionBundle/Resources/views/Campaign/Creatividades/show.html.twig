@@ -1,0 +1,43 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+
+{% set idOpcionMenuIzq = 3  %}
+{% set objInstancia = campaign %}
+{% set id_categoria = app.request.get('categoria') %}
+{% set url_creatividad = app.user.cliente ~ '/' ~  imagenes_creatividad %}
+
+
+{% block title %}
+    {{ "menu.campaign.campanas" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a><span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.campanas" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "campana" |trans|title }} <span class="separator"></span></li>
+    <li>#{{ "%07d"|format(campaign.idInstancia) }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.data.informacion" |trans|upper }}</h5>
+    <h1>{{ "campana" |trans|title }} #{{ "%07d"|format(campaign.idInstancia) }}</h1>
+{% endblock pagetitle %}
+
+
+{% block body %}
+
+    {% for grupo in campaign.gruposSlots %}
+        {% set num_promociones = campaign.numPromocionesByGrupo(grupo)  %}
+        {% if num_promociones|length > 0 %}
+            <h4 class="widgettitle">{{ grupo.nombre }}: ({{ grupo.numSlots }} {{ "slots" |trans|title}})</h4>
+            <div class="mediamgr_head">
+                {% for num_promocion in num_promociones  %}
+                    {% include '@RMProducto/Promocion/list_creatividad_segmentadas.html.twig' with {'num_promocion' : num_promocion} %}
+
+                    {% include '@RMProducto/Promocion/list_creatividad_genericas.html.twig' with {'num_promocion' : num_promocion} %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+{% endblock body %}

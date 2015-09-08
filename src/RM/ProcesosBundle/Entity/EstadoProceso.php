@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EstadoProceso
 {
-    const ESTADO_CREADO     = 'cr';
+    const ESTADO_CREADO = 'cr';
     const ESTADO_EN_PROCESO = 'ep';
 
 

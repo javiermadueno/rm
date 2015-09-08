@@ -5,50 +5,54 @@
 {% block widgettitle %}{{ "genericas" |trans|title }}{% endblock widgettitle %}
 
 {% block content %}
-
     {{ form_start(form, {'attr': {'class': 'form-horizontal' }}) }}
+    <div id="content">
+        <div class="row-fluid">
+            <div class="span6">
+                <fieldset>
+                    <legend>{{ "promocion" |trans|title }} - {{ promocion.numPromocion.idCategoria.nombre }}</legend>
+                        <div class="control-group {% if not form.marca.vars.valid %}error{% endif %}">
+                            {{ form_label(form.marca, null, {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.marca, {'attr': {'class' : 'change span8' }}) }}
+                                <span class="help-inline">
+                                    {% for error in form.marca.vars.errors %}
+                                        {{ error.message }} <br/>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
 
-    <fieldset>
-        <legend>{{ "promocion" |trans|title }} - {{ promocion.numPromocion.idCategoria.nombre }}</legend>
+                        <div class="control-group">
+                            {{ form_label(form.idProducto, null,  {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.idProducto, {'attr': {'class' : 'span8' }}) }}
+                            </div>
+                        </div>
 
-        <div id="content">
-            <div class="control-group {% if not form.marca.vars.valid %}error{% endif %}">
-                {{ form_label(form.marca, null, {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.marca, {'attr': {'class' : 'change span8' }}) }}
-        <span class="help-inline">
-            {% for error in form.marca.vars.errors %}
-                {{ error.message }} <br/>
-            {% endfor %}
-        </span>
-                </div>
+                        <div class="control-group {% if not form.idTipoPromocion.vars.valid %}error{% endif %}">
+                            {{ form_label(form.idTipoPromocion, null,  {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.idTipoPromocion, {'attr': {'class' : 'span8' }}) }}
+                                <span class="help-inline">
+                                    {% for error in form.idTipoPromocion.vars.errors %}
+                                        {{ error.message }} <br/>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
+                </fieldset>
             </div>
-
-            <div class="control-group">
-                {{ form_label(form.idProducto, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.idProducto, {'attr': {'class' : 'span8' }}) }}
-                </div>
-            </div>
-
-            <div class="control-group {% if not form.idTipoPromocion.vars.valid %}error{% endif %}">
-                {{ form_label(form.idTipoPromocion, null,  {'label_attr': {'class': 'control-label'} }) }}
-                <div class="controls">
-                    {{ form_widget(form.idTipoPromocion, {'attr': {'class' : 'span8' }}) }}
-                    <span class="help-inline">
-                        {% for error in form.idTipoPromocion.vars.errors %}
-                            {{ error.message }} <br/>
-                        {% endfor %}
-                    </span>
-                </div>
+            <div class="span6">
+                {% include '@RMProducto/Promocion/form_promocion_parte_comun.html.twig' with {'form': form} %}
             </div>
         </div>
-        <div class="form-actions">
-            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
-        </div>
-    </fieldset>
-
-
+        <div class="row-fluid">
+                <div class="form-actions">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
+                </div>
+            </div>
+    </div>
 
     {{ form_widget(form.filtro, {
     'attr': {
@@ -61,6 +65,8 @@
 
     <script type="text/javascript">
         $(document).on('ready', function () {
+
+            $(document).on('click', '.voucher_generator', genereateVoucher)
 
             function addCondicionSegmentoPadreGenericas(elem) {
                 if (typeof elem === 'undefined') {
@@ -78,6 +84,16 @@
             $('.filtro').each(function () {
                 addCondicionSegmentoPadreGenericas(this);
             });
+
+            function genereateVoucher(event){
+                var e = event||window.event;
+                e.preventDefault();
+                var codigo = document.getElementById('{{ form.codigo.vars.id }}');
+
+                $.get('{{ path('rm_producto.promocion.get_unique_voucher') }}', function(data){
+                    codigo.value = data.voucher;
+                });
+            }
 
 
             $(document).on('change', '.change', function (event) {

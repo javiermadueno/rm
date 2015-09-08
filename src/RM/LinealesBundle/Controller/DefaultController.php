@@ -19,15 +19,15 @@ class DefaultController extends RMController
     
     public function obtenerRegistrosAction($idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar)
     {
-    	$servicio              = $this->get("variablesLineales");
+    	$servicio = $this->get("variablesLineales");
         $varDiscretaService = $this->get('variablesDiscretas');
 
 
     	
     	//Creaci�n del formulario mediante clase
-    	$peticion       = $this->getRequest();
+    	$peticion = $this->getRequest();
     	$variableLineal = new Vil();
-    	$formulario     = $this->createForm(new LinealBuscadorType(), $variableLineal);
+    	$formulario = $this->createForm(new LinealBuscadorType(), $variableLineal);
     	
     	$formulario->handleRequest($peticion);
     	//*************************************
@@ -35,14 +35,14 @@ class DefaultController extends RMController
     	if ($formulario->isValid()) {
     		//Se ha hecho pulsado sobre el bot�n de buscar, es decir, tiene petici�
     		$selectVar = $servicio->getLineales($variableLineal->getNombre(), $tipoVar);
-    		$pagina    = $peticion->get('page');
+    		$pagina = $peticion->get('page');
     	}
     	else{
     		$selectVar = $servicio->getLineales('', $tipoVar);
-    		$pagina    = 1;
+    		$pagina = 1;
     	}
     	
-    	$paginator  = $this->get('knp_paginator');
+    	$paginator = $this->get('knp_paginator');
     	$pagination = $paginator->paginate(
     			$selectVar,                                          
     			$pagina,
@@ -52,8 +52,8 @@ class DefaultController extends RMController
     	return $this->render('RMLinealesBundle:Default:listado.html.twig', [
     			'idOpcionMenuSup' => $idOpcionMenuSup,
     			'idOpcionMenuIzq' => $idOpcionMenuIzq,
-    			'variables'       => $pagination,
-    			'formulario'      => $formulario->createView()
+    			'variables' => $pagination,
+    			'formulario' => $formulario->createView()
     	]);
     	
     }
@@ -64,9 +64,9 @@ class DefaultController extends RMController
 
         $tipoSociodemografica = $tipoVar;
 
-        $peticion       = $this->get('request');
+        $peticion = $this->get('request');
         $variableLineal = new Vil();
-        $formulario     = $this->createForm(new LinealBuscadorType(), $variableLineal);
+        $formulario = $this->createForm(new LinealBuscadorType(), $variableLineal);
 
         $formulario->handleRequest($peticion);
 
@@ -79,7 +79,7 @@ class DefaultController extends RMController
         }
 
 
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $resultado,
             $peticion->get('page', 1),
@@ -89,8 +89,8 @@ class DefaultController extends RMController
         return $this->render('RMLinealesBundle:Default:listadoVariableSociodemograficas.html.twig', [
                 'idOpcionMenuSup' => $idOpcionMenuSup,
                 'idOpcionMenuIzq' => $idOpcionMenuIzq,
-                'variables'       => $pagination,
-                'formulario'      => $formulario->createView()
+                'variables' => $pagination,
+                'formulario' => $formulario->createView()
             ]);
 
     }
@@ -109,7 +109,7 @@ class DefaultController extends RMController
 
         $em = $this->getManager();
 
-        $lineal   = $em->find('RMLinealesBundle:Vil', $idVariable);
+        $lineal = $em->find('RMLinealesBundle:Vil', $idVariable);
         $discreta = $em->find('RMDiscretasBundle:Vid', $idVariable);
 
         $vil = $lineal instanceof Vil ? $lineal : ($discreta instanceof Vid ? $discreta : null);
@@ -139,8 +139,8 @@ class DefaultController extends RMController
         return $this->render('@RMLineales/Default/informacionVariableLineas.html.twig',
             [
                 'idOpcionMenuIzq' => $idOpcionMenuIzq,
-                'vil'             => $vil,
-                'datos'           => $datosVariable
+                'vil' => $vil,
+                'datos' => $datosVariable
 
             ]);
     }

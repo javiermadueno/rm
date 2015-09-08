@@ -24,7 +24,7 @@ class DefaultController extends Controller
         } elseif (is_null($resultado2) && !is_null($resultado1)) {
             $resultado2 = $resultado1;
         } elseif ($resultado1->getFecha() > $resultado2->getFecha()) {
-            $aux        = $resultado1;
+            $aux = $resultado1;
             $resultado1 = $resultado2;
             $resultado2 = $aux;
         }
@@ -132,7 +132,7 @@ class DefaultController extends Controller
 
         $servicio_graficas = $this->get('rm_insight.clientes_activos_por_estado_y_segmento');
 
-        $graficoRiesgos   = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos');
+        $graficoRiesgos = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos');
         $graficaEvolucion = $servicio_graficas->graficaEvolucionActivos('graficoEvolucionActivos');
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
@@ -164,7 +164,7 @@ class DefaultController extends Controller
         $servicio_graficas = $this->get('rm_insight.clientes_inactivos_por_estado_y_segmento');
 
         $graficaEdades =  $servicio_graficas->graficaEvolucionPorEdad('graficoEdades');
-        $graficaSexo   =  $servicio_graficas->graficaEvolucionPorSexo('graficoSexo');
+        $graficaSexo =  $servicio_graficas->graficaEvolucionPorSexo('graficoSexo');
 
         return $this->render('RMInsightBundle:Default:clienteInactivo.html.twig', [
             'graficoEdades'    => $graficaEdades,
@@ -846,7 +846,7 @@ class DefaultController extends Controller
         }
 
         if($mes1 > $mes2) {
-            $aux  = $mes1;
+            $aux = $mes1;
             $mes1 = $mes2;
             $mes2 = $aux;
         }

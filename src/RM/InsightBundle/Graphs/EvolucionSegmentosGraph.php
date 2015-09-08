@@ -36,7 +36,7 @@ class EvolucionSegmentosGraph extends BaseGraph
     {
         parent::__construct($translator);
         $this->repository = $repository;
-        $this->em         = $manager->getManager();
+        $this->em = $manager->getManager();
 
     }
 

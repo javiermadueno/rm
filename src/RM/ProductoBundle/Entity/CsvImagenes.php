@@ -33,12 +33,17 @@ class CsvImagenes
         }
 
         $zip = new ZipArchive();
-        if (!$zip->open($this->file->getPathname())) {
-            throw new \Exception(sprintf('No se puede subir el archivo subido'));
-        }
+        $res = $zip->open($this->file->getPathname());
+        if (true === $res ) {
+            $res = $zip->extractTo($this->ruta_extraccion);
 
-        $zip->extractTo($this->ruta_extraccion);
-        $zip->close();
+            if(!$res) {
+                throw new \Exception('No se ha podido descomprimir fichero');
+            }
+            $zip->close();
+        } else {
+            throw new \Exception('No se ha podido abrir el fichero CSV');
+        }
 
         return $this->readCSV();
     }
@@ -108,7 +113,7 @@ class CsvImagenes
             $id_producto = $producto['id_producto'];
             $imagen      = $producto['imagen'];
 
-            $ruta = $this->ruta_extraccion . '/imagenes/' . $imagen;
+            $ruta = $this->ruta_extraccion . '/img/' . $imagen;
 
             if (!file_exists($ruta) || empty($imagen) || !is_numeric($id_producto)) {
                 unset($productos[$index]);

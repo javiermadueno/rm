@@ -15,19 +15,19 @@ class VidSegmentoGlobalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', 'text', [
+            ->add('nombre', 'text', array(
                     'required' => true,
-                ])
-            ->add('condicion', 'choice', [
-                    'choices' => [
+                ))
+            ->add('condicion', 'choice', array(
+                    'choices' => array(
                         '1' => '<',
                         '2' => '<='
-                    ],
+                    ),
                     'required' => true
-                ])
-            ->add('pivote', 'integer', [
+                ))
+            ->add('pivote', 'integer', array(
                     'required' => true
-                ])
+                ))
         ;
     }
 
@@ -36,9 +36,9 @@ class VidSegmentoGlobalType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => 'RM\DiscretasBundle\Entity\VidSegmentoGlobal'
-        ]);
+        ));
     }
 
     /**

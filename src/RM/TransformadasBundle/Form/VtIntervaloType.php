@@ -17,8 +17,8 @@ class VtIntervaloType extends AbstractType
     {
         $builder
             ->add('idVil', 'entity', [
-                'required'      => true,
-                'em'            => $_SESSION['connection'],
+                'required' => true,
+                'em' => $_SESSION['connection'],
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('v')
                         ->where('v.estado > -1');
@@ -27,7 +27,7 @@ class VtIntervaloType extends AbstractType
             ])
             ->add('condicion', 'choice', [
                 'required' => true,
-                'choices'  => [
+                'choices' => [
                     "1" => '<',
                     '2' => '>',
                     '3' => '<=',

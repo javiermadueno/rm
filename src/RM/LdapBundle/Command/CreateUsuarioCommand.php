@@ -50,19 +50,19 @@ class CreateUsuarioCommand extends LdapCommand
 
         //Nombre
         $nombre_question = new Question('Nombre: ', 'nombre');
-        $nombre          = $helper->ask($input, $output, $nombre_question);
+        $nombre = $helper->ask($input, $output, $nombre_question);
 
         //Apellidos
         $apellidos_question = new Question('Apellidos: ', 'apellidos');
-        $apellidos          = $helper->ask($input, $output, $apellidos_question);
+        $apellidos = $helper->ask($input, $output, $apellidos_question);
 
         //Email
         $email_question = new Question('Email: ', 'email');
-        $email          = $helper->ask($input, $output, $email_question);
+        $email = $helper->ask($input, $output, $email_question);
 
         //Telefono
         $telefono_question = new Question('Telefono: ', 'telefono');
-        $telefono          = $helper->ask($input, $output, $telefono_question);
+        $telefono = $helper->ask($input, $output, $telefono_question);
 
         //Contraseña
         $pass_question = new Question('Introduce password: ', 'password');
@@ -85,7 +85,7 @@ class CreateUsuarioCommand extends LdapCommand
                     throw new \RuntimeException('La contraseña no puede estar vacia');
                 }
 
-                if ($pass !== $answer) {
+                if ($pass != $answer) {
                     throw new \RuntimeException('Las contraseñas no coinciden');
                 }
 
@@ -151,13 +151,13 @@ class CreateUsuarioCommand extends LdapCommand
     public function findUser($username)
     {
         $base_cn = "ou=usuarios,dc=relationalmessages,dc=com";
-        $filter  = sprintf('(&(uid=%s))', $username);
-        $search  = ldap_search($this->connection, $base_cn, $filter);
+        $filter = sprintf('(&(uid=%s))', $username);
+        $search = ldap_search($this->connection, $base_cn, $filter);
 
         $usuario = ldap_get_entries($this->connection, $search);
 
         try {
-            if ($usuario ['count'] === 1 || $usuario['count'] > 1) {
+            if ($usuario ['count'] == 1 || $usuario['count'] > 1) {
                 return true;
             }
         } catch (\Exception $e) {
@@ -169,11 +169,11 @@ class CreateUsuarioCommand extends LdapCommand
 
     protected function createUser($user_data = [])
     {
-        $cn_username              = "uid={$user_data['cn']},ou=usuarios,dc=relationalmessages,dc=com";
+        $cn_username = "uid={$user_data['cn']},ou=usuarios,dc=relationalmessages,dc=com";
         $user_data['objectClass'] = array_reverse(['inetOrgPerson', 'shadowAccount', 'top']);
         ldap_add($this->connection, $cn_username, $user_data);
 
-        if (ldap_error($this->connection) === "Success") {
+        if (ldap_error($this->connection) == "Success") {
             return true;
         } else {
             return false;
@@ -183,7 +183,7 @@ class CreateUsuarioCommand extends LdapCommand
     protected function assignRol($cn_username, $rol)
     {
         $cn_username = "uid={$cn_username},ou=usuarios, dc=relationalmessages, dc=com";
-        $cn          = "cn={$rol},ou=roles, dc=relationalmessages, dc=com";
+        $cn = "cn={$rol},ou=roles, dc=relationalmessages, dc=com";
 
         $ldap_rol['member'] = $cn_username;
 
@@ -194,7 +194,7 @@ class CreateUsuarioCommand extends LdapCommand
     public function assignCompany($cn_username, $empresa)
     {
         $cn_username = "uid={$cn_username},ou=usuarios, dc=relationalmessages, dc=com";
-        $cn          = "cn={$empresa},ou=clientes, dc=relationalmessages, dc=com";
+        $cn = "cn={$empresa},ou=clientes, dc=relationalmessages, dc=com";
 
         $ldap_cliente['member'] = $cn_username;
 

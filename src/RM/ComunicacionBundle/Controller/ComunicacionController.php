@@ -60,7 +60,7 @@ class ComunicacionController extends Controller
             ->findSegmentosComunicacionByComunicacion($comunicacion);
 
         $servicioSegCom = $this->get("SegmentoComunicacionService");
-        $objSegmentos   = $servicioSegCom->getSegmentosComunicacionById($idComunicacion);
+        $objSegmentos = $servicioSegCom->getSegmentosComunicacionById($idComunicacion);
 
         $peticion = $request;
 
@@ -77,7 +77,7 @@ class ComunicacionController extends Controller
              * 1. Tiene que tener segmentos asociados
              * 2. Tiene que tener plantilla asociada con gruposdeSlots
              */
-            if (Comunicacion::ESTADO_ACTIVO === $comunicacion->getEstado()) {
+            if (Comunicacion::ESTADO_ACTIVO == $comunicacion->getEstado()) {
 
                 if ($comunicacion->getSegmentos()->isEmpty()) {
                     $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.segmentos");

@@ -17,9 +17,9 @@ class VtGrupoType extends AbstractType
     {
         $builder
             ->add('intervalos', 'collection', [
-                'type'           => new VtIntervaloType(),
-                'allow_add'      => true,
-                'allow_delete'   => true,
+                'type' => new VtIntervaloType(),
+                'allow_add' => true,
+                'allow_delete' => true,
                 'prototype_name' => '__intervalo__'
             ])
         ;

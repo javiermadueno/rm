@@ -10,6 +10,7 @@ use RM\ComunicacionBundle\Entity\Creatividad;
 use RM\ComunicacionBundle\Form\CreatividadType;
 use RM\ProductoBundle\Form\Type\CampaignType;
 use RM\ProductoBundle\Form\Type\NumPromocionesType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -57,7 +58,7 @@ class DefaultController extends RMController
         $webpath = $this->container->getParameter('web_path');
         $cliente = $this->getUser()->getCliente();
 
-        $rutaPlantilla = $webpath . '/' . $cliente . '/plantillas/' . $plantilla->getIdPlantilla() . '.html';
+        $rutaPlantilla = $webpath .'/'. $cliente.'/plantillas/'.$plantilla->getIdPlantilla().'.html';
 
         if(!file_exists($rutaPlantilla)){
            $this->get('rm_plantilla_genera_plantilla_comunicacion')
@@ -105,6 +106,24 @@ class DefaultController extends RMController
     public function numPromocionesAction(Request $request)
     {
         return $this->render('RMStaticBundle:Default:index.html.twig');
+    }
+
+    public function descargarBatchAction(Request $request, $id)
+    {
+        $ruta_batch = $this->getParameter('ruta.batch');
+        $ruta_batch = $this->getUser()->getCliente() . '/' . $ruta_batch . $id . '.xml';
+
+        if(!file_exists($ruta_batch)) {
+            $this->addFlash('mensaje', 'mensaje.error.descargar.fichero');
+            return $this->redirectToRoute('direct_monitor_controlador_fases', ['id_instancia' => $id]);
+        }
+
+        $response = new Response();
+        $response->setContent(file_get_contents($ruta_batch));
+        $response->headers->set('Content-type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', basename($ruta_batch)));
+
+        return $response;
     }
 
 

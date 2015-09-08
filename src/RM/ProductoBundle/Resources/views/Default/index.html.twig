@@ -89,17 +89,6 @@
 	
 		$(document).ready(function(){
 
-
-
-			$('#checkTodos').live("change", function() {
-				if ($("#checkTodos").is(':checked')) {
-					$('.selTodos').prop("checked", true);
-
-		        } else {
-		        	$('.selTodos').prop("checked", false);
-		        }
-			});
-
 			$('.actualizarTabla').click(function(event){
 				event.preventDefault(); //cancela el comportamiento por defecto
 				actualizarRegistros();
