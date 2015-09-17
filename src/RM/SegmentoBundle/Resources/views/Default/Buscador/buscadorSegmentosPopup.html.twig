@@ -3,7 +3,7 @@
 
 {% extends '::pantallaPopUp.html.twig' %}
 {% block title %}
-    {{"segmentador" | trans|title }}
+    {{"cabecera.segmentador" | trans|title }}
 {%endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -86,6 +86,10 @@
             }
 
             filtroCompleto = JSON.parse(filtroCompleto);
+
+            if(typeof  filtroCompleto.parse === 'undefined') {
+                return;
+            }
 
             var consola = document.getElementById('consolaSegmentos');
             document.getElementById('controlBorradoTexto').value = filtroCompleto.controlBorradoTexto;

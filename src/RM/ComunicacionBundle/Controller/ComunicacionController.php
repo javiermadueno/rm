@@ -9,15 +9,16 @@
 namespace RM\ComunicacionBundle\Controller;
 
 
+use RM\AppBundle\Controller\RMController;
 use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Event\ComunicacionEvent;
 use RM\ComunicacionBundle\Event\ComunicacionEvents;
-use RM\ComunicacionBundle\Form\Gestion\NuevaComunicacionType;
+use RM\ComunicacionBundle\Form\Gestion\nuevaComunicacionType;
 use RM\PlantillaBundle\Entity\Plantilla;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class ComunicacionController extends Controller
+class ComunicacionController extends RMController
 {
     public function indexAction()
     {
@@ -32,10 +33,7 @@ class ComunicacionController extends Controller
         ]);
     }
 
-    private function getManager()
-    {
-        return $this->get('rm.manager')->getManager();
-    }
+
 
     /**
      * @param Request $request
@@ -55,20 +53,9 @@ class ComunicacionController extends Controller
             ));
         }
 
-        $segmentos = $em
-            ->getRepository('RMComunicacionBundle:SegmentoComunicacion')
-            ->findSegmentosComunicacionByComunicacion($comunicacion);
 
-        $servicioSegCom = $this->get("SegmentoComunicacionService");
-        $objSegmentos = $servicioSegCom->getSegmentosComunicacionById($idComunicacion);
-
-        $peticion = $request;
-
-        $gruposSlot = $em->getRepository('RMPlantillaBundle:GrupoSlots')
-            ->findGruposSlotsByComunicacion($idComunicacion);
-
-        $formulario = $this->createForm(new NuevaComunicacionType ($comunicacion), $comunicacion, ['em' => $em]);
-        $formulario->handleRequest($peticion);
+        $formulario = $this->createForm(new nuevaComunicacionType ($comunicacion), $comunicacion, ['em' => $em]);
+        $formulario->handleRequest($request);
 
         if ($formulario->isValid()) {
 
@@ -81,15 +68,15 @@ class ComunicacionController extends Controller
 
                 if ($comunicacion->getSegmentos()->isEmpty()) {
                     $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.segmentos");
-                    $comunicacion->setEstado(Comunicacion::ESTADO_PAUSADO);
+                    $comunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
                 }
 
-                if (!$gruposSlot) {
-                    $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.gruposslots");
-                    $comunicacion->setEstado(Comunicacion::ESTADO_PAUSADO);
+                if ($comunicacion->getGruposSlots()->isEmpty()) {
+                    $this->get('session')->getFlashBag()->add('formulario', "mensaje.error.faltan.gruposslot");
+                    $comunicacion->setEstado(Comunicacion::ESTADO_CONFIGURACION);
                 }
 
-                if ($objSegmentos && $gruposSlot) {
+                if ($comunicacion->getSegmentos()->count() > 0 && $comunicacion->getGruposSlots()->count() > 0) {
                     $this->get('session')->getFlashBag()->add('formulario_ok', "mensaje.ok.guardar");
                 }
 
@@ -107,9 +94,7 @@ class ComunicacionController extends Controller
         return $this->render('RMComunicacionBundle:Edicion:editarComunicacion.html.twig', [
             'id_comunicacion' => $idComunicacion,
             'formulario'      => $formulario->createView(),
-            'objSegmentos'    => $objSegmentos,
             'objComunicacion' => $comunicacion,
-            'gruposSlots'     => $gruposSlot
         ]);
     }
 
@@ -137,6 +122,28 @@ class ComunicacionController extends Controller
             'plantilla'    => $plantilla,
             'comunicacion' => $comunicacion
         ]);
+    }
+
+    public function asignaNuevaPlantillaAction(Request $request, $id_comunicacion)
+    {
+
+        $em = $this->getManager();
+
+        $comunicacion = $em
+            ->getRepository('RMComunicacionBundle:Comunicacion')
+            ->findById($id_comunicacion);
+
+        if(! $comunicacion instanceof Comunicacion) {
+            throw $this->createNotFoundException('No se ha encontrado la comunicacion');
+        }
+
+        $plantilla = $comunicacion->getPlantilla();
+
+        if ($plantilla instanceof Plantilla &&  $plantilla->getEsModelo()) {
+            $this->get('event_dispatcher')->dispatch(ComunicacionEvents::NUEVA_COMUNICACION, new ComunicacionEvent($comunicacion));
+        }
+
+        return $this->redirectToRoute('rm_comunicacion.comunicacion.editar_plantilla', ['idComunicacion' => $id_comunicacion]);
     }
 
 

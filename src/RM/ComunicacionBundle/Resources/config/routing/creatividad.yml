@@ -12,6 +12,41 @@ rm_comunicacion.creatividad.edit:
     requirements:
         id: \d+
 
+
+
+
+
+
+direct_config_creatividad:
+  path: /config/creatividad/list/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4 }
+
+direct_config_listado_creatividad_paginador:
+  path: /config/creatividad/list/{codigo}
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4, codigo null }
+  requirements:
+    codigo: \w+
+
+direct_config_listado_creatividad_actualizar:
+  path: /config/creatividad/list/update/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:actualizarCreatividad}
+  methods: [POST]
+
+direct_config_ficha_creatividad:
+  path: /config/creatividad/list/product/{id_creatividad}/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividad}
+  requirements:
+    id_creatividad: \d+
+
+direct_config_ficha_creatividad_crear:
+  path: /config/creatividad/list/creatividad/new/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividadCrear}
+
+direct_config_ficha_creatividad_upload:
+  path: /config/creatividad/image/upload/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:uploadImageCreatividad}
+  methods: [POST]
+
 direct_buscador_creatividades_popup:
   path: /creatividades/search/
   defaults: {_controller: RMComunicacionBundle:Creatividad:searchCreatividadesPopoup}

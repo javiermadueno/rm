@@ -1,27 +1,88 @@
-<div class="formulario-configuracion animated fadeInDown" data-instancia="{{ instancia.idInstancia }}" data-grupo="{{ grupo.idGrupo }}" data-index=" {{ form.num_promocion|length }}">
-    {{ form_start(form) }}
+{% extends ':direct:base_direct.html.twig' %}
 
-    <div class="content">
-            {% include '@RMProducto/NumPromociones/form_edit.html.twig'  with {'form': form} %}
+{% set idOpcionMenuIzq = 2 %}
+
+{% block title %}
+    {{ "menu.direct.monitor" |trans|title }}
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "cabecera.promociones.categoria" |trans|title }}</h5>
+    <h1>{{ 'grupo.slots'|trans }} - {{ grupo.nombre }}</h1>
+{% endblock pagetitle %}
+
+
+{% block contenedorPrincipal %}
+    <h4 class="widgettitle">{{ "cabecera.promociones.categoria" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <div class="formulario-configuracion animated fadeInDown" data-instancia="{{ instancia.idInstancia }}" data-grupo="{{ grupo.idGrupo }}" data-index=" {{ form.num_promocion|length }}">
+            {{ form_start(form) }}
+
+            <div class="content">
+                {% include '@RMProducto/NumPromociones/form_edit.html.twig'  with {'form': form} %}
+            </div>
+
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                <tr>
+                    <td width="100"><button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|title}}</button></td>
+                    <td width="100"><button class="nuevo btn btn-success"><i class="iconfa-plus"></i></button></td>
+                </tr>
+                </tbody>
+            </table>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 
-    {% if not form.vars.valid %}
-        <div class="alert alert-danger">
-            {{ form_errors(form) }}
-        </div>
-    {% endif %}
+    <script type="text/javascript">
+        $(document).on('ready', function(){
 
-    <table cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-        <tr>
-            <td width="100"><button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|title}}</button></td>
-            <td width="100"><button class="nuevo btn btn-success"><i class="iconfa-plus"></i></button></td>
-        </tr>
-        </tbody>
-    </table>
+            attachEventsFormulario.apply($('.formulario-configuracion'));
 
-    {{ form_rest(form) }}
-    {{ form_end(form) }}
-</div>
+            function attachEventsFormulario() {
+                var $this = $(this);
+                var index = $this.data('index');
+                var $prototipo = $this.find('.prototipo').data('prototype');
+
+
+                $this.find('button.nuevo').on('click', function (event) {
+                    event.preventDefault();
+                    var row = $prototipo.replace(/__name__/g, ++index);
+                    var $tabla = $this.find('.content table');
+                    var index_interno = parseInt($this.data('index'));
+
+                    if (index_interno == 0) {
+                        $tabla.find('tbody tr').remove();
+                    }
+                    $tabla.append(row);
+                    $this.data('index', ++index_interno);
+                });
+
+            }
+
+            $(document).on('click', '.delRow', function (event) {
+                event.preventDefault();
+                var $this = $(this).closest('.formulario-configuracion');
+                var tabla = $this.find('.content table')
+                var index = parseInt($this.data('index'));
+                index = --index <= 0 ? 0 : index;
+                $this.data('index', index);
+
+                if (index <= 0) {
+                    tabla.append('<tr><td colspan="4" class="center-all">{{ "sin.resultados" |trans|title }}</td></tr>');
+                }
+
+                $(this).closest('tr').remove();
+
+            })
+        });
+    </script>
+
+
+
+{% endblock contenedorPrincipal %}
+
 
 

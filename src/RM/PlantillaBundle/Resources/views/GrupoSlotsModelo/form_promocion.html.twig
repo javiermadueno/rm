@@ -21,20 +21,33 @@
         <tr>
             <td class="sinborde">{{ "tamano.slots" |trans|title}}</td>
             <td class="sinborde">&nbsp;</td>
-            <td class="sinborde">{{ form_widget(form.idTamanyoImgProducto) }}</td>
+            <td class="sinborde">{{ form_widget(form.idTamanyoSlot) }}</td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<h4 class="widgettitle">{{ "caracteristicas" |trans|title }}</h4>
+<h4 class="widgettitle">{{ "grupo.slots.caracteristicas" |trans|title }}</h4>
 <table class="table table-bordered responsive">
     <tbody>
     {% if form.mImgProducto is defined %}
     <tr>
         <td  width="1%">{{ form_widget(form.mImgProducto) }}</td>
-        <td  colspan="2">{{ "formulario.grupo.slot.m_img_producto" | trans }}</td>
+        <td  colspan="2">
+            {% if form.vars.value.tipo == constant('PROMOCION', form.vars.value) %}
+                {{ "formulario.grupo.slot.m_img_producto" | trans }}
+            {% else %}
+                {{ "formulario.grupo.slot.m_img_creatividad" | trans }}
+            {% endif %}
+        </td>
     </tr>
+    {% endif %}
+
+    {% if form.mNombreProducto is defined %}
+        <tr>
+            <td width="1%">{{ form_widget(form.mNombreProducto) }}</td>
+            <td>{{ 'formulario.grupo.slot.m_nombre_producto'|trans }}</td>
+        </tr>
     {% endif %}
 
     {% if form.mPrecio is defined %}
@@ -58,12 +71,6 @@
     </tr>
     {% endif %}
 
-    {% if form.mImgMarca is defined %}
-    <tr>
-        <td>{{ form_widget(form.mImgMarca) }}</td>
-        <td>{{ "formulario.grupo.slot.m_img_marca" | trans }}</td>
-    </tr>
-    {% endif %}
 
     {% if form.mTexto is defined %}
     <tr>

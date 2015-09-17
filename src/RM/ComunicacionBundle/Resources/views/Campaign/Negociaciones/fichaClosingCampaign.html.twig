@@ -175,31 +175,20 @@
                                     {{ segmentada.simulado|number_format(0,',','.') }}
                                 </td>
                                 <td style="text-align: center;">{#STATUS#}
-
-                                    {% if aceptada %}
-                                        <select style="width: auto"
-                                                name="promociones[{{ idPromo }}][estado]"
-                                                class="">
-                                            <option value="{{ constant('ACEPTADA', segmentada) }}" selected> {{ "aceptada" | trans|title }}</option>
-                                        </select>
-                                    {% else %}
-                                        {% set aceptadaDB = segmentada.aceptada | default(0)  %}
-
-                                        <select style="width: auto"
-                                                name="promociones[{{ idPromo }}][estado]"
-                                                class="">
-                                            <option value="{{ constant('RECHAZADA', segmentada) }}" {% if aceptadaDB is  constant('RECHAZADA', segmentada)  %} selected {% endif %}>
-                                                {{ "rechazada" | trans|title }}
-                                            </option>
-                                            <option value="{{ constant('ACEPTADA', segmentada) }}"{% if aceptadaDB is constant('ACEPTADA', segmentada)  %} selected {% endif %}>
-                                                {{ "aceptada" | trans|title}}
-                                            </option>
-                                            <option value="{{ constant('PENDIENTE', segmentada) }}"{% if aceptadaDB is constant('PENDIENTE', segmentada)  %} selected {% endif %}>
-                                                {{ "pendiente" |trans|title}}
-                                            </option>
-                                        </select>
-
-                                    {% endif %}
+                                    {% set aceptadaDB = segmentada.aceptada | default(0)  %}
+                                    <select style="width: auto"
+                                            name="promociones[{{ idPromo }}][estado]"
+                                            class="">
+                                        <option value="{{ constant('RECHAZADA', segmentada) }}" {% if aceptadaDB is  constant('RECHAZADA', segmentada)  %} selected {% endif %}>
+                                            {{ "rechazada" | trans|title }}
+                                        </option>
+                                        <option value="{{ constant('ACEPTADA', segmentada) }}"{% if aceptadaDB is constant('ACEPTADA', segmentada)  %} selected {% endif %}>
+                                            {{ "aceptada" | trans|title}}
+                                        </option>
+                                        <option value="{{ constant('PENDIENTE', segmentada) }}"{% if aceptadaDB is constant('PENDIENTE', segmentada)  %} selected {% endif %}>
+                                            {{ "pendiente" |trans|title}}
+                                        </option>
+                                    </select>
 
                                 </td>
                             </tr>

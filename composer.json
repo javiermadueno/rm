@@ -39,17 +39,18 @@
         "doctrine/mongodb-odm": "1.0.*@beta",
         "doctrine/mongodb-odm-bundle": "3.0.*@beta",
         "mtdowling/cron-expression": "1.0.*",
-		"league/csv": "^7.1",
-		"white-october/pagerfanta-bundle": "^1.0"
+		"league/csv": "^7.1"
 	},
 	"scripts" : {
 		"post-install-cmd" : [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
 		],
 		"post-update-cmd" : [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",

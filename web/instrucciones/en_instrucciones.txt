@@ -1,0 +1,26 @@
+﻿In order to change product images is necessary to upload a ZIP file containing:
+  	1. A CSV file with the following structure:
+
+		+--------------------+----------------------+
+		|    Product Code    |      Image Name      |
+		+--------------------+----------------------+
+		|         153        | producto_imagen3.jpg |
+		+--------------------+----------------------+
+		|         154        | producto_imagen1.jpg |
+		+--------------------+----------------------+
+		|         155        | producto_imahen2.png |
+		+--------------------+----------------------+
+
+		
+	2. A folder named "img" containing product image with the same name specified in te csv file.
+
+
+	Ej:
+		images.zip
+		|
+		└───products.csv
+		│   
+		└───img/
+		    |   producto_imagen1.jpg
+		    │   producto_imagen3.jpg 
+		    │   producto_imahen2.png

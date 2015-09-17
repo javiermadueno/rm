@@ -15,42 +15,33 @@
                 </ul>
                 <div class="tab-content">
                     {% block tabcontent %}
-                        <div class="accordion" id="accordion">
-                            {% for grupo in objGrupoSlots %}
-                                {% if grupo.tipo == constant('PROMOCION', grupo) %}
-                                     {% set url = path('rm_producto.num_promociones.edit', {
-                                          'id_instancia': objInstancia.idInstancia,
-                                           'id_grupo_slot': grupo.idGrupo
-                                     })  %}
-                                {% else %}
-                                    {% set url = path('rm_producto.num_promociones.edit_creatividad', {
-                                        'id_instancia': objInstancia.idInstancia,
-                                        'id_grupo_slot': grupo.idGrupo
-                                    })  %}
-                                {% endif %}
 
-                                <div class="accordion-group">
-                                    <div class="accordion-heading">
-                                        <a class="accordion-toggle"
-                                           data-link="{{ url }}"
-                                           data-toggle="collapse" data-parent="#accordion" href="#{{ grupo.idGrupo }}"
-                                           style="padding: 0!important;">
-                                            <h4 class="widgettitle">{{ grupo.nombre }}: ({{ "numero.slots"|trans }}
-                                                : {{ grupo.numSlots }})</h4>
-                                        </a>
-                                    </div>
-
-                                    <div id="{{ grupo.idGrupo }}" class="accordion-body collapse">
-                                        <div class="accordion-inner"></div>
-                                    </div>
-                                </div>
+                        {% for grupo in objInstancia.gruposSlots %}
+                            {% set num_promociones = objInstancia.numPromocionesByGrupo(grupo) %}
+                            <h4 class="widgettitle">{{ grupo.nombre }}: ({{ grupo.numSlots }} {{ "slots" |trans|title}}) [ {{ grupo.tipo == constant('PROMOCION', grupo) ? 'productos'|trans|title : 'creatividades'|trans|title }} ]</h4>
+                            {% if grupo.tipo == constant('PROMOCION', grupo) %}
+                                {% set url = path('rm_producto.num_promociones.edit', {
+                                    'id_instancia': objInstancia.idInstancia,
+                                    'id_grupo_slot': grupo.idGrupo
+                                })  %}
+                                {% include '@RMComunicacion/Instancia/tabla_num_promociones.html.twig' with {'num_promociones': num_promociones} %}
                             {% else %}
-                                <div class="alert alert-warning">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <p>{{ "mensaje.error.no.gruposlot.configurado" |trans }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
+                                {% set url = path('rm_producto.num_promociones.edit_creatividad', {
+                                    'id_instancia': objInstancia.idInstancia,
+                                    'id_grupo_slot': grupo.idGrupo
+                                })  %}
+                                {% include '@RMComunicacion/Instancia/tabla_num_promocion_creatividad.html.twig' with {'num_promociones': num_promociones} %}
+                            {% endif %}
+
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tbody>
+                                <tr>
+                                    <td width="100"><a class="btn btn-warning" href="{{ url }}"><i class="iconfa iconfa-edit"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr/>
+                        {% endfor %}
                     {% endblock tabcontent %}
                 </div>
             </div>
@@ -85,113 +76,11 @@
                     mensajes.push('{{ 'mensaje.error.cambio.fase.configuracion'|trans }}');
                 }
 
-                /*
-                if (typeof  numpromociones === 'undefined' || numpromociones === '') {
-                    mensajes.push('Hay grupos de slots sin promociones');
-                }
-
-                if (typeof genericas === 'undefined' || genericas === '') {
-                    mensajes.push('{{ 'mensaje.error.cambio.fase.configuracion'|trans }}');
-                }*/
-
-
                 jQuery.alerts.dialogClass = 'alert-danger';
                 jAlert(mensajes.join('</br>'), '{{ 'cabecera.cambio.fase.instancia' |trans }}');
                 jQuery.alerts.dialogClass = null;
                 return false;
             });
-
-            $(document).on('click', '.accordion-toggle', function (event) {
-                event.preventDefault();
-                var $this = $(this);
-
-                var parentRef = $this.attr('href');
-                var innerContent = $(parentRef).find('.accordion-inner');
-                var link = $this.data('link');
-                if (innerContent.html().trim() === '') {
-                    innerContent.html($('#loading').html())
-                    innerContent.load(link, function () {
-                        if (innerContent.find('.formulario-configuracion').length > 0) {
-                            attachEventsFormulario.apply(innerContent.find('.formulario-configuracion'));
-                        } else {
-                            attachEventsFormulario.apply(innerContent);
-                        }
-
-
-                    });
-
-                }
-            });
-
-            function attachEventsFormulario() {
-                var $this = $(this);
-                var index = $this.data('index');
-                var $form = $this.find('form');
-                var $prototipo = $this.find('.prototipo').data('prototype');
-
-
-                $this.find('button.nuevo').on('click', function (event) {
-                    event.preventDefault();
-                    var row = $prototipo.replace(/__name__/g, ++index);
-                    var $tabla = $this.find('.content table');
-                    var index_interno = parseInt($this.data('index'));
-
-                    if (index_interno == 0) {
-                        $tabla.find('tbody tr').remove();
-                    }
-                    $tabla.append(row);
-                    $this.data('index', ++index_interno);
-                });
-
-                $form.on('submit', function (event) {
-                    event.preventDefault();
-                    var $this = $(this);
-                    $.ajax({
-                        url: $this.attr('action'),
-                        type: $this.attr('method'),
-                        data: $this.serialize(),
-                        success: function (response) {
-                            if (typeof response.form !== 'undefined') {
-                                $this.find('.content').html(response.form);
-                            }
-
-                            jQuery.jGrowl(response.mensaje, {
-                                        header: 'Notificación',
-                                        life: 3000
-                                    }
-                            );
-                        },
-                        error: function (response) {
-                            var response = JSON.parse(response.responseText);
-                            if (typeof response.form !== 'undefined') {
-                                $this.find('.content').html(response.form);
-                            }
-
-                            jQuery.jGrowl(response.mensaje, {
-                                        header: 'Notificación',
-                                        life: 3000
-                                    }
-                            );
-                        }
-                    });
-                })
-            }
-
-            $(document).on('click', '.delRow', function (event) {
-                event.preventDefault();
-                var $this = $(this).closest('.formulario-configuracion');
-                var tabla = $this.find('.content table')
-                var index = parseInt($this.data('index'));
-                index = --index <= 0 ? 0 : index;
-                $this.data('index', index);
-
-                if (index <= 0) {
-                    tabla.append('<tr><td colspan="4" class="center-all">{{ "sin.resultados" |trans|title }}</td></tr>');
-                }
-
-                $(this).closest('tr').remove();
-
-            })
         });
     </script>
 {% endblock %}

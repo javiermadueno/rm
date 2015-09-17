@@ -48,7 +48,7 @@ class ProductoController extends RMController
                      ->getRepository('RMProductoBundle:Producto')
         ;
 
-        $numero_items = 10;
+        $numero_items = 5;
         $paginator    = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($numero_items);
 
@@ -80,7 +80,7 @@ class ProductoController extends RMController
         if ($request->isXmlHttpRequest()) {
 
             $paginator = $this->get('ideup.simple_paginator');
-            $paginator->setItemsPerPage(10); // Para poner el numero de item que se quieren por pagina
+            $paginator->setItemsPerPage(5); // Para poner el numero de item que se quieren por pagina
 
             $nombre = $request->get('nombre');
             $nombre = str_replace('-', ' ', $nombre);
@@ -229,6 +229,7 @@ class ProductoController extends RMController
     public function exportProductosSinImagenAction()
     {
         $em = $this->getManager();
+        $trans = $this->get('translator');
 
         $productos = $em
             ->getRepository('RMProductoBundle:Producto')
@@ -238,7 +239,10 @@ class ProductoController extends RMController
 
         $writer = Writer::createFromFileObject($csv, 'w');
         $writer->setDelimiter(';');
-        $writer->insertOne(['Id', 'Nombre (Sustituye esta columna por el nombre de la imagen asociada al producto)']);
+        $writer->insertOne([
+            $trans->trans('fichero.csv.columna.id'),
+            $trans->trans('fichero.csv.columna.nombre')
+        ]);
         $writer->insertAll($productos);
 
 

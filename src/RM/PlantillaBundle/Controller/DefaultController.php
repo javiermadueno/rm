@@ -28,12 +28,9 @@ class DefaultController extends RMController
             throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
         }
 
-
-        $plantillas = $em->getRepository('RMPlantillaBundle:Plantilla')->findBy([
-                'esModelo' => true,
-                'canal'  => $id_canal], [
-                'idPlantilla' => 'DESC'
-            ]);
+        $plantillas = $em
+            ->getRepository('RMPlantillaBundle:Plantilla')
+            ->findPlantillasModeloByCanal($id_canal);
 
         return $this->render('RMPlantillaBundle:Default:importarPlantilla.html.twig', [
                 'id_comunicacion' => $id_comunicacion,
@@ -78,9 +75,24 @@ class DefaultController extends RMController
 
         $fichero = $this
             ->get('rm_plantilla_genera_plantilla_comunicacion')
-            ->creaArchivoPlantilla($plantilla)
             ->getRutaPlantilla($plantilla)
         ;
+
+        if(!file_exists($fichero)) {
+            return $this->render('@RMPlantilla/Default/error_fichero_plantilla.html.twig', [
+                'error' => $this->get('translator')->trans('mensaje.error.descargar.fichero.plantilla')
+            ]);
+        }
+
+        $errores = $this
+            ->get('rm_plantilla_genera_plantilla_comunicacion')
+            ->compruebaPlantilla($plantilla);
+
+        if (count($errores) > 0) {
+            return $this->render('@RMPlantilla/Default/error_fichero_plantilla.html.twig', [
+                'error' => 'Plantilla obsoleta'
+            ]);
+        }
 
 
         $data = file_get_contents($fichero);
@@ -125,7 +137,7 @@ class DefaultController extends RMController
                     ]);
 
             $comunicacion->setPlantilla($plantillaModelo);
-            $plantilla->getEsModelo() === true? : $plantilla->setEstado(-1);
+            $plantilla->getEsModelo() === true ?: $plantilla->setEstado(-1);
 
 
             $this->get('session')->getFlashBag()->add('mensaje','importar_plantilla_ok');
@@ -169,24 +181,54 @@ class DefaultController extends RMController
         $filePath = $this->get('rm_plantilla_genera_plantilla_comunicacion')->getRutaPlantilla($plantilla);
 
         if (!file_exists($filePath)) {
-            $this->get('rm_plantilla_genera_plantilla_comunicacion')
-                ->creaArchivoPlantilla($plantilla, $this->getUser()->getCliente());
+            $this->addFlash('error_popup', $this->get('translator')->trans('mensaje.error.descargar.fichero.plantilla'));
+           return $this->redirectToRoute('rm_comunicacion.comunicacion.editar_plantilla', [
+               'idComunicacion' => $id_comunicacion
+           ]);
         }
 
         $filename =  $plantilla->getIdPlantilla().'.html';
 
-       // check if file exists
-        if (!file_exists($filePath)) {
-            throw $this->createNotFoundException();
-        }
 
         // prepare BinaryFileResponse
         $response = new BinaryFileResponse($filePath);
         $response->trustXSendfileTypeHeader();
-        $response->headers->set('Content-Type', 'text/plain');
+        $response->headers->set('Content-Type', 'text/html');
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             $filename
+        );
+
+        return $response;
+    }
+
+    public function generarYDescargarAction(Request $request, $id_comunicacion)
+    {
+        $em = $this->getManager();
+
+        $comunicacion = $em->getRepository('RMComunicacionBundle:Comunicacion')->find($id_comunicacion);
+        $plantilla = $comunicacion->getPlantilla();
+
+
+        if (!$plantilla instanceof Plantilla) {
+            throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
+        }
+
+        $filePath = $this
+            ->get('rm_plantilla_genera_plantilla_comunicacion')
+            ->creaArchivoPlantillaTemporal($plantilla)
+        ;
+
+        $nombre_fichero = $this->get('rm_plantilla_genera_plantilla_comunicacion')->getRutaPlantilla($plantilla);
+
+
+        // prepare BinaryFileResponse
+        $response = new BinaryFileResponse($filePath);
+        $response->trustXSendfileTypeHeader();
+        $response->headers->set('Content-Type', 'text/html');
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            basename($nombre_fichero)
         );
 
         return $response;
@@ -224,14 +266,16 @@ class DefaultController extends RMController
                     throw new \Exception('No se ha subido ningun fichero');
                 }
 
-                $nombre_fichero = sprintf('%s.%s', $plantilla->getIdPlantilla(), $file->getClientOriginalExtension());
-                $file->move($carpetaPlantilla, $nombre_fichero);
-
-                $errores = $this->get('rm_plantilla_genera_plantilla_comunicacion')->compruebaPlantilla($plantilla);
+                $errores = $this
+                    ->get('rm_plantilla_genera_plantilla_comunicacion')
+                    ->compruebaPlantilla($plantilla, $file->getRealPath());
 
 
                 if(count($errores)){
                     $exito = false;
+                } else {
+                    $nombre_fichero = sprintf('%s.%s', $plantilla->getIdPlantilla(), $file->getClientOriginalExtension());
+                    $file->move($carpetaPlantilla, $nombre_fichero);
                 }
 
     		} catch (\Exception $e) {
@@ -243,17 +287,34 @@ class DefaultController extends RMController
     		}
     		else{
     			//$this->get('session')->getFlashBag()->add('mensaje','error_general');
-                throw new \Exception(sprintf('No se ha impotado la plantilla. Se han producido los siguientes errores: %s', implode('   ', $errores)));
+                $this->addFlash('errores_plantilla', sprintf('No se ha impotado la plantilla. Se han producido los siguientes errores: </br> %s ', implode('</br>', $errores)) );
     		}    		
     		
-    		return $this->redirect($this->generateUrl('direct_manager_edit_plantillas', [
-    			'id_comunicacion' => $id_comunicacion	
+    		return $this->redirect($this->generateUrl('rm_comunicacion.comunicacion.editar_plantilla', [
+    			'idComunicacion' => $id_comunicacion
     		]));
     		
     	}
     	else{
     		throw $this->createNotFoundException('Se ha producido un error de envio de la informaciÃ³n');
     	}
+    }
+
+    public function descargarInstruccionesPlantillaAction(Request $request)
+    {
+        $locale = $request->getLocale();
+        $ruta   = $this->container->getParameter('ruta.instrucciones.maquetacion_plantilla');
+
+        $instrucciones = $ruta . sprintf('%s_%s', $locale, 'instrucciones.txt');
+
+        $response =  new BinaryFileResponse($instrucciones);
+        $response->headers->set('Content-Type', 'text/plain');
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'instrucciones.txt'
+        );
+
+        return $response;
     }
 
 }

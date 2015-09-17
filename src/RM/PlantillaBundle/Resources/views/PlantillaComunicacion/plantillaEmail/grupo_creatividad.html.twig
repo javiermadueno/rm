@@ -3,7 +3,7 @@
     <tr>
         <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;"
             class="section-padding">
-            <table width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(500) }}" border="0" cellspacing="0"
+            <table width="{{ grupoSlots.idTamanyoSlot.ancho|default(500) }}" border="1" cellspacing="0"
                    cellpadding="0" class="responsive-table">
                 <tr>
                     <td>
@@ -19,19 +19,19 @@
                 </tr>
                 {% set slots = grupoSlots.slots %}
                 {% for slot in slots %}
-                    {% set id = grupoSlots.idGrupo ~ '-' ~ slot.idSlot %}
+                    {% set id = 'slot-' ~ slot.idSlot %}
                     <tr id="{{ id }}">
-                        <td width="{{ grupoSlots.idTamanyoImgProducto.ancho }}"
-                            height="{{ grupoSlots.idTamanyoImgProducto.alto }}">
+                        <td width="{{ grupoSlots.idTamanyoSlot.ancho }}"
+                            height="{{ grupoSlots.idTamanyoSlot.alto }}">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 {% if grupoSlots.mImgProducto %}
                                     <tr>
                                         <td align="center" class="padding-copy">
                                             <a href="#" target="_blank">
-                                                <img id="{{ id~'-imagenProducto' }}" src="" border="0"
-                                                     alt="Insert alt text here"
+                                                <img id="{{ id~'-imagen' }}" src="" border="0"
+                                                     alt="Imagen Creatividad"
                                                      style="display: block; color: #666666;  font-family: Helvetica, arial, sans-serif; font-size: 16px;"
-                                                     class="img-max imagenProducto">
+                                                     class="img-max imagen">
                                             </a>
                                         </td>
                                     </tr>

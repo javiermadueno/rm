@@ -1,3 +1,9 @@
+#Todas las rutas tiene el prefijo /data por delante, que viene heredado del fichero routing del app
+
+rm_variables_lineales_homepage:
+  path: /
+  defaults: {_controller: RMCategoriaBundle:Default:showCategoriasBasicas, idOpcionMenuIzq 1}
+  
 data_avanced_rfm:
   path: /avanced/rfm/
   defaults: {_controller: RMLinealesBundle:Default:obtenerRegistros, tipoVar 1, idOpcionMenuIzq 4}

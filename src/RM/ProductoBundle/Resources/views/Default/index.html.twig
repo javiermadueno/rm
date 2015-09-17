@@ -85,9 +85,27 @@
 {% endblock %}
 
 {% block javascripts %}
+    <link rel="stylesheet" href="{{ asset('js/Magnific-Popup-master/dist/magnific-popup.css') }}">
+    <script src="{{ asset('js/Magnific-Popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
 <script type="text/javascript">
 	
 		$(document).ready(function(){
+
+            $('body').magnificPopup({
+                delegate: 'a.image-link',
+                type: 'image',
+                closeOnContentClick: true,
+                closeBtnInside: false,
+                fixedContentPos: true,
+                mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+                image: {
+                    verticalFit: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300 // don't foget to change the duration also in CSS
+                }
+            });
 
 			$('.actualizarTabla').click(function(event){
 				event.preventDefault(); //cancela el comportamiento por defecto

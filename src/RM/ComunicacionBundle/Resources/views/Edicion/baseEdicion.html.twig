@@ -32,11 +32,11 @@
                 <ul class="nav nav-tabs buttons-icons">
                     {% if opcionMenuTabComunicacion is defined %}
                         <li id="menuTabCom1" {% if opcionMenuTabComunicacion == 1 %}class="active"{% endif %}>
-                            <a href="{{ path('direct_manager_edit_datos', {'idComunicacion': id_comunicacion}) }}">{{ "datos" | trans|title }}</a>
+                            <a href="{{ path('direct_manager_edit_datos', {'idComunicacion': id_comunicacion}) }}">1. {{ "datos" | trans|title }}</a>
                         </li>
 
                         <li id="menuTabCom3" {% if opcionMenuTabComunicacion == 3 %}class="active"{% endif %}>
-                            <a href="{{ path('rm_comunicacion.comunicacion.editar_plantilla', {'idComunicacion': id_comunicacion}) }}">{{ "plantilla" | trans|title }}</a>
+                            <a href="{{ path('rm_comunicacion.comunicacion.editar_plantilla', {'idComunicacion': id_comunicacion}) }}">2. {{ "plantilla" | trans|title }}</a>
                         </li>
                     {% endif %}
                 </ul>

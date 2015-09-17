@@ -334,4 +334,12 @@ class Comunicacion implements FechaInicioFinInterface
             return $segmento->getEstado() > -1;
         });
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGruposSlots()
+    {
+        return $this->plantilla->getGruposSlots();
+    }
 }

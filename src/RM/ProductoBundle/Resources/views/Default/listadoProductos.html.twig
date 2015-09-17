@@ -33,7 +33,9 @@
                 <td>
                     {% set imagenUrl = ruta_productos ~ objPr.imagen %}
                     {% if objPr.imagen is not null and file_exists(imagenUrl) %}
-                        <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px" height="100px"/>
+                        <a class="image-link" href="{{ asset(imagenUrl, absolute=true) }}">
+                            <img src="{{ asset(imagenUrl, absolute=true) }}?v={{ random(500) }}" width="100px" height="100px"/>
+                        </a>
                     {% else %}
                         &nbsp;
                     {% endif %}

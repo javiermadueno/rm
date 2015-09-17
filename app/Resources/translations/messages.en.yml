@@ -18,7 +18,8 @@ mensaje:
     cambio.fase.generacion.pendientes: Unable to Process the Instance to Generation Step. There are still Pending Promotions.
     cambio.fase.generacion.rechazadas: Personalized Commnications will be generated for each Customer without Rejected Promotions.
     limite.numslots: Numer of Slots Exceeded.
-    faltan.segmentos: Unable to Activate Communications. There is no slot defined. 
+    faltan.segmentos: Unable to Activate Communications. There is no segment defined.
+    faltan.gruposslot: Unable to Activate Communications. There is no Slot Group associated with the template.
     categorias.numero.promociones.defininido: Following Categories haven't reached the defined number of promotions. 
     parar.segmentocomunicacion: Unable to Stop Communication to Customer Segment. 
     reanudar.segmentocomunicacion: Unable to Resume Communications to Customer Segment. 
@@ -27,6 +28,7 @@ mensaje:
     reanudar.comunicacion: Unable to Resume Communication.
     subida.fichero.demasiado.grande: The image is too large.
     descargar.fichero: The file can not be downloaded.
+    descargar.fichero.plantilla: Template file does not exist. Please, upload one.
   ok:
     eliminar: Record Deleted.
     editar: Operation was performed successfully.
@@ -62,6 +64,8 @@ mensaje:
       registros: Do you want to delete selected registers?
   calculo:
     poblacion: With this filter a population of  %poblacion% customers has been calculated
+  grupo.slot.no.definido: There is not Slot Group associated with the template. Please configure one before continue.
+  anadir.grupo: Add a new Slot Group
 
 error: Error
 correcto: Correct!
@@ -81,6 +85,8 @@ HC: Purchase Behaviour
 SD: Sociodemographic
 CV: Life-Cycle
 OT: Customized Variables
+
+modal.cargando: Loading...
 
 menu:
   data:
@@ -130,6 +136,7 @@ menu:
     cerrar: Close session
 
 boton:
+  acciones: Actions
   guardar: Save
   eliminar: Delete
   nuevo: New
@@ -142,11 +149,16 @@ boton:
   reanudar: Resume
   descargar: Download
   descargar.productos.sin.imagen: CSV Products without Image
-  descargar.instrucciones.imagenes.producto: Upload Product Image Instructions
+  descargar.instrucciones:
+        imagenes.producto: Upload Product Image Instructions
+        maquetacion.plantilla: Layout template instructions
   descargar.batch: Download Batch
   importar: Import
   exportar: Export
-  previsualizar.plantilla: Template Preview
+  exportar.plantilla: Save Template
+  importar.plantilla: Use Template
+  previsualizar.plantilla: Preview
+  generar.descargar.plantilla: Generate default template
   previsualizar: Preview
   subir: Upload
   listado: Listing
@@ -157,6 +169,7 @@ boton:
   editar: Edit
   eliminar: Delete
   eliminar.plantilla: Delete Template
+  nueva.plantilla: New Template
   filtro:
     comprobar: Check Filter
     guardar: Save Filter
@@ -192,7 +205,7 @@ cabecera:
   eliminar:
     segmento: Delete Customer Segment
   cambio.fase.instancia: Change Intance Step.
-  promociones.categoria: Promotions by Category
+  promociones.categoria: Promotions
   segmentador: Segmentator
 
 buscar:
@@ -318,6 +331,8 @@ filtro.busqueda: Search Filter
 instancias: Instances
 instancia: Instance
 
+instancia.fase: Step
+
 fase:
   configuracion: Set-Up
   configuracion: Set-Up
@@ -334,7 +349,7 @@ desactivado: Deactivated
 en.proceso: In Process
 canal: Channel
 controles: Controls
-recursos.graficos: Graphic Resources
+recursos.graficos: Products
 creatividades: Creative Designs
 creatividad: Creative Design
 
@@ -354,8 +369,13 @@ datos: Data
 promocion: Promotion
 promociones: Promotions
 promocion.avanzado: Advanced
-subir.plantilla.maquetada: Upload Designed Template 
+subir.plantilla.maquetada: Upload Designed Template
+
 grupo.slots: Group of Slots
+grupo.slots.tipo:
+  promocion: Promotion Type
+  creatividad: Creative Design Type
+grupo.slots.caracteristicas: Characteristics
 
 numero:
   slots: Number of Slots
@@ -577,6 +597,7 @@ clientes:
   0: Customers
   activos: Active Customers
   nuevos: New Customers
+  inactivos: Inactive Clients
 
 ventas:
   0: Sales
@@ -590,16 +611,25 @@ contribucion:
 reactividad.target.por.comunicades: Target Reactivity by Communcation
 reactividad: Reactivity
 
+fichero:
+  csv:
+    columna:
+      id: Id
+      nombre: Name (Replaces this column with the name of the image associated with the product)
+
 formulario:
   grupo.slot:
-    m_img_producto: Show Product Image
-    m_precio_producto: Show Product Price
-    m_volumen: Show Volume
-    m_condiciones: Show Promotion Conditions
-    m_img_marca: Show Brand Image
-    m_texto: Show Text
-    m_voucher: Show Voucher
+    m_img_producto: Show product image
+    m_img_creatividad: Show creative design image
+    m_precio_producto: Show product price
+    m_volumen: Show volume
+    m_condiciones: Show promotion conditions
+    m_img_marca: Show brand image
+    m_texto: Show description
+    m_voucher: Show voucher
     m_fidelizacion: Show fidelization conditions
+    m_nombre_producto: Show product name
+
 
 ## Graficas de highcharts
 highchart:
@@ -726,6 +756,13 @@ highchart:
           title: Reactivity - Target by Gender
           serie:
             axis.y: Customers
+    inactivos:
+      evolucion:
+        edades:
+          title: Inactive customers by Age
+        sexo:
+          title: Inactive customers by Sex
+
 
 
 

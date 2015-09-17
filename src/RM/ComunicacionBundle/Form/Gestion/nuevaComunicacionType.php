@@ -8,14 +8,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class NuevaComunicacionType extends AbstractType
+class nuevaComunicacionType extends AbstractType
 {
     private $comunicacion;
 
 
     private $estados = [
-        Comunicacion::ESTADO_ACTIVO        => 'Activa',
         Comunicacion::ESTADO_CONFIGURACION => 'En configuración',
+        Comunicacion::ESTADO_ACTIVO        => 'Activa',
         Comunicacion::ESTADO_PAUSADO       => 'Pausada',
         Comunicacion::ESTADO_COMPLETADA    => 'Completada'
     ];
@@ -43,12 +43,11 @@ class NuevaComunicacionType extends AbstractType
             ])
             ->add('estado', 'choice', [
                 'choices'     => $this->getEstadosPosibles(),
-                'empty_value' => 'Seleccione',
             ])
             ->add('idCanal', 'entity', [
                 'class'       => 'RMComunicacionBundle:Canal',
                 'empty_value' => 'Seleccione un canal',
-                'em'          => $_SESSION['connection'],
+                'em'          => $options['em'],
                 'required'    => true
             ]);
     }

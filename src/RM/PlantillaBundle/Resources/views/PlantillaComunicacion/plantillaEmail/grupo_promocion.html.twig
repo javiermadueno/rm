@@ -3,8 +3,8 @@
     <tr>
         <td bgcolor="{{ color_background }}" align="center" style="padding: 70px 15px 70px 15px;"
             class="section-padding">
-            <table border="0" cellpadding="0" cellspacing="0"
-                   width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(500) }}" class="responsive-table">
+            <table border="1" cellpadding="0" cellspacing="0"
+                   width="{{ grupoSlots.idTamanyoSlot.ancho|default(500) }}" class="responsive-table">
                 <tr>
                     <td>
                         <!-- TITLE SECTION AND COPY -->
@@ -19,10 +19,10 @@
                 </tr>
                 {% set slots = grupoSlots.slots %}
                 {% for slot in slots %}
-                    {% set id = grupoSlots.idGrupo~'-'~slot.idSlot %}
+                    {% set id = 'slot-' ~ slot.idSlot %}
                     <tr id="{{ id }}">
-                        <td width="{{ grupoSlots.idTamanyoImgProducto.ancho|default(500) }}"
-                            height="{{ grupoSlots.idTamanyoImgProducto.alto|default(500) }}">
+                        <td width="{{ grupoSlots.idTamanyoSlot.ancho|default(500) }}"
+                            height="{{ grupoSlots.idTamanyoSlot.alto|default(500) }}">
                             <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                     <td valign="top" style="padding: 0;" class="mobile-wrapper">
@@ -39,11 +39,20 @@
                                                                     bgcolor="{{ color_background }}"
                                                                     valign="middle">
                                                                     <a href="#" target="_blank">
-                                                                        <img id="{{ id~'-imagenProducto' }}"
-                                                                             style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
-                                                                             alt="Fluid images" border="0"
-                                                                             class="img-max imagenProducto">
+                                                                        <img id="{{ id~'-imagen' }}"
+                                                                             alt="Imagen Producto" border="0"
+                                                                             class="img-max imagen">
                                                                     </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                        {% if grupoSlots.mNombreProducto %}
+                                                            <tr>
+                                                                <td align="center"
+                                                                    bgcolor="{{ color_background }}"
+                                                                    valign="middle">
+                                                                        <span id="{{ id~'-nombreProducto' }}" class="nombreProducto">Nombre Producto</span>
                                                                 </td>
                                                             </tr>
                                                         {% endif %}
@@ -81,22 +90,7 @@
                                                             </tr>
                                                         {% endif %}
 
-                                                        {% if grupoSlots.mImgMarca %}
-                                                            <tr>
-                                                                <td align="center"
-                                                                    bgcolor="{{ color_background }}"
-                                                                    valign="middle">
-                                                                    <a href="#" target="_blank">
-                                                                        <img id="{{ id~'-imagenMarca' }}"
-                                                                             width="{{ grupoSlots.idTamanyoImgMarca.ancho }}"
-                                                                             height="{{ grupoSlots.idTamanyoImgMarca.alto }}"
-                                                                             style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;"
-                                                                             alt="Fluid images" border="0"
-                                                                             class="img-max imagenMarca">
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        {% endif %}
+
 
                                                         {% if grupoSlots.mTexto %}
                                                             <tr>

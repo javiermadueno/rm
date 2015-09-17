@@ -180,11 +180,13 @@ class PromocionController extends RMController
                 ;
         }
 
+        /*
         if ($numPromocion->isSegementadasCompletas()) {
             return $this->redirectToRoute('campaign_ficha',
                 ['id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()])
                 ;
         }
+         */
 
 
         $promocion = new Promocion();
@@ -203,6 +205,8 @@ class PromocionController extends RMController
         $form->add('submit', 'submit', ['label' => 'boton.guardar']);
 
         $form->handleRequest($request);
+
+
         if ($form->isValid()) {
             $em->persist($promocion);
             $em->flush();
@@ -285,11 +289,13 @@ class PromocionController extends RMController
                 ;
         }
 
+        /*
         if ($numPromocion->isGenericasCompletas()) {
             return $this->redirectToRoute('campaign_ficha',
                 ['id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()])
                 ;
         }
+         */
 
         $promocion = new Promocion();
         $promocion
@@ -390,11 +396,12 @@ class PromocionController extends RMController
                 ;
         }
 
+        /*
         if ($numPromocion->isSegementadasCompletas()) {
             return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
                 'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
             ]);
-        }
+        }*/
 
         $promocion = new Promocion();
         $promocion
@@ -451,11 +458,12 @@ class PromocionController extends RMController
                 ;
         }
 
+        /*
         if ($numPromocion->isGenericasCompletas()) {
             return $this->redirectToRoute('rm_comunicacion.campaign.show_campaing_creatividades', [
                 'id_instancia' => $numPromocion->getIdInstancia()->getIdInstancia()
             ]);
-        }
+        }*/
 
         $promocion = new Promocion();
         $promocion

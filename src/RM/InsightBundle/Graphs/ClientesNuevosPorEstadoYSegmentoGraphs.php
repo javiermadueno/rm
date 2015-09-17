@@ -12,6 +12,7 @@ namespace RM\InsightBundle\Graphs;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 

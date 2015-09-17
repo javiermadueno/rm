@@ -19,6 +19,8 @@ class CategoriaRepository extends EntityRepository
         $query->setParameter('id_categoria', $id_categoria);
         $registro = $query->getResult();
 
+        //var_dump($registro);
+
         return $registro;
     }
 

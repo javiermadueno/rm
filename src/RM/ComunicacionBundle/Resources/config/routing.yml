@@ -193,3 +193,10 @@ rm_comunicacion.segmento_comunicacion.eliminar_segmento:
 rm_comunicacion.comunicacion.index:
   path: /direct/manager/comunicacion/index
   defaults: { _controller: RMComunicacionBundle:Comunicacion:index }
+
+rm_comunicacion.comunicacion.asigna_nueva_plantilla:
+   path: /data/comunicacion/{id_comunicacion}/asigna/plantilla
+   defaults: { _controller: RMComunicacionBundle:Comunicacion:asignaNuevaPlantilla }
+   methods: [GET]
+   requirements:
+     id_comunicacion: \d+

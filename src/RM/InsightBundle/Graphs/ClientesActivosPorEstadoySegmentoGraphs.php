@@ -55,11 +55,11 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @return \Ob\HighchartsBundle\Highcharts\Highchart
      */
-    public function  graficaEvolucionClientesEnRiesgo($renderTo = '')
+    public function  graficaEvolucionClientesEnRiesgo($renderTo = '', \DateTime $from)
     {
         $segmento_estado = $this->getSegmentoEstado();
         $riesgo = $this->getSegmentosRiesgo();
-        $meses = Util::getUltimosMeses(new \DateTime(), 12);
+        $meses = Util::getUltimosMeses($from, 12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($riesgo));
@@ -139,11 +139,11 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @return \Ob\HighchartsBundle\Highcharts\Highchart
      */
-    public function graficaEvolucionActivos($renderTo = '')
+    public function graficaEvolucionActivos($renderTo = '', \DateTime $from)
     {
         $segmento_estado = $this->getSegmentoEstado();
         $activos = $this->getSegmentosActivos();
-        $meses = $this->getUltimosMeses(12);
+        $meses = Util::getUltimosMeses($from, 12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($activos));

@@ -53,7 +53,7 @@
                                 </td>
 
                                 <td width="300">
-                                    <label for="fase">{{ "estado" |trans|title }}</label>
+                                    <label for="fase">{{ "instancia.fase" |trans|title }}</label>
                                     <select id="fase" name="fase" class=" ">
                                         <option value="-1" {% if -1 == fase%}selected{% endif %}>{{ 'select.todas'|trans }}</option>
                                         {% if fases is defined and fases != null %}

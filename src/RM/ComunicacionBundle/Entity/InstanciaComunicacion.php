@@ -98,6 +98,12 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
      */
     private $paso;
 
+    /**
+     * @var int
+     * @ORM\Column(name="num_enviadas", type="integer", nullable=true)
+     */
+    private $numComunicaciones;
+
 
     /**
      * Set fecCreacion
@@ -287,6 +293,25 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
     public function getPaso()
     {
         return $this->paso;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumComunicaciones()
+    {
+        return $this->numComunicaciones;
+    }
+
+    /**
+     * @param int $numComunicaciones
+     *
+     * @return $this
+     */
+    public function setNumComunicaciones($numComunicaciones = 0)
+    {
+        $this->numComunicaciones = $numComunicaciones;
+        return $this;
     }
 
     /**
@@ -526,6 +551,8 @@ class InstanciaComunicacion extends InstanciaComunicacionAbstract
         return $total;
 
     }
+
+
 
 
 }

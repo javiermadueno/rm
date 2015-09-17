@@ -328,12 +328,13 @@ class Plantilla implements PlantillaInterface
      */
     public function getEditable()
     {
-        if(is_null($this->editable)) {
-            $this->editable = $this->comunicaciones->filter(function(Comunicacion $comunicacion) {
-                return true === $comunicacion->getGenerada();
-            })->isEmpty();
-        }
+        $comunicaciones_generadas = $this->comunicaciones
+            ->filter(
+                function(Comunicacion $comunicacion) {
+                    return true === $comunicacion->getGenerada();
+                }
+            );
 
-        return $this->editable;
+        return $comunicaciones_generadas->isEmpty();
     }
 }

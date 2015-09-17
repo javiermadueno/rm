@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
 class GrupoSlots implements GrupoSlotsInterface
 {
     const CREATIVIDADES = 2;
-    const PROMOCION =1;
+    const PROMOCION = 1;
 
     /**
      * @var string
@@ -54,6 +54,12 @@ class GrupoSlots implements GrupoSlotsInterface
 
     /**
      * @var bool
+     * @ORM\Column(name="m_nombre_producto", type="boolean", nullable=true)
+     */
+    private $mNombreProducto;
+
+    /**
+     * @var bool
      *
      * @ORM\Column(name="m_precio", type="boolean", nullable=true)
      */
@@ -73,12 +79,6 @@ class GrupoSlots implements GrupoSlotsInterface
      */
     private $mCondiciones;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="m_img_marca", type="boolean", nullable=true)
-     */
-    private $mImgMarca;
 
     /**
      * @var bool
@@ -101,6 +101,8 @@ class GrupoSlots implements GrupoSlotsInterface
      */
     private $mFidelizacion;
 
+
+
     /**
      * @var integer
      *
@@ -115,11 +117,11 @@ class GrupoSlots implements GrupoSlotsInterface
      *
      * @ORM\ManyToOne(targetEntity="RM\PlantillaBundle\Entity\TamanyoImagen")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_tamanyo_img_producto", referencedColumnName="id_tamanyo")
+     *   @ORM\JoinColumn(name="id_tamanyo_slot", referencedColumnName="id_tamanyo")
      * })
      * @Assert\NotBlank()
      */
-    private $idTamanyoImgProducto;
+    private $idTamanyoSlot;
 
     /**
      * @var \RM\PlantillaBundle\Entity\Plantilla
@@ -131,15 +133,6 @@ class GrupoSlots implements GrupoSlotsInterface
      */
     private $idPlantilla;
 
-    /**
-     * @var \RM\PlantillaBundle\Entity\TamanyoImagen
-     *
-     * @ORM\ManyToOne(targetEntity="RM\PlantillaBundle\Entity\TamanyoImagen")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_tamanyo_img_marca", referencedColumnName="id_tamanyo")
-     * })
-     */
-    private $idTamanyoImgMarca;
 
     /**
      * @var integer
@@ -323,28 +316,7 @@ class GrupoSlots implements GrupoSlotsInterface
         return $this->mCondiciones;
     }
 
-    /**
-     * Set mImgMarca
-     *
-     * @param int $mImgMarca
-     * @return GrupoSlots
-     */
-    public function setMImgMarca($mImgMarca)
-    {
-        $this->mImgMarca = $mImgMarca;
-    
-        return $this;
-    }
 
-    /**
-     * Get mImgMarca
-     *
-     * @return int
-     */
-    public function getMImgMarca()
-    {
-        return $this->mImgMarca;
-    }
 
     /**
      * Set mTexto
@@ -425,28 +397,7 @@ class GrupoSlots implements GrupoSlotsInterface
         return $this->idGrupo;
     }
 
-    /**
-     * Set idTamanyoImgProducto
-     *
-     * @param TamanyoImagen $idTamanyoImgProducto
-     * @return GrupoSlots
-     */
-    public function setIdTamanyoImgProducto(TamanyoImagen $idTamanyoImgProducto = null)
-    {
-        $this->idTamanyoImgProducto = $idTamanyoImgProducto;
-    
-        return $this;
-    }
 
-    /**
-     * Get idTamanyoImgProducto
-     *
-     * @return TamanyoImagen
-     */
-    public function getIdTamanyoImgProducto()
-    {
-        return $this->idTamanyoImgProducto;
-    }
 
     /**
      * Set idPlantilla
@@ -471,28 +422,6 @@ class GrupoSlots implements GrupoSlotsInterface
         return $this->idPlantilla;
     }
 
-    /**
-     * Set idTamanyoImgMarca
-     *
-     * @param TamanyoImagen $idTamanyoImgMarca
-     * @return GrupoSlots
-     */
-    public function setIdTamanyoImgMarca(TamanyoImagen $idTamanyoImgMarca = null)
-    {
-        $this->idTamanyoImgMarca = $idTamanyoImgMarca;
-    
-        return $this;
-    }
-
-    /**
-     * Get idTamanyoImgMarca
-     *
-     * @return TamanyoImagen
-     */
-    public function getIdTamanyoImgMarca()
-    {
-        return $this->idTamanyoImgMarca;
-    }
 
     /**
      * Set numSlots
@@ -553,5 +482,66 @@ class GrupoSlots implements GrupoSlotsInterface
     public function getSlots()
     {
         return $this->slots;
+    }
+
+    /**
+     * Set mNombreProducto
+     *
+     * @param boolean $mNombreProducto
+     * @return GrupoSlots
+     */
+    public function setMNombreProducto($mNombreProducto)
+    {
+        $this->mNombreProducto = $mNombreProducto;
+
+        return $this;
+    }
+
+    /**
+     * Get mNombreProducto
+     *
+     * @return boolean 
+     */
+    public function getMNombreProducto()
+    {
+        return $this->mNombreProducto;
+    }
+
+    /**
+     * Set idTamanyoSlot
+     *
+     * @param TamanyoImagen $idTamanyoSlot
+     * @return GrupoSlots
+     */
+    public function setIdTamanyoSlot(TamanyoImagen $idTamanyoSlot = null)
+    {
+        $this->idTamanyoSlot = $idTamanyoSlot;
+
+        return $this;
+    }
+
+    /**
+     * Get idTamanyoSlot
+     *
+     * @return TamanyoImagen
+     */
+    public function getIdTamanyoSlot()
+    {
+        return $this->idTamanyoSlot;
+    }
+
+    /**
+     * Comprueba el tipo y consolida los datos
+     */
+    public function checkCreatividad()
+    {
+        if($this->tipo == self::CREATIVIDADES) {
+            $this->setMCondiciones(false);
+            $this->setMFidelizacion(false);
+            $this->setMVolumen(false);
+            $this->setMPrecio(false);
+            $this->setMNombreProducto(false);
+            $this->setMVoucher(false);
+        }
     }
 }

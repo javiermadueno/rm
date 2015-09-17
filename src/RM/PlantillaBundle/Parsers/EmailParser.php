@@ -191,14 +191,12 @@ class EmailParser implements ParserInterface
     {
         $id = $this->getId($grupo, $slot);
 
-        $element = $this->getElementById($id);
-
-        if($grupo->getMImgMarca()) {
-            $this->fillNodoImagenMarca($id, $promocion);
-        }
-
         if($grupo->getMImgProducto()) {
             $this->fillNodoImagenProducto($id, $promocion);
+        }
+
+        if($grupo->getMNombreProducto()) {
+            $this->fillNodoNombreProducto($id, $promocion);
         }
 
         if($grupo->getMPrecio()) {
@@ -237,8 +235,6 @@ class EmailParser implements ParserInterface
     {
         $id = $this->getId($grupo, $slot);
 
-        $element = $this->getElementById($id);
-
         if($grupo->getMImgProducto()) {
             $this->fillNodoImagenProducto($id, $promocion);
         }
@@ -255,7 +251,7 @@ class EmailParser implements ParserInterface
      */
     private function getId(GrupoSlotsInterface $grupo, Slot $slot)
     {
-        return sprintf("%s-%s", $grupo->getIdGrupo(), $slot->getIdSlot());
+        return sprintf("%s-%s", 'slot',$slot->getIdSlot());
     }
 
     /**
@@ -275,13 +271,6 @@ class EmailParser implements ParserInterface
         return $element;
     }
 
-    /**
-     * @param \DOMDocument $document
-     */
-    private function setDOMDocument(\DOMDocument $document)
-    {
-        $this->document = $document;
-    }
 
     /**
      * @param Cliente $cliente
@@ -312,6 +301,9 @@ class EmailParser implements ParserInterface
         return $this;
     }
 
+    /**
+     * @param InstanciaComunicacion $instancia
+     */
     public function setInstancia(InstanciaComunicacion $instancia)
     {
         $this->instancia = $instancia;
@@ -391,7 +383,7 @@ class EmailParser implements ParserInterface
      */
     private function fillNodoImagenProducto($id, Promocion $promocion)
     {
-        $imagen = $this->getElementById(sprintf("%s-imagenProducto", $id));
+        $imagen = $this->getElementById(sprintf("%s-imagen", $id));
 
         $producto = $promocion->getIdProducto();
 
@@ -401,25 +393,60 @@ class EmailParser implements ParserInterface
             return;
         }
 
+        $grupo = $promocion->getNumPromocion()->getIdGrupo();
+
+        $dimensiones = [
+            $grupo->getIdTamanyoSlot()->getAncho(),
+            $grupo->getIdTamanyoSlot()->getAlto()
+        ];
+
         //Hace falta inyectar assetic
-        $imagen->setAttribute('src', $this->getRutaImagen($producto));
+        $imagen->setAttribute('src', $this->getRutaImagen($producto, $dimensiones));
 
     }
 
-    private function getRutaImagen(Producto $producto)
+    /**
+     * @param Producto $producto
+     *
+     * @return string
+     */
+    private function getRutaImagen(Producto $producto, $dimensiones = [])
     {
         if(!$producto->getImagen()) {
-            return  'http://placehold.it/350x150';
+            if(count($dimensiones) == 2) {
+                return  "http://placehold.it/$dimensiones[0]x$dimensiones[1]";
+            } else {
+                return  "http://placehold.it/300x150";
+            }
         }
 
         $path = sprintf('%s/%s/%s', $this->empresa, 'imagenesProducto', $producto->getImagen());
         return $this->absoluteRouteImagenProducto($path);
     }
 
+    /**
+     * @param Creatividad $creatividad
+     *
+     * @return string
+     */
     private function getRutaCreatividad(Creatividad $creatividad)
     {
         $path = sprintf('%s/%s/%s', $this->empresa, 'imagenesCreatividad', $creatividad->getImagen());
         return $this->absoluteRouteImagenProducto($path);
+    }
+
+    /**
+     * @param           $id
+     * @param Promocion $promocion
+     *
+     * @throws \Exception
+     */
+    private function fillNodoNombreProducto($id, Promocion $promocion)
+    {
+        $nodo = $this->getElementById(sprintf("%s-nombreProducto", $id));
+
+        $nombre = $promocion->getIdProducto()->getNombre();
+        $nodo->nodeValue = $nombre;
     }
 
     /**
@@ -458,17 +485,7 @@ class EmailParser implements ParserInterface
         $nodo->nodeValue = $voucher;
     }
 
-    /**
-     * @param $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoImagenMarca( $id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-imagenMarca", $id));
 
-        $marca = $promocion->getIdProducto()->getIdMarca()->getIdMarca();
-        $nodo->setAttribute('src', 'prueba');
-    }
 
     /**
      * @param $id

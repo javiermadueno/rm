@@ -44,7 +44,8 @@ class DefaultController extends RMController
     public function crearVarTransformadaAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar){
     	$servicio = $this->get("variablesTransformadas");
     	
-
+    	//ECHO 'ENTRO EN CREARVARTRANSFORMADA';
+    	//Creaci�n del formulario mediante clase
     	$peticion = $request;
     	$objVT = new Vt();
     	$formulario = $this->createForm(new NuevaVarTransType(), $objVT);

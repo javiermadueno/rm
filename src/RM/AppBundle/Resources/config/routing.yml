@@ -1,0 +1,3 @@
+rm_app_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: RMAppBundle:Default:index }

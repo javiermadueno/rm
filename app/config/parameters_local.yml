@@ -4,5 +4,6 @@ parameters:
     carpeta.imagenes.producto: imagenesProducto/
     carpeta.imagenes.creatividad: imagenesCreatividad/
     ruta.instrucciones: %web_path%/instrucciones/
+    ruta.instrucciones.maquetacion_plantilla: %ruta.instrucciones%maquetacion_plantilla/
     ruta.batch: batch_generados/
 

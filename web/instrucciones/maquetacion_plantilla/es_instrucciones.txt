@@ -1,0 +1,13 @@
+Maquetación de plantilla
+=========================
+1. El primer paso es generar y descargar la estructura en formato html
+  con los bloques necesarios para la maquetación.
+
+2. Una vez descargado el fichero .html, puede modificar a su gusto tanto los estilos 
+   como la disposición de los elementos. Es muy importante conservar los Ids de los elementos de cada slot
+
+3. Una vez terminada la modificación de la maquetación deber subir este fichero.
+   Durante la subida, se comprobará que todos los elementos necesarios están presentes.
+   En caso contrario la subida del fichero se abortará y no llegará a almacenarse en el sistema.
+
+4. Si la subida ha sido correcta, puede previsualizar una muestra de la plantilla pulsando en el botón previsualizar.

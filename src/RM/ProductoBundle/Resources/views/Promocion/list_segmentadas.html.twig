@@ -41,7 +41,7 @@
                 </td>
             </tr>
         {% endfor %}
-        {% if segmentadas_restantes > 0 %}
+
             <tr>
                 <td colspan="6" class="center-all">
                     <div class="well well-small">
@@ -51,15 +51,17 @@
                                 <i class="iconfa iconfa-plus iconfa-align-center"></i>
                             </a>
                         </div>
-                        <p class="text-info">
-                            <strong>{{ 'informacion.promociones.restantes'|transchoice(segmentadas_restantes) }}</strong>
-                        </p>
+                        {% if segmentadas_restantes > 0 %}
+                            <p class="text-info">
+                                <strong>{{ 'informacion.promociones.restantes'|transchoice(segmentadas_restantes) }}</strong>
+                            </p>
+                        {% endif %}
 
                     </div>
 
                 </td>
             </tr>
-        {% endif %}
+
         </tbody>
     </table>
 

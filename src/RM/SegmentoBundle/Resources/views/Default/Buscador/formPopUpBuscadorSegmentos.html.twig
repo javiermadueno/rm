@@ -2,7 +2,8 @@
 <form id="formPopupSegmentos" name="formPopupSegmentos" method="POST" action="{{ path("direct_buscador_segmentos_popup") }}" onsubmit="submitPopupSegmentos(this)">
     <input type="hidden" name="identificadorSeg" id="identificadorSeg" value="">
     <input type="hidden" name="idNombreSeg" id="idNombreSeg" value="">
-    <input type="hidden" name="fecha_busqueda" id="fecha_busqueda" value="{{ objInstancia is defined and objInstancia.fase.codigo is not constant('FASE_NEGOCIACION', objInstancia) ? objInstancia.fecCreacion|date('Y-m-d') : '' }}"/>
+    <input type="hidden" name="fecha_busqueda" id="fecha_busqueda" value=""/>
+    {# {{ objInstancia is defined and objInstancia.fase.codigo is not constant('FASE_NEGOCIACION', objInstancia) ? objInstancia.fecCreacion|date('Y-m-d') : '' }}#}
 </form>
 
 <script>

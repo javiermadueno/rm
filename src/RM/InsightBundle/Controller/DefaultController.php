@@ -4,6 +4,7 @@ namespace RM\InsightBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -37,7 +38,9 @@ class DefaultController extends Controller
             $this->get('rm_insight.porcentaje_ventas')
                 ->getGraficoPorcentajeVentas($resultado2, 'porcentajeVentas2');
 
-        $doceUltimosMeses = $dm->getRepository('RMMongoBundle:ResultadoMensual')->find12UltimosMeses();
+        $doceUltimosMeses = $dm
+            ->getRepository('RMMongoBundle:ResultadoMensual')
+            ->find12UltimosMeses(new \DateTime($mes2));
 
         $graficaContribuciones =
             $this->get('rm_insight.numero_contribuciones_vs_numero_miembros')
@@ -66,8 +69,15 @@ class DefaultController extends Controller
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
-        $resultado = $this->get('rm_insight.tabla_rendimiento')
-            ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+        $keyRendimiento = sprintf('%s-%s-%s-%s', $this->getUser()->getCliente(), $mes1, $mes2, 'tabla_rendimiento');
+
+        if (! $resultado = $request->getSession()->get($keyRendimiento)) {
+            $resultado = $this
+                ->get('rm_insight.tabla_rendimiento')
+                ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+
+            $request->getSession()->set($keyRendimiento, $resultado);
+        }
 
         return $this->render('RMInsightBundle:Default:performance.html.twig', [
             'meses'      => $meses,
@@ -82,13 +92,24 @@ class DefaultController extends Controller
     {
         list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
 
-        $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
+        $estructura_segmentos = $this
+            ->container
+            ->getParameter('estrucutra_segmentos_tabla_evolucion');
 
-        $resultado = $this->get('rm_insight.tabla_rendimiento')
-            ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+        $keyRendimiento = sprintf('%s-%s-%s-%s', $this->getUser()->getCliente(), $mes1, $mes2, 'tabla_rendimiento');
 
-        $grafica = $this->get('rm_insight.evolucion_segmentos')
-            ->getGraficoEvolucionSegmentos('grafico');
+        if (! $resultado = $request->getSession()->get($keyRendimiento)) {
+            $resultado = $this
+                ->get('rm_insight.tabla_rendimiento')
+                ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+
+            $request->getSession()->set($keyRendimiento, $resultado);
+        }
+
+        $grafica = $this
+            ->get('rm_insight.evolucion_segmentos')
+            ->getGraficoEvolucionSegmentos('grafico', new \DateTime($mes2));
+
 
         return $this->render('RMInsightBundle:Clientes:evolucion.html.twig', [
             'meses'      => $meses,
@@ -131,9 +152,9 @@ class DefaultController extends Controller
         list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
 
         $servicio_graficas = $this->get('rm_insight.clientes_activos_por_estado_y_segmento');
-
-        $graficoRiesgos = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos');
-        $graficaEvolucion = $servicio_graficas->graficaEvolucionActivos('graficoEvolucionActivos');
+        $from = new \DateTime($mes2);
+        $graficoRiesgos = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos', $from);
+        $graficaEvolucion = $servicio_graficas->graficaEvolucionActivos('graficoEvolucionActivos', $from);
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
@@ -163,8 +184,10 @@ class DefaultController extends Controller
 
         $servicio_graficas = $this->get('rm_insight.clientes_inactivos_por_estado_y_segmento');
 
-        $graficaEdades =  $servicio_graficas->graficaEvolucionPorEdad('graficoEdades');
-        $graficaSexo =  $servicio_graficas->graficaEvolucionPorSexo('graficoSexo');
+        $primerMes = new \DateTime($mes2);
+
+        $graficaEdades =  $servicio_graficas->graficaEvolucionPorEdad('graficoEdades', $primerMes);
+        $graficaSexo =  $servicio_graficas->graficaEvolucionPorSexo('graficoSexo', $primerMes);
 
         return $this->render('RMInsightBundle:Default:clienteInactivo.html.twig', [
             'graficoEdades'    => $graficaEdades,
