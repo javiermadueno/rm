@@ -1,0 +1,13 @@
+Layout template
+=========================
+1. The first step is to generate and download the structure in html
+   with blocks needed for the layout.
+
+2. After downloading the html file, you can modify to your liking both styles
+    as the arrangement of the elements. It is very important to preserve the IDs of the elements of each slot
+
+3. Once the modification of the layout must upload this file.
+    During the climb, it will check that all required elements are present.
+    Otherwise the file upload will be aborted and will not be stored in the system.
+
+4. If the upload was successful, you can preview a sample of the template by clicking on the Preview button.

@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="control-group">
+                    <div class="control-group  {% if not app.request.xmlHttpRequest and not form.nombreFiltro.vars.valid  %} error {% endif %}">
                         {{ form_label(form.nombreFiltro, null,  {'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
                             <div class="input-append span8">
@@ -56,6 +56,13 @@
                                     <i class="iconfa iconfa-filter"></i>
                                 </button>
                             </div>
+                            {% if not app.request.xmlHttpRequest %}
+                            <span class="help-inline">
+                                {% for error in form.nombreFiltro.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                            {% endif %}
 
                             {{ form_widget(form.filtro, {
                                 'attr': {
@@ -106,7 +113,29 @@
     <script type="text/javascript">
         $(document).on('ready', function () {
 
-            $(document).on('click', '.voucher_generator', genereateVoucher)
+            $(document).on('click', '.voucher_generator', genereateVoucher);
+
+            function addCondicionSegmentoPadreGenericas(elem) {
+                if (typeof elem === 'undefined') {
+                    return false;
+                }
+
+                if(elem.value != '') {
+                    return;
+                }
+
+                var filtro = '{"$and": [{"ls": {"$in": [{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}] } } ] }';
+                var value = {
+                    filtroCompleto: filtro
+                };
+
+                elem.value = JSON.stringify(value);
+            }
+
+            $('.filtro').each(function () {
+                addCondicionSegmentoPadreGenericas(this);
+                calculaPoblacionPromocion(this);
+            });
 
             function addCondicionSegmentoPadre(elem) {
                 if (typeof elem === 'undefined') {
@@ -162,6 +191,8 @@
 
                 filtroCompleto = JSON.parse(elem.value);
                 idPromocion = elem.dataset.promocion;
+
+
                 nombreFiltro = elem.dataset.nombrefiltro;
                 condicion = filtroCompleto.filtroCompleto;
 
@@ -177,7 +208,7 @@
                         if (exito === 'success') {
                             poblacion = objeto.responseText;
                             document.getElementById('{{ form.poblacion.vars.id  }}').value = poblacion;
-                            guardaCambiosPromocion(idPromocion, poblacion, elem.value, nombreFiltro);
+                            //guardaCambiosPromocion(idPromocion, poblacion, elem.value, nombreFiltro);
                         }
                     }
                 });
@@ -185,6 +216,10 @@
             }
 
             function guardaCambiosPromocion(idPromocion, poblacion, condicion, nombreFiltro) {
+
+                if(parseInt(idPromocion) < 0) {
+                    return;
+                }
 
                 var path = '{{ path('campaign_guardar_poblacion') }}';
                 $.ajax({

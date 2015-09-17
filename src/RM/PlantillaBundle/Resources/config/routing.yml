@@ -1,3 +1,9 @@
+direct_manager_edit_plantillas:
+  path: /manager/edit/templates/{id_comunicacion}/
+  defaults: {_controller: RMPlantillaBundle:Default:index, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
+  requirements:
+    id_comunicacion: \d+
+
 direct_manager_edit_plantillas_importar:
   path: /manager/edit/templates/{id_canal}/{id_comunicacion}/import/
   defaults: {_controller: RMPlantillaBundle:Default:importarPlantilla}
@@ -30,6 +36,17 @@ direct_manager_edit_plantillas_upload:
   requirements:
     id_comunicacion: \d+
 
+direct_config_plantillas_editar_eliminar_grupo:
+  path: /config/templates/list/update/groups/delete/
+  defaults: {_controller: RMPlantillaBundle:Config:eliminarGruposPlantilla}
+  methods: [POST]
+  
+
+direct_config_plantillas_grupo_slots_guardar:
+  path: /config/templates/list/gs/save/
+  defaults: {_controller: RMPlantillaBundle:Config:guardarFichaGrupoSlot}
+  methods: [POST]
+  
 direct_config_tamanyo:
   path: /config/size/config/
   defaults: {_controller: RMPlantillaBundle:TamanyoImagen:index, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
@@ -48,7 +65,7 @@ direct_config_tamanyo_guardar:
   path: /config/size/config/save/
   defaults: {_controller: RMPlantillaBundle:TamanyoImagen:guardarTamanyo}
   methods: [POST]
-
+  
 
   
 direct_manager_previsualizar_plantilla:
@@ -56,7 +73,39 @@ direct_manager_previsualizar_plantilla:
   defaults: {_controller: RMPlantillaBundle:Default:previsualizarPlantilla, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
   requirements:
     id_comunicacion: \d+
+    
+direct_manager_editar_grupo_slots:
+  path: /manager/edit/grupoSlot/{id_comunicacion}/{id_plantilla}/{id_grupo}/
+  defaults: {_controller: RMPlantillaBundle:Config:editarGrupoSlots, $idOpcionMenuSup 2, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+  requirements:
+    id_plantilla: \d+
+    id_grupo: \d+
+    id_comunicacion: \d+
 
+direct_manager_crear_grupo_slots:
+   path: /manager/crear/grupoSlots/{id_comunicacion}/{id_plantilla}/
+   defaults: {_controller: RMPlantillaBundle:Config:crearGrupoSlots, $idOpcionMenuSup 2, idOpcionMenuIzq 3 , opcionMenuTabConfig 3 }
+   requirements:
+     id_plantilla: \d+
+     id_comunicacion: \d+
+
+direct_manager_eliminar_grupo_slots:
+    path: /manager/eliminar/grupoSlots
+    defaults: { _controller: RMPlantillaBundle:Config:eliminarGrupoSlots }
+    methods: [POST]
+
+
+rm_plantilla.default.generar_y_descargar:
+   path: /manager/edit/templates/{id_comunicacion}/action/generate/
+   defaults: { _controller: RMPlantillaBundle:Default:generarYDescargar }
+   methods: [GET]
+   requirements:
+     id_comunicacion: \d+
+
+rm_plantilla.default.descargar_instrucciones_maquetacion:
+   path: /manager/edit/templates/action/download/instrucction
+   defaults: { _controller: RMPlantillaBundle:Default:descargarInstruccionesPlantilla }
+   methods: [GET]
   
   
   

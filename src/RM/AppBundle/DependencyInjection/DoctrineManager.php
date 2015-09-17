@@ -22,6 +22,7 @@ class DoctrineManager
      */
     private $em;
 
+
     private $cliente;
 
     /**
@@ -64,5 +65,11 @@ class DoctrineManager
         }
 
         return $this->em;
+    }
+
+
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 } 

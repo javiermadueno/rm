@@ -69,25 +69,22 @@ class NumPromocionesController extends RMController
 
         try {
             if ($handler->handle($form, $request)) {
-                return JsonResponse::create([
-                    'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                    'form'    => $this->renderView('@RMProducto/NumPromociones/form_edit.html.twig',
-                        ['form' => $form->createView()]),
-                    'error'   => 0
-                ], Response::HTTP_OK)
-                    ;
+                $this->addFlash('mensaje', 'mensaje.ok.editar');
+                return $this
+                    ->redirectToRoute('direct_monitor_controlador_fases',
+                        ['id_instancia' => $id_instancia]
+                    );
             }
         } catch (DBALException $ex) {
             $this->handleException($form, $ex);
+            $this->addFlash('mensaje', 'mensaje.error.editar');
         }
 
-        return JsonResponse::create([
-            'mensaje' => $this->get('translator')->trans('mensaje.error.actualizar'),
-            'form'    => $this->renderView('@RMProducto/NumPromociones/form_edit.html.twig',
-                ['form' => $form->createView()]),
-            'error'   => 1
-        ], Response::HTTP_BAD_REQUEST)
-            ;
+        return $this->render('RMProductoBundle:NumPromociones:edit.html.twig', [
+            'form'      => $form->createView(),
+            'instancia' => $instancia,
+            'grupo'     => $grupo
+        ]);
     }
 
     /**
@@ -209,22 +206,18 @@ class NumPromocionesController extends RMController
             }
             $em->flush();
 
-            return JsonResponse::create([
-                'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-                'form'    => $this->renderView('@RMProducto/NumPromociones/form_creatividad_edit.html.twig',
-                    ['form' => $form->createView()]),
-                'error'   => 0
-            ], Response::HTTP_OK)
-                ;
+            $this->addFlash('mensaje', 'mensaje.ok.editar');
+            return $this
+                ->redirectToRoute('direct_monitor_controlador_fases',
+                    ['id_instancia' => $id_instancia]
+                );
         }
 
-        return JsonResponse::create([
-            'mensaje' => $this->get('translator')->trans('mensaje.ok.editar'),
-            'form'    => $this->renderView('@RMProducto/NumPromociones/form_creatividad_edit.html.twig',
-                ['form' => $form->createView()]),
-            'error'   => 1
-        ], Response::HTTP_BAD_REQUEST)
-            ;
+        return $this->render('@RMProducto/NumPromociones/edit_creatividad.html.twig', [
+            'form' => $form->createView(),
+            'instancia' => $instancia,
+            'grupo' => $grupo
+        ]);
 
     }
 

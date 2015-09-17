@@ -126,11 +126,11 @@ class GrupoSlotsController extends RMController
 
     /**
      * @param $id
-     * @param $idPlantilla
+     * @param $idComunicacion
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction($id, $idPlantilla)
+    public function showAction($id, $idComunicacion)
     {
         $em = $this->getManager();
 
@@ -140,11 +140,18 @@ class GrupoSlotsController extends RMController
             throw $this->createNotFoundException('Unable to find GrupoSlots entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id, $idPlantilla);
+        $comunicacion = $em
+            ->getRepository('RMComunicacionBundle:Comunicacion')
+            ->findById($idComunicacion);
+
+        if(!$comunicacion instanceof Comunicacion) {
+            throw $this->createNotFoundException('Unable to find Comunicacion');
+        }
+
 
         return $this->render('RMPlantillaBundle:GrupoSlots:show.html.twig', [
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'comunicacion'=> $comunicacion
         ]);
     }
 
@@ -251,6 +258,7 @@ class GrupoSlotsController extends RMController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->checkCreatividad();
             $em->flush();
 
             return $this->redirectToRoute('rm_comunicacion.comunicacion.editar_plantilla', [

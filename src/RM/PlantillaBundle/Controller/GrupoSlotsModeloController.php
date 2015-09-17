@@ -177,6 +177,7 @@ class GrupoSlotsModeloController extends RMController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->checkCreatividad();
             $em->flush();
             $this->addFlash('mensaje', 'mensaje.ok.editar');
             return $this->redirectToRoute('rm_plantilla_plantilla_modelo_edit', ['id' => $idPlantilla]);

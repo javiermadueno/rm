@@ -9,6 +9,7 @@
 namespace RM\ProductoBundle\Form\Type;
 
 
+use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Producto;
 use Symfony\Component\Form\AbstractType;
 use Doctrine\ORM\EntityRepository;
@@ -26,15 +27,20 @@ class PromocionGenericaCampanaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $data         = isset($options['data']) ? $options['data'] : null;
-        $numPromocion = $data instanceof Promocion ? $data->getNumPromocion() : null;
+
+        if ($data instanceof Promocion ) {
+            $numPromocion = $data instanceof Promocion ? $data->getNumPromocion() : null;
+            $grupo = $numPromocion instanceof NumPromociones? $numPromocion->getIdGrupo(): null;
+        }
+
 
         $builder
-            ->add('descripcion', 'text', ['required' => false, 'label' => 'descripcion'])
+            ->add('descripcion', 'textarea', ['required' => (bool)$grupo->getMTexto(), 'label' => 'descripcion', 'attr' => ['rows' => 3]])
             ->add('impConsumidor', 'number', ['required' => false, 'label'=> 'imp.consumidor'])
             ->add('impDistribuidor', 'number', ['required' => false, 'label' => 'imp.distribuidor'])
             ->add('impFijo', 'number', ['required' => false, 'label' => 'imp.fijo'])
-            ->add('condiciones', 'text', ['required' => false, 'label' => 'condiciones'])
-            ->add('fidelizacion', 'text', ['required' => false, 'label' => 'fidelizacion'])
+            ->add('condiciones', 'text', ['required' => (bool)$grupo->getMCondiciones(), 'label' => 'condiciones'])
+            ->add('fidelizacion', 'text', ['required' => (bool)$grupo->getMFidelizacion(), 'label' => 'fidelizacion'])
             ->add('codigo', 'text', ['required' => true, 'label' => 'codigo.promocion'])
             ->add('idTipoPromocion', 'entity', [
                 'class'         => 'RMProductoBundle:TipoPromocion',

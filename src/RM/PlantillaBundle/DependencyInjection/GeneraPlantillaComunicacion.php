@@ -9,7 +9,6 @@
 namespace RM\PlantillaBundle\DependencyInjection;
 
 use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\PlantillaBundle\Entity\Plantilla;
 use RM\PlantillaBundle\Entity\Slot;
 use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -71,6 +70,25 @@ class GeneraPlantillaComunicacion
 
     /**
      * @param PlantillaInterface $plantilla
+     *
+     * @return string
+     */
+    public function creaArchivoPlantillaTemporal(PlantillaInterface $plantilla)
+    {
+        $html = $this->renderPlantilla($plantilla);
+
+        $temp = tempnam(sys_get_temp_dir(), 'plantilla');
+
+        if (! file_put_contents($temp, $html)) {
+            throw new FileNotFoundException(
+                'No se ha podido generar el fichero de plantilla');
+        }
+
+        return $temp;
+    }
+
+    /**
+     * @param PlantillaInterface $plantilla
      * @return string
      */
     public function renderPlantilla(PlantillaInterface $plantilla)
@@ -119,12 +137,21 @@ class GeneraPlantillaComunicacion
 
     /**
      * @param PlantillaInterface $plantilla
-     * @return array|string
-     * @throws FileNotFoundException
+     * @param null               $ruta
+     *
+     * @return array
+     * @throws \Exception
      */
-    public function compruebaPlantilla(PlantillaInterface $plantilla)
+    public function compruebaPlantilla(PlantillaInterface $plantilla, $ruta = null)
     {
-        $rutaPlantilla = $this->getRutaPlantilla($plantilla);
+        if(is_null($ruta)) {
+            $rutaPlantilla = $this->getRutaPlantilla($plantilla);
+        } elseif (is_string($ruta)) {
+            $rutaPlantilla = $ruta;
+        } else {
+            throw new \Exception('El parametro para comprobar la plantilla debe ser la ruta de la plantilla o la plantilla');
+        }
+
 
         if(!file_exists($rutaPlantilla)){
            $this->creaArchivoPlantilla($plantilla);
@@ -133,71 +160,81 @@ class GeneraPlantillaComunicacion
         $error = [];
         $crawler = new Crawler(file_get_contents($rutaPlantilla));
 
-        $estilos = $crawler->filter('head>style');
-        $estilos = $estilos->html();
 
         /** @var GrupoSlots $grupo */
         foreach($plantilla->getGruposSlots() as $grupo) {
             /** @var Slot $slot */
             foreach($grupo->getSlots() as $slot) {
-                $div_slot = $crawler->filter(sprintf('#%s-%s',$grupo->getIdGrupo(),$slot->getIdSlot()));
+
+                $id = sprintf('#%s-%s','slot',$slot->getIdSlot());
+
+                $div_slot = $crawler->filter($id);
                 if(!count($div_slot)) {
                     $error[] = sprintf('Falta el div con ID = "%s-%s" ',
                         $grupo->getIdGrupo(),$slot->getIdSlot());
                     continue;
                 }
 
-                if($grupo->getMImgMarca()) {
-                    if(!count($div_slot->filter('.imagenMarca'))) {
-                        $error[] = sprintf('Falta el div de imagenMarca para el slot con ID = "%s-%s" ',
+                if($grupo->getMImgProducto()) {
+                    $id_imagen = sprintf('%s-%s', $id, 'imagen');
+                    if(!count($div_slot->filter($id_imagen))) {
+                        $error[] = sprintf('Falta el div de imagen para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
-                if($grupo->getMImgProducto()) {
-                    if(!count($div_slot->filter('.imagenProducto'))) {
-                        $error[] = sprintf('Falta el div de imagenProducto para el slot con ID = "%s-%s" ',
+                if($grupo->getMNombreProducto()) {
+                    $id_nombre_producto = sprintf('%s-%s', $id, 'nombreProducto');
+                    if(!count($div_slot->filter($id_nombre_producto))) {
+                        $error[] = sprintf('Falta el div de nombreProducto para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMPrecio()) {
-                    if(!count($div_slot->filter('.precio'))) {
+                    $id_precio = sprintf('%s-%s', $id, 'precio');
+                    if(!count($div_slot->filter($id_precio))) {
                         $error[] = sprintf('Falta el div de precio para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMTexto()) {
-                    if(!count($div_slot->filter('.texto'))) {
+                    $id_texto = sprintf('%s-%s', $id, 'texto');
+                    if(!count($div_slot->filter($id_texto))) {
                         $error[] = sprintf('Falta el div de texto para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMCondiciones()) {
-                    if(!count($div_slot->filter('.condiciones'))) {
+                    $id_condiciones = sprintf('%s-%s', $id, 'condiciones');
+                    if(!count($div_slot->filter($id_condiciones))) {
                         $error[] = sprintf('Falta el div de condiciones para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMFidelizacion()) {
-                    if(!count($div_slot->filter('.fidelizacion'))) {
+                    $id_fidelizacion = sprintf('%s-%s', $id, 'fidelzacion');
+                    if(!count($div_slot->filter($id_fidelizacion))) {
                         $error[] = sprintf('Falta el div de fidelizacion para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMVoucher()) {
-                    if(!count($div_slot->filter('.voucher'))) {
+                    $id_voucher = sprintf('%s-%s', $id, 'voucher');
+                    if(!count($div_slot->filter($id_voucher))) {
                         $error[] = sprintf('Falta el div de Voucher para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
                 }
 
                 if($grupo->getMVolumen()) {
-                    if(!count($div_slot->filter('.volumen'))) {
+                    $id_volumen = sprintf('%s-%s', $id, 'volumen');
+
+                    if(!count($div_slot->filter($id_volumen))) {
                         $error[] = sprintf('Falta el div de volumen para el slot con ID = "%s-%s" ',
                             $grupo->getIdGrupo(),$slot->getIdSlot());
                     }
@@ -212,16 +249,5 @@ class GeneraPlantillaComunicacion
 
         return [];
     }
-
-    public function setPlantilla(PlantillaInterface $plantilla)
-    {
-        $this->plantilla =  $plantilla;
-        return $this;
-    }
-
-    private function guardaPlantilla(Crawler $crawler)
-    {
-    }
-
 
 } 

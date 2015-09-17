@@ -238,7 +238,7 @@
                 var rechazadas = 0;
                 var serieBarras = [];
                 data.each(function(elem) {
-                    serieBarras.push([elem.nombreProducto, elem.simulado]);
+                    serieBarras.push([elem.nombreProducto, parseInt(elem.simulado)]);
 
                     if(elem.aceptada == 2) {
                         aceptadas++;

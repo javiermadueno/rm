@@ -21,3 +21,7 @@ rm_static.default.numpromociones:
 rm_static.default.descargar_batch:
    path: /instancia/{id}/descargar/batch
    defaults : {_controller: RMStaticBundle:Default:descargarBatch }
+
+rm_static.default.absolute_url:
+   path: /absolute/url
+   defaults: { _controller: RMStaticBundle:Default:getAbsoluteUrl }

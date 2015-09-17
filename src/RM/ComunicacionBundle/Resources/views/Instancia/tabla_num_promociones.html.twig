@@ -1,0 +1,28 @@
+<table class="table table-bordered responsive">
+  <colgroup>
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+      <tr>
+          <th>{{ "categoria" |trans|title }}</th>
+          <th>{{ "numero.promociones.segmentadas" |trans|title }}</th>
+          <th>{{ "numero.promociones.genericas" |trans|title }}</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for num_pro in num_promociones %}
+            <tr>
+                <td class="center-all">{{ num_pro.idCategoria.nombre }}</td>
+                <td class="center-all">{{ num_pro.numSegmentadas }}</td>
+                <td class="center-all">{{ num_pro.numGenericas }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">{{ "sin.resultados" |trans|title}}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -12,13 +12,13 @@
 			<table class="table responsive">
 				<tbody>
 					<tr>
-                        <td class="sinborde"> {{ 'modulo.direct.fase.finalizada.comunicaciones.generadas'|trans({'%comunicaciones%' : random(14000)}) }}</td>
+                        <td class="sinborde"> {{ 'modulo.direct.fase.finalizada.comunicaciones.generadas'|trans({'%comunicaciones%' : objInstancia.numComunicaciones|default(0)|localizednumber}) }}</td>
                         <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
 					</tr>
                 <tr>
                     <td class="sinborde">{{ '' }}</td>
                     <td class="sinborde pull-right">
-                        <a class="btn btn-success" target="_blank" {{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
+                        <a class="btn btn-success" target="_blank" href="{{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
                             {{ "boton.descargar.batch" |trans|title}}
                         </a>
                     </td>
@@ -47,31 +47,5 @@
 		</div>
 
 
-    <h4 class="widgettitle">{{ "opciones.batch" |trans|title}}</h4>
-		<div class="mediamgr_head">
-			<table>
-				<tbody>
-					<tr>
-						<td class="sinborde">
-							{{ "modulo.direct.fase.finalizada.formato.generado" |trans|title}}:  {{ formato }}
-						</td>					
-					</tr>
-					<tr>
-						{% if otros == 'FTP' %}
-						<td class="sinborde">
-							{{ "modulo.direct.fase.finalizada.enviado.ftp" |trans({'%via%': otros}) }}: Server {{ server }} | User: {{ user }} | Pass: {{ pass }}
-						</td>
-						{% elseif otros == 'POST' %}
-						<td class="sinborde">
-							{{ 'modulo.direct.fase.finalizada.enviado.url'|trans }}: {{ url }}
-						</td>
-						{% else %}
-						<td class="sinborde">
-							{{ 'modulo.direct.fase.finalizada.enviado.descarga'|trans }}
-						</td>
-						{% endif %}					
-				</tbody>
-			</table>
-		</div>
 
 {% endblock %}

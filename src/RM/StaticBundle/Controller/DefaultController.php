@@ -10,9 +10,14 @@ use RM\ComunicacionBundle\Entity\Creatividad;
 use RM\ComunicacionBundle\Form\CreatividadType;
 use RM\ProductoBundle\Form\Type\CampaignType;
 use RM\ProductoBundle\Form\Type\NumPromocionesType;
+use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\Asset\PathPackage;
+use Symfony\Component\Asset\UrlPackage;
+use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 
 class DefaultController extends RMController
@@ -118,15 +123,45 @@ class DefaultController extends RMController
             return $this->redirectToRoute('direct_monitor_controlador_fases', ['id_instancia' => $id]);
         }
 
+        /*
+        $response = new BinaryFileResponse($ruta_batch);
+        $response->headers->set('Content-Type', 'text/xml');
+        */
+
+
         $response = new Response();
         $response->setContent(file_get_contents($ruta_batch));
-        $response->headers->set('Content-type', 'application/octet-stream');
+        $response->headers->set('Content-type', 'text/xml');
         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', basename($ruta_batch)));
+
 
         return $response;
     }
 
+    public function getAbsoluteUrlAction()
+    {
+        $requestStack = $this->get('request_stack');
 
+        $package = new PathPackage(
+            '/',
+            new StaticVersionStrategy('v1'),
+            new RequestStackContext($requestStack)
+        );
 
+        $path = '3/imagenesProducto/157.jpg';
+        $request = $requestStack->getMasterRequest();
 
+        $prefix = $request->getPathInfo();
+        $last = strlen($prefix) - 1;
+        $pos = strrpos($prefix, '/');
+        if ($last !== $pos ) {
+            $prefix = substr($prefix, 0, $pos).'/';
+        }
+
+        $url = $request->getUriForPath($prefix.$path);
+
+        $ulr = $this->get('twig.extension.httpfoundation')->generateAbsoluteUrl($path);
+
+        return Response::create($url, Response::HTTP_OK);
+    }
 }

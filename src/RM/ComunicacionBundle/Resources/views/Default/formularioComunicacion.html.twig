@@ -28,7 +28,7 @@
 				<td class="sinborde textoDerecha">{{ form_label(formulario.estado, 'estado.comunicacion') }}</td>
 				<td class="sinborde">&nbsp;</td>
 				<td class="sinborde">
-                    {% if cumpleRequisitos is defined and cumpleRequisitos == true %}
+                    {% if accion is defined and accion == 'editar' %}
                         {{ form_widget(formulario.estado, { 'attr': { 'class': 'tam150' } }) }}
                     {% else %}
                         {{ form_widget(formulario.estado, { 'attr': { 'class': 'tam150', 'disabled': 'disabled' } }) }}
@@ -54,11 +54,22 @@
 				</td>
 			</tr>
 			<tr >
-                <td colspan="3" class="sinborde botonera_central">
+                <td colspan="3" class="sinborde">
                     {% for error in app.session.flashbag.get('formulario') %}
-                        <div class="alert alert-danger ">
-                            <strong>{{ "error"|trans|title }}: </strong>{{ error |trans }}
-                        </div>
+                        {% if loop.first %}
+                            <div class="alert alert-block alert-danger ">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4> <strong>{{ "error"|trans|title }}: </strong></h4>
+                            <ul>
+                        {% endif %}
+
+                            <li>{{ error |trans }}</li>
+
+                        {% if loop.last %}
+                            </ul>
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
                     {% for mensaje in app.session.flashbag.get('formulario_ok') %}
                         <div class="alert alert-success">
@@ -67,6 +78,7 @@
                     {% endfor %}
 			    </td>
             </tr>
+
             {% if not formulario.vars.valid %}
                 <tr>
                     <td colspan="3" class="sinborde">

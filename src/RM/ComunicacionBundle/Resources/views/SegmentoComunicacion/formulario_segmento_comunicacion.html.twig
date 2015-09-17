@@ -18,11 +18,11 @@
             </div>
         {% endif %}
 
-        <div class="control-group {% if form.fecInicio.vars.errors is not empty %}error{% endif %}">
+        <div class="control-group {% if not app.request.xmlHttpRequest and form.fecInicio.vars.errors is not empty %}error{% endif %}">
             {{ form_label(form.fecInicio,  null,{'label_attr': {'class':'control-label' }}) }}
             <div class="controls">
                 {{ form_widget(form.fecInicio) }}
-                {% if form.fecInicio.vars.errors is not empty %}
+                {% if  not app.request.xmlHttpRequest and form.fecInicio.vars.errors is not empty %}
                     <span class="help-inline">
                         {% for error in form.fecInicio.vars.errors %}
                             {{ error.message }}
@@ -32,11 +32,11 @@
             </div>
         </div>
 
-        <div class="control-group {% if not form.fecFin.vars.valid %}error{% endif %}">
+        <div class="control-group {% if not app.request.xmlHttpRequest and not form.fecFin.vars.valid %}error{% endif %}">
             {{ form_label(form.fecFin, null, {'label_attr': {'class':'control-label' }}) }}
             <div class="controls">
                 {{ form_widget(form.fecFin) }}
-                {% if form.fecFin.vars.errors is not empty %}
+                {% if not app.request.xmlHttpRequest and form.fecFin.vars.errors is not empty %}
                     <span class="help-inline">{% for error in form.fecFin.vars.errors %} {{ error.message }} {% endfor %}</span>
                 {% endif %}
             </div>

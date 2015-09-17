@@ -20,6 +20,7 @@ mensaje:
     cambio.fase.generacion.rechazadas: Se generaran las comunicaciones personalizadas para cada cliente sin las promociones rechazadas.
     limite.numslots: Ha sobrepasado el limite de Números de Slots permitido
     faltan.segmentos: No se puede Activar la comunicación. No hay ningun segmento definido
+    faltan.gruposslot: No se puede Activar la comunicación. La plantilla de la comunicación no tiene configurado ningún grupo de slots.
     categorias.numero.promociones.defininido: Las siguientes categorías no han alcanzado el número de promociones definido
     parar.segmentocomunicacion: No ha podido detenerse la comunicación del segmento.
     reanudar.segmentocomunicacion: No se ha podido reanudar la comunicación del segmento.
@@ -28,6 +29,7 @@ mensaje:
     reanudar.comunicacion: No se ha podido reanudar la comunicación
     subida.fichero.demasiado.grande: El tamaño de la imagen es demasiado grande.
     descargar.fichero: Se ha producido un error al descargar el fichero.
+    descargar.fichero.plantilla: No existe el fichero de la plantilla. Por favor, suba uno.
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -62,6 +64,8 @@ mensaje:
       registros: ¿Desea eliminar los registros seleccionados?
   calculo:
     poblacion: Con el filtro especificado se ha calculado una poblacion de %poblacion% clientes
+  grupo.slot.no.definido: La plantilla de la comunicacion no tiene configurado ningun grupo de slots, por favor, configure uno antes de continuar
+  anadir.grupo: Añadir grupo de Slot
 
 
 error: Error
@@ -82,6 +86,8 @@ HC: Hábitos de compra
 SD: Sociodemográficos
 CV: Ciclo de vida
 OT: Otras Transformadas
+
+modal.cargando: Cargando...
 
 menu:
   data:
@@ -132,6 +138,7 @@ menu:
     cerrar: Cerrar sesión
 
 boton:
+  acciones: Acciones
   guardar: Guardar
   eliminar: Eliminar
   nuevo: Nuevo
@@ -144,11 +151,16 @@ boton:
   reanudar: Reanudar
   descargar: Descargar
   descargar.productos.sin.imagen: CSV Productos sin imagen
-  descargar.instrucciones.imagenes.producto: Instrucciones de Subida de imagenes
+  descargar.instrucciones:
+      imagenes.producto: Instrucciones de Subida de imagenes
+      maquetacion.plantilla: Instrucciones de maquetación
   descargar.batch: Descargar Batch
   importar: Importar
   exportar: Exportar
-  previsualizar.plantilla: Previsualizar Plantilla
+  exportar.plantilla: Guardar plantilla
+  importar.plantilla: Utilizar plantilla
+  previsualizar.plantilla: Previsualizar
+  generar.descargar.plantilla: Generar plantilla por defecto
   previsualizar: Previsualizar
   subir: Subir
   listado: Listado
@@ -159,6 +171,7 @@ boton:
   editar: Editar
   eliminar: Eliminar
   eliminar.plantilla: Eliminar Plantilla
+  nueva.plantilla: Nueva Plantilla
   filtro:
     comprobar: Comprobar Filtro
     guardar: Guardar Filtro
@@ -194,7 +207,7 @@ cabecera:
   eliminar:
     segmento: Eliminar Segmento
   cambio.fase.instancia: Cambio de Fase de Instancia Comunicación
-  promociones.categoria: Promociones por Categoría
+  promociones.categoria: Promociones
   segmentador: Segmentador
 
 buscar:
@@ -323,6 +336,9 @@ filtro.busqueda: Filtro de búsqueda
 instancias: Instancias
 instancia: Instancia
 
+instancia.fase: Fase
+
+
 fase:
   configuracion: Configuración
   campana: Campañas
@@ -338,7 +354,7 @@ desactivado: Desactivado
 en.proceso: En proceso
 canal: Canal
 controles: Controles
-recursos.graficos: Recursos Gráficos
+recursos.graficos: Productos
 creatividades: Creatividades
 creatividad: Creatividad
 
@@ -360,7 +376,12 @@ promocion: Promoción
 promociones: Promociones
 promocion.avanzado: Avanzado
 subir.plantilla.maquetada: Subir plantilla maquetada
+
 grupo.slots: Grupo Slots
+grupo.slots.tipo:
+  promocion: Tipo Promoción
+  creatividad: Tipo Creatividad
+grupo.slots.caracteristicas: Características
 
 numero:
   slots: Número de Slots
@@ -415,7 +436,7 @@ tamano:
 tabla:
   resumen: Tabla resumen
   resumen.creatividades: Tabla resumen de Creatividades
-  resumen.promociones: Tabla resumen de Promociones
+  resumen.promociones: Tabla resumen de Promociones de Producto
 
 opciones:
   email: Opciones de Email
@@ -583,6 +604,7 @@ clientes:
   0: Clientes
   activos: Clientes Activos
   nuevos: Clientes Nuevos
+  inactivos: Clientes Inactivos
 
 ventas:
   0: ventas
@@ -596,17 +618,24 @@ contribucion:
 reactividad.target.por.comunicades: Reactividad-Target por Comunicades
 reactividad: Reactividad
 
+fichero:
+  csv:
+    columna:
+      id: Id
+      nombre: Nombre (Sustituye esta columna por el nombre de la imagen asociada al producto)
 
 formulario:
   grupo.slot:
-    m_img_producto: Mostrar Imagen Producto
-    m_precio_producto: Mostrar Precio Producto
-    m_volumen: Mostrar Volumen
+    m_img_producto: Mostrar imagen de producto
+    m_img_creatividad: Mostrar imagen de creatividad
+    m_precio_producto: Mostrar precio de producto
+    m_volumen: Mostrar volumen
     m_condiciones: Mostrar condiciones de la promoción
     m_img_marca: Mostrar imagen marca
-    m_texto: Mostrar texto libre
+    m_texto: Mostrar descripción
     m_voucher: Mostrar voucher
     m_fidelizacion: Mostrar información de fidelización
+    m_nombre_producto: Mostrar nombre de producto
 
 
 highchart:
@@ -737,7 +766,12 @@ highchart:
           title: Reactividad - Targer por Sexos
           serie:
             axis.y: Clientes
-
+    inactivos:
+      evolucion:
+        edades:
+          title: Clientes inactivos por Edad
+        sexo:
+          title: Clientes inactivos por Sexo
 
 
 

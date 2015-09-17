@@ -4,6 +4,7 @@
         <thead>
         <tr>
             <th>{{ "nombre" | trans|title }}</th>
+            <th>{{ "tipo" |trans|title}}</th>
             <th>{{ "numero.slots" | trans|title }}</th>
             <th>{{ "controles" |trans|title }}</th>
         </tr>
@@ -14,6 +15,7 @@
                 <td>
                     <a href="{{ path('gruposlotsmodelo_show', { 'id': entity.idGrupo, 'idPlantilla': plantilla }) }}">{{ entity.nombre }}</a>
                 </td>
+                <td>{{ entity.tipo == constant('PROMOCION', entity) ? 'grupo.slots.tipo.promocion'|trans : 'grupo.slots.tipo.creatividad'|trans }} </td>
                 <td>{{ entity.numSlots }}</td>
                 <td>
                     <button class="btn btn-success" disabled>{{ "boton.editar" |trans|title}}</button>

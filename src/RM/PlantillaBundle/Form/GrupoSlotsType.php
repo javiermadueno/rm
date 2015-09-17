@@ -28,8 +28,8 @@ class GrupoSlotsType extends AbstractType
             ->add('nombre', 'text')
             ->add('tipo', 'choice', [
                 'choices'  => [
-                    GrupoSlots::CREATIVIDADES => 'Creatividades',
-                    GrupoSlots::PROMOCION     => 'Promocion'
+                    GrupoSlots::CREATIVIDADES => 'grupo.slots.tipo.creatividad',
+                    GrupoSlots::PROMOCION     => 'grupo.slots.tipo.promocion'
 
                 ],
                 'required' => true
@@ -48,7 +48,7 @@ class GrupoSlotsType extends AbstractType
                 '- Tamaño Slot Creatividad -' :
                 '- Tamaño Slot Promocion  -';
 
-            $form->add('idTamanyoImgProducto', 'entity', [
+            $form->add('idTamanyoSlot', 'entity', [
                 'class'         => 'RM\PlantillaBundle\Entity\TamanyoImagen',
                 'em'            => $em,
                 'query_builder' => function (EntityRepository $er) use ($tamanyo) {
@@ -71,6 +71,10 @@ class GrupoSlotsType extends AbstractType
                     'required' => false,
                     'label'    => 'mostrar.imagen.producto'
                 ])
+                ->add('mNombreProducto', 'checkbox', [
+                    'required' => false,
+                    'label'    => 'mostrar.nombre.producto'
+                ])
                 ->add('mPrecio', 'checkbox', [
                     'required' => false
                 ])
@@ -78,9 +82,6 @@ class GrupoSlotsType extends AbstractType
                     'required' => false
                 ])
                 ->add('mCondiciones', 'checkbox', [
-                    'required' => false
-                ])
-                ->add('mImgMarca', 'checkbox', [
                     'required' => false
                 ])
                 ->add('mTexto', 'checkbox', [
@@ -100,9 +101,9 @@ class GrupoSlotsType extends AbstractType
                 ->remove('mPrecio')
                 ->remove('mVolumen')
                 ->remove('mCondiciones')
-                ->remove('mImgMarca')
                 ->remove('mVoucher')
                 ->remove('mFidelizacion')
+                ->remove('mNombreProducto')
             ;
             $form
                 ->add('mImgProducto', 'checkbox', [

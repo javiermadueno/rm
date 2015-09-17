@@ -3,33 +3,43 @@
 {% set generada = comunicacion.generada %}
 
 <form id="borrarGrupos" action="{{ path('rm_plantilla_gruposlots_borrar', {'idComunicacion': idComunicacion }) }}" method="post">
-<h4 class="widgettitle">{{ "grupo.slots"|trans }}</h4>
+<h4 class="widgettitle">{{ "grupo.slots"|trans }} [{% if plantilla.esModelo %}{{ 'plantilla'|trans ~ ': ' ~  plantilla.nombre  }}{% else %}{{ 'plantilla.ad.hoc'|trans  }}{% endif %}]</h4>
 <table class="table table-bordered responsive">
     <thead>
     <tr>
-        <th width="1%"><input type="checkbox" id="checkTodos" /></th>
+        {% if es_editable and not generada %}
+            <th width="1%"><input type="checkbox" id="checkTodos" /></th>
+        {% endif %}
         <th>{{ "nombre" | trans|title }}</th>
+        <th>{{ "tipo" |trans|title}}</th>
         <th>{{ "numero.slots" | trans|title }}</th>
-        <th>{{ "controles" |trans|title}}</th>
+        {% if es_editable and not generada %}
+            <th>{{ "controles" |trans|title}}</th>
+        {% endif %}
     </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><input type="checkbox" name="eliminar[{{ entity.idGrupo }}]" class="selTodos" value="{{ entity.idGrupo }}"/></td>
+            {% if es_editable and not generada %}
+            <td>
+                <input type="checkbox" name="eliminar[{{ entity.idGrupo }}]" class="selTodos" value="{{ entity.idGrupo }}"/>
+            </td>
+            {% endif %}
             <td>
                 {% if es_editable and not generada %}
                     <a href="{{ path('rm_plantilla_gruposlots_edit', { 'id': entity.idGrupo, 'idComunicacion': idComunicacion }) }}">{{ entity.nombre }}</a>
                 {% else %}
-                    {{ entity.nombre}}
+                    <a href="{{ path('rm_plantilla_gruposlots_show', { 'id': entity.idGrupo, 'idComunicacion': idComunicacion }) }}">{{ entity.nombre}}</a>
                 {% endif %}
             </td>
+            <td>{{ entity.tipo == constant('PROMOCION', entity) ? 'grupo.slots.tipo.promocion'|trans : 'grupo.slots.tipo.creatividad'|trans }} </td>
             <td>{{ entity.numSlots }}</td>
+            {% if es_editable and not generada %}
             <td>
-                {% if es_editable and not generada %}
                 <a class="btn btn-success" href="{{ path('rm_plantilla_gruposlots_edit', { 'id': entity.idGrupo, 'idComunicacion': idComunicacion }) }}">{{ "boton.editar"|trans|title}}</a>
-                {% endif %}
             </td>
+            {% endif %}
         </tr>
     {% else %}
         <tr>

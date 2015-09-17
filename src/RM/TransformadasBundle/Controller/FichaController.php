@@ -71,6 +71,7 @@ class FichaController extends Controller
     	if ($request->isMethod('POST')) {
     		$servicio = $this->get("variablesTransformadas");
     		if($request->get('accionEjecutar') == 'eliminar'){
+                //TODO arreglar esta parte de guardar y eliminar segmentos
                 //Se ha copiado la parte de guardar, para mantener los posibles cambios que se hayan realizado.
                 $guardarSeg = $servicio->guardarSegGrupoVIbyPost($request);
 
@@ -130,24 +131,32 @@ class FichaController extends Controller
     		crear los ids de los elementos con los ids creados en bbdd. Esto representar� una linea entera de la tabla
     	*/
     	
-
-
+    	//$translated = $this->get('translator')->trans('Symfony2 is great');
+    	//ECHO 'ENTRO EN NUEVOSEGMENTOVT-';
     	$servicioVL = $this->get("variablesLineales");
     	$objVL = $servicioVL->getVariablesLinealesNoSociodemograficas();
     	
-
+    	//ECHO '-OBJETO VARIABLES LINEALES-';
+    	//var_dump($objVL);
     	
     	$servicioVT = $this->get("variablesTransformadas");
     	
     	$nombreSeg =  $this->get('translator')->trans('Segmento'). " ". $idNuevoSeg;
-
+//     	ECHO '-NOMBRE SEG-';
+//     	var_dump($nombreSeg);
+//     	ECHO '-VALOR IDVT-';
+//     	var_dump($id_vt);
     	$objSegmento = $servicioVT->crearObjSegmento($nombreSeg, $id_vt);
-
+//     	ECHO '-OBJSEGMENTO-';
+//     	var_dump($objSegmento);
+    	
     	
     	$nombreGrupo =  $this->get('translator')->trans('Nuevo Grupo');
-
+//     	ECHO 'NOMBRE GRUPO';
+    	//var_dump($nombreGrupo);
     	$objGrupo = $servicioVT->crearObjGrupo($nombreGrupo, $objSegmento->getIdVtSegmento());
-
+//     	ECHO 'OBJETO GRUPO';
+    	//var_dump($objGrupo);
     	$id_vil = $objVL[0]->getIdVil();
     	$id_grupo = $objGrupo->getIdGrupo();
     	$objIntervalo = $servicioVT->crearObjIntervalo($id_grupo, $id_vil);

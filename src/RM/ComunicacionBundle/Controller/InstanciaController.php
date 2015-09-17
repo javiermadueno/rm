@@ -162,8 +162,8 @@ class InstanciaController extends RMController
 
         $tramitar = $servicioIC->compruebaFaseConfiguracion($instancia);
 
-        $faltanNumPromociones = !$instancia->isTodosGruposRellenos();
-        $faltanGenericas      = !$instancia->isTodasGenericasDefinidas();
+        $faltanNumPromociones = $instancia->isTodosGruposRellenos();
+        $faltanGenericas      = $instancia->isTodasGenericasDefinidas();
 
         return $this->render(
             'RMComunicacionBundle:Instancia:faseConfiguracionPromoNew.html.twig',
@@ -257,13 +257,11 @@ class InstanciaController extends RMController
 
     private function faseConfirmacion(InstanciaComunicacion $instancia)
     {
-        $numcomunicaciones = '125.548';
 
         return $this->render(
             'RMComunicacionBundle:Instancia:faseConfirmacion.html.twig',
             [
                 'objInstancia'      => $instancia,
-                'numComunicaciones' => $numcomunicaciones,
                 'preview'           => '0',
                 'tramitar'          => true
             ]
@@ -273,9 +271,6 @@ class InstanciaController extends RMController
 
     private function faseFinalizada(InstanciaComunicacion $instancia)
     {
-        $nomPagFase = 'finalizada';
-
-
 
         $formato = 'XML';
         $server  = 'FTP';
@@ -329,6 +324,8 @@ class InstanciaController extends RMController
                 $c++;
             }
 
+            // echo'Result';
+            // TODO: parche para predemo
             $result = [];
 
             $result[0][0] = "FRESCOS, NARANJA DE MESA";
@@ -344,6 +341,7 @@ class InstanciaController extends RMController
             $result[2][2] = "jmdelrio@relationalmessages.com";
             $result[2][3] = "914112234";
 
+            //var_dump ( $result );exit(0);
 
             if ($result != 0) {
 
@@ -700,6 +698,8 @@ class InstanciaController extends RMController
 
         $objInstancias = $servicioIC->getInstanciaById($id_instancia);
 
+        // echo '$objInstancias';
+        // var_dump($objInstancias);
 
         $objInstancia = $objInstancias [0];
 

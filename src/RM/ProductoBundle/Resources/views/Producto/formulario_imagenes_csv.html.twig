@@ -44,7 +44,8 @@
 <script>
     $(document).ready(function(){
         $('#imagenes_csv_file').on('change', function(){
-            $('#fichero').val($(this).val());
+            var filename = $(this).val().replace(/^.*\\/, "");
+            $('#fichero').val(filename);
         });
 
         $('#browse').on('click', function(e){

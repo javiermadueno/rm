@@ -1,0 +1,17 @@
+{% extends '::pantallaPopUp.html.twig' %}
+
+{% block body %}
+    <div class="maincontentinner">
+        <div class="row-fluid">
+            <div class="span12">
+                <h4 class="widgettitle">{{ "error" |trans|title}}</h4>
+                <div class="widgetcontent">
+                    <div class="alert alert-danger">
+                        <h4>{{ "error" |trans|title}}</h4>
+                        <p>{{ error|default('error'|trans) }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

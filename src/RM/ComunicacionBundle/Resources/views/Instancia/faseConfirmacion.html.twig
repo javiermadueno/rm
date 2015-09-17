@@ -4,16 +4,18 @@
 {% block contenedorPrincipal %}
 	{{ parent() }}
 
+    {% set num_comunicaciones = objInstancia.numComunicaciones|default(0)|localizednumber %}
+
     <h4 class="widgettitle">{{ "info" | trans | title}}</h4>
     <div class="mediamgr_head">
         <form name=previewForm id=previewForm action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
-            <input type="hidden" name='numComunicaciones' id='numComunicaciones' value={{ numComunicaciones }}>
+            <input type="hidden" name='numComunicaciones' id='numComunicaciones' value={{ num_comunicaciones }}>
             <input type="hidden" id="preview" name="preview" value="preview">
             <input type="hidden" id="idSegmento" name="idSegmento" value="preview">
             <table class="table">
                 <tbody>
                     <tr>
-                        <td class="sinborde"> Se han generado {{numComunicaciones }} comunicaciones</td>
+                        <td class="sinborde"> Se han generado {{ num_comunicaciones }} comunicaciones</td>
                         <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
                     </tr>
                     <tr>

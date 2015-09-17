@@ -60,6 +60,7 @@ class CreaNuevaPlantillaListener implements EventSubscriberInterface
         $plantilla
             ->setEstado(Estado::ACTIVO)
             ->setCanal($comunicacion->getIdCanal())
+            ->setEsModelo(false);
         ;
 
         $this->em->persist($plantilla);

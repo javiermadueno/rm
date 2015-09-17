@@ -18,23 +18,11 @@ use RM\CategoriaBundle\Entity\Categoria;
 class NumPromociones
 {
 
-    public function __construct(){
-
+    public function __construct()
+    {
         $this->promociones = new ArrayCollection();
-        $this->segmentadas = new ArrayCollection();
-        $this->genericas   = new ArrayCollection();
-
     }
 
-    /**
-     * @var ArrayCollection
-     */
-    protected $segmentadas;
-
-    /**
-     * @var ArrayCollection
-     */
-    protected $genericas;
 
     /**
      * @var integer
@@ -331,84 +319,7 @@ class NumPromociones
       });
 
     }
-    /**
-    public function getGenericas()
-    {
-        $this->genericas = $this->promociones
-            ->filter(function(Promocion $promocion) {
-                return
-                    Promocion::TIPO_GENERICA === $promocion->getTipo()
-                    &&
-                    $promocion->getEstado() > -1;
-            });
 
-        $this->genericas->forAll(function($key, Promocion $promocion){
-            $promocion->setNumPromocion($this);
-        });
-
-        return $this->genericas;
-    }
-
-
-    public function getSegmentadas()
-    {
-        $this->segmentadas = $this->promociones
-            ->filter(function(Promocion $promocion) {
-                return
-                    Promocion::TIPO_SEGMENTADA === $promocion->getTipo()
-                    &&
-                    $promocion->getEstado() > -1;
-            });
-
-        $this->segmentadas->forAll( function($key, Promocion $promocion){
-            $promocion->setNumPromocion($this);
-        });
-
-        return $this->segmentadas;
-    }
-     */
-
-    /**
-    public function addSegmentadas(Promocion $promocion)
-    {
-        $promocion
-            ->setTipo(Promocion::TIPO_SEGMENTADA)
-            ->setEstado(1)
-            ->setNumPromocion($this);
-
-
-        $this->promociones->add($promocion);
-        return $this;
-    }
-
-    public function removeSegmentadas(Promocion $promocion)
-    {
-        $promocion->setEstado(-1);
-        $this->promociones->remove($promocion);
-        return $this;
-    }
-
-    public function addGenericas(Promocion $promocion)
-    {
-        $promocion
-            ->setTipo(Promocion::TIPO_GENERICA)
-            ->setEstado(1)
-            ->setNumPromocion($this);
-
-        $this->promociones->add($promocion);
-
-        return $this;
-    }
-
-    public function removeGenericas(Promocion $promocion)
-    {
-        $promocion->setEstado(-1);
-        $this->promociones->remove($promocion);
-
-        return $this;
-    }
-     *
-     * /
 
     /**
      * @return bool

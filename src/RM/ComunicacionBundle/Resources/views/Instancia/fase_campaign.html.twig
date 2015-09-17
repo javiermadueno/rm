@@ -61,7 +61,7 @@
                     <td class="center-all">{{ "genericas" |trans|title }}</td>
                 {% endfor %}
             </tr>
-            <tr>
+            <tr class="{% if not num_promocion.isGenericasCompletas %} error {% else %} success {% endif %}">
                 {% for grupo in campaign.gruposSlots %}
                     {% if grupo is same as(num_promocion.idGrupo) %}
                         <td class="center-all">
@@ -103,7 +103,7 @@
                 <td class="center-all">{{ "segmentadas" |trans|title }}</td>
                 <td class="center-all">{{ "genericas" |trans|title }}</td>
             </tr>
-            <tr>
+            <tr class="{% if not num_promocion.isGenericasCompletas %} error {% else %} success {% endif %}">
                 <td class="center-all">
                     {{ num_promocion.promocionesSegmentadas|length }} / {{ num_promocion.numSegmentadas|default(0) }}
                 </td>
@@ -114,5 +114,81 @@
         {% endfor %}
         </tbody>
     </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        function throwPopUp() {
+
+            var listCatNeeded = document.getElementById('listCatNeeded').value;
+
+            listCatNeeded = listCatNeeded.replace(/,\s*$/, "");
+
+            var lista = listCatNeeded.split(",");
+
+            lista = JSON.stringify(lista);
+
+            var url = "{{ path('direct_monitor_fases_avisos', {listaCatNeeded: '-111'}) }}";
+
+            url = url.replace("-111", encodeURIComponent(lista));
+
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Avisos" %}
+
+            var nomVentana = '{{ nombreVentana }}';
+            popup = window.open(url, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+
+            return false;
+        }
+
+        function verAvisos(resultado, contador) {
+            var largo = 550;
+            var altura = 550;
+            var top = (screen.height - altura) / 2;
+            var izquierda = (screen.width - largo) / 2;
+            {% set nombreVentana = "Avisos" %}
+            camino = "{{ path('direct_monitor_show_avisos', {'objUsers':'111','contador':'222'}) }}";
+            camino = camino.replace('111', objUsers);
+            camino = camino.replace('222', contador);
+            var myUrl = camino;
+            var nomVentana = '{{ nombreVentana }}';
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        }
+
+        jQuery(document).ready(function(){
+            jQuery(document).on('click', '#tramitar', function(event){
+                var e = event || window.event;
+                e.preventDefault();
+                var self = this;
+
+                var disable = self.dataset.disabled;
+
+                if(disable === 'disabled')
+                {
+                    jQuery.alerts.dialogClass = 'alert-danger';
+                    jAlert('{{"mensaje.error.cambio.fase.simulacion" |trans }}', '{{ "cabecera.cambio.fase.instancia"|trans|title }}');
+                    return;
+                }
+
+
+                jQuery.alerts.dialogClass = 'alert-danger';
+                jConfirm("{{ 'mensaje.tramitar.simulacion'|trans }}", "{{ 'cabecera.cambio.fase.instancia'|trans|title }}", function(confirmacion){
+                    if(confirmacion) {
+                        $('#formTramitar').submit();
+                    }
+
+                    return false;
+                })
+
+            })
+        });
+    </script>
+
 
 {% endblock %}

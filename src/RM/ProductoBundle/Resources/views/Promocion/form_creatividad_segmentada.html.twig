@@ -55,6 +55,25 @@
             <div class="span6">
                 <fieldset>
                     <legend>{{ "select.seleccione.imagen" |trans|title}}</legend>
+                    {#
+                    <div class="control-group">
+                        {{ form_label(form.nombre_creatividad, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            <div class="input-append span8">
+                                {{ form_widget(form.nombre_creatividad, {'attr': {'style' : 'width: 95% !important' }}) }}
+                                <button class="btn" type="button"
+                                        onclick="buscarCreatividad('{{ form.creatividad.vars.id }}', '{{ form.nombre_creatividad.vars.id }}')">
+                                    <i class="iconfa iconfa-filter"></i>
+                                </button>
+                            </div>
+                            {{ form_widget(form.creatividad) }}
+                        </div>
+                    </div>
+
+                    {{ ladybug_dump(form.creatividad.vars) }}
+                    #}
+
+
                     <div class="control-group {% if not form.creatividad.vars.valid %}error{% endif %}">
                         {{ form_label(form.creatividad, null,  {'label_attr': {'class': 'control-label'} }) }}
                         <div class="controls">
@@ -81,6 +100,7 @@
                             </span>
                         </div>
                     </div>
+
                 </fieldset>
 
 
@@ -93,6 +113,14 @@
         </div>
     </div>
     {{ form_end(form) }}
+
+
+    {#Formulario para pasar mediante post los parametros de las variables al popup de creatividades
+    <form id="formPopupCreatividad" name="formPopupCreatividad" method="POST" action="{{ path("direct_buscador_creatividades_popup") }}" onsubmit="submitPopupCreatividad(this)">
+        <input type="hidden" name="id_id" id="id_id" value="">
+        <input type="hidden" name="id_nombre" id="id_nombre" value="">
+    </form>#}
+
 
 
     {% if promocion.tipo == constant('TIPO_SEGMENTADA', promocion) %}
@@ -168,5 +196,28 @@
             });
         });
     </script>
+
+    {#
+        <script type="text/javascript">
+
+                function buscarCreatividad (identificador, idNombre){
+                    document.getElementById("id_id").value = identificador;
+                    document.getElementById("id_nombre").value = idNombre;
+                    $('#formPopupCreatividad').submit();
+                }
+
+                function submitPopupCreatividad(form){
+                    var largo = 1050;
+                    var altura = 850;
+                    var top = (screen.height - altura) / 2;
+                    var izquierda = (screen.width - largo) / 2;
+                    {% set nombreVentana = "creatividades"|trans|title %}
+                    var nomVentana = '{{ nombreVentana }}';
+                    window.open('', nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+                    form.target = nomVentana;
+                }
+
+        </script>
+        #}
 
 {% endblock content %}

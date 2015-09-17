@@ -37,7 +37,7 @@
                 </td>
             </tr>
         {% endfor %}
-        {% if genericas_restantes > 0 %}
+
             <tr>
                 <td colspan="5" class="center-all">
                     <div class="well well-small">
@@ -47,14 +47,16 @@
                                <i class="iconfa iconfa-plus"></i>
                            </a>
                        </div>
+                        {% if genericas_restantes > 0 %}
                         <p class="text-info">
                             <strong>{{ "informacion.creatividades.restantes" |transchoice(genericas_restantes) }}</strong>
                         </p>
+                        {% endif %}
                     </div>
 
                 </td>
             </tr>
-        {% endif %}
+
         </tbody>
     </table>
 {% endif %}

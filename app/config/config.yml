@@ -70,7 +70,15 @@ doctrine:
                 dbname:   "%database_name%"
                 user:     "%database_user%"
                 password: "%database_password%"
-                charset:  UTF8                
+                charset:  UTF8
+            1:
+                driver:   pdo_mysql
+                host:     192.168.100.229
+                port:
+                dbname:   1
+                user:     admin
+                password: icca
+                charset:  UTF8
 
             manati:
                 driver:   "%database_driver%"
@@ -113,6 +121,23 @@ doctrine:
             
             3:
                 connection: 3
+                mappings:
+                    RMCategoriaBundle: ~
+                    RMClienteBundle: ~
+                    RMComunicacionBundle: ~
+                    RMPlantillaBundle: ~
+                    RMProductoBundle: ~
+                    RMSegmentoBundle: ~
+                    RMStaticBundle: ~
+                    RMDiscretasBundle: ~
+                    RMIntDiscretasBundle: ~
+                    RMLinealesBundle: ~
+                    RMTransformadasBundle: ~
+                dql:
+                    string_functions:
+                        GROUP_CONCAT: RM\ComunicacionBundle\Doctrine\Mysql\GroupConcat
+            1:
+                connection: 1
                 mappings:
                     RMCategoriaBundle: ~
                     RMClienteBundle: ~
