@@ -35,7 +35,7 @@ class DefaultController extends RMController
 
         //return $this->render('RMStaticBundle:Default:index.html.twig');
 
-        return Response::create(var_dump($rutas));
+        return Response::create($rutas);
 	}
 
     public function plantillasAction()
