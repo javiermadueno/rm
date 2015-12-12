@@ -35,7 +35,6 @@
 		"knplabs/knp-paginator-bundle" : "~2.4",
 		"ob/highcharts-bundle" : "1.*",
 		"imag/ldap-bundle" : "2.3.2",
-<<<<<<< HEAD
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
         "mtdowling/cron-expression": "1.0.*",
@@ -47,29 +46,6 @@
 		"aws/aws-sdk-php": "^3.10",
 		"mmoreram/extractor": "^1.2",
 		"lexik/translation-bundle": "~3.1"
-=======
-		"raulfraile/ladybug-bundle" : "~1.0",
-        "doctrine/mongodb-odm": "1.0.*@beta",
-        "doctrine/mongodb-odm-bundle": "3.0.*@beta",
-        "mtdowling/cron-expression": "1.0.*",
-		"league/csv": "^7.1"
-	},
-	"scripts" : {
-		"post-install-cmd" : [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-		],
-		"post-update-cmd" : [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-		]
->>>>>>> d1e44ef6dcf1e6ab210947120a271882f2c2c7bb
 	},
 	"config" : {
 		"bin-dir" : "bin"
