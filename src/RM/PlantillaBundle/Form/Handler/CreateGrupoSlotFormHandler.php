@@ -17,6 +17,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
+
 class CreateGrupoSlotFormHandler
 {
     /**
@@ -110,7 +112,7 @@ class CreateGrupoSlotFormHandler
         $options = $this->resolveOptions($options);
         $grupo->setTipo(GrupoSlots::CREATIVIDADES);
 
-        $form = $this->factory->create(new GrupoSlotsCreatividadType(), $grupo, $options);
+        $form = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
         $form->add('submit', 'submit', ['label' => 'Create']);
 
         return $form;
