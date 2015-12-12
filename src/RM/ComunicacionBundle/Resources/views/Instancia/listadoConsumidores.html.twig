@@ -1,24 +1,24 @@
 <div class="bloque_contenido">
 	<div class="cabecera_contenido">
-		<span>{{ "Campañas" | trans }}</span> 
+		<span>{{ "campanas" | trans }}</span>
 	</div>
 
 	<div class="linea_contenido">
 		<table>
 			<thead>
 			<tr>
-				<th>{{ "Instancia" | trans }}</th>
-				<th>{{ "Comunicación" | trans }}</th>
-				<th>{{ "Segmento" | trans }}</th>
-				<th>{{ "Fecha de promociones" | trans }}</th>
-				<th>{{ "Estado" | trans }}</th>
+				<th>{{ "instancia" | trans }}</th>
+				<th>{{ "comunicacion" | trans }}</th>
+				<th>{{ "segmento" | trans }}</th>
+				<th>{{ "fecha.promociones" | trans }}</th>
+				<th>{{ "estado" | trans }}</th>
 			</tr>
 			</thead>
 			<tbody>
 			{% if objInstancias == null %}
 				<tr>
 					<td colspan="30">
-						{{ "Sin resultados" | trans }}
+						{{ "sin.resultados" | trans }}
 					</td>
 				</tr>
 			{% else %}

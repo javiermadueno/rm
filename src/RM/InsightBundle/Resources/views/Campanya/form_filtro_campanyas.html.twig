@@ -1,0 +1,9 @@
+<h4 class="widgettitle">{{ "filtro.busqueda" |trans|title }}</h4>
+<div class="mediamgr_head">
+    {{ form_start(form, {'attr': {'class': 'form-inline'} }) }}
+    {{ form_widget(form.comunicacion) }}
+    {{ form_widget(form.fechaInicio) }}
+    {{ form_widget(form.fechaFin) }}
+    {{ form_widget(form.submit, {'attr' : {'class':'btn btn-primary' }}) }}
+    {{ form_end(form) }}
+</div>

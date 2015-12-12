@@ -28,7 +28,7 @@
                         <table cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td width="300">
-                                    <label>{{ "comunicacion" |trans|title }}</label>
+                                    <label for="id_comunicacion">{{ "comunicacion" |trans|title }}</label>
                                     <select id="id_comunicacion" name="id_comunicacion" class=" ">
                                         <option value="-1" selected>{{ "select.todas"|trans }}</option>
                                         {% for objComunicacion in objComunicaciones %}
@@ -43,7 +43,7 @@
                                 </td>
 
                                 <td width="300">
-                                    <label>{{ "segmento" |trans|title }}</label>
+                                    <label for="id_segmento">{{ "segmento" |trans|title }}</label>
                                     <select id="id_segmento" name="id_segmento" class=" ">
                                         <option value="-1" selected>{{ "select.todas" | trans }}</option>
                                         {% for objSeg in objSegmentos %}
@@ -53,12 +53,12 @@
                                 </td>
 
                                 <td width="300">
-                                    <label>{{ "estado" |trans|title }}</label>
+                                    <label for="fase">{{ "instancia.fase" |trans|title }}</label>
                                     <select id="fase" name="fase" class=" ">
-                                        <option value="-1"{% if -1 == fase%}selected{% endif %}>Todas</option>
+                                        <option value="-1" {% if -1 == fase%}selected{% endif %}>{{ 'select.todas'|trans }}</option>
                                         {% if fases is defined and fases != null %}
                                             {% for objFase in fases %}
-                                                <option value="{{ objFase.id }}" {% if objFase.id == fase%}selected{% endif %}>{{ objFase.id~' - '~objFase.nombre }}</option>
+                                                <option value="{{ objFase.id }}" {% if objFase.id == fase%}selected{% endif %}>{{ objFase.id ~' - '~ objFase.codigo|trans }}</option>
                                             {% endfor %}
                                         {% endif %}
                                     </select>
@@ -66,7 +66,7 @@
 
                                 <td>
                                     <p>
-                                        <label>{{ "fecha.entre"|trans|capitalize }}&nbsp;:</label>
+                                        <label for="fecha_inicio">{{ "fecha.entre"|trans|capitalize }}&nbsp;:</label>
                                         <input type="text" name="fecha_inicio" id="fecha_inicio" class="datepicker " value="" placeholder="{{ "fecha.inicial"|trans }}"/>
                                         &nbsp;{{ "y" | trans }}&nbsp;
                                         <input type="text" name="fecha_fin" id="fecha_fin" class="datepicker " value="" placeholder="{{ "fecha.final"|trans }}" />
@@ -97,7 +97,7 @@
 		    var urlVarValue = '';
 		    if(urlHalves[1]) {
 		        var urlVars = urlHalves[1].split('&');
-		        for(i=0; i<=(urlVars.length); i++){
+		        for(var i=0; i<=(urlVars.length); i++){
 		            if(urlVars[i]){
 		                var urlVarPair = urlVars[i].split('=');
 		                if (urlVarPair[0] && urlVarPair[0] == urlVarName) {
@@ -124,7 +124,7 @@
 			
 			$('.actualizarTabla').click(function(event){
 				event.preventDefault(); //cancela el comportamiento por defecto
-				msg = $("#form").serialize();
+				var msg = $("#form").serialize();
 				{% set crearUrl = url('direct_monitor_actualizar') %}
 				var myUrl = '{{crearUrl}}';
 				$.ajax({  
@@ -133,8 +133,9 @@
 				  data: msg,  
 				  complete: function(objeto, exito){
 					if(exito=="success"){
-						$('#tablaListado').children().remove();
-						$('#tablaListado').append(objeto.responseText);
+                        var $tabla = $('#tablaListado');
+						$tabla.children().remove();
+                        $tabla.append(objeto.responseText);
 		            }
 		          },
 				  error: function(objeto, quepaso, otroobj){		            
@@ -146,7 +147,7 @@
 				event.preventDefault(); //cancela el comportamiento por defecto
 				$("#page").val(getURLVar($(this).attr("href"),"page"));
 
-				msg = $("#form").serialize();
+				var msg = $("#form").serialize();
 				{% set crearUrl = url('direct_monitor_actualizar') %}
 				var myUrl = '{{crearUrl}}';
 				$.ajax({  
@@ -156,8 +157,9 @@
 				  complete: function(objeto, exito){
 					if(exito=="success"){
 						$("#page").val("1");
-						$('#tablaListado').children().remove();
-						$('#tablaListado').append(objeto.responseText);
+                        var $tabla = $('#tablaListado');
+                        $tabla.children().remove();
+                        $tabla.append(objeto.responseText);
 		            }
 		          },
 				  error: function(objeto, quepaso, otroobj){		            
@@ -169,19 +171,9 @@
 			});
 
 			$(document).ready(function(){
-				
-				$( ".datepicker" ).datepicker({ dateFormat: "mm/dd/yy" });
+				$( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
 			});
-		
 
-			
-			$("#comments").on("click",".pagination span a", function(){
-			    $("#comments").html("Cagando comentarios...");
-			    $.get($(this).attr("href"), function(data) {
-			        $('#comments').html(data);
-			    });
-			    return false;
-			});
 		});
 	</script>
 {% endblock %}

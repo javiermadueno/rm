@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EstadoProceso
 {
+    const ESTADO_CREADO = 'cr';
+    const ESTADO_EN_PROCESO = 'ep';
+
+
     /**
      * @var integer
      *
@@ -40,31 +44,17 @@ class EstadoProceso
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-
-    /**
-     * Set codigo
-     *
-     * @param string $codigo
-     * @return EstadoProceso
-     */
-    public function setCodigo($codigo)
-    {
-        $this->codigo = $codigo;
-    
-        return $this;
-    }
-
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -72,30 +62,45 @@ class EstadoProceso
     }
 
     /**
-     * Set nombre
+     * Set codigo
      *
-     * @param string $nombre
+     * @param string $codigo
+     *
      * @return EstadoProceso
      */
-    public function setNombre($nombre)
+    public function setCodigo($codigo)
     {
-        $this->nombre = $nombre;
-    
+        $this->codigo = $codigo;
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
         return $this->nombre;
     }
 
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return EstadoProceso
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
     public function __toString()
     {
-        return $this->id.'';
+        return $this->id . '';
     }
 }

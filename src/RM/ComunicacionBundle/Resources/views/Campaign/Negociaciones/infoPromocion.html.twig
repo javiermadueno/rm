@@ -70,6 +70,7 @@
 
 {% endblock %}
 
+{#
 {% block javascripts %}
 	<script type="text/javascript">		
 		function habilitarSoloNumerosConDecimales(){
@@ -84,7 +85,7 @@
 
 			$('#botonAceptar').click(function(e){
 				e.preventDefault();
-				msg = $("#form").serialize();
+				var msg = $("#form").serialize();
 				{% set crearUrl = url('campaign_ficha_promocion_guardar') %}
 				var myUrl = '{{crearUrl}}';
 				$.ajax({  
@@ -108,3 +109,4 @@
 		
 	</script>
 {% endblock %}
+#}

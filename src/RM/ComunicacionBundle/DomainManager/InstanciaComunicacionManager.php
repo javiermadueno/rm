@@ -47,7 +47,7 @@ class InstanciaComunicacionManager extends AbstractManager
 
     public function findBy(array $criteria)
     {
-        return $this->repo->findBy($criteria);
+        return $this->getRepository()->findBy($criteria);
     }
 
 

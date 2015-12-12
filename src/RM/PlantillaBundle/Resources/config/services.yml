@@ -37,7 +37,11 @@ services:
 
     rm_plantilla_genera_plantilla_comunicacion:
       class: RM\PlantillaBundle\DependencyInjection\GeneraPlantillaComunicacion
-      arguments: [@twig, %web_path%, @security.token_storage]
+      arguments: [@twig, @rm.clientpathurlgenerator]
+
+    rm_plantilla.plantilla_checker:
+        class: RM\PlantillaBundle\Services\PlantillaChecker
+        arguments: [@rm.clientpathurlgenerator]
 
     rm_plantilla.form.tamanyoImagen:
       class: RM\PlantillaBundle\Form\TamanyoImagen\TamanyoImagenType
@@ -69,3 +73,7 @@ services:
     rm.create_grupo_slot_form_handler:
       class: RM\PlantillaBundle\Form\Handler\CreateGrupoSlotFormHandler
       arguments: [@rm.grupo_slot_manager, @form.factory]
+
+    rm_plantilla.upload_handler:
+      class: RM\PlantillaBundle\Services\PlantillaUploadHandler
+      arguments: [@rm.clientpathurlgenerator, @rm_plantilla.plantilla_checker, @logger]

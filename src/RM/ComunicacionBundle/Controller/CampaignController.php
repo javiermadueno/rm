@@ -2,43 +2,45 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use RM\AppBundle\Controller\RMController;
+use RM\CategoriaBundle\Entity\Categoria;
+use RM\ComunicacionBundle\Entity\Campaign;
+use RM\ComunicacionBundle\Entity\CampaingCreatividad;
+use RM\ComunicacionBundle\Entity\Fases;
+use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\ProductoBundle\Entity\NumPromociones;
-use RM\ProductoBundle\Entity\Promocion;
-use RM\ProductoBundle\Form\PromocionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class CampaignController extends RMController
 {
 
-    public function indexAction($idOpcionMenuSup, $idOpcionMenuIzq)
-    {
 
-        return $this->render(
-            'RMComunicacionBundle:Campaign\Negociaciones:index.html.twig',
-            [
-                'idOpcionMenuSup' => $idOpcionMenuSup,
-                'idOpcionMenuIzq' => $idOpcionMenuIzq
-            ]
-        );
-    }
-
-    public function showCampanyasAction($idOpcionMenuSup, $idOpcionMenuIzq, $closing, $id_categoria = 0)
+    public function showCampanyasAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq, $closing)
     {
+        $id_categoria = $request->query->getInt('id_categoria', 0);
+
         $servicioIC  = $this->get("InstanciaComunicacionService");
         $servicioCat = $this->get("categoriaservice");
 
-        if ($id_categoria == -1) {
-            $objInstancias = null;
-        } else {
-            $objInstancias = $servicioIC->getCampanyasbyFiltro($id_categoria);
-        }
-
         $objCategorias = $servicioCat->getCategoriasDeCampanya();
+        $ids_categorias_permitidas = array_map(
+            function(Categoria $categoria){
+                return $categoria->getIdCategoria();
+            }, $objCategorias
+        );
 
+        if($id_categoria === 0) {
+            $objInstancias = $servicioIC->getCampanyasbyFiltro($ids_categorias_permitidas);
+        }
+        elseif (in_array($id_categoria, $ids_categorias_permitidas)) {
+            $objInstancias = $servicioIC->getCampanyasbyFiltro($id_categoria);
+        } else {
+            $objInstancias = null;
+        }
 
         return $this->render(
             'RMComunicacionBundle:Campaign\Negociaciones:listadoCampanyas.html.twig',
@@ -81,134 +83,76 @@ class CampaignController extends RMController
         );
     }
 
-    public function actualizarListadoCampanyasAction()
+
+    /**
+     * @param Request $request
+     * @param         $id_instancia
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function showAction(Request $request, $id_instancia)
     {
-        if ($this->container->get('request')->isXmlHttpRequest()) {
-            $request     = $this->container->get('request');
-            $servicioIC  = $this->get("InstanciaComunicacionService");
-            $idCategoria = $request->get('id_categoria', 0);
-            $servicioCat = $this->get("CategoriaService");
+        $em = $this->getManager();
 
-            $objCategorias = $servicioCat->getCategoriasDeCampanya();
-            $objInstancias = $servicioIC->getCampanyasbyFiltro($idCategoria);
+        $instancia = $em
+            ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
+            ->findById($id_instancia);
 
-            return $this->render(
-                'RMComunicacionBundle:Campaign\Negociaciones:tablaListadoCampanyas.html.twig',
-                [
-                    'objInstancias' => $objInstancias,
-                    'id_categoria'  => $request->get('id_categoria'),
-                    'closing'       => $request->get('closing'),
-                    'objCategorias' => $objCategorias
-                ]
-            );
-        } else {
-
-            $request    = $this->container->get('request');
-            $servicioIC = $this->get("InstanciaComunicacionService");
-
-            if ($request->get('id_categoria') == -1) {
-                $objInstancias = null;
-            } else {
-                $objInstancias = $servicioIC->getCampanyasbyFiltro($request->get('id_categoria'));
-            }
-
-            $servicioCat   = $this->get("CategoriaService");
-            $objCategorias = $servicioCat->getCategoriasDeCampanya();
-
-
-            return $this->render(
-                'RMComunicacionBundle:Campaign\Negociaciones:tablaListadoCampanyas.html.twig',
-                [
-                    'objInstancias' => $objInstancias,
-                    'id_categoria'  => $request->get('id_categoria'),
-                    'objCategorias' => $objCategorias
-                ]
-            );
+        if (!$instancia instanceof InstanciaComunicacion) {
+            throw $this->createNotFoundException(sprintf(
+                "No existe la Instancia con id = %s",
+                $id_instancia
+            ));
         }
+
+        if($instancia->getFase()->getCodigo() !==  InstanciaComunicacion::FASE_NEGOCIACION) {
+            return $this->redirectToRoute('campaign_campanyas');
+        }
+
+        $categorias = $this
+            ->get('categoriaservice')
+            ->getCatByInstancia($instancia->getIdInstancia());
+
+        /**
+         * La clase Campaign es un Decorator de InstanciaComunicacion
+         */
+        $campaign = new Campaign($instancia, new ArrayCollection($categorias));
+
+        return $this->render('RMComunicacionBundle:Campaign/Negociaciones:campaign.html.twig', [
+            'campaign' => $campaign,
+        ]);
     }
 
-
-    public function fichaCampanyaAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_instancia, $id_categoria)
+    /**
+     * @param Request $request
+     * @param         $id_instancia
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function showCampaignCreatividadesAction(Request $request, $id_instancia)
     {
-        $servicioIC = $this->get("instanciacomunicacionservice");
+        $em = $this->getManager();
 
-        $objInstancias = $servicioIC->getInstanciaById($id_instancia);
-        if (!$objInstancias) {
-            throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
-        } else {
+        $instancia = $em
+            ->getRepository('RMComunicacionBundle:InstanciaComunicacion')
+            ->findById($id_instancia);
 
-            /**
-             * Refactorizacion del metodo para mostrar la ficha de una campaÃ±a
-             */
-            $servicioMarca = $this->get("marcaservice");
-
-            $em = $this->getManager();
-
-            $objInstancia = $objInstancias [0];
-
-            //Si esta definida la categoria se buscan las numPromociones asociadas a esta categoria
-            //En caso contrario se buscan todas asociadas a las instancia de comunicacion
-            if ($id_categoria) {
-                $numPromociones = $em->getRepository('RMProductoBundle:NumPromociones')
-                    ->findNumPromocionesByInstanciayCategoria($id_instancia, $id_categoria);
-
-            } else {
-                $numPromociones = $em->getRepository('RMProductoBundle:NumPromociones')
-                    ->findNumPromocionesByInstancia($id_instancia);
-            }
-
-            $categorias = $this->get('categoriaservice')->getCatByInstancia($id_instancia);
-
-            $gruposSlot = [];
-
-            //Este array contendrá toda la informacion para representar en la plantilla
-            $promociones = [];
-            /** @var NumPromociones $numPromocion */
-            foreach ($numPromociones as $numPromocion) {
-                $idCategoria = $numPromocion->getIdCategoria();
-
-                if (!in_array($idCategoria, $categorias)) {
-                    continue;
-                }
-
-                $idNumPro = $numPromocion->getIdNumPro();
-                $idGrupo  = $numPromocion->getIdGrupo()->getIdGrupo();
-
-                $gruposSlot[] = $idGrupo;
-
-                $promociones[$idGrupo][$idNumPro]['numPromocion'] = $numPromocion;
-                $promociones[$idGrupo][$idNumPro]['segmentadas']  = $numPromocion->getPromocionesSegentadas()->toArray();
-                $promociones[$idGrupo][$idNumPro]['genericas']    = $numPromocion->getPromocionesGenericas()->toArray();
-                $promociones[$idGrupo][$idNumPro]['marcas']       = $servicioMarca->getMarcasByCategoria($idCategoria);
-            }
-
-            if (!empty($gruposSlot)) {
-                $gruposSlot = $em->getRepository('RMPlantillaBundle:GrupoSlots')->findBy(
-                    [
-                        'idGrupo' => $gruposSlot
-                    ]
-                );
-            }
-
-            $tipoPromocion = $em->getRepository('RMProductoBundle:TipoPromocion')->findAll();
-            $categoria     = $em->find('RMCategoriaBundle:Categoria', $id_categoria);
-
-
-            return $this->render(
-                'RMComunicacionBundle:Campaign/Negociaciones:fichaCampanyas.html.twig',
-                [
-                    'gruposSlot'      => $gruposSlot,
-                    'promociones'     => $promociones,
-                    'tipoPromocion'   => $tipoPromocion,
-                    'objInstancia'    => $objInstancia,
-                    'categoria'       => $categoria,
-                    'idOpcionMenuSup' => $idOpcionMenuSup,
-                    'idOpcionMenuIzq' => $idOpcionMenuIzq,
-                    'categorias'      => $categorias
-                ]
-            );
-            //-----===== FIN REFACTORIZACION ===== --------
+        if (!$instancia instanceof InstanciaComunicacion) {
+            throw $this->createNotFoundException(sprintf(
+                "No existe la Instancia con id = %s",
+                $id_instancia
+            ));
         }
+
+        if($instancia->getFase()->getCodigo() !==  InstanciaComunicacion::FASE_NEGOCIACION) {
+            return $this->redirectToRoute('campaign_campanyas');
+        }
+
+        $creatividades = new CampaingCreatividad($instancia, new ArrayCollection());
+
+        return $this->render('@RMComunicacion/Campaign/Creatividades/show.html.twig', [
+            'campaign' => $creatividades
+        ]);
     }
 
     public function fichaClosingCampanyaAction($idOpcionMenuSup, $idOpcionMenuIzq, $id_instancia, $id_categoria)
@@ -238,6 +182,7 @@ class CampaignController extends RMController
                     ->findNumPromocionesByInstancia($id_instancia);
             }
 
+
             $categorias = $this->get('categoriaservice')->getCatByInstancia($id_instancia);
             $gruposSlot = [];
 
@@ -258,7 +203,7 @@ class CampaignController extends RMController
                 $gruposSlot[] = $idGrupo;
 
                 $promociones[$idGrupo][$idNumPro]['numPromocion'] = $numPromocion;
-                $promociones[$idGrupo][$idNumPro]['segmentadas']  = $numPromocion->getPromocionesSegentadas()->toArray();
+                $promociones[$idGrupo][$idNumPro]['segmentadas']  = $numPromocion->getPromocionesSegmentadas()->toArray();
                 $promociones[$idGrupo][$idNumPro]['genericas']    = $numPromocion->getPromocionesGenericas()->toArray();
             }
 
@@ -286,254 +231,26 @@ class CampaignController extends RMController
         }
     }
 
-    public function fichaCampanyaActualizarAction(Request $request)
+
+    public function listaCreatividadesAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
-        $marca     = $request->request->get('idMarca');
-        $categoria = $request->request->get('idCategoria');
 
-        $objProductos = $this->get('rm.manager')->getManager()->getRepository('RMProductoBundle:Producto')
-            ->findProductosByCategoriaYMarca($categoria, $marca);
+        $servicioIC = $this->get('InstanciaComunicacionService');
 
-        return new JsonResponse($objProductos);
-    }
 
-    public function fichaPromocionAction(Request $request, $id_promocion)
-    {
-        $em = $this->get('rm.manager')->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage(25); // Para poner el numero de item que se quieren por pagina
 
-        $promocion = $em->getRepository('RMProductoBundle:Promocion')->findBydId($id_promocion);
+        $objInstancias = $paginator->paginate($servicioIC->getInstanciasCreatividad())->getResult();
 
-        if (!$promocion instanceof Promocion) {
-            return $this->createNotFoundException(sprintf('No se ha encontrado promocion con id "%s"', $id_promocion));
-        }
-
-        $form = $this->createForm(new PromocionType(), $promocion,
+        return $this->render(
+            'RMComunicacionBundle:Campaign\Creatividades:listadoCreatividades.html.twig',
             [
-                'method' => 'post',
-                'action' => $this->generateUrl('campaign_ficha_promocion_guardar', ['id' => $id_promocion])
+                'idOpcionMenuSup' => $idOpcionMenuSup,
+                'idOpcionMenuIzq' => $idOpcionMenuIzq,
+                'objInstancias'   => $objInstancias
             ]
-        );
-
-
-        return $this->render('RMComunicacionBundle:Campaign\Negociaciones:fichaPromocion.html.twig',
-            [
-                'promocion' => $promocion,
-                'producto'  => $promocion->getIdProducto(),
-                'form'      => $form->createView()
-            ]
-        );
-    }
-
-    public function infoPromocionAction($id_promocion)
-    {
-        $servicioPr     = $this->get("PromocionService");
-        $objPromociones = $servicioPr->getPromocionById($id_promocion);
-        if (!$objPromociones) {
-            throw $this->createNotFoundException('No se ha encontrado la variable solicitada');
-        } else {
-            $objPromocion = $objPromociones [0];
-
-            return $this->render(
-                'RMComunicacionBundle:Campaign\Negociaciones:infoPromocion.html.twig',
-                [
-                    'objPromocion' => $objPromocion
-                ]
-            );
-        }
-    }
-
-    public function guardarFichaPromocionAction(Request $request, $id)
-    {
-        $em        = $this->get('rm.manager')->getManager();
-        $promocion = $em->getRepository('RMProductoBundle:Promocion')->findBydId(($id));
-
-        if (!$promocion instanceof Promocion) {
-            return $this->createNotFoundException(sprintf('No se ha encontrado promocion con id "%s"', $id));
-        }
-
-        $form = $this->createForm(new PromocionType(), $promocion,
-            [
-                'method' => 'post',
-                'action' => $this->generateUrl('campaign_ficha_promocion_guardar', ['id' => $id])
-            ]
-        );
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em->flush();
-            $this->addFlash('mensaje', 'mensaje.editar.ok');
-            $response = $this->render('::logMensajes.html.twig');
-
-            return $response;
-        }
-
-        return JsonResponse::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
-    }
-
-    public function guardaPoblacionyFiltroPromocionAction()
-    {
-        $request = $this->get('request');
-
-        if (!$request->isXmlHttpRequest()) {
-            return $this->createNotFoundException();
-        }
-
-        $idPromocion  = $request->get('idPromocion');
-        $poblacion    = $request->get('poblacion');
-        $nombreFiltro = $request->get('nombreFiltro');
-        $condicion    = $request->get('condicion');
-
-        $em   = $this->getManager();
-        $repo = $em->getRepository('RMProductoBundle:Promocion');
-
-        $promocion = $repo->find($idPromocion);
-
-        if (!$promocion) {
-            return $this->createNotFoundException();
-        }
-
-        $promocion
-            ->setPoblacion($poblacion)
-            ->setNombreFiltro($nombreFiltro)
-            ->setFiltro($condicion);
-
-        $em->persist($promocion);
-        $em->flush();
-
-        $respuesta = [
-            'mensaje' => sprintf('Con el filtro especificado se ha calculado una poblacion de %s clientes', $poblacion)
-        ];
-
-        return new  JsonResponse($respuesta);
-    }
-
-    public function saveCampaignSlotsAction()
-    {
-
-        $servicioPromocion = $this->get('PromocionService');
-
-        $request = $this->container->get('request');
-
-        $promociones  = $request->get('promocion');
-        $id_instancia = $request->get('id_instancia');
-        $id_categoria = $request->get('id_categoria');
-
-        $promociones = $this->compruebaPromociones($promociones);
-
-
-        if (empty ($promociones)) {
-            $this->get('session')->getFlashBag()->add('mensaje', 'No se ha realizado ninguna modificación.');
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'campaign_ficha',
-                    [
-                        'id_instancia' => $id_instancia,
-                        'id_categoria' => $id_categoria
-                    ]
-                )
-            );
-        }
-
-        $respuesta = $servicioPromocion->guardarPromocionesCampanya($promociones);
-
-        if ($respuesta == 1) {
-            $this->get('session')->getFlashBag()->add('mensaje', 'Inserciones realizadas correctamente!.');
-        } else {
-            $this->get('session')->getFlashBag()->add('mensaje', 'Ha habido algún problema al guardar los datos.');
-        }
-
-        return $this->redirect(
-            $this->generateUrl(
-                'campaign_ficha',
-                [
-                    'id_instancia' => $id_instancia,
-                    'id_categoria' => $id_categoria
-                ]
-            )
-        );
-    }
-
-    private function compruebaPromociones(array $promociones)
-    {
-        if (empty($promociones)) {
-            return false;
-        }
-
-        foreach ($promociones as $idNumPro => $promocion) {
-            if (isset($promocion['segmentadas'])) {
-                foreach ($promocion['segmentadas'] as $indice => $segmentada) {
-                    if ($this->isNullOrEmpty($segmentada['tipo'])
-                        || $this->isNullOrEmpty($segmentada['minimo'])
-                        || $this->isNullOrEmpty($segmentada['producto'])
-                    ) {
-                        unset($promociones[$idNumPro]['segmentadas'][$indice]);
-                    }
-                }
-            }
-            if (isset($promocion['genericas'])) {
-
-                foreach ($promocion['genericas'] as $indice => $generica) {
-                    if ($this->isNullOrEmpty($generica['tipo'])
-                        || $this->isNullOrEmpty($generica['producto'])
-                    ) {
-                        unset($promociones[$idNumPro]['genericas'][$indice]);
-                    }
-                }
-            }
-
-        }
-
-        return $promociones;
-    }
-
-    private  function isNullOrEmpty($variable)
-    {
-        return empty($variable) || $variable == '-1' || $variable == -1 ? true : false;
-    }
-
-    public function saveCampaignClosingSlotsAction()
-    {
-
-        $request           = $this->container->get('request');
-        $servicioPromocion = $this->get("PromocionService");
-        $data              = $request->get('promociones');
-        $id_instancia      = $request->request->get('id_instancia');
-        $id_categoria      = $request->request->get('id_categoria');
-
-        if (empty ($data)) {
-
-            $this->get('session')->getFlashBag()->add('mensaje', 'No se ha realizado ninguna modificación.');
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'campaign_closing_ficha',
-                    [
-                        'id_instancia' => $id_instancia,
-                        'id_categoria' => $id_categoria
-                    ]
-                )
-            );
-        }
-
-        $respuesta = $servicioPromocion->actualizarPromocionesCampanya($data);
-        if ($respuesta == 1) {
-            $this->get('session')->getFlashBag()->add('mensaje', 'Inserciones realizadas correctamente!.');
-
-        } else {
-            $this->get('session')->getFlashBag()->add('mensaje', 'Ha habido algún problema al guardar los datos');
-
-        }
-
-        return $this->redirect(
-            $this->generateUrl(
-                'campaign_closing_ficha',
-                [
-                    'id_instancia' => $id_instancia,
-                    'id_categoria' => $id_categoria
-                ]
-            )
-        );
-
+        )
+            ;
     }
 }

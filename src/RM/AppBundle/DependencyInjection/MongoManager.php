@@ -36,7 +36,7 @@ class MongoManager
             );
         }
 
-        $this->dm = $doctrine->getManager();
+        $this->dm = $doctrine->getManager($this->cliente);
     }
 
     /**

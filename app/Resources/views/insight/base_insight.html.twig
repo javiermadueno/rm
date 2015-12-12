@@ -4,9 +4,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <script src="{{ asset('bundles/obhighcharts/js/highcharts/highcharts.js') }}"></script>
-    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/exporting.js') }}"></script>
-    <script src="{{ asset('bundles/obhighcharts/js/highcharts/modules/no-data-to-display.js') }}"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
     <script>
         /**
          * Grid-light theme for Highcharts JS
@@ -68,7 +68,7 @@
             <a href="{{ path("rm_insight_homepage") }}"><span class="iconfa-th-list"></span> {{ "menu.insight.dashboard"|trans }} </a>
         </li>
         <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "2" %}active{%  endif %}">
-            <a href="{{ path("rm_insight_performance") }}"><span class="iconfa-sitemap"></span> {{ "menu.insight.rendimiento"|trans }} </a>
+            <a href="{{ path("rm_insight_performance") }}"><span class="iconfa-lightbulb"></span> {{ "menu.insight.rendimiento"|trans }} </a>
         </li>
         <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "3" %}active{%  endif %}">
             <a href="{{ path("rm_insight_evolution") }}"><span class="iconfa-sitemap"></span> {{ "menu.insight.evolucion"|trans }} </a>
@@ -82,6 +82,9 @@
         <li class="nav-header"> {{ "menu.insight.campanas"|trans }} </li>
         <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "5" %}active{%  endif %}">
             <a href="{{ path("rm_insight_campaign") }}"><span class="iconfa-th-list"></span> {{ "menu.insight.dashboard"|trans }} </a>
+        </li>
+        <li class="{% if idOpcionMenuIzq is defined and idOpcionMenuIzq == "7" %}active{%  endif %}">
+            <a href="{{ path("rm_insight_campaign_email_list") }}"><span class="iconfa-envelope-alt"></span> {{ "menu.insight.email"|trans }} </a>
         </li>
 
         <li class="nav-header"> {{ "menu.insight.proveedores"|trans }} </li>

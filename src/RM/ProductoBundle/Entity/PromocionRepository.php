@@ -35,7 +35,7 @@ class PromocionRepository extends EntityRepository
 		AND   p.tipo = :tipo
 		";
 
-        if ($id_categoria != null && $id_categoria > 0) {
+        if ($id_categoria !== null && $id_categoria > 0) {
             $dql .= "AND   np.idCategoria = :id_categoria ";
         }
 
@@ -45,7 +45,7 @@ class PromocionRepository extends EntityRepository
 
         $query->setParameter('id_instancia', $id_instancia);
 
-        if ($id_categoria != null && $id_categoria > 0) {
+        if ($id_categoria !== null && $id_categoria > 0) {
             $query->setParameter('id_categoria', $id_categoria);
         }
 
@@ -112,29 +112,7 @@ class PromocionRepository extends EntityRepository
         return $registro;
     }
 
-    public function guardarPromocionesCampanya($promoToSaveData)
-    {
 
-        if ($promoToSaveData ['idPromo'] > 0) {
-
-            $promocion = $this->obtenerPromocionById($promoToSaveData ['idPromocion']);
-            $promo = $promocion[0];
-
-        } else {
-            $promo = new Promocion();
-        }
-
-        $promo->setIdProducto($this->_em->getReference('RMProductoBundle:Producto', $promoToSaveData['producto']))
-            ->setTipo($promoToSaveData ['tipo'])
-            ->setMinimo($promoToSaveData ['minimo'])
-            ->setIdTipoPromocion($this->_em->getReference('RMProductoBundle:TipoPromocion', $promoToSaveData ['tipo']))
-            ->setEstado(1);
-
-        $this->_em->persist($promo);
-        $this->_em->flush();
-
-        return 1;
-    }
 
     // Le pasamos un array con los datos para insertar
 
@@ -158,19 +136,20 @@ class PromocionRepository extends EntityRepository
     public function actualizarPromocionesCampanya($promoToUpdateData)
     {
         $em = $this->_em;
-        $repo = $em->getRepository('RMProductoBundle:Promocion');
 
-        $promocion = $repo->find($promoToUpdateData ['id_promocion']);
-        if ($promocion) {
-            $promocion->setAceptada($promoToUpdateData['estado']);
-            $em->persist($promocion);
-            $em->flush();
+        $promocion = $this->find($promoToUpdateData ['id_promocion']);
 
-            return 1;
-        } else {
+        if (!$promocion instanceof Promocion) {
             return 0;
         }
 
+        $promocion
+            ->setAceptada($promoToUpdateData['estado']);
+
+        $em->persist($promocion);
+        $em->flush($promocion);
+
+        return 1;
     }
 
     /**

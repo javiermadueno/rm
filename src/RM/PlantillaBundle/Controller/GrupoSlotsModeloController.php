@@ -19,18 +19,19 @@ class GrupoSlotsModeloController extends RMController
     /**
      * Muestra todas los GruposSlot pertenecientes a una plantilla
      *
+     * @param Request $request
      * @param $idPlantilla
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction($idPlantilla)
+    public function indexAction(Request $request, $idPlantilla)
     {
         $em = $this->getManager();
 
         $entities = $em->getRepository('RMPlantillaBundle:GrupoSlots')
             ->findGruposSlotsByPlantilla($idPlantilla);
 
-        $editable = $this->get('request')->get('editable', true);
+        $editable = $request->get('editable', true);
 
         if($editable){
             return $this->render('RMPlantillaBundle:GrupoSlotsModelo:index.html.twig', [
@@ -177,6 +178,7 @@ class GrupoSlotsModeloController extends RMController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->checkCreatividad();
             $em->flush();
             $this->addFlash('mensaje', 'mensaje.ok.editar');
             return $this->redirectToRoute('rm_plantilla_plantilla_modelo_edit', ['id' => $idPlantilla]);

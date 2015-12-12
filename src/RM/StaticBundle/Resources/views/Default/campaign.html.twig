@@ -1,0 +1,85 @@
+{% extends '::campaign/base_campaign.html.twig' %}
+
+{% set idOpcionMenuIzq = 1  %}
+{% set objInstancia = campaign %}
+{% set id_categoria = app.request.get('categoria') %}
+
+{% block title %}
+    {{ "menu.campaign.campanas" | trans|title }}
+{% endblock %}
+
+{% block migas %}
+    <li><a href="{{ path('campaign_campanyas') }}"><span class="iconfa-home"></span></a><span class="separator"></span>
+    </li>
+    <li>{{ "menu.campaign.campanas" |trans|title }} <span class="separator"></span></li>
+    <li>{{ "campana" |trans|title }} <span class="separator"></span></li>
+    <li>#{{ "%07d"|format(campaign.idInstancia) }}</li>
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "menu.data.informacion" |trans|upper }}</h5>
+    <h1>{{ "campana" |trans|title }} #{{ "%07d"|format(campaign.idInstancia) }}</h1>
+{% endblock pagetitle %}
+
+
+{% block body %}
+    <div class="mediamgr_head">
+        <label for="categorias">{{ "menu.data.categorias" |trans|title}}</label>
+        <select name="categorias" id="categorias">
+            <option value="{{ url(app.request.get('_route'),  {'id_instancia':objInstancia.idInstancia }) }}">{{ "select.todas" |trans|title}}</option>
+            {% for categoria in campaign.categorias %}
+                <option value="{{ url(app.request.get('_route'), {'id_instancia':objInstancia.idInstancia, 'categoria': categoria.idCategoria}) }}"
+                        {% if categoria.idCategoria == id_categoria  %} selected {% endif %}>
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    {% for grupo in campaign.gruposSlots %}
+        {% set num_promociones = campaign.numPromocionesByGrupoSlotYCategoria(grupo, id_categoria)  %}
+
+        {% if num_promociones|length > 0 %}
+        <h4 class="widgettitle">{{ grupo.nombre }}: ({{ grupo.numSlots }} {{ "slots" |trans|title}})</h4>
+        <div class="mediamgr_head">
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab{{ loop.index }}">
+                    {% for num_promocion in num_promociones  %}
+                        <li class="{% if loop.first %}active{% endif %}">
+                            <a href="#{{ loop.parent.loop.index }}-{{ num_promocion.idCategoria.idCategoria }}" data-toggle="tab">{{ num_promocion.idCategoria.nombre }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-content">
+                    {% for num_promocion in num_promociones  %}
+                        <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ loop.parent.loop.index }}-{{ num_promocion.idCategoria.idCategoria }}">
+                            {% include '@RMProducto/Promocion/list_segmentadas.html.twig' with {'num_promocion' : num_promocion} %}
+
+                            {% include '@RMProducto/Promocion/list_genericas.html.twig' with {'num_promocion' : num_promocion} %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    {% endfor %}
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#categorias').on('change', function(){
+                window.location.href = $(this).val();
+            })
+        });
+
+        {{ absolute_url(path) }}
+    </script>
+
+{% endblock body %}

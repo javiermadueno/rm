@@ -1,0 +1,17 @@
+{% macro crear_panel(tamano, total, icono, texto, color='primary') %}
+    <div class="span{{ tamano }}">
+        <div class="panel panel-{{ color }}">
+            <div class="panel-heading">
+                <div class="row-fluid">
+                    <div class="span2 offset1">
+                        <i class="{{ icono }} iconfa-4x"></i>
+                    </div>
+                    <div class="span8 text-right">
+                        <div><h1>{{ total|default(0)|localizednumber }}</h1></div>
+                        <div><h6>{{ texto|trans|title }}</h6></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

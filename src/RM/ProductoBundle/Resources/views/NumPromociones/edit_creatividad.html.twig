@@ -1,0 +1,36 @@
+{% extends ':direct:base_direct.html.twig' %}
+
+{% set idOpcionMenuIzq = 2 %}
+
+{% block title %}
+    {{ "menu.direct.monitor" |trans|title }}
+{% endblock %}
+
+{% block pagetitle %}
+    <h5>{{ "cabecera.promociones.categoria" |trans|title }}</h5>
+    <h1>{{ 'grupo.slots'|trans }} - {{ grupo.nombre }}</h1>
+{% endblock pagetitle %}
+
+{% block contenedorPrincipal %}
+    <h4 class="widgettitle">{{ "cabecera.promociones.categoria" |trans|title}}</h4>
+    <div class="widgetcontent">
+        <div class="animated fadeInDown" data-instancia="{{ instancia.idInstancia }}" data-grupo="{{ grupo.idGrupo }}">
+            {{ form_start(form) }}
+
+            <div class="content">
+                {% include '@RMProducto/NumPromociones/form_creatividad_edit.html.twig'  with {'form': form} %}
+            </div>
+
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                <tr>
+                    <td width="100"><button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|title}}</button></td>
+                </tr>
+                </tbody>
+            </table>
+
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

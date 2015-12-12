@@ -17,13 +17,14 @@ security:
     IMAG\LdapBundle\User\LdapUser: plaintext
 
   access_control:
+    - { path: ^/tracking,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/login,          roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/,               roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/insightrue,     roles: ROLE_ADMIN_MANAGER }
 
 imag_ldap:
   client:
-    host: 192.168.100.229
+    host: 192.168.100.228
     port: 389
     version: 3 #Optional
 #    username: admin # Optional

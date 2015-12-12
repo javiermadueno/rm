@@ -50,7 +50,6 @@ class ContibucionesMensualesVsClientes
             [
                 'name'  => $this->translator->trans('highchart.insight.clientes.numero.contribuciones'),
                 'type'  => 'column',
-                'color' => '#4572A7',
                 'yAxis' => 1,
                 'data'  => $series['contribuciones']
 
@@ -58,7 +57,6 @@ class ContibucionesMensualesVsClientes
             [
                 'name'  => $this->translator->trans('highchart.insight.clientes.numero.miembros'),
                 'type'  => 'spline',
-                'color' => '#AA4643',
                 'yAxis' => 0,
                 'data'  => $series['numeroClientes']
             ],
@@ -66,23 +64,17 @@ class ContibucionesMensualesVsClientes
 
         $yData = [
             [
-                'labels' => [
-                    'style'     => ['color' => '#AA4643']
-                ],
                 'title' => [
                     'text'  => $this->translator->trans('highchart.insight.clientes.numero.miembros'),
-                    'style' => ['color' => '#AA4643']
-                ],
+                ]
             ],
             [
                 'labels' => [
                     'formatter' => new Expr('function () { return this.value + " %" }'),
-                    'style'     => ['color' => '#4572A7']
                 ],
                 'gridLineWidth' => 0,
                 'title' => [
                     'text'  => $this->translator->trans('highchart.insight.clientes.numero.contribuciones'),
-                    'style' => ['color' => '#4572A7']
                 ],
                 'opposite' => true,
             ],

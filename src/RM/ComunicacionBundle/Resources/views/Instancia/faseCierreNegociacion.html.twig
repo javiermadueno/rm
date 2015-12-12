@@ -9,15 +9,7 @@
 
 {% block contenedorPrincipal %}
 	{{ parent() }}
-		{% if objGrupoSlots | length == 0 %}
-			<div class="alert alert-danger alert-dismissable center-all">
-				<h4>{{ "mensaje.error.no.gruposlot.configurado" | trans|capitalize }}</h4>
-			</div>
-		{% elseif objCategorias | length == 0 %}
-			<div class="alert alert-danger alert-dismissable center-all">
-				<h4>{{ "mensaje.error.no.categoria.asociada" | trans|capitalize }}</h4>
-			</div>
-		{% else %}
+
             <h4 class="widgettitle">{{ "graficas" |trans|title }}</h4>
             <div class="mediamgr_head">
                 <script type="text/javascript">
@@ -72,9 +64,9 @@
                         <tr>
                             <td rowspan="2">{{ objCat.nombre }}</td>
                             {% for objGS in objGrupoSlots %}
-                                <th class="head">Aceptadas</th>
-                                <th class="head">Pendientes</th>
-                                <th class="head">Rechazadas</th>
+                                <th class="head">{{ "highchart.intancia.cierre.aceptadas" |trans|title}}</th>
+                                <th class="head">{{ "highchart.intancia.cierre.pendientes" |trans|title}}</th>
+                                <th class="head">{{ "highchart.intancia.cierre.rechazadas" |trans|title}}</th>
                             {% endfor %}
                             <td rowspan="2" class="botonera_central">
                                 {% if arrayEstados[objCat.idCategoria] is defined %}
@@ -133,15 +125,15 @@
                 {% for creatividad in objGrupoSlotsCreatividades %}
                     <tr>
                         <td rowspan="2">{{ creatividad.nombre }}</td>
-                        <th class="head">Aceptadas</th>
-                        <th class="head">Pendientes</th>
-                        <th class="head">Rechazadas</th>
+                        <th class="head">{{ "highchart.intancia.cierre.aceptadas" |trans|title}}</th>
+                        <th class="head">{{ "highchart.intancia.cierre.pendientes" |trans|title}}</th>
+                        <th class="head">{{ "highchart.intancia.cierre.rechazadas" |trans|title}}</th>
                         <td rowspan="2" class="botonera_central">
                             {% if arrayEstadosCreatividades[creatividad.idGrupo] is defined
                             and arrayEstadosCreatividades[creatividad.idGrupo] == 'pendiente'  %}
                                 <span class="label label-warning">{{ "pendiente" |trans|title}}</span>
                             {% else %}
-                                <span class="label label-default">{{ "finalizada" |trans|title }}</span>
+                                <span class="label label-default">{{ "fase.finalizada" |trans|title }}</span>
                             {% endif %}
                             </td>
                     </tr>
@@ -162,9 +154,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
-	{% endif %}		
+
 {% endblock %}
 
 {% block javascripts %}
@@ -202,7 +192,6 @@
                     jConfirm(mensajes.join('</br>'), '{{ 'cabecera.cambio.fase.instancia' |trans }}', function(confirm){
                         if(confirm) {
                             $('#formTramitar').submit();
-                            return;
                         }
                         else {
                             jQuery.alerts.dialogClass = null;

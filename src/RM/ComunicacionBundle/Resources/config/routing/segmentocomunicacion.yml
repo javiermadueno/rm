@@ -8,4 +8,8 @@ rm_comunicacion.segmento_comunicacion.index:
 
 rm_comunicacion.segmento_comunicacion.edit:
   path: /{id}/edit
-  defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:edit}
+  defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:edit }
+
+rm_comunicacion.segmento_comunicacion.show:
+  path: /{id}/show
+  defaults: { _controller: RMComunicacionBundle:SegmentoComunicacion:show }

@@ -12,6 +12,7 @@ namespace RM\InsightBundle\Graphs;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 
@@ -40,6 +41,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     /**
      * @param EstadisticasClientes $repository
      * @param DoctrineManager      $manager
+     * @param TranslatorInterface  $translator
      *
      * @throws \Exception
      */
@@ -83,7 +85,8 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
         $chart->title->text($this->translator->trans('highchart.insight.nuevos.sexo.title'));
-        $chart->xAxis->categories(array_keys($sexo));
+
+        $chart->xAxis->categories( $this->sanitize(array_keys($sexo)) );
         $chart->series($data);
 
         return $chart;
@@ -95,7 +98,8 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
             return $this->segmentoEstado;
         }
 
-        $this->segmentoEstado = $this->em->getRepository('RMSegmentoBundle:Segmento')
+        $this->segmentoEstado = $this->em
+            ->getRepository('RMSegmentoBundle:Segmento')
             ->findSegmentosByNombre(['Estado_Nuevo']);
 
         return $this->segmentoEstado;
@@ -107,10 +111,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function getSegmentosSexo()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Sexo_Hombre',
-                'Sexo_Mujer'
-            ]);
+            ->findSegmentosSexo();
     }
 
     /**
@@ -145,7 +146,9 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
 
         $chart->chart->renderTo($renderTo);
         $chart->title->text($this->translator->trans('highchart.insight.nuevos.edades.title'));
-        $chart->xAxis->categories(array_keys($edades));
+
+
+        $chart->xAxis->categories( $this->sanitize(array_keys($edades)));
         $chart->series($data);
 
         return $chart;
@@ -158,15 +161,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function getSegmentosEdades()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Fecha de nacimiento_niños',
-                'Fecha de nacimiento_adolescentes',
-                'Fecha de nacimiento_jovenes',
-                'Fecha de nacimiento_jovenes adultos',
-                'Fecha de nacimiento_adultos',
-                'Fecha de nacimiento_maduros',
-                'Fecha de nacimiento_jubilados'
-            ]);
+            ->findSegmentosEdad();
     }
 
     /**
@@ -200,7 +195,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
         $chart->title->text($this->translator->trans('highchart.insight.nuevos.franja.horaria.title'));
-        $chart->xAxis->categories(array_keys($horas));
+        $chart->xAxis->categories($this->sanitize(array_keys($horas), 0));
         $chart->series($data);
 
         return $chart;
@@ -212,12 +207,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function getSegmentosFranjaHoraria()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Franja horaria mañana N últimos meses_Sí',
-                'Franja horaria mediodia N últimos meses_Sí',
-                'Franja horaria tarde N últimos meses_Sí',
-                'Franja horaria noche N últimos meses_Sí',
-            ]);
+            ->findSegmentosFranjaHoraria();
     }
 
     /**
@@ -251,7 +241,7 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
         $chart = $this->graficoColumnas();
         $chart->chart->renderTo($renderTo);
         $chart->title->text($this->translator->trans('highchart.insight.nuevos.dias.title'));
-        $chart->xAxis->categories(array_keys($dias));
+        $chart->xAxis->categories($this->sanitize(array_keys($dias), 0));
         $chart->series($data);
 
         return $chart;
@@ -263,11 +253,55 @@ class ClientesNuevosPorEstadoYSegmentoGraphs extends BaseGraph
     public function getSegmentosDias()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Preferencia Fin de Semana N últimos meses_Sí',
-                'Preferencia L-J N últimos meses_Sí',
-                'Preferencia V N últimos meses_Sí',
-            ]);
+            ->findSegmentosPreferenciaDia();
     }
+
+    /**
+     * @param        $meses
+     * @param string $renderTo
+     *
+     * @return Highchart
+     */
+    public function graficoGamas($meses, $renderTo = '')
+    {
+        $estado_activo = $this->getSegementoEstado();
+        $gamas = $this->getSegmentosGamas();
+
+        if(!$gamas) {
+            $chart =  $this->graphColumnNoData($renderTo);
+            $chart->title->text($this->translator->trans('highchart.insight.nuevos.gama.title'));
+            return $chart;
+        }
+
+        $data = $this->repository
+            ->findNumeroClientesPorEstadoYPorSegmentos(
+                $meses,
+                array_values($estado_activo),
+                array_values($gamas)
+            );
+
+        if (!$data) {
+            return $this->graphNoData();
+        }
+
+        $chart = $this->graficoColumnas();
+        $chart->chart->renderTo($renderTo);
+        $chart->title->text($this->translator->trans('highchart.insight.nuevos.gama.title'));
+        $chart->xAxis->categories($this->sanitize(array_keys($gamas), 0));
+        $chart->series($data);
+
+        return $chart;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    private function getSegmentosGamas()
+    {
+        return $this->em->getRepository('RMSegmentoBundle:Segmento')
+            ->findSegmentosGama();
+    }
+
+
 
 } 

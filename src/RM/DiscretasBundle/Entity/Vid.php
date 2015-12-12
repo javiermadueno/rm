@@ -44,21 +44,21 @@ class Vid implements \JsonSerializable
     private $tipo;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="clasificacion", type="smallint", nullable=true)
      */
     private $clasificacion;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="solicita_tiempo", type="smallint", nullable=true)
      */
     private $solicitaTiempo;    
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -72,6 +72,13 @@ class Vid implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idVid;
+
+    /**
+     * @var string
+     * @ORM\Column(name="ref_temporal", type="string")
+     */
+    private $referenciaTemporal;
+
 
 
 
@@ -147,7 +154,7 @@ class Vid implements \JsonSerializable
     /**
      * Set clasificacion
      *
-     * @param smallint $clasificacion
+     * @param int $clasificacion
      * @return Vid
      */
     public function setClasificacion($clasificacion)
@@ -160,7 +167,7 @@ class Vid implements \JsonSerializable
     /**
      * Get clasificacion
      *
-     * @return smallint 
+     * @return int
      */
     public function getClasificacion()
     {
@@ -170,7 +177,7 @@ class Vid implements \JsonSerializable
     /**
      * Set solicitaTiempo
      *
-     * @param smallint $solicitaTiempo
+     * @param int $solicitaTiempo
      * @return Vid
      */
     public function setSolicitaTiempo($solicitaTiempo)
@@ -183,7 +190,7 @@ class Vid implements \JsonSerializable
     /**
      * Get solicitaTiempo
      *
-     * @return smallint 
+     * @return int
      */
     public function getSolicitaTiempo()
     {
@@ -193,7 +200,7 @@ class Vid implements \JsonSerializable
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      * @return Vid
      */
     public function setEstado($estado)
@@ -206,7 +213,7 @@ class Vid implements \JsonSerializable
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstado()
     {
@@ -235,4 +242,27 @@ class Vid implements \JsonSerializable
         ];
     }
 
+
+    /**
+     * Set referenciaTemporal
+     *
+     * @param string $referenciaTemporal
+     * @return Vid
+     */
+    public function setReferenciaTemporal($referenciaTemporal)
+    {
+        $this->referenciaTemporal = $referenciaTemporal;
+    
+        return $this;
+    }
+
+    /**
+     * Get referenciaTemporal
+     *
+     * @return string 
+     */
+    public function getReferenciaTemporal()
+    {
+        return $this->referenciaTemporal;
+    }
 }

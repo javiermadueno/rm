@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
 	<head>
 	    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,15 +8,22 @@
 	    {% block stylesheets %}
 	    	<link href="{{ asset('css/estilosBase.css') }}" rel="stylesheet" />
             <link rel="stylesheet" href="{{ asset('css/style.default.css')}}" type="text/css" />
-            <link rel="stylesheet" href="{{ asset('prettify/prettify.css') }}" type="text/css" />
-            {#<link rel="stylesheet" href="{{ asset('css/responsive-tables.css') }}"/>#}
 
+            {#
+            <link rel="stylesheet" href="{{ asset('css/responsive-tables.css') }}"/>
+             <link rel="stylesheet" href="{{ asset('prettify/prettify.css') }}" type="text/css" />
+            #}
+            {#
             <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
             <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-           {# <script type="text/javascript" src="{{ asset('js/jquery-1.9.1.min.js')}}"></script>
-            <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.1.1.min.js')}}"></script>#}
+             <script type="text/javascript" src="{{ asset('prettify/prettify.js')}}"></script>
+            #}
+
+            <script type="text/javascript" src="{{ asset('js/jquery-1.9.1.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery-migrate-1.1.1.min.js')}}"></script>
+
             <script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.min.js')}}"></script>
-            <script type="text/javascript" src="{{ asset('prettify/prettify.js')}}"></script>
+
             <script type="text/javascript" src="{{ asset('js/modernizr.min.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/bootstrap.min.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/jquery.jgrowl.js')}}"></script>
@@ -24,13 +31,29 @@
             <script type="text/javascript" src="{{ asset('js/jquery.cookie.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/custom.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/elements.js')}}"></script>
-            {#<script type="text/javascript" src="{{ asset('js/responsive-tables.js') }}"></script>#}
             <script type="text/javascript">
+                $(document).on({
+                    ajaxStart: function() {
+                        $('body#ajax > #ajax-loading-modal').modal({
+                            'show' : true,
+                            'keyboard' : false
+                        });
+                    },
+                    ajaxStop: function() {
+                        $('body#ajax > #ajax-loading-modal').modal('hide');
+                    }
+                });
+            </script>
+            {#
+            <script type="text/javascript" src="{{ asset('js/responsive-tables.js') }}"></script>
+             <script type="text/javascript">
 
                 jQuery(document).ready(function(){
                     prettyPrint();
                 });
             </script>
+            #}
+
 
 	    {% endblock %}
 
@@ -67,7 +90,7 @@
                         </li>
                         <li class="odd">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-target="#"><span class="head-icon head-users"></span>
-                                <span class="headmenu-label">Direct</span>
+                                <span class="headmenu-label">{{ 'menu.direct.nombre'|trans }}</span>
                             </a>
                             <ul class="dropdown-menu newusers">
                                 <li class="nav-header">Direct</li>
@@ -78,7 +101,7 @@
                         </li>
                         <li class="odd">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-target="#"><span class="head-icon head-bar"></span>
-                                <span class="headmenu-label">Campaign</span>
+                                <span class="headmenu-label">{{ 'menu.campaign.nombre'|trans }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-header">Campaign</li>
@@ -90,10 +113,10 @@
                         </li>
                         <li class="odd">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="head-icon head-insight"></span>
-                                <span class="headmenu-label">Insight</span>
+                                <span class="headmenu-label">{{ "menu.insight.nombre" |trans|title}}</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="nav-header">{{ ""|trans }}</li>
+                                <li class="nav-header">{{ "" }}</li>
                                 <li><a href="{{ path('rm_insight_homepage') }}">{{ "menu.insight.clientes"|trans }}</a></li>
                                 <li><a href="{{ path('rm_insight_performance') }}">{{ "menu.insight.rendimiento" |trans }}</a></li>
                                 <li><a href="{{ path('rm_insight_evolution') }}">{{ "menu.insight.evolucion" |trans }}</a></li>
@@ -106,9 +129,9 @@
 
                         <li class="right">
                             <div class="userloggedinfo">
-                                <img src="{{ asset('images/photos/thumb1.png') }}" title="{{ app.user.getCategorias() | join(',') | capitalize }}" alt="" />
+                                <img src="{{ asset('images/photos/thumb1.png') }}" title="{{ app.user.getCategorias()|default("") | join(',') | capitalize }}" alt="" />
                                 <div class="userinfo">
-                                    <h5>{{ app.user.username }} - <small>{{ app.user.getRoles()[0] | replace ({"ROLE_" : "", "_": " "}) | capitalize }}</small></h5>
+                                    <h5>{{ app.user.username|default("") }} - <small>{{ app.user.getRoles()[0]|default("") | replace ({"ROLE_" : "", "_": " "}) | capitalize }}</small></h5>
                                     <ul>
                                         <li><a href="#">{{ 'menu.usuario.editar' | trans  }}</a></li>
                                         <li><a href="#">{{ 'menu.usuario.ajustes' | trans  }}</a></li>
@@ -209,6 +232,16 @@
 				}
 			</script>
 		{% endblock %}
+        </div>
+        <div id="ajax-loading-modal" class="modal hide fade">
+            <div class="modal-header">
+                <h3>{{ "modal.cargando" |trans|title}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="center-all">
+                    <img src="{{ asset('images/loaders/loader6.gif') }}" alt=""/>
+                </div>
+            </div>
         </div>
 	</body>
 </html>

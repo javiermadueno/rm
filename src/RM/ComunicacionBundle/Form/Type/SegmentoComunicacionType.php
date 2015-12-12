@@ -13,16 +13,19 @@ use RM\ComunicacionBundle\Entity\SegmentoComunicacion;
 use RM\DiscretasBundle\Entity\Tipo;
 use RM\SegmentoBundle\Entity\Segmento;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SegmentoComunicacionType extends AbstractType
 {
 
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('variable_ciclo_vida', 'entity', [
@@ -34,7 +37,7 @@ class SegmentoComunicacionType extends AbstractType
                         ->setParameter('ciclo_vida', Tipo::CICLO_VIDA);
                 },
                 'placeholder'   => 'select.seleccione',
-                'property'      => 'nombre',
+                'choice_label'  => 'nombre',
                 'em'            => $options['em'],
                 'label'         => 'variable.ciclo.vida',
                 'mapped'        => false,
@@ -45,12 +48,12 @@ class SegmentoComunicacionType extends AbstractType
             ->add('estado', 'choice', [
                 'label' => 'estado',
                 'required' => true,
-                'choice_list' => $this->getEstados(),
+                'choices' => $this->getEstados(),
             ])
             ->add('tipo', 'choice', [
                 'label'       => 'tipo',
                 'required'    => true,
-                'choice_list' => $this->getTipoFrecuencia(),
+                'choices' => $this->getTipoFrecuencia(),
                 'attr'        => [
                     'class' => 'change-ajax-submit'
                 ]
@@ -101,7 +104,7 @@ class SegmentoComunicacionType extends AbstractType
                         ->andWhere('s.idVt = :idvt')
                         ->setParameter('idvt', $variable_ciclo_vida);
                 },
-                'property'      => 'nombre',
+                'choice_label'      => 'nombre',
                 'label' => 'segmento'
             ]);
         };
@@ -174,45 +177,26 @@ class SegmentoComunicacionType extends AbstractType
 
     private function getTipoFrecuencia()
     {
-        return new ChoiceList(
-            [
-                SegmentoComunicacion::FREC_DIARIA,
-                SegmentoComunicacion::FREC_SEMANAL,
-                SegmentoComunicacion::FREC_QUINCENAL,
-                SegmentoComunicacion::FREC_MENSUAL,
-                SegmentoComunicacion::FREC_TRIMESTRAL,
-                SegmentoComunicacion::FREC_CUATRIMESTRAL,
-                SegmentoComunicacion::FREC_SEMESTRAL,
-                SegmentoComunicacion::FREC_ANUAL
-            ],
-            [
-                'frecuencia.diaria',
-                'frecuencia.semanal',
-                'frecuencia.quincenal',
-                'frecuencia.mensual',
-                'frecuencia.trimestral',
-                'frecuencia.cuatrimestral',
-                'frecuencia.semestral',
-                'frecuencia.anual'
-            ]
-        );
+
+        return[
+            SegmentoComunicacion::FREC_DIARIA => 'frecuencia.diaria',
+            SegmentoComunicacion::FREC_SEMANAL => 'frecuencia.semanal',
+            SegmentoComunicacion::FREC_QUINCENAL => 'frecuencia.quincenal',
+            SegmentoComunicacion::FREC_MENSUAL => 'frecuencia.mensual',
+            SegmentoComunicacion::FREC_TRIMESTRAL =>'frecuencia.trimestral',
+            SegmentoComunicacion::FREC_CUATRIMESTRAL => 'frecuencia.cuatrimestral',
+            SegmentoComunicacion::FREC_SEMESTRAL => 'frecuencia.semestral',
+            SegmentoComunicacion::FREC_ANUAL => 'frecuencia.anual'
+        ];
     }
 
     private function getEstados() {
-        return new ChoiceList(
-            [
-            Comunicacion::ESTADO_CONFIGURACION,
-            Comunicacion::ESTADO_ACTIVO,
-            Comunicacion::ESTADO_PAUSADO,
-            Comunicacion::ESTADO_COMPLETADA
-        ],
-            [
-                'comunicacion.estado.configuracion',
-                'comunicacion.estado.activo',
-                'comunicacion.estado.pausado',
-                'comunicacion.estado.completada'
-            ]
-        );
+        return  [
+            Comunicacion::ESTADO_CONFIGURACION => 'comunicacion.estado.configuracion' ,
+            Comunicacion::ESTADO_ACTIVO =>  'comunicacion.estado.activo' ,
+            Comunicacion::ESTADO_PAUSADO => 'comunicacion.estado.pausado' ,
+            Comunicacion::ESTADO_COMPLETADA => 'comunicacion.estado.completada'
+        ];
     }
 
     private function addDiasSemana(FormInterface $form)
@@ -271,18 +255,16 @@ class SegmentoComunicacionType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults([
                 'data_class' => 'RM\ComunicacionBundle\Entity\SegmentoComunicacion',
                 'em'         => null
             ])
-            ->addAllowedTypes([
-                'em' => 'Doctrine\Common\Persistence\ObjectManager'
-            ])
+            ->addAllowedTypes('em', 'Doctrine\Common\Persistence\ObjectManager')
             ->setRequired(['em']);
 
     }

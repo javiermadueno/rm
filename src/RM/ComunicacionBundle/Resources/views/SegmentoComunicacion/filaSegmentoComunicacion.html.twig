@@ -1,0 +1,58 @@
+
+{% import '@RMComunicacion/SegmentoComunicacion/macro_segmento_comunicacion.twig' as seg %}
+{% if  segmento.idComunicacion.generada == false %}
+    {% set url = path("rm_comunicacion.segmento_comunicacion.edit", { 'idComunicacion':segmento.idComunicacion.idComunicacion, 'id': segmento.idSegmentoComunicacion}) %}
+{% else %}
+    {% set url = path('rm_comunicacion.segmento_comunicacion.show', { 'idComunicacion':segmento.idComunicacion.idComunicacion, 'id': segmento.idSegmentoComunicacion}) %}
+{% endif %}
+<td>
+    <a href="{{ url }}" style="cursor:pointer;">
+        {{ segmento.idSegmento.nombre}}
+    </a>
+</td>
+<td>
+   {{ seg.frecuencia(segmento) }}
+</td>
+<td>{{ segmento.fecInicio|date('d/m/Y') }}</td>
+<td>{{ segmento.fecFin|date('d/m/Y') }}</td>
+
+
+{% if  segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO') %}
+    <td class="atn">{{ "comunicacion.estado.activo"|trans|title }}</td>
+{% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA') %}
+    <td class="atv">{{ "comunicacion.estado.completada"|trans|title }}</td>
+{% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO')  %}
+    <td class="atv">{{ "comunicacion.estado.pausado"|trans|title }}</td>
+{% elseif segmento.estado is constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_CONFIGURACION') %}
+    <td class="atv">{{ "comunicacion.estado.configuracion" |trans|title}}</td>
+{% endif %}
+
+{% set fechaEjecucion =  segmento.getProximaEjecucion() %}
+<td>{{ fechaEjecucion is not null? fechaEjecucion|date('d/m/Y H:i'): fechaEjecucion|default('-') }}</td>
+
+<td class="center">
+    <button data-segmento="{{ segmento.idSegmentoComunicacion }}" class="btn btn-success reanudarsegmento"
+            {% set estados_activo = [
+            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_ACTIVO'),
+            constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA')] %}
+            {% if segmento.estado in estados_activo %}
+                disabled
+            {% endif %}>
+        <small>{{ "boton.reanudar"|trans }}</small>
+    </button>
+    &nbsp;&nbsp;
+    <button data-segmento="{{ segmento.idSegmentoComunicacion }}" class="btn btn-warning pararsegmento"
+            {% set estados_parado = [
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_COMPLETADA'),
+                constant('RM\\ComunicacionBundle\\Entity\\Comunicacion::ESTADO_PAUSADO')
+            ] %}
+            {% if segmento.estado in estados_parado  %}
+                disabled
+            {% endif %}>
+        <small>{{ "boton.parar" |trans }}</small>
+    </button>
+    &nbsp;&nbsp;
+    <button data-segmento ="{{ segmento.idSegmentoComunicacion }}" class="btn btn-danger eliminarsegmento">
+        <small>{{ "boton.eliminar" |trans|title}}</small>
+    </button>
+</td>

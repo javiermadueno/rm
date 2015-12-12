@@ -3,7 +3,7 @@
 
 {% extends '::pantallaPopUp.html.twig' %}
 {% block title %}
-    {{"segmentador" | trans|title }}
+    {{"cabecera.segmentador" | trans|title }}
 {%endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -18,7 +18,7 @@
     <div class="container">
         <div class="pageheader">
             <div class="pagetitle">
-                <h1>{{ "segmentador" |trans|title}}</h1>
+                <h1>{{ "cabecera.segmentador" |trans|title}}</h1>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
 
         <input type="hidden" name="controlBorradoTexto" id="controlBorradoTexto" value="">
         <input type="hidden" name="controlBorradoFiltro" id="controlBorradoFiltro" value="">
-        <h4 class="widgettitle">{{ "buscador" |trans|title}}</h4>
+        <h4 class="widgettitle">{{ "filtro.busqueda" |trans|title}}</h4>
             <table class="table table-bordered">
                 <tr>
                     <td rowspan="5" width="70%"><textarea style="width: 98%;height: 255px;border: 0px none;resize: none;" name="consolaSegmentos" id="consolaSegmentos" class="areaConsolaSegmentos" readonly></textarea> </td>
@@ -39,21 +39,21 @@
                     <td width="10%"><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola(')', event)" title=")"> ) </button></td>
                 </tr>
                 <tr>
-                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('Y', event)" title="Y"> Y </button></td>
-                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('O', event)" title="O"> O </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('Y', event)" title="Y"> {{ "boton.filtro.y" |trans|upper}} </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('O', event)" title="O"> {{ "boton.filtro.o" |trans|upper}} </button></td>
                 </tr>
                 <tr>
                     <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="addConsola('NOT', event);" title="Y"> NOT </button></td>
-                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="ocultarCapaSegmentos(event)" title="Segmentos"> SEGMENTO </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="ocultarCapaSegmentos(event)" title="Segmentos"> {{ "boton.filtro.segmentos" |trans|upper}} </button></td>
                 </tr>
                 <tr>
-                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="clearConsola(event);" title="CE"> CE </button></td>
+                    <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="clearConsola(event);" title="CE"> {{ "boton.filtro.ce" |trans|upper}} </button></td>
                     <td><button class="btn btn-primary btn-block" style="cursor: pointer" onclick="deleteConsola(event);" title="<--"> <-- </button></td>
                 </tr>
 
                 <tr>
-                    <td><button class="btn btn-warning btn-block" style="cursor: pointer" onclick="comprobarFiltro(event)">Comprobar Filtro</button></td>
-                    <td><button class="btn btn-success btn-block" style="cursor: pointer" onclick="submitFiltro(event)">Guardar Filtro</button></td>
+                    <td><button class="btn btn-warning btn-block" style="cursor: pointer" onclick="comprobarFiltro(event)">{{ "boton.filtro.comprobar" |trans|title}}</button></td>
+                    <td><button class="btn btn-success btn-block" style="cursor: pointer" onclick="submitFiltro(event)">{{ "boton.filtro.guardar" |trans|title}}</button></td>
                 </tr>
 
             </table>
@@ -86,6 +86,10 @@
             }
 
             filtroCompleto = JSON.parse(filtroCompleto);
+
+            if(typeof  filtroCompleto.parse === 'undefined') {
+                return;
+            }
 
             var consola = document.getElementById('consolaSegmentos');
             document.getElementById('controlBorradoTexto').value = filtroCompleto.controlBorradoTexto;

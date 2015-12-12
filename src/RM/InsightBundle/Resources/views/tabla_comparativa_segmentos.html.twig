@@ -33,8 +33,8 @@
             <!-- Mes1 -->
             <tr>
                 {% if loop.first %}
-                    <td rowspan="{{ nombres_segmentos|length * 2 }}">{{ nombre_segmento1 }}</td>
-                    <td rowspan="{{ nombres_segmentos|length * 2 }}">
+                    <td class="center-all" rowspan="{{ nombres_segmentos|length * 2 }}">{{ nombre_segmento1 }}</td>
+                    <td class="center-all" rowspan="{{ nombres_segmentos|length * 2 }}">
 
                         {% if nombre_segmento1|lower == "estado_nuevo" %}
                             <a class="modificaRuta" href="{{ path("rm_insight_cliente_new") }}">
@@ -49,7 +49,7 @@
                                      alt="{{ 'activos' | trans }}" title="{{ 'activos' | trans }}"/>
                             </a>
                         {% elseif nombre_segmento1|lower == "estado_inactivo" %}
-                            <a href="#">
+                            <a class="modificaRuta" href="{{ path('rm_insight_cliente_inactivo') }}">
                                 <img style="float:center; display: inline-block;" class="info"
                                      src="{{ asset('img/icono_info.png') }}"
                                      alt="{{ 'inactivos' | trans }}"
@@ -58,28 +58,28 @@
                         {% endif %}
                     </td>
                 {% endif %}
-                <td rowspan="2">{{ nombre_segmento2 }}</td>
-                <td>{{ data[mes1]['num_cli']|number_format(0, '.') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['num_cli'], data[mes2]['num_cli']) }}</td>
-                <td>{{ data[mes1]['compra_med']|number_format(2, '.', ',') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['compra_med'], data[mes2]['compra_med']) }}</td>
-                <td>{{ data[mes1]['frec_med']|number_format(2, '.', ',') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['frec_med'], data[mes2]['frec_med']) }}</td>
-                <td>{{ data[mes1]['tick_med']|number_format(2, '.', ',') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['tick_med'], data[mes2]['tick_med']) }}</td>
-                <td>{{ data[mes1]['rec_med']|number_format(2, '.', ',') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['rec_med'], data[mes2]['rec_med']) }}</td>
-                <td>{{ data[mes1]['a1_med']|number_format(2, '.', ',') }}</td>
-                <td rowspan="2">{{ porcentaje.diferencia(data[mes1]['a1_med'], data[mes2]['a1_med']) }}</td>
+                <td class="center-all" rowspan="2">{{ nombre_segmento2 }}</td>
+                <td class="center-all">{{ data[mes1]['num_cli']|number_format(0, '.') }}</td>
+                <td class="center-all" rowspan="2">{{ porcentaje.diferencia(data[mes1]['num_cli'], data[mes2]['num_cli']) }}</td>
+                <td class="center-all">{{ data[mes1]['compra_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all" rowspan="2">{{ porcentaje.diferencia(data[mes1]['compra_med'], data[mes2]['compra_med']) }}</td>
+                <td class="center-all">{{ data[mes1]['frec_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all" rowspan="2">{{ porcentaje.diferencia(data[mes1]['frec_med'], data[mes2]['frec_med']) }}</td>
+                <td class="center-all">{{ data[mes1]['tick_med']|number_format(2, '.', ',') }}</td>
+                <td rowspan="2" class="center-all">{{ porcentaje.diferencia(data[mes1]['tick_med'], data[mes2]['tick_med']) }}</td>
+                <td class="center-all">{{ data[mes1]['rec_med']|number_format(2, '.', ',') }}</td>
+                <td rowspan="2" class="center-all">{{ porcentaje.diferencia(data[mes1]['rec_med'], data[mes2]['rec_med']) }}</td>
+                <td class="center-all">{{ data[mes1]['a1_med']|number_format(2, '.', ',') }}</td>
+                <td rowspan="2" class="center-all">{{ porcentaje.diferencia(data[mes1]['a1_med'], data[mes2]['a1_med']) }}</td>
             </tr>
             <!-- Mes2 -->
             <tr>
-                <td>{{ data[mes2]['num_cli']|number_format(0, '.') }}</td>
-                <td>{{ data[mes2]['compra_med']|number_format(2, '.', ',') }}</td>
-                <td>{{ data[mes2]['frec_med']|number_format(2, '.', ',') }}</td>
-                <td>{{ data[mes2]['tick_med']|number_format(2, '.', ',') }}</td>
-                <td>{{ data[mes2]['rec_med']|number_format(2, '.', ',') }}</td>
-                <td>{{ data[mes2]['a1_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all">{{ data[mes2]['num_cli']|number_format(0, '.') }}</td>
+                <td class="center-all">{{ data[mes2]['compra_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all">{{ data[mes2]['frec_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all">{{ data[mes2]['tick_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all">{{ data[mes2]['rec_med']|number_format(2, '.', ',') }}</td>
+                <td class="center-all">{{ data[mes2]['a1_med']|number_format(2, '.', ',') }}</td>
             </tr>
         {% else %}
             {% for nombre_segmento2, data in nombres_segmentos %}

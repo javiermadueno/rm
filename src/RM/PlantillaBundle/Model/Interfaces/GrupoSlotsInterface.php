@@ -9,6 +9,8 @@
 namespace RM\PlantillaBundle\Model\Interfaces;
 
 
+use RM\PlantillaBundle\Entity\TamanyoImagen;
+
 interface GrupoSlotsInterface
 {
     public function setNombre($nombre);
@@ -27,6 +29,12 @@ interface GrupoSlotsInterface
 
 
     public function getEstado();
+
+
+    public function setMNombreProducto($mNombreProducto);
+
+
+    public function getMNombreProducto();
 
 
     public function setMImgProducto($mImgProducto);
@@ -53,12 +61,6 @@ interface GrupoSlotsInterface
     public function getMCondiciones();
 
 
-    public function setMImgMarca($mImgMarca);
-
-
-    public function getMImgMarca();
-
-
     public function setMTexto($mTexto);
 
 
@@ -80,22 +82,16 @@ interface GrupoSlotsInterface
     public function getIdGrupo();
 
 
-    public function setIdTamanyoImgProducto(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgProducto = null);
+    public function setIdTamanyoSlot(TamanyoImagen $idTamanyoSlot = null);
 
 
-    public function getIdTamanyoImgProducto();
+    public function getIdTamanyoSlot();
 
 
     public function setIdPlantilla(PlantillaInterface $idPlantilla = null);
 
 
     public function getIdPlantilla();
-
-
-    public function setIdTamanyoImgMarca(\RM\PlantillaBundle\Entity\TamanyoImagen $idTamanyoImgMarca = null);
-
-
-    public function getIdTamanyoImgMarca();
 
 
     public function setNumSlots($numSlots);

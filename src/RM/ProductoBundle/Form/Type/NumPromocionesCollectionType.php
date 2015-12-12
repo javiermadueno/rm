@@ -10,19 +10,48 @@ namespace RM\ProductoBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\Valid;
 
 
 class NumPromocionesCollectionType extends AbstractType
 {
 
-    public function build(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('num_promociones', 'collection', [
-            'allow_delete' => true,
+
+        $builder->add('num_promocion', 'collection', [
+            'type' => new NumPromocionesType(),
             'allow_add' => true,
-            'type' => new NumPromocionesType()
+            'allow_delete' => true,
+            'options' => [
+                'em' => $options['em'],
+                'nivel_categoria' => $options['nivel_categoria']
+            ],
+            'label' => false,
+            'error_bubbling' => false,
+            'constraints' => [
+                new Valid()
+            ]
         ]);
     }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'nivel_categoria' => 1
+        ]);
+
+        $resolver->setRequired([
+            'em',
+            'nivel_categoria'
+        ]);
+    }
+
 
     /**
      * Returns the name of this type.
@@ -31,6 +60,6 @@ class NumPromocionesCollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'num_promociones';
+        return 'rm_num_promociones_collection';
     }
 }

@@ -34,13 +34,14 @@
                     <col class="con0">
                 </colgroup>
                 <thead>
-                    <th width="4%"><input type="checkbox" id="checkTodosVT" /></th>
-                    <th width="40%">{{ "Segmento" | trans }}</th>
-                    <th width="4%"></th>
-                    <th width="40%">{{ "Variable intermedia" | trans }}</th>
-                    <th width="3%">{{ "Factor" | trans }}</th>
-                    <th width="3%">{{ "Condición" | trans }}</th>
-                    <th width="3%">{{ "Pivote" | trans }}</th>
+                    <tr>
+                        <th width="4%"><input type="checkbox" id="checkTodosVT" /></th>
+                        <th width="40%">{{ "segmento" | trans }}</th>
+                        <th width="4%"></th>
+                        <th width="40%">{{ "variable.intermedia" | trans }}</th>
+                        <th width="3%">{{ "condicion" | trans }}</th>
+                        <th width="3%">{{ "pivote" | trans }}</th>
+                    </tr>
                 </thead>
                 <tbody id="capaContenidoSegmentos">
                 {% if objSegmentos == NULL %}
@@ -111,9 +112,10 @@
                                     {% endif %}
                                     {% set contador = contador + 1 %}
                                 </td>
+                                {#
                                 <td class="vertical-center">
                                     <input type="text" name="factor_{{ objIntervalo.IdIntervalo }}" class="input-small soloNum" value="{{ objIntervalo.factor }}" />
-                                </td>
+                                </td>#}
                                 <td class="vertical-center">
                                     <select name="cond_{{ objIntervalo.IdIntervalo }}" class="input-small">
                                         <option value="1" {% if  objIntervalo.condicion == 1%} selected {% endif %}>&lt;</option>

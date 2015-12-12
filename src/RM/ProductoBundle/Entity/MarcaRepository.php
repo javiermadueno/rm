@@ -3,6 +3,7 @@
 namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use RM\CategoriaBundle\Entity\Categoria;
 
 class MarcaRepository extends EntityRepository
 {
@@ -69,7 +70,6 @@ class MarcaRepository extends EntityRepository
     public function obtenerMarcasByCategoriaYNivel($id_categoria, $nivel)
     {
 
-
         $dql = "select m
 		from RMProductoBundle:Marca m, RMProductoBundle:Producto p
 		WHERE p.activo > -1
@@ -88,7 +88,6 @@ class MarcaRepository extends EntityRepository
 
     public function obtenerMarcasByIdsCategoria($idsCategoria = [])
     {
-
 
         $dql = "SELECT DISTINCT m
             FROM RMProductoBundle:Marca m

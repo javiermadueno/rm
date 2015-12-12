@@ -1,7 +1,19 @@
-# This file is auto-generated during the composer install
 parameters:
     num_registros_pagina: 50        #numero de registros que se muestran por pagina en una paginación
-    direccion_imagenes: "../../../../../../../../img/" 
-    id_centro: 1
-    direccion_imagenes_centro: '%direccion_imagenes%%id_centro%/'
     web_path: "%kernel.root_dir%/../web"
+    carpeta.imagenes.producto: imagenesProducto/
+    carpeta.imagenes.creatividad: imagenesCreatividad/
+    carpeta.batch: batch_generados/
+    carpeta.plantillas: plantillas/
+    carpeta.comunicaciones_generadas: comunicaciones_generadas/
+    ruta.instrucciones: %web_path%/instrucciones/
+    ruta.instrucciones.maquetacion_plantilla: %ruta.instrucciones%maquetacion_plantilla/
+    ruta.batch: batch_generados/
+
+    path_clientes:
+      productos: %carpeta.imagenes.producto%
+      creatividades: %carpeta.imagenes.creatividad%
+      batch: %carpeta.batch%
+      comunicaciones: %carpeta.comunicaciones_generadas%
+      plantillas: %carpeta.plantillas%
+

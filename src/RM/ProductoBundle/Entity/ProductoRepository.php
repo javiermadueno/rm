@@ -3,6 +3,7 @@
 namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class ProductoRepository extends EntityRepository
 {
@@ -16,13 +17,14 @@ class ProductoRepository extends EntityRepository
     public function findById($id)
     {
         $producto = $this->createQueryBuilder('producto')
-            ->join('producto.idMarca', 'marca')
-            ->addSelect('marca')
-            ->where('producto.idProducto = :id')
-            ->andWhere('producto.activo = 1')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+                         ->join('producto.idMarca', 'marca')
+                         ->addSelect('marca')
+                         ->where('producto.idProducto = :id')
+                         ->andWhere('producto.activo = 1')
+                         ->setParameter('id', $id)
+                         ->getQuery()
+                         ->getOneOrNullResult()
+        ;
 
         return $producto;
     }
@@ -75,8 +77,8 @@ class ProductoRepository extends EntityRepository
     public function findProductosByCategoriaYMarca($categoria, $marca)
     {
         $productos = $this->createQueryBuilder('p')
-            ->where('p.activo = 1')
-            ->andWhere('(p.idCategoria  = :categoria OR
+                          ->where('p.activo = 1')
+                          ->andWhere('(p.idCategoria  = :categoria OR
                  p.idCategoria2  = :categoria OR
                  p.idCategoria3  = :categoria OR
                  p.idCategoria4  = :categoria OR
@@ -88,11 +90,12 @@ class ProductoRepository extends EntityRepository
                  p.idCategoria10 = :categoria OR
                  p.idCategoria11 = :categoria)
                  ')
-            ->andWhere('p.idMarca = :marca')
-            ->setParameter('categoria', $categoria)
-            ->setParameter('marca', $marca)
-            ->getQuery()
-            ->getResult();
+                          ->andWhere('p.idMarca = :marca')
+                          ->setParameter('categoria', $categoria)
+                          ->setParameter('marca', $marca)
+                          ->getQuery()
+                          ->getResult()
+        ;
 
         return $productos;
     }
@@ -131,12 +134,14 @@ class ProductoRepository extends EntityRepository
     {
 
         $qb = $this->createQueryBuilder('p')
-            ->where('p.activo = 1');
+                   ->where('p.activo = 1')
+        ;
 
         if ($codigo != '') {
             return $qb->andWhere('p.idProducto = :codigo')
-                ->setParameter('codigo', $codigo)
-                ->getQuery()->getResult();
+                      ->setParameter('codigo', $codigo)
+                      ->getQuery()->getResult()
+                ;
         }
 
         if ($id_categoria > 0) {
@@ -153,28 +158,69 @@ class ProductoRepository extends EntityRepository
                  p.idCategoria10 = :categoria OR
                  p.idCategoria11 = :categoria)
                  '
-            )->setParameter('categoria', $id_categoria);
+            )->setParameter('categoria', $id_categoria)
+            ;
         }
 
         if ($id_marca > 0) {
             $qb->andWhere('p.idMarca = :marca')
-                ->setParameter('marca', $id_marca);
+               ->setParameter('marca', $id_marca)
+            ;
         }
 
         if ($nombre != '') {
             $qb->andWhere($qb->expr()->like('p.nombre', ':nombre'))
-                ->setParameter('nombre', sprintf('%%%s%%', $nombre));
+               ->setParameter('nombre', sprintf('%%%s%%', $nombre))
+            ;
         }
 
         $productos = $qb->orderBy('p.idProducto')
-            ->getQuery()
-            ->getResult()
+                        ->getQuery()
+                        ->getResult()
         ;
 
 
         return $productos;
+    }
 
+    public function actualizaImagenesProducto(array $productos)
+    {
+        $qb = $this->_em->getRepository('RMProductoBundle:Producto')
+                        ->createQueryBuilder('producto')
+                        ->update()
+                        ->set('producto.imagen', ':imagen')
+        ;
 
+        foreach ($productos as $producto) {
+            $id_producto = $producto['id_producto'];
+            $imagen      = basename($producto['imagen']);
+
+            if (!is_numeric($id_producto)) {
+                continue;
+            }
+
+            $qb->setParameter('imagen', $imagen)
+               ->where('producto.idProducto = :producto')
+               ->setParameter('producto', $id_producto)
+               ->getQuery()->execute()
+            ;;
+
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function findProductosSinImagen()
+    {
+        $id_productos = $this->createQueryBuilder('p')
+            ->select('p.idProducto', 'p.nombre')
+            ->where('p.imagen is null')
+            ->orWhere("p.imagen = ''")
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return $id_productos;
     }
 
 

@@ -13,6 +13,9 @@ rm_insight_evolution:
 rm_insight_cliente_activo:
     path:     /index/activo
     defaults: { _controller: RMInsightBundle:Default:clienteActivo }
+rm_insight_cliente_inactivo:
+    path: /index/inactivo
+    defaults: {_controller: RMInsightBundle:Default:clienteInactivo }
 
 rm_insight_cliente_activo_detalle:
     path:     /index/activo/detalle
@@ -28,7 +31,17 @@ rm_insight_categoria:
 
 rm_insight_campaign:
     path:     /campaign
-    defaults: { _controller: RMInsightBundle:Default:campaign, idOpcionMenuSup 4, idOpcionMenuIzq 5}
+    defaults: { _controller: RMInsightBundle:Campanya:campaign, idOpcionMenuSup 4, idOpcionMenuIzq 5}
+
+rm_insight_campaign_email_list:
+    path:     /campaign/email
+    defaults: { _controller: RMInsightBundle:Campanya:listCampanyaEmail }
+
+rm_insight_campaign_email:
+    path: /campaign/email/{instancia}
+    defaults: { _controller: RMInsightBundle:Campanya:campanyaEmail }
+    requirements:
+      instancia: \d+
        
 rm_insight_proveedores:
     path:     /proveedores

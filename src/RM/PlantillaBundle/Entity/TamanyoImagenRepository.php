@@ -42,7 +42,7 @@ class TamanyoImagenRepository extends EntityRepository
 
 		$dql = "SELECT t.idTamanyo, t.codigo, t.ancho, t.alto, gs.idGrupo As idGrupo
             FROM RMPlantillaBundle:TamanyoImagen t
-			LEFT JOIN RMPlantillaBundle:GrupoSlots AS gs WITH (t.idTamanyo = gs.idTamanyoImgProducto AND gs.estado > -1)
+			LEFT JOIN RMPlantillaBundle:GrupoSlots AS gs WITH (t.idTamanyo = gs.idTamanyoSlot AND gs.estado > -1)
 			WHERE t.tipo IN (:tipo)
 			AND	  t.estado > -1
 			GROUP BY t.idTamanyo";

@@ -4,6 +4,7 @@ namespace RM\PlantillaBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PlantillaModeloType extends AbstractType
@@ -14,33 +15,36 @@ class PlantillaModeloType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $em = isset($options['em'])? $options['em'] : $_SESSION['connection'];
 
-        $builder->add('nombre', 'text', array(
+        $builder->add('nombre', 'text', [
                 'required' => true
-            ))
-            ->add('descripcion', 'text', array(
+            ])
+            ->add('descripcion', 'text', [
                     'required' => false
-                ))
-            ->add('canal', 'entity', array(
+                ])
+            ->add('canal', 'entity', [
                     'class' => 'RMComunicacionBundle:Canal',
-                    'em' => $em,
+                    'em' => $options['em'],
                     'required' => true,
-                    'empty_value' => '- Seleccione un canal -',
-                ))
-            ->add('estado', 'hidden', array('data' => 1))
-            ->add('esModelo', 'hidden', array('data' => true))
+                    'placeholder' => '- Seleccione un canal -',
+                ])
+            ->add('estado', 'hidden', ['data' => 1])
+            ->add('esModelo', 'hidden', ['data' => true])
         ;
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
-        ));
+        $resolver
+            ->setDefaults([
+                'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
+            ])
+            ->setRequired(['em'])
+            ->setAllowedTypes('em' , 'Doctrine\Common\Persistence\ObjectManager')
+        ;
     }
 
     /**

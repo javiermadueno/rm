@@ -4,10 +4,12 @@ namespace RM\ComunicacionBundle\DependencyInjection;
 
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
+use RM\CategoriaBundle\Entity\Categoria;
 use RM\ComunicacionBundle\Entity\Fases;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\ComunicacionBundle\Entity\InstanciaComunicacionRepository;
 use RM\PlantillaBundle\Entity\GrupoSlots;
+use RM\ProductoBundle\Entity\CriterioDesempate;
 use RM\ProductoBundle\Entity\InstanciaCriterioDesempate;
 use RM\ProductoBundle\Entity\NumPromociones;
 use RM\ProductoBundle\Entity\Promocion;
@@ -17,7 +19,7 @@ class InstanciaComunicacionServicio
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager
      */
     private $em;
 
@@ -67,177 +69,20 @@ class InstanciaComunicacionServicio
         return $consulta;
     }
 
-    public function guardarFaseConfPromocionesByPost(
-        InstanciaComunicacion $objInstancia,
-        $objGrupoSlots,
-        $gruposCreatividades,
-        $objCategorias,
-        $objNumPromociones,
-        $objPromocionesCreatividad,
-        Request $request
-    ) {
 
-        $manager = $this->em;
-
-        $categoriaYGrupoUsados    = [];
-        $grupoCreatividadesUsados = [];
-        $grupoCreatividad         = [];
-
-        /**
-         * Primero se comprueba si ha habido cambios en la num_promociones existentes
-         * y se actualiza su valor
-         */
-
-        foreach ($objNumPromociones as $numPromo) {
-            $idGrupoSlots = $numPromo->getIdGrupo()->getIdGrupo();
-            $idCategoria  = $numPromo->getIdCategoria()->getIdCategoria();
-
-            $nomVarSeg = sprintf("seg_%s_%s", $idGrupoSlots, $idCategoria);
-            $nomVarGen = sprintf("gen_%s_%s", $idGrupoSlots, $idCategoria);
-
-            $varGen = $request->get($nomVarGen);
-            $varSeg = $request->get($nomVarSeg);
-
-            if ($varGen || $varSeg) {
-
-                if (null != $varGen) {
-                    $numPromo->setNumGenericas($varGen);
-                }
-
-                if (null != $varSeg) {
-                    $numPromo->setNumSegmentadas($varSeg);
-                }
-
-                $manager->merge($numPromo);
-
-                array_push($categoriaYGrupoUsados, sprintf("%s_%s", $idGrupoSlots, $idCategoria));
-            }
-
-        }
-
-        foreach ($objPromocionesCreatividad as $numPromo) {
-            $idGrupoSlots = $numPromo->getIdGrupo()->getIdGrupo();
-
-            $nomVarSeg = sprintf("segCre_%s", $idGrupoSlots);
-            $nomVarGen = sprintf("genCre_%s", $idGrupoSlots);
-            array_push($grupoCreatividad, $idGrupoSlots);
-
-            $varGen = $request->get($nomVarGen);
-            $varSeg = $request->get($nomVarSeg);
-
-            if ($varGen || $varSeg) {
-
-                if (null != $varGen) {
-                    $numPromo->setNumGenericas($varGen);
-                }
-
-                if (null != $varSeg) {
-                    $numPromo->setNumSegmentadas($varSeg);
-                }
-
-                $manager->merge($numPromo);
-
-                array_push($grupoCreatividadesUsados, sprintf("%s", $idGrupoSlots));
-            }
-        }
-
-        $manager->flush();
-
-        /**
-         * Despues se recorren todos los posibles inputs que haya en el formulario. Si tienen valor
-         * se genera un registro en num_promociones con los datos necesarios
-         */
-
-        foreach ($objGrupoSlots as $grupoSlot) {
-            $idGrupoSlots = $grupoSlot['idGrupo'];
-
-            //Se comprueba si el grupo es de tipo creatividad
-            if ($grupoSlot['tipo'] == GrupoSlots::CREATIVIDADES) {
-                if (in_array(sprintf("%s", $idGrupoSlots), $grupoCreatividadesUsados)) {
-                    continue;
-                }
-
-                $nomVarSeg = sprintf("segCre_%s", $idGrupoSlots);
-                $nomVarGen = sprintf("genCre_%s", $idGrupoSlots);
-
-                $varGen = $request->get($nomVarGen);
-                $varSeg = $request->get($nomVarSeg);
-
-                if ($varGen || $varSeg) {
-
-                    $objGrupo     = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
-                    $numPromocion = new NumPromociones();
-                    $numPromocion->setEstado(1);
-                    $numPromocion->setIdGrupo($objGrupo);
-                    $numPromocion->setIdInstancia($objInstancia);
-
-                    if (null != $varSeg) {
-                        $numPromocion->setNumSegmentadas($varSeg);
-                    }
-
-                    if (null != $varGen) {
-                        $numPromocion->setNumGenericas($varGen);
-                    }
-
-                    $manager->persist($numPromocion);
-
-                }
-            } else {
-                foreach ($objCategorias as $categoria) {
-
-
-                    $idCategoria = $categoria->getIdCategoria();
-
-                    //Si ya se ha comprobado los valores de esta categoria y grupo continua con el resto de elemtos
-                    if (in_array(sprintf("%s_%s", $idGrupoSlots, $idCategoria), $categoriaYGrupoUsados)) {
-                        continue;
-                    }
-
-                    $nomVarSeg = sprintf("seg_%s_%s", $idGrupoSlots, $idCategoria);
-                    $nomVarGen = sprintf("gen_%s_%s", $idGrupoSlots, $idCategoria);
-
-                    $varGen = $request->get($nomVarGen);
-                    $varSeg = $request->get($nomVarSeg);
-
-                    if ($varGen || $varSeg) {
-
-                        $objGrupo     = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupoSlots);
-                        $numPromocion = new NumPromociones();
-                        $numPromocion->setEstado(1);
-                        $numPromocion->setIdCategoria($categoria);
-                        $numPromocion->setIdGrupo($objGrupo);
-                        $numPromocion->setIdInstancia($objInstancia);
-
-
-                        if (null != $varSeg) {
-                            $numPromocion->setNumSegmentadas($varSeg);
-                        }
-
-                        if (null != $varGen) {
-                            $numPromocion->setNumGenericas($varGen);
-                        }
-
-                        $manager->persist($numPromocion);
-
-                    }
-                }
-            }
-        }
-
-        $manager->flush();
-    }
 
     public function guardarCriteriosFaseConfiguracion(
         InstanciaComunicacion $objInstancia,
         $objGrupoSlots,
         $criteriosDesempate,
         $instanciasCriterios,
-        $request
+        Request $request
     ) {
         $manager = $this->em;
 
         $criteriosYGruposUsados = [];
 
+        /** @var InstanciaCriterioDesempate $instancia */
         foreach ($instanciasCriterios as $instancia) {
             $idGrupo      = $instancia->getGrupo()->getIdGrupo();
             $tipoCriterio = $instancia->getCriterioDesempate()->getCodigo();
@@ -246,7 +91,7 @@ class InstanciaComunicacionServicio
 
             $numSlot = $request->get($varNumSlot);
 
-            if (null != $numSlot) {
+            if (null !== $numSlot) {
                 $instancia->setNumSlot($numSlot);
                 $manager->merge($instancia);
 
@@ -257,6 +102,8 @@ class InstanciaComunicacionServicio
         $manager->flush();
 
         foreach ($objGrupoSlots as $grupoSlot) {
+
+            /** @var CriterioDesempate $criterio */
             foreach ($criteriosDesempate as $criterio) {
                 $idGrupo      = $grupoSlot['idGrupo'];
                 $tipoCriterio = $criterio->getCodigo();
@@ -269,7 +116,7 @@ class InstanciaComunicacionServicio
 
                 $numSlot = $request->get($varNumSlot);
 
-                if (null != $numSlot) {
+                if (null !== $numSlot) {
                     $objGrupo = $manager->getRepository('RMPlantillaBundle:GrupoSlots')->find($idGrupo);
 
                     //Se crea una nueva instancia de criterio de Desempate
@@ -436,7 +283,6 @@ class InstanciaComunicacionServicio
     }
 
 
-    //CREATIVIDADES
 
     public function getInstanciasCreatividad()
     {
@@ -445,285 +291,5 @@ class InstanciaComunicacionServicio
         return $registros;
     }
 
-    public function findGruposSlotsByInstancia($idInstancia)
-    {
-        $dql = "
-            SELECT DISTINCT gs
-            FROM RMComunicacionBundle:InstanciaComunicacion ic WITH (ic.idInstancia = :idInstancia)
-            JOIN RMComunicacionBunle:SegmentoComunicacion sc WITH  (sc.idInstancia = ic.idInstancia AND sc.estado > -1)
-            JOIN RMComunicacionBundle:Comununicacion c WITH (sc.idComunicacion = c.idComunicacion AND c.estado> -1)
-            JOIN RMPlantillaBundle:Plantilla p WITH (c.plantilla = p.idPlantilla AND p.estado> -1)
-            JOIN RMplantillaBundle:GrupoSlots gs WITH (gs.idPlantilla = p.idPlantilla)
-            WHERE gs.estado > -1
-        ";
 
-        $query = $this->em->createQuery($dql);
-        $query->setParameter('idInstancia', $idInstancia);
-        $res = $query->getResult();
-
-        return $res;
-    }
-
-    /**
-     * @param int $id_instancia
-     *
-     * @return bool
-     */
-    public function cambioFase($id_instancia = 0)
-    {
-        $instancia = $this->repository->find($id_instancia);
-
-        if (!$instancia instanceof InstanciaComunicacion) {
-            return false;
-        }
-
-        $fase = $instancia->getFase()->getCodigo();
-
-        switch ($fase) {
-            case InstanciaComunicacion::FASE_CONFIGURACION:
-                return $this->tramitarACampanya($instancia);
-                break;
-            case InstanciaComunicacion::FASE_NEGOCIACION:
-                return $this->tramitarASimulacion($instancia);
-                break;
-            case InstanciaComunicacion::FASE_CIERRE:
-                return $this->tramitarAGeneracion($instancia);
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function tramitarACampanya(InstanciaComunicacion $instancia)
-    {
-        if (!$this->compruebaFaseConfiguracion($instancia)) {
-            return false;
-        }
-
-        $faseCampanya = $this->em->getRepository('RMComunicacionBundle:Fases')
-            ->findOneBy(['codigo' => InstanciaComunicacion::FASE_NEGOCIACION]);
-
-
-        return $this->cambiaFase($instancia, $faseCampanya);
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function compruebaFaseConfiguracion(InstanciaComunicacion $instancia)
-    {
-        if ($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_CONFIGURACION) {
-            return false;
-        }
-
-        /**
-         * Se comprueba que por cada GrupoSlots de la plantilla haya un registro en num_promociones
-         */
-        $grupoSlots = $this
-            ->findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($instancia->getIdInstancia());
-
-        foreach ($grupoSlots as $grupoSlot) {
-            if (!intval($grupoSlot['numPro'])) {
-                return false;
-            }
-        }
-
-        /**
-         * Se comprueba que el total de genericas por grupo de slots sea igual o superior al numero de slots del grupo.
-         */
-        $totalGenericasPorgrupo = $this->em->getRepository('RMProductoBundle:NumPromociones')
-            ->findTotalGenericasPorGrupoByInstancia($instancia->getIdInstancia());
-
-
-        foreach ($totalGenericasPorgrupo as $total) {
-            $totalGenericas = $total['totalGenericas'];
-            $totalSlots     = $total['totalSlots'];
-
-            if ($totalGenericas < $totalSlots) {
-                return false;
-            }
-        }
-
-        return true;
-
-    }
-
-    public function findNumRegistrosNumPromocionesPorGrupoSlotsByIdInstancia($idInstancia)
-    {
-        $dql = "
-            SELECT gs.idGrupo as idGrupoSlot , COUNT( DISTINCT np.idNumPro ) as numPro
-            FROM RMComunicacionBundle:InstanciaComunicacion ic
-            JOIN RMComunicacionBundle:SegmentoComunicacion sc WITH (sc.idSegmentoComunicacion = ic.idSegmentoComunicacion AND sc.estado > -1)
-            JOIN  RMComunicacionBundle:Comunicacion c WITH (c.idComunicacion = sc.idComunicacion AND c.estado > -1)
-            JOIN RMPlantillaBundle:Plantilla p WITH(c.plantilla = p.idPlantilla AND p.estado > -1)
-            JOIN RMPlantillaBundle:GrupoSlots  gs WITH (gs.idPlantilla = p.idPlantilla AND gs.estado > -1)
-            LEFT JOIN RMProductoBundle:NumPromociones np WITH(np.idGrupo = gs.idGrupo AND np.idInstancia = ic.idInstancia)
-            WHERE ic.idInstancia = :idInstancia
-            AND ic.estado > -1
-            GROUP BY gs.idGrupo
-            ORDER BY gs.idGrupo
-        ";
-
-        $query = $this->em->createQuery($dql);
-        $query->setParameter('idInstancia', $idInstancia);
-        $res = $query->getResult();
-
-        return $res;
-
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     * @param Fases                 $fase
-     *
-     * @return bool
-     */
-    private function cambiaFase(InstanciaComunicacion $instancia, Fases $fase)
-    {
-        try {
-            $instancia
-                ->setFase($fase)
-                ->setEstado(1);
-
-            $this->em->persist($instancia);
-            $this->em->flush();
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function tramitarASimulacion(InstanciaComunicacion $instancia)
-    {
-        if (!$this->compruebaFaseCampanya($instancia)) {
-            return false;
-        }
-
-        $faseSimulacion = $this->em->getRepository('RMComunicacionBundle:Fases')
-            ->findOneBy(['codigo' => InstanciaComunicacion::FASE_SIMULACION]);
-
-        return $this->cambiaFase($instancia, $faseSimulacion);
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function compruebaFaseCampanya(InstanciaComunicacion $instancia)
-    {
-        if ($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_NEGOCIACION) {
-            return false;
-        }
-
-        /**
-         * Se comprueba que el número de promociones creadas sea el indicado en numPromociones
-         */
-
-        $numPromociones = $instancia->getNumPromociones()->filter(function(NumPromociones $numPromociones) {
-            return $numPromociones->getEstado() > -1;
-        });
-
-        foreach ($numPromociones as $numPromocion) {
-            $totalSegmentadas = intval($numPromocion->getNumSegmentadas());
-            $totalGenericas   = intval($numPromocion->getNumGenericas());
-
-            $segmentadas = $numPromocion->getPromocionesSegentadas()->count();
-            $genericas   = $numPromocion->getPromocionesGenericas()->count();
-
-            if ($genericas < $totalGenericas) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function tramitarAGeneracion(InstanciaComunicacion $instancia)
-    {
-        if (!$this->compruebaFaseCierre($instancia)) {
-            return false;
-        }
-
-        $faseGeneracion = $this->em->getRepository('RMComunicacionBundle:Fases')
-            ->findOneBy(['codigo' => InstanciaComunicacion::FASE_GENERACION]);
-
-        if ($this->compruebaPromocionesRechazadasEnFaseCierre($instancia)) {
-            $instancia->setPaso(InstanciaComunicacion::PASO_1);
-
-            return $this->cambiaFase($instancia, $faseGeneracion);
-        }
-
-        $instancia->setPaso(InstanciaComunicacion::PASO_2);
-
-        return $this->cambiaFase($instancia, $faseGeneracion);
-    }
-
-    /**
-     * @param InstanciaComunicacion $instancia
-     *
-     * @return bool
-     */
-    public function compruebaFaseCierre(InstanciaComunicacion $instancia)
-    {
-        if ($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_CIERRE) {
-            return false;
-        }
-
-        /**
-         * Se comprueba que no haya ninguna promoción pendiente
-         *
-         * @var NumPromociones $numPro
-         * @var Promocion      $promocion
-         */
-        foreach ($instancia->getNumPromociones() as $numPro) {
-            foreach ($numPro->getPromociones() as $promocion) {
-                if ($promocion->getAceptada() == Promocion::PENDIENTE) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public function compruebaPromocionesRechazadasEnFaseCierre(InstanciaComunicacion $instancia)
-    {
-        if ($instancia->getFase()->getCodigo() !== InstanciaComunicacion::FASE_CIERRE) {
-            return false;
-        }
-
-        /**
-         * Comprueba si hay promociones rechazadas
-         *
-         * @var NumPromociones $numPro
-         * @var Promocion      $promocion
-         */
-        foreach ($instancia->getNumPromociones() as $numPro) {
-            foreach ($numPro->getPromociones() as $promocion) {
-                if ($promocion->getAceptada() == Promocion::RECHAZADA) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }

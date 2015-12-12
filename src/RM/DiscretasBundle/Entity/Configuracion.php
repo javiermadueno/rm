@@ -101,7 +101,7 @@ class Configuracion {
 	/**
 	 * Set estado
 	 *
-	 * @param smallint $estado        	
+	 * @param int $estado
 	 * @return Configuracion
 	 */
 	public function setEstado($estado) {

@@ -4,6 +4,7 @@ namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use RM\CategoriaBundle\Entity\Categoria;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -29,7 +30,7 @@ class Producto implements  JsonSerializable
     private $codSku;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="fecha_lanzamiento", type="datetime", nullable=true)
      */
@@ -63,12 +64,19 @@ class Producto implements  JsonSerializable
      */
     private $volumen;
 
+
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="activo", type="smallint", nullable=true)
      */
     private $activo;
+
+    /**
+     * @var string
+     */
+    private $url;
+
 
 
     /**
@@ -252,6 +260,10 @@ class Producto implements  JsonSerializable
 
     public function uploadImagen($cliente_path = '')
     {
+        if(is_null($this->file) || !$this->file->isValid()) {
+            return;
+        }
+
         if (empty($cliente_path)) {
             throw new \Exception("No se ha definido el cliente");
         }
@@ -259,9 +271,9 @@ class Producto implements  JsonSerializable
 
         $this->removeImagen($cliente_path);
 
-        $nombre_imagen  =  $this->idProducto . '.' . $this->getFile()->guessExtension();
+        $nombre_imagen  =  $this->idProducto . '.' . $this->getFile()->getClientOriginalExtension();
         $this->getFile()->move(
-            $this->getUploadRootDir($cliente_path),
+            $cliente_path,
             $nombre_imagen
         );
 
@@ -271,34 +283,6 @@ class Producto implements  JsonSerializable
 
         // clean up the file property as you won't need it anymore
         $this->file = null;
-    }
-
-    public function getAbsolutePath($cliente_path)
-    {
-        return null === $this->imagen
-            ? null
-            : $this->getUploadRootDir($cliente_path).'/'.$this->imagen;
-    }
-
-    public function getWebPath($cliente_path)
-    {
-        return null === $this->imagen
-            ? null
-            : $this->getUploadDir($cliente_path).'/'.$this->imagen;
-    }
-
-    protected function getUploadRootDir($cliente_path)
-    {
-        // the absolute directory path where uploaded
-        // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir($cliente_path);
-    }
-
-    protected function getUploadDir($cliente_path)
-    {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return sprintf('%s/imagenesProducto', $cliente_path);
     }
 
 
@@ -352,7 +336,7 @@ class Producto implements  JsonSerializable
     /**
      * Set fechaLanzamiento
      *
-     * @param \Date $fechaLanzamiento
+     * @param \DateTime $fechaLanzamiento
      * @return Producto
      */
     public function setFechaLanzamiento($fechaLanzamiento)
@@ -365,7 +349,7 @@ class Producto implements  JsonSerializable
     /**
      * Get fechaLanzamiento
      *
-     * @return \Date 
+     * @return \DateTime
      */
     public function getFechaLanzamiento()
     {
@@ -467,7 +451,7 @@ class Producto implements  JsonSerializable
     /**
      * Set activo
      *
-     * @param smallint $activo
+     * @param int $activo
      * @return Producto
      */
     public function setActivo($activo)
@@ -480,7 +464,7 @@ class Producto implements  JsonSerializable
     /**
      * Get activo
      *
-     * @return smallint 
+     * @return int
      */
     public function getActivo()
     {
@@ -502,10 +486,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idMarca
      *
-     * @param \RM\ProductoBundle\Entity\Marca $idMarca
+     * @param Marca $idMarca
      * @return Producto
      */
-    public function setIdMarca(\RM\ProductoBundle\Entity\Marca $idMarca = null)
+    public function setIdMarca(Marca $idMarca = null)
     {
         $this->idMarca = $idMarca;
     
@@ -525,10 +509,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria
+     * @param Categoria $idCategoria
      * @return Producto
      */
-    public function setIdCategoria(\RM\CategoriaBundle\Entity\Categoria $idCategoria = null)
+    public function setIdCategoria(Categoria $idCategoria = null)
     {
         $this->idCategoria = $idCategoria;
     
@@ -548,10 +532,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idProveedor
      *
-     * @param \RM\ProductoBundle\Entity\Proveedor $idProveedor
+     * @param Proveedor $idProveedor
      * @return Producto
      */
-    public function setIdProveedor(\RM\ProductoBundle\Entity\Proveedor $idProveedor = null)
+    public function setIdProveedor(Proveedor $idProveedor = null)
     {
         $this->idProveedor = $idProveedor;
     
@@ -579,10 +563,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria3
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria3
+     * @param Categoria $idCategoria3
      * @return Producto
      */
-    public function setIdCategoria3(\RM\CategoriaBundle\Entity\Categoria $idCategoria3 = null)
+    public function setIdCategoria3(Categoria $idCategoria3 = null)
     {
         $this->idCategoria3 = $idCategoria3;
     
@@ -592,7 +576,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria3
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria3()
     {
@@ -602,10 +586,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria4
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria4
+     * @param Categoria $idCategoria4
      * @return Producto
      */
-    public function setIdCategoria4(\RM\CategoriaBundle\Entity\Categoria $idCategoria4 = null)
+    public function setIdCategoria4(Categoria $idCategoria4 = null)
     {
         $this->idCategoria4 = $idCategoria4;
     
@@ -615,7 +599,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria4
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria4()
     {
@@ -625,10 +609,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria5
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria5
+     * @param Categoria $idCategoria5
      * @return Producto
      */
-    public function setIdCategoria5(\RM\CategoriaBundle\Entity\Categoria $idCategoria5 = null)
+    public function setIdCategoria5(Categoria $idCategoria5 = null)
     {
         $this->idCategoria5 = $idCategoria5;
     
@@ -638,7 +622,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria5
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria5()
     {
@@ -648,10 +632,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria6
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria6
+     * @param Categoria $idCategoria6
      * @return Producto
      */
-    public function setIdCategoria6(\RM\CategoriaBundle\Entity\Categoria $idCategoria6 = null)
+    public function setIdCategoria6(Categoria $idCategoria6 = null)
     {
         $this->idCategoria6 = $idCategoria6;
     
@@ -661,7 +645,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria6
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria6()
     {
@@ -671,10 +655,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria7
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria7
+     * @param Categoria $idCategoria7
      * @return Producto
      */
-    public function setIdCategoria7(\RM\CategoriaBundle\Entity\Categoria $idCategoria7 = null)
+    public function setIdCategoria7(Categoria $idCategoria7 = null)
     {
         $this->idCategoria7 = $idCategoria7;
     
@@ -684,7 +668,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria7
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria7()
     {
@@ -694,10 +678,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria8
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria8
+     * @param Categoria $idCategoria8
      * @return Producto
      */
-    public function setIdCategoria8(\RM\CategoriaBundle\Entity\Categoria $idCategoria8 = null)
+    public function setIdCategoria8(Categoria $idCategoria8 = null)
     {
         $this->idCategoria8 = $idCategoria8;
     
@@ -707,7 +691,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria8
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria8()
     {
@@ -717,10 +701,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria9
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria9
+     * @param Categoria $idCategoria9
      * @return Producto
      */
-    public function setIdCategoria9(\RM\CategoriaBundle\Entity\Categoria $idCategoria9 = null)
+    public function setIdCategoria9(Categoria $idCategoria9 = null)
     {
         $this->idCategoria9 = $idCategoria9;
     
@@ -730,7 +714,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria9
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria9()
     {
@@ -740,10 +724,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria10
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria10
+     * @param Categoria $idCategoria10
      * @return Producto
      */
-    public function setIdCategoria10(\RM\CategoriaBundle\Entity\Categoria $idCategoria10 = null)
+    public function setIdCategoria10(Categoria $idCategoria10 = null)
     {
         $this->idCategoria10 = $idCategoria10;
     
@@ -753,7 +737,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria10
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria10()
     {
@@ -763,10 +747,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria11
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria11
+     * @param Categoria $idCategoria11
      * @return Producto
      */
-    public function setIdCategoria11(\RM\CategoriaBundle\Entity\Categoria $idCategoria11 = null)
+    public function setIdCategoria11(Categoria $idCategoria11 = null)
     {
         $this->idCategoria11 = $idCategoria11;
     
@@ -776,7 +760,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria11
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria11()
     {
@@ -786,10 +770,10 @@ class Producto implements  JsonSerializable
     /**
      * Set idCategoria2
      *
-     * @param \RM\CategoriaBundle\Entity\Categoria $idCategoria2
+     * @param Categoria $idCategoria2
      * @return Producto
      */
-    public function setIdCategoria2(\RM\CategoriaBundle\Entity\Categoria $idCategoria2 = null)
+    public function setIdCategoria2(Categoria $idCategoria2 = null)
     {
         $this->idCategoria2 = $idCategoria2;
     
@@ -799,7 +783,7 @@ class Producto implements  JsonSerializable
     /**
      * Get idCategoria2
      *
-     * @return \RM\CategoriaBundle\Entity\Categoria 
+     * @return Categoria
      */
     public function getIdCategoria2()
     {
@@ -829,11 +813,38 @@ class Producto implements  JsonSerializable
         return $this->imagen;
     }
 
+    /**
+     * @param $cliente
+     */
     public function removeImagen($cliente)
     {
-        if(file_exists( $this->getAbsolutePath($cliente))) {
-            unlink($this->getAbsolutePath($cliente));
+        if(!$this->imagen) {
+            return;
+        }
+
+        $imagen  = $cliente . $this->imagen;
+
+        if(file_exists($imagen)) {
+            unlink($imagen);
         }
 
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+
 }

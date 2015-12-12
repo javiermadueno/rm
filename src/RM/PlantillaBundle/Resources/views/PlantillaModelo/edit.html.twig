@@ -16,10 +16,7 @@
 
     <div class="row-fluid">
         <div class="span1 offset11">
-            <button class="btn btn-primary"
-                    onclick="javascript:window.location.href='{{ path('rm_plantilla_plantilla_modelo_index') }}';">
-                {{ "boton.volver"|trans }}
-            </button>
+            <a class="btn btn-primary" href='{{ path('rm_plantilla_plantilla_modelo_index') }}'>{{ "boton.volver"|trans }}</a>
         </div>
     </div>
 
@@ -73,7 +70,6 @@
     </div>
 
     <!-- Grupos de slots -->
-
     {{ render(controller('RMPlantillaBundle:GrupoSlotsModelo:index', { 'idPlantilla': plantilla.idPlantilla, 'editable' : plantilla.editable })) }}
 
 
@@ -95,10 +91,10 @@
                 });
 
                 if (existe == 0) {
-                    alert("Debe de elegir al menos un registro");
+                    alert("{{ 'mensaje.alerta.al.menos.un.registro'|trans }}");
                 }
                 else {
-                    if (confirm("¿Desea eliminar los registros seleccionados?")) {
+                    if (confirm("{{ 'mensaje.alerta.eliminar.registros'|trans }}")) {
                         var formulario = $('#borrarGrupos');
                         formulario.submit();
                     }

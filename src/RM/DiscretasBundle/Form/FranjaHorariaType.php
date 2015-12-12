@@ -11,6 +11,7 @@ namespace RM\DiscretasBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FranjaHorariaType extends AbstractType
@@ -35,11 +36,11 @@ class FranjaHorariaType extends AbstractType
     }
 
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\DiscretasBundle\Entity\FranjaHoraria'
-        ));
+        ]);
     }
 
     public function getName()

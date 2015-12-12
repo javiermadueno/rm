@@ -1,0 +1,8 @@
+services:
+  rm_trackingbundle.repository.trackingemailrepository:
+    class: RM\TrackingBundle\Repository\TrackingEmailRepository
+    parent: "mongoservice"
+
+  rm_tracking.factory.statistic_factory:
+    class: RM\TrackingBundle\Factory\StatisticFactory
+    arguments: [@rm_trackingbundle.repository.trackingemailrepository]

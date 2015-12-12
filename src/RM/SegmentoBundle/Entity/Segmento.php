@@ -21,7 +21,7 @@ class Segmento implements \JsonSerializable
     private $nombre;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="RM\DiscretasBundle\Entity\Tipo")
      * @ORM\JoinColumn(name="id_tipo_variable", referencedColumnName="id_tipo_variable")
@@ -29,14 +29,14 @@ class Segmento implements \JsonSerializable
     private $tipo;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="query", type="text", length=255, nullable=true)
      */
     private $query;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -218,7 +218,7 @@ class Segmento implements \JsonSerializable
     /**
      * Set query
      *
-     * @param text $query
+     * @param string $query
      * @return Segmento
      */
     public function setQuery($query)
@@ -231,7 +231,7 @@ class Segmento implements \JsonSerializable
     /**
      * Get query
      *
-     * @return text 
+     * @return string
      */
     public function getQuery()
     {
@@ -241,7 +241,7 @@ class Segmento implements \JsonSerializable
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      * @return Segmento
      */
     public function setEstado($estado)
@@ -254,7 +254,7 @@ class Segmento implements \JsonSerializable
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstado()
     {

@@ -22,6 +22,7 @@ class DoctrineManager
      */
     private $em;
 
+
     private $cliente;
 
     /**
@@ -45,7 +46,7 @@ class DoctrineManager
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager|EntityManager
+     * @return EntityManager
      * @throws \Exception
      */
     public function getManager()
@@ -64,5 +65,11 @@ class DoctrineManager
         }
 
         return $this->em;
+    }
+
+
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 } 

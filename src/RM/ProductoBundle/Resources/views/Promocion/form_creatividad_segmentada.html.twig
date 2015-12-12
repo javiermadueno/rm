@@ -1,0 +1,235 @@
+{% extends '@RMProducto/Promocion/base_promocion.html.twig' %}
+
+{% set objInstancia = promocion.numPromocion.idInstancia %}
+
+{% block widgettitle %}
+    {{ "segmentadas" |trans|title }}
+{% endblock widgettitle %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': form.vars.id }}) }}
+    <div id="content">
+        <div class="row-fluid">
+            <div class="span6">
+                <fieldset>
+                    <legend>{{ "creatividad" |trans|title }}</legend>
+
+                    <div class="control-group {% if not form.descripcion.vars.valid %}error{% endif %}">
+                        {{ form_label(form.descripcion, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.descripcion, {'attr': {'class' : 'change span8' }}) }}
+                            <span class="help-inline">
+                                {% for error in form.descripcion.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if form.nombreFiltro is defined %}
+                        <div class="control-group">
+                            {{ form_label(form.nombreFiltro, null,  {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                <div class="input-append span8">
+                                    {{ form_widget(form.nombreFiltro, {'attr': {'style' : 'width: 95% !important' }}) }}
+                                    <button class="btn segmentador" type="button"
+                                            data-nombrefiltro="{{ form.nombreFiltro.vars.id }}"
+                                            data-filtro="{{ form.filtro.vars.id }}">
+                                        <i class="iconfa iconfa-filter"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="control-group {% if not form.fechaCaducidad.vars.valid %}error{% endif %}">
+                        {{ form_label(form.fechaCaducidad, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.fechaCaducidad, {'attr': {'class': 'datepicker span8'}} ) }}
+                            <span class="help-inline">
+                                {% for error in form.fechaCaducidad.vars.errors %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.filtro, {
+                        'attr': {
+                        'class': 'filtro',
+                        'data-nombrefiltro': form.nombreFiltro.vars.id|default(''),
+                        'data-promocion': promocion.idPromocion is not null ? promocion.idPromocion : -1
+                        }
+                    }) }}
+
+                </fieldset>
+            </div>
+            <div class="span6">
+                <fieldset>
+                    <legend>{{ "select.seleccione.imagen" |trans|title}}</legend>
+                    {#
+                    <div class="control-group">
+                        {{ form_label(form.nombre_creatividad, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            <div class="input-append span8">
+                                {{ form_widget(form.nombre_creatividad, {'attr': {'style' : 'width: 95% !important' }}) }}
+                                <button class="btn" type="button"
+                                        onclick="buscarCreatividad('{{ form.creatividad.vars.id }}', '{{ form.nombre_creatividad.vars.id }}')">
+                                    <i class="iconfa iconfa-filter"></i>
+                                </button>
+                            </div>
+                            {{ form_widget(form.creatividad) }}
+                        </div>
+                    </div>
+
+
+                    #}
+
+
+                    <div class="control-group {% if not form.creatividad.vars.valid %}error{% endif %}">
+                        {{ form_label(form.creatividad, null,  {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            <select name="{{ form.creatividad.vars.full_name }}"
+                                    {% if form.creatividad.vars.required %}required="required"{% endif %}
+                                    id="{{ form.creatividad.vars.id }}"
+                                    class="span12">
+                                {% for choice in form.creatividad.vars.choices %}
+                                    {% set creatividad = choice.data %}
+                                    <option value="{{ choice.value }}"
+                                            {% if form.creatividad.vars.value == choice.value %} selected {% endif %}
+                                            data-imagesrc="{{ absolute_url(asset(ruta_imagen_creatividad(creatividad.imagen))) }}"
+                                            data-description="{{ creatividad.descripcion }}"
+                                            >
+                                        {{ choice.label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {%  do form.creatividad.setRendered  %}
+                            <span class="help-inline">
+                                {% for error in form.creatividad.vars.errors %}
+                                    {{ error.message }} <br/>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="form-actions">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+
+    {#Formulario para pasar mediante post los parametros de las variables al popup de creatividades
+    <form id="formPopupCreatividad" name="formPopupCreatividad" method="POST" action="{{ path("direct_buscador_creatividades_popup") }}" onsubmit="submitPopupCreatividad(this)">
+        <input type="hidden" name="id_id" id="id_id" value="">
+        <input type="hidden" name="id_nombre" id="id_nombre" value="">
+    </form>#}
+
+
+
+    {% if promocion.tipo == constant('TIPO_SEGMENTADA', promocion) %}
+
+        {% include 'RMSegmentoBundle:Default/Buscador:formPopUpBuscadorSegmentos.html.twig' %}
+
+        <script type="text/javascript">
+            $(document).on('ready', function () {
+
+                function addCondicionSegmentoPadre(elem) {
+                    if (typeof elem === 'undefined') {
+                        return false;
+                    }
+
+                    var filtro = JSON.parse(elem.value);
+                    var filtroCompleto = '{"$and": [__CONDICION__,{"ls": {"$in":[{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}] } }]}';
+
+                    filtroCompleto = filtroCompleto.replace('__CONDICION__', filtro.parse);
+                    filtro.filtroCompleto = filtroCompleto;
+
+                    elem.value = JSON.stringify(filtro);
+                }
+
+
+
+                $(document).on('click', '.segmentador', function (event) {
+                    var e = event || window.event;
+                    e.preventDefault();
+
+                    $this = $(this);
+                    buscarSegmentos($this.data('filtro'), $this.data('nombrefiltro'));
+                });
+
+                $(document).on('change', '.filtro', function () {
+                    addCondicionSegmentoPadre(this);
+
+                });
+
+
+            });
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            $(document).on('ready', function(){
+                $('.filtro').each(function () {
+                    addCondicionSegmentoPadreGenericas(this);
+                });
+
+                function addCondicionSegmentoPadreGenericas(elem) {
+                    if (typeof elem === 'undefined') {
+                        return false;
+                    }
+
+                    var filtro = '{"$and": [{"ls": {"$in": [{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}] } } ] }';
+                    var value = {
+                        filtroCompleto: filtro
+                    };
+
+                    elem.value = JSON.stringify(value);
+                }
+            })
+        </script>
+
+{% endif %}
+
+    <script src="{{ asset('js/jquery.ddslick.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function(){
+            $('#{{ form.creatividad.vars.id }}').ddslick();
+            $('#{{ form.vars.id  }}').on('submit', function(){
+                $('#{{ form.creatividad.vars.id }}').ddslick('destroy');
+                this.submit();
+            });
+        });
+    </script>
+
+    {#
+        <script type="text/javascript">
+
+                function buscarCreatividad (identificador, idNombre){
+                    document.getElementById("id_id").value = identificador;
+                    document.getElementById("id_nombre").value = idNombre;
+                    $('#formPopupCreatividad').submit();
+                }
+
+                function submitPopupCreatividad(form){
+                    var largo = 1050;
+                    var altura = 850;
+                    var top = (screen.height - altura) / 2;
+                    var izquierda = (screen.width - largo) / 2;
+                    {% set nombreVentana = "creatividades"|trans|title %}
+                    var nomVentana = '{{ nombreVentana }}';
+                    window.open('', nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+                    form.target = nomVentana;
+                }
+
+        </script>
+        #}
+
+{% endblock content %}

@@ -1,0 +1,136 @@
+{% extends '@RMProducto/Promocion/base_promocion.html.twig' %}
+
+{% set objInstancia = promocion.numPromocion.idInstancia %}
+
+{% block widgettitle %}{{ "genericas" |trans|title }}{% endblock widgettitle %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal' }}) }}
+    <div id="content">
+        <div class="row-fluid">
+            <div class="span6">
+                <fieldset>
+                    <legend>{{ "promocion" |trans|title }} - {{ promocion.numPromocion.idCategoria.nombre }}</legend>
+                        <div class="control-group {% if not form.marca.vars.valid %}error{% endif %}">
+                            {{ form_label(form.marca, null, {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.marca, {'attr': {'class' : 'change span8' }}) }}
+                                <span class="help-inline">
+                                    {% for error in form.marca.vars.errors %}
+                                        {{ error.message }} <br/>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            {{ form_label(form.idProducto, null,  {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.idProducto, {'attr': {'class' : 'span8' }}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group {% if not form.idTipoPromocion.vars.valid %}error{% endif %}">
+                            {{ form_label(form.idTipoPromocion, null,  {'label_attr': {'class': 'control-label'} }) }}
+                            <div class="controls">
+                                {{ form_widget(form.idTipoPromocion, {'attr': {'class' : 'span8' }}) }}
+                                <span class="help-inline">
+                                    {% for error in form.idTipoPromocion.vars.errors %}
+                                        {{ error.message }} <br/>
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
+
+                    <div class="control-group {% if not form.fechaCaducidad.vars.valid %}error{% endif %}">
+                        {{ form_label(form.fechaCaducidad, null, {'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.fechaCaducidad, {'attr': {'class': 'datepicker span8'}}  ) }}
+                            <span class="help-inline">
+                                {% for error in form.fechaCaducidad.vars.errors %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="span6">
+                {% include '@RMProducto/Promocion/form_promocion_parte_comun.html.twig' with {'form': form} %}
+            </div>
+        </div>
+        <div class="row-fluid">
+                <div class="form-actions">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary' }}) }}
+                </div>
+            </div>
+    </div>
+
+    {{ form_widget(form.filtro, {
+    'attr': {
+    'class': 'filtro',
+    'data-promocion': promocion.idPromocion is not null ? promocion.idPromocion : -1
+    }
+    }) }}
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        $(document).on('ready', function () {
+
+            $(document).on('click', '.voucher_generator', genereateVoucher)
+
+            function addCondicionSegmentoPadreGenericas(elem) {
+                if (typeof elem === 'undefined') {
+                    return false;
+                }
+
+                var filtro = '{"$and": [{"ls": {"$in": [{{ objInstancia.idSegmentoComunicacion.idSegmento.idSegmento }}] } } ] }';
+                var value = {
+                    filtroCompleto: filtro
+                };
+
+                elem.value = JSON.stringify(value);
+            }
+
+            $('.filtro').each(function () {
+                addCondicionSegmentoPadreGenericas(this);
+            });
+
+            function genereateVoucher(event){
+                var e = event||window.event;
+                e.preventDefault();
+                var codigo = document.getElementById('{{ form.codigo.vars.id }}');
+
+                $.get('{{ path('rm_producto.promocion.get_unique_voucher') }}', function(data){
+                    codigo.value = data.voucher;
+                });
+            }
+
+
+            $(document).on('change', '.change', function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+
+                var $form = $(this).closest('form');
+                var form_data = $form.serializeArray().reduce(function (obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                delete form_data['{{ form._token.vars.full_name }}'];
+
+                $.ajax({
+                    method: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: form_data,
+                    success: function (response) {
+                        $form.find('#content').html($(response).find('#content'));
+                    }
+                });
+
+            });
+        });
+    </script>
+
+{% endblock content %}

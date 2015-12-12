@@ -162,7 +162,7 @@ class FichaController extends Controller
      	}
      	
      	//$this->get('ladybug')->log($formulario1->createView()->vars['value']);
-        if($formulario1 != null){
+        if($formulario1 !== null){
             $formulario1 = $formulario1->createView();
         }
      	
@@ -433,7 +433,7 @@ class FichaController extends Controller
 
     private function getRefererRoute()
     {
-        $request = $this->getRequest();
+        $request = $this->get('request');
 
         //look for the referer route
         $referer = $request->headers->get('referer');

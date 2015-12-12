@@ -83,10 +83,10 @@
 				});
 
 				if(existe == 0){
-					alert("Debe de elegir al menos un registro");
+					alert("{{ 'mensaje.alerta.al.menos.un.registro'|trans }}");
 				}
 				else{
-					if(confirm("¿Desea eliminar los registros seleccionados?")){
+					if(confirm("{{ 'mensaje.alerta.eliminar.registros'|trans }}")){
 						msg = $("#form").serialize();
 						{% set crearUrl = url('rm_plantilla_plantilla_modelo_delete_plantillas', {'ids': -111}) %}
 						var myUrl = '{{crearUrl}}'.replace('-111', $('#elementosBorrar').val());

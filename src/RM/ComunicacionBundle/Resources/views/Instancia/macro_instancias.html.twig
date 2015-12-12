@@ -18,3 +18,11 @@
     {% endif %}
 {% endmacro %}
 
+{% macro alerta(instancia) %}
+   {% if instancia.fase.codigo == 'sim' %}
+        {{- "alertsimulacion" -}}
+   {% elseif instancia.fase.codigo == 'gen' %}
+        {{- "alertgeneracion" -}} {{ instancia.paso }}
+    {% endif %}
+{% endmacro %}
+

@@ -3,7 +3,7 @@
 {% set idOpcionMenuIzq = 6 %}
 
 {% block title %}
-    {{ objVariable.getNombre() }} - {{ "segmentos" | trans }}
+    {{ objVariable.nombre }} - {{ "segmentos" | trans }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,7 +14,7 @@
 {% block migas %}
     {{ parent() }}
     <li><span class="separator"></span></li>
-    <li>{{ objVariable.getNombre() }} - {{ "segmentos" | trans }}</li>
+    <li>{{ objVariable.nombre }} - {{ "segmentos" | trans }}</li>
 {% endblock %}
 
 {% block contenedorPrincipal %}
@@ -22,7 +22,7 @@
     <div class="row-fluid">
         <div class="span1 offset11">
             {% set path =  path('data_avanced_hc') %}
-            <button class="btn btn-primary pull-right" onclick="window.location.href='{{ path }}'">{{ "boton.volver" |trans }}</button>
+            <a class="btn btn-primary pull-right" href='{{ path }}'>{{ "boton.volver" |trans }}</a>
         </div>
     </div>
     {% set personalizada = grupoVidSegmento.personalizado %}

@@ -30,6 +30,7 @@ class CreateClienteCommand extends LdapCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->connect();
         $id_cliente = $input->getArgument('id_cliente');
         $output->writeln(sprintf('<info>Creando el cliente con id "%s"</info>', $id_cliente));
 

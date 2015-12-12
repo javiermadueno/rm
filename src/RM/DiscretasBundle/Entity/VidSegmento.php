@@ -20,7 +20,7 @@ class VidSegmento
 	private $nombre;
     
     /**
-     * @var smallint
+     * @var integer
      *
      * @ORM\Column(name="condicion", type="smallint", nullable=true)
      */
@@ -34,7 +34,7 @@ class VidSegmento
     private $pivote;
 
     /**
-     * @var smallint
+     * @var integer
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -96,7 +96,7 @@ class VidSegmento
     /**
      * Get condicion
      *
-     * @return smallint 
+     * @return integer
      */
     public function getCondicion()
     {
@@ -129,7 +129,7 @@ class VidSegmento
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param integer $estado
      * @return VidSegmento
      */
     public function setEstado($estado)
@@ -142,7 +142,7 @@ class VidSegmento
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return integer
      */
     public function getEstado()
     {
@@ -165,10 +165,10 @@ class VidSegmento
     /**
      * Set idVidGrupoSegmento
      *
-     * @param RM\DiscretasBundle\Entity\VidGrupoSegmento $idVidGrupoSegmento
+     * @param VidGrupoSegmento $idVidGrupoSegmento
      * @return VidSegmento
      */
-    public function setIdVidGrupoSegmento(\RM\DiscretasBundle\Entity\VidGrupoSegmento $idVidGrupoSegmento = null)
+    public function setIdVidGrupoSegmento(VidGrupoSegmento $idVidGrupoSegmento = null)
     {
         $this->idVidGrupoSegmento = $idVidGrupoSegmento;
     
@@ -178,7 +178,7 @@ class VidSegmento
     /**
      * Get idVidGrupoSegmento
      *
-     * @return RM\DiscretasBundle\Entity\VidGrupoSegmento
+     * @return VidGrupoSegmento
      */
     public function getIdVidGrupoSegmento()
     {

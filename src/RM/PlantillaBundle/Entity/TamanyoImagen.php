@@ -24,7 +24,7 @@ class TamanyoImagen
     private $codigo;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="tipo", type="smallint", nullable=true)
      */
@@ -45,7 +45,7 @@ class TamanyoImagen
     private $alto;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -88,7 +88,7 @@ class TamanyoImagen
     /**
      * Set tipo
      *
-     * @param smallint $tipo
+     * @param int $tipo
      * @return TamanyoImagen
      */
     public function setTipo($tipo)
@@ -101,7 +101,7 @@ class TamanyoImagen
     /**
      * Get tipo
      *
-     * @return smallint 
+     * @return int
      */
     public function getTipo()
     {
@@ -157,7 +157,7 @@ class TamanyoImagen
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      * @return TamanyoImagen
      */
     public function setEstado($estado)

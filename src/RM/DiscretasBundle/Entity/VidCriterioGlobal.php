@@ -44,6 +44,12 @@ class VidCriterioGlobal implements VidCriterioInterface
    	private $idVidCriterioGlobal;
 
     /**
+     * @var string
+     * @ORM\Column(name="ref_temporal", type="string")
+     */
+    private $referenciaTemporal;
+
+    /**
      * Set referenciaN
      *
      * @param integer $referenciaN
@@ -120,5 +126,28 @@ class VidCriterioGlobal implements VidCriterioInterface
     public function getIdVidCriterioGlobal()
     {
         return $this->idVidCriterioGlobal;
+    }
+
+    /**
+     * Set referenciaTemporal
+     *
+     * @param string $referenciaTemporal
+     * @return VidCriterioGlobal
+     */
+    public function setReferenciaTemporal($referenciaTemporal)
+    {
+        $this->referenciaTemporal = $referenciaTemporal;
+    
+        return $this;
+    }
+
+    /**
+     * Get referenciaTemporal
+     *
+     * @return string 
+     */
+    public function getReferenciaTemporal()
+    {
+        return $this->referenciaTemporal;
     }
 }

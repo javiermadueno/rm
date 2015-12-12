@@ -1,0 +1,26 @@
+﻿Para cambiar las imagenes de producto es necesario subir un fichero ZIP (.zip) que contenga:
+  	1. Un archivo CSV con la siguiente estructura:
+
+		+--------------------+----------------------+
+		| Codigo de Producto | Nombre de la imagen  |
+		+--------------------+----------------------+
+		|         153        | producto_imagen3.jpg |
+		+--------------------+----------------------+
+		|         154        | producto_imagen1.jpg |
+		+--------------------+----------------------+
+		|         155        | producto_imahen2.png |
+		+--------------------+----------------------+
+
+		
+	2. Una carpeta con nombre "img" que contenga las imagenes de los productos con el mismo nombre que en el archivo CSV
+
+
+	Ej:
+		imagenes.zip
+		|
+		└───productos.csv
+		│   
+		└───img/
+		    |   producto_imagen1.jpg
+		    │   producto_imagen3.jpg 
+		    │   producto_imahen2.png

@@ -2,8 +2,8 @@
 
 namespace RM\ComunicacionBundle\Controller;
 
+use RM\AppBundle\Controller\RMController;
 use RM\ProductoBundle\Entity\Promocion;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @package RM\ComunicacionBundle\Controller
  */
-class SeguimientoController extends Controller
+class SeguimientoController extends RMController
 {
     /**
      * @param Request $request
@@ -93,13 +93,13 @@ class SeguimientoController extends Controller
         );
 
         $resolver->setNormalizer('desde', function ($options, $value) {
-            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value) : null;
+            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value)->setTime(0,0) : null;
 
             return $value;
         });
 
         $resolver->setNormalizer('hasta', function ($options, $value) {
-            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y', $value) : null;
+            $value = !empty($value) ? \DateTime::createFromFormat('d/m/Y  H:i:s', $value)->setTime(0,0) : null;
 
             return $value;
         });
@@ -116,16 +116,16 @@ class SeguimientoController extends Controller
      */
     public function obtenerProductosPorMarcaAction(Request $request)
     {
-
-        $servicioProductos = $this->get('productoservice');
-
         $id_marca = $request->get('id_marca');
 
         if (!$id_marca) {
             return new JsonResponse();
         }
 
-        $productos = $servicioProductos->getProductosByMarca($id_marca);
+        $productos = $this->getManager()
+            ->getRepository('RMProductoBundle:Producto')
+            ->obtenerProductosByMarca($id_marca);
+
 
         return new JsonResponse($productos);
 

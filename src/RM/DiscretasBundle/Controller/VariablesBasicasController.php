@@ -7,6 +7,7 @@ use RM\DiscretasBundle\Entity\Configuracion;
 use RM\DiscretasBundle\Entity\VidCriterioGlobal;
 use RM\DiscretasBundle\Entity\VidSegmentoGlobal;
 use RM\DiscretasBundle\Form\ConfiguracionCollectionType;
+use RM\DiscretasBundle\Form\Type\VidCriteriosGlobalesCollectionType;
 use RM\DiscretasBundle\Form\VariablesBasicas\ModificarCriteriosNyMType;
 use RM\DiscretasBundle\Form\VidSegmentosGlobalesCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,7 +19,6 @@ class VariablesBasicasController extends Controller
 {
     public function showConfiguracionAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq)
     {
-
         return $this->render('RMDiscretasBundle:VariablesBasicas:index.html.twig', [
             'idOpcionMenuSup' => $idOpcionMenuSup,
             'idOpcionMenuIzq' => $idOpcionMenuIzq,
@@ -28,17 +28,10 @@ class VariablesBasicasController extends Controller
     public function criteriosEligibilidadAction(Request $request)
     {
         $em       = $this->get('rm.manager')->getManager();
-        $servicio = $this->get("variablesDiscretas");
 
-        $objCriteriosPre = $servicio->getCriteriosGlobales();
+        $criterios = $em->getRepository('RMDiscretasBundle:VidCriterioGlobal')->findAll();
 
-        if ($objCriteriosPre != null) {
-            $objCriterioPre = $objCriteriosPre[0];
-        } else {
-            $objCriterioPre = new VidCriterioGlobal();
-        }
-
-        $formulario = $this->createForm(new ModificarCriteriosNyMType(), $objCriterioPre, [
+        $formulario = $this->createForm(new VidCriteriosGlobalesCollectionType(), ['criterios' => $criterios], [
             'action' => $this->generateUrl('rm_discretas_bundle.variables_basicas.criterios'),
             'method' => 'post'
         ]);

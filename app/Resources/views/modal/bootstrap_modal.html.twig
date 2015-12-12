@@ -1,0 +1,26 @@
+
+{% set id = id|default('bootstrap-modal') %}
+
+<div id="{{ id }}" class="modal hide fade">
+    {% if title is defined and not null %}
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>{{ title|default('') }}</h3>
+        </div>
+    {% endif %}
+    <div class="modal-body">
+        <div class="center-all"><img src="{{ asset('images/loaders/loader6.gif') }}" alt=""/></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var string_loader = $('#{{ id }} .modal-body').html();
+
+        $('#{{ id }}').on('hide', function () {
+            $(this).removeData('modal');
+            $(this).children('.modal-body').html(string_loader);
+        });
+    });
+</script>

@@ -130,7 +130,7 @@ class ResultadoMensual
     /**
      * Get id
      *
-     * @return id $id
+     * @return int $id
      */
     public function getId()
     {

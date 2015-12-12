@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class GrupoSlotsType extends AbstractType
@@ -28,8 +29,8 @@ class GrupoSlotsType extends AbstractType
             ->add('nombre', 'text')
             ->add('tipo', 'choice', [
                 'choices'  => [
-                    GrupoSlots::CREATIVIDADES => 'Creatividades',
-                    GrupoSlots::PROMOCION     => 'Promocion'
+                    GrupoSlots::CREATIVIDADES => 'grupo.slots.tipo.creatividad',
+                    GrupoSlots::PROMOCION     => 'grupo.slots.tipo.promocion'
 
                 ],
                 'required' => true
@@ -48,7 +49,7 @@ class GrupoSlotsType extends AbstractType
                 '- Tamaño Slot Creatividad -' :
                 '- Tamaño Slot Promocion  -';
 
-            $form->add('idTamanyoImgProducto', 'entity', [
+            $form->add('idTamanyoSlot', 'entity', [
                 'class'         => 'RM\PlantillaBundle\Entity\TamanyoImagen',
                 'em'            => $em,
                 'query_builder' => function (EntityRepository $er) use ($tamanyo) {
@@ -57,8 +58,8 @@ class GrupoSlotsType extends AbstractType
                         ->andWhere('t.estado > -1')
                         ->setParameter('tipo', $tamanyo);
                 },
-                'property'      => 'codigo',
-                'empty_value'   => $empty_value,
+                'choice_label'      => 'codigo',
+                'placeholder'   => $empty_value,
                 'empty_data'    => null,
                 'required'      => true,
                 'label'         => 'tamano.slot.slot'
@@ -71,6 +72,10 @@ class GrupoSlotsType extends AbstractType
                     'required' => false,
                     'label'    => 'mostrar.imagen.producto'
                 ])
+                ->add('mNombreProducto', 'checkbox', [
+                    'required' => false,
+                    'label'    => 'mostrar.nombre.producto'
+                ])
                 ->add('mPrecio', 'checkbox', [
                     'required' => false
                 ])
@@ -78,9 +83,6 @@ class GrupoSlotsType extends AbstractType
                     'required' => false
                 ])
                 ->add('mCondiciones', 'checkbox', [
-                    'required' => false
-                ])
-                ->add('mImgMarca', 'checkbox', [
                     'required' => false
                 ])
                 ->add('mTexto', 'checkbox', [
@@ -100,9 +102,9 @@ class GrupoSlotsType extends AbstractType
                 ->remove('mPrecio')
                 ->remove('mVolumen')
                 ->remove('mCondiciones')
-                ->remove('mImgMarca')
                 ->remove('mVoucher')
                 ->remove('mFidelizacion')
+                ->remove('mNombreProducto')
             ;
             $form
                 ->add('mImgProducto', 'checkbox', [
@@ -148,9 +150,9 @@ class GrupoSlotsType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => 'RM\PlantillaBundle\Entity\GrupoSlots',
@@ -158,9 +160,7 @@ class GrupoSlotsType extends AbstractType
             'csrf_field_name' => '_token',
         ])->setDefaults([
             'em' => null
-        ])->addAllowedTypes([
-            'em' => 'Doctrine\Common\Persistence\ObjectManager'
-        ]);
+        ])->addAllowedTypes('em','Doctrine\Common\Persistence\ObjectManager');
 
     }
 

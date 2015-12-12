@@ -1,0 +1,86 @@
+{% extends 'RMComunicacionBundle:Instancia:baseFasesInstancia.html.twig' %}
+
+
+{% block contenedorPrincipal %}
+
+    {{ parent() }}
+
+    <div class="mediamgr_left">
+        <div class="mediamgr_head">
+            <div class="tabbable">
+                <ul class="nav nav-tabs buttons-icons">
+                    <li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="active"{% endif %}>
+                        <a href="#">{{ "cabecera.promociones.categoria" | trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    {% block tabcontent %}
+
+                        {% for grupo in objInstancia.gruposSlots %}
+                            {% set num_promociones = objInstancia.numPromocionesByGrupo(grupo) %}
+                            <h4 class="widgettitle">{{ grupo.nombre }}: ({{ grupo.numSlots }} {{ "slots" |trans|title}}) [ {{ grupo.tipo == constant('PROMOCION', grupo) ? 'productos'|trans|title : 'creatividades'|trans|title }} ]</h4>
+                            {% if grupo.tipo == constant('PROMOCION', grupo) %}
+                                {% set url = path('rm_producto.num_promociones.edit', {
+                                    'id_instancia': objInstancia.idInstancia,
+                                    'id_grupo_slot': grupo.idGrupo
+                                })  %}
+                                {% include '@RMComunicacion/Instancia/tabla_num_promociones.html.twig' with {'num_promociones': num_promociones} %}
+                            {% else %}
+                                {% set url = path('rm_producto.num_promociones.edit_creatividad', {
+                                    'id_instancia': objInstancia.idInstancia,
+                                    'id_grupo_slot': grupo.idGrupo
+                                })  %}
+                                {% include '@RMComunicacion/Instancia/tabla_num_promocion_creatividad.html.twig' with {'num_promociones': num_promociones} %}
+                            {% endif %}
+
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tbody>
+                                <tr>
+                                    <td width="100"><a class="btn btn-warning" href="{{ url }}"><i class="iconfa iconfa-edit"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr/>
+                        {% endfor %}
+                    {% endblock tabcontent %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading" class="hidden">
+        <div class="center-all animated fadeIn">
+            <img src="{{ asset('images/loaders/loader6.gif') }}" alt=""/>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            jQuery(document).on('click', '#tramitar', function (event) {
+                var e = event || window.event;
+                e.preventDefault();
+
+                var self = this;
+                var numpromociones = self.dataset.numpromociones;
+                var genericas = self.dataset.genericas;
+                var mensajes = [];
+
+                if (numpromociones === '1' && genericas === '1') {
+                    $('#formTramitar').submit();
+                    return;
+                } else {
+                    mensajes.push('{{ 'mensaje.error.cambio.fase.configuracion'|trans }}');
+                }
+
+                jQuery.alerts.dialogClass = 'alert-danger';
+                jAlert(mensajes.join('</br>'), '{{ 'cabecera.cambio.fase.instancia' |trans }}');
+                jQuery.alerts.dialogClass = null;
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

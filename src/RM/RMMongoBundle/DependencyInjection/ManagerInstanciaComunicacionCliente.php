@@ -25,15 +25,18 @@ class ManagerInstanciaComunicacionCliente
     /**
      * @param $idSlot
      * @param $idCliente
+     * @param $idInstancia
+     *
      * @return Promocion
      * @throws \Exception
      */
-    public function findPromocionBySlotyCliente($idSlot, $idCliente)
+    public function findPromocionBySlotyCliente($idSlot, $idCliente, $idInstancia)
     {
         $instanciaComunicacionCliente = $this->mongo
             ->getRepository('RMMongoBundle:InstanciaComunicacionCliente')->findOneBy([
                 'id_slot'      => $idSlot,
-                'id_cliente'   => $idCliente
+                'id_cliente'   => $idCliente,
+                'id_instancia' => $idInstancia
             ]);
 
         if(!$instanciaComunicacionCliente instanceof InstanciaComunicacionCliente) {

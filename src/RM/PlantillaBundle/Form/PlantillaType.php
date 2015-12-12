@@ -4,6 +4,7 @@ namespace RM\PlantillaBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PlantillaType extends AbstractType
@@ -17,22 +18,22 @@ class PlantillaType extends AbstractType
 
 
         $builder
-            ->add('nombre', 'text', array(
+            ->add('nombre', 'text', [
                     'required' => true
-                ))
-            ->add('submit', 'submit', array('label' => 'Guardar'));
+                ])
+            ->add('submit', 'submit', ['label' => 'Guardar']);
             ;
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'data_class' => 'RM\PlantillaBundle\Entity\Plantilla'
-                ))
+                ])
         ;
     }
 

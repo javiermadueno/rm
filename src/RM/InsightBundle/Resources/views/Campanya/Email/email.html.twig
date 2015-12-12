@@ -1,0 +1,147 @@
+{% extends ':insight:base_insight.html.twig' %}
+{% import '@RMInsight/Campanya/Email/panel.html.twig' as panel %}
+
+{% set idOpcionMenuIzq = 7 %}
+
+ {% block pagetitle %}
+     <h5>{{ 'campanas'|trans }}</h5>
+     <h1>{{ 'menu.insight.email'|trans }}</h1>
+ {% endblock %}
+
+{% block body %}
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#overview">{{ 'insignt.campanas.email.overview'|trans|title }}</a></li>
+            <li><a data-toggle="tab" href="#activity">{{ 'insignt.campanas.email.actividad'|trans }}</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="overview">
+                {#
+                <div class="row-fluid">
+                    <div class="span5 offset1">
+                        <h3>{{ 'insignt.campanas.email.informacion'|trans }}</h3>
+                    </div>
+                </div>
+                <br/>
+                <div class="row-fluid">
+                    <div class="span5 offset1">
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <h4 class="text-info">{{ 'insignt.campanas.email.numero.enviados'|trans|title }}</h4>
+                            </div>
+                            <div class="span8">{{ res.numEnvios|localizednumber }}</div>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <h4 class="text-info">{{ "insignt.campanas.email.delivered" |trans }}</h4>
+                            </div>
+                            <div class="span9">
+                                {{ 0|localizednumber }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5 offset1">
+                        <div class="row-fluid">
+                            <div class="span4">
+                                <h4 class="text-info">{{ 'insignt.campanas.email.fecha.envio'|trans|title }}</h4>
+                            </div>
+                            <div class="span8">{{ res.fechaEnvio|date('d-m-Y') }}</div>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <h4 class="text-info">{{ "insignt.campanas.email.asunto" |trans }}</h4>
+                            </div>
+                            <div class="span9">
+                                {{ instancia.asunto|default }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                #}
+                <h4 class="widgettitle">{{ "insignt.campanas.email.informacion" |trans }}</h4>
+                <table class="table table-bordered responsive">
+                  <colgroup>
+                        <col class="con0">
+                        <col class="con1">
+                        <col class="con0">
+                        <col class="con1">
+                        <col class="con0">
+                        <col class="con1">
+                    </colgroup>
+                    <thead>
+                      <tr>
+                          <th class="center-all">{{ "insignt.campanas.email.fecha.envio" |trans }}</th>
+                          <th class="center-all">{{ "insignt.campanas.email.numero.enviados" |trans }}</th>
+                          <th class="center-all">{{ "insignt.campanas.email.delivered" |trans }}</th>
+                          <th class="center-all">{{ "insignt.campanas.email.asunto" |trans }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                          <td class="center-all">{{ res.instancia.fechaEnvio|date('d-m-Y') }}</td>
+                          <td class="center-all">{{ res.numEnvios|localizednumber }}</td>
+                          <td class="center-all">{{ 0|localizednumber }}</td>
+                          <td class="center-all">{{ res.instancia.asunto }}</td>
+                      </tr>
+                    </tbody>
+                </table>
+                <hr/>
+
+                <h4 class="widgettitle">{{ "insignt.campanas.email.rate.click" |trans }}</h4>
+                <div class="widgetcontent">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            {% set open_rate = res.ratioApertura|number_format(2) %}
+                            <div class="row-fluid">
+                                <div class="span6"><h4>{{ 'insignt.campanas.email.rate.open'|trans }}:</h4></div>
+                                <div class="span6"><h5><span class="pull-right big"> {{ open_rate|porcentaje }}</span></h5>
+                                </div>
+                            </div>
+
+                            <div class="progress" style="height: 20px;border: 1px solid rgba(224, 222, 222, 0.84);">
+                                <div class="bar" style="width: {{- open_rate -}}%;"></div>
+                            </div>
+
+                        </div>
+                        <div class="span6">
+                            {% set click_rate = res.ratioClick|number_format(2) %}
+                            <div class="row-fluid">
+                                <div class="span6"><h4>{{ 'insignt.campanas.email.rate.click'|trans }}:</h4></div>
+                                <div class="span6"><h5><span class="pull-right big">{{ click_rate|porcentaje }}</span></h5>
+                                </div>
+                            </div>
+                            <div class="progress" style="height: 20px;border: 1px solid rgba(224, 222, 222, 0.84);">
+                                <div class="bar" style="width: {{- click_rate -}}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr/>
+
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    {{ panel.crear_panel(3, res.totalEvents('email.open'), 'iconfa-eye-open', 'insignt.campanas.email.abiertos', 'primary' ) }}
+
+                    {{ panel.crear_panel(3, res.totalEvents('email.click'), 'iconfa-download-alt', 'insignt.campanas.email.clicked', 'success' ) }}
+
+                    {{ panel.crear_panel(3, res.totalEvents('email.unsubscribe'), 'iconfa-warning-sign', 'insignt.campanas.email.unsubscribed', 'error' ) }}
+
+                </div>
+            </div>
+            <div class="tab-pane" id="activity">
+
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

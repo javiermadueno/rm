@@ -11,10 +11,40 @@ services:
       - @doctrine_mongodb
       - @security.token_storage
 
-  rm.doctrine_configuration:
-    class: RM\AppBundle\Configuracion\DoctrineConfiguration
-    arguments: [ %kernel.root_dir% ]
+  rm.entity_manager:
+     class: Doctrine\Common\Persistence\ObjectManager
+     factory:
+       - @rm.manager
+       - getManager
 
+  rm.document_manager:
+     class: Doctrine\Common\Persistence\ObjectManager
+     factory:
+       - @rm.mongo_manager
+       - getManager
+
+  rm.clientpathurlgenerator:
+      class: RM\AppBundle\ClientPathUrlGenerator\ClientPathUrlGenerator
+      arguments: [ @security.token_storage, @request_stack, %path_clientes%, %web_path% ]
+
+  rm.client_assets_extension:
+      class: RM\AppBundle\Twig\Extension\ClientAssetsExtension
+      arguments: [@rm.clientpathurlgenerator]
+      public: false
+      tags:
+          - name: twig.extension
+
+  id_formatter.twig_extension:
+      class: RM\AppBundle\Twig\Extension\IdFormatterExtension
+      public: false
+      tags:
+          - { name: twig.extension }
+
+
+
+#  rm.doctrine_configuration:
+#    class: RM\AppBundle\Configuracion\DoctrineConfiguration
+#    arguments: [ %kernel.root_dir% ]
 
 #  rm.doctrine_dynamic_connection:
 #    class: RM\AppBundle\EventListener\ChangeDoctrineConnectionListener

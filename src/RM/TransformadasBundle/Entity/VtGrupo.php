@@ -4,7 +4,6 @@ namespace RM\TransformadasBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use RM\TransformadasBundle\Form\VtIntervaloType;
 
 /**
  * VtGrupo
@@ -31,7 +30,7 @@ class VtGrupo
     private $idGrupo;
     
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -93,7 +92,7 @@ class VtGrupo
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @var int $estado
      * @return Vt
      */
     public function setEstado($estado)
@@ -106,7 +105,7 @@ class VtGrupo
     /**
      * Get estado
      *
-     * @return smallint
+     * @return int
      */
     public function getEstado()
     {
@@ -116,10 +115,10 @@ class VtGrupo
     /**
      * Set idVtSegmento
      *
-     * @param \RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento
+     * @param VtSegmento $idVtSegmento
      * @return VtGrupo
      */
-    public function setIdVtSegmento(\RM\TransformadasBundle\Entity\VtSegmento $idVtSegmento = null)
+    public function setIdVtSegmento(VtSegmento $idVtSegmento = null)
     {
         $this->idVtSegmento = $idVtSegmento;
     
@@ -129,7 +128,7 @@ class VtGrupo
     /**
      * Get idVtSegmento
      *
-     * @return \RM\TransformadasBundle\Entity\VtSegmento 
+     * @return VtSegmento
      */
     public function getIdVtSegmento()
     {
@@ -156,10 +155,10 @@ class VtGrupo
     /**
      * Add intervalos
      *
-     * @param \RM\TransformadasBundle\Entity\VtIntervalo $intervalos
+     * @param VtIntervalo $intervalos
      * @return VtGrupo
      */
-    public function addIntervalo(\RM\TransformadasBundle\Entity\VtIntervalo $intervalos)
+    public function addIntervalo(VtIntervalo $intervalos)
     {
         $this->intervalos[] = $intervalos;
     
@@ -169,9 +168,9 @@ class VtGrupo
     /**
      * Remove intervalos
      *
-     * @param \RM\TransformadasBundle\Entity\VtIntervalo $intervalos
+     * @param VtIntervalo $intervalos
      */
-    public function removeIntervalo(\RM\TransformadasBundle\Entity\VtIntervalo $intervalos)
+    public function removeIntervalo(VtIntervalo $intervalos)
     {
         $this->intervalos->removeElement($intervalos);
     }

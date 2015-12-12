@@ -3,6 +3,7 @@
 namespace RM\RMMongoBundle\Document;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * ResultadoMensualRepository
@@ -18,16 +19,23 @@ class ResultadoMensualRepository extends DocumentRepository
      *
      * @return array
      */
-    public function findMesesDisponibles()
+    public function findMesesDisponibles($from = null)
     {
-        $meses = $this->dm->createQueryBuilder('RMMongoBundle:ResultadoMensual')
+        $qb = $this->dm
+            ->createQueryBuilder('RMMongoBundle:ResultadoMensual')
             ->hydrate(false)
             ->select('id')
-            ->sort('id', 'desc')
+            ->sort('id', 'desc');
+
+        if($from instanceof \DateTime) {
+            $qb->where("function() { return this.id <= '{$from->format('Y-m')}'; }");
+        }
+
+        $meses = $qb
             ->getQuery()
             ->execute();
 
-        $resultado = array();
+        $resultado = [];
 
         foreach($meses as $mes) {
             if (is_null($mes['_id'])) {
@@ -49,10 +57,15 @@ class ResultadoMensualRepository extends DocumentRepository
      *
      * @return array
      */
-    public function find12UltimosMeses()
+    public function find12UltimosMeses($from = null)
     {
-        $fecha = new \DateTime();
-        $mesAnterior = $fecha->sub(new \DateInterval('P1M'));
+        if($from instanceof \DateTime ) {
+            $mesAnterior = $from;
+        } else {
+            $fecha =  new \DateTime();
+            $mesAnterior = $fecha->sub(new \DateInterval('P1M'));
+        }
+
 
         $meses = $this->dm->createQueryBuilder('RMMongoBundle:ResultadoMensual')
             ->hydrate(true)

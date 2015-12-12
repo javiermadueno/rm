@@ -7,6 +7,7 @@
  */
 
 namespace RM\InsightBundle\Graphs;
+
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Symfony\Component\Translation\TranslatorInterface;
 use Zend\Json\Expr;
@@ -63,7 +64,7 @@ class BaseGraph
     /**
      * @param $renderTo
      *
-     * @return Highchart
+     * @return Highchart|null
      */
     public function graphPieNodata($renderTo)
     {
@@ -165,6 +166,9 @@ class BaseGraph
         $categorias = [];
         $resultado  = [];
         $index = 0;
+
+        $categories = $this->sanitize($categories);
+
         foreach ($categories as $category) {
 
             $points = [];
@@ -187,5 +191,12 @@ class BaseGraph
             'series' => $resultado
         ];
 
+    }
+
+    protected  function sanitize($nombres = [], $index = 1)
+    {
+        return array_map(function($item) use ($index) {
+            return ucfirst(mb_strtolower(explode('_', $item)[$index],'UTF-8'));
+        }, $nombres);
     }
 }

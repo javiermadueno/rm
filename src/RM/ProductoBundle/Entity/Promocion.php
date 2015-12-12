@@ -3,6 +3,10 @@
 namespace RM\ProductoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use RM\ComunicacionBundle\Entity\Creatividad;
+
 
 
 /**
@@ -97,7 +101,7 @@ class Promocion
     private $voucher;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -113,7 +117,7 @@ class Promocion
     private $idPromocion;
 
     /**
-     * @var \RM\ProductoBundle\Entity\Producto
+     * @var Producto
      *
      * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\Producto")
      * @ORM\JoinColumns({
@@ -124,7 +128,7 @@ class Promocion
 
 
     /**
-     * @var \RM\ProductoBundle\Entity\TipoPromocion
+     * @var TipoPromocion
      *
      * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\TipoPromocion")
      * @ORM\JoinColumns({
@@ -134,14 +138,14 @@ class Promocion
     private $idTipoPromocion;
 
     /**
-     * @var integer
+     * @var NumPromociones
      * @ORM\ManyToOne(targetEntity="RM\ProductoBundle\Entity\NumPromociones", inversedBy="promociones")
      * @ORM\JoinColumn(name="id_num_pro", referencedColumnName="id_num_pro", nullable=false)
      */
     private $numPromocion;
 
     /**
-     * @var smallint
+     * @var int
      * @ORM\Column(name="tipo", type="smallint",length=6, nullable=false)
      */
     private $tipo;
@@ -161,15 +165,38 @@ class Promocion
     /**
      * @var int
      *
-     * @ORM\Column(name="aceptada", type="integer", nullable=false, options={"default" = 0})
+     * @ORM\Column(name="aceptada", type="integer", nullable=false, options={"default" = 1})
      */
     private $aceptada;
 
     /**
+     * @var Creatividad
      * @ORM\ManyToOne(targetEntity="RM\ComunicacionBundle\Entity\Creatividad")
      * @ORM\JoinColumn(name="id_creatividad", referencedColumnName="id_creatividad", nullable=true)
      */
     private $creatividad;
+
+    /**
+     * @var \Datetime $fechaCaducidad
+     * @ORM\Column(name="fecha_caducidad", type="datetime", nullable=false)
+     */
+    private $fechaCaducidad;
+
+    /**
+     * @return \Datetime
+     */
+    public function getFechaCaducidad()
+    {
+        return $this->fechaCaducidad;
+    }
+
+    /**
+     * @param \Datetime $fechaCaducidad
+     */
+    public function setFechaCaducidad($fechaCaducidad)
+    {
+        $this->fechaCaducidad = $fechaCaducidad;
+    }
 
     /**
      * Get descripcion
@@ -438,7 +465,7 @@ class Promocion
     /**
      * Get estado
      *
-     * @return smallint
+     * @return int
      */
     public function getEstado()
     {
@@ -448,7 +475,7 @@ class Promocion
     /**
      * Set estado
      *
-     * @param smallint $estado
+     * @param int $estado
      *
      * @return Promocion
      */
@@ -472,7 +499,7 @@ class Promocion
     /**
      * Get idProducto
      *
-     * @return \RM\ProductoBundle\Entity\Producto
+     * @return Producto
      */
     public function getIdProducto()
     {
@@ -482,11 +509,11 @@ class Promocion
     /**
      * Set idProducto
      *
-     * @param \RM\ProductoBundle\Entity\Producto $idProducto
+     * @param Producto $idProducto
      *
      * @return Promocion
      */
-    public function setIdProducto(\RM\ProductoBundle\Entity\Producto $idProducto = null)
+    public function setIdProducto(Producto $idProducto = null)
     {
         $this->idProducto = $idProducto;
 
@@ -506,11 +533,11 @@ class Promocion
     /**
      * Set tipoPromocion
      *
-     * @param \RM\ProductoBundle\Entity\TipoPromocion $idTipoPromocion
+     * @param TipoPromocion $idTipoPromocion
      *
      * @return Promocion
      */
-    public function setIdTipoPromocion(\RM\ProductoBundle\Entity\TipoPromocion $idTipoPromocion = null)
+    public function setIdTipoPromocion(TipoPromocion $idTipoPromocion = null)
     {
         $this->idTipoPromocion = $idTipoPromocion;
 
@@ -520,7 +547,7 @@ class Promocion
     /**
      * Get tipo
      *
-     * @return smallint
+     * @return int
      */
     public function getTipo()
     {
@@ -592,7 +619,7 @@ class Promocion
     /**
      * Get numPromocion
      *
-     * @return \RM\ProductoBundle\Entity\NumPromociones
+     * @return NumPromociones
      */
     public function getNumPromocion()
     {
@@ -602,42 +629,21 @@ class Promocion
     /**
      * Set numPromocion
      *
-     * @param \RM\ProductoBundle\Entity\NumPromociones $numPromocion
+     * @param NumPromociones $numPromocion
      *
      * @return Promocion
      */
-    public function setNumPromocion(\RM\ProductoBundle\Entity\NumPromociones $numPromocion = null)
+    public function setNumPromocion(NumPromociones $numPromocion = null)
     {
         $this->numPromocion = $numPromocion;
 
         return $this;
     }
 
-    /**
-     * Set idInstancia
-     *
-     * @param \RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia
-     *
-     * @return Promocion
-     */
-    public function setIdInstancia(\RM\ComunicacionBundle\Entity\InstanciaComunicacion $idInstancia)
-    {
-        $this->idInstancia = $idInstancia;
-
-        return $this;
-    }
 
     /**
-     * Get idInstancia
+     * @param $nivel
      *
-     * @return \RM\ComunicacionBundle\Entity\InstanciaComunicacion
-     */
-    public function getIdInstancia()
-    {
-        return $this->idInstancia;
-    }
-
-    /**
      * @return array
      */
     public function getProductosByMarca($nivel)
@@ -752,7 +758,7 @@ class Promocion
     /**
      * Get creatividad
      *
-     * @return \RM\ComunicacionBundle\Entity\Creatividad
+     * @return Creatividad
      */
     public function getCreatividad()
     {
@@ -762,11 +768,11 @@ class Promocion
     /**
      * Set creatividad
      *
-     * @param \RM\ComunicacionBundle\Entity\Creatividad $creatividad
+     * @param Creatividad $creatividad
      *
      * @return Promocion
      */
-    public function setCreatividad(\RM\ComunicacionBundle\Entity\Creatividad $creatividad = null)
+    public function setCreatividad(Creatividad $creatividad = null)
     {
         $this->creatividad = $creatividad;
 

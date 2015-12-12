@@ -7,6 +7,7 @@ use RM\DiscretasBundle\Entity\Tipo;
 use RM\TransformadasBundle\Entity\Vt;
 use RM\TransformadasBundle\Form\Data\NuevaVarTransType;
 use RM\TransformadasBundle\Form\Data\TransformadaBuscadorType;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends RMController
 {
@@ -15,7 +16,7 @@ class DefaultController extends RMController
     	$servicio = $this->get("variablesTransformadas");
     	 
     	//Creaci�n del formulario mediante clase
-    	$peticion = $this->getRequest();
+    	$peticion = $this->get('request');
     	$variableTransformada = new Vt();
     	$formulario = $this->createForm(new TransformadaBuscadorType(), $variableTransformada);
     	 
@@ -40,12 +41,12 @@ class DefaultController extends RMController
     	 
     }
     
-    public function crearVarTransformadaAction($idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar){
+    public function crearVarTransformadaAction(Request $request, $idOpcionMenuSup, $idOpcionMenuIzq, $tipoVar){
     	$servicio = $this->get("variablesTransformadas");
     	
     	//ECHO 'ENTRO EN CREARVARTRANSFORMADA';
     	//Creaci�n del formulario mediante clase
-    	$peticion = $this->getRequest();
+    	$peticion = $request;
     	$objVT = new Vt();
     	$formulario = $this->createForm(new NuevaVarTransType(), $objVT);
     	

@@ -3,83 +3,73 @@
 namespace RM\ProductoBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use RM\PlantillaBundle\Form\DataTransformer\GrupoSlotsToNumberTransformer;
+use RM\PlantillaBundle\Form\DataTransformer\InstanciaTransformer;
 use RM\ProductoBundle\Entity\NumPromociones;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class NumPromocionesType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $grupoTransformer     = new GrupoSlotsToNumberTransformer($options['em']);
+        $instanciaTransformer = new InstanciaTransformer($options['em']);
+
         $builder
-            ->add('numSegmentadas', 'number', [
-                'required' => true
+            ->add('numSegmentadas', 'integer', [
+                'constraints' => [
+                    new GreaterThanOrEqual(['value' => 0]),
+                    new NotBlank(),
+                ]
             ])
-            ->add('numGenericas', 'number', [
-                'required' => true
+            ->add('numGenericas', 'integer', [
+                'constraints' => [
+                    new GreaterThanOrEqual(['value' => 0]),
+                    new NotBlank(),
+                ]
             ])
-            ->add('estado', 'hidden', ['data' => 1])
-            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
-                $numPromocion = $event->getData();
-                $form         = $event->getForm();
+            ->add('idCategoria', 'entity', [
+                'class'         => 'RMCategoriaBundle:Categoria',
+                'em'            => $options['em'],
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('categoria')
+                              ->join('categoria.idNivelCategoria', 'nivel')
+                              ->where('nivel.idNivelCategoria = :nivel')
+                              ->andWhere('categoria.asociado = 1')
+                              ->orderBy('categoria.nombre')
+                              ->setParameter('nivel', $options['nivel_categoria'])
+                        ;
 
-                $nivel = $options['nivel_categoria'];
-
-                if (!$numPromocion instanceof NumPromociones) {
-                    return;
-                }
-
-                $instancia = $numPromocion->getIdInstancia();
-                $grupo = $numPromocion->getIdGrupo();
-
-                $form->add('idCategoria', 'entity', [
-                    'class'         => 'RM\CategoriaBundle\Entity\Categoria',
-                    'em'            => $options['em'],
-                    'property'      => 'nombre',
-                    'required'      => true,
-                    'query_builder' => function (EntityRepository $er) use ($instancia, $nivel, $grupo) {
-
-                        return $er->createQueryBuilder('c')
-                            ->leftJoin('RMProductoBundle:NumPromociones', 'np', 'with',
-                                'np.idCategoria = c.idCategoria AND np.idInstancia = :id_instancia AND np.idGrupo = :id_grupo')
-                            ->where('c.idNivelCategoria = :nivel_categoria')
-                            ->andWhere('c.estado > -1')
-                            ->andWhere('c.asociado = 1')
-                            ->andWhere('np.idNumPro = null')
-                            ->orderBy('c.nombre')
-                            ->setParameters([
-                                'nivel_categoria' => $nivel,
-                                'id_instancia'    => $instancia->getIdInstancia(),
-                                'id_grupo'        => $grupo->getIdgrupo()
-                            ]);
-                    }
-                ]);
-
-            });
-
+                },
+                'empty_value'   => 'select.todas',
+                'property'      => 'nombre'
+            ])
+            ->add($builder->create('idGrupo', 'hidden')->addModelTransformer($grupoTransformer))
+            ->add($builder->create('idInstancia', 'hidden')->addModelTransformer($instanciaTransformer))
+        ;
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class'      => 'RM\ProductoBundle\Entity\NumPromociones',
             'nivel_categoria' => 1
-        ]);
+        ])
+        ;
 
         $resolver->setRequired([
             'em',
             'nivel_categoria'
-        ]);
+        ])
+        ;
     }
 
     /**
@@ -87,6 +77,6 @@ class NumPromocionesType extends AbstractType
      */
     public function getName()
     {
-        return 'numpromocion';
+        return 'rm_num_promocion';
     }
 }

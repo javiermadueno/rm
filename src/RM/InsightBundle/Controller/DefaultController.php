@@ -4,6 +4,7 @@ namespace RM\InsightBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -12,7 +13,7 @@ class DefaultController extends Controller
 
     public function indexAction(Request $request)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        $dm = $this->get('rm.mongo_manager')->getManager();
 
         list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request, self::RES_MENSUAL);
 
@@ -37,7 +38,9 @@ class DefaultController extends Controller
             $this->get('rm_insight.porcentaje_ventas')
                 ->getGraficoPorcentajeVentas($resultado2, 'porcentajeVentas2');
 
-        $doceUltimosMeses = $dm->getRepository('RMMongoBundle:ResultadoMensual')->find12UltimosMeses();
+        $doceUltimosMeses = $dm
+            ->getRepository('RMMongoBundle:ResultadoMensual')
+            ->find12UltimosMeses(new \DateTime($mes2));
 
         $graficaContribuciones =
             $this->get('rm_insight.numero_contribuciones_vs_numero_miembros')
@@ -66,8 +69,15 @@ class DefaultController extends Controller
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
-        $resultado = $this->get('rm_insight.tabla_rendimiento')
-            ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+        $keyRendimiento = sprintf('%s-%s-%s-%s', $this->getUser()->getCliente(), $mes1, $mes2, 'tabla_rendimiento');
+
+        if (! $resultado = $request->getSession()->get($keyRendimiento)) {
+            $resultado = $this
+                ->get('rm_insight.tabla_rendimiento')
+                ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+
+            $request->getSession()->set($keyRendimiento, $resultado);
+        }
 
         return $this->render('RMInsightBundle:Default:performance.html.twig', [
             'meses'      => $meses,
@@ -82,13 +92,24 @@ class DefaultController extends Controller
     {
         list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
 
-        $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
+        $estructura_segmentos = $this
+            ->container
+            ->getParameter('estrucutra_segmentos_tabla_evolucion');
 
-        $resultado = $this->get('rm_insight.tabla_rendimiento')
-            ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+        $keyRendimiento = sprintf('%s-%s-%s-%s', $this->getUser()->getCliente(), $mes1, $mes2, 'tabla_rendimiento');
 
-        $grafica = $this->get('rm_insight.evolucion_segmentos')
-            ->getGraficoEvolucionSegmentos('grafico');
+        if (! $resultado = $request->getSession()->get($keyRendimiento)) {
+            $resultado = $this
+                ->get('rm_insight.tabla_rendimiento')
+                ->tablaRendimiento([$mes1, $mes2], $estructura_segmentos);
+
+            $request->getSession()->set($keyRendimiento, $resultado);
+        }
+
+        $grafica = $this
+            ->get('rm_insight.evolucion_segmentos')
+            ->getGraficoEvolucionSegmentos('grafico', new \DateTime($mes2));
+
 
         return $this->render('RMInsightBundle:Clientes:evolucion.html.twig', [
             'meses'      => $meses,
@@ -109,6 +130,7 @@ class DefaultController extends Controller
         $graficaEdades          = $servicio_graficas->graficoPorEdades([$mes1, $mes2], 'graficoBarrasEdad');
         $graficaFranjaHoraria   = $servicio_graficas->graficoFranjaHoraria([$mes1, $mes2], 'graficoBarrasFranjaHoraria');
         $graficaDias            = $servicio_graficas->graficoDia([$mes1, $mes2], 'graficoBarrasDia');
+        $graficaGamas           = $servicio_graficas->graficoGamas([$mes1, $mes2], 'graficoGama');
 
         return $this->render('RMInsightBundle:Default:clienteNew.html.twig', [
             'fechaInicial'  => 'Ago-2014',
@@ -119,7 +141,8 @@ class DefaultController extends Controller
             'grafiaSexo1'   => $graficaSexo1,
             'graficoEdades' => $graficaEdades,
             'graficoHoras'  => $graficaFranjaHoraria,
-            'graficoDias'   => $graficaDias
+            'graficoDias'   => $graficaDias,
+            'graficoGamas'  => $graficaGamas,
         ]);
     }
 
@@ -129,9 +152,9 @@ class DefaultController extends Controller
         list($meses, $mes1, $mes2) =  $this->handleMesesDisponibles($request);
 
         $servicio_graficas = $this->get('rm_insight.clientes_activos_por_estado_y_segmento');
-
-        $graficoRiesgos = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos');
-        $graficaEvolucion = $servicio_graficas->graficaEvolucionActivos('graficoEvolucionActivos');
+        $from = new \DateTime($mes2);
+        $graficoRiesgos = $servicio_graficas->graficaEvolucionClientesEnRiesgo('graficoRiesgos', $from);
+        $graficaEvolucion = $servicio_graficas->graficaEvolucionActivos('graficoEvolucionActivos', $from);
 
         $estructura_segmentos = $this->container->getParameter('estrucutra_segmentos_tabla_evolucion');
 
@@ -153,6 +176,29 @@ class DefaultController extends Controller
             'datos'            => $resultado,
             'meses'            => $meses
         ]);
+    }
+
+    public function clienteInactivoAction(Request $request)
+    {
+        list($meses, $mes1, $mes2) = $this->handleMesesDisponibles($request);
+
+        $servicio_graficas = $this->get('rm_insight.clientes_inactivos_por_estado_y_segmento');
+
+        $primerMes = new \DateTime($mes2);
+
+        $graficaEdades =  $servicio_graficas->graficaEvolucionPorEdad('graficoEdades', $primerMes);
+        $graficaSexo =  $servicio_graficas->graficaEvolucionPorSexo('graficoSexo', $primerMes);
+
+        return $this->render('RMInsightBundle:Default:clienteInactivo.html.twig', [
+            'graficoEdades'    => $graficaEdades,
+            'graficoSexo'      => $graficaSexo,
+            'mes1'             => $mes1,
+            'mes2'             => $mes2,
+            'meses'            => $meses
+        ]);
+
+
+
     }
 
     public function clienteActivoDetalleAction($idOpcionMenuSup, $idOpcionMenuIzq)
@@ -183,7 +229,7 @@ class DefaultController extends Controller
             'difAmplitud'   => "6%"
         ];
 
-        // Se mostrar� la intersecci�n entre los distintos per�odos seleccionadas y los distintos tipos
+        // Se mostrar€ la intersecci€n entre los distintos per€odos seleccionadas y los distintos tipos
         $row1 = [
             "Alta",
             "14",
@@ -221,15 +267,16 @@ class DefaultController extends Controller
 
     public function categoriasAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
+        $translator = $this->get('translator');
 
         $ventas = [
 
-            "Ventas",
-            "Acumulado Año",
+            $translator->trans('ventas.0'),
+            $translator->trans('acumulado.anyo'),
             "190.000",
             "150.000",
             "27",
-            "Mes",
+            $translator->trans('mes'),
             "25.000",
             "30.000",
             "-17",
@@ -237,12 +284,12 @@ class DefaultController extends Controller
 
         $campañas = [
 
-            "Campañas",
-            "Acumulado Año",
+            $translator->trans('campanas'),
+            $translator->trans('acumulado.anyo'),
             "5",
             "7",
             "-29",
-            "Mes",
+            $translator->trans('mes'),
             "2",
             "1,75",
             "14"
@@ -250,12 +297,12 @@ class DefaultController extends Controller
 
         $impactos = [
 
-            "Impactos",
-            "Acumulado Año",
+            $translator->trans('impactos'),
+            $translator->trans('acumulado.anyo'),
             "250.000",
             "351.000",
             "-30",
-            "Mes",
+            $translator->trans('mes'),
             "15.000",
             "12.000",
             "25"
@@ -263,12 +310,12 @@ class DefaultController extends Controller
 
         $redencion = [
 
-            "Redencion",
-            "Acumulado Año",
+            $translator->trans('redencion'),
+            $translator->trans('acumulado.anyo'),
             "2,5",
             "1,75",
             "43",
-            "Mes",
+            $translator->trans('mes'),
             "2,57",
             "1,70",
             "51"
@@ -333,9 +380,9 @@ class DefaultController extends Controller
     public function campaignAction($idOpcionMenuSup, $idOpcionMenuIzq)
     {
 
-        // Campa�as Instancia Fecha inicio Fecha fin Promociones Target Impactos % Clientes % Slots Ventas
-        // Activos 1 01-ene 20 25000 100000 2,75% 688 1,90% 1900 47.500 �
-        // Activos 2 01-feb 22 26000 104000 2,80% 728 2,50% 2600 70.200 �
+        // Campa€as Instancia Fecha inicio Fecha fin Promociones Target Impactos % Clientes % Slots Ventas
+        // Activos 1 01-ene 20 25000 100000 2,75% 688 1,90% 1900 47.500 €
+        // Activos 2 01-feb 22 26000 104000 2,80% 728 2,50% 2600 70.200 €
         $row1 = [
             "Activos 1",
             "1",
@@ -379,22 +426,23 @@ class DefaultController extends Controller
     {
 
         // Promociones Clientes Redencion Ventas Coste fijo Coste variable
-        // Promo 1 25.734 3% 128.670 � 257 � 6.434 �
+        // Promo 1 25.734 3% 128.670 € 257 € 6.434 €
+
         $row1 = [
             "Promo 1",
             "25.734",
             "3%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row2 = [
             "Promo 1",
             "47.734",
             "6%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
 
         $data = [
@@ -406,153 +454,153 @@ class DefaultController extends Controller
             "Andalucia",
             "30%",
             "20%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row21 = [
             "Aragon",
             "17%",
             "8%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row3 = [
             "Cantabria",
             "12%",
             "3%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row4 = [
             "Castilla y Leon",
             "31%",
             "30%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row5 = [
             "Castilla-La-Mancha",
             "16%",
             "11%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row6 = [
             "Catalu&ntilde;a",
             "56%",
             "60%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row7 = [
             "Ceuta",
             "37%",
             "32%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row8 = [
             "Comunidad de Madrid",
             "44%",
             "46%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row9 = [
             "Comunidad Valenciana",
             "36%",
             "38%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row10 = [
             "Extremadura",
             "47%",
             "46%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row11 = [
             "Galicia",
             "62%",
             "53%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row12 = [
             "Illes Balears",
             "44%",
             "25%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row13 = [
             "Islas Canarias",
             "35%",
             "35%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row14 = [
             "La Rioja",
             "63%",
             "61%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row15 = [
             "Melilla",
             "48%",
             "43%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row16 = [
             "Navarra",
             "31%",
             "24%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row17 = [
             "Pais Vasco",
             "26%",
             "23%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row18 = [
             "Principado de Asturias",
             "67%",
             "67%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row19 = [
             "Region de Murcia",
             "62%",
             "54%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
 
         $data2 = [
@@ -589,22 +637,22 @@ class DefaultController extends Controller
     {
 
         // Promociones Clientes Redencion Ventas Coste fijo Coste variable
-        // Promo 1 25.734 3% 128.670 � 257 � 6.434 �
+        // Promo 1 25.734 3% 128.670 € 257 € 6.434 €
         $row1 = [
             "Promo 1",
             "25.734",
             "3%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row2 = [
             "Promo 1",
             "47.734",
             "6%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
 
         $data = [
@@ -616,153 +664,153 @@ class DefaultController extends Controller
             "Andalucia",
             "30%",
             "20%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row21 = [
             "Aragon",
             "17%",
             "8%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row3 = [
             "Cantabria",
             "12%",
             "3%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row4 = [
             "Castilla y Leon",
             "31%",
             "30%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row5 = [
             "Castilla-La-Mancha",
             "16%",
             "11%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row6 = [
             "Catalu&ntilde;a",
             "56%",
             "60%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row7 = [
             "Ceuta",
             "37%",
             "32%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row8 = [
             "Comunidad de Madrid",
             "44%",
             "46%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row9 = [
             "Comunidad Valenciana",
             "36%",
             "38%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row10 = [
             "Extremadura",
             "47%",
             "46%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row11 = [
             "Galicia",
             "62%",
             "53%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row12 = [
             "Illes Balears",
             "44%",
             "25%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row13 = [
             "Islas Canarias",
             "35%",
             "35%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row14 = [
             "La Rioja",
             "63%",
             "61%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row15 = [
             "Melilla",
             "48%",
             "43%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row16 = [
             "Navarra",
             "31%",
             "24%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row17 = [
             "Pais Vasco",
             "26%",
             "23%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
         $row18 = [
             "Principado de Asturias",
             "67%",
             "67%",
-            "281.875 �",
-            "435 �",
-            "8.954 �"
+            "281.875 €",
+            "435 €",
+            "8.954 €"
         ];
         $row19 = [
             "Region de Murcia",
             "62%",
             "54%",
-            "128.670 �",
-            "257 �",
-            "6.434 �"
+            "128.670 €",
+            "257 €",
+            "6.434 €"
         ];
 
         $data2 = [

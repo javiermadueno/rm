@@ -163,7 +163,6 @@ class Transformada
 					} 
 					
 					$objIntervalo->setIdVil($objLineal);
-					$objIntervalo->setFactor($request->get('factor_'. $objIntervalo->getIdIntervalo()));
 					$objIntervalo->setCondicion($request->get('cond_'. $objIntervalo->getIdIntervalo()));
 					$objIntervalo->setPivote($request->get('pivote_'. $objIntervalo->getIdIntervalo()));
 					$this->em->persist($objIntervalo);

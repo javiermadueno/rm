@@ -2,14 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: parameters_local.yml }
     - { resource: security.yml }
-    - { resource: "@RMClienteBundle/Resources/config/services.yml" }
-    - { resource: "@RMProductoBundle/Resources/config/services.yml" }
-    - { resource: "@RMPlantillaBundle/Resources/config/services.yml" }
-    - { resource: "@RMComunicacionBundle/Resources/config/services.yml" }
-    - { resource: "@RMCategoriaBundle/Resources/config/services.yml" }
-    - { resource: "@RMLinealesBundle/Resources/config/services.yml" }
-    - { resource: "@RMDiscretasBundle/Resources/config/services.yml" }
-    - { resource: "@RMMongoBundle/Resources/config/services.yml" }
 
 framework:
     #esi: ~
@@ -32,7 +24,7 @@ framework:
     serializer:
       enabled: true
     templating:
-      assets_base_url: "http://192.168.100.229/web"
+      assets_base_url: "http://192.168.100.228"
 
 
 # Twig Configuration
@@ -40,8 +32,9 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        urlImgCentro: "%direccion_imagenes_centro%"
         web_path:      %web_path%
+        imagenes_prodcuto: %carpeta.imagenes.producto%
+        imagenes_creatividad: %carpeta.imagenes.creatividad%
 
 # Assetic Configuration
 assetic:
@@ -63,9 +56,9 @@ doctrine:
         connections:
             default:
                 driver:   "%database_driver%"
-                host:     "%database_host2%"
-                port:     "%database_port2%"
-                dbname:   "%database_name2%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
@@ -77,19 +70,10 @@ doctrine:
                 dbname:   "%database_name%"
                 user:     "%database_user%"
                 password: "%database_password%"
-                charset:  UTF8                
-
-            manati:
-                driver:   "%database_driver%"
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
-                user:     "%database_user%"
-                password: "%database_password%"
                 charset:  UTF8
 
             procesos:
-                driver:   "%database_procesos_driver%"
+                driver:   "%database_driver%"
                 host:     "%database_procesos_host%"
                 port:     "%database_procesos_port%"
                 dbname:   "%database_procesos_name%"
@@ -111,7 +95,6 @@ doctrine:
                     RMSegmentoBundle: ~
                     RMStaticBundle: ~
                     RMDiscretasBundle: ~
-                    RMIntDiscretasBundle: ~
                     RMLinealesBundle: ~
                     RMTransformadasBundle: ~
                 dql:
@@ -129,26 +112,11 @@ doctrine:
                     RMSegmentoBundle: ~
                     RMStaticBundle: ~
                     RMDiscretasBundle: ~
-                    RMIntDiscretasBundle: ~
                     RMLinealesBundle: ~
                     RMTransformadasBundle: ~
                 dql:
                     string_functions:
                         GROUP_CONCAT: RM\ComunicacionBundle\Doctrine\Mysql\GroupConcat
-            manati:
-                connection: manati
-                mappings:
-                    RMCategoriaBundle: ~
-                    RMClienteBundle: ~
-                    RMComunicacionBundle: ~
-                    RMPlantillaBundle: ~
-                    RMProductoBundle: ~
-                    RMSegmentoBundle: ~
-                    RMStaticBundle: ~
-                    RMDiscretasBundle: ~
-                    RMIntDiscretasBundle: ~
-                    RMLinealesBundle: ~
-                    RMTransformadasBundle: ~
 
             procesos:
                 connection: procesos
@@ -190,24 +158,56 @@ knp_paginator:
 doctrine_mongodb:
     connections:
         default:
-            server: mongodb://192.168.100.102:27017
+            server: mongodb://%mongo_host_default%:%mongo_port%
             options: {}
-    default_database: 3
+    default_database: %mongo_database_default%
     document_managers:
         default:
             connection: default
             mappings:
               RMMongoBundle: ~
+              RMTrackingBundle: ~
+        3:
+            connection: default
+            mappings:
+              RMMongoBundle: ~
+              RMTrackingBundle: ~
+        trans:
+            connection: default
+            database: translations
+            mappings:
+                LexikTranslationBundle: ~
 
 rm_mongo:
   default_connection: default
   connections:
     default:
-      host: 192.168.100.102
-      port: 27017
-      database: 3
+      host: %mongo_host_default%
+      port: %mongo_port%
+      database: %mongo_database_default%
 
     3:
-      host: 192.168.100.102
-      port:
-      database: 3
+      host: %mongo_host_3%
+      port: %mongo_port%
+      database: %mongo_database_3%
+
+
+bazinga_geocoder:
+  fake_ip:
+    ip: 150.214.93.200
+    enabled: false
+    priority: 128
+  providers:
+    openstreetmap:
+      locale: es
+    free_geo_ip: []
+
+lexik_translation:
+   fallback_locale: [es]
+   managed_locales: [es, en, zh]
+   storage:
+       type: mongodb
+       object_manager: trans
+   dev_tools:
+       enable: true
+       create_missing: true

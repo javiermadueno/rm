@@ -66,20 +66,7 @@ direct_config_tamanyo_guardar:
   defaults: {_controller: RMPlantillaBundle:TamanyoImagen:guardarTamanyo}
   methods: [POST]
   
-direct_config_plantillas_listaGrupoSlots:
-  path: /config/templates/listaGrupoSlots/
-  defaults: {_controller: RMPlantillaBundle:Default:mostrarListaGrupoSlots}
-  methods: [POST]
-  
-direct_config_plantillas_eliminarGuardarGS:
-  path: /config/templates/listaGrupoSlots/eliminar/
-  defaults: {_controller: RMPlantillaBundle:Default:eliminarGuardarGS}
-  methods: [POST]
-  
-direct_show_gsm:
-  path: /config/templates/listaGrupoSlots/GSM
-  defaults: {_controller: RMPlantillaBundle:Default:showGSM, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 3 }
-  methods: [POST]
+
   
 direct_manager_previsualizar_plantilla:
   path: /config/templates/{id_comunicacion}/preview/
@@ -106,6 +93,19 @@ direct_manager_eliminar_grupo_slots:
     path: /manager/eliminar/grupoSlots
     defaults: { _controller: RMPlantillaBundle:Config:eliminarGrupoSlots }
     methods: [POST]
+
+
+rm_plantilla.default.generar_y_descargar:
+   path: /manager/edit/templates/{id_comunicacion}/action/generate/
+   defaults: { _controller: RMPlantillaBundle:Default:generarYDescargar }
+   methods: [GET]
+   requirements:
+     id_comunicacion: \d+
+
+rm_plantilla.default.descargar_instrucciones_maquetacion:
+   path: /manager/edit/templates/action/download/instrucction
+   defaults: { _controller: RMPlantillaBundle:Default:descargarInstruccionesPlantilla }
+   methods: [GET]
   
   
   

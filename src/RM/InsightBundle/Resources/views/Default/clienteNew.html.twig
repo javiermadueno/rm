@@ -1,5 +1,5 @@
 {% extends '::insight/base_insight.html.twig' %}
-{% set idOpcionMenuIzq = 3 %}
+{% set idOpcionMenuIzq = 2 %}
 {% set idOpcionMenuSup = 4 %}
 
 
@@ -56,14 +56,11 @@
                 </td>
             </tr>
             <tr>
-                <td width="25%" class="graficoIzquierda" align="center">&nbsp;</td>
-                <td width="25%" class="graficoDerecha" align="center">
+                <td colspan="2" class="graficoDerecha" align="center">
                     <div id="graficoGama"></div>
                 </td>
-                <td width="25%" class="graficoDerecha" align="center">
-                    <div id="graficoGama2"></div>
-                </td>
-                <td width="25%" class="graficoIzquierda" align="center">&nbsp;</td>
+                <td width="" class="graficoIzquierda" align="center">&nbsp;</td>
+
             </tr>
             </tbody>
         </table>
@@ -443,7 +440,7 @@
 	});
 	
 	
-    //Gama
+    {#//Gama
 	$(function () {
 
 	    $(document).ready(function () {
@@ -524,7 +521,7 @@
 	        });
 	    });
 
-	});
+	});#}
 	
     //Sexo
     {#
@@ -646,6 +643,7 @@
             {{ chart(graficoEdades) }}
             {{ chart(graficoHoras) }}
             {{ chart(graficoDias) }}
+            {{ chart(graficoGamas) }}
 
         });
     </script>

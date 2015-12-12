@@ -90,6 +90,7 @@ class PlantillaModeloController extends RMController
         $form = $this->createForm(new PlantillaModeloType(), $plantilla, [
             'action' => $this->generateUrl('rm_plantilla_plantilla_modelo_create'),
             'method' => 'POST',
+            'em' => $this->getManager()
         ]);
 
         $form->add('submit', 'submit', ['label' => 'Guardar']);
@@ -157,6 +158,7 @@ class PlantillaModeloController extends RMController
             'action' => $this->generateUrl('rm_plantilla_plantilla_modelo_update',
                 ['id' => $plantilla->getIdPlantilla()]),
             'method' => 'PUT',
+            'em' => $this->getManager()
         ]);
 
         $form->add('submit', 'submit', ['label' => 'Actualizar']);

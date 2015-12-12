@@ -27,7 +27,7 @@ class SegmentoComunicacion implements FechaInicioFinInterface
     const FREC_TRIMESTRAL   =   5;
     const FREC_CUATRIMESTRAL=   6;
     const FREC_SEMESTRAL    =   8;
-    const FREC_ANUAL       =    7;
+    const FREC_ANUAL        =   7;
 
 	/**
 	 * @var integer

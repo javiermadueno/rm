@@ -13,11 +13,13 @@ mensaje:
     no.categoria.asociada: There is no Category associated to the Center.
     no.instancia: Communication's Instance Not Found.
     cambio.fase: Unable to Process the Instance to the next step.
+    cambio.fase.configuracion: The number of generic promotions defined in every Slot Group has to be greater than number of slots.
     cambio.fase.simulacion: Unable to Process the Instance to Simulation Step. There are still Generic Promotions to be defined.
     cambio.fase.generacion.pendientes: Unable to Process the Instance to Generation Step. There are still Pending Promotions.
     cambio.fase.generacion.rechazadas: Personalized Commnications will be generated for each Customer without Rejected Promotions.
     limite.numslots: Numer of Slots Exceeded.
-    faltan.segmentos: Unable to Activate Communications. There is no slot defined. 
+    faltan.segmentos: Unable to Activate Communications. There is no segment defined.
+    faltan.gruposslot: Unable to Activate Communications. There is no Slot Group associated with the template.
     categorias.numero.promociones.defininido: Following Categories haven't reached the defined number of promotions. 
     parar.segmentocomunicacion: Unable to Stop Communication to Customer Segment. 
     reanudar.segmentocomunicacion: Unable to Resume Communications to Customer Segment. 
@@ -25,6 +27,8 @@ mensaje:
     parar.comunicacion: Unable to Stop Communication.
     reanudar.comunicacion: Unable to Resume Communication.
     subida.fichero.demasiado.grande: The image is too large.
+    descargar.fichero: The file can not be downloaded.
+    descargar.fichero.plantilla: Template file does not exist. Please, upload one.
   ok:
     eliminar: Record Deleted.
     editar: Operation was performed successfully.
@@ -49,9 +53,40 @@ mensaje:
     segmento: Customer Segment will be deleted. Do you want to proceed? 
     segmento: Customer Segment will be deleted. Do you want to proceed?
   tramitar:
-    simulacion: Are you sure you want to proceed to simulation step? 
-mensaje.alerta.validar.segmentos: Do you want to proceed? New segments will be created and old ones will be deteled from current configuration!.
-mensaje.alerta.asociar.categorias: If you save, all categories from selected levels will be asociated and all categories from unselected ones will be disociated. Do you want to proceed?
+    simulacion: Are you sure you want to proceed to simulation step?
+  alerta:
+    al.menos.un.registro: You must select at least one register
+    validar:
+      segmentos: Do you want to proceed? New segments will be created and old ones will be deteled from current configuration!.
+    asociar:
+      categorias: If you save, all categories from selected levels will be asociated and all categories from unselected ones will be disociated. Do you want to proceed?
+    eliminar:
+      registros: Do you want to delete selected registers?
+  calculo:
+    poblacion: With this filter a population of  %poblacion% customers has been calculated
+  grupo.slot.no.definido: There is not Slot Group associated with the template. Please configure one before continue.
+  anadir.grupo: Add a new Slot Group
+
+error: Error
+correcto: Correct!
+
+cfg: Set-Up
+ngc: Campaign
+sim: Simulation
+cie: Closing Negotiations
+gen: Generation
+cnf: Confirmation
+fin: Finished
+can: Canceled
+
+RFM: RFM
+CP: Product Purchase
+HC: Purchase Behaviour
+SD: Sociodemographic
+CV: Life-Cycle
+OT: Customized Variables
+
+modal.cargando: Loading...
 
 menu:
   data:
@@ -79,7 +114,7 @@ menu:
 
   campaign:
     nombre: Campaign
-    campanas: Campiagn
+    campanas: Campaign
     cierre: Closing Negotiations
     creatividades: Creative Designs
     seguimiento: Follow-Up
@@ -101,6 +136,7 @@ menu:
     cerrar: Close session
 
 boton:
+  acciones: Actions
   guardar: Save
   eliminar: Delete
   nuevo: New
@@ -112,9 +148,17 @@ boton:
   parar: Stop
   reanudar: Resume
   descargar: Download
+  descargar.productos.sin.imagen: CSV Products without Image
+  descargar.instrucciones:
+        imagenes.producto: Upload Product Image Instructions
+        maquetacion.plantilla: Layout template instructions
+  descargar.batch: Download Batch
   importar: Import
   exportar: Export
-  previsualizar.plantilla: Template Preview
+  exportar.plantilla: Save Template
+  importar.plantilla: Use Template
+  previsualizar.plantilla: Preview
+  generar.descargar.plantilla: Generate default template
   previsualizar: Preview
   subir: Upload
   listado: Listing
@@ -125,11 +169,19 @@ boton:
   editar: Edit
   eliminar: Delete
   eliminar.plantilla: Delete Template
+  nueva.plantilla: New Template
+  filtro:
+    comprobar: Check Filter
+    guardar: Save Filter
+    y: AND
+    o: OR
+    ce: CE
+    segmentos: Segments
 
 cabecera:
   niveles.categorias: Category Levels to take into account for segmenting.
   categorias: Categories to take into account for segmenting.
-  criterios: Temporal Criteria of Product Purchase and Purchase Behavoir Intermediate Variables.
+  criterios: Temporal Reference of  Product Purchase and Purchase Behavoir Intermediate Variables.
   criterios.eligibilidad: Elegibility Criteria.
   criterios.desempate: Tiebreakers Criteria
   segmentos: Customer Segments
@@ -153,9 +205,17 @@ cabecera:
   eliminar:
     segmento: Delete Customer Segment
   cambio.fase.instancia: Change Intance Step.
-  promociones.categoria: Promotions by Category
+  promociones.categoria: Promotions
+  segmentador: Segmentator
 
-# MÃ³dulo DATA
+buscar:
+  creatividad: Search Creative Design
+
+placeholder:
+  nombre:
+    variable: Variable name
+
+# Modulo DATA
 nivel: Level
 niveles: Levels
 sin.resultados: Without Results
@@ -174,9 +234,10 @@ percentil: Percentile
 parametro: Parameter
 descripcion: Description
 valor: Value
+valor.medio: Mean Value
 configuracion: Set-Up
 parametros.generales: General Parameters
-numero.dias.novedad: Novelty Number of Days
+
 amplitud: Breadth
 recencia: Recency
 frecuencia: Frequency
@@ -191,7 +252,7 @@ frecuencia.semestral: biyearly
 frecuencia.anual: yearly
 gama: range
 gasto: spending
-numero.dias.novedad.descripcion: Number of days for a purchase to be considered novelty
+
 dias: Days
 franja.horaria: Time Interval
 desde: From
@@ -216,6 +277,12 @@ tiempo:
   referencia.n: Time Reference N
   referencia.m: Time Reference M
 
+ref:
+  temp:
+    global: Global Time Reference
+    franjas: Time Bands Reference
+    dias: Day Time Reference
+
 marca: Brand
 validar.segmentos: Validate Segments
 
@@ -233,12 +300,14 @@ comunicacion.estado:
   completada: Completed
 
 select:
+  todos: All
   todas: All
   seleccione: Select
   seleccione.imagen: Select Image
   seleccione.tipo: Select Type
   marca: Select Brand
   producto: Select Product
+  canal: Select Channel
 
 estado: Step
 estado.comunicacion: Communication Step
@@ -246,7 +315,9 @@ y: and
 tipo: Type
 criterio: Criteria
 
+acumulado.anyo: Accumulated Year
 fecha:
+  0: Date
   inicial: Start Date
   final: End Date
   creacion: Creation Date
@@ -255,10 +326,13 @@ fecha:
   promociones: Date of Promotions
   entre: Date between
   entre.y: and
+  caducidad: Expiration
 
 filtro.busqueda: Search Filter
 instancias: Instances
 instancia: Instance
+
+instancia.fase: Step
 
 fase:
   configuracion: Set-Up
@@ -276,7 +350,7 @@ desactivado: Deactivated
 en.proceso: In Process
 canal: Channel
 controles: Controls
-recursos.graficos: Graphic Resources
+recursos.graficos: Products
 creatividades: Creative Designs
 creatividad: Creative Design
 
@@ -295,8 +369,14 @@ listado: Listing
 datos: Data
 promocion: Promotion
 promociones: Promotions
-subir.plantilla.maquetada: Upload Designed Template 
+promocion.avanzado: Advanced
+subir.plantilla.maquetada: Upload Designed Template
+
 grupo.slots: Group of Slots
+grupo.slots.tipo:
+  promocion: Promotion Type
+  creatividad: Creative Design Type
+grupo.slots.caracteristicas: Characteristics
 
 numero:
   slots: Number of Slots
@@ -308,6 +388,8 @@ numero:
     genericas: Number of Generic Creative Design-based Promotions
   clientes: Number of Customers
   miembros: Number of Members
+  dias.novedad: Novelty Number of Days
+  dias.novedad.descripcion: Number of days for a purchase to be considered novelty
 
 slot: slot
 slots: slots
@@ -321,6 +403,12 @@ segmentadas: segmented
 genericas: generic
 
 segmento.comunicacion: Customer Communication Segments
+
+paginador:
+  ultima: Last
+  siguiente: Next
+  anterior: Previous
+  primera: First
 
 
 editar:
@@ -368,20 +456,52 @@ semestral: biyearly
 cuatrimestral: four-monthly
 anual: Yearly
 
+modulo:
+  direct:
+    fase:
+      finalizada:
+        envio:
+          inmediato: Immediate delivery
+          programado: Scheduled delivery
+          estado:
+            titlo: Delivery State ('Delivered', 'In Process', o 'Scheduled')
+            en.proceso: In Process
+            programado: Scheduled
+            enviado: Delivered
+        formatos: Formats
+        xpd: XPD
+        xml: XML
+        dat: DAT
+        ftp: FTP
+        server: Server
+        user: User
+        pass: Password
+        post: POST
+        url: URL
+        comunicaciones.generadas: %comunicaciones% comunications has been generated
+        formato.generado: Generated Format
+        enviado:
+          ftp: File's been sent via %via% using following data
+          url: File's been sent to the following URL
+          descarga: File's been Downloaded
+
+
 
 # Modulo CAMPAIGN
 campana: Campaign
 campanas: Campaigns
 poblacion: Target
 minimo: Minimun
-tipo:
-  promocion: Prootion Type
+maximo: Maximum
+tipo.promocion: Promotion Type
 tipo.clasificacion: Clasification Type
 referencia: Reference
 info: Info
 
 informacion:
   avanzada: Advanced Info
+  promociones.restantes: "{1}%count% promotion remain to be defined|]1,Inf[%count% promotions remain to be defined"
+  creatividades.restantes: "{1}%count% Creative Desing remain to be defined|]1,Inf[%count% Creatives Design remain to be defined"
 
 simulado: Simulated
 
@@ -420,6 +540,9 @@ Maximo_dias_novedad: Novelty maximun number of days
 nivel_gama_segmentar: Range Level for Segmentation
 num_meses_segmentar: Number of Momthd for Segmentation
 nivel_category_manager: Category Manager Level
+umbral_franjas: Time Bands Threshold
+umbral_dias: Days Threshold
+umbral_gamas: Ranges Threshold
 
 mostrar.imagen.creatividad: Show Creative Design Image
 mostrar.texto.creatividad: Show Creative Design Text
@@ -430,12 +553,14 @@ mostrar.texto.creatividad: Show Creative Design Text
 media: Average
 evolucion: Evolution
 periodo: Period
+compra: Sales
 
 media.ventas: Average Sale
 frecuencia.media: Average Frequency
 recencia.media: Average Recency
 amplitud.media: Average Breadth
 porcentaje.ventas: Sales' Percentage
+otros: Others
 otros.datos: Other figures
 frecuencia.contribuciones: Contributions' Frequency
 ticket.medio: Average Ticket
@@ -473,6 +598,7 @@ clientes:
   0: Customers
   activos: Active Customers
   nuevos: New Customers
+  inactivos: Inactive Clients
 
 ventas:
   0: Sales
@@ -485,6 +611,26 @@ contribucion:
 
 reactividad.target.por.comunicades: Target Reactivity by Communcation
 reactividad: Reactivity
+
+fichero:
+  csv:
+    columna:
+      id: Id
+      nombre: Name (Replaces this column with the name of the image associated with the product)
+
+formulario:
+  grupo.slot:
+    m_img_producto: Show product image
+    m_img_creatividad: Show creative design image
+    m_precio_producto: Show product price
+    m_volumen: Show volume
+    m_condiciones: Show promotion conditions
+    m_img_marca: Show brand image
+    m_texto: Show description
+    m_voucher: Show voucher
+    m_fidelizacion: Show fidelization conditions
+    m_nombre_producto: Show product name
+
 
 ## Graficas de highcharts
 highchart:
@@ -539,7 +685,7 @@ highchart:
         serie:
           title: New Customers by POS Type
       gama:
-        title: New Customers By Range - %fecha%
+        title: New Customers By Range
         serie:
           title:  New Customers By Range
     activos:
@@ -611,6 +757,13 @@ highchart:
           title: Reactivity - Target by Gender
           serie:
             axis.y: Customers
+    inactivos:
+      evolucion:
+        edades:
+          title: Inactive customers by Age
+        sexo:
+          title: Inactive customers by Sex
+
 
 
 

@@ -40,7 +40,7 @@ class Vt implements \JsonSerializable
     private $tipo;
 
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="estado", type="smallint", nullable=true)
      */
@@ -113,7 +113,7 @@ class Vt implements \JsonSerializable
     /**
      * Set tipo
      *
-     * @param smallint $tipo
+     * @param int $tipo
      * @return Vt
      */
     public function setTipo($tipo)
@@ -148,7 +148,7 @@ class Vt implements \JsonSerializable
     /**
      * Get estado
      *
-     * @return smallint 
+     * @return int
      */
     public function getEstado()
     {

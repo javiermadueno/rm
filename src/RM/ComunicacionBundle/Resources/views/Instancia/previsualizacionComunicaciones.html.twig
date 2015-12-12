@@ -40,6 +40,7 @@
         </table>
     </div>
 
+    {#
     <h4 class="widgettitle">{{ "previsualizacion.comunicaciones" |trans|title}}</h4>
     <div class="mediamgr_head">
         <form id="formFiltro" name="formFiltro" method="post" action="">
@@ -72,12 +73,10 @@
         </form>
         {% include ('RMSegmentoBundle:Default/Buscador:formPopUpBuscadorSegmentos.html.twig') %}
     </div>
+    #}
 
 
     <div style="position: relative">
-        <div id="processing" style="display: none; position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);z-index: 1000">
-            <div class="loader"></div>
-        </div>
         <table id="tablaClientes" class="table table-bordered responsive">
             <colgroup>
                 <col class="con0">
@@ -112,19 +111,18 @@
 
 <script type="text/javascript">
 
-    function verComunicacion(id_cliente){
-
+    function verComunicacion(id_cliente)
+    {
         var largo = 550;
         var altura = 550;
         var top = (screen.height-altura)/2;
         var izquierda = (screen.width-largo)/2;
-        {% set nombreVentana = "Previsualización" %}
-        //var nombreFinal = nombre+" "+apellido;
-        camino = "{{ path('direct_datos_promo_consumidores', {'id_instancia': objInstancia.idInstancia, 'id_cliente':'111'}) }}";
+        var camino = "{{ path('direct_datos_promo_consumidores', {'id_instancia': objInstancia.idInstancia, 'id_cliente':'111'}) }}";
         camino = camino.replace('111', id_cliente);
         var myUrl = camino;
-        var nomVentana = '{{ nombreVentana }}';
-        window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+        var nomVentana = id_cliente;
+        var strWindowFeatures = "resizable=yes,scrollbars=yes,status=yes," + "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda;
+        window.open(myUrl, nomVentana, strWindowFeatures);
     }
 
     function addCondicionSegmentoPadre(elem)
@@ -161,7 +159,7 @@
             var tabla = $('#tablaClientes').DataTable( {
                  "deferRender": true,
                  language: {
-                     url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                     url: '{{ asset('js/DataTables/Plugins/i18n/' ~ app.request.locale ~'.lang') }}'
                  },
                  columns: [
                      {data: 'nombre'},

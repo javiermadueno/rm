@@ -1,5 +1,5 @@
 <form id="formSegmentos" name="form" method="get" action="{{ path('data_info_segmentos') }}">
-    <input type="hidden" id="fecha_busqueda" name="fecha_busqueda" value="{{ fecha_busqueda|date('Y-m-d') }}"/>
+    <input type="hidden" id="fecha_busqueda" name="fecha_busqueda" value="{{ fecha_busqueda|date('Y-m-d H:i:s') }}"/>
 
     <h4 class="widgettitle">{{ "cabecera.criterios.busqueda"|trans }}</h4>
     <div class="mediamgr_left">
@@ -15,7 +15,7 @@
                                     {% if objTipos is defined %}
                                         {% for tipo in objTipos %}
                                             <option value="{{ tipo.codigo }}" {% if app.request.get('tipo') == tipo.codigo %}selected{% endif %}>
-                                                {{ tipo.nombre }}
+                                                {{ tipo.codigo|trans }}
                                             </option>
                                         {% endfor %}
                                     {% endif %}
@@ -136,7 +136,7 @@
             "responsive" : true,
             "deferRender": true,
             language: {
-                url: '{{ asset('js/DataTables/Plugins/i18n/Spanish.lang') }}'
+                url: '{{ asset('js/DataTables/Plugins/i18n/'~ app.request.locale ~'.lang') }}'
             },
             ajax: {
                 url: '{{ path('data_info_segmentos') }}',

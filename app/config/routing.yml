@@ -1,3 +1,17 @@
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /traducciones
+
+rm_admin:
+    resource: "@RMAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /{_locale}
+
+rm_tracking:
+    resource: "@RMTrackingBundle/Controller"
+    type:     annotation
+    prefix:   /
+
 rm_app:
     resource: "@RMAppBundle/Resources/config/routing.yml"
     prefix:   /
@@ -10,10 +24,6 @@ rm_mongo:
 procesos:
     resource: "@ProcesosBundle/Resources/config/routing.yml"
     prefix:   /
-
-insight_true:
-    resource: "@InsightTrueBundle/Resources/config/routing.yml"
-    prefix:    /{_locale}/insightrue
 
 rm_insight:
     resource: "@RMInsightBundle/Resources/config/routing.yml"
@@ -30,16 +40,34 @@ rm_cliente:
     prefix:    /{_locale}/
 
 rm_comunicacion_campaign:
-    resource: "@RMComunicacionBundle/Resources/config/routing_campaign.yml"
+    resource: "@RMComunicacionBundle/Resources/config/routing/campaign.yml"
     prefix:    /{_locale}/campaign
     defaults:
         idOpcionMenuSup: 3
+
+rm_producto_campaign_promocion:
+   resource: "@RMProductoBundle/Resources/config/routing/promocion.yml"
+   prefix: /{_locale}/campaign
+
+rm_producto_num_promocion:
+  resource: "@RMProductoBundle/Resources/config/routing/num_promociones.yml"
+  prefix: /{_locale}/numpromocion
 
 rm_comunicacion:
     resource: "@RMComunicacionBundle/Resources/config/routing.yml"
     prefix:    /{_locale}/direct
     defaults:
         idOpcionMenuSup: 2
+
+rm_comunicacion_creatividades:
+    resource: @RMComunicacionBundle/Resources/config/routing/creatividad.yml
+    prefix: /{_locale}/direct
+    defaults:
+        idOpcionMenuSup: 2
+
+rm_comunicacion_segmentos_comunicacion:
+    resource: '@RMComunicacionBundle/Resources/config/routing/segmentocomunicacion.yml'
+    prefix: /{_locale}/direct/manager/comunicacion/{idComunicacion}/segmentos
 
 rm_plantilla:
     resource: "@RMPlantillaBundle/Resources/config/routing.yml"

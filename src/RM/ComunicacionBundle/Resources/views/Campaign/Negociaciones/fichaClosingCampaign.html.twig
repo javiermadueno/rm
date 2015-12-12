@@ -21,7 +21,7 @@
 
     <div class="row-fluid">
         <div class="span1 offset11">
-            <a class="btn btn-primary" href="{{ path('campaign_campanyas') }}">{{ "boton.volver" |trans|title}}</a>
+            <a class="btn btn-primary" href="{{ path('campaign_closing_campanyas') }}">{{ "boton.volver" |trans|title}}</a>
         </div>
     </div>
 
@@ -59,7 +59,7 @@
 
     {% if gruposSlots | length == 0 %}
         <div class="alert alert-warning">
-            <h4>{{ "mensaje.error.no.promocion" | trans|title }}</h4>
+            <h4>{{ "mensaje.error.no.gruposlot.configurado" | trans|title }}</h4>
         </div>
     {% else %}
         {% for grupoSlot in gruposSlots %}
@@ -175,31 +175,20 @@
                                     {{ segmentada.simulado|number_format(0,',','.') }}
                                 </td>
                                 <td style="text-align: center;">{#STATUS#}
-
-                                    {% if aceptada %}
-                                        <select style="width: auto"
-                                                name="promociones[{{ idPromo }}][estado]"
-                                                class="">
-                                            <option value="{{ constant('ACEPTADA', segmentada) }}" selected> {{ "aceptada" | trans|title }}</option>
-                                        </select>
-                                    {% else %}
-                                        {% set aceptadaDB = segmentada.aceptada | default(0)  %}
-
-                                        <select style="width: auto"
-                                                name="promociones[{{ idPromo }}][estado]"
-                                                class="">
-                                            <option value="{{ constant('RECHAZADA', segmentada) }}" {% if aceptadaDB is  constant('RECHAZADA', segmentada)  %} selected {% endif %}>
-                                                {{ "rechazada" | trans|title }}
-                                            </option>
-                                            <option value="{{ constant('ACEPTADA', segmentada) }}"{% if aceptadaDB is constant('ACEPTADA', segmentada)  %} selected {% endif %}>
-                                                {{ "aceptada" | trans|title}}
-                                            </option>
-                                            <option value="{{ constant('PENDIENTE', segmentada) }}"{% if aceptadaDB is constant('PENDIENTE', segmentada)  %} selected {% endif %}>
-                                                {{ "pendiente" |trans|title}}
-                                            </option>
-                                        </select>
-
-                                    {% endif %}
+                                    {% set aceptadaDB = segmentada.aceptada | default(0)  %}
+                                    <select style="width: auto"
+                                            name="promociones[{{ idPromo }}][estado]"
+                                            class="">
+                                        <option value="{{ constant('RECHAZADA', segmentada) }}" {% if aceptadaDB is  constant('RECHAZADA', segmentada)  %} selected {% endif %}>
+                                            {{ "rechazada" | trans|title }}
+                                        </option>
+                                        <option value="{{ constant('ACEPTADA', segmentada) }}"{% if aceptadaDB is constant('ACEPTADA', segmentada)  %} selected {% endif %}>
+                                            {{ "aceptada" | trans|title}}
+                                        </option>
+                                        <option value="{{ constant('PENDIENTE', segmentada) }}"{% if aceptadaDB is constant('PENDIENTE', segmentada)  %} selected {% endif %}>
+                                            {{ "pendiente" |trans|title}}
+                                        </option>
+                                    </select>
 
                                 </td>
                             </tr>
@@ -283,41 +272,11 @@
             var top = (screen.height-altura)/2;
             var izquierda = (screen.width-largo)/2;
             {% set nombreVentana = "Promocion" %}
-            camino = "{{ path('campaign_info_promocion', {'id_promocion':'111'}) }}";
+            var camino = "{{ path('campaign_info_promocion', {'id_promocion':'111'}) }}";
             camino = camino.replace('111', idPromo);
             var myUrl = camino;
             var nomVentana = '{{ nombreVentana }}';
             window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
         }
-
-        $('#botonVolver').click(function(event){
-            event.preventDefault(); //cancela el comportamiento por defecto
-            $('#form0').submit();
-        });
-
-        $(document).ready(function(){
-            $('.actualizarTabla').change(function(event){
-                event.preventDefault(); //cancela el comportamiento por defecto
-
-                var $tablaListado = $('#tablaListado');
-
-                msg = $("#form").serialize();
-                {% set crearUrl = url('campaign_campanyas_actualizar') %}
-                var myUrl = '{{crearUrl}}';
-                $.ajax({
-                    type: "POST",
-                    url: myUrl,
-                    data: msg,
-                    complete: function(objeto, exito){
-                        if(exito=="success"){
-                            $tablaListado.children().remove();
-                            $tablaListado.append(objeto.responseText);
-                        }
-                    },
-                    error: function(objeto, quepaso, otroobj){
-                    }
-                });
-            });
-        });
     </script>
 {% endblock %}

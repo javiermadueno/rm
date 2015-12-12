@@ -76,7 +76,7 @@ class ResultadoCliente
     /**
      * Get id
      *
-     * @return id $id
+     * @return int $id
      */
     public function getId()
     {

@@ -33,37 +33,42 @@ class PorcentajeDeVentas
 
 
         $this->chart = new Highchart();
-        $this->chart->chart->renderTo ( $nombre );
+        $this->chart->chart->renderTo($nombre);
 
-        $this->chart->plotOptions->pie ( [
-                'allowPointSelect' => true,
-                'cursor' => 'pointer',
-                'dataLabels' => [
-                    'enabled' => false
-                ],
-                'showInLegend' => true
-            ] );
+        $this->chart->plotOptions->pie([
+            'allowPointSelect' => true,
+            'cursor'           => 'pointer',
+            'dataLabels'       => [
+                'enabled' => false
+            ],
+            'showInLegend'     => true
+        ]);
 
-        if(!$mes) {
+        if (!$mes) {
             return $this->chart;
         }
 
-        $this->chart->title->text ( $this->translator->trans(
+        $this->chart->title->text($this->translator->trans(
             'highchart.insight.clientes.porcentaje.ventas.title',
-            ['%mes%' =>  $mes->getFecha()->format('F-Y')]
+            ['%mes%' => $mes->getFecha()->format('F-Y')]
         ));
 
-        $this->chart->series ( [
-                [
-                    'type' => 'pie',
-                    'name' => $this->translator->trans('highchart.insight.clientes.porcentaje.ventas.ventas'),
-                    'data' => [
-                        [$this->translator->trans('highchart.insight.clientes.porcentaje.ventas.miembros'),    $mes->getVentasCliente()  ? $mes->getVentasCliente()   : 0.00 ],
-                        [$this->translator->trans('highchart.insight.clientes.porcentaje.ventas.no.miembros'), $mes->getVentasNoCliente()? $mes->getVentasNoCliente() : 0.00 ]
+        $this->chart->series([
+            [
+                'type' => 'pie',
+                'name' => $this->translator->trans('highchart.insight.clientes.porcentaje.ventas.ventas'),
+                'data' => [
+                    [
+                        $this->translator->trans('highchart.insight.clientes.porcentaje.ventas.miembros'),
+                        $mes->getVentasCliente() ? $mes->getVentasCliente() : 0.00
+                    ],
+                    [
+                        $this->translator->trans('highchart.insight.clientes.porcentaje.ventas.no.miembros'),
+                        $mes->getVentasNoCliente() ? $mes->getVentasNoCliente() : 0.00
                     ]
                 ]
             ]
-        );
+        ]);
 
         return $this->chart;
     }

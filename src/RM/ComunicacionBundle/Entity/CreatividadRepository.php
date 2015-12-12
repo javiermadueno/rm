@@ -8,6 +8,20 @@ use RM\ProductoBundle\Entity\Promocion;
 
 class CreatividadRepository extends EntityRepository
 {
+    /**
+     * @return Creatividad[]
+     */
+    public function findAll()
+    {
+        $creatividades = $this->_em->createQueryBuilder('c')
+            ->where('c.estado > -1')
+            ->orderBy('c.idCreatividad')
+            ->getQuery()
+            ->getResult();
+
+        return $creatividades;
+    }
+
     public function obtenerCreatividadById($idCreatividad)
     {
 
@@ -30,7 +44,7 @@ class CreatividadRepository extends EntityRepository
     public function obtenerCreatividadByFiltro($nombre)
     {
 
-        $result = $this->obtenerCreatividadByFiltroDQL($nombre)->getResult();
+        $result = $this->obtenerCreatividadByFiltroDQL($nombre);
 
         return $result;
     }
@@ -40,7 +54,7 @@ class CreatividadRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('c')
             ->where('c.estado > -1')
-            ->orderBy('c.nombre', 'ASC')
+            ->orderBy('c.idCreatividad', 'ASC')
         ;
 
         if (!empty($nombre)) {
@@ -54,6 +68,7 @@ class CreatividadRepository extends EntityRepository
 
         return $registro;
     }
+
 
     public function obtenerPromocionesCreatividad($idInstancia)
     {

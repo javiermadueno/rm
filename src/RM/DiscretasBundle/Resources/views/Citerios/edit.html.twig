@@ -1,38 +1,51 @@
 <h4 class="widgettitle">{{ "cabecera.criterios" | trans }}</h4>
 {{ form_start(formulario) }}
 <div class="mediamgr_left">
-    <div class="mediamgr_head">
-        <ul class="mediamgr_menu">
-            <li>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tbody>
-                    <tr>
-                        <td width="300">
-                            <p>
-                                <label>{{ "tiempo.referencia" |trans|capitalize }}</label>
-                                {{ form_widget(formulario.referenciaN, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
-                            </p>
-                        </td>
-                        <td width="300">
-                            <p>
-                                <label>{{ "estacionalidad" |trans|capitalize }}:</label>
-                                {{ form_widget(formulario.mesesN, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
-                            </p>
-                        </td>
-                        <td>
-                            <label>&nbsp;</label>
-                            {{ form_widget(formulario.mesesM, { 'attr': { 'class': 'input-xlarge soloNum' } }) }}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="widgetcontent">
+        <table class="table table-bordered" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col class="con0 center-all">
+                <col class="con1 center-all">
+                <col class="con0 center-all">
+                <col class="con1 center-all">
+                <col class="con0 center-all">
+                <col class="con1 center-all">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th rowspan="2" class="center-all">{{ "criterio" |trans|title}}</th>
+                    <th rowspan="2" class="center-all">{{ "tiempo.referencia" |trans|title}}</th>
+                    <th colspan="2" class="center-all">{{ "estacionalidad" |trans|title}}</th>
+                </tr>
+                <tr>
+                    <th class="center-all">{{ "tiempo.referencia.n" |trans|title}}</th>
+                    <th class="center-all">{{ "tiempo.referencia.m" |trans|title}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for criterio in formulario.criterios %}
 
-            </li>
-            <li class="right newfilebtn">
-                <button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|capitalize }}</button>
-            </li>
-        </ul>
-        <span class="clearall"></span>
+                <tr>
+                    <td class="center-all">{{ criterio.vars.value.referenciaTemporal|trans }}</td>
+                    <td class="center-all">
+                        <p>{{ form_widget(criterio.referenciaN, { 'attr': { 'class': 'soloNum' } }) }}</p>
+                    </td >
+                    <td class="center-all">
+                        <p>{{ form_widget(criterio.mesesN, { 'attr': { 'class': 'soloNum' } }) }}</p>
+                    </td>
+                    <td class="center-all">
+                        <p>{{ form_widget(criterio.mesesM, { 'attr': { 'class': 'soloNum' } }) }}</p>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">{{ "sin.resultados"|trans|title }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{{ "boton.guardar" |trans|capitalize }}</button>
     </div>
 </div>
 {{ form_rest(formulario) }}

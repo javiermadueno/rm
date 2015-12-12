@@ -10,7 +10,9 @@ namespace RM\PlantillaBundle\Parsers;
 
 
 use RM\ClienteBundle\Entity\Cliente;
+use RM\ComunicacionBundle\Entity\Comunicacion;
 use RM\ComunicacionBundle\Entity\Creatividad;
+use RM\ComunicacionBundle\Entity\InstanciaComunicacion;
 use RM\PlantillaBundle\DependencyInjection\GeneraPlantillaComunicacion;
 use RM\PlantillaBundle\Entity\GrupoSlots;
 use RM\PlantillaBundle\Entity\Slot;
@@ -20,10 +22,9 @@ use RM\PlantillaBundle\Model\Interfaces\PlantillaInterface;
 use RM\ProductoBundle\Entity\Producto;
 use RM\ProductoBundle\Entity\Promocion;
 use RM\RMMongoBundle\DependencyInjection\ManagerInstanciaComunicacionCliente;
-use Symfony\Bundle\TwigBundle\Extension\AssetsExtension;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Templating\Asset\PackageInterface;
 
@@ -35,6 +36,16 @@ class EmailParser implements ParserInterface
      * @var PlantillaInterface
      */
     private $plantilla;
+
+    /**
+     * @var Comunicacion
+     */
+    private $comunicacion;
+
+    /**
+     * @var InstanciaComunicacion
+     */
+    private $instancia;
 
     /**
      * @var Crawler
@@ -70,7 +81,7 @@ class EmailParser implements ParserInterface
         GeneraPlantillaComunicacion $plantillaGenerator,
         ManagerInstanciaComunicacionCliente $manager,
         TokenStorageInterface $token,
-        AssetsExtension $asset
+        AssetExtension $asset
         )
     {
         $this->crawler  = new Crawler();
@@ -84,17 +95,25 @@ class EmailParser implements ParserInterface
     }
 
     /**
-     * @param PlantillaInterface $plantilla
-     * @param Cliente $cliente
-     * @return mixed|void
+     * @param InstanciaComunicacion $instancia
+     * @param Cliente               $cliente
+     *
+     * @return $this|mixed
      */
-    public function parse(PlantillaInterface $plantilla, Cliente $cliente)
+    public function parse(InstanciaComunicacion $instancia, Cliente $cliente)
     {
+        $comunicacion = $instancia
+            ->getIdSegmentoComunicacion()
+            ->getIdComunicacion();
 
-        $this->document = new \DOMDocument();
+        $this->setComunicacion($comunicacion);
+        $this->setInstancia($instancia);
 
+        $plantilla = $comunicacion->getPlantilla();
         $this->setPlantilla($plantilla);
         $this->setCliente($cliente);
+
+        $this->document = new \DOMDocument();
 
         if(file_exists($this->getRutaPlantillaGenerada())){
             return $this;
@@ -106,6 +125,15 @@ class EmailParser implements ParserInterface
 
         $this->document->preserveWhiteSpace = false;
         $this->document->loadHTML(file_get_contents($this->getRutaPlantilla()));
+
+        $this->document
+            ->getElementById('inv')
+            ->setAttribute('src',
+                sprintf('http://localhost:8080/RM2/web/app_dev.php/tracking/aperture?centro=%s&instancia=%s',
+                    $this->empresa,
+                    $this->instancia->getIdInstancia()
+                )
+            );
 
         $this->fillPlantilla();
 
@@ -172,14 +200,12 @@ class EmailParser implements ParserInterface
     {
         $id = $this->getId($grupo, $slot);
 
-        $element = $this->getElementById($id);
-
-        if($grupo->getMImgMarca()) {
-            $this->fillNodoImagenMarca($id, $promocion);
-        }
-
         if($grupo->getMImgProducto()) {
             $this->fillNodoImagenProducto($id, $promocion);
+        }
+
+        if($grupo->getMNombreProducto()) {
+            $this->fillNodoNombreProducto($id, $promocion);
         }
 
         if($grupo->getMPrecio()) {
@@ -218,8 +244,6 @@ class EmailParser implements ParserInterface
     {
         $id = $this->getId($grupo, $slot);
 
-        $element = $this->getElementById($id);
-
         if($grupo->getMImgProducto()) {
             $this->fillNodoImagenProducto($id, $promocion);
         }
@@ -236,7 +260,7 @@ class EmailParser implements ParserInterface
      */
     private function getId(GrupoSlotsInterface $grupo, Slot $slot)
     {
-        return sprintf("%s-%s", $grupo->getIdGrupo(), $slot->getIdSlot());
+        return sprintf("%s-%s", 'slot',$slot->getIdSlot());
     }
 
     /**
@@ -256,13 +280,6 @@ class EmailParser implements ParserInterface
         return $element;
     }
 
-    /**
-     * @param \DOMDocument $document
-     */
-    private function setDOMDocument(\DOMDocument $document)
-    {
-        $this->document = $document;
-    }
 
     /**
      * @param Cliente $cliente
@@ -280,6 +297,25 @@ class EmailParser implements ParserInterface
     {
         $this->plantilla = $plantilla;
         return $this;
+    }
+
+    /**
+     * @param Comunicacion $comunicacion
+     *
+     * @return $this
+     */
+    public function setComunicacion(Comunicacion $comunicacion)
+    {
+        $this->comunicacion = $comunicacion;
+        return $this;
+    }
+
+    /**
+     * @param InstanciaComunicacion $instancia
+     */
+    public function setInstancia(InstanciaComunicacion $instancia)
+    {
+        $this->instancia = $instancia;
     }
 
     /**
@@ -312,9 +348,24 @@ class EmailParser implements ParserInterface
      */
     public function getRutaPlantillaGenerada()
     {
-        return $this->plantillaGenerator
-            ->getRutaCarpetaComunicacionesGeneradas().'/'.$this->cliente->getIdCliente().'.html';
+        return $this->getRutaComunicacionGenerada(). '/'. $this->cliente->getIdCliente().'.html';
+    }
 
+    /**
+     * @return string
+     */
+    private function getRutaComunicacionGenerada()
+    {
+        $ruta =  $this
+                ->plantillaGenerator
+                ->getRutaCarpetaComunicacionesGeneradas().'/' .
+                $this->instancia->getIdInstancia() ;
+
+        if(!file_exists($ruta)) {
+            mkdir($ruta, 0777, true);
+        }
+
+        return $ruta;
     }
 
     /**
@@ -326,7 +377,11 @@ class EmailParser implements ParserInterface
     private function getPromocion($cliente, $slot)
     {
         $promocion =  $this->manager
-            ->findPromocionBySlotyCliente($slot, $cliente);
+            ->findPromocionBySlotyCliente(
+                $slot,
+                $cliente,
+                $this->instancia->getIdInstancia()
+            );
 
         return $promocion;
     }
@@ -337,7 +392,7 @@ class EmailParser implements ParserInterface
      */
     private function fillNodoImagenProducto($id, Promocion $promocion)
     {
-        $imagen = $this->getElementById(sprintf("%s-imagenProducto", $id));
+        $imagen = $this->getElementById(sprintf("%s-imagen", $id));
 
         $producto = $promocion->getIdProducto();
 
@@ -347,21 +402,60 @@ class EmailParser implements ParserInterface
             return;
         }
 
+        $grupo = $promocion->getNumPromocion()->getIdGrupo();
+
+        $dimensiones = [
+            $grupo->getIdTamanyoSlot()->getAncho(),
+            $grupo->getIdTamanyoSlot()->getAlto()
+        ];
+
         //Hace falta inyectar assetic
-        $imagen->setAttribute('src', $this->getRutaImagen($producto));
+        $imagen->setAttribute('src', $this->getRutaImagen($producto, $dimensiones));
 
     }
 
-    private function getRutaImagen(Producto $producto)
+    /**
+     * @param Producto $producto
+     *
+     * @return string
+     */
+    private function getRutaImagen(Producto $producto, $dimensiones = [])
     {
-        $path = sprintf('/%s/%s/%s', $this->empresa, 'imagenesProducto', $producto->getImagen());
+        if(!$producto->getImagen()) {
+            if(count($dimensiones) == 2) {
+                return  "http://placehold.it/$dimensiones[0]x$dimensiones[1]";
+            } else {
+                return  "http://placehold.it/300x150";
+            }
+        }
+
+        $path = sprintf('%s/%s/%s', $this->empresa, 'imagenesProducto', $producto->getImagen());
         return $this->absoluteRouteImagenProducto($path);
     }
 
+    /**
+     * @param Creatividad $creatividad
+     *
+     * @return string
+     */
     private function getRutaCreatividad(Creatividad $creatividad)
     {
-        $path = sprintf('/%s/%s/%s', $this->empresa, 'imagenesCreatividad', $creatividad->getImagen());
+        $path = sprintf('%s/%s/%s', $this->empresa, 'imagenesCreatividad', $creatividad->getImagen());
         return $this->absoluteRouteImagenProducto($path);
+    }
+
+    /**
+     * @param           $id
+     * @param Promocion $promocion
+     *
+     * @throws \Exception
+     */
+    private function fillNodoNombreProducto($id, Promocion $promocion)
+    {
+        $nodo = $this->getElementById(sprintf("%s-nombreProducto", $id));
+
+        $nombre = $promocion->getIdProducto()->getNombre();
+        $nodo->nodeValue = $nombre;
     }
 
     /**
@@ -373,7 +467,7 @@ class EmailParser implements ParserInterface
         $nodo = $this->getElementById(sprintf("%s-precio", $id));
 
         $precio = $promocion->getIdProducto()->getPrecioVenta();
-        $nodo->nodeValue = sprintf("%.2F ", $precio).' '.htmlentities('&euro;',ENT_HTML5, 'UTF-8');
+        $nodo->nodeValue = sprintf("%.2F € ", $precio);
     }
 
     /**
@@ -400,17 +494,7 @@ class EmailParser implements ParserInterface
         $nodo->nodeValue = $voucher;
     }
 
-    /**
-     * @param $id
-     * @param Promocion $promocion
-     */
-    private function fillNodoImagenMarca( $id, Promocion $promocion)
-    {
-        $nodo = $this->getElementById(sprintf("%s-imagenMarca", $id));
 
-        $marca = $promocion->getIdProducto()->getIdMarca()->getIdMarca();
-        $nodo->setAttribute('src', 'prueba');
-    }
 
     /**
      * @param $id
@@ -449,9 +533,19 @@ class EmailParser implements ParserInterface
 
     }
 
+    /**
+     * @param $path
+     *
+     * @return string
+     */
     private function absoluteRouteImagenProducto($path)
     {
-        return $this->asset->getAssetUrl($path, $absolute = true);
+        try {
+            return $this->asset->getAssetUrl($path, null, $absolute = false);
+        } catch (\Exception $e) {
+            return '';
+        }
+
     }
 
 

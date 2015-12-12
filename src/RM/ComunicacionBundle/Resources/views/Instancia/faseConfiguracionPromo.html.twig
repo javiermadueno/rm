@@ -15,9 +15,11 @@
                     <li id="menuTabFaseConf1" {% if opcionMenuTabFaseConf == 1 %}class="active"{% endif %}>
                         <a href="{{ path('direct_monitor_controlador_fases', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "cabecera.promociones.categoria" | trans }}</a>
                     </li>
+                    {#
                     <li id="menuTabFaseConf2" {% if opcionMenuTabFaseConf == 2 %}class="active"{% endif %}>
                         <a href="{{ path('direct_monitor_fase_conf_criterios', {'id_instancia': objInstancia.getIdInstancia}) }}">{{ "cabecera.criterios.desempate" | trans }}</a>
                     </li>
+                    #}
                 </ul>
 
 
@@ -55,7 +57,7 @@
                                                 <td>{{ objCat.nombre }}</td>
                                                 <td class="botonera_central">
                                                     {% set valorAct = arrayPromoSeg[objGS.idGrupo][objCat.idCategoria] %}
-                                                    <input type="numb"
+                                                    <input type="number"
                                                            name="seg_{{ objGS.idGrupo }}_{{ objCat.idCategoria }}"
                                                            class="tam5 botonera_central soloNum"
                                                            placeholder="0"

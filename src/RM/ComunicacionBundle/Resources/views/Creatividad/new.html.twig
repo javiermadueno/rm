@@ -1,0 +1,62 @@
+{{ form_start(form, {'attr': {'class': 'form-horizontal','id': 'nueva-creatividad'} }) }}
+
+<div class="content">
+    <div class="control-group">
+        {{ form_label(form.nombre, null, {'label_attr': {'class' : 'control-label'}}) }}
+        <div class="controls">
+            {{ form_widget(form.nombre) }}
+        </div>
+    </div>
+
+    <div class="control-group">
+        {{ form_label(form.descripcion, null, {'label_attr': {'class' : 'control-label'}}) }}
+        <div class="controls">
+            {{ form_widget(form.descripcion) }}
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>{{ "imagen" |trans|title}}</legend>
+        <div class="control-group">
+            {{ form_label(form.file, null, {'label_attr': {'class' : 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.file) }}
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<div class="form-actions">
+    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+    <a class="btn btn-danger" data-dismiss="modal" data-target="#modal-creatividad">{{ "boton.cancelar" |trans|title}}</a>
+</div>
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    (function(){
+        $('#nueva-creatividad').on('submit', function(event){
+            var e = event || window.event;
+            e.preventDefault();
+
+            var $form = $(this);
+            var data = new FormData($form[0]);
+
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $('#tablaListado').replaceWith($(response));
+                    $('#modal-creatividad').modal('hide');
+                },
+                error: function(response) {
+                    jAlert('No se ha podido crear la creatividad');
+                }
+            });
+        });
+    })();
+
+</script>

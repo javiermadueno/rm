@@ -11,7 +11,6 @@ namespace RM\PlantillaBundle\Form\Handler;
 
 use RM\PlantillaBundle\DomainManager\GrupoSlotManager;
 use RM\PlantillaBundle\Entity\GrupoSlots;
-use RM\PlantillaBundle\Form\GrupoSlotsCreatividadType;
 use RM\PlantillaBundle\Form\GrupoSlotsType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -21,31 +20,43 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CreateGrupoSlotFormHandler
 {
     /**
+     * @var OptionsResolver
+     */
+    public $resolver;
+    /**
      * @var GrupoSlotManager
      */
     private $manager;
-
     /**
      * @var FormFactoryInterface
      */
     private $factory;
 
-    /**
-     * @var OptionsResolver
-     */
-    public $resolver;
-
-    public function __construct (GrupoSlotManager $manager, FormFactoryInterface $factory)
+    public function __construct(GrupoSlotManager $manager, FormFactoryInterface $factory)
     {
-        $this->manager = $manager;
-        $this->factory = $factory;
+        $this->manager  = $manager;
+        $this->factory  = $factory;
         $this->resolver = new OptionsResolver();
         $this->setDefaultOptions();
     }
 
     /**
+     *
+     */
+    private function setDefaultOptions()
+    {
+        $this->resolver
+            ->setRequired(['action', 'em', 'method'])
+            ->setDefaults([
+                'method' => 'POST'
+            ])
+            ->addAllowedTypes('em', 'Doctrine\Common\Persistence\ObjectManager');
+    }
+
+    /**
      * @param FormInterface $form
-     * @param Request $request
+     * @param Request       $request
+     *
      * @return bool
      */
     public function handle(FormInterface $form, Request $request)
@@ -65,21 +76,33 @@ class CreateGrupoSlotFormHandler
 
     /**
      * @param GrupoSlots $grupo
-     * @param array $options
+     * @param array      $options
+     *
      * @return FormInterface
      */
     public function createForm(GrupoSlots $grupo, array $options)
     {
         $options = $this->resolveOptions($options);
-        $form = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form    = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
+        $form->add('submit', 'submit', ['label' => 'Create']);
 
         return $form;
     }
 
     /**
-     * @param GrupoSlots $grupo
      * @param array $options
+     *
+     * @return array
+     */
+    private function resolveOptions(array $options)
+    {
+        return $this->resolver->resolve($options);
+    }
+
+    /**
+     * @param GrupoSlots $grupo
+     * @param array      $options
+     *
      * @return FormInterface
      */
     public function createCreatividadForm(GrupoSlots $grupo, array $options)
@@ -88,53 +111,26 @@ class CreateGrupoSlotFormHandler
         $grupo->setTipo(GrupoSlots::CREATIVIDADES);
 
         $form = $this->factory->create(new GrupoSlotsCreatividadType(), $grupo, $options);
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', ['label' => 'Create']);
 
         return $form;
     }
 
     /**
      * @param GrupoSlots $grupo
-     * @param array $options
+     * @param array      $options
+     *
      * @return FormInterface
      */
     public function createPromocionForm(GrupoSlots $grupo, array $options)
     {
-        $options  = $this->resolveOptions($options);
+        $options = $this->resolveOptions($options);
 
         $form = $this->factory->create(new GrupoSlotsType(), $grupo, $options);
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', ['label' => 'Create']);
 
         return $form;
     }
 
-    /**
-     *
-     */
-    private function setDefaultOptions()
-    {
-        $this->resolver
-            ->setRequired(array('action', 'em', 'method'))
-            ->setDefaults(array(
-                'method' => 'POST'
-            ))
-            ->addAllowedTypes(array(
-                'em'=> 'Doctrine\Common\Persistence\ObjectManager'
-            ))
 
-        ;
-    }
-
-    /**
-     * @param array $options
-     * @return array
-     */
-    private function resolveOptions(array $options)
-    {
-        return $this->resolver->resolve($options);
-    }
-
-
-
-
-} 
+}

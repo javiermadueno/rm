@@ -4,71 +4,132 @@
 {% block contenedorPrincipal %}
 	{{ parent() }}
 
+    {% set num_comunicaciones = objInstancia.numComunicaciones|default(0)|localizednumber %}
+
     <h4 class="widgettitle">{{ "info" | trans | title}}</h4>
     <div class="mediamgr_head">
         <form name=previewForm id=previewForm action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
-            <input type="hidden" name='numComunicaciones' id='numComunicaciones' value={{ numComunicaciones }}>
+            <input type="hidden" name='numComunicaciones' id='numComunicaciones' value={{ num_comunicaciones }}>
             <input type="hidden" id="preview" name="preview" value="preview">
             <input type="hidden" id="idSegmento" name="idSegmento" value="preview">
             <table class="table">
                 <tbody>
                     <tr>
-                        <td class="sinborde"> Se han generado {{numComunicaciones }} comunicaciones</td>
+                        <td class="sinborde"> Se han generado {{ num_comunicaciones }} comunicaciones</td>
                         <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
                     </tr>
                     <tr>
                         <td class="sinborde">...</td>
+                        <td class="sinborde pull-right">
+                            <a class="btn btn-success" target="_blank" href="{{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
+                                {{ "boton.descargar.batch" |trans|title}}
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </form>
     </div>
 
+    {% if objInstancia.idSegmentoComunicacion.idComunicacion.idCanal.nombre == 'Email' %}
 
-    <h4 class="widgettitle">{{ "opciones.email" | trans | title}}</h4></wi>
+    <h4 class="widgettitle">{{ "opciones.email" | trans | title}}</h4>
 		<div class="mediamgr_head">
-			<form name=form id=form action="{{ path('direct_monitor_finalizar', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
+            <div class="row-fluid">
+                <div class="span8 offset2">
+                    {{ form_start(form, {'attr': {'id': form.vars.id, 'class': 'form-horizontal'} }) }}
+                    <fieldset>
+                        <legend>Opciones Email</legend>
+                        <div class="control-group">
+                            {{ form_label(form.asunto, null, {'label_attr': {'class':'control-label'}}) }}
+                            <div class="controls">
+                                {{ form_widget(form.asunto) }}
+                                {{ form_errors(form.asunto) }}
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset>
+                        <legend>Tipo de envio</legend>
+                        <div id="{{ form.envioInmediato.vars.id }}">
+                            {% for i in 0..form.envioInmediato|length-1 %}
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <label class="radio" for="{{ form.envioInmediato[i].vars.id  }}">
+                                            {{ form.envioInmediato[i].vars.label|trans }}
+                                            {{ form_widget(form.envioInmediato[i]) }}
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.fechaEnvio is defined %}
+                            <div class="control-group">
+                                {{ form_label(form.fechaEnvio, null, {'label_attr': {'class':'control-label'}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.fechaEnvio) }}
+                                </div>
+
+                            </div>
+                        {% endif %}
+                    </fieldset>
+
+                    <div class="form-actions">
+                        {{ form_widget(form.submit, {'attr': {'class':'btn btn-primary'} } ) }}
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+			{#<form name=form id=form action="{{ path('direct_monitor_finalizar', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
 			
 			<table class="table">
 				<tbody>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" onclick="deshabilitarDatepicker();" name="email" value="0" checked>{{ "Envio inmediato (al tramitar a finalizado)" | trans }}</input>
+							<input type="radio" onclick="deshabilitarDatepicker();" name="envio" id="envio_inmediato" value="0" checked><label
+                                    for="envio_inmediato">{{ 'modulo.direct.fase.finalizada.envio.inmediato'| trans }}</label>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" onclick="habilitarDatepicker();" name="email" value="1">{{ "Envio programado para la fecha  " | trans }}</input>
-							<input id="datepicker" type="text" required="required" name="fecha">
+							<input type="radio" onclick="habilitarDatepicker();" name="envio" id="envio_programado" value="1"><label
+                                    for="envio_programado">{{ 'modulo.direct.fase.finalizada.envio.programado' | trans }}</label>
+							<input class='datepicker' type="text" required="required" name="fecha" id="fecha"><label for="fecha"></label>
 							
 						</td>					
 					</tr>
 				</tbody>
 			</table>
-                </form>
+                </form>#}
 		</div>
+        {% endif %}
+    {#
     <h4 class="widgettitle">{{ "opciones.batch" | trans | title}}</h4>
 		<div class="mediamgr_head">
 			<table class="table">
 				<tbody>
 					<tr>
 						<td class="sinborde">
-							<b>{{ "Formato:" | trans }}</b></input>
+							<b>{{ "modulo.direct.fase.finalizada.formatos" | trans }}:</b>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" name="formato" value="XPD" checked>{{ "XPD" | trans }}</input>
+							<input type="radio" id="xpd" name="formato" value="XPD" checked><label for="xpd">{{ "modulo.direct.fase.finalizada.xpd" | trans }}</label>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" name="formato" value="XML">{{ "XML" | trans }}</input>
+							<input type="radio" id="xml" name="formato" value="XML"><label for="xml">{{ "modulo.direct.fase.finalizada.xml" | trans }}</label>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" name="formato" value="DAT">{{ "DAT" | trans }}</input>
+							<input type="radio" id="dat" name="formato" value="DAT"><label for="dat">{{ "modulo.direct.fase.finalizada.dat" | trans }}</label>
 						</td>					
 					</tr>
 					<tr>
@@ -78,34 +139,35 @@
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<b>{{ "Otros:" | trans }}</b>
+							<b>{{ "otros" | trans }}:</b>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" onclick="habilitarDescarga();"name="otros" value="Descarga" checked>{{ "Descarga" | trans }}</input>
+							<input type="radio" onclick="habilitarDescarga();" name="otros" id="descarga" value="Descarga" checked>
+                            <label for="descarga">{{ "boton.descargar" | trans }}</label>
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" onclick="habilitarFTP();"name="otros" value="FTP">{{ "FTP" | trans }}</input>
+							<input type="radio"  id="ftp" onclick="habilitarFTP();" name="otros" value="FTP"><label for="ftp">{{ "modulo.direct.fase.finalizada.ftp" |trans}}</label>
 						</td>
 						<td class="sinborde">
-							{{ "Server: " | trans }}<input type="text" name="server" id="server"></input>
+                            <label for="server">{{ "modulo.direct.fase.finalizada.server" | trans }}</label><input type="text" name="server" id="server">
 						</td>
 						<td class="sinborde">
-							{{ "User: " | trans }}<input type="text" name="user" id="user"></input>
+                            <label for="user">{{ "modulo.direct.fase.finalizada.user" | trans }}</label><input type="text" name="user" id="user">
 						</td>
 						<td class="sinborde">
-							{{ "Pass: " | trans }}<input type="text" name="pass" id="pass"></input>
+                            <label for="pass">{{ "modulo.direct.fase.finalizada.pass" | trans }}</label><input type="text" name="pass" id="pass">
 						</td>					
 					</tr>
 					<tr>
 						<td class="sinborde">
-							<input type="radio" onclick="habilitarURL();"name="otros" value="POST">{{ "POST" | trans }}</input>
+                            <label for="otros">{{ "modulo.direct.fase.finalizada.post" | trans }}</label><input type="radio" onclick="habilitarURL();" name="otros" id="otros" value="POST">
 						</td>
 						<td class="sinborde">
-							{{ "URL: " | trans }}<input type="text" name="url" id="url" tam=150></input>
+                            <label for="url">{{ "modulo.direct.fase.finalizada.url" | trans }}</label><input type="text" name="url" id="url">
 						</td>						
 					</tr>
 					<tr>
@@ -116,7 +178,8 @@
 				</tbody>
 			</table>
 		</div>
-		</form>
+    #}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -124,72 +187,46 @@
 	<script type="text/javascript">
 
 		$(document).ready(function() {
-			$("#datepicker").datepicker( { disabled : true } );
-			$( "datepicker" ).datepicker({ dateFormat: "dd/mm/yy hh:mm" });
 
-			deshabilitarURL();
-			deshabilitarFTP();
+            $(document).on('focus', '.datepicker', function(){
+                $(this).datepicker({ dateFormat: "dd/mm/yy" });
+            });
+
+            var disableFecha = function() {
+                var $input = $('#{{ form.fechaEnvio.vars.id }}');
+                $input.val('');
+                $input.prop('disabled', function(i, v) { return !v; });
+            }
+
+
+            $(document).on('change','#{{ form.envioInmediato.vars.id }}', function(e){
+                disableFecha();
+              /**
+              var event = e || window.event;
+
+
+                var $form = $(this).closest('form');
+                var $tipo = $(this);
+                var data_from = $form.serializeArray().reduce(function(obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+
+                //Se borra el token para forzar que el formulario sea incorrecto y no guarde.
+                delete data_from['{{ form._token.vars.full_name }}'];
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data_from,
+                    success: function(html){
+                        console.log('#{{ form.vars.id }}');
+                        $('#{{ form.vars.id }}').replaceWith($(html).find('#{{ form.vars.id }}'));
+                    }
+                });
+               */
+            });
 		});
 
-		$(function() 
-		{
-			 $( "#datepicker" ).datepicker();
-		});
-		
-		function botonGuardarConf()
-		{
-			
-		}
-
-		function habilitarDatepicker()
-		{
-			$("#datepicker").datepicker("option", "disabled", false);
-		}
-		function deshabilitarDatepicker()
-		{
-			$("#datepicker").datepicker("option", "disabled", true);
-		}
-		function habilitarFTP()
-		{
-			var server = document.getElementById('server');
-			var user= document.getElementById('user');
-			var pass = document.getElementById('pass');
-
-			server.disabled = false;
-			user.disabled = false;
-			pass.disabled = false;
-
-			deshabilitarURL();
-		}
-		function deshabilitarFTP()
-		{
-			var server = document.getElementById('server');
-			var user= document.getElementById('user');
-			var pass = document.getElementById('pass');
-
-			server.disabled = true;
-			user.disabled = true;
-			pass.disabled = true;
-		}
-		function deshabilitarURL()
-		{
-			var url = document.getElementById('url');
-
-			url.disabled = true;
-		}
-		function habilitarURL()
-		{
-			var url = document.getElementById('url');
-
-			url.disabled = false;
-
-			deshabilitarFTP();
-		}
-		function habilitarDescarga()
-		{
-			deshabilitarFTP();
-			deshabilitarURL();
-		}
-		
 	</script>
 {% endblock %}

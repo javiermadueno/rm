@@ -98,7 +98,7 @@
                         {{ dato[0] }}
                     </td>
                     <td style="text-align: center;">
-                        {% trans %}Acumulado a&ntilde;o{% endtrans %}
+                        {{ "acumulado.anyo" |trans|title}}
                     </td>
                     <td style="text-align: center;">
                         {{ dato[2] }}
@@ -376,7 +376,7 @@
 	            text: '{{ categoria }}'
 	        },
 	        xAxis: {
-	            categories: ['Compra', 'Media']
+	            categories: ['{{ 'compra'|trans }}', '{{ 'media'|trans }}']
 	        },
 	        yAxis: {
 	            min: 0,
@@ -480,7 +480,7 @@
 	            text: '{{ 'highchart.insight.categorias.edad.title'|trans({'%categoria%': categoria}) }}'
 	        },
 	        xAxis: {
-	            categories: ['Compra', 'Media']
+	            categories: ['{{ 'compra'|trans }}', '{{ 'media'|trans }}']
 	        },
 	        yAxis: {
 	            min: 0,
@@ -551,7 +551,7 @@
 	            text: '{{ 'highchart.insight.categorias.sexo.title'|trans({'%categoria%': categoria}) }}'
 	        },
 	        xAxis: {
-	            categories: ['Compra', 'Media']
+	            categories: ['{{ 'compra'|trans }}', '{{ 'media'|trans }}']
 	        },
 	        yAxis: {
 	            min: 0,
@@ -625,7 +625,7 @@
 	        yAxis: {
 	            min: 0,
 	            title: {
-	                text: 'Compras'
+	                text: '{{ 'compra'|trans }}'
 	            }
 	        },
 	        tooltip: {

@@ -1,0 +1,55 @@
+campaign_campanyas_closing_save:
+  path: /campaign_closing_save/
+  defaults: {_controller: RMProductoBundle:Promocion:saveCampaignClosingSlots}
+  methods: [POST]
+  
+campaign_info_promocion:
+  path: /list/info_promotion/{id_promocion}/
+  defaults: {_controller: RMProductoBundle:Promocion:infoPromocion}
+  requirements:
+    id_promocion: \d+
+    
+campaign_guardar_poblacion:
+  path: /promocion/save/poblacion/
+  defaults: { _controller: RMProductoBundle:Promocion:guardaPoblacionyFiltroPromocion }
+
+rm_producto.promocion.segmentada_new:
+  path: /promocion/segmentada/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newSegmentada }
+
+rm_producto.promocion.segmentada_edit:
+  path: /promocion/segmentada/{id}/edit
+  defaults: { _controller: RMProductoBundle:Promocion:editSegmentada }
+
+rm_producto.promocion.generica_new:
+  path: /promocion/generica/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newGenerica }
+
+rm_producto.promocion.generica_edit:
+  path: /promocion/generica/{id}/edit
+  defaults: { _controller: RMProductoBundle:Promocion:editGenerica }
+
+rm_producto.promocion.creatividad_segmentada_new:
+  path: /creatividad/segmentada/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newCreatividadSegmentada }
+  methods: [GET, POST]
+  requirements:
+    idNumPromocion: \d+
+
+rm_producto.promocion.creatividad_generica_new:
+  path: /creatividad/generica/{idNumPromocion}/new
+  defaults: { _controller: RMProductoBundle:Promocion:newCreatividadGenerica }
+  methods: [GET, POST]
+  requirements:
+    idNumPromocion: \d+
+
+rm_producto.promocion.creatividad_edit:
+  path: /creatividad/{id}/edit
+  defaults: { _controller: RMProductoBundle:Promocion:editCreatividad }
+  methods: [GET, POST]
+  requirements:
+    id: \d+
+
+rm_producto.promocion.get_unique_voucher:
+  path: /generate/voucher
+  defaults: { _controller: RMProductoBundle:Promocion:getUniqueVoucher}

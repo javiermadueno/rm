@@ -12,6 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TipoProceso
 {
+
+    const P00   = 'P00';
+    const P01   = 'P01';
+    const P02   = 'P02';
+    const P03   = 'P03';
+    const P04   = 'P04';
+    const P05   = 'P05';
+    const P01_2 = 'P01.2';
+    const P07   = 'P07';
+
     /**
      * @var integer
      *

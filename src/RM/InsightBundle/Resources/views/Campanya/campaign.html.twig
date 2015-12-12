@@ -1,0 +1,108 @@
+{% extends ':insight:base_insight.html.twig' %}
+
+{% set idOpcionMenuIzq = 5 %}
+
+{% block pagetitle %}
+    <h5>{{ 'campanas'|trans }}</h5>
+    <h1>{{ 'menu.insight.dashboard'|trans }}</h1>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    {% include '@RMInsight/Campanya/form_filtro_campanyas.html.twig' with {'form': form} %}
+
+    {% if res is not null %}
+        <h4 class="widgettitle">{{ "desglose" |trans|title }}</h4>
+        <table id="desglose" class="table table-bordered responsive animated fadeIn" data-graph-container="evolucion">
+            <colgroup>
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+                <col class="con1">
+                <col class="con0">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>{{ "campana" |trans|title }}</th>
+                <th>{{ "instancias" |trans|title }}</th>
+                <th>{{ "fecha.0" |trans|title }}</th>
+                <th>{{ "promociones" |trans|title }}</th>
+                <th>{{ "target" |trans|title }}</th>
+                <th>{{ "reactividad" |trans|title }}</th>
+                <th>{{ "clientes.0" |trans|title }}</th>
+                <th>{{ "redencion" |trans|title }}</th>
+                <th>{{ "slots" |trans|title }}</th>
+                <th>{{ "ventas.0" |trans|title }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for resumen in res %}
+                <tr>
+                    <td class='center-all'>{{ resumen.nombre }}</td>
+                    <td class='center-all'>{{ resumen.numero_instancias }}</td>
+                    <td class='center-all'>{{ resumen._id }}</td>
+                    <td class='center-all'>{{ resumen.numero_promociones|localizednumber }}</td>
+                    <td class='center-all'>{{ resumen.target|localizednumber }}</td>
+                    <td class='center-all'>{{ (resumen.reactividad * 100)|porcentaje }}</td>
+                    <td class='center-all'>{{ resumen.clientes|localizednumber }}</td>
+                    <td class='center-all'>{{ (resumen.redencion * 100)|porcentaje }}</td>
+                    <td class='center-all'>{{ resumen.slots|localizednumber }}</td>
+                    <td class='center-all'>{{ resumen.total_ventas|moneda }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ 'sin.resultados'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <h4 class="widgettitle">{{ "otros.datos" |trans|title }}</h4>
+        <div class="widgetcontent">
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="evolucion" style="height: 300px"></div>
+                </div>
+                <div class="span6">
+                    <div id="fidelizacion" style="height: 300px"></div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="sexos" style="height: 300px"></div>
+                </div>
+                <div class="span6">
+                    <div id="edad" style="height: 300px"></div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <div id="valor" style="height: 300px"></div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="alert alert-warning">Seleccione una comunicacion</div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        {% if evolucion %} {{ chart(evolucion) }} {% endif %}
+        {% if fidelizacion %} {{ chart(fidelizacion) }}{% endif %}
+        {% if sexos %} {{ chart(sexos) }}{% endif %}
+        {% if edad %} {{ chart(edad) }}{% endif %}
+        {% if valor %} {{ chart(valor) }}{% endif %}
+    </script>
+{% endblock javascripts %}

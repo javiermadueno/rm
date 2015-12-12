@@ -1,34 +1,20 @@
 parameters:
-    CanalService.class: RM\ComunicacionBundle\DependencyInjection\CanalServicio
     ComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\ComunicacionServicio
-    SegmentoComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\SegmentoComunicacionServicio
     InstanciaComunicacionService.class: RM\ComunicacionBundle\DependencyInjection\InstanciaComunicacionServicio
-    TipoPromocionService.class: RM\ProductoBundle\DependencyInjection\TipoPromocionServicio
-    CreatividadService.class: RM\ComunicacionBundle\DependencyInjection\CreatividadServicio
     
  #    rm_variables_transformada.example.class: RM\Variables\TransformadaBundle\Example
 
 
 services:
-    CanalService:
-        class: %CanalService.class%
-        arguments: [@rm.manager]
-        
+
     ComunicacionService:
         class: %ComunicacionService.class%
         arguments: [@rm.manager]
-        
-    SegmentoComunicacionService:
-        class: %SegmentoComunicacionService.class%
-        arguments: [@rm.manager]
-        
+
     InstanciaComunicacionService:
         class: %InstanciaComunicacionService.class%
         arguments: [@rm.manager]
 
-    CreatividadService:
-        class: %CreatividadService.class%
-        arguments: [@rm.manager]
 
     rm_comunicacion.crea_nueva_plantilla:
         class: RM\ComunicacionBundle\EventListener\CreaNuevaPlantillaListener
@@ -46,7 +32,20 @@ services:
         tags:
             - { name: serializer.normalizer }
 
+    rm_comunicacion.services.cambio_fase:
+        class: RM\ComunicacionBundle\Services\CambioFaseService
+        arguments: [ @rm.entity_manager, @rm_procesos.factory.proceso_factory ]
+
+    rm_comunicacion.graph.promociones_realizadas_vs_totales:
+        class: RM\ComunicacionBundle\Graphs\PromocionesRealizadasVsTotales
+        arguments: [ @translator ]
+
+    rm_comunicacion.graphs.promociones_aceptadas_rechazas_pendientes:
+        class: RM\ComunicacionBundle\Graphs\PromocionesAceptadasRechazasPendientes
+        arguments: [ @translator]
+
     #Para borra despues pbdespues
     twig.extension.debug:
         class: Twig_Extension_Debug
         tags: [{ name: 'twig.extension' }]
+

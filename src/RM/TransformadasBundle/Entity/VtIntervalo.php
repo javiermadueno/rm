@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class VtIntervalo
 {
     /**
-     * @var smallint
+     * @var int
      *
      * @ORM\Column(name="condicion", type="smallint", nullable=true)
      */

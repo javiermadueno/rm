@@ -13,9 +13,9 @@ use RM\PlantillaBundle\Model\Interfaces\GrupoSlotsInterface;
 
 class GrupoSlotsToNumberTransformer extends EntityToNumberTransformer
 {
-    protected $entityClass = 'RM\PlantillaBundle\Entity\GrupoSlotsModelo';
+    protected $entityClass = 'RM\PlantillaBundle\Entity\GrupoSlots';
 
-    protected $entityRepository = 'RMPlantillaBundle:GrupoSlotsModelo';
+    protected $entityRepository = 'RMPlantillaBundle:GrupoSlots';
 
     /**
      * @param Object|GrupoSlotsInterface $entity

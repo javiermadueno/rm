@@ -6,6 +6,7 @@
         <tr>
             <th width="1%"><input type="checkbox" id="checkTodos"/></th>
             <th>{{ "nombre" | trans|title }}</th>
+            <th>{{ "tipo" |trans|title}}</th>
             <th>{{ "numero.slots" | trans|title }}</th>
             <th>{{ "controles" |trans|title }}</th>
         </tr>
@@ -18,6 +19,7 @@
                 <td>
                     <a href="{{ path('gruposlotsmodelo_edit', { 'id': entity.idGrupo, 'idPlantilla': plantilla }) }}">{{ entity.nombre }}</a>
                 </td>
+                <td>{{ entity.tipo == constant('PROMOCION', entity) ? 'grupo.slots.tipo.promocion'|trans : 'grupo.slots.tipo.creatividad'|trans }} </td>
                 <td>{{ entity.numSlots }}</td>
                 <td>
                     <a class="btn btn-success"

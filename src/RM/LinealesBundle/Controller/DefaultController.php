@@ -25,7 +25,7 @@ class DefaultController extends RMController
 
     	
     	//Creaci�n del formulario mediante clase
-    	$peticion = $this->getRequest();
+    	$peticion = $this->get('request');
     	$variableLineal = new Vil();
     	$formulario = $this->createForm(new LinealBuscadorType(), $variableLineal);
     	
@@ -102,8 +102,7 @@ class DefaultController extends RMController
 
             return $this->redirect(
                 $this->generateUrl('data_avanced_sociodemografico',
-                    ['tipoVar' => Tipo::SOCIODEMOGRAFICO
-                    ]
+                    ['tipoVar' => Tipo::SOCIODEMOGRAFICO]
                 ));
         }
 

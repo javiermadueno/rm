@@ -11,6 +11,7 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use RM\RMMongoBundle\Util;
 use Symfony\Component\Translation\TranslatorInterface;
 
 
@@ -42,11 +43,14 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @throws \Exception
      */
-    public function __construct(EstadisticasClientes $repository, DoctrineManager $manager, TranslatorInterface $translator)
-    {
+    public function __construct(
+        EstadisticasClientes $repository,
+        DoctrineManager $manager,
+        TranslatorInterface $translator
+    ) {
         parent::__construct($translator);
         $this->repository = $repository;
-        $this->em = $manager->getManager();
+        $this->em         = $manager->getManager();
     }
 
     /**
@@ -54,25 +58,26 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @return \Ob\HighchartsBundle\Highcharts\Highchart
      */
-    public function  graficaEvolucionClientesEnRiesgo($renderTo = '')
+    public function  graficaEvolucionClientesEnRiesgo($renderTo = '', \DateTime $from)
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $riesgo = $this->getSegmentosRiesgo();
-        $meses = $this->getUltimosMeses(12);
+        $riesgo          = $this->getSegmentosRiesgo();
+        $meses           = Util::getUltimosMeses($from, 12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($riesgo));
 
         if (!$data) {
-            $graph =  $this->graphColumnNoData($renderTo);
+            $graph = $this->graphColumnNoData($renderTo);
             $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.riesgo.title'));
+
             return $graph;
         }
 
         $data_prepared = $this->prepareData($data, array_keys($riesgo));
 
         $categorias = $data_prepared['categorias'];
-        $series = $data_prepared['series'];
+        $series     = $data_prepared['series'];
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
@@ -93,7 +98,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
         }
 
         $this->segmentoEstado = $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre(['Estado_Activo']);
+                                         ->findSegmentosByNombre(['Estado_Activo']);
 
         return $this->segmentoEstado;
     }
@@ -104,33 +109,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     protected function getSegmentosRiesgo()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Riesgo_Alto',
-                'Riesgo_Bajo',
-                'Riesgo_Medio'
-            ]);
-    }
-
-    /**
-     * @param int $numero_meses
-     *
-     * @return array
-     */
-    protected function getUltimosMeses($numero_meses = 1)
-    {
-        //$fecha = new \DateTime('first day of this month');
-        $fecha = new \DateTime('01-06-2013');
-        $intervalo_1_mes = \DateInterval::createFromDateString('-1 month');
-        $periodo = new \DatePeriod($fecha, $intervalo_1_mes, $numero_meses);
-
-        $meses = [];
-
-        /** @var \Datetime $mes */
-        foreach ($periodo as $mes) {
-            $meses[] = $mes->format('Y-m');
-        }
-
-        return $meses;
+                        ->findSegmentosRiesgo();
     }
 
     /**
@@ -138,25 +117,26 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
      *
      * @return \Ob\HighchartsBundle\Highcharts\Highchart
      */
-    public function graficaEvolucionActivos($renderTo = '')
+    public function graficaEvolucionActivos($renderTo = '', \DateTime $from)
     {
         $segmento_estado = $this->getSegmentoEstado();
-        $activos = $this->getSegmentosActivos();
-        $meses = $this->getUltimosMeses(12);
+        $activos         = $this->getSegmentosActivos();
+        $meses           = Util::getUltimosMeses($from, 12);
 
         $data = $this->repository
             ->findNumeroClientesPorEstadoYPorSegmentos($meses, array_values($segmento_estado), array_values($activos));
 
         if (!$data) {
-            $graph =  $this->graphColumnNoData($renderTo);
+            $graph = $this->graphColumnNoData($renderTo);
             $graph->title->text($this->translator->trans('highchart.insight.activos.evolucion.clientes.activos.title'));
+
             return $graph;
         }
 
         $data_prepared = $this->prepareData($data, array_keys($activos));
 
         $categorias = $data_prepared['categorias'];
-        $series = $data_prepared['series'];
+        $series     = $data_prepared['series'];
 
         $graph = $this->graficoStackColumnas();
         $graph->chart->renderTo($renderTo);
@@ -173,13 +153,7 @@ class ClientesActivosPorEstadoySegmentoGraphs extends BaseGraph
     protected function getSegmentosActivos()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Fidelidad_Ocasional',
-                'Fidelidad_Habitual',
-                'Fidelidad_Fidelizado',
-                'Fidelidad_Exclusivo',
-                'Fidelidad_Compartido'
-            ]);
+                        ->findSegmentosFidelidad();
     }
 
 

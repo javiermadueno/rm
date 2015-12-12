@@ -21,4 +21,13 @@ class RMController extends Controller
         return $this->get('rm.manager')->getManager();
     }
 
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectManager|object
+     * @throws \Exception
+     */
+    protected function getMongoManager()
+    {
+        return $this->get('rm.mongo_manager')->getManager();
+    }
+
 } 

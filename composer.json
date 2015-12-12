@@ -8,55 +8,55 @@
 			"" : "src/"
 		}
 	},
+	
+    "repositories":
+    [
+        {
+            "type": "vcs",
+            "url": "https://github.com/javiermadueno/LdapBundle.git"
+        }
+    ],
 	"require" : {
 		"php" : ">=5.5",
-		"symfony/symfony" : "2.6.*",
-		"doctrine/orm" : ">=2.2.3,<2.4-dev",
-		"doctrine/doctrine-bundle" : "1.2.*",
-		"twig/extensions" : "~1.2",
-		"symfony/assetic-bundle" : "2.3.*",
-		"symfony/swiftmailer-bundle" : "2.3.*",
-		"symfony/monolog-bundle" : "2.3.*",
-		"sensio/distribution-bundle" : "2.3.*",
-		"sensio/framework-extra-bundle" : "2.3.*",
+		"symfony/symfony": "2.7.*",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "~1.4",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~4.0",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "incenteev/composer-parameter-handler": "~2.0",
+		"twig/extensions" : "~1.0",
 		"sensio/generator-bundle" : "2.3.*",
-		"incenteev/composer-parameter-handler" : "~2.0",
 		"beberlei/DoctrineExtensions" : "0.3.0",
 		"ideup/simple-paginator-bundle" : "dev-master#12639a9c75bc403649fc2b2881e190a017d8c5b2",
-		"knplabs/knp-paginator-bundle" : "2.4.*",
+		"knplabs/knp-paginator-bundle" : "~2.4",
 		"ob/highcharts-bundle" : "1.*",
-		"imag/ldap-bundle" : "dev-master#d8da84c3c7cf7b8f384cb427c8aeebfcbab7eae1",
-		"raulfraile/ladybug-bundle" : "~1.0",
-        "doctrine/mongodb-odm": "1.0.*@dev",
-        "doctrine/mongodb-odm-bundle": "3.0.*",
-        "mtdowling/cron-expression": "1.0.*"
-	},
-	"scripts" : {
-		"post-install-cmd" : [
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-		],
-		"post-update-cmd" : [
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-		]
+		"imag/ldap-bundle" : "2.3.2",
+        "doctrine/mongodb-odm": "^1.0",
+        "doctrine/mongodb-odm-bundle": "^3.0",
+        "mtdowling/cron-expression": "1.0.*",
+		"league/csv": "^7.1",
+		"nesbot/carbon": "^1.20",
+		"willdurand/geocoder-bundle": "^4.0",
+		"knplabs/gaufrette": "^0.2.0",
+		"knplabs/knp-gaufrette-bundle": "^0.2.0",
+		"aws/aws-sdk-php": "^3.10",
+		"mmoreram/extractor": "^1.2",
+		"lexik/translation-bundle": "~3.1"
 	},
 	"config" : {
 		"bin-dir" : "bin"
 	},
-	"minimum-stability" : "stable",
+	"minimum-stability" : "beta",
+    "prefer-stable": true,
 	"extra" : {
 		"symfony-app-dir" : "app",
 		"symfony-web-dir" : "web",
 		"incenteev-parameters" : {
 			"file" : "app/config/parameters.yml"
-		},
-		"branch-alias" : {
-			"dev-master" : "2.6-dev"
 		}
 	}
 }

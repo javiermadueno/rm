@@ -37,7 +37,7 @@ class VoucherGenerator
 
     public function isUsed($code)
     {
-        $isUsed = null != $this->em->getRepository('RMProductoBundle:Promocion')->findOneBy([
+        $isUsed = null !== $this->em->getRepository('RMProductoBundle:Promocion')->findOneBy([
                 'codigo' => $code
             ]);
 

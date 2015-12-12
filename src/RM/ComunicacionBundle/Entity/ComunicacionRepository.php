@@ -8,32 +8,32 @@ use Doctrine\ORM\Query;
 class ComunicacionRepository extends EntityRepository
 {
     /**
-     * @param $id_canal
-     * @param $estado
+     * @param null $canal
+     * @param null $estado
      *
      * @return Comunicacion[]
      */
-	public function obtenerComunicaciones($id_canal, $estado)
+    public function findByCanalYEstado($canal = null, $estado = null)
     {
-
         $qb = $this->createQueryBuilder('c')
-            ->addOrderBy('c.idComunicacion', 'ASC')
+                   ->addOrderBy('c.idComunicacion', 'ASC')
         ;
 
-        if($estado != -2) {
+        if(!empty($estado)) {
             $qb->andWhere('c.estado = :estado')
-                ->setParameter('estado', $estado);
+               ->setParameter('estado', $estado);
         } else {
             $qb->andWhere('c.estado > -1');
         }
 
-        if($id_canal != -1) {
+        if(!empty($canal)) {
             $qb->andWhere('c.idCanal = :canal')
-                ->setParameter('canal', $id_canal);
+               ->setParameter('canal', $canal);
         }
 
         return $qb->getQuery()->getResult();
-	}
+
+    }
 
     /**
      * @return Comunicacion[]
@@ -55,38 +55,19 @@ class ComunicacionRepository extends EntityRepository
      */
 	public function deleteComunicaciones($id_comunicacion)
     {
+        if(!is_array($id_comunicacion)) {
+            $id_comunicacion = [$id_comunicacion];
+        }
+
         return $this->createQueryBuilder('c')
             ->update()
             ->set('c.estado', -1)
-            ->where('c.idComunicacion = :comunicacion')
+            ->where('c.idComunicacion IN (:comunicacion)')
             ->setParameter('comunicacion', $id_comunicacion)
             ->getQuery()->getResult()
         ;
 	}
 
-    /**
-     * @param $id_comunicacion
-     *
-     * @return array
-     */
-	public function obtenerComunicacionById($id_comunicacion)
-    {
-
-		$dql = "
-            select c
-            from RMComunicacionBundle:Comunicacion c
-            WHERE c.idComunicacion = :idComunicacion
-        ";
-	
-		$query = $this->_em
-            ->createQuery($dql)
-            ->setParameter('idComunicacion', $id_comunicacion);
-
-		$registros = $query->getResult();
-	
-		return $registros;
-	
-	}
 
     /**
      * @param $id

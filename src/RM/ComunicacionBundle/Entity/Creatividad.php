@@ -3,6 +3,8 @@
 namespace RM\ComunicacionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Creatividad
@@ -24,7 +26,8 @@ class Creatividad
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
 	 */
 	private $nombre;
 
@@ -38,7 +41,7 @@ class Creatividad
 	/**
 	 * @var int
 	 *
-	 * @ORM\Column(name="estado", type="smallint", nullable=true)
+	 * @ORM\Column(name="estado", type="smallint", nullable=false)
 	 */
 	private $estado;
 
@@ -47,6 +50,71 @@ class Creatividad
      * @ORM\Column(name="imagen", type="string")
      */
     private $imagen;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
+
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     *
+     * @return $this
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function removeImagen($ruta)
+    {
+        if(!$this->imagen) {
+            return;
+        }
+
+        $ruta = $ruta . $this->imagen;
+        if(file_exists( $ruta)) {
+            unlink($ruta);
+        }
+
+    }
+
+    public function uploadImagen($cliente_path = '')
+    {
+        if(!$this->getFile() instanceof UploadedFile){
+            return;
+        }
+
+        if (empty($cliente_path)) {
+            throw new \Exception("No se ha definido el cliente");
+        }
+
+        $this->removeImagen($cliente_path);
+
+        $nombre_imagen  =  $this->idCreatividad . '.' . $this->getFile()->guessExtension();
+        $this->getFile()->move(
+            $cliente_path,
+            $nombre_imagen
+        );
+
+        // set the path property to the filename where you've saved the file
+
+        $this->setImagen($nombre_imagen);
+
+        // clean up the file property as you won't need it anymore
+        $this->file = null;
+    }
 
 
 	/**

@@ -5,7 +5,6 @@ namespace RM\DiscretasBundle\Controller;
 use RM\DiscretasBundle\Entity\Configuracion;
 use RM\DiscretasBundle\Entity\ParametroConfiguracion;
 use RM\DiscretasBundle\Entity\Vid;
-use RM\DiscretasBundle\Form\Data\configuracionForm;
 use RM\DiscretasBundle\Form\Data\DiscretaBuscadorType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +15,19 @@ class DefaultController extends Controller
     {
         $servicio = $this->get("variablesDiscretas");
 
-        // Creación del formulario mediante clase
         $peticion         = $this->get('request');
         $variableDiscreta = new Vid ();
         $formulario       = $this->createForm(new DiscretaBuscadorType (), $variableDiscreta);
 
         $formulario->handleRequest($peticion);
-        // *************************************
 
         if ($formulario->isValid()) {
-            // Se ha hecho pulsado sobre el bot�n de buscar, es decir, tiene petici�n
+
             $selectVar = $servicio->getDiscretas($variableDiscreta->getNombre(), $tipoVar);
         } else {
             $selectVar = $servicio->getDiscretas('', $tipoVar);
         }
 
-        //ANTES: RMDiscretasBundle:Default:index.html.twig
         return $this->render('RMDiscretasBundle:Default:index.html.twig', [
             'idOpcionMenuSup' => $idOpcionMenuSup,
             'idOpcionMenuIzq' => $idOpcionMenuIzq,
@@ -78,7 +74,6 @@ class DefaultController extends Controller
 
         if (empty($configuracion) || empty($parametros)) {
             $this->get('session')->getFlashBag()->add('mensaje', 'mensaje.error.actualizar');
-
             return $this->redirect($this->generateUrl('data_basic_configuracion'));
         }
 

@@ -1,47 +1,37 @@
 parameters:
     marcaService.class: RM\ProductoBundle\DependencyInjection\MarcaServicio
-    ProductoService.class: RM\ProductoBundle\DependencyInjection\ProductoServicio
     PromocionService.class: RM\ProductoBundle\DependencyInjection\PromocionServicio
-    NumPromocionesService.class: RM\ProductoBundle\DependencyInjection\NumPromocionesServicio
     ProveedorService.class: RM\ProductoBundle\DependencyInjection\ProveedorServicio
-    TipoPromocionService.class: RM\ProductoBundle\DependencyInjection\TipoPromocionServicio
     TwigExtensionService.class: RM\ProductoBundle\Twig\Extension\TwigExtension
-#    rm_producto.example.class: RM\ProductoBundle\Example
 
 services:
     MarcaService:
         class: %marcaService.class%
         arguments: [@rm.manager]
         
-    ProductoService:
-        class: %ProductoService.class%
-        arguments: [@rm.manager]
-        
     PromocionService:
         class: %PromocionService.class%
-        arguments: [@rm.manager]
-     
-    NumPromocionesService:
-        class: %NumPromocionesService.class%
         arguments: [@rm.manager]
 
     ProveedorService:
         class: %ProveedorService.class%
         arguments: [@rm.manager]
 
-    TipoPromocionService:
-        class: %TipoPromocionService.class%
-        arguments: [@rm.manager]
-
     promocion.voucher.generator:
         class: RM\ProductoBundle\DependencyInjection\VoucherGenerator
         arguments: [@rm.manager]
+
+    rm_producto.num_promociones.manager:
+        class: RM\ProductoBundle\Manager\NumPromocionesManager
+        arguments: [@rm.manager, @event_dispatcher, @validator]
+
+    rm_producto.num_promociones.form.handler:
+        class: RM\ProductoBundle\Form\Handler\NumPromocionesEditFormHandler
+        arguments: [@rm_producto.num_promociones.manager]
+
+
         
     rm.twig_extension:
         class: %TwigExtensionService.class%
         tags:
             - { name: twig.extension }
-        
-#    rm_producto.example:
-#        class: %rm_producto.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

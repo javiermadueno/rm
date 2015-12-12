@@ -22,7 +22,9 @@ class CambiaAsociacionListener
             return;
         }
 
-        $categoria_repository = $event->getEntityManager()->getRepository('RMCategoriaBundle:Categoria');
+        $categoria_repository = $event
+            ->getEntityManager()
+            ->getRepository('RMCategoriaBundle:Categoria');
 
         $categoria_repository
             ->updateAsociacionCategoriasByNivel($nivel->getIdNivelCategoria(), $nivel->getAsociado());

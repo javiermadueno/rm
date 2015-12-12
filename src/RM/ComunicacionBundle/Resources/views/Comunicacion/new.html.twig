@@ -1,0 +1,26 @@
+{% extends '::direct/base_direct.html.twig' %}
+
+{% set  idOpcionMenuSup = 1  %}
+{% set  idOpcionMenuIzq = 1 %}
+
+{% block title %}
+    {{ "nueva.comunicacion" | trans }}
+{% endblock %}
+
+{% block id %}ajax{% endblock id %}
+
+{% block migas %}
+    <li><a href="{{ path('direct_manager') }}"> <span class="iconfa-home"></span></a> <span class="separator"></span></li>
+    <li>{{ "menu.direct.gestion" |trans|title}} <span class="separator"></span></li>
+    <li>{{ "nueva.comunicacion" |trans|title}}</li>
+{% endblock %}
+
+{% block contenedorPrincipal %}
+
+    <h4 class="widgettitle">{{ "datos" |trans|title}}</h4>
+    {% include '@RMComunicacion/Comunicacion/formulario_comunicacion2.html.twig' with {'form': formulario, 'action': 'nuevo' } %}
+
+{% endblock %}
+
+
+

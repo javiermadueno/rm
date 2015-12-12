@@ -6,21 +6,26 @@
     <h4 class="widgettitle">{{ "info" |trans|title}}</h4>
 
 		<div class="mediamgr_head">
-	
+            <form name=previewForm id=previewForm action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
+                <input type="hidden" id="preview" name="preview" value="preview">
+                <input type="hidden" id="idSegmento" name="idSegmento" value="preview">
 			<table class="table responsive">
 				<tbody>
 					<tr>
-                        <form name=previewForm id=previewForm action="{{ path('direct_monitor_preview', {'id_instancia': objInstancia.getIdInstancia})}}" method="post">
-                            <input type="hidden" id="preview" name="preview" value="preview">
-                            <input type="hidden" id="idSegmento" name="idSegmento" value="preview">
-                            <td class="sinborde"> Se han generado {{ random(14000) }} comunicaciones</td>
-                            <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
-                        </form>
-
+                        <td class="sinborde"> {{ 'modulo.direct.fase.finalizada.comunicaciones.generadas'|trans({'%comunicaciones%' : objInstancia.numComunicaciones|default(0)|localizednumber}) }}</td>
+                        <td class="sinborde pull-right"><button class="btn btn-primary">{{ "boton.previsualizar" | trans }}</button></td>
 					</tr>
-
+                <tr>
+                    <td class="sinborde">{{ '' }}</td>
+                    <td class="sinborde pull-right">
+                        <a class="btn btn-success" target="_blank" href="{{ path('rm_static.default.descargar_batch', {'id': objInstancia.idInstancia}) }}">
+                            {{ "boton.descargar.batch" |trans|title}}
+                        </a>
+                    </td>
+                </tr>
 				</tbody>
 			</table>
+            </form>
 		</div>
 
     <h4 class="widgettitle">{{ "opciones.email" |trans|title}}</h4>
@@ -30,7 +35,7 @@
 				<tbody>
 					<tr>
 						<td class="sinborde">
-							{{ "Estado del envio ('Enviado', 'En proceso o 'Programado'): 'En proceso' " | trans }}
+							{{ "modulo.direct.fase.finalizada.envio.estado.titlo" | trans }}:  {{ "modulo.direct.fase.finalizada.envio.estado.en.proceso" |trans|title}}
 						</td>					
 					</tr>
 					<tr>
@@ -42,32 +47,5 @@
 		</div>
 
 
-    <h4 class="widgettitle">{{ "opciones.batch" |trans|title}}</h4>
-		<div class="mediamgr_head">
-			<table>
-				<tbody>
-					<tr>
-						<td class="sinborde">
-{# 						Aqu� poner los datos de d�nde los almacenemos#}
-							Formato generado: {{ formato }}
-						</td>					
-					</tr>
-					<tr>
-						{% if otros == 'FTP' %}
-						<td class="sinborde">
-							El fichero ha sido enviado via {{ otros }} con los siguientes datos: Server {{ server }} | User: {{ user }} | Pass: {{ pass }}
-						</td>
-						{% elseif otros == 'POST' %}
-						<td class="sinborde">
-							El fichero ha sido enviado a la siguiente URL: {{ url }}
-						</td>
-						{% else %}
-						<td class="sinborde">
-							El fichero ha sido enviado v�a Descarga
-						</td>
-						{% endif %}					
-				</tbody>
-			</table>
-		</div>
 
 {% endblock %}

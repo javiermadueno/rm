@@ -17,7 +17,7 @@
     <tbody>
     {% for parametro in form.parametros %}
         <tr>
-            <td>{{ parametro.vars.value.nombre|replace('_',' ')|title }}</td>
+            <td>{{ parametro.vars.value.nombre|trans|title }}</td>
             <td>{{ parametro.vars.value.descripcion }}</td>
             <td>{{ form_widget(parametro.valor) }}</td>
         </tr>
@@ -26,6 +26,5 @@
             <td colspan="3">{{ "sin.resultados" |trans|title}}</td>
         </tr>
     {% endfor %}
-
     </tbody>
 </table>

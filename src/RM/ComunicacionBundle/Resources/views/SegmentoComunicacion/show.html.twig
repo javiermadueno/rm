@@ -1,0 +1,107 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% import '@RMComunicacion/SegmentoComunicacion/macro_segmento_comunicacion.twig' as seg %}
+
+{% set opcionMenuTabComunicacion = 1 %}
+{% set objComunicacion = segmento.idComunicacion %}
+{% set id_comunicacion = objComunicacion.idComunicacion %}
+{% set idComunicacion = id_comunicacion %}
+
+{% block title %}
+    {{ "segmento.comunicacion" | trans|title }}
+{% endblock %}
+
+
+{% block migas %}
+    {{ parent() }}
+    <li><span class="separator"></span></li>
+    <li>{{ "segmento.comunicacion"|trans|title }}</li>
+{% endblock %}
+
+{% block tabcontent %}
+    <h4 class="widgettitle">{{ "segmento.comunicacion" |trans|title }}</h4>
+    <div class="mediamgr_head">
+
+        <form id="formulario_segmento_comunicacion" class="form-center form-horizontal">
+
+            <fieldset>
+                <legend>{{ "datos" |trans|title }}</legend>
+                <div class="control-group">
+                    <label class="control-label">{{ 'variable.ciclo.vida'|trans|title }}</label>
+                    <div class="controls">
+                       {{ segmento.idSegmento.idVt.nombre }}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">{{ 'segmento'|trans|title }}</label>
+                    <div class="controls">
+                        {{ segmento.idSegmento.nombre}}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">{{ 'fecha.inicial'|trans|title }}</label>
+                    <div class="controls">
+                        {{ segmento.fecInicio|date }}
+                    </div>
+                </div>
+
+                <div class="control-group ">
+                    <label class="control-label">{{ 'fecha.final'|trans|title }}</label>
+                    <div class="controls">
+                        {{ segmento.fecFin|date }}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">{{ "estado" |trans|title}}</label>
+                    <div class="controls">
+                        {{ seg.estado(segmento)  }}
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>{{ "frecuencia" |trans|title }}</legend>
+                <div class="control-group">
+                    <label class="control-label">{{ "tipo" |trans|title}}</label>
+                    <div class="controls">
+                        {{ seg.frecuencia(segmento) }}
+                    </div>
+                </div>
+
+                {% if segmento.tipo == constant('FREC_ANUAL', segmento) %}
+                    <div class="control-group">
+                        <label class="control-label">{{ "mes" |trans|title}}</label>
+                        <div class="controls">
+                            {{ segmento.mes|default('') }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if segmento.tipo > constant('FREC_DIARIA', segmento) %}
+                    <div class="control-group">
+                        <label class="control-label">{{ "dia" |trans|title}}</label>
+                        <div class="controls">
+                            {{ segmento.dia|default('') }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="control-group">
+                    <label class="control-label">{{ "hora" |trans|title}}</label>
+                    <div class="controls">
+                        {{ segmento.horaProg|date('H:i') }}
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="form-actions">
+                <a class="btn btn-primary" href="{{ path('direct_manager_edit_datos', {'idComunicacion': segmento.idComunicacion.idComunicacion }) }}">
+                    {{ "boton.volver" |trans|title}}
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

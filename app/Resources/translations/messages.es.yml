@@ -13,11 +13,14 @@ mensaje:
     no.categoria.asociada: No hay ninguna Categoria asociada al centro
     no.instancia: No se ha encontrado la instancia de comunicacion
     cambio.fase: No se ha podido tramitar la instancia a la siguiente fase
+    cambio.fase.configuracion: El número de promociones genéricas definidas en cada grupo de slots tiene que ser mayor o igual al número de slots
+    cambio.fase.configuracion.promociones: Hay grupos de slots sin promociones
     cambio.fase.simulacion: No se ha podido tramitar la instancia a la fase de Simulación. Quedan promociones genéricas sin definir.
     cambio.fase.generacion.pendientes: No se ha podido tramitar la instancia a la fase de Generación. Quedan promociones pendientes.
     cambio.fase.generacion.rechazadas: Se generaran las comunicaciones personalizadas para cada cliente sin las promociones rechazadas.
     limite.numslots: Ha sobrepasado el limite de Números de Slots permitido
     faltan.segmentos: No se puede Activar la comunicación. No hay ningun segmento definido
+    faltan.gruposslot: No se puede Activar la comunicación. La plantilla de la comunicación no tiene configurado ningún grupo de slots.
     categorias.numero.promociones.defininido: Las siguientes categorías no han alcanzado el número de promociones definido
     parar.segmentocomunicacion: No ha podido detenerse la comunicación del segmento.
     reanudar.segmentocomunicacion: No se ha podido reanudar la comunicación del segmento.
@@ -25,6 +28,8 @@ mensaje:
     parar.comunicacion: No se ha podido parar la comunicación
     reanudar.comunicacion: No se ha podido reanudar la comunicación
     subida.fichero.demasiado.grande: El tamaño de la imagen es demasiado grande.
+    descargar.fichero: Se ha producido un error al descargar el fichero.
+    descargar.fichero.plantilla: No existe el fichero de la plantilla. Por favor, suba uno.
   ok:
     eliminar: Se ha eliminado el registro correctamente.
     editar: La operación se ha realizado con exito.
@@ -49,11 +54,40 @@ mensaje:
     segmento: Va a eliminar el segmento. ¿Desea continuar?
   tramitar:
     simulacion: ¿Seguro que desea pasar a la fase de simulación?
+  alerta:
+    al.menos.un.registro: Debe seleccionar al menos un registro
+    validar:
+      segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
+    asociar:
+      categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+    eliminar:
+      registros: ¿Desea eliminar los registros seleccionados?
+  calculo:
+    poblacion: Con el filtro especificado se ha calculado una poblacion de %poblacion% clientes
+  grupo.slot.no.definido: La plantilla de la comunicacion no tiene configurado ningun grupo de slots, por favor, configure uno antes de continuar
+  anadir.grupo: Añadir grupo de Slot
 
-mensaje.alerta.validar.segmentos: ¿Desea continuar? Se crearán segmentos nuevos y se eliminarán los antiguos según la configuración actual
-mensaje.alerta.asociar.categorias: Si guarda, todas las categorias de los niveles chequeados se asociaran y todos los que no estén se desasociaran. ¿Desea continuar?
+
 error: Error
 correcto: Correcto
+
+cfg: Configuración
+ngc: Negociación
+sim: Simulación
+cie: Cierre Negociación
+gen: Generación
+cnf: Confirmación
+fin: Finalizada
+can: Cancelada
+
+RFM: RFM
+CP: Compra de Producto
+HC: Hábitos de compra
+SD: Sociodemográficos
+CV: Ciclo de vida
+OT: Otras Transformadas
+
+modal.cargando: Cargando...
 
 menu:
   data:
@@ -91,6 +125,7 @@ menu:
     clientes: Clientes
     categorias: Categorías
     campanas: Campañas
+    email: Email
     dashboard: Dashboard
     rendimiento: Rendimiento
     evolucion: Evolución
@@ -102,6 +137,7 @@ menu:
     cerrar: Cerrar sesión
 
 boton:
+  acciones: Acciones
   guardar: Guardar
   eliminar: Eliminar
   nuevo: Nuevo
@@ -113,9 +149,17 @@ boton:
   parar: Parar
   reanudar: Reanudar
   descargar: Descargar
+  descargar.productos.sin.imagen: CSV Productos sin imagen
+  descargar.instrucciones:
+      imagenes.producto: Instrucciones de Subida de imagenes
+      maquetacion.plantilla: Instrucciones de maquetación
+  descargar.batch: Descargar Batch
   importar: Importar
   exportar: Exportar
-  previsualizar.plantilla: Previsualizar Plantilla
+  exportar.plantilla: Guardar plantilla
+  importar.plantilla: Utilizar plantilla
+  previsualizar.plantilla: Previsualizar
+  generar.descargar.plantilla: Generar plantilla por defecto
   previsualizar: Previsualizar
   subir: Subir
   listado: Listado
@@ -126,11 +170,19 @@ boton:
   editar: Editar
   eliminar: Eliminar
   eliminar.plantilla: Eliminar Plantilla
+  nueva.plantilla: Nueva Plantilla
+  filtro:
+    comprobar: Comprobar Filtro
+    guardar: Guardar Filtro
+    y: Y
+    o: O
+    ce: CE
+    segmentos: Segmentos
 
 cabecera:
   niveles.categorias: Niveles de categorías a considerar para segmentar
   categorias: Categorías a considerar para segmentar
-  criterios: Criterios temporales de variables intermedias Compra de Producto y Hábitos de Compra
+  criterios: Referencias temporales de variables intermedias Compra de Producto y Hábitos de Compra
   criterios.eligibilidad: criterios de eligibilidad
   criterios.desempate: Criterios de desempate
   segmentos: Segmentos
@@ -154,8 +206,15 @@ cabecera:
   eliminar:
     segmento: Eliminar Segmento
   cambio.fase.instancia: Cambio de Fase de Instancia Comunicación
-  promociones.categoria: Promociones por Categoría
+  promociones.categoria: Promociones
+  segmentador: Segmentador
 
+buscar:
+  creatividad: Creatividad
+
+placeholder:
+  nombre:
+    variable: Introduzca el nombre de la variable
 # Módulo DATA
 nivel: Nivel
 niveles: Niveles
@@ -175,11 +234,12 @@ percentil: Percentil
 parametro: Parámetro
 descripcion: Descripción
 valor: Valor
+valor.medio: Valor Medio
 configuracion: Configuración
 parametros.generales: Parámetros Generales
-numero.dias.novedad: Número de Días Novedad
+
 amplitud: amplitud
-recencia: recencia
+recencia: Recencia
 frecuencia: frecuencia
 
 frecuencia.diaria: Diaria
@@ -192,7 +252,7 @@ frecuencia.semestral: Semestral
 frecuencia.anual: Anual
 gama: gama
 gasto: gasto
-numero.dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
+
 dias: Días
 franja.horaria: Franja Horaria
 desde: Desde
@@ -219,6 +279,13 @@ tiempo:
   referencia.n: Tiempo de referencia N
   referencia.m: Tiempo de referencia M
 
+ref:
+  temp:
+    global: Referencia de Tiempo Global
+    franjas: Referencia de Tiempo Franjas Horarias
+    dias: Referencia de Tiempo Días
+
+
 marca: Marca
 validar.segmentos: Validar Segmentos
 
@@ -236,12 +303,14 @@ comunicacion.estado:
   completada: completada
 
 select:
+  todos: Todos
   todas: Todas
   seleccione: Seleccione
   seleccione.imagen: Seleccione Imagen
   seleccione.tipo: Seleccione Tipo
   producto: Seleccione Producto
   marca: Seleccione Marca
+  canal: Seleccione Canal
 
 estado: Estado
 estado.comunicacion: Estado de la comunicación
@@ -249,6 +318,7 @@ y: y
 tipo: Tipo
 criterio: Criterio
 
+acumulado.anyo: Acumulado Año
 
 fecha:
   0: Fecha
@@ -260,10 +330,14 @@ fecha:
   promociones: Fecha de Promociones
   entre: Fecha entre
   entre.y: y
+  caducidad: Fecha de caducidad
 
 filtro.busqueda: Filtro de búsqueda
 instancias: Instancias
 instancia: Instancia
+
+instancia.fase: Fase
+
 
 fase:
   configuracion: Configuración
@@ -280,7 +354,7 @@ desactivado: Desactivado
 en.proceso: En proceso
 canal: Canal
 controles: Controles
-recursos.graficos: Recursos Gráficos
+recursos.graficos: Productos
 creatividades: Creatividades
 creatividad: Creatividad
 
@@ -294,13 +368,20 @@ imagen: Imagen
 imagen.alto: Alto
 imagen.ancho: Ancho
 nombre: Nombre
+apellidos: Surnames
 editar: Editar
 listado: Listado
 datos: Datos
 promocion: Promoción
 promociones: Promociones
+promocion.avanzado: Avanzado
 subir.plantilla.maquetada: Subir plantilla maquetada
+
 grupo.slots: Grupo Slots
+grupo.slots.tipo:
+  promocion: Tipo Promoción
+  creatividad: Tipo Creatividad
+grupo.slots.caracteristicas: Características
 
 numero:
   slots: Número de Slots
@@ -312,6 +393,8 @@ numero:
     genericas: Número de creatividades genéricas
   clientes: Número Clientes
   miembros: Número  de  Miembros
+  dias.novedad: Número de Días Novedad
+  dias.novedad.descripcion: Número de días para que una compra tenga la consideración de novedad
 
 slot: slot
 slots: slots
@@ -325,6 +408,14 @@ segmentadas: segmentadas
 genericas: genéricas
 
 segmento.comunicacion: Segmentos Comunicación
+
+paginador:
+  ultima: Última
+  siguiente: Siguiente
+  anterior: Anterior
+  primera: Primera
+
+
 
 
 editar:
@@ -345,7 +436,7 @@ tamano:
 tabla:
   resumen: Tabla resumen
   resumen.creatividades: Tabla resumen de Creatividades
-  resumen.promociones: Tabla resumen de Promociones
+  resumen.promociones: Tabla resumen de Promociones de Producto
 
 opciones:
   email: Opciones de Email
@@ -373,11 +464,41 @@ cuatrimestral: Cuatrimestral
 anual: Anual
 
 
+modulo:
+  direct:
+    fase:
+      finalizada:
+        envio:
+          inmediato: Envío inmediato (al tramitar a finalizado)
+          programado: Envío programado para la fecha
+          estado:
+            titlo: Estado del envío ('Enviado', 'En Proceso', o 'Programado')
+            en.proceso: En Proceso
+            programado: Programado
+            enviado: Enviado
+        formatos: Formatos
+        xpd: XPD
+        xml: XML
+        dat: DAT
+        ftp: FTP
+        server: Servidor
+        user: Usuario
+        pass: Contraseña
+        post: POST
+        url: URL
+        comunicaciones.generadas: Se han generado %comunicaciones% comunicaciones
+        formato.generado: Formato generado
+        enviado:
+          ftp: El fichero ha sido enviado via %via% con los siguientes datos
+          url: El fichero ha sido enviado a la siguiente URL
+          descarga: El fichero ha sido enviado vía Descarga
+
 # Modulo CAMPAIGN
 campana: Campaña
 campanas: Campañas
 poblacion: Población
 minimo: Mínimo
+maximo: Máximo
 tipo.promocion: Tipo Promoción
 tipo.clasificacion: Tipo de clasificación
 referencia: Referencia
@@ -385,6 +506,8 @@ info: Info
 
 informacion:
   avanzada: Información Avanzada
+  promociones.restantes: "{1}Queda  %count% promoción por definir|]1,Inf[ Quedan %count% promociones por definir"
+  creatividades.restantes: "{1}Queda  %count% Creatividad por definir|]1,Inf[ Quedan %count% Creatividades por definir"
 
 simulado: Simulado
 
@@ -423,6 +546,9 @@ Maximo_dias_novedad: Máximo días novedad
 nivel_gama_segmentar: Nivel de gama a segmentar
 num_meses_segmentar: Número de meses a segmentar
 nivel_category_manager: Nivel de Category Manager
+umbral_franjas: Umbral de Franjas Horarias
+umbral_dias: Umbral de días
+umbral_gamas: Umbral de Gamas
 
 mostrar.imagen.creatividad: Mostrar Imagen de la creatividad
 mostrar.texto.creatividad: Mostrar texto de la creatividad
@@ -433,12 +559,14 @@ mostrar.texto.creatividad: Mostrar texto de la creatividad
 media: Media
 evolucion: Evolución
 periodo: Periodo
+compra: Compra
 
 media.ventas: Media Ventas
 frecuencia.media: Frecuencia Media
 recencia.media: Recencia Media
 amplitud.media: Amplitud Media
 porcentaje.ventas: Porcentaje de Ventas
+otros: Otros
 otros.datos: Otros Datos
 frecuencia.contribuciones: Frecuencia Contribuciones
 ticket.medio: Ticket   Medio
@@ -476,6 +604,7 @@ clientes:
   0: Clientes
   activos: Clientes Activos
   nuevos: Clientes Nuevos
+  inactivos: Clientes Inactivos
 
 ventas:
   0: ventas
@@ -488,6 +617,26 @@ contribucion:
 
 reactividad.target.por.comunicades: Reactividad-Target por Comunicades
 reactividad: Reactividad
+
+fichero:
+  csv:
+    columna:
+      id: Id
+      nombre: Nombre (Sustituye esta columna por el nombre de la imagen asociada al producto)
+
+formulario:
+  grupo.slot:
+    m_img_producto: Mostrar imagen de producto
+    m_img_creatividad: Mostrar imagen de creatividad
+    m_precio_producto: Mostrar precio de producto
+    m_volumen: Mostrar volumen
+    m_condiciones: Mostrar condiciones de la promoción
+    m_img_marca: Mostrar imagen marca
+    m_texto: Mostrar descripción
+    m_voucher: Mostrar voucher
+    m_fidelizacion: Mostrar información de fidelización
+    m_nombre_producto: Mostrar nombre de producto
+
 
 highchart:
   seguimiento:
@@ -544,7 +693,7 @@ highchart:
         serie:
           title: Clientes nuevos por Tipo Punto de Venta
       gama:
-        title: Clientes nuevos por Gama - %fecha%
+        title: Clientes nuevos por Gama
         serie:
           title: Clientes nuevos por Gama
 
@@ -617,10 +766,27 @@ highchart:
           title: Reactividad - Targer por Sexos
           serie:
             axis.y: Clientes
+    inactivos:
+      evolucion:
+        edades:
+          title: Clientes inactivos por Edad
+        sexo:
+          title: Clientes inactivos por Sexo
 
-
-
-
+insignt.campanas.email:
+  overview: Overview
+  actividad: Actividad
+  informacion: Resumen resultados de camapaña
+  rate:
+    open: Ratio de apertura
+    click: Ratio de click
+  abiertos: Abiertos
+  clicked: Vistos
+  unsubscribed: Dados de baja
+  numero.enviados: Número enviados
+  delivered: Entregados
+  fecha.envio: Fecha de envio
+  asunto: Asunto
 
 
 

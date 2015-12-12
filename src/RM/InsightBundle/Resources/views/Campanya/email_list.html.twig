@@ -1,0 +1,56 @@
+{% extends ':insight:base_insight.html.twig' %}
+
+{% set idOpcionMenuIzq = 7 %}
+
+ {% block pagetitle %}
+     <h5>{{ 'campanas'|trans }}</h5>
+     <h1>{{ 'menu.insight.email'|trans }}</h1>
+ {% endblock %}
+
+{% block body %}
+
+    {% include '@RMInsight/Campanya/form_filtro_campanyas.html.twig' with {'form': form} %}
+
+    <table class="table table-bordered responsive">
+        <colgroup>
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+            <col class="con0">
+            <col class="con1">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>{{ "instancia" |trans }}</th>
+            <th>{{ "comunicacion" |trans }}</th>
+            <th>{{ "segmento" |trans }}</th>
+            <th>{{ "fecha.0" |trans }}</th>
+            <th>{{ "controles" |trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for instancia in instancias %}
+            <tr>
+                <td class="center-all">
+                    <a href="{{ path('rm_insight_campaign_email', {'instancia': instancia.idInstancia}) }}">
+                        {{ instancia.idInstancia|id }}
+                    </a>
+                </td>
+                <td class="center-all">{{ instancia.getNombreComunicacion|default }}</td>
+                <td class="center-all">{{ instancia.getNombreSegmento|default }}</td>
+                <td class="center-all">{{ instancia.fechaEnvio|date('d-M-Y') }}</td>
+                <td class="center-all">
+                    <a class="btn btn-success" href="{{ path('rm_insight_campaign_email', {'instancia': instancia.idInstancia}) }}">
+                        <i class="iconfa-2x iconfa-dashboard"></i>
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">{{ "sin.resultados" |trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}

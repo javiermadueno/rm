@@ -4,6 +4,7 @@ namespace RM\DiscretasBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ConfiguracionType extends AbstractType
@@ -18,15 +19,15 @@ class ConfiguracionType extends AbstractType
             ->add('valor', 'number', ['required' => true])
         ;
     }
-    
+
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'RM\DiscretasBundle\Entity\Configuracion'
-        ));
+        ]);
     }
 
     /**

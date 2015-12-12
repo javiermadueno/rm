@@ -1,0 +1,46 @@
+<table class="table table-bordered responsive">
+    <colgroup>
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+        <col class="con0">
+        <col class="con1">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>{{ "numero.promociones.segmentadas" |trans|title }}</th>
+        <th>{{ "numero.promociones.genericas" |trans|title }}</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr {% if not form.vars.valid %} class="error" {% endif %}>
+            <td class="center-all">
+                <div class="control-group {% if not form.numSegmentadas.vars.valid %} error {% endif %}">
+                    <div class="controls">
+                        {{ form_widget(form.numSegmentadas) }}
+                        <div><span class="help-inline">
+                                {% for error in form.numSegmentadas.vars.errors %}
+                                    {{ error.message }} </br>
+                                {% endfor %}
+                        </span></div>
+                    </div>
+                </div>
+            </td>
+            <td class="center-all">
+                <div class="control-group {% if not form.numGenericas.vars.valid %} error {% endif %}">
+                    <div class="controls">
+                        {{ form_widget(form.numGenericas) }}
+                        <div><span class="help-inline">
+                                {% for error in form.numGenericas.vars.errors %}
+                                    {{ error.message }} </br>
+                                {% endfor %}
+                        </span></div>
+                    </div>
+                </div>
+                {{ form_widget(form.idInstancia) }}
+                {{ form_widget(form.idGrupo) }}
+            </td>
+        </tr>
+    </tbody>
+</table>

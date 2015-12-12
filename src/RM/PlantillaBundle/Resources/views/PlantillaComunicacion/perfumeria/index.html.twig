@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <title>Newsletter Relational Messages</title>
+    <style type="text/css">
+        body {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smoothing: antialiased !important;
+        }
+
+        .tableContent img {
+            border: 0 !important;
+            display: block !important;
+            outline: none !important;
+        }
+
+        ul {
+            margin: 0;
+        }
+
+        p {
+            color: #999999;
+            font-size: 13px;
+            line-height: 19px;
+            margin: 0;
+        }
+
+        h2, h1 {
+            color: #555555;
+            font-size: 21px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        h2.white {
+            color: #ffffff;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        a.link1 {
+            font-size: 13px;
+            color: #3892E3;
+        }
+
+        a.link2 {
+            padding: 8px;
+            background: #1469c3;
+            font-size: 13px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a.link3 {
+            color: #2172ca;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .bgBody {
+            background: #F6F6F6;
+        }
+
+        .bgItem {
+            background: #ffffff;
+        }
+
+
+    </style>
+
+    <script type="colorScheme" class="swatch active">
+  {
+    "name":"Default",
+    "bgBody":"F6F6F6",
+    "link":"ffffff",
+    "color":"999999",
+    "bgItem":"ffffff",
+    "title":"555555"
+  }
+
+    </script>
+</head>
+<body class='bgBody' leftpadding="0" offset="0" paddingheight="0" paddingwidth="0"
+      style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;"
+      toppadding="0">
+<tbody>
+<tr>
+<td valign="top">
+<table align="center" class='bgBody' border="0" cellpadding="0" cellspacing="0"
+       style="font-family:helvetica, sans-serif;" width="600">
+<tbody>
+<tr>
+<td width="20">
+</td>
+<td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="560">
+<!--  =========================== The header ===========================  -->
+<tbody>
+
+
+<!--  =========================== The body ===========================  -->
+<tr>
+<td class="movableContentContainer">
+<!--  ==== movable content in the body ===  -->
+
+<div class="movableContent">
+    <table border="0" cellpadding="0" cellspacing="0" width="560">
+        <tr>
+            <td height="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="560">
+                    <tbody>
+                    <tr>
+                        <td align="left" valign="middle">
+                            <div class="contentEditableContainer contentImageEditable">
+                                <div class="contentEditable">
+                                    <img alt="Company logo" data-default="placeholder" data-max-width="400" height="75"
+                                         src="{{ asset('bundles/rmplantilla/images/perfumeria/logo.png', absolute=true) }}" width="350"/></div>
+
+                            </div>
+                        </td>
+                        <td align="right" valign="top">
+                            <div class="contentEditableContainer contentImageEditable" style="display:inline-block;">
+                                <div class="contentEditable">
+                                    <a target='_blank' href="[SHOWEMAIL]"
+                                       style="color:#A8B0B6;font-size:13px;text-decoration:none;">Abrir en navegador</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td align="right" valign="top" width="18">
+                            <div class="contentEditableContainer contentImageEditable" style="display:inline-block;">
+                                <div class="contentEditable">
+                                    <a target='_blank' href="[SHOWEMAIL]"><img alt="open in browser image"
+                                                                               data-default="placeholder" height="15"
+                                                                               src="{{ asset('bundles/rmplantilla/images/perfumeria/openBrowser.png', absolute=true) }}"
+                                                                               style="padding-left:10px;"
+                                                                               width="15"/></a></div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+{% set gruposSlots = plantilla.getGruposSlots %}
+{% for grupoSlots in gruposSlots %}
+    {% if grupoSlots.tipo == constant('CREATIVIDADES', grupoSlots) %}
+        {% include '@RMPlantilla/PlantillaComunicacion/perfumeria/grupo_creatividad.html.twig' with{'grupoSlots' : grupoSlots} %}
+    {% endif %}
+{% endfor %}
+
+
+<div class="movableContent">
+    <table border="0" cellpadding="0" cellspacing="0" width="560">
+        <tbody>
+        <tr>
+            <td height="25">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table align="center" class='bgItem' border="0" cellpadding="0" cellspacing="0"
+                       style="border:1px solid #dddddd" valign="top" width="558">
+                    <tbody>
+                    <tr>
+                        <td colspan="3" height="16">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="16">
+                        </td>
+                        <td>
+                            <table align="center" class='bgItem' border="0" cellpadding="0" cellspacing="0" valign="top"
+                                   width="526">
+                                <tbody>
+                                <tr>
+                                    <td align="left" valign="top">
+                                        <div class="contentEditableContainer contentTextEditable">
+                                            <div class="contentEditable">
+                                                <h2>Conozca nuestras ofertas periódicas</h2>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="13">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" valign="top">
+                                        <div class="contentEditableContainer contentTextEditable">
+                                            <div class="contentEditable">
+                                                <p>Volo veri net eaquae none velis alis eatur audis eos aliquod endel
+                                                    etur, tem ad et volorro blamus, sequam illorestem. </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td width="16">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" height="16">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% for grupoSlots in gruposSlots %}
+    {% if grupoSlots.tipo != constant('CREATIVIDADES', grupoSlots) %}
+        {% include '@RMPlantilla/PlantillaComunicacion/perfumeria/grupo_promocion.html.twig' with {'grupoSlots' : grupoSlots} %}
+    {% endif %}
+{% endfor %}
+
+
+
+
+<div class='movableContent'>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="560">
+        <tr>
+            <td height="30">
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#52619E">
+                <table align="center" bgcolor="#52619E" border="0" cellpadding="0" cellspacing="0" width="560">
+                    <tbody>
+                    <tr>
+                        <td align="left" bgcolor="#3c8ee8" valign="top" width="416">
+                            <table align="center" bgcolor="#3c8ee8" border="0" cellpadding="0" cellspacing="0"
+                                   width="416">
+                                <tbody>
+                                <tr>
+                                    <td colspan="3" height="28">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="30">
+                                    </td>
+                                    <td valign="middle">
+                                        <div class="contentEditableContainer contentTextEditable">
+                                            <div class="contentEditable">
+                                                <p style="color:#ffffff;font-size:14px;line-height:19px;">Síguenos en
+                                                    las redes sociales!</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="10">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" height="28">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td align="center" bgcolor="#3E4A7F" valign="top" width="72">
+                            <table align="center" bgcolor="#2172ca" border="0" cellpadding="0" cellspacing="0"
+                                   width="72">
+                                <tbody>
+                                <tr>
+                                    <td align="center" bgcolor="#2172ca" height="72" valign="middle" width="72">
+                                        <div class="contentEditableContainer contentFacebookEditable">
+                                            <div class="contentEditable" valign="middle">
+                                                <a target='_blank' href=""><img alt="facebook link"
+                                                                                data-default="placeholder"
+                                                                                data-max-width="37" height="37"
+                                                                                src="{{ asset('bundles/rmplantilla/images/perfumeria/facebook.png', absolute=true) }}" width="37"
+                                                                                data-customIcon="true"/></a></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td align="center" bgcolor="#2D3867" valign="top" width="72">
+                            <table align="center" bgcolor="#2D3867" border="0" cellpadding="0" cellspacing="0"
+                                   height="72" width="72">
+                                <tbody>
+                                <tr>
+                                    <td align="center" bgcolor="#2172ca" height="72" valign="middle" width="72">
+                                        <div class="contentEditableContainer contentTwitterEditable">
+                                            <div class="contentEditable" valign="middle">
+                                                <a target='_blank' href=""><img alt="twitter link"
+                                                                                data-default="placeholder"
+                                                                                data-max-width="37" height="37"
+                                                                                src="{{ asset('bundles/rmplantilla/images/perfumeria/twitter.png', absolute=true) }}"
+                                                                                data-customIcon="true" width="37"/></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class='movableContent'>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="560">
+        <tr>
+            <td height="28">
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <div class="contentEditableContainer contentTextEditable">
+                    <div class="contentEditable">
+                        <p style="color:#A8B0B6; font-size:13px;line-height: 16px;"> Esta newsletter se envía de forma
+                            periódica. Todos los derechos reservados tu perfumeria.</p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class='movableContent'>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="560">
+        <tr>
+            <td height="28">
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top">
+                <div class="contentEditableContainer contentTextEditable">
+                    <div class="contentEditable">
+                        <p style="color:#A8B0B6; font-weight:bold;font-size:13px;line-height: 30px;">PERFUMERIA.COM</p>
+                    </div>
+                </div>
+                <div class="contentEditableContainer contentTextEditable">
+                    <div class="contentEditable">
+                        <p style="color:#A8B0B6;font-size:13px;line-height: 15px;">Encuentra tu regalo</p>
+                    </div>
+                </div>
+
+                <div class="contentEditableContainer contentTextEditable"></div>
+                <div class="contentEditableContainer contentTextEditable">
+                    <div class="contentEditable"><a target="_blank" href="[UNSUBSCRIBE]"
+                                                    style="line-height: 20px;color:#A8B0B6; font-size:13px;">Eliniar
+                            suscripción</a></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+</td>
+</tr>
+<!--  =========================== The footer ===========================  -->
+
+
+<tr>
+    <td height="28">
+    </td>
+</tr>
+</tbody>
+</table>
+</td>
+<td width="20">
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

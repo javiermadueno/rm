@@ -23,91 +23,128 @@
 
     <h4 class="widgettitle">{{ "cabecera.acciones.plantilla"|trans|title }}</h4>
     <div class="mediamgr_head">
-        <table width="100%" style="margin-bottom: 30px;">
-            <tbody>
-            <tr>
-                <td class="pull-right" width="100">
-                    <button class="btn btn-primary  {{ es_editable ? 'enabled' : 'disabled' }}"
-                            onClick="importarPlantilla();">
-                        <i class="iconfa-arrow-down"></i>&nbsp;&nbsp;{{ "boton.importar" | trans }}
-                    </button>
-                </td>
-                <td class="pull-right" width="100">
-                    <button class="btn btn-primary" {{ plantilla.esModelo ? 'disabled' : 'enabled' }}
-                            onClick="exportarPlantilla();">
-                        <i class="iconfa-share"></i>&nbsp;&nbsp;{{ "boton.exportar" | trans }}
-                    </button>
-                </td>
-                <td class="pull-left" width="120">
-                    <button class="btn btn-primary"
-                        onClick="location.href='{{ path('direct_manager_edit_plantillas_descargar', {'id_comunicacion': id_comunicacion}) }}'; return false;">
-                        <i class="iconfa-download"></i>&nbsp;&nbsp;{{ "boton.descargar" | trans }}
-                    </button>
-                </td>
-                <td class="pull-left" width="200">
-                    <button class="btn btn-primary" onClick="previsualizarPlantilla()">
-                        <i class="iconfa-eye-open"></i>&nbsp;&nbsp;{{ "boton.previsualizar.plantilla" | trans }}
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <form name="form1" id="form1"
-              action="{{ path('direct_manager_edit_plantillas_upload', {'id_comunicacion': id_comunicacion}) }}"
-              method="post" enctype="multipart/form-data">
-            <label for="fichero">
-                {{ "subir.plantilla.maquetada" | trans|title }}
-            </label>
-            <input id="fichero" name="fichero" type="file">
-            <button class="btn btn-primary" type="submit"
-                    onClick="return subirPlantilla();">{{ "boton.subir" | trans }}</button>
-        </form>
+
+        <div class="row-fluid">
+            <div class="span6">
+
+                <div class="btn-group">
+                    <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="iconfa-cogs"></i> {{ "boton.acciones" |trans|title}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('direct_manager_edit_plantillas_descargar', {'id_comunicacion': id_comunicacion}) }}">
+                                <i class="iconfa-download"></i> {{ "boton.descargar" | trans }}
+                            </a>
+                        </li>
+                        <li>
+                            <a onClick="previsualizarPlantilla()">
+                                <i class="iconfa-eye-open"></i> {{ "boton.previsualizar.plantilla" | trans }}
+                            </a>
+
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{ path('rm_plantilla.default.generar_y_descargar', {'id_comunicacion': id_comunicacion}) }}">
+                                <i class="iconfa-repeat"></i> {{ "boton.generar.descargar.plantilla" |trans}}
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a  href="{{ path('rm_plantilla.default.descargar_instrucciones_maquetacion') }}">
+                                <i class="iconfa-book"></i> {{ 'boton.descargar.instrucciones.maquetacion.plantilla'|trans }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="span6">
+                <button class="btn btn-primary pull-right"
+                        onClick="importarPlantilla();">
+                    <i class="iconfa-arrow-down"></i>&nbsp;&nbsp;{{ "boton.importar.plantilla" | trans }}
+                </button>
+
+                {% if plantilla.esModelo and not comunicacion.generada %}
+                    <a class="btn btn-success pull-right" href="{{ path('rm_comunicacion.comunicacion.asigna_nueva_plantilla', {'id_comunicacion': id_comunicacion}) }}">
+                        <i class="iconfa-retweet"></i> {{ 'boton.nueva.plantilla'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span5">
+                <form name="form1" id="form1" class="form-inline"
+                      action="{{ path('direct_manager_edit_plantillas_upload', {'id_comunicacion': id_comunicacion}) }}"
+                      method="post" enctype="multipart/form-data">
+                    <label for="fichero">
+                        {{ "subir.plantilla.maquetada" | trans|title }}
+                    </label>
+                    <input id="fichero" name="fichero" type="file">
+                    <button class="btn btn-primary" type="submit">{{ "boton.subir" | trans }}</button>
+                </form>
+            </div>
+        </div>
+
+
+
+        {% for error in app.session.flashBag.get('errores_plantilla') %}
+        <div class="alert alert-warning">
+            <p>{{ error|raw }}</p>
+        </div>
+        {% endfor %}
+
     </div>
 
+    {% if not plantilla.editable or plantilla.esModelo %}
+        <div class="alert alert-warning alert-block fade in">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
 
-    {#{{ form_start(edit_form) }}
-    <h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
-    <div class="mediamgr_head">
-        <table class="table responsive" >
-            <tbody>
-            <tr>
-                <td class="sinborde">{{ form_label(edit_form.nombre, 'nombre' | trans) }}</td>
-                <td class="sinborde">
-                    {{ form_widget(edit_form.nombre, { 'attr': { 'class': 'tam150' } }) }}
-                </td>
-            </tr>
-            {#<tr>
-                <td class="sinborde">{{ form_label(edit_form.descripcion, 'descripcion' | trans) }}</td>
-                <td class="sinborde" colspan="3">
-                    {{ form_widget(edit_form.descripcion, { 'attr': { 'class': 'tam600' } }) }}
-                </td>
-            </tr>
+            {% if plantilla.esModelo %}
+                Está utilizando una plantilla modelo que no es posible editar.
+            {% elseif not plantilla.editable %}
+                Esta plantilla está siendo utilizada por comunicaciones activas y no se puede editar.
+            {% endif %}
+        </div>
+    {% endif %}
 
-            </tbody>
-        </table>
-    </div>
-    <table cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-        <tr>
-            <td>
-                {{ form_widget(edit_form.submit , {'attr': {'class': 'btn btn-primary'}, 'label': 'boton.guardar'|trans|title }) }}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    {{ form_rest(edit_form) }}
-    {{ form_errors(edit_form) }}
-    {{ form_end(edit_form) }} #}
 
     {{ render(controller('RMPlantillaBundle:GrupoSlots:index', {
         'idPlantilla': plantilla.idPlantilla,
         'idComunicacion': comunicacion.idComunicacion
     })) }}
 
+    {% if  not plantilla.esModelo %}
+        <br/>
+        <br/>
+        <div class="row-fluid">
+            <div class="span3">
+                <button class="btn btn-primary"
+                        onClick="exportarPlantilla();">
+                    <i class="iconfa-share"></i>&nbsp;&nbsp;{{ "boton.exportar.plantilla" | trans }}
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
+    <div id="iframe-modal" class="modal hide fade" style="height: 80%; width: 960px; margin-left: 0; transform: translateX(-50%) ">
+        <div class="modal-body" style="height: 90%; max-height: 90%; overflow-y: hidden">
+            <iframe src="" frameborder="0" style="width: 100%; max-width: 100%; height: 100%"></iframe>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript">
+        $(document).on('ready', function(){
+            {% for error in app.session.flashBag.get('error_popup') %}
+                jQuery.alerts.dialogClass = 'alert-danger';
+                jAlert('{{ error }}','Error');
+            {% endfor %}
+        });
 
         function importarPlantilla() {
             var largo = 550;
@@ -134,20 +171,23 @@
         }
 
         function previsualizarPlantilla() {
+            {% set crearUrl = url('direct_manager_previsualizar_plantilla', {'id_comunicacion': id_comunicacion}) %}
+            var $modal = $('#iframe-modal');
+            $modal.find('iframe').attr('src', '{{ crearUrl }}');
+            $modal.modal({show: true});
+            return false;
 
             var largo = 550;
             var altura = 450;
             var top = (screen.height - altura) / 2;
             var izquierda = (screen.width - largo) / 2;
             {% set nombreVentana = "Previsualizar Plantilla" %}
-            {% set crearUrl = url('direct_manager_previsualizar_plantilla', {'id_comunicacion': id_comunicacion}) %}
+
 
             var myUrl = '{{crearUrl}}';
             var nomVentana = '{{ nombreVentana }}';
-            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
+            window.open(myUrl, nomVentana, "width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda + ',scrollbars=1');
 
-
-            //window.open('http://www.meydisvalencia.es/perfumeria/', 'Plantilla',"width=" + largo + ",height=" + altura + ",top=" + top + ",left=" + izquierda);
         }
 
 

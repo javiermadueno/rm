@@ -1,0 +1,22 @@
+rm_comunicacion.creatividad.index:
+  path: /config/creatividad
+  defaults: { _controller: RMComunicacionBundle:Creatividad:index }
+
+rm_comunicacion.creatividad.new:
+   path: /config/creatividad/new
+   defaults: { _controller: RMComunicacionBundle:Creatividad:new }
+
+rm_comunicacion.creatividad.edit:
+    path: /config/creatividad/{id}/edit
+    defaults: { _controller: RMComunicacionBundle:Creatividad:edit }
+    requirements:
+        id: \d+
+
+direct_buscador_creatividades_popup:
+  path: /creatividades/search/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:searchCreatividadesPopoup}
+
+direct_buscador_creatividades_popup_actualizar:
+  path: /creatividades/search/update/
+  defaults: {_controller: RMComunicacionBundle:Creatividad:searchActualizarCreatividadesPopup}
+  methods: [POST]

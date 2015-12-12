@@ -1,0 +1,45 @@
+menu:
+  data:
+    nombre: 數據
+    modo_basico: 基本模式
+    modo_avanzado: 高級模式
+    categorias: 分類
+    categorias_avanzado: 分類高級
+    segmentos: 段
+    configuracion: 構造
+    ciclo_vida: 生命週期
+    compra_productos: 購買產品
+    habitos_compra: 購買習慣
+    sociodemografico: 社會人口
+    otros: 其他轉換
+    procesamiento: 起訴
+    informacion: 信息
+
+  direct:
+    nombre: 指導
+    instancia_comunicaciones: 實例通信
+    monitor: 監控通信
+    gestion: 通信管理
+    configuracion: 構造
+
+  campaign:
+    nombre: 競選活動
+    campanas: 納斯
+    cierre: 關閉談判
+    creatividades: 廣告內容
+    seguimiento: 追踪
+
+  insight:
+    nombre: 洞察
+    clientes: 客戶
+    categorias: 分類
+    campanas: 納斯
+    dashboard: 儀表板
+    rendimiento: 演出
+    evolucion: 發展
+    proveedores: 供應商
+
+  usuario:
+    editar: 編輯個人資料
+    ajustes: 設置
+    cerrar: 註銷

@@ -28,7 +28,7 @@ class NivelesCategoriaController extends Controller
             $data = $form->getData();
 
             foreach($data['niveles']  as $nivel) {
-                if (false == $niveles->contains($nivel)) {
+                if (false === $niveles->contains($nivel)) {
                     $em->persist($nivel);
                 }
             }

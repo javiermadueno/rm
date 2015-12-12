@@ -1,5 +1,5 @@
 rm_static_homepage:
-    path:     /hello/{name}
+    path:     /generador/url
     defaults: { _controller: RMStaticBundle:Default:index }
 
 rm_static_default_plantillas:
@@ -9,3 +9,23 @@ rm_static_default_plantillas:
 rm_static_default_plantilla:
     path: /plantilla/{idPlantilla}
     defaults: { _controller: RMStaticBundle:Default:plantilla }
+
+rm_static.default.campaign:
+    path: /campaign/new
+    defaults: { _controller: RMStaticBundle:Default:campaign }
+
+rm_static.default.numpromociones:
+   path: /num/edit
+   defaults: { _controller: RMStaticBundle:Default:numPromociones }
+
+rm_static.default.descargar_batch:
+   path: /instancia/{id}/descargar/batch
+   defaults : {_controller: RMStaticBundle:Default:descargarBatch }
+
+rm_static.default.absolute_url:
+   path: /absolute/url
+   defaults: { _controller: RMStaticBundle:Default:getAbsoluteUrl }
+
+rm_static.upload:
+   path: /upload
+   defaults: { _controller: RMStaticBundle:Default:upload }

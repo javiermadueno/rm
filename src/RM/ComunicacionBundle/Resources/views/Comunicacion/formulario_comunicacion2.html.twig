@@ -1,0 +1,163 @@
+<div class="mediamgr_head">
+    <div class="row-fluid">
+        <div class="span6 offset3">
+            {{ form_start(form, {'attr': {'id': form.vars.id, 'class': 'form-horizontal' }}) }}
+            <div class="control-group {% if not app.request.xmlHttpRequest and not form.nombre.vars.valid %}error{% endif %}">
+                {{ form_label(form.nombre,  null,{'label_attr': {'class':'control-label' }}) }}
+                <div class="controls">
+                    {{ form_widget(form.nombre) }}
+                    {% if  not app.request.xmlHttpRequest and form.nombre.vars.errors is not empty %}
+                        <span class="help-inline">
+                        {% for error in form.nombre.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if not app.request.xmlHttpRequest and not form.fecInicio.vars.valid %}error{% endif %}">
+                {{ form_label(form.fecInicio,  null,{'label_attr': {'class':'control-label' }}) }}
+                <div class="controls">
+                    {{ form_widget(form.fecInicio, { 'attr': { 'class': 'datepicker' } }) }}
+                    {% if  not app.request.xmlHttpRequest and form.fecInicio.vars.errors is not empty %}
+                        <span class="help-inline">
+                        {% for error in form.fecInicio.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if not app.request.xmlHttpRequest and not form.fecFin.vars.valid %}error{% endif %}">
+                {{ form_label(form.fecFin,  null,{'label_attr': {'class':'control-label' }}) }}
+                <div class="controls">
+                    {{ form_widget(form.fecFin, { 'attr': { 'class': 'datepicker' } }) }}
+                    {% if  not app.request.xmlHttpRequest and form.fecFin.vars.errors is not empty %}
+                        <span class="help-inline">
+                        {% for error in form.fecFin.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if not app.request.xmlHttpRequest and not form.estado.vars.valid %}error{% endif %}">
+                {{ form_label(form.estado,  null,{'label_attr': {'class':'control-label' }}) }}
+                <div class="controls">
+                    {% if accion is defined and accion == 'editar' %}
+                        {{ form_widget(form.estado) }}
+                    {% else %}
+                        {{ form_widget(form.estado, { 'attr': { 'disabled': 'disabled' } }) }}
+                    {% endif %}
+
+                    {% if  not app.request.xmlHttpRequest and form.estado.vars.errors is not empty %}
+                        <span class="help-inline">
+                        {% for error in form.estado.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if not app.request.xmlHttpRequest and not form.idCanal.vars.valid %}error{% endif %}">
+                {{ form_label(form.idCanal,  null,{'label_attr': {'class':'control-label' }}) }}
+                <div class="controls">
+
+                    {{ form_widget(form.idCanal, { 'attr': { 'class': 'change-ajax-submit' } }) }}
+
+                    {% if  not app.request.xmlHttpRequest and form.idCanal.vars.errors is not empty %}
+                        <span class="help-inline">
+                        {% for error in form.idCanal.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if form.asunto is defined %}
+                <div class="control-group {% if not app.request.xmlHttpRequest and not form.asunto.vars.valid %}error{% endif %}">
+                    {{ form_label(form.asunto,  null,{'label_attr': {'class':'control-label' }}) }}
+                    <div class="controls">
+
+                        {{ form_widget(form.asunto) }}
+
+                        {% if  not app.request.xmlHttpRequest and form.asunto.vars.errors is not empty %}
+                            <span class="help-inline">
+                        {% for error in form.asunto.vars.errors %}
+                            {{ error.message }}
+                            {% if not loop.last %} <br/> {% endif %}
+                        {% endfor %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{ "boton.guardar" | trans }}</button>
+                <a class="btn btn-danger" href='{{ path('direct_manager') }}'>{{ "boton.cancelar" | trans }}</a>
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span6 offset3">
+            {% for error in app.session.flashbag.get('formulario') %}
+                {% if loop.first %}
+                    <div class="alert alert-block alert-danger ">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4><strong>{{ "error"|trans|title }}: </strong></h4>
+                    <ul>
+                {% endif %}
+
+                <li>{{ error |trans }}</li>
+
+                {% if loop.last %}
+                    </ul>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+            {% for mensaje in app.session.flashbag.get('formulario_ok') %}
+                <div class="alert alert-success">
+                    <strong>{{ "correcto"|trans|title }}: </strong>{{ mensaje|trans }}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+
+        $(document).on('change','.change-ajax-submit', function(){
+
+            var $form = $(this).closest('form');
+            var data_from = $form.serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+
+            //Se borra el token para forzar que el formulario sea incorrecto y no guarde.
+            delete data_from['{{ form._token.vars.full_name }}'];
+
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: data_from,
+                success: function(html){
+                    $('#{{ form.vars.id }}').replaceWith($(html).find('#{{ form.vars.id }}'));
+                    $( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+                }
+            });
+        });
+    });
+</script>

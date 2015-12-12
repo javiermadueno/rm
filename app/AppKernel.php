@@ -22,7 +22,6 @@ class AppKernel extends Kernel
             new RM\LinealesBundle\RMLinealesBundle(),
             new RM\TransformadasBundle\RMTransformadasBundle(),
             new RM\DiscretasBundle\RMDiscretasBundle(),
-            new RM\IntDiscretasBundle\RMIntDiscretasBundle(),
             new RM\CategoriaBundle\RMCategoriaBundle(),
             new RM\ProductoBundle\RMProductoBundle(),
             new RM\ComunicacionBundle\RMComunicacionBundle(),
@@ -32,20 +31,24 @@ class AppKernel extends Kernel
             new IMAG\LdapBundle\IMAGLdapBundle(),
             new RM\StaticBundle\RMStaticBundle(),
             new RM\InsightBundle\RMInsightBundle(),
-            new RM\InsightTrueBundle\InsightTrueBundle(),
-            new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new RM\ProcesosBundle\ProcesosBundle(),
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new RM\RMMongoBundle\RMMongoBundle(),
             new RM\AppBundle\RMAppBundle(),
             new RM\LdapBundle\LdapBundle(),
+            new RM\TrackingBundle\RMTrackingBundle(),
+            new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
+            new RM\AdminBundle\RMAdminBundle(),
+            new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-        }
+
+         }
 
         return $bundles;
     }

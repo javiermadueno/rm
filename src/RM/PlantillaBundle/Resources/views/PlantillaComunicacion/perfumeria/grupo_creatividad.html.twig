@@ -1,0 +1,43 @@
+<!-- Grupo tipo Creatividad -->
+
+{% set slots = grupoSlots.slots %}
+{% for slot in slots %}
+    {% set id = 'slot-' ~ slot.idSlot %}
+    <div class="movableContent">
+        <div class="movableContent">
+            <table border="0" cellpadding="0" cellspacing="0" width="560">
+                <tr>
+                    <td height="25">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" bgcolor="#52619E" height="184"
+                        style="background:url('{{ asset('bundles/rmplantilla/images/perfumeria/bigImg.png', absolute=true) }}') #52619E no-repeat;background-size:560px 184px;"
+                        valign="middle" width="560">
+                        <div class="contentEditableContainer contentImageEditable">
+                            <div class="contentEditable">
+                                <img id="{{ id ~ '-imagen' }}" alt="product image" data-default="placeholder" data-max-width="560"
+                                     height="184" src="{{ asset('bundles/rmplantilla/images/perfumeria/bigImg.png', absolute=true) }}" width="560"/></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="movableContent">
+            <table border="0" cellpadding="0" cellspacing="0" width="560">
+                <tr>
+                    <td align="right" bgcolor="#1469c3" style="padding:20px;">
+                        <div class="contentEditableContainer contentTextEditable">
+                            <div class="contentEditable">
+                                <p id="{{ id ~ '-texto' }}" style="color:#ffffff;font-size:16px;line-height:19px;">Perfumería.com</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+
+<!-- Fin Creatividad -->

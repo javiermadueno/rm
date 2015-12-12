@@ -42,7 +42,7 @@ class FranjaHoraria {
 	 * Set franja
 	 *
 	 * @param string $franja       	
-	 * @return Franja
+	 * @return FranjaHoraria
 	 */
 	public function setFranja($franja) {
 		$this->franja = $franja;
@@ -63,7 +63,7 @@ class FranjaHoraria {
 	 * Set valor_inicio
 	 *
 	 * @param string $valor_inicio      	
-	 * @return Franja
+	 * @return FranjaHoraria
 	 */
 	public function setValorInicio($valor_inicio) {
 		$this->valor_inicio = $valor_inicio;
@@ -84,7 +84,7 @@ class FranjaHoraria {
 	 * Set valor_fin
 	 *
 	 * @param string $valor_fin
-	 * @return Franja
+	 * @return FranjaHoraria
 	 */
 	public function setValorFin($valor_fin) {
 		$this->valor_fin = $valor_fin;

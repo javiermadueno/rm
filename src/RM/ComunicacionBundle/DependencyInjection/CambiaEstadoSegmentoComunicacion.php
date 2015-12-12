@@ -93,11 +93,13 @@ class CambiaEstadoSegmentoComunicacion
             return false;
         }
 
-        $segmentoComunicacion
-            ->setEstado(-1);
+        $segmentoComunicacion->setEstado(-1);
 
-        return
-            $this->guardarSegmentoComunicacion($segmentoComunicacion);
+        $segmentoComunicacion->getIdComunicacion()->check();
+
+        $this->em->flush();
+
+        return $segmentoComunicacion;
     }
 
     /**

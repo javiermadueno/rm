@@ -5,33 +5,30 @@ direct_homepage:
   
 direct_manager:
   path: /manager/
-  defaults: {_controller: RMComunicacionBundle:Default:showComunicaciones, idOpcionMenuIzq 1 }
-  methods: [GET]
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:index}
+  methods: [GET|POST]
   
-direct_manager_actualizar:
-  path: /manager/
-  defaults: {_controller: RMComunicacionBundle:Default:actualizarListadoComunicaciones}
-  methods: [POST]
-  
+
 direct_manager_delete:
   path: /manager/delete/
-  defaults: {_controller: RMComunicacionBundle:Default:deleteComunicaciones}
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:deleteComunicaciones}
   methods: [POST]
   
 direct_manager_new:
   path: /manager/new/
-  defaults: {_controller: RMComunicacionBundle:Default:nuevaComunicacion, idOpcionMenuIzq 1}
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:new}
+  methods: [GET|POST]
 
 direct_manager_parar_comunicacion:
   path: /manager/comunicacion/{idComunicacion}/stop
-  defaults: {_controller: RMComunicacionBundle:Default:pararComunicacion}
+  defaults: {_controller: RMComunicacionBundle:Comunicacion:parar}
   methods: [POST]
   requirements:
     idComunicacion: \d+
 
 direct_manager_reanudar_comunicacion:
   path: /manager/comunicacion/{idComunicacion}/restart
-  defaults: { _controller: RMComunicacionBundle:Default:reanudarComunicacion }
+  defaults: { _controller: RMComunicacionBundle:Comunicacion:reanudar }
   methods: [POST]
   requirements:
     idComunicacion: \d+
@@ -48,34 +45,6 @@ rm_comunicacion.comunicacion.editar_plantilla:
   requirements:
       idComunicacion: \d+
 
-direct_manager_edit_segmentos_nuevo:
-  path: /manager/edit/segments/{id_comunicacion}/new/
-  defaults: {_controller: RMComunicacionBundle:Edicion:nuevoSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2}
-  
-direct_manager_edit_segmentos_nuevo_frecuencia_mes:
-  path: /manager/edit/segments/new/mes/{valTipo}/{valMes}/{valDia}/
-  defaults: {_controller: RMComunicacionBundle:Edicion:showNuevoMesFrecuencia}
-  
-direct_manager_edit_segmentos_nuevo_frecuencia_dia:
-  path: /manager/edit/segments/new/dia/{valTipo}/{valMes}/{valDia}/
-  defaults: {_controller: RMComunicacionBundle:Edicion:showNuevoDiaFrecuencia}
-  
-direct_manager_edit_segmentos_nuevo_guardar:
-  path: /manager/edit/segments/new/save/
-  defaults: {_controller: RMComunicacionBundle:Edicion:guardarNuevoSegmentosComunicacion}
-  methods: [POST]
-  
-direct_manager_edit_segmentos_editar:
-  path: /manager/edit/segments/{id_comunicacion}/update/{id_segmento}/
-  defaults: {_controller: RMComunicacionBundle:Edicion:edicionSegmentosComunicacion, idOpcionMenuIzq 1 , opcionMenuTabComunicacion 2}
-  requirements:
-    id_comunicacion: \d+
-    id_segmento: \d+
-    
-direct_manager_edit_segmentos_editar_guardar:
-  path: /manager/edit/segments/update/save/
-  defaults: {_controller: RMComunicacionBundle:Edicion:guardarEdicionSegmentosComunicacion}
-  methods: [POST]
 
 direct_monitor:
   path: /monitor/
@@ -90,13 +59,6 @@ direct_monitor_actualizar:
 direct_monitor_controlador_fases:
   path: /monitor/instance/{id_instancia}/
   defaults: {_controller: RMComunicacionBundle:Instancia:controladorVistasFaseInstancias}
-  requirements:
-    id_instancia: \d+
-    
-direct_monitor_controlador_fases_guardar:
-  path: /monitor/instance/{id_instancia}/save/
-  defaults: {_controller: RMComunicacionBundle:Instancia:guardarVistasFaseInstancias}
-  methods: [POST]
   requirements:
     id_instancia: \d+
 
@@ -159,50 +121,6 @@ direct_datos_promo_consumidores:
    requirements:
     id_cliente: \d+  
     
-direct_actualizar_combo_segmentos:
-   path: monitor/manager/edit/actualizar/{id_ciclo_vida}
-   defaults: {_controller: RMComunicacionBundle:Edicion:actualizarComboSegmentos}
-   methods: [POST]
-
-
-direct_config_creatividad:
-  path: /config/creatividad/list/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4 }
-  
-direct_config_listado_creatividad_paginador:
-  path: /config/creatividad/list/{codigo}
-  defaults: {_controller: RMComunicacionBundle:Creatividad:showCreatividad, idOpcionMenuIzq 3 , opcionMenuTabConfig 4, codigo null }
-  requirements:
-    codigo: \w+
-    
-direct_config_listado_creatividad_actualizar:
-  path: /config/creatividad/list/update/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:actualizarCreatividad}
-  methods: [POST]
-  
-direct_config_ficha_creatividad:
-  path: /config/creatividad/list/product/{id_creatividad}/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividad}
-  requirements:
-    id_creatividad: \d+
-
-direct_config_ficha_creatividad_crear:
-  path: /config/creatividad/list/creatividad/new/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:showFichaCreatividadCrear}
-  
-direct_config_ficha_creatividad_upload:
-  path: /config/creatividad/list/product/upload/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:uploadImageCreatividad}
-  methods: [POST]
-
-direct_buscador_creatividades_popup:
-  path: /creatividades/search/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:searchCreatividadesPopoup}
-
-direct_buscador_creatividades_popup_actualizar:
-  path: /creatividades/search/update/
-  defaults: {_controller: RMComunicacionBundle:Creatividad:searchActualizarCreatividadesPopup}
-  methods: [POST]
 
 direct_getting_consumers:
    path: monitor/manager/instance/{id_instancia}/getting_consumers
@@ -233,3 +151,10 @@ rm_comunicacion.segmento_comunicacion.eliminar_segmento:
 rm_comunicacion.comunicacion.index:
   path: /direct/manager/comunicacion/index
   defaults: { _controller: RMComunicacionBundle:Comunicacion:index }
+
+rm_comunicacion.comunicacion.asigna_nueva_plantilla:
+   path: /data/comunicacion/{id_comunicacion}/asigna/plantilla
+   defaults: { _controller: RMComunicacionBundle:Comunicacion:asignaNuevaPlantilla }
+   methods: [GET]
+   requirements:
+     id_comunicacion: \d+

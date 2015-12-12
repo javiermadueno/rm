@@ -1,5 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  {{ form(form) }}
+    <div class="row-fluid">
+        <p>Base path: {{ app.request.basePath }}</p>
+
+        <p>Base url: {{ app.request.baseUrl }}</p>
+
+        <p>Http Host: {{ app.request.httpHost }}</p>
+
+        <p>Uri: {{ app.request.uri }}</p>
+
+        <p>Schema: {{ app.request.scheme }}</p>
+
+        <p>Schema http: {{ app.request.schemeAndHttpHost }}</p>
+
+        <p>Ruta absoluta: {{ app.request.schemeAndHttpHost ~ app.request.basePath }}</p>
+
+    </div>
 {% endblock body %}
+
+

@@ -1,0 +1,7 @@
+rm_producto.num_promociones.edit:
+  path: /{id_instancia}/{id_grupo_slot}/edit
+  defaults: { _controller: RMProductoBundle:NumPromociones:edit }
+
+rm_producto.num_promociones.edit_creatividad:
+   path: /{id_instancia}/{id_grupo_slot}/creatividad/edit
+   defaults: { _controller: RMProductoBundle:NumPromociones:editCreatividad }

@@ -32,6 +32,7 @@ class CreateUsuarioCommand extends LdapCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->connect();
 
         $id_cliente = $input->getArgument('id_cliente');
 
@@ -117,12 +118,15 @@ class CreateUsuarioCommand extends LdapCommand
         $table->render();
 
         $confirm = new ConfirmationQuestion(
-            'Se va a crear un usuario nuevo con los siguientes datos. ¿Desea continuar?',
+            'Se va a crear un usuario nuevo con los siguientes datos. ¿Desea continuar? [Y|n]',
             false
         );
+
         if (!$helper->ask($input, $output, $confirm)) {
             return;
         }
+
+
 
         $user = $this->createUser([
             'cn'              => $username,

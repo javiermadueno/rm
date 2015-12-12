@@ -10,6 +10,7 @@ namespace RM\InsightBundle\Graphs;
 
 use RM\AppBundle\DependencyInjection\DoctrineManager;
 use RM\RMMongoBundle\DependencyInjection\EstadisticasClientes;
+use RM\RMMongoBundle\Util;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class EvolucionSegmentosGraph extends BaseGraph
@@ -21,7 +22,7 @@ class EvolucionSegmentosGraph extends BaseGraph
     private $repository;
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager
+     * @var \Doctrine\Common\Persistence\ObjectManager
      */
     private $em;
 
@@ -40,11 +41,13 @@ class EvolucionSegmentosGraph extends BaseGraph
 
     }
 
-    public function getGraficoEvolucionSegmentos($renderTo = '')
+    public function getGraficoEvolucionSegmentos($renderTo = '', \DateTime $from)
     {
         $estados = $this->getSegmentosEstado();
 
-        $data = $this->repository->findNumeroClientosPorSegmentos([], array_values($estados));
+        $meses = Util::getUltimosMeses($from, 12);
+
+        $data = $this->repository->findNumeroClientosPorSegmentos($meses, array_values($estados));
 
         $data_prepared = $this->prepareData($data, array_keys($estados));
 
@@ -60,13 +63,10 @@ class EvolucionSegmentosGraph extends BaseGraph
         return $graph;
     }
 
+
     public function getSegmentosEstado()
     {
         return $this->em->getRepository('RMSegmentoBundle:Segmento')
-            ->findSegmentosByNombre([
-                'Estado_Activo',
-                'Estado_Inactivo',
-                'Estado_Nuevo'
-            ]);
+            ->findSegmentosEstado();
     }
 } 
