@@ -1,0 +1,60 @@
+{% extends 'RMComunicacionBundle:Edicion:baseEdicion.html.twig' %}
+
+{% set idOpcionMenuSup = 1 %}
+{% set idOpcionMenuIzq = 1 %}
+{% set opcionMenuTabComunicacion = 1 %}
+
+
+{% block title %}
+	{{ parent() }} - {{ "comunicacion"|trans }}
+{% endblock %}
+
+{% block id %}ajax{% endblock id %}
+
+
+{% block tabcontent %}
+    {% set cumpleRequisitos = objComunicacion.gruposSlots|length > 0 and objComunicacion.segmentos|length > 0 %}
+
+    <h4 class="widgettitle">{{ "datos"|trans|title }}</h4>
+    <form id="form" name="form" method="post" action="{{ path(app.request.attributes.get('_route'), {'idComunicacion': id_comunicacion}) }}">
+        {% set accion = "editar" %}
+
+        {{ include ('RMComunicacionBundle:Default:formularioComunicacion.html.twig') }}
+
+        {#
+        {% if objComunicacion.gruposSlots|length == 0 %}
+            <div class="alert alert-danger alert-dismissable fade in">
+                <button class="close" data-dismiss="alert">&times;</button>
+                <p>{{ 'mensaje.grupo.slot.no.definido'|trans }}
+                    <span>
+                        <a href="{{ path('rm_comunicacion.comunicacion.editar_plantilla', {'idComunicacion': id_comunicacion}) }}">
+                            {{ "mensaje.anadir.grupo" |trans|title}}
+                        </a>
+                    </span>
+                </p>
+            </div>
+        {% endif %}
+        #}
+    </form>
+
+
+        {{ render(controller('RMComunicacionBundle:SegmentoComunicacion:index',
+                {'idComunicacion' : id_comunicacion}
+            ))
+        }}
+
+
+
+    
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( ".datepicker" ).datepicker({ dateFormat: "dd/mm/yy" });
+		});
+	</script>
+
+{% endblock %}
+

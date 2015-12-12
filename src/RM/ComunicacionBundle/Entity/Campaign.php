@@ -24,46 +24,4 @@ class Campaign extends InstanciaDecoratorAbstract
         return GrupoSlots::PROMOCION;
     }
 
-    public function getPromocionesSegmentadas()
-    {
-        if (!$this->segmentadas->isEmpty()) {
-            $segmentadas = [];
-            foreach ($this->getNumPromociones() as $numPromocion) {
-                $segmentadas = array_merge(
-                    $segmentadas,
-                    $numPromocion
-                        ->getSegmentadas()
-                        ->toArray()
-                );
-            }
-
-            $this->segmentadas = new ArrayCollection($segmentadas);
-        }
-
-        return $this->segmentadas;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getGenericas()
-    {
-        if (!$this->genericas->isEmpty()) {
-            $genericas = [];
-            foreach ($this->getNumPromociones() as $numPromocion) {
-                $genericas = array_merge(
-                    $genericas,
-                    $numPromocion
-                        ->getGenericas()
-                        ->toArray()
-                );
-            }
-
-            $this->genericas = new ArrayCollection($genericas);
-        }
-
-        return $this->genericas;
-
-    }
-
 } 
